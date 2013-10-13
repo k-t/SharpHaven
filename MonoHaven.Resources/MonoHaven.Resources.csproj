@@ -46,6 +46,7 @@
     <Compile Include="Resource.cs" />
     <Compile Include="ResourceSerializer.cs" />
     <Compile Include="Sources\JarSource.cs" />
+    <Compile Include="IEnumerableResourceSource.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

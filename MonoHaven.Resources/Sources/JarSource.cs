@@ -1,11 +1,16 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using ICSharpCode.SharpZipLib.Zip;
 
 namespace MonoHaven.Resources
 {
-	public class JarSource : IResourceSource
+	public class JarSource : IEnumerableResourceSource
 	{
+		private const string NamePrefix = "res/";
+		private const string NameSuffix = ".res";
+
 		private readonly string _path;
 		private readonly ZipFile _zip;
 
@@ -15,7 +20,7 @@ namespace MonoHaven.Resources
 			_zip = new ZipFile(path);
 		}
 
-		public string Name
+		public string Description
 		{
 			get { return string.Format("[JAR][{0}]", Path.GetFileName(_path)); }
 		}
@@ -23,19 +28,41 @@ namespace MonoHaven.Resources
 		public Resource Get(string resourceName)
 		{
 			var serializer = new ResourceSerializer();
-
-			var entryName = string.Format("res/{0}.res", resourceName);
+			var entryName = GetEntryName(resourceName);
 			var entry = _zip.GetEntry(entryName);
 			if (entry == null)
 				throw new ResourceLoadException(string.Format("Entry '{0}' not found", entryName));
-
 			return serializer.Deserialize(_zip.GetInputStream(entry));
+		}
+
+		public IEnumerable<string> EnumerateAll()
+		{
+			foreach (ZipEntry entry in _zip)
+				if (IsResourceName(entry.Name))
+					yield return GetResourceName(entry.Name);
 		}
 
 		public void Dispose()
 		{
-			if (_zip != null)
-				_zip.Close();
+			_zip.Close();
+		}
+
+		private static string GetEntryName(string resourceName)
+		{
+			return NamePrefix + resourceName + NameSuffix;
+		}
+
+		private static bool IsResourceName(string entryName)
+		{
+			return entryName.StartsWith(NamePrefix) &&
+				entryName.EndsWith(NameSuffix);
+		}
+
+		private static string GetResourceName(string entryName)
+		{
+			int startIndex = NamePrefix.Length;
+			int count = entryName.Length - NameSuffix.Length - startIndex;
+			return entryName.Substring(startIndex, count);
 		}
 	}
 }
