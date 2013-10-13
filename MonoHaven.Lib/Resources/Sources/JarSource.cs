@@ -22,7 +22,7 @@ namespace MonoHaven.Resources
 
 		public string Description
 		{
-			get { return string.Format("[JAR][{0}]", Path.GetFileName(_path)); }
+			get { return string.Format("[JAR]{0}", Path.GetFileName(_path)); }
 		}
 
 		public Resource Get(string resourceName)

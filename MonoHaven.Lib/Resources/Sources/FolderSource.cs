@@ -25,7 +25,7 @@ namespace MonoHaven.Resources
 
 		public string Description
 		{
-			get { return string.Format("[Folder][{0}]", _path); }
+			get { return string.Format("[Folder]{0}", _path); }
 		}
 
 		public IEnumerable<string> EnumerateAll()
