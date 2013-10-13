@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using MiscUtil.Conversion;
 using System.Text;
+using MiscUtil.Conversion;
 
 namespace MonoHaven.Network
 {

@@ -1,6 +1,6 @@
 using System;
 
-namespace MonoHaven.Core
+namespace MonoHaven
 {
 	public interface IPrioritized
 	{

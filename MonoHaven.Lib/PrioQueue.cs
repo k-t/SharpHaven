@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace MonoHaven.Core
+namespace MonoHaven
 {
 	public class PrioQueue<T> where T : IPrioritized
 	{

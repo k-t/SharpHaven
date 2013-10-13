@@ -1,15 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonoHaven", "MonoHaven\MonoHaven.csproj", "{78A18B20-EE44-4B5A-8D07-9BB1BC25CB45}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonoHaven.Lib", "MonoHaven.Lib\MonoHaven.Lib.csproj", "{37671BF5-2A78-46D2-B3DF-EAF21AC15850}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonoHaven.Core", "MonoHaven.Core\MonoHaven.Core.csproj", "{6BCAE1E4-B12B-427E-9A56-6403F46E791A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonoHaven.Lib.Tests", "MonoHaven.Lib.Tests\MonoHaven.Lib.Tests.csproj", "{2AC7E30C-B076-4FD8-B537-7A55CD115DB4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonoHaven.Resources", "MonoHaven.Resources\MonoHaven.Resources.csproj", "{478B3269-0CCA-4219-8EE9-710BF0AC6D4A}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonoHaven.Network", "MonoHaven.Net\MonoHaven.Network.csproj", "{913DACF8-497B-419D-AB9F-BCC47C2A308A}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonoHaven.Tests", "MonoHaven.Tests\MonoHaven.Tests.csproj", "{2AC7E30C-B076-4FD8-B537-7A55CD115DB4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonoHaven.Client", "MonoHaven.Client\MonoHaven.Client.csproj", "{78A18B20-EE44-4B5A-8D07-9BB1BC25CB45}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,25 +17,17 @@ Global
 		{2AC7E30C-B076-4FD8-B537-7A55CD115DB4}.Debug|x86.Build.0 = Debug|Any CPU
 		{2AC7E30C-B076-4FD8-B537-7A55CD115DB4}.Release|x86.ActiveCfg = Release|Any CPU
 		{2AC7E30C-B076-4FD8-B537-7A55CD115DB4}.Release|x86.Build.0 = Release|Any CPU
-		{478B3269-0CCA-4219-8EE9-710BF0AC6D4A}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{478B3269-0CCA-4219-8EE9-710BF0AC6D4A}.Debug|x86.Build.0 = Debug|Any CPU
-		{478B3269-0CCA-4219-8EE9-710BF0AC6D4A}.Release|x86.ActiveCfg = Release|Any CPU
-		{478B3269-0CCA-4219-8EE9-710BF0AC6D4A}.Release|x86.Build.0 = Release|Any CPU
-		{6BCAE1E4-B12B-427E-9A56-6403F46E791A}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{6BCAE1E4-B12B-427E-9A56-6403F46E791A}.Debug|x86.Build.0 = Debug|Any CPU
-		{6BCAE1E4-B12B-427E-9A56-6403F46E791A}.Release|x86.ActiveCfg = Release|Any CPU
-		{6BCAE1E4-B12B-427E-9A56-6403F46E791A}.Release|x86.Build.0 = Release|Any CPU
+		{37671BF5-2A78-46D2-B3DF-EAF21AC15850}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{37671BF5-2A78-46D2-B3DF-EAF21AC15850}.Debug|x86.Build.0 = Debug|Any CPU
+		{37671BF5-2A78-46D2-B3DF-EAF21AC15850}.Release|x86.ActiveCfg = Release|Any CPU
+		{37671BF5-2A78-46D2-B3DF-EAF21AC15850}.Release|x86.Build.0 = Release|Any CPU
 		{78A18B20-EE44-4B5A-8D07-9BB1BC25CB45}.Debug|x86.ActiveCfg = Debug|x86
 		{78A18B20-EE44-4B5A-8D07-9BB1BC25CB45}.Debug|x86.Build.0 = Debug|x86
 		{78A18B20-EE44-4B5A-8D07-9BB1BC25CB45}.Release|x86.ActiveCfg = Release|x86
 		{78A18B20-EE44-4B5A-8D07-9BB1BC25CB45}.Release|x86.Build.0 = Release|x86
-		{913DACF8-497B-419D-AB9F-BCC47C2A308A}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{913DACF8-497B-419D-AB9F-BCC47C2A308A}.Debug|x86.Build.0 = Debug|Any CPU
-		{913DACF8-497B-419D-AB9F-BCC47C2A308A}.Release|x86.ActiveCfg = Release|Any CPU
-		{913DACF8-497B-419D-AB9F-BCC47C2A308A}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
-		StartupItem = MonoHaven\MonoHaven.csproj
+		StartupItem = MonoHaven.Designer\MonoHaven.Designer.csproj
 		Policies = $0
 		$0.DotNetNamingPolicy = $1
 		$1.DirectoryNamespaceAssociation = None
