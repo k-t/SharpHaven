@@ -36,6 +36,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MessageTests.cs" />
+    <Compile Include="Resources\FolderSourceTests.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -47,5 +50,26 @@
       <Project>{6BCAE1E4-B12B-427E-9A56-6403F46E791A}</Project>
       <Name>MonoHaven.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\MonoHaven.Resources\MonoHaven.Resources.csproj">
+      <Project>{478B3269-0CCA-4219-8EE9-710BF0AC6D4A}</Project>
+      <Name>MonoHaven.Resources</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Resources\" />
+    <Folder Include="Samples\" />
+    <Folder Include="Samples\FolderSourceTests\" />
+    <Folder Include="Samples\FolderSourceTests\SubFolder\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Samples\FolderSourceTests\logo.res">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Samples\FolderSourceTests\logo2.res">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Samples\FolderSourceTests\SubFolder\cabin-door.res">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 </Project>

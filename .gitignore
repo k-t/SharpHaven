@@ -63,3 +63,4 @@ packages/
 #Test files
 *.testsettings
 MonoHaven.Tests/test-results/
+test-results/
