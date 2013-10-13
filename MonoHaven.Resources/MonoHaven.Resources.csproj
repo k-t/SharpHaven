@@ -41,11 +41,11 @@
     <Compile Include="IResourceSource.cs" />
     <Compile Include="Exceptions\ResourceLoadException.cs" />
     <Compile Include="Exceptions\UnknownLayerException.cs" />
-    <Compile Include="Sources\ZipSource.cs" />
     <Compile Include="Layers\Image.cs" />
     <Compile Include="ILayer.cs" />
     <Compile Include="Resource.cs" />
     <Compile Include="ResourceSerializer.cs" />
+    <Compile Include="Sources\JarSource.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

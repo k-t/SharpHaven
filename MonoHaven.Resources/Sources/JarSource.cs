@@ -4,12 +4,12 @@ using ICSharpCode.SharpZipLib.Zip;
 
 namespace MonoHaven.Resources
 {
-	public class ZipSource : IResourceSource
+	public class JarSource : IResourceSource
 	{
 		private readonly string _path;
 		private readonly ZipFile _zip;
 
-		public ZipSource(string path)
+		public JarSource(string path)
 		{
 			_path = path;
 			_zip = new ZipFile(path);

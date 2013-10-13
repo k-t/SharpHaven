@@ -21,7 +21,7 @@ namespace MonoHaven
 		{
 			this.widgets = new List<Widget>();
 
-			var resSrc = new ZipSource("haven-res.jar");
+			var resSrc = new JarSource("haven-res.jar");
 
 			this.back = Tex.FromImage(LoadImage(resSrc, "gfx/loginscr"));
 			this.logo = Tex.FromImage(LoadImage(resSrc, "gfx/logo"));
