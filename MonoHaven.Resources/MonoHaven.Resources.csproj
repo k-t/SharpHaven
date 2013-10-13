@@ -40,7 +40,6 @@
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="IResourceSource.cs" />
     <Compile Include="Exceptions\ResourceLoadException.cs" />
-    <Compile Include="Exceptions\UnknownLayerException.cs" />
     <Compile Include="Layers\Image.cs" />
     <Compile Include="ILayer.cs" />
     <Compile Include="Resource.cs" />
@@ -48,6 +47,7 @@
     <Compile Include="Sources\JarSource.cs" />
     <Compile Include="IEnumerableResourceSource.cs" />
     <Compile Include="Sources\FolderSource.cs" />
+    <Compile Include="Layers\UnknownLayer.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

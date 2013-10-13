@@ -45,10 +45,14 @@ namespace MonoHaven.Resources
 			var type = ReadString(reader);
 			if (string.IsNullOrEmpty(type))
 				return null;
+			var size = reader.ReadInt32();
 			var layerReader = FindLayerReader(type);
 			if (layerReader == null)
-				throw new UnknownLayerException(type);
-			var size = reader.ReadInt32();
+			{
+				// skip layer data
+				reader.ReadBytes(size);
+				return new UnknownLayer(type);
+			}
 			return layerReader(size, reader);
 		}
 
