@@ -14,19 +14,22 @@ namespace MonoHaven.Resources
 			_path = path;
 			_zip = new ZipFile(path);
 		}
-		
-		public Stream Get(string resourceName)
-		{
-			var entryName = string.Format("res/{0}.res", resourceName);
-			var entry = _zip.GetEntry(entryName);
-			if (entry == null)
-				throw new ResourceLoadException(string.Format("Entry '{0}' not found", entryName));
-			return _zip.GetInputStream(entry);;
-		}
 
 		public string Name
 		{
 			get { return string.Format("[JAR][{0}]", Path.GetFileName(_path)); }
+		}
+
+		public Resource Get(string resourceName)
+		{
+			var serializer = new ResourceSerializer();
+
+			var entryName = string.Format("res/{0}.res", resourceName);
+			var entry = _zip.GetEntry(entryName);
+			if (entry == null)
+				throw new ResourceLoadException(string.Format("Entry '{0}' not found", entryName));
+
+			return serializer.Deserialize(_zip.GetInputStream(entry));
 		}
 
 		public void Dispose()

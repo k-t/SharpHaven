@@ -10,9 +10,6 @@ namespace MonoHaven
 	{
 		public static void Main(string[] args)
 		{
-			var resSrc = new ZipSource("haven-res.jar");
-			ResLoader.Current = new SimpleResourceLoader(resSrc);
-
 			using (var iconImage = LoadIcon())
 			using (var icon = Icon.FromHandle(iconImage.GetHicon()))
 			using (var gameWindow = new HavenWindow(800, 600))

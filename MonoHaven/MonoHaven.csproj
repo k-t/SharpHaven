@@ -49,7 +49,6 @@
     <Compile Include="UIHandler.cs" />
     <Compile Include="UI.cs" />
     <Compile Include="Widgets\Image.cs" />
-    <Compile Include="ResLoader.cs" />
     <Compile Include="Widgets\ImageButton.cs" />
     <Compile Include="HavenWindow.cs" />
   </ItemGroup>

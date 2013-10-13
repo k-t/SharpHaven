@@ -6,7 +6,7 @@ namespace MonoHaven.Resources
 	public interface IResourceSource : IDisposable
 	{
 		string Name { get; }
-		Stream Get(string resourceName);
+		Resource Get(string resourceName);
 	}
 }
 

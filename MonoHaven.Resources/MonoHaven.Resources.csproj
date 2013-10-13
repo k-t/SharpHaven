@@ -39,18 +39,13 @@
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="IResourceSource.cs" />
-    <Compile Include="IResource.cs" />
-    <Compile Include="IResourceLoader.cs" />
-    <Compile Include="Resource.cs" />
-    <Compile Include="SimpleResourceLoader.cs" />
-    <Compile Include="Layer.cs" />
-    <Compile Include="ILayerFactory.cs" />
-    <Compile Include="LayerFactory.cs" />
     <Compile Include="Exceptions\ResourceLoadException.cs" />
     <Compile Include="Exceptions\UnknownLayerException.cs" />
     <Compile Include="Sources\ZipSource.cs" />
-    <Compile Include="ChainedResourceLoader.cs" />
     <Compile Include="Layers\Image.cs" />
+    <Compile Include="ILayer.cs" />
+    <Compile Include="Resource.cs" />
+    <Compile Include="ResourceSerializer.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

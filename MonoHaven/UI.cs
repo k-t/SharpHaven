@@ -21,11 +21,13 @@ namespace MonoHaven
 		{
 			this.widgets = new List<Widget>();
 
-			this.back = Tex.FromImage(ResLoader.Current.LoadImage("gfx/loginscr"));
-			this.logo = Tex.FromImage(ResLoader.Current.LoadImage("gfx/logo"));
+			var resSrc = new ZipSource("haven-res.jar");
 
-			this.ubtn = Tex.FromImage(ResLoader.Current.LoadImage("gfx/hud/buttons/loginu"));
-			this.dbtn = Tex.FromImage(ResLoader.Current.LoadImage("gfx/hud/buttons/logind"));
+			this.back = Tex.FromImage(LoadImage(resSrc, "gfx/loginscr"));
+			this.logo = Tex.FromImage(LoadImage(resSrc, "gfx/logo"));
+
+			this.ubtn = Tex.FromImage(LoadImage(resSrc, "gfx/hud/buttons/loginu"));
+			this.dbtn = Tex.FromImage(LoadImage(resSrc, "gfx/hud/buttons/logind"));
 
 			this.widgets.Add(new Widgets.Image(Point.Empty, this.back));
 			this.widgets.Add(new Widgets.Image(new Point(420 - logo.Width / 2, 215 - logo.Height / 2), this.logo));
@@ -87,6 +89,11 @@ namespace MonoHaven
 			return null;
 		}
 
+		private static MonoHaven.Resources.Image LoadImage(IResourceSource src, string name)
+		{
+			var resource = src.Get(name);
+			return resource.GetLayer<MonoHaven.Resources.Image>();
+		}
 	}
 }
 
