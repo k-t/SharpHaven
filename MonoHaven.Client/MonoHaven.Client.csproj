@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -40,23 +40,24 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs" />
+    <Compile Include="UI\GameSessionScreen.cs" />
+    <Compile Include="ResourceManager.cs" />
+    <Compile Include="UI\ScreenManager.cs" />
+    <Compile Include="UI\LoginScreen.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Config.cs" />
-    <Compile Include="Widget.cs" />
-    <Compile Include="Tex.cs" />
-    <Compile Include="GOut.cs" />
-    <Compile Include="GContext.cs" />
-    <Compile Include="UIHandler.cs" />
-    <Compile Include="UI.cs" />
-    <Compile Include="Widgets\Image.cs" />
-    <Compile Include="Widgets\ImageButton.cs" />
-    <Compile Include="HavenWindow.cs" />
+    <Compile Include="UI\Screen.cs" />
+    <Compile Include="UI\Widgets\MapView.cs" />
+    <Compile Include="UI\Widgets\Widget.cs" />
+    <Compile Include="Graphics\Texture.cs" />
+    <Compile Include="Graphics\DrawingContext.cs" />
+    <Compile Include="UI\Widgets\ImageWidget.cs" />
+    <Compile Include="UI\Widgets\ImageButton.cs" />
+    <Compile Include="HavenGameWindow.cs" />
+    <Compile Include="UI\Widgets\TextBox.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
-  <ItemGroup>
-    <Folder Include="Widgets\" />
-    <Folder Include="Resources\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <EmbeddedResource Include="Resources\icon.png" />
   </ItemGroup>

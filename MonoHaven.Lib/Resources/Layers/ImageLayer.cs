@@ -1,9 +1,6 @@
-using System;
-using System.IO;
-
 namespace MonoHaven.Resources
 {
-	public class Image : ILayer
+	public class ImageLayer : ILayer
 	{
 		public short Id { get; set; }
 		public short Z { get; set; }

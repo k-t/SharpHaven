@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -48,7 +48,7 @@
     <Compile Include="Resources\ResourceSerializer.cs" />
     <Compile Include="Resources\Sources\FolderSource.cs" />
     <Compile Include="Resources\Sources\JarSource.cs" />
-    <Compile Include="Resources\Layers\Image.cs" />
+    <Compile Include="Resources\Layers\ImageLayer.cs" />
     <Compile Include="Resources\Layers\UnknownLayer.cs" />
     <Compile Include="Resources\ResourceLoadException.cs" />
     <Compile Include="IPrioritized.cs" />
@@ -72,8 +72,5 @@
       </Properties>
     </MonoDevelop>
   </ProjectExtensions>
-  <ItemGroup>
-    <Folder Include="Resources\" />
-    <Folder Include="Network\" />
-  </ItemGroup>
+  <ItemGroup />
 </Project>

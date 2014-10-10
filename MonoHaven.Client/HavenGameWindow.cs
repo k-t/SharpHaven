@@ -1,5 +1,7 @@
 using System;
 using System.Drawing;
+using MonoHaven.Graphics;
+using MonoHaven.UI;
 using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
@@ -7,21 +9,26 @@ using OpenTK.Input;
 
 namespace MonoHaven
 {
-	public sealed class HavenWindow : GameWindow
-	{	
-		private UI ui;
+	public sealed class HavenGameWindow : GameWindow
+	{
+		private const string WindowTitle = "MonoHaven";
 
-		public HavenWindow(int width, int height)
-			: base(width, height, GraphicsMode.Default, "MonoHaven")
+		private readonly ScreenManager screenManager;
+
+		public HavenGameWindow(int width, int height)
+			: base(width, height, GraphicsMode.Default, WindowTitle)
 		{
 			this.VSync = VSyncMode.On;
 
 			this.Load += HandleLoad;
 			this.Resize += HandleResize;
 			this.UpdateFrame += HandleUpdateFrame;
+			this.Unload += HandleUnload;
 
 			this.Mouse.ButtonUp += HandleButtonUp;
 			this.Mouse.ButtonDown += HandleButtonDown;
+
+			this.screenManager = new ScreenManager();
 		}
 
 		private void HandleLoad(object sender, EventArgs e)
@@ -35,7 +42,12 @@ namespace MonoHaven
 			GL.BlendFunc(BlendingFactorSrc.SrcAlpha,
 			             BlendingFactorDest.OneMinusSrcAlpha);
 
-			this.ui = new UI();
+			this.screenManager.Init();
+		}
+
+		private void HandleUnload(object sender, EventArgs e)
+		{
+			this.screenManager.Dispose();
 		}
 
 		private void HandleResize(object sender, EventArgs e)
@@ -46,24 +58,25 @@ namespace MonoHaven
 			GL.Ortho(0, Width, Height, 0, -1, 1);
 		}
 
-		private void HandleUpdateFrame (object sender, FrameEventArgs e)
+		private void HandleUpdateFrame(object sender, FrameEventArgs e)
 		{
 			GL.Clear(ClearBufferMask.ColorBufferBit);
 
-			var g = new GOut();
-			ui.Draw(g);
+			this.screenManager.CurrentScreen.Draw(new DrawingContext());
+
+			Title = string.Format("{0}: {1} FPS", WindowTitle, (int)UpdateFrequency);
 
 			SwapBuffers();
 		}
 
 		private void HandleButtonUp(object sender, MouseButtonEventArgs e)
 		{
-			ui.OnButtonUp(e);
+			this.screenManager.CurrentScreen.OnButtonUp(e);
 		}
 
 		private void HandleButtonDown(object sender, MouseButtonEventArgs e)
 		{
-			ui.OnButtonDown(e);
+			this.screenManager.CurrentScreen.OnButtonDown(e);
 		}
 	}
 }

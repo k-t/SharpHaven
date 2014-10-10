@@ -64,7 +64,7 @@ namespace MonoHaven.Resources
 
 		private static ILayer ReadImageLayer(int size, BinaryReader reader)
 		{
-			var layer = new Image();
+			var layer = new ImageLayer();
 			layer.Z = reader.ReadInt16();
 			layer.SubZ = reader.ReadInt16();
 			/* Obsolete flag 1: Layered */
