@@ -5,7 +5,8 @@ namespace MonoHaven.UI
 {
 	public class LoginScreen : Screen
 	{
-		public LoginScreen()
+		public LoginScreen(IScreenHost host)
+			: base(host)
 		{
 			InitializeWidgets();
 		}

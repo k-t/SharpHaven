@@ -31,6 +31,9 @@
     <ConsolePause>False</ConsolePause>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="C5">
+      <HintPath>..\References\C5.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="OpenTK">
       <HintPath>..\References\OpenTK.dll</HintPath>
@@ -40,6 +43,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs" />
+    <Compile Include="Constants.cs" />
+    <Compile Include="Map.cs" />
+    <Compile Include="MapGrid.cs" />
+    <Compile Include="MapTile.cs" />
+    <Compile Include="Tileset.cs" />
+    <Compile Include="UI\IScreenHost.cs" />
+    <Compile Include="Utils\MathUtils.cs" />
+    <Compile Include="Utils\PointComparer.cs" />
     <Compile Include="UI\GameSessionScreen.cs" />
     <Compile Include="ResourceManager.cs" />
     <Compile Include="UI\ScreenManager.cs" />
@@ -57,7 +68,6 @@
     <Compile Include="UI\Widgets\TextBox.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
-  <ItemGroup />
   <ItemGroup>
     <EmbeddedResource Include="Resources\icon.png" />
   </ItemGroup>

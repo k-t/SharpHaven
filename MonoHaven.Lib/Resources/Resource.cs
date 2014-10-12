@@ -22,8 +22,12 @@ namespace MonoHaven.Resources
 		
 		public T GetLayer<T>() where T : ILayer
 		{
-			Type t = typeof(T);
-			return (T)_layers.FirstOrDefault(l => t.IsInstanceOfType(l));
+			return GetLayers<T>().FirstOrDefault();
+		}
+
+		public IEnumerable<T> GetLayers<T>() where T : ILayer
+		{
+			return _layers.OfType<T>();
 		}
 	}
 }

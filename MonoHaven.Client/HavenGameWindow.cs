@@ -9,7 +9,7 @@ using OpenTK.Input;
 
 namespace MonoHaven
 {
-	public sealed class HavenGameWindow : GameWindow
+	public sealed class HavenGameWindow : GameWindow, IScreenHost
 	{
 		private const string WindowTitle = "MonoHaven";
 
@@ -27,9 +27,15 @@ namespace MonoHaven
 
 			this.Mouse.ButtonUp += HandleButtonUp;
 			this.Mouse.ButtonDown += HandleButtonDown;
+			this.Mouse.Move += HandleMouseMove;
+			this.Keyboard.KeyDown += HandleKeyDown;
+			this.Keyboard.KeyUp += HandleKeyUp;
+			this.Keyboard.KeyRepeat = true;
 
 			this.screenManager = new ScreenManager();
 		}
+
+		public event EventHandler Resized;
 
 		private void HandleLoad(object sender, EventArgs e)
 		{
@@ -42,7 +48,7 @@ namespace MonoHaven
 			GL.BlendFunc(BlendingFactorSrc.SrcAlpha,
 			             BlendingFactorDest.OneMinusSrcAlpha);
 
-			this.screenManager.Init();
+			this.screenManager.Init(this);
 		}
 
 		private void HandleUnload(object sender, EventArgs e)
@@ -56,6 +62,7 @@ namespace MonoHaven
 			GL.MatrixMode(MatrixMode.Projection);
 			GL.LoadIdentity();
 			GL.Ortho(0, Width, Height, 0, -1, 1);
+			RaiseResizedEvent();
 		}
 
 		private void HandleUpdateFrame(object sender, FrameEventArgs e)
@@ -77,6 +84,27 @@ namespace MonoHaven
 		private void HandleButtonDown(object sender, MouseButtonEventArgs e)
 		{
 			this.screenManager.CurrentScreen.OnButtonDown(e);
+		}
+
+		private void HandleKeyDown(object sender, KeyboardKeyEventArgs e)
+		{
+			this.screenManager.CurrentScreen.OnKeyDown(e);
+		}
+
+		private void HandleKeyUp(object sender, KeyboardKeyEventArgs e)
+		{
+			this.screenManager.CurrentScreen.OnKeyUp(e);
+		}
+
+		private void HandleMouseMove(object sedner, MouseMoveEventArgs e)
+		{
+			this.screenManager.CurrentScreen.OnMouseMove(e);
+		}
+
+		private void RaiseResizedEvent()
+		{
+			if (Resized != null)
+				Resized(this, EventArgs.Empty);
 		}
 	}
 }

@@ -9,7 +9,19 @@ namespace MonoHaven.UI
 {
 	public abstract class Screen : IDisposable
 	{
+		private readonly IScreenHost host;
 		private readonly List<Widget> widgets = new List<Widget>();
+
+		protected Screen(IScreenHost host)
+		{
+			this.host = host;
+			this.host.Resized += (sender, args) => OnResize();
+		}
+
+		protected IScreenHost Host
+		{
+			get { return host; }
+		}
 
 		public virtual void Draw(DrawingContext g)
 		{
@@ -39,6 +51,28 @@ namespace MonoHaven.UI
 				widget.OnButtonUp(e);
 		}
 
+		public virtual void OnKeyDown(KeyboardKeyEventArgs e)
+		{
+			// TODO: focused widget
+			var widget = widgets[0];
+			if (widget != null)
+				widget.OnKeyDown(e);
+		}
+
+		public virtual void OnKeyUp(KeyboardKeyEventArgs e)
+		{
+			var widget = widgets[0];
+			if (widget != null)
+				widget.OnKeyUp(e);
+		}
+
+		public virtual void OnMouseMove(MouseMoveEventArgs e)
+		{
+			var widget = GetWidgetAt(e.Position);
+			if (widget != null)
+				widget.OnMouseMove(e);
+		}
+
 		protected void AddWidget(Widget widget)
 		{
 			this.widgets.Add(widget);
@@ -60,5 +94,7 @@ namespace MonoHaven.UI
 			foreach (var widget in widgets)
 				widget.Dispose();
 		}
+
+		protected virtual void OnResize() { }
 	}
 }

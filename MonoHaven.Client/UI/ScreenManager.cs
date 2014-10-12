@@ -7,12 +7,16 @@ namespace MonoHaven.UI
 		private LoginScreen loginScreen;
 		private GameSessionScreen gameSessionScreen;
 
-		public Screen CurrentScreen { get; private set; }
-
-		public void Init()
+		public Screen CurrentScreen
 		{
-			this.loginScreen = new LoginScreen();
-			this.gameSessionScreen = new GameSessionScreen();
+			get;
+			private set;
+		}
+
+		public void Init(IScreenHost host)
+		{
+			this.loginScreen = new LoginScreen(host);
+			this.gameSessionScreen = new GameSessionScreen(host);
 
 			CurrentScreen = loginScreen;
 

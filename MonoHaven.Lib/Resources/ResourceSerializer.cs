@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using MonoHaven.Resources.Layers;
 
 namespace MonoHaven.Resources
 {
@@ -16,6 +17,8 @@ namespace MonoHaven.Resources
 		{
 			_layerReaders = new SortedList<string, LayerReader>();
 			_layerReaders.Add("image", ReadImageLayer);
+			_layerReaders.Add("tile", ReadTileLayer);
+			_layerReaders.Add("tileset", ReadTilesetLayer);
 		}
 
 		public Resource Deserialize(Stream stream)
@@ -64,17 +67,46 @@ namespace MonoHaven.Resources
 
 		private static ILayer ReadImageLayer(int size, BinaryReader reader)
 		{
-			var layer = new ImageLayer();
-			layer.Z = reader.ReadInt16();
-			layer.SubZ = reader.ReadInt16();
+			var img = new ImageLayer();
+			img.Z = reader.ReadInt16();
+			img.SubZ = reader.ReadInt16();
 			/* Obsolete flag 1: Layered */
 			reader.ReadByte();
-			layer.Id = reader.ReadInt16();
+			img.Id = reader.ReadInt16();
 			short x = reader.ReadInt16();
 			short y = reader.ReadInt16();
-			layer.Data = new byte[size - 11];
-			reader.Read(layer.Data, 0, size - 11);
-			return layer;
+			img.Data = new byte[size - 11];
+			reader.Read(img.Data, 0, img.Data.Length);
+			return img;
+		}
+
+		private static ILayer ReadTileLayer(int size, BinaryReader reader)
+		{
+			var tile = new TileLayer();
+			tile.Type = reader.ReadChar();
+			tile.Id = reader.ReadByte();
+			tile.Weight = reader.ReadUInt16();
+			tile.ImageData = new byte[size - 4];
+			reader.Read(tile.ImageData, 0, tile.ImageData.Length);
+			return tile;
+		}
+
+		private static ILayer ReadTilesetLayer(int size, BinaryReader reader)
+		{
+			var tileset = new TilesetLayer();
+			tileset.HasTransitions = reader.ReadBoolean();
+			var flavorCount = reader.ReadUInt16();
+			tileset.FlavorDensity = reader.ReadUInt16();
+			tileset.FlavorObjects = new FlavorObjectInfo[flavorCount];
+			for (int i = 0; i < flavorCount; i++)
+			{
+				var fob = new FlavorObjectInfo();
+				fob.ResName = ReadString(reader);
+				fob.ResVersion = reader.ReadUInt16();
+				fob.Weight = reader.ReadByte();
+				tileset.FlavorObjects[i] = fob;
+			}
+			return tileset;
 		}
 
 		private static string ReadString(BinaryReader reader)

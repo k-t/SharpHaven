@@ -40,12 +40,12 @@ namespace MonoHaven.Graphics
 			get { return _sz.Height; }
 		}
 
-		public static Texture FromImage(ImageLayer imageData)
+		public static Texture FromImageData(byte[] imageData)
 		{
 			if (imageData == null)
 				throw new ArgumentNullException("imageData");
 
-			using (var ms = new MemoryStream(imageData.Data))
+			using (var ms = new MemoryStream(imageData))
 			using (var image = new Bitmap(ms))
 			{
 				int id = CreateTexture();

@@ -61,6 +61,9 @@ namespace MonoHaven.UI.Widgets
 		public virtual void Draw(DrawingContext g) { }
 		public virtual void OnButtonDown(MouseButtonEventArgs e) {}
 		public virtual void OnButtonUp(MouseButtonEventArgs e) {}
+		public virtual void OnKeyDown(KeyboardKeyEventArgs e) { }
+		public virtual void OnKeyUp(KeyboardKeyEventArgs e) {}
+		public virtual void OnMouseMove(MouseMoveEventArgs e) {}
 	}
 }
 
