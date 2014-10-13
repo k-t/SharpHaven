@@ -66,6 +66,7 @@
     <Compile Include="UI\Widgets\ImageButton.cs" />
     <Compile Include="HavenGameWindow.cs" />
     <Compile Include="UI\Widgets\TextBox.cs" />
+    <Compile Include="Utils\RandomUtils.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

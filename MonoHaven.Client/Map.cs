@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
 using C5;
 using MonoHaven.Graphics;
 using MonoHaven.Utils;
@@ -12,10 +11,12 @@ namespace MonoHaven
 	{
 		private readonly Tileset[] tilesets = new Tileset[256];
 		private readonly TreeDictionary<Point, MapGrid> grids;
+		private readonly C5Random rng;
 
 		public Map()
 		{
 			grids = new TreeDictionary<Point, MapGrid>(new PointComparer());
+			rng = new C5Random(RandomUtils.GetSeed());
 
 			// load all existing tilesets
 			tilesets[255] = ResourceManager.LoadTileset("gfx/tiles/nil/nil");
@@ -55,7 +56,7 @@ namespace MonoHaven
 			for (int i = 0; i < tiles.Length; i++)
 			{
 				var tileset = tilesets[tiles[i]];
-				mapTiles[i] = new MapTile(tiles[i], tileset.GroundTiles.PickRandom());
+				mapTiles[i] = new MapTile(tiles[i], tileset.GroundTiles.PickRandom(rng));
 			}
 			grids[p] = new MapGrid(p, mapTiles);
 		}
@@ -112,16 +113,17 @@ namespace MonoHaven
 				if (set == null || set.BorderTransitions == null || set.CrossTransitions == null)
 					continue;
 				int bm = 0, cm = 0;
-				for(int o = 0; o < 4; o++) {
+				for(int o = 0; o < 4; o++)
+				{
 					if(tr[bx[o],by[o]] == i)
 					bm |= 1 << o;
 					if(tr[cx[o],cy[o]] == i)
 					cm |= 1 << o;
 				}
 				if(bm != 0)
-					buf.Add(set.BorderTransitions[bm - 1].PickRandom());
+					buf.Add(set.BorderTransitions[bm - 1].PickRandom(rng));
 				if(cm != 0)
-					buf.Add(set.CrossTransitions[cm - 1].PickRandom());
+					buf.Add(set.CrossTransitions[cm - 1].PickRandom(rng));
 			}
 			tile.Transitions = buf.ToArray();
 		}

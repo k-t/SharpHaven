@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using C5;
 
 namespace MonoHaven
 {
@@ -36,9 +37,9 @@ namespace MonoHaven
 			return items[i];
 		}
 
-		public T PickRandom()
+		public T PickRandom(C5Random rng)
 		{
-			return Pick(Random.Next(totalWeight));
+			return Pick(rng.Next(totalWeight));
 		}
 	}
 }
