@@ -1,6 +1,6 @@
 ﻿namespace MonoHaven.Resources.Layers
 {
-	public class TileLayer : ILayer
+	public class TileData : IDataLayer
 	{
 		public int Id { get; set; }
 		public int Weight { get; set; }

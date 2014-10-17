@@ -8,17 +8,17 @@ namespace MonoHaven.Resources
 {
 	public class ResourceSerializer
 	{
-		private delegate ILayer LayerReader(int size, BinaryReader reader);
+		private delegate IDataLayer LayerReader(int size, BinaryReader reader);
 		private const string Signature = "Haven Resource 1";
 
-		private readonly SortedList<string, LayerReader> _layerReaders;
+		private readonly SortedList<string, LayerReader> dataReaders;
 
 		public ResourceSerializer()
 		{
-			_layerReaders = new SortedList<string, LayerReader>();
-			_layerReaders.Add("image", ReadImageLayer);
-			_layerReaders.Add("tile", ReadTileLayer);
-			_layerReaders.Add("tileset", ReadTilesetLayer);
+			dataReaders = new SortedList<string, LayerReader>();
+			dataReaders.Add("image", ReadImageData);
+			dataReaders.Add("tile", ReadTileData);
+			dataReaders.Add("tileset", ReadTilesetData);
 		}
 
 		public Resource Deserialize(Stream stream)
@@ -31,7 +31,7 @@ namespace MonoHaven.Resources
 
 			short version = reader.ReadInt16();
 
-			var layers = new List<ILayer>();
+			var layers = new List<IDataLayer>();
 			while (true)
 			{
 				var layer = ReadLayer(reader);
@@ -43,31 +43,31 @@ namespace MonoHaven.Resources
 			return new Resource(version, layers);
 		}
 
-		private ILayer ReadLayer(BinaryReader reader)
+		private IDataLayer ReadLayer(BinaryReader reader)
 		{
 			var type = ReadString(reader);
 			if (string.IsNullOrEmpty(type))
 				return null;
 			var size = reader.ReadInt32();
-			var layerReader = FindLayerReader(type);
+			var layerReader = FindDataReader(type);
 			if (layerReader == null)
 			{
 				// skip layer data
 				reader.ReadBytes(size);
-				return new UnknownLayer(type);
+				return new UnknownDataLayer(type);
 			}
 			return layerReader(size, reader);
 		}
 
-		private LayerReader FindLayerReader(string type)
+		private LayerReader FindDataReader(string dataType)
 		{
 			LayerReader reader;
-			return _layerReaders.TryGetValue(type, out reader) ? reader : null;
+			return dataReaders.TryGetValue(dataType, out reader) ? reader : null;
 		}
 
-		private static ILayer ReadImageLayer(int size, BinaryReader reader)
+		private static IDataLayer ReadImageData(int size, BinaryReader reader)
 		{
-			var img = new ImageLayer();
+			var img = new ImageData();
 			img.Z = reader.ReadInt16();
 			img.SubZ = reader.ReadInt16();
 			/* Obsolete flag 1: Layered */
@@ -80,9 +80,9 @@ namespace MonoHaven.Resources
 			return img;
 		}
 
-		private static ILayer ReadTileLayer(int size, BinaryReader reader)
+		private static IDataLayer ReadTileData(int size, BinaryReader reader)
 		{
-			var tile = new TileLayer();
+			var tile = new TileData();
 			tile.Type = reader.ReadChar();
 			tile.Id = reader.ReadByte();
 			tile.Weight = reader.ReadUInt16();
@@ -91,16 +91,16 @@ namespace MonoHaven.Resources
 			return tile;
 		}
 
-		private static ILayer ReadTilesetLayer(int size, BinaryReader reader)
+		private static IDataLayer ReadTilesetData(int size, BinaryReader reader)
 		{
-			var tileset = new TilesetLayer();
+			var tileset = new TilesetData();
 			tileset.HasTransitions = reader.ReadBoolean();
 			var flavorCount = reader.ReadUInt16();
 			tileset.FlavorDensity = reader.ReadUInt16();
-			tileset.FlavorObjects = new FlavorObjectInfo[flavorCount];
+			tileset.FlavorObjects = new FlavorObjectData[flavorCount];
 			for (int i = 0; i < flavorCount; i++)
 			{
-				var fob = new FlavorObjectInfo();
+				var fob = new FlavorObjectData();
 				fob.ResName = ReadString(reader);
 				fob.ResVersion = reader.ReadUInt16();
 				fob.Weight = reader.ReadByte();

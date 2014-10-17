@@ -13,7 +13,7 @@ namespace MonoHaven
 		private readonly WeightList<Texture>[] crossTransitions;
 		private readonly bool hasTransitions;
 
-		public Tileset(bool hasTransitions, IEnumerable<TileLayer> tiles)
+		public Tileset(bool hasTransitions, IEnumerable<TileData> tiles)
 		{
 			this.hasTransitions = hasTransitions;
 			this.groundTiles = new WeightList<Texture>();

@@ -1,10 +1,8 @@
-using System;
-
 namespace MonoHaven.Resources
 {
-	public class UnknownLayer : ILayer
+	public class UnknownDataLayer : IDataLayer
 	{
-		public UnknownLayer(string type)
+		public UnknownDataLayer(string type)
 		{
 			Type = type;
 		}

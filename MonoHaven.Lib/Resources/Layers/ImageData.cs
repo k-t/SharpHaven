@@ -1,6 +1,6 @@
 namespace MonoHaven.Resources
 {
-	public class ImageLayer : ILayer
+	public class ImageData : IDataLayer
 	{
 		public short Id { get; set; }
 		public short Z { get; set; }
