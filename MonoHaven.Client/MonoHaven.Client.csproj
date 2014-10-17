@@ -44,9 +44,10 @@
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="Constants.cs" />
-    <Compile Include="Map.cs" />
-    <Compile Include="MapGrid.cs" />
-    <Compile Include="MapTile.cs" />
+    <Compile Include="Game\GameSession.cs" />
+    <Compile Include="Game\Map.cs" />
+    <Compile Include="Game\MapGrid.cs" />
+    <Compile Include="Game\MapTile.cs" />
     <Compile Include="Tileset.cs" />
     <Compile Include="UI\EmptyScreen.cs" />
     <Compile Include="UI\IScreen.cs" />

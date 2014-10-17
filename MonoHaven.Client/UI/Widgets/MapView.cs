@@ -1,5 +1,5 @@
 ﻿using System.Drawing;
-using System.Linq;
+using MonoHaven.Game;
 using MonoHaven.Graphics;
 using OpenTK.Input;
 
@@ -7,16 +7,16 @@ namespace MonoHaven.UI.Widgets
 {
 	public class MapView : Widget
 	{
-		private readonly Map map;
+		private readonly GameSession session;
 
 		private Point cameraOffset = new Point(0, 0);
 
 		private bool dragging;
 		private Point dragPoint;
 
-		public MapView(Map map)
+		public MapView(GameSession session)
 		{
-			this.map = map;
+			this.session = session;
 			this.cameraOffset = TileToScreen(new Point(-329200, 63600));
 		}
 
@@ -43,12 +43,10 @@ namespace MonoHaven.UI.Widgets
 						var p = TileToScreen(new Point(tx, ty));
 						p = Point.Add(p, new Size(Width / 2 - cameraOffset.X, Height / 2 - cameraOffset.Y));
 
-						var tile = map.GetTile(tx, ty);
+						var tile = session.Map.GetTile(tx, ty);
 						if (tile != null)
 						{
 							g.DrawImage(p.X, p.Y, tile.Texture);
-							if (tile.Transitions == null)
-								map.GenerateTransitions(tx, ty, tile);
 							foreach (var trans in tile.Transitions)
 								g.DrawImage(p.X, p.Y, trans);
 						}
