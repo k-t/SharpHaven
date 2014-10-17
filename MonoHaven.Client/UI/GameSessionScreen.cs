@@ -4,7 +4,7 @@ using MonoHaven.UI.Widgets;
 
 namespace MonoHaven.UI
 {
-	public class GameSessionScreen : Screen
+	public class GameSessionScreen : BaseScreen
 	{
 		private readonly Map map = new Map();
 		private readonly MapView mapView;
@@ -27,7 +27,7 @@ namespace MonoHaven.UI
 			this.AddWidget(mapView);
 		}
 
-		protected override void OnResize()
+		protected override void OnResize(int newWidth, int newHeight)
 		{
 			this.mapView.Width = Host.Width;
 			this.mapView.Height = Host.Height;

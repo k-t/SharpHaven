@@ -48,23 +48,24 @@
     <Compile Include="MapGrid.cs" />
     <Compile Include="MapTile.cs" />
     <Compile Include="Tileset.cs" />
+    <Compile Include="UI\EmptyScreen.cs" />
+    <Compile Include="UI\IScreen.cs" />
     <Compile Include="UI\IScreenHost.cs" />
     <Compile Include="Utils\MathUtils.cs" />
     <Compile Include="Utils\PointComparer.cs" />
     <Compile Include="UI\GameSessionScreen.cs" />
     <Compile Include="ResourceManager.cs" />
-    <Compile Include="UI\ScreenManager.cs" />
     <Compile Include="UI\LoginScreen.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Config.cs" />
-    <Compile Include="UI\Screen.cs" />
+    <Compile Include="UI\BaseScreen.cs" />
     <Compile Include="UI\Widgets\MapView.cs" />
     <Compile Include="UI\Widgets\Widget.cs" />
     <Compile Include="Graphics\Texture.cs" />
     <Compile Include="Graphics\DrawingContext.cs" />
     <Compile Include="UI\Widgets\ImageWidget.cs" />
     <Compile Include="UI\Widgets\ImageButton.cs" />
-    <Compile Include="HavenGameWindow.cs" />
+    <Compile Include="MainWindow.cs" />
     <Compile Include="UI\Widgets\TextBox.cs" />
     <Compile Include="Utils\RandomUtils.cs" />
   </ItemGroup>

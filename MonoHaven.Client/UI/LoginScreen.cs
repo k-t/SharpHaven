@@ -1,17 +1,14 @@
-﻿using System;
-using MonoHaven.UI.Widgets;
+﻿using MonoHaven.UI.Widgets;
 
 namespace MonoHaven.UI
 {
-	public class LoginScreen : Screen
+	public class LoginScreen : BaseScreen
 	{
 		public LoginScreen(IScreenHost host)
 			: base(host)
 		{
 			InitializeWidgets();
 		}
-
-		public event EventHandler LoggedIn;
 
 		private void InitializeWidgets()
 		{
@@ -41,14 +38,13 @@ namespace MonoHaven.UI
 				Up = upTexture,
 				Down = ResourceManager.LoadTexture("gfx/hud/buttons/logind")
 			};
-			btnLogin.Pressed += (sender, args) => RaiseLoggedInEvent();
+			btnLogin.Pressed += (sender, args) => OnLogin();
 			AddWidget(btnLogin);
 		}
 
-		private void RaiseLoggedInEvent()
+		private void OnLogin()
 		{
-			if (LoggedIn != null)
-				LoggedIn(this, EventArgs.Empty);
+			Host.CurrentScreen = new GameSessionScreen(Host);
 		}
 	}
 }

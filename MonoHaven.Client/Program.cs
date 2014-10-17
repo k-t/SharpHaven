@@ -10,7 +10,7 @@ namespace MonoHaven
 		{
 			using (var iconImage = LoadIcon())
 			using (var icon = Icon.FromHandle(iconImage.GetHicon()))
-			using (var gameWindow = new HavenGameWindow(800, 600))
+			using (var gameWindow = new MainWindow(800, 600))
 			{
 				gameWindow.Icon = icon;
 				gameWindow.Run();
@@ -24,7 +24,7 @@ namespace MonoHaven
 				.GetManifestResourceStream("MonoHaven.Resources.icon.png");
 			using (stream)
 			{
-				return (Bitmap)Bitmap.FromStream(stream);
+				return (Bitmap)Image.FromStream(stream);
 			}
 		}
 	}
