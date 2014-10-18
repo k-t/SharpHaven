@@ -6,7 +6,7 @@ namespace MonoHaven.Resources
 {
 	public class Tileset
 	{
-		private readonly TextureAtlas atlas;
+		private static TextureAtlas atlas;
 		private readonly WeightList<TextureRegion> groundTiles;
 		private readonly WeightList<TextureRegion>[] borderTransitions;
 		private readonly WeightList<TextureRegion>[] crossTransitions;
@@ -14,7 +14,8 @@ namespace MonoHaven.Resources
 
 		public Tileset(bool hasTransitions, IEnumerable<TileData> tiles)
 		{
-			atlas = new TextureAtlas(1024, 1024);
+			if (atlas == null)
+				atlas = new TextureAtlas(2048, 2048);
 
 			this.hasTransitions = hasTransitions;
 			this.groundTiles = new WeightList<TextureRegion>();

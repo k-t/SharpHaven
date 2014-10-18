@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Drawing;
 using System.IO;
+using OpenTK;
 
 namespace MonoHaven.Graphics
 {
@@ -21,6 +22,9 @@ namespace MonoHaven.Graphics
 			using (var ms = new MemoryStream(imageData))
 			using (var bitmap = new Bitmap(ms))
 			{
+				if (ny + bitmap.Height > texture.Height)
+					throw new GraphicsException("Couldn't fit image into texture.");
+
 				if (nx + bitmap.Width > texture.Width)
 				{
 					nx = 0;
