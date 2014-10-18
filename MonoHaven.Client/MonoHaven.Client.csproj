@@ -48,14 +48,14 @@
     <Compile Include="Game\Map.cs" />
     <Compile Include="Game\MapGrid.cs" />
     <Compile Include="Game\MapTile.cs" />
-    <Compile Include="Tileset.cs" />
+    <Compile Include="Resources\Tileset.cs" />
     <Compile Include="UI\EmptyScreen.cs" />
     <Compile Include="UI\IScreen.cs" />
     <Compile Include="UI\IScreenHost.cs" />
     <Compile Include="Utils\MathUtils.cs" />
     <Compile Include="Utils\PointComparer.cs" />
     <Compile Include="UI\GameSessionScreen.cs" />
-    <Compile Include="ResourceManager.cs" />
+    <Compile Include="Resources\ResourceManager.cs" />
     <Compile Include="UI\LoginScreen.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Config.cs" />
@@ -72,7 +72,7 @@
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
-    <EmbeddedResource Include="Resources\icon.png" />
+    <EmbeddedResource Include="Icons\icon.png" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MonoHaven.Lib\MonoHaven.Lib.csproj">

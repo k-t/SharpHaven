@@ -1,4 +1,5 @@
-﻿using MonoHaven.UI.Widgets;
+﻿using MonoHaven.Resources;
+using MonoHaven.UI.Widgets;
 
 namespace MonoHaven.UI
 {

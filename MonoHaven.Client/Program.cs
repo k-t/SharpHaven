@@ -21,7 +21,7 @@ namespace MonoHaven
 		{
 			var stream = Assembly
 				.GetExecutingAssembly()
-				.GetManifestResourceStream("MonoHaven.Resources.icon.png");
+				.GetManifestResourceStream("MonoHaven.Icons.icon.png");
 			using (stream)
 			{
 				return (Bitmap)Image.FromStream(stream);

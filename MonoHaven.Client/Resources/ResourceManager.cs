@@ -1,8 +1,7 @@
 ﻿using MonoHaven.Graphics;
-using MonoHaven.Resources;
 using MonoHaven.Resources.Layers;
 
-namespace MonoHaven
+namespace MonoHaven.Resources
 {
 	public static class ResourceManager
 	{

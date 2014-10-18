@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using MonoHaven.Graphics;
 using MonoHaven.Resources.Layers;
 
-namespace MonoHaven
+namespace MonoHaven.Resources
 {
 	public class Tileset
 	{

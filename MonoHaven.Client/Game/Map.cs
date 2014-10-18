@@ -2,6 +2,7 @@
 using System.Drawing;
 using C5;
 using MonoHaven.Graphics;
+using MonoHaven.Resources;
 using MonoHaven.Utils;
 
 namespace MonoHaven.Game
