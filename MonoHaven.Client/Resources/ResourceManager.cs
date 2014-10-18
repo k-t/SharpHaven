@@ -19,7 +19,7 @@ namespace MonoHaven.Resources
 			var tileset = res.GetLayer<TilesetData>();
 			var tiles = res.GetLayers<TileData>();
 
-			return new Tileset(tileset.HasTransitions, tiles);
+			return new Tileset(tileset, tiles);
 		}
 
 		public static Texture LoadTexture(string resName)

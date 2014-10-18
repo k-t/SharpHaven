@@ -1,5 +1,8 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Collections.Generic;
+using System.Drawing;
 using C5;
+using MonoHaven.Graphics;
 using MonoHaven.Resources;
 using MonoHaven.Utils;
 
@@ -10,6 +13,7 @@ namespace MonoHaven.Game
 		private readonly Tileset[] tilesets = new Tileset[256];
 		private readonly TreeDictionary<Point, MapGrid> grids;
 		private readonly C5Random rng;
+		private readonly List<Tuple<Point, TextureRegion>> flavorObjects = new List<Tuple<Point, TextureRegion>>();
 
 		public Map()
 		{
@@ -47,6 +51,11 @@ namespace MonoHaven.Game
 			tilesets[0] = ResourceManager.LoadTileset("gfx/tiles/water/deep");
 		}
 
+		public IEnumerable<Tuple<Point, TextureRegion>> FlavorObjects
+		{
+			get { return flavorObjects; }
+		}
+
 		public void AddGrid(int gx, int gy, byte[] tiles)
 		{
 			var p = new Point(gx, gy);
@@ -56,7 +65,27 @@ namespace MonoHaven.Game
 				var tileset = tilesets[tiles[i]];
 				mapTiles[i] = new MapTile(this, GetAbsoluteTileCoord(p, i), tiles[i], tileset.GroundTiles.PickRandom(rng));
 			}
-			grids[p] = new MapGrid(p, mapTiles);
+			var grid = new MapGrid(p, mapTiles);
+			grids[p] = grid;
+
+			// generate flavor
+			int ox = gx * Constants.GridWidth;
+			int oy = gy * Constants.GridHeight;
+			for (int y = 0; y < Constants.GridHeight; y++)
+				for (int x = 0; x < Constants.GridWidth; x++)
+				{
+					var set = GetTileset(grid[x, y].Type);
+					if (set.FlavorDensity != 0 && set.FlavorObjects.Count > 0)
+					{
+						if (rng.Next(set.FlavorDensity) == 0)
+						{
+							var fo = set.FlavorObjects.PickRandom(rng);
+							flavorObjects.Add(Tuple.Create(new Point(
+								(x + ox) * Constants.TileWidth,
+								(y + oy) * Constants.TileHeight), fo));
+						}
+					}
+				}
 		}
 
 		public MapTile GetTile(int tx, int ty)

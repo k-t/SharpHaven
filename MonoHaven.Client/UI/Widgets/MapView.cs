@@ -25,6 +25,7 @@ namespace MonoHaven.UI.Widgets
 		public override void Draw(DrawingContext g)
 		{
 			DrawTiles(g);
+			DrawFlavor(g);
 		}
 
 		private void DrawTiles(DrawingContext g)
@@ -55,6 +56,21 @@ namespace MonoHaven.UI.Widgets
 					}
 		}
 
+		private void DrawFlavor(DrawingContext g)
+		{
+			foreach (var tuple in session.Map.FlavorObjects)
+			{
+				var c = tuple.Item1;
+				var t = tuple.Item2;
+				var p = WorldToScreen(c);
+				p = Point.Add(p, new Size(Width / 2 - cameraOffset.X, Height / 2 - cameraOffset.Y));
+				if (Bounds.Contains(p))
+				{
+					g.DrawImage(p.X, p.Y, t);
+				}
+			}
+		}
+
 		/// <summary>
 		/// Converts absolute tile position to absolute screen coordinate.
 		/// </summary>
@@ -63,6 +79,14 @@ namespace MonoHaven.UI.Widgets
 			return new Point(
 				(p.X - p.Y) * Constants.TileWidth * 2,
 				(p.X + p.Y) * Constants.TileHeight);
+		}
+
+		/// <summary>
+		/// Converts absolute world position to absolute screen coordinate.
+		/// </summary>
+		private Point WorldToScreen(Point p)
+		{
+			return new Point((p.X - p.Y) * 2, (p.X + p.Y));
 		}
 
 		/// <summary>

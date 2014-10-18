@@ -8,37 +8,52 @@ namespace MonoHaven.Resources
 	{
 		private static TextureAtlas atlas;
 		private readonly WeightList<TextureRegion> groundTiles;
+		private readonly WeightList<TextureRegion> flavorObjects; 
 		private readonly WeightList<TextureRegion>[] borderTransitions;
 		private readonly WeightList<TextureRegion>[] crossTransitions;
-		private readonly bool hasTransitions;
+		private readonly int flavorDensity;
 
-		public Tileset(bool hasTransitions, IEnumerable<TileData> tiles)
+		public Tileset(TilesetData data, IEnumerable<TileData> tiles)
 		{
 			if (atlas == null)
 				atlas = new TextureAtlas(2048, 2048);
 
-			this.hasTransitions = hasTransitions;
-			this.groundTiles = new WeightList<TextureRegion>();
-			if (hasTransitions)
+			flavorDensity = data.FlavorDensity;
+			groundTiles = new WeightList<TextureRegion>();
+			flavorObjects = new WeightList<TextureRegion>();
+			if (data.HasTransitions)
 			{
-				this.crossTransitions = new WeightList<TextureRegion>[15];
-				this.borderTransitions = new WeightList<TextureRegion>[15];
+				crossTransitions = new WeightList<TextureRegion>[15];
+				borderTransitions = new WeightList<TextureRegion>[15];
 				for (int i = 0; i < 15; i++)
 				{
-					this.crossTransitions[i] = new WeightList<TextureRegion>();
-					this.borderTransitions[i] = new WeightList<TextureRegion>();
+					crossTransitions[i] = new WeightList<TextureRegion>();
+					borderTransitions[i] = new WeightList<TextureRegion>();
 				}
 			}
 
 			foreach (var tile in tiles)
 			{
 				if (tile.Type == 'g')
-						groundTiles.Add(atlas.AddImage(tile.ImageData), tile.Weight);
-				if (tile.Type == 'c' && hasTransitions)
+					groundTiles.Add(atlas.AddImage(tile.ImageData), tile.Weight);
+				if (tile.Type == 'c' && data.HasTransitions)
 					crossTransitions[tile.Id - 1].Add(atlas.AddImage(tile.ImageData), tile.Weight);
-				if (tile.Type == 'b' && hasTransitions)
+				if (tile.Type == 'b' && data.HasTransitions)
 					borderTransitions[tile.Id - 1].Add(atlas.AddImage(tile.ImageData), tile.Weight);
 			}
+
+			foreach (var flavor in data.FlavorObjects)
+			{
+				var image = ResourceManager.LoadResource(flavor.ResName).GetLayer<ImageData>();
+				if (image != null)
+					flavorObjects.Add(atlas.AddImage(image.Data), flavor.Weight);
+				// TODO: else log warning
+			}
+		}
+
+		public int FlavorDensity
+		{
+			get { return flavorDensity; }
 		}
 
 		public WeightList<TextureRegion>[] BorderTransitions
@@ -56,9 +71,9 @@ namespace MonoHaven.Resources
 			get { return groundTiles; }
 		}
 
-		public bool HasTransitions
+		public WeightList<TextureRegion> FlavorObjects
 		{
-			get { return hasTransitions; }
+			get { return flavorObjects; }
 		}
 	}
 }
