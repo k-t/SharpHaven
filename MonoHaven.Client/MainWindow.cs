@@ -18,8 +18,9 @@ namespace MonoHaven
 		public MainWindow(int width, int height)
 			: base(width, height, GraphicsMode.Default, WindowTitle)
 		{
+			this.currentScreen = EmptyScreen.Instance;
+
 			this.VSync = VSyncMode.On;
-			this.currentScreen = new EmptyScreen();
 
 			this.Mouse.ButtonUp += HandleMouseButtonUp;
 			this.Mouse.ButtonDown += HandleMouseButtonDown;
@@ -81,8 +82,9 @@ namespace MonoHaven
 
 			GL.Clear(ClearBufferMask.ColorBufferBit);
 			CurrentScreen.Draw(new DrawingContext());
-			Title = string.Format("{0}: {1} FPS", WindowTitle, (int)UpdateFrequency);
 			SwapBuffers();
+
+			Title = string.Format("{0}: {1} FPS", WindowTitle, FpsCounter.GetFps());
 		}
 
 		private void HandleMouseButtonDown(object sender, MouseButtonEventArgs e)
@@ -108,6 +110,26 @@ namespace MonoHaven
 		private void HandleKeyUp(object sender, KeyboardKeyEventArgs e)
 		{
 			CurrentScreen.HandleKeyUp(e);
+		}
+
+		private static class FpsCounter
+		{
+			private static int fps;
+			private static int frameCount;
+			private static DateTime last;
+
+			public static int GetFps()
+			{
+				frameCount++;
+				var now = DateTime.Now;
+				if ((now - last).TotalMilliseconds > 1000)
+				{
+					fps = frameCount;
+					frameCount = 0;
+					last = now;
+				}
+				return fps;
+			}
 		}
 	}
 }
