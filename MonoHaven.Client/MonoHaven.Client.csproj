@@ -49,6 +49,7 @@
     <Compile Include="Game\MapGrid.cs" />
     <Compile Include="Game\MapTile.cs" />
     <Compile Include="Graphics\SpriteBatch.cs" />
+    <Compile Include="Graphics\TextureAtlas.cs" />
     <Compile Include="Graphics\TextureRegion.cs" />
     <Compile Include="Graphics\VertexBuffer.cs" />
     <Compile Include="Resources\Tileset.cs" />
