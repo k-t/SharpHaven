@@ -28,7 +28,7 @@ namespace MonoHaven.Resources
 			if (image == null)
 				throw new ResourceLoadException(string.Format("Couldn't find image layer in the resource '{0}'", resName));
 			// TODO: it actually loads texture into GPU memory and this is wrong!
-			return Texture.FromImageData(image.Data);
+			return new Texture(image.Data);
 		}
 	}
 }

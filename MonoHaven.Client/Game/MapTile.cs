@@ -11,10 +11,10 @@ namespace MonoHaven.Game
 		private readonly Map map;
 		private readonly Point coord;
 		private readonly byte type;
-		private readonly Texture texture;
-		private Texture[] transitions;
+		private readonly TextureRegion texture;
+		private TextureRegion[] transitions;
 
-		public MapTile(Map map, Point coord, byte type, Texture texture)
+		public MapTile(Map map, Point coord, byte type, TextureRegion texture)
 		{
 			this.map = map;
 			this.coord = coord;
@@ -27,12 +27,12 @@ namespace MonoHaven.Game
 			get { return type; }
 		}
 
-		public Texture Texture
+		public TextureRegion Texture
 		{
 			get { return texture; }
 		}
 
-		public Texture[] Transitions
+		public TextureRegion[] Transitions
 		{
 			get
 			{
@@ -42,7 +42,7 @@ namespace MonoHaven.Game
 			}
 		}
 
-		private Texture[] GenerateTransitions()
+		private TextureRegion[] GenerateTransitions()
 		{
 			var rng = new C5Random(RandomUtils.GetSeed());
 			var tr = new int[3, 3];
@@ -54,7 +54,7 @@ namespace MonoHaven.Game
 						continue;
 					var t = map.GetTile(coord.X + x, coord.Y + y);
 					if (t == null)
-						return new Texture[0];
+						return new TextureRegion[0];
 					tr[x + 1, y + 1] = t.Type;
 				}
 			}
@@ -70,7 +70,7 @@ namespace MonoHaven.Game
 			int[] by = { 1, 0, 1, 2 };
 			int[] cx = { 0, 2, 2, 0 };
 			int[] cy = { 0, 0, 2, 2 };
-			var buf = new List<Texture>();
+			var buf = new List<TextureRegion>();
 			for (int i = type - 1; i >= 0; i--)
 			{
 				var set = map.GetTileset(i);

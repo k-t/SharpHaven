@@ -48,6 +48,7 @@
     <Compile Include="Game\Map.cs" />
     <Compile Include="Game\MapGrid.cs" />
     <Compile Include="Game\MapTile.cs" />
+    <Compile Include="Graphics\TextureRegion.cs" />
     <Compile Include="Resources\Tileset.cs" />
     <Compile Include="UI\EmptyScreen.cs" />
     <Compile Include="UI\IScreen.cs" />

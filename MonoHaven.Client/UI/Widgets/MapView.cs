@@ -1,6 +1,8 @@
 ﻿using System.Drawing;
 using MonoHaven.Game;
 using MonoHaven.Graphics;
+using MonoHaven.Resources;
+using MonoHaven.Resources.Layers;
 using OpenTK.Input;
 
 namespace MonoHaven.UI.Widgets

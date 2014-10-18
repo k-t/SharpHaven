@@ -32,10 +32,7 @@ namespace MonoHaven.Graphics
 
 		public void DrawImage(int x, int y, Texture texture)
 		{
-			GL.Color4(255f, 255f, 255f, 255f);
-
-			GL.BindTexture(TextureTarget.Texture2D, texture.Id);
-
+			texture.Bind();
 			GL.Begin(BeginMode.Quads);
 			{
 				GL.TexCoord2(0, 0);
@@ -49,6 +46,27 @@ namespace MonoHaven.Graphics
 
 				GL.TexCoord2(0, 1);
 				GL.Vertex3(x, y + texture.Height, 0);
+			}
+			GL.End();
+		}
+
+		public void DrawImage(int x, int y, TextureRegion region)
+		{
+			var texture = region.Texture;
+			texture.Bind();
+			GL.Begin(BeginMode.Quads);
+			{
+				GL.TexCoord2(region.Left, region.Top);
+				GL.Vertex3(x, y, 0);
+
+				GL.TexCoord2(region.Right, region.Top);
+				GL.Vertex3(x + region.Width, y, 0);
+
+				GL.TexCoord2(region.Right, region.Bottom);
+				GL.Vertex3(x + region.Width, y + region.Height, 0);
+
+				GL.TexCoord2(region.Left, region.Bottom);
+				GL.Vertex3(x, y + region.Height, 0);
 			}
 			GL.End();
 		}
