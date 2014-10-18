@@ -42,6 +42,8 @@ namespace MonoHaven
 			}
 		}
 
+		private SpriteBatch SpriteBatch { get; set; }
+
 		protected override void OnLoad(EventArgs e)
 		{
 			base.OnLoad(e);
@@ -56,6 +58,7 @@ namespace MonoHaven
 			             BlendingFactorDest.OneMinusSrcAlpha);
 
 			CurrentScreen = new LoginScreen(this);
+			SpriteBatch = new SpriteBatch();
 		}
 
 		protected override void OnUnload(EventArgs e)
@@ -81,7 +84,10 @@ namespace MonoHaven
 			base.OnRenderFrame(e);
 
 			GL.Clear(ClearBufferMask.ColorBufferBit);
-			CurrentScreen.Draw(new DrawingContext());
+			using (var dc = new DrawingContext(SpriteBatch))
+			{
+				CurrentScreen.Draw(dc);
+			}
 			SwapBuffers();
 
 			Title = string.Format("{0}: {1} FPS", WindowTitle, FpsCounter.GetFps());

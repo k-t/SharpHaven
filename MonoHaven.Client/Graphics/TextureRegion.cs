@@ -1,9 +1,12 @@
-﻿namespace MonoHaven.Graphics
+﻿using System.Drawing;
+using OpenTK;
+
+namespace MonoHaven.Graphics
 {
 	public class TextureRegion
 	{
 		private readonly Texture texture;
-		private float top, bottom, left, right;
+		private RectangleF bounds;
 		private int width, height;
 
 		public TextureRegion(Texture texture, int x, int y, int width, int height)
@@ -11,30 +14,16 @@
 			this.texture = texture;
 			this.width = width;
 			this.height = height;
-			this.left = (float)x / texture.Width;
-			this.right = (float)(x + width) / texture.Width;
-			this.top = (float)y / texture.Height;
-			this.bottom = (float)(y + height) / texture.Height;
+			this.bounds = RectangleF.FromLTRB(
+				(float)x / texture.Width,
+				(float)y / texture.Height,
+				(float)(x + width) / texture.Width,
+				(float)(y + height) / texture.Height);
 		}
 
-		public float Top
+		public RectangleF Bounds
 		{
-			get { return top; }
-		}
-
-		public float Bottom
-		{
-			get { return bottom; }
-		}
-
-		public float Left
-		{
-			get { return left; }
-		}
-
-		public float Right
-		{
-			get { return right; }
+			get { return bounds; }
 		}
 
 		public int Width
