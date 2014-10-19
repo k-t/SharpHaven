@@ -1,11 +1,16 @@
 ﻿using System.Drawing;
+using System.Runtime.InteropServices;
 using MonoHaven.Resources;
 using MonoHaven.UI.Widgets;
+using OpenTK;
 
 namespace MonoHaven.UI
 {
 	public class LoginScreen : BaseScreen
 	{
+		private const int MinWidth = 800;
+		private const int MinHeight = 600;
+
 		public LoginScreen(IScreenHost host)
 			: base(host)
 		{
@@ -15,7 +20,7 @@ namespace MonoHaven.UI
 		private void InitializeWidgets()
 		{
 			var background = ResourceManager.LoadTexture("gfx/loginscr");
-			AddWidget(new ImageWidget {
+			Add(new ImageWidget {
 				X = 0, Y = 0,
 				Width = background.Width,
 				Height = background.Height,
@@ -23,7 +28,7 @@ namespace MonoHaven.UI
 			});
 
 			var logo = ResourceManager.LoadTexture("gfx/logo");
-			AddWidget(new ImageWidget {
+			Add(new ImageWidget {
 				X = 420 - logo.Width / 2,
 				Y = 215 - logo.Height / 2,
 				Width = logo.Width,
@@ -41,10 +46,17 @@ namespace MonoHaven.UI
 				Down = ResourceManager.LoadTexture("gfx/hud/buttons/logind")
 			};
 			btnLogin.Pressed += (sender, args) => OnLogin();
-			AddWidget(btnLogin);
+			Add(btnLogin);
 
-			AddWidget(new Label { Text = "User Name", TextColor = Color.White, X = 345, Y = 310 });
-			AddWidget(new Label { Text = "Password", TextColor = Color.White, X = 345, Y = 370 });
+			Add(new Label { Text = "User Name", TextColor = Color.White, X = 345, Y = 310 });
+			Add(new Label { Text = "Password", TextColor = Color.White, X = 345, Y = 370 });
+		}
+
+		protected override void OnResize(int newWidth, int newHeight)
+		{
+			var w = newWidth > MinWidth ? newWidth : MinWidth;
+			var h = newHeight > MinHeight ? newHeight : MinHeight;
+			RootWidget.Location = new Point((w - MinWidth) / 2, (h - MinHeight) / 2);
 		}
 
 		private void OnLogin()

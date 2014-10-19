@@ -13,7 +13,7 @@ namespace MonoHaven.UI.Widgets
 
 		public event EventHandler Pressed;
 
-		public override void Draw(DrawingContext g)
+		protected override void OnDraw(DrawingContext g)
 		{
 			var tex = isPressed ? Down : Up;
 			if (tex != null)

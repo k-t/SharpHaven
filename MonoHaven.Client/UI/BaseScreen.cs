@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
 using MonoHaven.Graphics;
 using MonoHaven.UI.Widgets;
 using OpenTK.Input;
@@ -10,16 +8,22 @@ namespace MonoHaven.UI
 	public abstract class BaseScreen : IDisposable, IScreen
 	{
 		private readonly IScreenHost host;
-		private readonly List<Widget> widgets = new List<Widget>();
+		private readonly RootWidget rootWidget;
 
 		protected BaseScreen(IScreenHost host)
 		{
 			this.host = host;
+			this.rootWidget = new RootWidget();
 		}
 
 		protected IScreenHost Host
 		{
 			get { return host; }
+		}
+
+		protected RootWidget RootWidget
+		{
+			get { return rootWidget; }
 		}
 
 		protected virtual void OnShow() { }
@@ -28,35 +32,26 @@ namespace MonoHaven.UI
 
 		protected virtual void OnDraw(DrawingContext g)
 		{
-			foreach (var widget in widgets)
-			{
-				if (widget.Visible)
-				{
-					g.PushMatrix();
-					g.Translate(widget.X, widget.Y);
-					widget.Draw(g);
-					g.PopMatrix();
-				}
-			}
+			rootWidget.Draw(g);
 		}
 
 		protected virtual void OnMouseButtonDown(MouseButtonEventArgs e)
 		{
-			var widget = GetWidgetAt(e.Position);
+			var widget = rootWidget.GetChildAt(e.Position);
 			if (widget != null)
 				widget.OnButtonDown(e);
 		}
 
 		protected virtual void OnMouseButtonUp(MouseButtonEventArgs e)
 		{
-			var widget = GetWidgetAt(e.Position);
+			var widget = rootWidget.GetChildAt(e.Position);
 			if (widget != null)
 				widget.OnButtonUp(e);
 		}
 
 		protected virtual void OnMouseMove(MouseMoveEventArgs e)
 		{
-			var widget = GetWidgetAt(e.Position);
+			var widget = rootWidget.GetChildAt(e.Position);
 			if (widget != null)
 				widget.OnMouseMove(e);
 		}
@@ -64,38 +59,22 @@ namespace MonoHaven.UI
 		protected virtual void OnKeyDown(KeyboardKeyEventArgs e)
 		{
 			// TODO: focused widget
-			var widget = widgets[0];
-			if (widget != null)
-				widget.OnKeyDown(e);
+			rootWidget.OnKeyDown(e);
 		}
 
 		protected virtual void OnKeyUp(KeyboardKeyEventArgs e)
 		{
-			var widget = widgets[0];
-			if (widget != null)
-				widget.OnKeyUp(e);
+			rootWidget.OnKeyUp(e);
 		}
 
-		protected void AddWidget(Widget widget)
+		protected void Add(Widget widget)
 		{
-			this.widgets.Add(widget);
-		}
-
-		protected Widget GetWidgetAt(Point p)
-		{
-			for (int i = widgets.Count - 1; i >= 0; i--)
-			{
-				var widget = widgets[i];
-				if (widget.Bounds.Contains(p.X, p.Y))
-					return widget;
-			}
-			return null;
+			rootWidget.Add(widget);
 		}
 
 		public virtual void Dispose()
 		{
-			foreach (var widget in widgets)
-				widget.Dispose();
+			rootWidget.Dispose();
 		}
 
 		#region IScreen implementation

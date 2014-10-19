@@ -22,7 +22,7 @@ namespace MonoHaven.UI.Widgets
 			this.cameraOffset = TileToScreen(new Point(-329200, 63600));
 		}
 
-		public override void Draw(DrawingContext g)
+		protected override void OnDraw(DrawingContext g)
 		{
 			DrawTiles(g);
 			DrawFlavor(g);

@@ -6,7 +6,7 @@ namespace MonoHaven.UI.Widgets
 	{
 		public Texture Image { get; set; }
 
-		public override void Draw(DrawingContext g)
+		protected override void OnDraw(DrawingContext g)
 		{
 			if (Image == null)
 				return;

@@ -4,7 +4,7 @@ namespace MonoHaven.UI.Widgets
 {
 	public class TextBox : Widget
 	{
-		public override void Draw(DrawingContext g)
+		protected override void OnDraw(DrawingContext g)
 		{
 			//g.DrawRect(Bounds);
 		}

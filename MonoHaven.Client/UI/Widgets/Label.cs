@@ -24,7 +24,7 @@ namespace MonoHaven.UI.Widgets
 			set { text.Color = value; }
 		}
 
-		public override void Draw(DrawingContext g)
+		protected override void OnDraw(DrawingContext g)
 		{
 			g.Draw(text, 0, 0);
 		}
