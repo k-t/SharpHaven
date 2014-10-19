@@ -124,7 +124,7 @@ namespace MonoHaven.Graphics
 			GL.TexCoordPointer(2, TexCoordPointerType.Float, 0, 0);
 
 			GL.BindTexture(currentTexture.Target, currentTexture.Id);
-			GL.DrawArrays(BeginMode.Quads, 0, vertices.Count / 3);
+			GL.DrawArrays(PrimitiveType.Quads, 0, vertices.Count / 3);
 
 			GL.DisableClientState(ArrayCap.VertexArray);
 			GL.DisableClientState(ArrayCap.TextureCoordArray);

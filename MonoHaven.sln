@@ -1,11 +1,18 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.30723.0
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonoHaven.Lib", "MonoHaven.Lib\MonoHaven.Lib.csproj", "{37671BF5-2A78-46D2-B3DF-EAF21AC15850}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonoHaven.Lib.Tests", "MonoHaven.Lib.Tests\MonoHaven.Lib.Tests.csproj", "{2AC7E30C-B076-4FD8-B537-7A55CD115DB4}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonoHaven.Client", "MonoHaven.Client\MonoHaven.Client.csproj", "{78A18B20-EE44-4B5A-8D07-9BB1BC25CB45}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{2EB20B82-F1EF-4F8B-9DD4-488B0B7012AE}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\NuGet.targets = .nuget\NuGet.targets
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -13,18 +20,21 @@ Global
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{2AC7E30C-B076-4FD8-B537-7A55CD115DB4}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{2AC7E30C-B076-4FD8-B537-7A55CD115DB4}.Debug|x86.Build.0 = Debug|Any CPU
-		{2AC7E30C-B076-4FD8-B537-7A55CD115DB4}.Release|x86.ActiveCfg = Release|Any CPU
-		{2AC7E30C-B076-4FD8-B537-7A55CD115DB4}.Release|x86.Build.0 = Release|Any CPU
 		{37671BF5-2A78-46D2-B3DF-EAF21AC15850}.Debug|x86.ActiveCfg = Debug|Any CPU
 		{37671BF5-2A78-46D2-B3DF-EAF21AC15850}.Debug|x86.Build.0 = Debug|Any CPU
 		{37671BF5-2A78-46D2-B3DF-EAF21AC15850}.Release|x86.ActiveCfg = Release|Any CPU
 		{37671BF5-2A78-46D2-B3DF-EAF21AC15850}.Release|x86.Build.0 = Release|Any CPU
+		{2AC7E30C-B076-4FD8-B537-7A55CD115DB4}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{2AC7E30C-B076-4FD8-B537-7A55CD115DB4}.Debug|x86.Build.0 = Debug|Any CPU
+		{2AC7E30C-B076-4FD8-B537-7A55CD115DB4}.Release|x86.ActiveCfg = Release|Any CPU
+		{2AC7E30C-B076-4FD8-B537-7A55CD115DB4}.Release|x86.Build.0 = Release|Any CPU
 		{78A18B20-EE44-4B5A-8D07-9BB1BC25CB45}.Debug|x86.ActiveCfg = Debug|x86
 		{78A18B20-EE44-4B5A-8D07-9BB1BC25CB45}.Debug|x86.Build.0 = Debug|x86
 		{78A18B20-EE44-4B5A-8D07-9BB1BC25CB45}.Release|x86.ActiveCfg = Release|x86
 		{78A18B20-EE44-4B5A-8D07-9BB1BC25CB45}.Release|x86.Build.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
 		StartupItem = MonoHaven.Designer\MonoHaven.Designer.csproj
@@ -32,12 +42,11 @@ Global
 		$0.DotNetNamingPolicy = $1
 		$1.DirectoryNamespaceAssociation = None
 		$1.ResourceNamePolicy = FileFormatDefault
-		$0.TextStylePolicy = $2
+		$0.TextStylePolicy = $5
 		$2.TabsToSpaces = False
 		$2.inheritsSet = VisualStudio
 		$2.inheritsScope = text/plain
 		$2.scope = text/plain
-		$0.TextStylePolicy = $3
 		$3.inheritsSet = null
 		$3.scope = text/x-csharp
 		$0.CSharpFormattingPolicy = $4
@@ -65,7 +74,6 @@ Global
 		$4.inheritsSet = Mono
 		$4.inheritsScope = text/x-csharp
 		$4.scope = text/x-csharp
-		$0.TextStylePolicy = $5
 		$5.inheritsSet = VisualStudio
 		$5.inheritsScope = text/plain
 		$5.scope = application/xml
