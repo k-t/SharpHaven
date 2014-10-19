@@ -1,4 +1,5 @@
-﻿using MonoHaven.Resources;
+﻿using System.Drawing;
+using MonoHaven.Resources;
 using MonoHaven.UI.Widgets;
 
 namespace MonoHaven.UI
@@ -41,6 +42,9 @@ namespace MonoHaven.UI
 			};
 			btnLogin.Pressed += (sender, args) => OnLogin();
 			AddWidget(btnLogin);
+
+			AddWidget(new Label { Text = "User Name", TextColor = Color.White, X = 345, Y = 310 });
+			AddWidget(new Label { Text = "Password", TextColor = Color.White, X = 345, Y = 370 });
 		}
 
 		private void OnLogin()

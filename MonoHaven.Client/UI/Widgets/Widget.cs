@@ -52,11 +52,11 @@ namespace MonoHaven.UI.Widgets
 			if (this.disposed)
 				return;
 
-			CleanUp();
+			OnDispose();
 			this.disposed = true;
 		}
 
-		protected virtual void CleanUp() {}
+		protected virtual void OnDispose() {}
 
 		public virtual void Draw(DrawingContext g) { }
 		public virtual void OnButtonDown(MouseButtonEventArgs e) {}

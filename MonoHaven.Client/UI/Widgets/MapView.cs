@@ -49,9 +49,9 @@ namespace MonoHaven.UI.Widgets
 						var tile = session.Map.GetTile(tx, ty);
 						if (tile != null)
 						{
-							g.DrawImage(p.X, p.Y, tile.Texture);
+							g.Draw(tile.Texture, p.X, p.Y);
 							foreach (var trans in tile.Transitions)
-								g.DrawImage(p.X, p.Y, trans);
+								g.Draw(trans, p.X, p.Y);
 						}
 					}
 		}
@@ -66,7 +66,7 @@ namespace MonoHaven.UI.Widgets
 				p = Point.Add(p, new Size(Width / 2 - cameraOffset.X, Height / 2 - cameraOffset.Y));
 				if (Bounds.Contains(p))
 				{
-					g.DrawImage(p.X, p.Y, t);
+					g.Draw(t, p.X, p.Y);
 				}
 			}
 		}

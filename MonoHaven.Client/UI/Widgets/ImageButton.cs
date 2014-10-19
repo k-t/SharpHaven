@@ -17,7 +17,7 @@ namespace MonoHaven.UI.Widgets
 		{
 			var tex = isPressed ? Down : Up;
 			if (tex != null)
-				g.DrawImage(0, 0, tex);
+				g.Draw(tex, 0, 0);
 		}
 
 		public override void OnButtonDown(MouseButtonEventArgs e)

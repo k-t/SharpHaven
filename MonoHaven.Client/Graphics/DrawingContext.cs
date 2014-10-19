@@ -44,17 +44,27 @@ namespace MonoHaven.Graphics
 			Translate(offset.X, offset.Y);
 		}
 
-		public void DrawImage(Point p, Texture texture)
+		public void Draw(Text text, Point p)
 		{
-			DrawImage(p.X, p.Y, texture);
+			Draw(text, p.X, p.Y);
 		}
 
-		public void DrawImage(int x, int y, Texture texture)
+		public void Draw(Text text, int x, int y)
+		{
+			Draw(text.Texture, x, y);
+		}
+
+		public void Draw(Texture texture, Point p)
+		{
+			Draw(texture, p.X, p.Y);
+		}
+
+		public void Draw(Texture texture, int x, int y)
 		{
 			spriteBatch.Draw(texture, x + offset.X, y + offset.Y);
 		}
 
-		public void DrawImage(int x, int y, TextureRegion region)
+		public void Draw(TextureRegion region, int x, int y)
 		{
 			spriteBatch.Draw(region, x + offset.X, y + offset.Y);
 		}

@@ -22,6 +22,7 @@
     <WarningLevel>4</WarningLevel>
     <PlatformTarget>x86</PlatformTarget>
     <ConsolePause>False</ConsolePause>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <DebugType>none</DebugType>
@@ -31,6 +32,7 @@
     <WarningLevel>4</WarningLevel>
     <PlatformTarget>x86</PlatformTarget>
     <ConsolePause>False</ConsolePause>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="C5, Version=2.3.5280.26713, Culture=neutral, PublicKeyToken=282361b99ded7e8e, processorArchitecture=MSIL">
@@ -41,21 +43,21 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\OpenTK.1.1.1589.5942\lib\NET40\OpenTK.dll</HintPath>
     </Reference>
-    <Reference Include="SharpFont">
-      <HintPath>..\packages\SharpFont.2.5.3.0\lib\net20\SharpFont.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="Mono.Posix" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="Constants.cs" />
+    <Compile Include="Fonts.cs" />
     <Compile Include="Game\GameSession.cs" />
     <Compile Include="Game\Map.cs" />
     <Compile Include="Game\MapGrid.cs" />
     <Compile Include="Game\MapTile.cs" />
     <Compile Include="Graphics\SpriteBatch.cs" />
+    <Compile Include="Graphics\Text.cs" />
     <Compile Include="Graphics\TextureAtlas.cs" />
     <Compile Include="Graphics\TextureRegion.cs" />
     <Compile Include="Graphics\VertexBuffer.cs" />
@@ -63,6 +65,7 @@
     <Compile Include="UI\EmptyScreen.cs" />
     <Compile Include="UI\IScreen.cs" />
     <Compile Include="UI\IScreenHost.cs" />
+    <Compile Include="UI\Widgets\Label.cs" />
     <Compile Include="Utils\MathUtils.cs" />
     <Compile Include="Utils\PointComparer.cs" />
     <Compile Include="UI\GameSessionScreen.cs" />
@@ -83,7 +86,7 @@
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
-    <EmbeddedResource Include="Icons\icon.png" />
+    <EmbeddedResource Include="Content\icon.png" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MonoHaven.Lib\MonoHaven.Lib.csproj">
@@ -92,13 +95,11 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Content\Fonts\PTS55F.ttf" />
+    <EmbeddedResource Include="Content\Fonts\PTC55F.ttf" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
-  <Target Name="BeforeBuild"> 
-    <Copy SourceFiles="$(SolutionDir)\lib\freetype6.dll" DestinationFolder="$(OutputPath)"/>
-    <Copy SourceFiles="$(SolutionDir)\lib\SharpFont.dll.config" DestinationFolder="$(OutputPath)"/> 
-  </Target>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>

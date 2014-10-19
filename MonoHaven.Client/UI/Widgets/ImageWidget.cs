@@ -11,7 +11,7 @@ namespace MonoHaven.UI.Widgets
 			if (Image == null)
 				return;
 
-			g.DrawImage(0, 0, Image);
+			g.Draw(Image, 0, 0);
 		}
 	}
 }

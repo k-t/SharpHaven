@@ -31,7 +31,6 @@ namespace MonoHaven.Graphics
 			using (var image = new Bitmap(ms))
 			{
 				this.id = GL.GenTexture();
-				this.size = image.Size;
 
 				Bind();
 				SetFilter(TextureMinFilter.Nearest, TextureMagFilter.Nearest);
@@ -84,6 +83,8 @@ namespace MonoHaven.Graphics
 		
 		public void Upload(Bitmap image)
 		{
+			this.size = image.Size;
+
 			var bitmapData = image.LockBits(
 				new Rectangle(0, 0, image.Width, image.Height),
 				System.Drawing.Imaging.ImageLockMode.ReadOnly,
