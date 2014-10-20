@@ -71,6 +71,7 @@ namespace MonoHaven.Graphics
 			using (var brush = new SolidBrush(Color))
 			{
 				g.DrawString(value, font, brush, 0, 0, StringFormat.GenericDefault);
+				texture.Bind();
 				texture.Upload(bitmap);
 			}
 		}
