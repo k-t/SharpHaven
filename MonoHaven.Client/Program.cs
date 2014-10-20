@@ -1,6 +1,5 @@
-using System;
 using System.Drawing;
-using System.Reflection;
+using MonoHaven.Resources;
 
 namespace MonoHaven
 {
@@ -8,23 +7,12 @@ namespace MonoHaven
 	{
 		public static void Main(string[] args)
 		{
-			using (var iconImage = LoadIcon())
+			using (var iconImage = EmbeddedResource.GetImage("icon.png"))
 			using (var icon = Icon.FromHandle(iconImage.GetHicon()))
 			using (var gameWindow = new MainWindow(800, 600))
 			{
 				gameWindow.Icon = icon;
 				gameWindow.Run();
-			}
-		}
-
-		private static Bitmap LoadIcon()
-		{
-			var stream = Assembly
-				.GetExecutingAssembly()
-				.GetManifestResourceStream("MonoHaven.Content.icon.png");
-			using (stream)
-			{
-				return (Bitmap)Image.FromStream(stream);
 			}
 		}
 	}

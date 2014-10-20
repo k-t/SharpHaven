@@ -61,6 +61,7 @@
     <Compile Include="Graphics\TextureAtlas.cs" />
     <Compile Include="Graphics\TextureRegion.cs" />
     <Compile Include="Graphics\VertexBuffer.cs" />
+    <Compile Include="Resources\EmbeddedResource.cs" />
     <Compile Include="Resources\Tileset.cs" />
     <Compile Include="UI\EmptyScreen.cs" />
     <Compile Include="UI\IScreen.cs" />

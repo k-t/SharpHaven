@@ -1,7 +1,7 @@
 ﻿using System.Drawing;
 using System.Drawing.Text;
 using System.Linq;
-using System.Reflection;
+using MonoHaven.Resources;
 
 namespace MonoHaven
 {
@@ -11,8 +11,8 @@ namespace MonoHaven
 		{
 			var fc = new PrivateFontCollection();
 
-			fc.LoadFromResource("MonoHaven.Content.Fonts.PTC55F.ttf");
-			fc.LoadFromResource("MonoHaven.Content.Fonts.PTS55F.ttf");
+			fc.LoadFromResource("Fonts.PTC55F.ttf");
+			fc.LoadFromResource("Fonts.PTS55F.ttf");
 
 			Text = new Font(fc.FindFont("PT Sans"), 12);
 			Caption = new Font(fc.FindFont("PT Sans Caption"), 12);
@@ -28,17 +28,11 @@ namespace MonoHaven
 
 		private static void LoadFromResource(this PrivateFontCollection fc, string name)
 		{
-			using (var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(name))
+			byte[] data = EmbeddedResource.GetBytes(name);
+			unsafe
 			{
-				var data = new byte[stream.Length];
-				stream.Read(data, 0, data.Length);
-				unsafe
-				{
-					fixed (byte* pFontData = data)
-					{
-						fc.AddMemoryFont((System.IntPtr)pFontData, data.Length);
-					}
-				}
+				fixed (byte* pFontData = data)
+					fc.AddMemoryFont((System.IntPtr)pFontData, data.Length);
 			}
 		}
 	}
