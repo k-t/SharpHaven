@@ -1,44 +1,39 @@
-﻿using System.Drawing;
-using OpenTK;
+﻿using System.Collections.Generic;
+using System.Drawing;
+using C5;
 
 namespace MonoHaven.Graphics
 {
-	public class TextureRegion
+	public class TextureRegion : Drawable
 	{
 		private readonly Texture texture;
-		private RectangleF bounds;
-		private int width, height;
+		private RectangleF textureBounds;
 
 		public TextureRegion(Texture texture, int x, int y, int width, int height)
 		{
 			this.texture = texture;
-			this.width = width;
-			this.height = height;
-			this.bounds = RectangleF.FromLTRB(
+			this.Width = width;
+			this.Height = height;
+			this.textureBounds = RectangleF.FromLTRB(
 				(float)x / texture.Width,
 				(float)y / texture.Height,
 				(float)(x + width) / texture.Width,
 				(float)(y + height) / texture.Height);
 		}
 
-		public RectangleF Bounds
+		public override Texture GetTexture()
 		{
-			get { return bounds; }
+			return texture;
 		}
 
-		public int Width
+		public override IEnumerable<Vertex> GetVertices(Rectangle region)
 		{
-			get { return width; }
-		}
-
-		public int Height
-		{
-			get { return height; }
-		}
-
-		public Texture Texture
-		{
-			get { return texture; }
+			return new[] {
+				new Vertex(region.X, region.Y, textureBounds.Left, textureBounds.Top),
+				new Vertex(region.X + Width, region.Y, textureBounds.Right, textureBounds.Top),
+				new Vertex(region.X + Width, region.Y + Height, textureBounds.Right, textureBounds.Bottom),
+				new Vertex(region.X, region.Y + Height, textureBounds.Left, textureBounds.Bottom)
+			};
 		}
 	}
 }

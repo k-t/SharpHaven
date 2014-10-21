@@ -1,19 +1,20 @@
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using OpenTK.Graphics.OpenGL;
 
 namespace MonoHaven.Graphics
 {
-	public class Texture : IDisposable
+	public class Texture : Drawable
 	{
 		private int id;
-		private Size size;
 
 		public Texture(int width, int height)
 		{
 			this.id = GL.GenTexture();
-			this.size = new Size(width, height);
+			this.Width = width;
+			this.Height = height;
 
 			var data = new byte[width * height * 4];
 
@@ -31,11 +32,22 @@ namespace MonoHaven.Graphics
 			using (var image = new Bitmap(ms))
 			{
 				this.id = GL.GenTexture();
-
 				Bind();
 				SetFilter(TextureMinFilter.Nearest, TextureMagFilter.Nearest);
 				Upload(image);
 			}
+		}
+
+		public Texture(Bitmap bitmap)
+		{
+			if (bitmap == null)
+				throw new ArgumentNullException("bitmap");
+
+			this.id = GL.GenTexture();
+			Bind();
+			SetFilter(TextureMinFilter.Nearest, TextureMagFilter.Nearest);
+			Upload(bitmap);
+
 		}
 
 		public int Id
@@ -43,24 +55,24 @@ namespace MonoHaven.Graphics
 			get { return id; }
 		}
 
-		public Size Size
-		{
-			get { return size; }
-		}
-
-		public int Width
-		{
-			get { return size.Width; }
-		}
-
-		public int Height
-		{
-			get { return size.Height; }
-		}
-
 		public TextureTarget Target
 		{
 			get { return TextureTarget.Texture2D; }
+		}
+
+		public override Texture GetTexture()
+		{
+			return this;
+		}
+
+		public override IEnumerable<Vertex> GetVertices(Rectangle region)
+		{
+			return new[] {
+				new Vertex(region.X, region.Y, 0, 0),
+				new Vertex(region.X + region.Width, region.Y, 1, 0),
+				new Vertex(region.X + region.Width, region.Y + region.Height, 1, 1),
+				new Vertex(region.X, region.Y + region.Height, 0, 1)
+			};
 		}
 
 		public void Bind()
@@ -83,7 +95,8 @@ namespace MonoHaven.Graphics
 		
 		public void Upload(Bitmap image)
 		{
-			this.size = image.Size;
+			this.Width = image.Width;
+			this.Height = image.Height;
 
 			var bitmapData = image.LockBits(
 				new Rectangle(0, 0, image.Width, image.Height),
@@ -110,7 +123,7 @@ namespace MonoHaven.Graphics
 			image.UnlockBits(bitmapData);
 		}
 
-		public void Dispose()
+		public override void Dispose()
 		{
 			if (id != 0)
 			{

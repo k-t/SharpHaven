@@ -1,10 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 
 namespace MonoHaven.Graphics
 {
-	public class Text : IDisposable
+	public class Text : Drawable
 	{
 		private readonly Font font;
 		private Texture texture;
@@ -37,11 +38,6 @@ namespace MonoHaven.Graphics
 			}
 		}
 
-		public Texture Texture
-		{
-			get { return texture; }
-		}
-
 		public string Value
 		{
 			get { return value; }
@@ -52,7 +48,22 @@ namespace MonoHaven.Graphics
 			}
 		}
 
-		public void Dispose()
+		public override Texture GetTexture()
+		{
+			return texture;
+		}
+
+		public override IEnumerable<Vertex> GetVertices(Rectangle region)
+		{
+			return new [] {
+				new Vertex(region.X, region.Y, 0, 0),
+				new Vertex(region.X + Width, region.Y, 1, 0),
+				new Vertex(region.X + Width, region.Y + Height, 1, 1),
+				new Vertex(region.X, region.Y + Height, 0, 1)
+			};
+		}
+
+		public override void Dispose()
 		{
 			if (texture != null)
 			{
@@ -66,13 +77,15 @@ namespace MonoHaven.Graphics
 			var size = TextRenderer.MeasureText(value, font);
 			if (size == Size.Empty)
 				return;
-			using (var bitmap = new Bitmap(size.Width + 2, size.Height + 2))
+			using (var bitmap = new Bitmap(size.Width + 1, size.Height + 1))
 			using (var g = System.Drawing.Graphics.FromImage(bitmap))
 			using (var brush = new SolidBrush(Color))
 			{
 				g.DrawString(value, font, brush, 0, 0, StringFormat.GenericDefault);
 				texture.Bind();
 				texture.Upload(bitmap);
+				Width = texture.Width;
+				Height = texture.Height;
 			}
 		}
 	}

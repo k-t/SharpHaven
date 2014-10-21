@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
 using OpenTK.Graphics.OpenGL;
 
 namespace MonoHaven.Graphics
@@ -50,41 +49,15 @@ namespace MonoHaven.Graphics
 			texCoords.Clear();
 		}
 
-		public void Draw(TextureRegion region, int x, int y)
-		{
-			Draw(region, x, y, region.Width, region.Height);
-		}
-
-		public void Draw(TextureRegion region, int x, int y, int width, int height)
-		{
-			Draw(region.Texture, region.Bounds, x, y, width, height);
-		}
-
-		public void Draw(Texture texture, int x, int y)
-		{
-			Draw(texture, x, y, texture.Width, texture.Height);
-		}
-
-		public void Draw(Texture texture, int x, int y, int width, int height)
-		{
-			Draw(texture, new RectangleF(0, 0, 1, 1), x, y, width, height);
-		}
-
-		public void Draw(Texture texture, RectangleF region, int x, int y, int width, int height)
+		public void Draw(Texture texture, IEnumerable<Vertex> vertices)
 		{
 			ChangeTexture(texture);
 
-			AddVertex(x, y, 0);
-			AddTexCoord(region.Left, region.Top);
-
-			AddVertex(x + width, y, 0);
-			AddTexCoord(region.Right, region.Top);
-
-			AddVertex(x + width, y + height, 0);
-			AddTexCoord(region.Right, region.Bottom);
-
-			AddVertex(x, y + height, 0);
-			AddTexCoord(region.Left, region.Bottom);
+			foreach (var vertex in vertices)
+			{
+				AddVertex(vertex.X, vertex.Y, 0);
+				AddTexCoord(vertex.U, vertex.V);
+			}
 		}
 
 		private void AddVertex(int x, int y, int z)

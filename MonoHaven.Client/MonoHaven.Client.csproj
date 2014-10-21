@@ -56,10 +56,12 @@
     <Compile Include="Game\Map.cs" />
     <Compile Include="Game\MapGrid.cs" />
     <Compile Include="Game\MapTile.cs" />
+    <Compile Include="Graphics\Drawable.cs" />
     <Compile Include="Graphics\SpriteBatch.cs" />
     <Compile Include="Graphics\Text.cs" />
     <Compile Include="Graphics\TextureAtlas.cs" />
     <Compile Include="Graphics\TextureRegion.cs" />
+    <Compile Include="Graphics\Vertex.cs" />
     <Compile Include="Graphics\VertexBuffer.cs" />
     <Compile Include="Resources\EmbeddedResource.cs" />
     <Compile Include="Resources\Tileset.cs" />

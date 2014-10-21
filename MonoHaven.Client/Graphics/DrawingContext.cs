@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 using OpenTK.Graphics.OpenGL;
 
 namespace MonoHaven.Graphics
@@ -39,34 +40,30 @@ namespace MonoHaven.Graphics
 			offset = Point.Add(offset, new Size(x, y));
 		}
 
-		public void Translate(Point offset)
+		public void Translate(Point p)
 		{
-			Translate(offset.X, offset.Y);
+			Translate(p.X, p.Y);
 		}
 
-		public void Draw(Text text, Point p)
+		public void Draw(Drawable drawable, Point p)
 		{
-			Draw(text, p.X, p.Y);
+			Draw(drawable, p.X, p.Y);
 		}
 
-		public void Draw(Text text, int x, int y)
+		public void Draw(Drawable drawable, int x, int y)
 		{
-			Draw(text.Texture, x, y);
+			Draw(drawable, x, y, drawable.Width, drawable.Height);
 		}
 
-		public void Draw(Texture texture, Point p)
+		public void Draw(Drawable drawable, int x, int y, int width, int height)
 		{
-			Draw(texture, p.X, p.Y);
+			var vs = drawable.GetVertices(new Rectangle(x, y, width, height));
+			spriteBatch.Draw(drawable.GetTexture(), vs.Select(TranslateVertex));
 		}
 
-		public void Draw(Texture texture, int x, int y)
+		private Vertex TranslateVertex(Vertex v)
 		{
-			spriteBatch.Draw(texture, x + offset.X, y + offset.Y);
-		}
-
-		public void Draw(TextureRegion region, int x, int y)
-		{
-			spriteBatch.Draw(region, x + offset.X, y + offset.Y);
+			return new Vertex(v.X + offset.X, v.Y + offset.Y, v.U, v.V);
 		}
 	}
 }
