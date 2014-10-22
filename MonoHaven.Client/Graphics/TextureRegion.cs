@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
-using C5;
 
 namespace MonoHaven.Graphics
 {
@@ -8,6 +7,10 @@ namespace MonoHaven.Graphics
 	{
 		private readonly Texture texture;
 		private RectangleF textureBounds;
+
+		public TextureRegion(Texture texture, Rectangle region)
+			: this(texture, region.X, region.Y, region.Width, region.Height)
+		{}
 
 		public TextureRegion(Texture texture, int x, int y, int width, int height)
 		{
@@ -30,9 +33,9 @@ namespace MonoHaven.Graphics
 		{
 			return new[] {
 				new Vertex(region.X, region.Y, textureBounds.Left, textureBounds.Top),
-				new Vertex(region.X + Width, region.Y, textureBounds.Right, textureBounds.Top),
-				new Vertex(region.X + Width, region.Y + Height, textureBounds.Right, textureBounds.Bottom),
-				new Vertex(region.X, region.Y + Height, textureBounds.Left, textureBounds.Bottom)
+				new Vertex(region.X + region.Width, region.Y, textureBounds.Right, textureBounds.Top),
+				new Vertex(region.X + region.Width, region.Y + region.Height, textureBounds.Right, textureBounds.Bottom),
+				new Vertex(region.X, region.Y + region.Height, textureBounds.Left, textureBounds.Bottom)
 			};
 		}
 	}

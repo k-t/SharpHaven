@@ -49,7 +49,9 @@ namespace MonoHaven.UI
 			Add(btnLogin);
 
 			Add(new Label { Text = "User Name", TextColor = Color.White, X = 345, Y = 310 });
+			Add(new TextBox { X = 345, Y = 330, Width = 150, Height = 20, Text = "ken_tower" });
 			Add(new Label { Text = "Password", TextColor = Color.White, X = 345, Y = 370 });
+			Add(new TextBox { X = 345, Y = 390, Width = 150, Height = 20, Text = "pwd" });
 		}
 
 		protected override void OnResize(int newWidth, int newHeight)
