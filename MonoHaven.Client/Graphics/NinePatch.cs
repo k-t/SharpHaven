@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using C5;
 
 namespace MonoHaven.Graphics
 {
@@ -108,7 +107,7 @@ namespace MonoHaven.Graphics
 				if (patches[i] != Rectangle.Empty)
 					patches[i].Offset(rect.X, rect.Y);
 
-				return patches;
+			return patches;
 		}
 	}
 }

@@ -2,7 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using OpenTK;
+using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
+using QuickFont;
 
 namespace MonoHaven.Graphics
 {
@@ -59,6 +62,15 @@ namespace MonoHaven.Graphics
 		{
 			var vs = drawable.GetVertices(new Rectangle(x, y, width, height));
 			spriteBatch.Draw(drawable.GetTexture(), vs.Select(TranslateVertex));
+		}
+
+		public void Draw(QFont font, Color color, ProcessedText processedText, int x, int y)
+		{
+			spriteBatch.End();
+			font.Options.Colour = new Color4(color.R, color.G, color.B, color.A);
+			font.Print(processedText, new Vector2(x + offset.X, x + offset.Y));
+			GL.Color4(1f, 1f, 1f, 1f);
+			spriteBatch.Begin();
 		}
 
 		private Vertex TranslateVertex(Vertex v)

@@ -1,6 +1,7 @@
 ﻿using System.Drawing;
 using System.Drawing.Text;
 using System.Linq;
+using QuickFont;
 using MonoHaven.Resources;
 
 namespace MonoHaven
@@ -14,12 +15,12 @@ namespace MonoHaven
 			fc.LoadFromResource("Fonts.PTC55F.ttf");
 			fc.LoadFromResource("Fonts.PTS55F.ttf");
 
-			Text = new Font(fc.FindFont("PT Sans"), 12);
-			Caption = new Font(fc.FindFont("PT Sans Caption"), 12);
+			Text = new QFont(new Font(fc.FindFont("PT Sans"), 10));
+			Caption = new QFont(new Font(fc.FindFont("PT Sans Caption"), 10));
 		}
 
-		public static Font Caption { get; private set; }
-		public static Font Text { get; private set; }
+		public static QFont Caption { get; private set; }
+		public static QFont Text { get; private set; }
 
 		private static FontFamily FindFont(this PrivateFontCollection fc, string fontName)
 		{
