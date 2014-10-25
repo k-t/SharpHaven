@@ -113,8 +113,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Content\Fonts\PTS55F.ttf" />
-    <EmbeddedResource Include="Content\Fonts\PTC55F.ttf" />
+    <EmbeddedResource Include="Content\Fonts\NotoSans-Regular.ttf" />
     <None Include="Graphics\Shaders\FragmentShaderTemplate.tt">
       <Generator>TextTemplatingFilePreprocessor</Generator>
       <LastGenOutput>FragmentShaderTemplate.cs</LastGenOutput>

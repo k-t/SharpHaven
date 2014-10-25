@@ -12,11 +12,12 @@ namespace MonoHaven
 		{
 			var fc = new PrivateFontCollection();
 
-			fc.LoadFromResource("Fonts.PTC55F.ttf");
-			fc.LoadFromResource("Fonts.PTS55F.ttf");
+			fc.LoadFromResource("Fonts.NotoSans-Regular.ttf");
 
-			Text = new QFont(new Font(fc.FindFont("PT Sans"), 10));
-			Caption = new QFont(new Font(fc.FindFont("PT Sans Caption"), 10));
+			var font = new QFont(new Font(fc.FindFont("Noto Sans"), 10));
+
+			Text = font;
+			Caption = font;
 		}
 
 		public static QFont Caption { get; private set; }
