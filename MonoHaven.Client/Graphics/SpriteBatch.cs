@@ -15,18 +15,13 @@ namespace MonoHaven.Graphics
 
 		private readonly Shader shader;
 
-		private readonly List<int> vertices;
+		private readonly List<float> vertices;
 		private readonly VertexBuffer vertexBuffer;
-
-		private readonly List<float> texCoords;
-		private readonly VertexBuffer texCoordBuffer;
 
 		public SpriteBatch()
 		{
-			vertices = new List<int>();
+			vertices = new List<float>();
 			vertexBuffer = new VertexBuffer(BufferUsageHint.StreamDraw);
-			texCoords = new List<float>();
-			texCoordBuffer = new VertexBuffer(BufferUsageHint.StreamDraw);
 
 			var vertexShader = new VertexShaderTemplate();
 			vertexShader.Session = new Dictionary<string, object>();
@@ -60,12 +55,8 @@ namespace MonoHaven.Graphics
 		public void Flush()
 		{
 			vertexBuffer.Fill(vertices.ToArray());
-			texCoordBuffer.Fill(texCoords.ToArray());
-
 			Render();
-
 			vertices.Clear();
-			texCoords.Clear();
 		}
 
 		public void Draw(Texture texture, IEnumerable<Vertex> vertices)
@@ -74,21 +65,16 @@ namespace MonoHaven.Graphics
 
 			foreach (var vertex in vertices)
 			{
-				AddVertex(vertex.X, vertex.Y);
-				AddTexCoord(vertex.U, vertex.V);
+				AddVertex(vertex.X, vertex.Y, vertex.U, vertex.V);
 			}
 		}
 
-		private void AddVertex(int x, int y)
+		private void AddVertex(int x, int y, float u, float v)
 		{
 			vertices.Add(x);
 			vertices.Add(y);
-		}
-
-		private void AddTexCoord(float u, float v)
-		{
-			texCoords.Add(u);
-			texCoords.Add(v);
+			vertices.Add(u);
+			vertices.Add(v);
 		}
 
 		private void ChangeTexture(Texture texture)
@@ -103,21 +89,21 @@ namespace MonoHaven.Graphics
 		private void Render()
 		{
 			int coords = shader.GetAttributeLocation(Coord2DShaderParam);
-			GL.BindBuffer(BufferTarget.ArrayBuffer, vertexBuffer.Id);
-			GL.EnableVertexAttribArray(coords);
-			GL.VertexAttribPointer(coords, 2, VertexAttribPointerType.Int, false, 0, 0);
-
 			int texCoords = shader.GetAttributeLocation(TexCoord);
-			GL.BindBuffer(BufferTarget.ArrayBuffer, texCoordBuffer.Id);
+
+			GL.EnableVertexAttribArray(coords);
 			GL.EnableVertexAttribArray(texCoords);
-			GL.VertexAttribPointer(texCoords, 2, VertexAttribPointerType.Float, false, 0, 0);
+
+			GL.BindBuffer(BufferTarget.ArrayBuffer, vertexBuffer.Id);
+			GL.VertexAttribPointer(coords, 2, VertexAttribPointerType.Float, false, 4 * sizeof(float), 0);
+			GL.VertexAttribPointer(texCoords, 2, VertexAttribPointerType.Float, false, 4 * sizeof(float), 2 * sizeof(float));
 
 			if (currentTexture != null)
 				GL.BindTexture(currentTexture.Target, currentTexture.Id);
 			else
 				GL.BindTexture(TextureTarget.Texture2D, 0);
 			
-			GL.DrawArrays(PrimitiveType.Quads, 0, vertices.Count / 2);
+			GL.DrawArrays(PrimitiveType.Quads, 0, vertices.Count / 4);
 			
 			GL.DisableVertexAttribArray(coords);
 			GL.DisableVertexAttribArray(texCoords);
@@ -126,7 +112,6 @@ namespace MonoHaven.Graphics
 		public void Dispose()
 		{
 			vertexBuffer.Dispose();
-			texCoordBuffer.Dispose();
 			shader.Dispose();
 		}
 	}
