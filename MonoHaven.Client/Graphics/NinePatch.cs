@@ -32,22 +32,16 @@ namespace MonoHaven.Graphics
 				.ToArray();
 		}
 
-		public override Texture GetTexture()
+		public override void Draw(SpriteBatch batch, int x, int y, int w, int h)
 		{
-			return texture;
-		}
-
-		public override IEnumerable<Vertex> GetVertices(Rectangle region)
-		{
-			var vertices = new List<Vertex>();
-			var regionPatches = SplitToPatches(region, patchBounds);
+			var regionPatches = SplitToPatches(new Rectangle(x, y, w, h), patchBounds);
 			for (int i = 0; i < regionPatches.Length; i++)
 			{
 				if (regionPatches[i] == Rectangle.Empty)
 					continue;
-				vertices.AddRange(patches[i].GetVertices(regionPatches[i]));
+				var patch = regionPatches[i];
+				patches[i].Draw(batch, patch.X, patch.Y, patch.Width, patch.Height);
 			}
-			return vertices;
 		}
 
 		private static Rectangle[] SplitToPatches(Rectangle rect, Rectangle patchBounds)

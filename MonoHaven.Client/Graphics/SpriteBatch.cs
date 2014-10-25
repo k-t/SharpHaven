@@ -59,14 +59,26 @@ namespace MonoHaven.Graphics
 			vertices.Clear();
 		}
 
-		public void Draw(Texture texture, IEnumerable<Vertex> vertices)
+		/// <summary>
+		/// Draws textured quad.
+		/// </summary>
+		/// <param name="tex">Texture.</param>
+		/// <param name="qx">Quad x-position.</param>
+		/// <param name="qy">Quad y-position.</param>
+		/// <param name="qw">Quad width.</param>
+		/// <param name="qh">Quad height</param>
+		/// <param name="u">Left texture coordinate.</param>
+		/// <param name="v">Top texture coordinate</param>
+		/// <param name="u2">Right texture coordinate.</param>
+		/// <param name="v2">Bottom texture coordinate.</param>
+		public void Draw(Texture tex, int qx, int qy, int qw, int qh,
+			float u, float v, float u2, float v2)
 		{
-			ChangeTexture(texture);
-
-			foreach (var vertex in vertices)
-			{
-				AddVertex(vertex.X, vertex.Y, vertex.U, vertex.V);
-			}
+			ChangeTexture(tex);
+			AddVertex(qx, qy, u, v);
+			AddVertex(qx + qw, qy, u2, v);
+			AddVertex(qx + qw, qy + qh, u2, v2);
+			AddVertex(qx, qy + qh, u, v2);
 		}
 
 		private void AddVertex(int x, int y, float u, float v)

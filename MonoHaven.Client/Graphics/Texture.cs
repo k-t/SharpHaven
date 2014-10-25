@@ -60,19 +60,9 @@ namespace MonoHaven.Graphics
 			get { return TextureTarget.Texture2D; }
 		}
 
-		public override Texture GetTexture()
+		public override void Draw(SpriteBatch batch, int x, int y, int w, int h)
 		{
-			return this;
-		}
-
-		public override IEnumerable<Vertex> GetVertices(Rectangle region)
-		{
-			return new[] {
-				new Vertex(region.X, region.Y, 0, 0),
-				new Vertex(region.X + region.Width, region.Y, 1, 0),
-				new Vertex(region.X + region.Width, region.Y + region.Height, 1, 1),
-				new Vertex(region.X, region.Y + region.Height, 0, 1)
-			};
+			batch.Draw(this, x, y, w, h, 0.0f, 0.0f, 1.0f, 1.0f);
 		}
 
 		public void Bind()

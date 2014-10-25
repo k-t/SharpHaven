@@ -60,8 +60,7 @@ namespace MonoHaven.Graphics
 
 		public void Draw(Drawable drawable, int x, int y, int width, int height)
 		{
-			var vs = drawable.GetVertices(new Rectangle(x, y, width, height));
-			spriteBatch.Draw(drawable.GetTexture(), vs.Select(TranslateVertex));
+			drawable.Draw(spriteBatch, x + offset.X, y + offset.Y, width, height);
 		}
 
 		public void Draw(QFont font, Color color, ProcessedText processedText, int x, int y)
@@ -71,11 +70,6 @@ namespace MonoHaven.Graphics
 			font.Print(processedText, new Vector2(x + offset.X, x + offset.Y));
 			GL.Color4(1f, 1f, 1f, 1f);
 			spriteBatch.Begin();
-		}
-
-		private Vertex TranslateVertex(Vertex v)
-		{
-			return new Vertex(v.X + offset.X, v.Y + offset.Y, v.U, v.V);
 		}
 	}
 }

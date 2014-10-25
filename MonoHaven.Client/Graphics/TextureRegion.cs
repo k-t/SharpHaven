@@ -24,19 +24,11 @@ namespace MonoHaven.Graphics
 				(float)(y + height) / texture.Height);
 		}
 
-		public override Texture GetTexture()
+		public override void Draw(SpriteBatch batch, int x, int y, int w, int h)
 		{
-			return texture;
-		}
-
-		public override IEnumerable<Vertex> GetVertices(Rectangle region)
-		{
-			return new[] {
-				new Vertex(region.X, region.Y, textureBounds.Left, textureBounds.Top),
-				new Vertex(region.X + region.Width, region.Y, textureBounds.Right, textureBounds.Top),
-				new Vertex(region.X + region.Width, region.Y + region.Height, textureBounds.Right, textureBounds.Bottom),
-				new Vertex(region.X, region.Y + region.Height, textureBounds.Left, textureBounds.Bottom)
-			};
+			batch.Draw(texture, x, y, w, h,
+				textureBounds.Left, textureBounds.Top,
+				textureBounds.Right, textureBounds.Bottom);
 		}
 	}
 }

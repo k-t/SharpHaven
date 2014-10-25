@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
 
 namespace MonoHaven.Graphics
 {
@@ -9,8 +7,7 @@ namespace MonoHaven.Graphics
 		public int Width { get; set; }
 		public int Height { get; set; }
 
-		public abstract Texture GetTexture();
-		public abstract IEnumerable<Vertex> GetVertices(Rectangle region);
+		public abstract void Draw(SpriteBatch batch, int x, int y, int w, int h);
 
 		public virtual void Dispose() {}
 	}
