@@ -1,13 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
+using MonoHaven.Graphics.Shaders;
 using OpenTK.Graphics.OpenGL;
 
 namespace MonoHaven.Graphics
 {
 	public class SpriteBatch : IDisposable
 	{
+		private const string Coord2DShaderParam = "coord2d";
+		private const string TexCoord = "texcoord";
+
 		private Texture currentTexture;
 		private bool isActive;
+
+		private readonly Shader shader;
 
 		private readonly List<int> vertices;
 		private readonly VertexBuffer vertexBuffer;
@@ -21,12 +27,23 @@ namespace MonoHaven.Graphics
 			vertexBuffer = new VertexBuffer(BufferUsageHint.StreamDraw);
 			texCoords = new List<float>();
 			texCoordBuffer = new VertexBuffer(BufferUsageHint.StreamDraw);
+
+			var vertexShader = new VertexShaderTemplate();
+			vertexShader.Session = new Dictionary<string, object>();
+			vertexShader.Session["Coord2d"] = Coord2DShaderParam;
+			vertexShader.Session["TexCoord"] = TexCoord;
+			vertexShader.Initialize();
+
+			var fragmentShader = new FragmentShaderTemplate();
+
+			shader = new Shader(vertexShader.TransformText(), fragmentShader.TransformText());
 		}
 
 		public void Begin()
 		{
 			if (isActive) return;
 			
+			shader.Begin();
 			isActive = true;
 		}
 
@@ -35,6 +52,8 @@ namespace MonoHaven.Graphics
 			if (!isActive) return;
 
 			Flush();
+
+			shader.End();
 			isActive = false;
 		}
 
@@ -55,16 +74,15 @@ namespace MonoHaven.Graphics
 
 			foreach (var vertex in vertices)
 			{
-				AddVertex(vertex.X, vertex.Y, 0);
+				AddVertex(vertex.X, vertex.Y);
 				AddTexCoord(vertex.U, vertex.V);
 			}
 		}
 
-		private void AddVertex(int x, int y, int z)
+		private void AddVertex(int x, int y)
 		{
 			vertices.Add(x);
 			vertices.Add(y);
-			vertices.Add(z);
 		}
 
 		private void AddTexCoord(float u, float v)
@@ -84,29 +102,32 @@ namespace MonoHaven.Graphics
 
 		private void Render()
 		{
-			if (currentTexture == null)
-				return;
-
-			GL.EnableClientState(ArrayCap.VertexArray);
-			GL.EnableClientState(ArrayCap.TextureCoordArray);
-			
+			int coords = shader.GetAttributeLocation(Coord2DShaderParam);
 			GL.BindBuffer(BufferTarget.ArrayBuffer, vertexBuffer.Id);
-			GL.VertexPointer(3, VertexPointerType.Int, 0, 0);
+			GL.EnableVertexAttribArray(coords);
+			GL.VertexAttribPointer(coords, 2, VertexAttribPointerType.Int, false, 0, 0);
 
+			int texCoords = shader.GetAttributeLocation(TexCoord);
 			GL.BindBuffer(BufferTarget.ArrayBuffer, texCoordBuffer.Id);
-			GL.TexCoordPointer(2, TexCoordPointerType.Float, 0, 0);
+			GL.EnableVertexAttribArray(texCoords);
+			GL.VertexAttribPointer(texCoords, 2, VertexAttribPointerType.Float, false, 0, 0);
 
-			GL.BindTexture(currentTexture.Target, currentTexture.Id);
-			GL.DrawArrays(PrimitiveType.Quads, 0, vertices.Count / 3);
-
-			GL.DisableClientState(ArrayCap.VertexArray);
-			GL.DisableClientState(ArrayCap.TextureCoordArray);
+			if (currentTexture != null)
+				GL.BindTexture(currentTexture.Target, currentTexture.Id);
+			else
+				GL.BindTexture(TextureTarget.Texture2D, 0);
+			
+			GL.DrawArrays(PrimitiveType.Quads, 0, vertices.Count / 2);
+			
+			GL.DisableVertexAttribArray(coords);
+			GL.DisableVertexAttribArray(texCoords);
 		}
 
 		public void Dispose()
 		{
 			vertexBuffer.Dispose();
 			texCoordBuffer.Dispose();
+			shader.Dispose();
 		}
 	}
 }

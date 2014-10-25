@@ -53,6 +53,17 @@
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="Constants.cs" />
+    <Compile Include="Graphics\Shader.cs" />
+    <Compile Include="Graphics\Shaders\FragmentShaderTemplate.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>FragmentShaderTemplate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Graphics\Shaders\VertexShaderTemplate.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>VertexShaderTemplate.tt</DependentUpon>
+    </Compile>
     <Compile Include="Fonts.cs" />
     <Compile Include="Game\GameSession.cs" />
     <Compile Include="Game\Map.cs" />
@@ -104,10 +115,21 @@
   <ItemGroup>
     <EmbeddedResource Include="Content\Fonts\PTS55F.ttf" />
     <EmbeddedResource Include="Content\Fonts\PTC55F.ttf" />
+    <None Include="Graphics\Shaders\FragmentShaderTemplate.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>FragmentShaderTemplate.cs</LastGenOutput>
+    </None>
+    <None Include="Graphics\Shaders\VertexShaderTemplate.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>VertexShaderTemplate.cs</LastGenOutput>
+    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Content\textbox.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
