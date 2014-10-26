@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Text;
 using OpenTK.Graphics.OpenGL;
 using SharpFont;
 
@@ -65,10 +63,14 @@ namespace MonoHaven.Graphics
 						glyphImage[k + 2] = 255;
 						glyphImage[k + 3] = bufferData[i + bitmap.Width * j];
 					}
+
+				var region = atlas.AllocateRegion(sz.Width, sz.Height);
+				region.Upload(PixelFormat.Rgba, glyphImage);
+
 				return new TextGlyph {
 					Advance = face.Glyph.Advance.X / 64f,
 					Offset = new Point(face.Glyph.BitmapLeft, -face.Glyph.BitmapTop),
-					Image = atlas.AddImage(PixelFormat.Rgba, glyphImage, sz.Width, sz.Height)
+					Image = region
 				};
 			}
 		}

@@ -90,7 +90,7 @@ namespace MonoHaven
 			}
 			SwapBuffers();
 
-			Title = string.Format("{0}: {1} FPS", WindowTitle, FpsCounter.GetFps());
+			Title = string.Format("{0} [FPS: {1}]", WindowTitle, FpsCounter.GetFps());
 		}
 
 		private void HandleMouseButtonDown(object sender, MouseButtonEventArgs e)

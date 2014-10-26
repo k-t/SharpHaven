@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.Drawing;
+using System.IO;
 using MonoHaven.Graphics;
 using MonoHaven.Resources.Layers;
 
@@ -34,19 +36,38 @@ namespace MonoHaven.Resources
 
 			foreach (var tile in tiles)
 			{
+				WeightList<TextureRegion> targetList;
 				if (tile.Type == 'g')
-					groundTiles.Add(atlas.AddImage(tile.ImageData), tile.Weight);
-				if (tile.Type == 'c' && data.HasTransitions)
-					crossTransitions[tile.Id - 1].Add(atlas.AddImage(tile.ImageData), tile.Weight);
-				if (tile.Type == 'b' && data.HasTransitions)
-					borderTransitions[tile.Id - 1].Add(atlas.AddImage(tile.ImageData), tile.Weight);
+					targetList = groundTiles;
+				else if (tile.Type == 'c' && data.HasTransitions)
+					targetList = crossTransitions[tile.Id - 1];
+				else if (tile.Type == 'b' && data.HasTransitions)
+					targetList = borderTransitions[tile.Id - 1];
+				else
+					continue;
+
+				using (var ms = new MemoryStream(tile.ImageData))
+				using (var bitmap = new Bitmap(ms))
+				{
+					var region = atlas.AllocateRegion(bitmap.Width, bitmap.Height);
+					region.Upload(bitmap);
+					targetList.Add(region, tile.Weight);
+				}
 			}
 
 			foreach (var flavor in data.FlavorObjects)
 			{
 				var image = ResourceManager.LoadResource(flavor.ResName).GetLayer<ImageData>();
 				if (image != null)
-					flavorObjects.Add(atlas.AddImage(image.Data), flavor.Weight);
+				{
+					using (var ms = new MemoryStream(image.Data))
+					using (var bitmap = new Bitmap(ms))
+					{
+						var region = atlas.AllocateRegion(bitmap.Width, bitmap.Height);
+						region.Upload(bitmap);
+						flavorObjects.Add(region, flavor.Weight);
+					}
+				}
 				// TODO: else log warning
 			}
 		}

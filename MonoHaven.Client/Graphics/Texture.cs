@@ -76,12 +76,6 @@ namespace MonoHaven.Graphics
 			GL.TexImage2D(Target, 0, PixelInternalFormat.Rgba, Width, Height,
 				0, format, PixelType.UnsignedByte, data);
 		}
-
-		public void Upload(int x, int y, int width, int height, PixelFormat format, byte[] data)
-		{
-			GL.TexSubImage2D(Target, 0, x, y, width, height, format,
-				PixelType.UnsignedByte, data);
-		}
 		
 		public void Upload(Bitmap image)
 		{
@@ -95,19 +89,6 @@ namespace MonoHaven.Graphics
 
 			GL.TexImage2D(Target, 0, PixelInternalFormat.Rgba,
 				bitmapData.Width, bitmapData.Height, 0,  PixelFormat.Bgra,
-				PixelType.UnsignedByte, bitmapData.Scan0);
-
-			image.UnlockBits(bitmapData);
-		}
-
-		public void Upload(int x, int y, int width, int height, Bitmap image)
-		{
-			var bitmapData = image.LockBits(
-				new Rectangle(0, 0, image.Width, image.Height),
-				System.Drawing.Imaging.ImageLockMode.ReadOnly,
-				System.Drawing.Imaging.PixelFormat.Format32bppArgb);
-
-			GL.TexSubImage2D(Target, 0, x, y, width, height, PixelFormat.Bgra,
 				PixelType.UnsignedByte, bitmapData.Scan0);
 
 			image.UnlockBits(bitmapData);

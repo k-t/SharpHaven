@@ -1,13 +1,11 @@
 ﻿using System;
-using System.Drawing;
-using System.IO;
-using OpenTK;
-using OpenTK.Graphics.OpenGL;
 
 namespace MonoHaven.Graphics
 {
 	public class TextureAtlas : IDisposable
 	{
+		private const int Padding = 2;
+
 		private readonly Texture texture;
 		private int nx;
 		private int ny;
@@ -18,59 +16,28 @@ namespace MonoHaven.Graphics
 			texture = new Texture(width, height);
 		}
 
-		public TextureRegion AddImage(
-			PixelFormat pixelFormat, byte[] imageData, int width, int height)
+		public TextureRegion AllocateRegion(int width, int height)
 		{
-			texture.Bind();
-
 			if (ny + height > texture.Height)
-				throw new GraphicsException("Couldn't fit image into texture.");
+				// TODO: specific exceptions
+				throw new Exception("Couldn't allocate region on texture.");
 
 			if (nx + width > texture.Width)
 			{
 				nx = 0;
-				ny += maxRowHeight + 2;
+				ny += maxRowHeight + Padding;
 				maxRowHeight = 0;
 			}
 
 			int x = nx;
 			int y = ny;
-			texture.Upload(x, y, width, height, pixelFormat, imageData);
 
-			nx += width + 2;
+			nx += width + Padding;
+
 			if (height > maxRowHeight)
 				maxRowHeight = height;
 
 			return new TextureRegion(texture, x, y, width, height);
-		}
-
-		public TextureRegion AddImage(byte[] imageData)
-		{
-			texture.Bind();
-
-			using (var ms = new MemoryStream(imageData))
-			using (var bitmap = new Bitmap(ms))
-			{
-				if (ny + bitmap.Height > texture.Height)
-					throw new GraphicsException("Couldn't fit image into texture.");
-
-				if (nx + bitmap.Width > texture.Width)
-				{
-					nx = 0;
-					ny += maxRowHeight + 2;
-					maxRowHeight = 0;
-				}
-
-				int x = nx;
-				int y = ny;
-				texture.Upload(x, y, bitmap.Width, bitmap.Height, bitmap);
-
-				nx += bitmap.Width + 2;
-				if (bitmap.Height > maxRowHeight)
-					maxRowHeight = bitmap.Height;
-
-				return new TextureRegion(texture, x, y, bitmap.Width, bitmap.Height);
-			}
 		}
 
 		public void Dispose()
