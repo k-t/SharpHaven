@@ -5,7 +5,6 @@ using System.Linq;
 using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
-using QuickFont;
 
 namespace MonoHaven.Graphics
 {
@@ -26,6 +25,16 @@ namespace MonoHaven.Graphics
 		public void Dispose()
 		{
 			spriteBatch.End();
+		}
+
+		public void SetColor(Color color)
+		{
+			spriteBatch.SetColor(Color.White);
+		}
+
+		public void ResetColor()
+		{
+			spriteBatch.SetColor(Color.White);
 		}
 
 		public void PushMatrix()
@@ -61,15 +70,6 @@ namespace MonoHaven.Graphics
 		public void Draw(Drawable drawable, int x, int y, int width, int height)
 		{
 			drawable.Draw(spriteBatch, x + offset.X, y + offset.Y, width, height);
-		}
-
-		public void Draw(QFont font, Color color, ProcessedText processedText, int x, int y)
-		{
-			spriteBatch.End();
-			font.Options.Colour = new Color4(color.R, color.G, color.B, color.A);
-			font.Print(processedText, new Vector2(x + offset.X, x + offset.Y));
-			GL.Color4(1f, 1f, 1f, 1f);
-			spriteBatch.Begin();
 		}
 	}
 }

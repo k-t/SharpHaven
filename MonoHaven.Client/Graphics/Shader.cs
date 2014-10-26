@@ -55,8 +55,8 @@ namespace MonoHaven.Graphics
 
 			if (linkStatus != 1)
 			{
-				GL.DeleteProgram(program);
 				var log = GL.GetProgramInfoLog(program);
+				GL.DeleteProgram(program);
 				// TODO: specific exceptions
 				throw new Exception("Program linking error:\n" + log);
 			}
@@ -75,8 +75,8 @@ namespace MonoHaven.Graphics
 
 			if (compileStatus != 1)
 			{
-				GL.DeleteShader(shader);
 				var log = GL.GetShaderInfoLog(shader);
+				GL.DeleteShader(shader);
 				// TODO: specific exceptions
 				throw new Exception("Shader compilation error:\n" + log);
 			}

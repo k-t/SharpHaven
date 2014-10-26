@@ -1,15 +1,19 @@
 ﻿<#@ template language="C#" #>
 <#@ parameter type="System.String" name="Coord2d" #>
 <#@ parameter type="System.String" name="TexCoord" #>
+<#@ parameter type="System.String" name="Color" #>
 
 #version 120
 
 attribute vec2 <#= Coord2d #>;
+attribute vec4 <#= Color #>;
 attribute vec2 <#= TexCoord #>;
+varying vec4 v_color;
 varying vec2 v_texcoord;
 
 void main(void)
 {
   gl_Position = gl_ModelViewProjectionMatrix * vec4(<#= Coord2d #>, 0, 1.0);
   v_texcoord = <#= TexCoord #>;
+  v_color = <#= Color #>;
 }

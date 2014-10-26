@@ -22,7 +22,6 @@
     <WarningLevel>4</WarningLevel>
     <PlatformTarget>x86</PlatformTarget>
     <ConsolePause>False</ConsolePause>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <DebugType>none</DebugType>
@@ -32,7 +31,6 @@
     <WarningLevel>4</WarningLevel>
     <PlatformTarget>x86</PlatformTarget>
     <ConsolePause>False</ConsolePause>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="C5, Version=2.3.5280.26713, Culture=neutral, PublicKeyToken=282361b99ded7e8e, processorArchitecture=MSIL">
@@ -43,8 +41,8 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\OpenTK.1.1.1589.5942\lib\NET40\OpenTK.dll</HintPath>
     </Reference>
-    <Reference Include="QuickFont">
-      <HintPath>..\lib\QuickFont.dll</HintPath>
+    <Reference Include="SharpFont">
+      <HintPath>..\packages\SharpFont.2.5.3.0\lib\net20\SharpFont.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="Mono.Posix" />
@@ -53,6 +51,7 @@
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="Constants.cs" />
+    <Compile Include="Graphics\TextGlyph.cs" />
     <Compile Include="Graphics\Shader.cs" />
     <Compile Include="Graphics\Shaders\FragmentShaderTemplate.cs">
       <AutoGen>True</AutoGen>
@@ -72,9 +71,10 @@
     <Compile Include="Graphics\Drawable.cs" />
     <Compile Include="Graphics\NinePatch.cs" />
     <Compile Include="Graphics\SpriteBatch.cs" />
+    <Compile Include="Graphics\SpriteFont.cs" />
+    <Compile Include="Graphics\TextBlock.cs" />
     <Compile Include="Graphics\TextureAtlas.cs" />
     <Compile Include="Graphics\TextureRegion.cs" />
-    <Compile Include="Graphics\Vertex.cs" />
     <Compile Include="Graphics\VertexBuffer.cs" />
     <Compile Include="Resources\EmbeddedResource.cs" />
     <Compile Include="Resources\Tileset.cs" />
@@ -131,6 +131,10 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <Target Name="BeforeBuild">
+    <Copy SourceFiles="$(SolutionDir)\lib\freetype6.dll" DestinationFolder="$(OutputPath)" />
+    <Copy SourceFiles="$(SolutionDir)\lib\SharpFont.dll.config" DestinationFolder="$(OutputPath)" />
+  </Target>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>

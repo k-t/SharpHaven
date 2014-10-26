@@ -25,8 +25,9 @@ namespace MonoHaven.Graphics.Shaders
         /// </summary>
         public virtual string TransformText()
         {
-            this.Write("\r\n#version 120\r\n\r\nvarying vec2 v_texcoord;\r\nuniform sampler2D u_texture;\r\n\r\nvoid " +
-                    "main(void)\r\n{\r\n  gl_FragColor = texture2D(u_texture, v_texcoord);\r\n}\r\n");
+            this.Write("\r\n#version 120\r\n\r\nvarying vec4 v_color;\r\nvarying vec2 v_texcoord;\r\nuniform sample" +
+                    "r2D u_texture;\r\n\r\nvoid main(void)\r\n{\r\n  vec4 tex = texture2D(u_texture, v_texcoo" +
+                    "rd);\r\n  gl_FragColor = v_color * tex;\r\n}\r\n");
             return this.GenerationEnvironment.ToString();
         }
     }

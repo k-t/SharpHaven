@@ -2,6 +2,7 @@
 using System.Drawing;
 using System.IO;
 using OpenTK;
+using OpenTK.Graphics.OpenGL;
 
 namespace MonoHaven.Graphics
 {
@@ -17,8 +18,36 @@ namespace MonoHaven.Graphics
 			texture = new Texture(width, height);
 		}
 
+		public TextureRegion AddImage(
+			PixelFormat pixelFormat, byte[] imageData, int width, int height)
+		{
+			texture.Bind();
+
+			if (ny + height > texture.Height)
+				throw new GraphicsException("Couldn't fit image into texture.");
+
+			if (nx + width > texture.Width)
+			{
+				nx = 0;
+				ny += maxRowHeight + 2;
+				maxRowHeight = 0;
+			}
+
+			int x = nx;
+			int y = ny;
+			texture.Upload(x, y, width, height, pixelFormat, imageData);
+
+			nx += width + 2;
+			if (height > maxRowHeight)
+				maxRowHeight = height;
+
+			return new TextureRegion(texture, x, y, width, height);
+		}
+
 		public TextureRegion AddImage(byte[] imageData)
 		{
+			texture.Bind();
+
 			using (var ms = new MemoryStream(imageData))
 			using (var bitmap = new Bitmap(ms))
 			{

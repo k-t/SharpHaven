@@ -27,30 +27,44 @@ namespace MonoHaven.Graphics.Shaders
         {
             this.Write("\r\n#version 120\r\n\r\nattribute vec2 ");
             
-            #line 7 "D:\Projects\MonoHaven\MonoHaven.Client\Graphics\Shaders\VertexShaderTemplate.tt"
+            #line 8 "D:\Projects\MonoHaven\MonoHaven.Client\Graphics\Shaders\VertexShaderTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Coord2d));
+            
+            #line default
+            #line hidden
+            this.Write(";\r\nattribute vec4 ");
+            
+            #line 9 "D:\Projects\MonoHaven\MonoHaven.Client\Graphics\Shaders\VertexShaderTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(Color));
             
             #line default
             #line hidden
             this.Write(";\r\nattribute vec2 ");
             
-            #line 8 "D:\Projects\MonoHaven\MonoHaven.Client\Graphics\Shaders\VertexShaderTemplate.tt"
+            #line 10 "D:\Projects\MonoHaven\MonoHaven.Client\Graphics\Shaders\VertexShaderTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(TexCoord));
             
             #line default
             #line hidden
-            this.Write(";\r\nvarying vec2 v_texcoord;\r\n\r\nvoid main(void)\r\n{\r\n  gl_Position = gl_ModelViewPr" +
-                    "ojectionMatrix * vec4(");
+            this.Write(";\r\nvarying vec4 v_color;\r\nvarying vec2 v_texcoord;\r\n\r\nvoid main(void)\r\n{\r\n  gl_Po" +
+                    "sition = gl_ModelViewProjectionMatrix * vec4(");
             
-            #line 13 "D:\Projects\MonoHaven\MonoHaven.Client\Graphics\Shaders\VertexShaderTemplate.tt"
+            #line 16 "D:\Projects\MonoHaven\MonoHaven.Client\Graphics\Shaders\VertexShaderTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Coord2d));
             
             #line default
             #line hidden
             this.Write(", 0, 1.0);\r\n  v_texcoord = ");
             
-            #line 14 "D:\Projects\MonoHaven\MonoHaven.Client\Graphics\Shaders\VertexShaderTemplate.tt"
+            #line 17 "D:\Projects\MonoHaven\MonoHaven.Client\Graphics\Shaders\VertexShaderTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(TexCoord));
+            
+            #line default
+            #line hidden
+            this.Write(";\r\n  v_color = ");
+            
+            #line 18 "D:\Projects\MonoHaven\MonoHaven.Client\Graphics\Shaders\VertexShaderTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(Color));
             
             #line default
             #line hidden
@@ -83,6 +97,19 @@ private string TexCoord
     get
     {
         return this._TexCoordField;
+    }
+}
+
+private string _ColorField;
+
+/// <summary>
+/// Access the Color parameter of the template.
+/// </summary>
+private string Color
+{
+    get
+    {
+        return this._ColorField;
     }
 }
 
@@ -120,6 +147,20 @@ if ((TexCoordValueAcquired == false))
     if ((data != null))
     {
         this._TexCoordField = ((string)(data));
+    }
+}
+bool ColorValueAcquired = false;
+if (this.Session.ContainsKey("Color"))
+{
+    this._ColorField = ((string)(this.Session["Color"]));
+    ColorValueAcquired = true;
+}
+if ((ColorValueAcquired == false))
+{
+    object data = global::System.Runtime.Remoting.Messaging.CallContext.LogicalGetData("Color");
+    if ((data != null))
+    {
+        this._ColorField = ((string)(data));
     }
 }
 

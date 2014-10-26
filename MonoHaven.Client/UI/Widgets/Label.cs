@@ -1,42 +1,32 @@
 ﻿using System.Drawing;
 using MonoHaven.Graphics;
-using OpenTK.Graphics;
-using QuickFont;
 
 namespace MonoHaven.UI.Widgets
 {
 	public class Label : Widget
 	{
-		private readonly QFont font;
-		private string text;
-		private Color textColor;
-		private ProcessedText processedText;
+		private readonly TextBlock text;
 
 		public Label()
 		{
-			font = Fonts.Text;
-			Text = string.Empty;
+			text = new TextBlock(Fonts.Default);
 		}
 
 		public string Text
 		{
-			get { return text; }
-			set
-			{
-				text = value;
-				processedText = font.ProcessText(text, float.MaxValue, QFontAlignment.Left);
-			}
+			get { return text.Value; }
+			set { text.Value = value; }
 		}
 
 		public Color TextColor
 		{
-			get { return textColor; }
-			set { textColor = value; }
+			get { return text.Color; }
+			set { text.Color = value; }
 		}
 
 		protected override void OnDraw(DrawingContext g)
 		{
-			g.Draw(font, textColor, processedText, 0, 0);
+			g.Draw(text, 0, 0, Width, Height);
 		}
 	}
 }

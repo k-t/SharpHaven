@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using MonoHaven.Graphics.Shaders;
 using OpenTK.Graphics.OpenGL;
 
@@ -7,9 +8,11 @@ namespace MonoHaven.Graphics
 {
 	public class SpriteBatch : IDisposable
 	{
-		private const string Coord2DShaderParam = "coord2d";
-		private const string TexCoord = "texcoord";
+		private const string Coord2DAttrName = "coord2d";
+		private const string TexCoordAttrName = "texcoord";
+		private const string ColorAttrName = "color";
 
+		private Color color = Color.White;
 		private Texture currentTexture;
 		private bool isActive;
 
@@ -25,13 +28,21 @@ namespace MonoHaven.Graphics
 
 			var vertexShader = new VertexShaderTemplate();
 			vertexShader.Session = new Dictionary<string, object>();
-			vertexShader.Session["Coord2d"] = Coord2DShaderParam;
-			vertexShader.Session["TexCoord"] = TexCoord;
+			vertexShader.Session["Coord2d"] = Coord2DAttrName;
+			vertexShader.Session["TexCoord"] = TexCoordAttrName;
+			vertexShader.Session["Color"] = ColorAttrName;
 			vertexShader.Initialize();
 
 			var fragmentShader = new FragmentShaderTemplate();
 
 			shader = new Shader(vertexShader.TransformText(), fragmentShader.TransformText());
+		}
+
+		public void Dispose()
+		{
+			if (isActive) End();
+			vertexBuffer.Dispose();
+			shader.Dispose();
 		}
 
 		public void Begin()
@@ -57,6 +68,11 @@ namespace MonoHaven.Graphics
 			vertexBuffer.Fill(vertices.ToArray());
 			Render();
 			vertices.Clear();
+		}
+
+		public void SetColor(Color color)
+		{
+			this.color = color;
 		}
 
 		/// <summary>
@@ -85,6 +101,11 @@ namespace MonoHaven.Graphics
 		{
 			vertices.Add(x);
 			vertices.Add(y);
+			// TODO: pack colors
+			vertices.Add(color.R / 255f);
+			vertices.Add(color.G / 255f);
+			vertices.Add(color.B / 255f);
+			vertices.Add(color.A / 255f);
 			vertices.Add(u);
 			vertices.Add(v);
 		}
@@ -100,31 +121,32 @@ namespace MonoHaven.Graphics
 
 		private void Render()
 		{
-			int coords = shader.GetAttributeLocation(Coord2DShaderParam);
-			int texCoords = shader.GetAttributeLocation(TexCoord);
+			int coords = shader.GetAttributeLocation(Coord2DAttrName);
+			int color = shader.GetAttributeLocation(ColorAttrName);
+			int texCoords = shader.GetAttributeLocation(TexCoordAttrName);
 
 			GL.EnableVertexAttribArray(coords);
+			GL.EnableVertexAttribArray(color);
 			GL.EnableVertexAttribArray(texCoords);
 
+			int stride = 8 * sizeof(float);
+
 			GL.BindBuffer(BufferTarget.ArrayBuffer, vertexBuffer.Id);
-			GL.VertexAttribPointer(coords, 2, VertexAttribPointerType.Float, false, 4 * sizeof(float), 0);
-			GL.VertexAttribPointer(texCoords, 2, VertexAttribPointerType.Float, false, 4 * sizeof(float), 2 * sizeof(float));
+			GL.VertexAttribPointer(coords, 2, VertexAttribPointerType.Float, false, stride, 0);
+			GL.VertexAttribPointer(color, 4, VertexAttribPointerType.Float, false, stride, 2 * sizeof(float));
+			GL.VertexAttribPointer(texCoords, 2, VertexAttribPointerType.Float, false, stride, 6 * sizeof(float));
 
 			if (currentTexture != null)
 				GL.BindTexture(currentTexture.Target, currentTexture.Id);
 			else
 				GL.BindTexture(TextureTarget.Texture2D, 0);
-			
-			GL.DrawArrays(PrimitiveType.Quads, 0, vertices.Count / 4);
+
+			// TODO: Use triangles instead of quads?
+			GL.DrawArrays(PrimitiveType.Quads, 0, vertices.Count / 8);
 			
 			GL.DisableVertexAttribArray(coords);
+			GL.DisableVertexAttribArray(color);
 			GL.DisableVertexAttribArray(texCoords);
-		}
-
-		public void Dispose()
-		{
-			vertexBuffer.Dispose();
-			shader.Dispose();
 		}
 	}
 }
