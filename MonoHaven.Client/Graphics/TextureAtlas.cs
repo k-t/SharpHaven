@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Drawing;
+using System.IO;
+using OpenTK.Graphics.OpenGL;
 
 namespace MonoHaven.Graphics
 {
@@ -16,7 +19,26 @@ namespace MonoHaven.Graphics
 			texture = new Texture(width, height);
 		}
 
-		public TextureRegion AllocateRegion(int width, int height)
+		public TextureRegion Add(byte[] pixelData, PixelFormat pixelFormat, int width, int height)
+		{
+			return Allocate(width, height).Upload(pixelData, pixelFormat);
+		}
+
+		public TextureRegion Add(byte[] bitmapData)
+		{
+			using (var stream = new MemoryStream(bitmapData))
+			using (var bitmap = new Bitmap(stream))
+			{
+				return Add(bitmap);
+			}
+		}
+
+		public TextureRegion Add(Bitmap bitmap)
+		{
+			return Allocate(bitmap.Width, bitmap.Height).Upload(bitmap);
+		}
+
+		public TextureRegion Allocate(int width, int height)
 		{
 			if (ny + height > texture.Height)
 				// TODO: specific exceptions

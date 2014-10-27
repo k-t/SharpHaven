@@ -20,22 +20,18 @@ namespace MonoHaven.Graphics
 
 			Bind();
 			SetFilter(TextureMinFilter.Nearest, TextureMagFilter.Nearest);
-			Upload(PixelFormat.Rgba, data);
+			Upload(data, PixelFormat.Rgba);
 		}
 
-		public Texture(byte[] imageData)
+		public Texture(byte[] bitmapData)
 		{
-			if (imageData == null)
-				throw new ArgumentNullException("imageData");
+			if (bitmapData == null)
+				throw new ArgumentNullException("bitmapData");
 
-			using (var ms = new MemoryStream(imageData))
-			using (var image = new Bitmap(ms))
-			{
-				this.id = GL.GenTexture();
-				Bind();
-				SetFilter(TextureMinFilter.Nearest, TextureMagFilter.Nearest);
-				Upload(image);
-			}
+			this.id = GL.GenTexture();
+			Bind();
+			SetFilter(TextureMinFilter.Nearest, TextureMagFilter.Nearest);
+			Upload(bitmapData);
 		}
 
 		public Texture(Bitmap bitmap)
@@ -47,7 +43,6 @@ namespace MonoHaven.Graphics
 			Bind();
 			SetFilter(TextureMinFilter.Nearest, TextureMagFilter.Nearest);
 			Upload(bitmap);
-
 		}
 
 		public int Id
@@ -71,19 +66,28 @@ namespace MonoHaven.Graphics
 				GL.BindTexture(TextureTarget.Texture2D, id);
 		}
 
-		public void Upload(PixelFormat format, byte[] data)
+		public void Upload(byte[] pixelData, PixelFormat format)
 		{
 			GL.TexImage2D(Target, 0, PixelInternalFormat.Rgba, Width, Height,
-				0, format, PixelType.UnsignedByte, data);
+				0, format, PixelType.UnsignedByte, pixelData);
+		}
+
+		public void Upload(byte[] bitmapData)
+		{
+			using (var stream = new MemoryStream(bitmapData))
+			using (var bitmap = new Bitmap(stream))
+			{
+				Upload(bitmap);
+			}
 		}
 		
-		public void Upload(Bitmap image)
+		public void Upload(Bitmap bitmap)
 		{
-			this.Width = image.Width;
-			this.Height = image.Height;
+			this.Width = bitmap.Width;
+			this.Height = bitmap.Height;
 
-			var bitmapData = image.LockBits(
-				new Rectangle(0, 0, image.Width, image.Height),
+			var bitmapData = bitmap.LockBits(
+				new Rectangle(0, 0, bitmap.Width, bitmap.Height),
 				System.Drawing.Imaging.ImageLockMode.ReadOnly,
 				System.Drawing.Imaging.PixelFormat.Format32bppArgb);
 
@@ -91,7 +95,7 @@ namespace MonoHaven.Graphics
 				bitmapData.Width, bitmapData.Height, 0,  PixelFormat.Bgra,
 				PixelType.UnsignedByte, bitmapData.Scan0);
 
-			image.UnlockBits(bitmapData);
+			bitmap.UnlockBits(bitmapData);
 		}
 
 		public override void Dispose()

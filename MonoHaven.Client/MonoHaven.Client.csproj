@@ -11,6 +11,7 @@
     <AssemblyName>MonoHaven</AssemblyName>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
+    <NuGetPackageImportStamp>97628ce7</NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <DebugSymbols>True</DebugSymbols>
@@ -45,7 +46,6 @@
       <HintPath>..\packages\SharpFont.2.5.3.0\lib\net20\SharpFont.dll</HintPath>
     </Reference>
     <Reference Include="System" />
-    <Reference Include="Mono.Posix" />
     <Reference Include="System.Drawing" />
   </ItemGroup>
   <ItemGroup>

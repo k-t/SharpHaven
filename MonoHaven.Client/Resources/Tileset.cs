@@ -46,13 +46,7 @@ namespace MonoHaven.Resources
 				else
 					continue;
 
-				using (var ms = new MemoryStream(tile.ImageData))
-				using (var bitmap = new Bitmap(ms))
-				{
-					var region = atlas.AllocateRegion(bitmap.Width, bitmap.Height);
-					region.Upload(bitmap);
-					targetList.Add(region, tile.Weight);
-				}
+				targetList.Add(atlas.Add(tile.ImageData), tile.Weight);
 			}
 
 			foreach (var flavor in data.FlavorObjects)
@@ -60,13 +54,7 @@ namespace MonoHaven.Resources
 				var image = ResourceManager.LoadResource(flavor.ResName).GetLayer<ImageData>();
 				if (image != null)
 				{
-					using (var ms = new MemoryStream(image.Data))
-					using (var bitmap = new Bitmap(ms))
-					{
-						var region = atlas.AllocateRegion(bitmap.Width, bitmap.Height);
-						region.Upload(bitmap);
-						flavorObjects.Add(region, flavor.Weight);
-					}
+					flavorObjects.Add(atlas.Add(image.Data), flavor.Weight);
 				}
 				// TODO: else log warning
 			}
