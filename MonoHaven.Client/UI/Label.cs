@@ -1,7 +1,7 @@
 ﻿using System.Drawing;
 using MonoHaven.Graphics;
 
-namespace MonoHaven.UI.Widgets
+namespace MonoHaven.UI
 {
 	public class Label : Widget
 	{

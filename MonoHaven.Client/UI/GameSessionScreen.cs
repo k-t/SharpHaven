@@ -1,5 +1,4 @@
 ﻿using MonoHaven.Game;
-using MonoHaven.UI.Widgets;
 
 namespace MonoHaven.UI
 {

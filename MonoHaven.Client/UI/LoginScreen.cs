@@ -1,7 +1,6 @@
 ﻿using System.Drawing;
 using System.Runtime.InteropServices;
 using MonoHaven.Resources;
-using MonoHaven.UI.Widgets;
 using OpenTK;
 
 namespace MonoHaven.UI

@@ -2,7 +2,7 @@ using System;
 using MonoHaven.Graphics;
 using OpenTK.Input;
 
-namespace MonoHaven.UI.Widgets
+namespace MonoHaven.UI
 {
 	public class ImageButton : Widget
 	{

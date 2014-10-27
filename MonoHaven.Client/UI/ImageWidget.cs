@@ -1,6 +1,6 @@
 using MonoHaven.Graphics;
 
-namespace MonoHaven.UI.Widgets
+namespace MonoHaven.UI
 {
 	public class ImageWidget : Widget
 	{

@@ -1,4 +1,4 @@
-﻿namespace MonoHaven.UI.Widgets
+﻿namespace MonoHaven.UI
 {
 	public class RootWidget : Widget
 	{

@@ -6,7 +6,7 @@ using MonoHaven.Graphics;
 using MonoHaven.Utils;
 using OpenTK.Input;
 
-namespace MonoHaven.UI.Widgets
+namespace MonoHaven.UI
 {
 	public abstract class Widget : IDisposable
 	{
