@@ -8,8 +8,8 @@ namespace MonoHaven.UI
 	{
 		private bool isPressed;
 
-		public Texture Up { get; set; }
-		public Texture Down { get; set; }
+		public Drawable Up { get; set; }
+		public Drawable Down { get; set; }
 
 		public event EventHandler Pressed;
 

@@ -4,7 +4,7 @@ namespace MonoHaven.UI
 {
 	public class ImageWidget : Widget
 	{
-		public Texture Image { get; set; }
+		public Drawable Image { get; set; }
 
 		protected override void OnDraw(DrawingContext g)
 		{
