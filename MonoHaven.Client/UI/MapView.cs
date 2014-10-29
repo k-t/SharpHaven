@@ -10,9 +10,7 @@ namespace MonoHaven.UI
 		private readonly GameSession session;
 
 		private Point cameraOffset = new Point(0, 0);
-
 		private bool dragging;
-		private Point dragPoint;
 
 		public MapView(GameSession session)
 		{
@@ -116,17 +114,18 @@ namespace MonoHaven.UI
 			}
 		}
 
-		protected override void OnButtonDown(MouseButtonEventArgs e)
+		protected override void OnMouseButtonDown(MouseButtonEventArgs e)
 		{
+			GrabMouse();
 			if (e.Button == MouseButton.Left)
 			{
 				dragging = true;
-				dragPoint = new Point(e.X, e.Y);
 			}
 		}
 
-		protected override void OnButtonUp(MouseButtonEventArgs e)
+		protected override void OnMouseButtonUp(MouseButtonEventArgs e)
 		{
+			ReleaseMouse();
 			if (e.Button == MouseButton.Left)
 			{
 				dragging = false;

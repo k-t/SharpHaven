@@ -19,17 +19,17 @@ namespace MonoHaven
 		public MainWindow(int width, int height)
 			: base(width, height, GraphicsMode.Default, WindowTitle)
 		{
-			this.currentScreen = EmptyScreen.Instance;
+			currentScreen = EmptyScreen.Instance;
 
-			this.VSync = VSyncMode.On;
+			VSync = VSyncMode.On;
 
-			this.Mouse.ButtonUp += HandleMouseButtonUp;
-			this.Mouse.ButtonDown += HandleMouseButtonDown;
-			this.Mouse.Move += HandleMouseMove;
+			Mouse.ButtonUp += HandleMouseButtonUp;
+			Mouse.ButtonDown += HandleMouseButtonDown;
+			Mouse.Move += HandleMouseMove;
 
-			this.Keyboard.KeyRepeat = true;
-			this.Keyboard.KeyDown += HandleKeyDown;
-			this.Keyboard.KeyUp += HandleKeyUp;
+			Keyboard.KeyRepeat = true;
+			Keyboard.KeyDown += HandleKeyDown;
+			Keyboard.KeyUp += HandleKeyUp;
 		}
 
 		private SpriteBatch SpriteBatch { get; set; }
@@ -56,8 +56,7 @@ namespace MonoHaven
 			GL.Enable(EnableCap.Texture2D);
 			GL.Disable(EnableCap.DepthTest);
 			GL.Disable(EnableCap.Lighting);
-			GL.BlendFunc(BlendingFactorSrc.SrcAlpha,
-			             BlendingFactorDest.OneMinusSrcAlpha);
+			GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
 
 			SetScreen(new LoginScreen(this));
 			SpriteBatch = new SpriteBatch();

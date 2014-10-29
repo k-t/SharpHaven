@@ -25,6 +25,11 @@ namespace MonoHaven.UI
 
 		#region Properties
 
+		protected virtual RootWidget Root
+		{
+			get { return parent != null ? parent.Root : null; }
+		}
+
 		private IEnumerable<Widget> Children
 		{
 			get
@@ -181,11 +186,21 @@ namespace MonoHaven.UI
 			return null;
 		}
 
-		protected virtual void OnButtonDown(MouseButtonEventArgs e) {}
-		protected virtual void OnButtonUp(MouseButtonEventArgs e) { }
-		protected virtual void OnKeyDown(KeyboardKeyEventArgs e) { }
-		protected virtual void OnKeyUp(KeyboardKeyEventArgs e) { }
-		protected virtual void OnMouseMove(MouseMoveEventArgs e) { }
+		protected void GrabMouse()
+		{
+			Root.GrabMouse(this);
+		}
+
+		protected void ReleaseMouse()
+		{
+			Root.GrabMouse(null);
+		}
+
+		protected virtual void OnMouseButtonDown(MouseButtonEventArgs e) {}
+		protected virtual void OnMouseButtonUp(MouseButtonEventArgs e) {}
+		protected virtual void OnKeyDown(KeyboardKeyEventArgs e) {}
+		protected virtual void OnKeyUp(KeyboardKeyEventArgs e) {}
+		protected virtual void OnMouseMove(MouseMoveEventArgs e) {}
 		protected virtual void OnDraw(DrawingContext dc) {}
 		protected virtual void OnDispose() {}
 
@@ -195,28 +210,21 @@ namespace MonoHaven.UI
 
 		void IInputListener.MouseButtonDown(MouseButtonEventArgs e)
 		{
-			var widget = GetChildAt(e.Position);
-			if (widget != null)
-				widget.OnButtonDown(e);
+			OnMouseButtonDown(e);
 		}
 
 		void IInputListener.MouseButtonUp(MouseButtonEventArgs e)
 		{
-			var widget = GetChildAt(e.Position);
-			if (widget != null)
-				widget.OnButtonUp(e);
+			OnMouseButtonUp(e);
 		}
 
 		void IInputListener.MouseMove(MouseMoveEventArgs e)
 		{
-			var widget = GetChildAt(e.Position);
-			if (widget != null)
-				widget.OnMouseMove(e);
+			OnMouseMove(e);
 		}
 
 		void IInputListener.KeyDown(KeyboardKeyEventArgs e)
 		{
-			// TODO: focused widget
 			OnKeyDown(e);
 		}
 

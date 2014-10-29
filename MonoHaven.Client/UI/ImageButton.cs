@@ -20,13 +20,15 @@ namespace MonoHaven.UI
 				dc.Draw(tex, 0, 0);
 		}
 
-		protected override void OnButtonDown(MouseButtonEventArgs e)
+		protected override void OnMouseButtonDown(MouseButtonEventArgs e)
 		{
+			GrabMouse();
 			isPressed = true;
 		}
 
-		protected override void OnButtonUp(MouseButtonEventArgs e)
+		protected override void OnMouseButtonUp(MouseButtonEventArgs e)
 		{
+			ReleaseMouse();
 			isPressed = false;
 			RaisePressedEvent();
 		}
