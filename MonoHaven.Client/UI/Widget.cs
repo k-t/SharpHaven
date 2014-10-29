@@ -90,6 +90,8 @@ namespace MonoHaven.UI
 
 		public bool Visible { get; set; }
 
+		public bool IsFocusable { get; set; }
+
 		#endregion
 
 		#region Public Methods
@@ -188,21 +190,40 @@ namespace MonoHaven.UI
 
 		protected void GrabMouse()
 		{
-			Root.GrabMouse(this);
+			Root.SetMouseFocus(this);
 		}
 
 		protected void ReleaseMouse()
 		{
-			Root.GrabMouse(null);
+			Root.SetMouseFocus(null);
 		}
 
-		protected virtual void OnMouseButtonDown(MouseButtonEventArgs e) {}
+		protected virtual void OnMouseButtonDown(MouseButtonEventArgs e)
+		{
+			if (IsFocusable)
+			{
+				if (Root.KeyboardFocus != null)
+					Root.KeyboardFocus.OnLostFocus();
+				Root.SetKeyboardFocus(this);
+				OnGotFocus();
+			}
+		}
+
 		protected virtual void OnMouseButtonUp(MouseButtonEventArgs e) {}
+		
 		protected virtual void OnKeyDown(KeyboardKeyEventArgs e) {}
+		
 		protected virtual void OnKeyUp(KeyboardKeyEventArgs e) {}
+		
 		protected virtual void OnMouseMove(MouseMoveEventArgs e) {}
+		
 		protected virtual void OnDraw(DrawingContext dc) {}
+		
 		protected virtual void OnDispose() {}
+
+		protected virtual void OnGotFocus() {}
+
+		protected virtual void OnLostFocus() {}
 
 		#endregion
 

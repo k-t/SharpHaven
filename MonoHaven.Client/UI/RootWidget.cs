@@ -4,37 +4,68 @@ namespace MonoHaven.UI
 {
 	public class RootWidget : Widget
 	{
-		private IInputListener mouseFocus;
+		private Widget mouseFocus;
+		private Widget keyboardFocus;
 
+		public RootWidget()
+		{
+			IsFocusable = true;
+		}
+
+		// TODO: ugly!1!!
 		protected override RootWidget Root
 		{
 			get { return this; }
 		}
 
-		public void GrabMouse(Widget widget)
+		public Widget KeyboardFocus
+		{
+			get { return keyboardFocus; }
+		}
+
+		public void SetKeyboardFocus(Widget widget)
+		{
+			keyboardFocus = widget;
+		}
+
+		public void SetMouseFocus(Widget widget)
 		{
 			mouseFocus = (widget != this) ? widget : null;
 		}
 
 		protected override void OnMouseButtonDown(MouseButtonEventArgs e)
 		{
-			var widget = mouseFocus ?? GetChildAt(e.Position);
+			IInputListener widget = mouseFocus ?? GetChildAt(e.Position);
 			if (widget != null)
 				widget.MouseButtonDown(e);
 		}
 
 		protected override void OnMouseButtonUp(MouseButtonEventArgs e)
 		{
-			var widget = mouseFocus ?? GetChildAt(e.Position);
+			IInputListener widget = mouseFocus ?? GetChildAt(e.Position);
 			if (widget != null)
 				widget.MouseButtonUp(e);
 		}
 
 		protected override void OnMouseMove(MouseMoveEventArgs e)
 		{
-			var widget = mouseFocus ?? GetChildAt(e.Position);
+			IInputListener widget = mouseFocus ?? GetChildAt(e.Position);
 			if (widget != null)
 				widget.MouseMove(e);
+		}
+
+		protected override void OnKeyDown(KeyboardKeyEventArgs e)
+		{
+			IInputListener widget = keyboardFocus;
+			if (widget != null)
+				widget.KeyDown(e);
+		}
+
+		protected override void OnKeyUp(KeyboardKeyEventArgs e)
+		{
+			IInputListener widget = keyboardFocus;
+			if (widget != null)
+				widget.KeyUp(e);
 		}
 	}
 }

@@ -13,9 +13,11 @@ namespace MonoHaven.UI
 		public TextBox()
 		{
 			text = new TextBlock(Fonts.Default);
-			text.Color = Color.Black;
+			text.Color = Color.Gray;
 			borderTexture = new Texture(EmbeddedResource.GetImage("textbox.png"));
 			border = new NinePatch(borderTexture, 2, 2, 2, 2);
+
+			IsFocusable = true;
 		}
 
 		public string Text
@@ -33,6 +35,16 @@ namespace MonoHaven.UI
 		protected override void OnDispose()
 		{
 			borderTexture.Dispose();
+		}
+
+		protected override void OnGotFocus()
+		{
+			text.Color = Color.Black;
+		}
+
+		protected override void OnLostFocus()
+		{
+			text.Color = Color.Gray;
 		}
 	}
 }

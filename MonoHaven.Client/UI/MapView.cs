@@ -116,18 +116,18 @@ namespace MonoHaven.UI
 
 		protected override void OnMouseButtonDown(MouseButtonEventArgs e)
 		{
-			GrabMouse();
 			if (e.Button == MouseButton.Left)
 			{
+				GrabMouse();
 				dragging = true;
 			}
 		}
 
 		protected override void OnMouseButtonUp(MouseButtonEventArgs e)
 		{
-			ReleaseMouse();
 			if (e.Button == MouseButton.Left)
 			{
+				ReleaseMouse();
 				dragging = false;
 			}
 		}
