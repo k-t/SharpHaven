@@ -23,6 +23,8 @@ namespace MonoHaven.UI
 			Visible = true;
 		}
 
+		#region Properties
+
 		private IEnumerable<Widget> Children
 		{
 			get
@@ -82,6 +84,10 @@ namespace MonoHaven.UI
 		}
 
 		public bool Visible { get; set; }
+
+		#endregion
+
+		#region Public Methods
 
 		public void AddChild(Widget child)
 		{
@@ -148,17 +154,6 @@ namespace MonoHaven.UI
 			dc.PopMatrix();
 		}
 
-		public Widget GetChildAt(Point p)
-		{
-			p = p.Sub(Location);
-			foreach (var widget in ReversedChildren)
-			{
-				if (widget.Bounds.Contains(p.X, p.Y))
-					return widget.GetChildAt(p) ?? widget;
-			}
-			return null;
-		}
-
 		public Widget SetLocation(int x, int y)
 		{
 			bounds.Location = new Point(x, y);
@@ -171,6 +166,21 @@ namespace MonoHaven.UI
 			return this;
 		}
 
+		#endregion
+
+		#region Protected Methods
+
+		protected Widget GetChildAt(Point p)
+		{
+			p = p.Sub(Location);
+			foreach (var widget in ReversedChildren)
+			{
+				if (widget.Bounds.Contains(p.X, p.Y))
+					return widget.GetChildAt(p) ?? widget;
+			}
+			return null;
+		}
+
 		protected virtual void OnButtonDown(MouseButtonEventArgs e) {}
 		protected virtual void OnButtonUp(MouseButtonEventArgs e) { }
 		protected virtual void OnKeyDown(KeyboardKeyEventArgs e) { }
@@ -178,6 +188,8 @@ namespace MonoHaven.UI
 		protected virtual void OnMouseMove(MouseMoveEventArgs e) { }
 		protected virtual void OnDraw(DrawingContext dc) {}
 		protected virtual void OnDispose() {}
+
+		#endregion
 
 		#region IInputListener implementation
 
