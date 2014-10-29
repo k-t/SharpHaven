@@ -24,10 +24,10 @@ namespace MonoHaven.UI
 			set { text.Value = value; }
 		}
 
-		protected override void OnDraw(DrawingContext g)
+		protected override void OnDraw(DrawingContext dc)
 		{
-			g.Draw(border, 0, 0, Width, Height);
-			g.Draw(text, 3, 4, Width, Height);
+			dc.Draw(border, 0, 0, Width, Height);
+			dc.Draw(text, 3, 4, Width, Height);
 		}
 
 		protected override void OnDispose()

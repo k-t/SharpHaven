@@ -13,19 +13,19 @@ namespace MonoHaven.UI
 
 		public event EventHandler Pressed;
 
-		protected override void OnDraw(DrawingContext g)
+		protected override void OnDraw(DrawingContext dc)
 		{
 			var tex = isPressed ? Down : Up;
 			if (tex != null)
-				g.Draw(tex, 0, 0);
+				dc.Draw(tex, 0, 0);
 		}
 
-		public override void OnButtonDown(MouseButtonEventArgs e)
+		protected override void OnButtonDown(MouseButtonEventArgs e)
 		{
 			isPressed = true;
 		}
 
-		public override void OnButtonUp(MouseButtonEventArgs e)
+		protected override void OnButtonUp(MouseButtonEventArgs e)
 		{
 			isPressed = false;
 			RaisePressedEvent();

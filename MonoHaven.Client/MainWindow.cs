@@ -14,6 +14,7 @@ namespace MonoHaven
 		private const string WindowTitle = "MonoHaven";
 
 		private IScreen currentScreen;
+		private IInputListener inputListener;
 
 		public MainWindow(int width, int height)
 			: base(width, height, GraphicsMode.Default, WindowTitle)
@@ -31,18 +32,19 @@ namespace MonoHaven
 			this.Keyboard.KeyUp += HandleKeyUp;
 		}
 
-		public IScreen CurrentScreen
+		private SpriteBatch SpriteBatch { get; set; }
+
+		public void SetInputListener(IInputListener listener)
 		{
-			get { return currentScreen; }
-			set
-			{
-				currentScreen.Close();
-				currentScreen = value ?? EmptyScreen.Instance;
-				currentScreen.Show();
-			}
+			inputListener = listener;
 		}
 
-		private SpriteBatch SpriteBatch { get; set; }
+		public void SetScreen(IScreen screen)
+		{
+			currentScreen.Close();
+			currentScreen = screen ?? EmptyScreen.Instance;
+			currentScreen.Show();
+		}
 
 		protected override void OnLoad(EventArgs e)
 		{
@@ -57,14 +59,14 @@ namespace MonoHaven
 			GL.BlendFunc(BlendingFactorSrc.SrcAlpha,
 			             BlendingFactorDest.OneMinusSrcAlpha);
 
-			CurrentScreen = new LoginScreen(this);
+			SetScreen(new LoginScreen(this));
 			SpriteBatch = new SpriteBatch();
 		}
 
 		protected override void OnUnload(EventArgs e)
 		{
 			base.OnUnload(e);
-			CurrentScreen.Close();
+			currentScreen.Close();
 		}
 
 		protected override void OnResize(EventArgs e)
@@ -76,7 +78,7 @@ namespace MonoHaven
 			GL.LoadIdentity();
 			GL.Ortho(0, Width, Height, 0, -1, 1);
 
-			CurrentScreen.Resize(Width, Height);
+			currentScreen.Resize(Width, Height);
 		}
 
 		protected override void OnRenderFrame(FrameEventArgs e)
@@ -86,7 +88,7 @@ namespace MonoHaven
 			GL.Clear(ClearBufferMask.ColorBufferBit);
 			using (var dc = new DrawingContext(SpriteBatch))
 			{
-				CurrentScreen.Draw(dc);
+				currentScreen.Draw(dc);
 			}
 			SwapBuffers();
 
@@ -95,27 +97,32 @@ namespace MonoHaven
 
 		private void HandleMouseButtonDown(object sender, MouseButtonEventArgs e)
 		{
-			CurrentScreen.HandleMouseButtonDown(e);
+			if (inputListener != null)
+				inputListener.MouseButtonDown(e);
 		}
 
 		private void HandleMouseButtonUp(object sender, MouseButtonEventArgs e)
 		{
-			CurrentScreen.HandleMouseButtonUp(e);
+			if (inputListener != null)
+				inputListener.MouseButtonUp(e);
 		}
 
 		private void HandleMouseMove(object sedner, MouseMoveEventArgs e)
 		{
-			CurrentScreen.HandleMouseMove(e);
+			if (inputListener != null)
+				inputListener.MouseMove(e);
 		}
 
 		private void HandleKeyDown(object sender, KeyboardKeyEventArgs e)
 		{
-			CurrentScreen.HandleKeyDown(e);
+			if (inputListener != null)
+				inputListener.KeyDown(e);
 		}
 
 		private void HandleKeyUp(object sender, KeyboardKeyEventArgs e)
 		{
-			CurrentScreen.HandleKeyUp(e);
+			if (inputListener != null)
+				inputListener.KeyUp(e);
 		}
 
 		private static class FpsCounter

@@ -20,10 +20,10 @@ namespace MonoHaven.UI
 			this.cameraOffset = TileToScreen(new Point(-329200, 63600));
 		}
 
-		protected override void OnDraw(DrawingContext g)
+		protected override void OnDraw(DrawingContext dc)
 		{
-			DrawTiles(g);
-			DrawFlavor(g);
+			DrawTiles(dc);
+			DrawFlavor(dc);
 		}
 
 		private void DrawTiles(DrawingContext g)
@@ -97,7 +97,7 @@ namespace MonoHaven.UI
 				(p.Y / Constants.TileHeight - p.X / (Constants.TileWidth * 2)) / 2);
 		}
 
-		public override void OnKeyDown(KeyboardKeyEventArgs e)
+		protected override void OnKeyDown(KeyboardKeyEventArgs e)
 		{
 			switch (e.Key)
 			{
@@ -116,7 +116,7 @@ namespace MonoHaven.UI
 			}
 		}
 
-		public override void OnButtonDown(MouseButtonEventArgs e)
+		protected override void OnButtonDown(MouseButtonEventArgs e)
 		{
 			if (e.Button == MouseButton.Left)
 			{
@@ -125,7 +125,7 @@ namespace MonoHaven.UI
 			}
 		}
 
-		public override void OnButtonUp(MouseButtonEventArgs e)
+		protected override void OnButtonUp(MouseButtonEventArgs e)
 		{
 			if (e.Button == MouseButton.Left)
 			{
@@ -133,7 +133,7 @@ namespace MonoHaven.UI
 			}
 		}
 
-		public override void OnMouseMove(MouseMoveEventArgs e)
+		protected override void OnMouseMove(MouseMoveEventArgs e)
 		{
 			if (dragging)
 			{

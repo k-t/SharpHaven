@@ -5,6 +5,7 @@
 		int Width { get; }
 		int Height { get; }
 
-		IScreen CurrentScreen { get; set; }
+		void SetInputListener(IInputListener listener);
+		void SetScreen(IScreen screen);
 	}
 }

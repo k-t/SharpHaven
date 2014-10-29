@@ -6,12 +6,12 @@ namespace MonoHaven.UI
 	{
 		public Drawable Image { get; set; }
 
-		protected override void OnDraw(DrawingContext g)
+		protected override void OnDraw(DrawingContext dc)
 		{
 			if (Image == null)
 				return;
 
-			g.Draw(Image, 0, 0);
+			dc.Draw(Image, 0, 0);
 		}
 	}
 }

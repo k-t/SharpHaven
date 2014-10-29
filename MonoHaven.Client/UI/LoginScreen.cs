@@ -60,7 +60,7 @@ namespace MonoHaven.UI
 
 		private void OnLogin()
 		{
-			Host.CurrentScreen = new GameSessionScreen(Host);
+			Host.SetScreen(new GameSessionScreen(Host));
 		}
 	}
 }

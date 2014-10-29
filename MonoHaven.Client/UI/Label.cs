@@ -24,9 +24,9 @@ namespace MonoHaven.UI
 			set { text.Color = value; }
 		}
 
-		protected override void OnDraw(DrawingContext g)
+		protected override void OnDraw(DrawingContext dc)
 		{
-			g.Draw(text, 0, 0, Width, Height);
+			dc.Draw(text, 0, 0, Width, Height);
 		}
 	}
 }

@@ -1,6 +1,5 @@
 ﻿using System;
 using MonoHaven.Graphics;
-using OpenTK.Input;
 
 namespace MonoHaven.UI
 {
@@ -11,8 +10,9 @@ namespace MonoHaven.UI
 
 		protected BaseScreen(IScreenHost host)
 		{
-			this.host = host;
 			this.rootWidget = new RootWidget();
+			this.host = host;
+			this.host.SetInputListener(rootWidget);
 		}
 
 		protected IScreenHost Host
@@ -25,45 +25,15 @@ namespace MonoHaven.UI
 			get { return rootWidget; }
 		}
 
-		protected virtual void OnShow() { }
-		protected virtual void OnClose() { }
-		protected virtual void OnResize(int newWidth, int newHeight) { }
+		protected virtual void OnShow() {}
 
-		protected virtual void OnDraw(DrawingContext g)
-		{
-			rootWidget.Draw(g);
-		}
+		protected virtual void OnClose() {}
 
-		protected virtual void OnMouseButtonDown(MouseButtonEventArgs e)
-		{
-			var widget = rootWidget.GetChildAt(e.Position);
-			if (widget != null)
-				widget.OnButtonDown(e);
-		}
+		protected virtual void OnResize(int newWidth, int newHeight) {}
 
-		protected virtual void OnMouseButtonUp(MouseButtonEventArgs e)
+		protected virtual void OnDraw(DrawingContext dc)
 		{
-			var widget = rootWidget.GetChildAt(e.Position);
-			if (widget != null)
-				widget.OnButtonUp(e);
-		}
-
-		protected virtual void OnMouseMove(MouseMoveEventArgs e)
-		{
-			var widget = rootWidget.GetChildAt(e.Position);
-			if (widget != null)
-				widget.OnMouseMove(e);
-		}
-
-		protected virtual void OnKeyDown(KeyboardKeyEventArgs e)
-		{
-			// TODO: focused widget
-			rootWidget.OnKeyDown(e);
-		}
-
-		protected virtual void OnKeyUp(KeyboardKeyEventArgs e)
-		{
-			rootWidget.OnKeyUp(e);
+			rootWidget.Draw(dc);
 		}
 
 		protected void Add(Widget widget)
@@ -93,34 +63,9 @@ namespace MonoHaven.UI
 			this.OnResize(newWidth, newHeight);
 		}
 
-		void IScreen.Draw(DrawingContext drawingContext)
+		void IScreen.Draw(DrawingContext dc)
 		{
-			this.OnDraw(drawingContext);
-		}
-
-		void IScreen.HandleMouseButtonDown(MouseButtonEventArgs e)
-		{
-			this.OnMouseButtonDown(e);
-		}
-
-		void IScreen.HandleMouseButtonUp(MouseButtonEventArgs e)
-		{
-			this.OnMouseButtonUp(e);
-		}
-
-		void IScreen.HandleMouseMove(MouseMoveEventArgs e)
-		{
-			this.OnMouseMove(e);
-		}
-
-		void IScreen.HandleKeyDown(KeyboardKeyEventArgs e)
-		{
-			this.OnKeyDown(e);
-		}
-
-		void IScreen.HandleKeyUp(KeyboardKeyEventArgs e)
-		{
-			this.OnKeyUp(e);
+			this.OnDraw(dc);
 		}
 
 		#endregion

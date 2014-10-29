@@ -13,7 +13,7 @@ namespace MonoHaven.UI
 		public void Show() {}
 		public void Close() {}
 		public void Resize(int newWidth, int newHeight) {}
-		public void Draw(DrawingContext drawingContext) {}
+		public void Draw(DrawingContext dc) {}
 		public void HandleMouseButtonDown(MouseButtonEventArgs e) {}
 		public void HandleMouseButtonUp(MouseButtonEventArgs e) {}
 		public void HandleMouseMove(MouseMoveEventArgs e) {}

@@ -8,7 +8,7 @@ using OpenTK.Input;
 
 namespace MonoHaven.UI
 {
-	public abstract class Widget : IDisposable
+	public abstract class Widget : IDisposable, IInputListener
 	{
 		private Widget parent;
 		private Widget next;
@@ -131,16 +131,16 @@ namespace MonoHaven.UI
 			isDisposed = true;
 		}
 
-		public void Draw(DrawingContext g)
+		public void Draw(DrawingContext dc)
 		{
-			g.PushMatrix();
-			g.Translate(X, Y);
+			dc.PushMatrix();
+			dc.Translate(X, Y);
 			// draw itself
-			OnDraw(g);
+			OnDraw(dc);
 			// draw all children
 			foreach (var widget in Children.Where(x => x.Visible))
-				widget.Draw(g);
-			g.PopMatrix();
+				widget.Draw(dc);
+			dc.PopMatrix();
 		}
 
 		public Widget GetChildAt(Point p)
@@ -154,14 +154,49 @@ namespace MonoHaven.UI
 			return null;
 		}
 
-		public virtual void OnButtonDown(MouseButtonEventArgs e) {}
-		public virtual void OnButtonUp(MouseButtonEventArgs e) {}
-		public virtual void OnKeyDown(KeyboardKeyEventArgs e) { }
-		public virtual void OnKeyUp(KeyboardKeyEventArgs e) {}
-		public virtual void OnMouseMove(MouseMoveEventArgs e) {}
-
-		protected virtual void OnDraw(DrawingContext g) {}
+		protected virtual void OnButtonDown(MouseButtonEventArgs e) {}
+		protected virtual void OnButtonUp(MouseButtonEventArgs e) { }
+		protected virtual void OnKeyDown(KeyboardKeyEventArgs e) { }
+		protected virtual void OnKeyUp(KeyboardKeyEventArgs e) { }
+		protected virtual void OnMouseMove(MouseMoveEventArgs e) { }
+		protected virtual void OnDraw(DrawingContext dc) {}
 		protected virtual void OnDispose() {}
+
+		#region IInputListener implementation
+
+		void IInputListener.MouseButtonDown(MouseButtonEventArgs e)
+		{
+			var widget = GetChildAt(e.Position);
+			if (widget != null)
+				widget.OnButtonDown(e);
+		}
+
+		void IInputListener.MouseButtonUp(MouseButtonEventArgs e)
+		{
+			var widget = GetChildAt(e.Position);
+			if (widget != null)
+				widget.OnButtonUp(e);
+		}
+
+		void IInputListener.MouseMove(MouseMoveEventArgs e)
+		{
+			var widget = GetChildAt(e.Position);
+			if (widget != null)
+				widget.OnMouseMove(e);
+		}
+
+		void IInputListener.KeyDown(KeyboardKeyEventArgs e)
+		{
+			// TODO: focused widget
+			OnKeyDown(e);
+		}
+
+		void IInputListener.KeyUp(KeyboardKeyEventArgs e)
+		{
+			OnKeyUp(e);
+		}
+
+		#endregion
 	}
 }
 
