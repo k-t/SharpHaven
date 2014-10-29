@@ -36,9 +36,10 @@ namespace MonoHaven.UI
 			rootWidget.Draw(dc);
 		}
 
-		protected void Add(Widget widget)
+		protected Widget Add(Widget widget)
 		{
-			rootWidget.Add(widget);
+			rootWidget.AddChild(widget);
+			return widget;
 		}
 
 		public virtual void Dispose()

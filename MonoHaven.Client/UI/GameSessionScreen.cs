@@ -12,14 +12,14 @@ namespace MonoHaven.UI
 		{
 			session = new GameSession();
 
-			this.mapView = new MapView(session) { Width = host.Width, Height = host.Height };
-			this.Add(mapView);
+			mapView = new MapView(session);
+			Add(mapView).SetSize(host.Width, host.Height);
 		}
 
 		protected override void OnResize(int newWidth, int newHeight)
 		{
-			this.mapView.Width = Host.Width;
-			this.mapView.Height = Host.Height;
+			mapView.Width = Host.Width;
+			mapView.Height = Host.Height;
 		}
 	}
 }

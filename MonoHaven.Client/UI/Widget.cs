@@ -56,7 +56,6 @@ namespace MonoHaven.UI
 		public Point Location
 		{
 			get { return bounds.Location; }
-			set { bounds.Location = value; }
 		}
 
 		public int Width
@@ -74,7 +73,6 @@ namespace MonoHaven.UI
 		public Size Size
 		{
 			get { return bounds.Size; }
-			set { bounds.Size = value; }
 		}
 
 		public Rectangle Bounds
@@ -85,26 +83,33 @@ namespace MonoHaven.UI
 
 		public bool Visible { get; set; }
 
-		public void Add(Widget widget)
+		public void AddChild(Widget child)
 		{
-			if (widget.parent != null)
-				widget.parent.Remove(widget);
+			if (child.parent != null)
+				child.parent.Remove(child);
 
-			widget.parent = this;
+			child.parent = this;
 
 			if (this.firstChild == null)
-				this.firstChild = widget;
+				this.firstChild = child;
 
 			if (this.lastChild != null)
 			{
-				widget.previous = this.lastChild;
-				this.lastChild.next = widget;
-				this.lastChild = widget;
+				child.previous = this.lastChild;
+				this.lastChild.next = child;
+				this.lastChild = child;
 			}
 			else
 			{
-				this.lastChild = widget;
+				this.lastChild = child;
 			}
+		}
+
+		public Widget AddChildren(IEnumerable<Widget> children)
+		{
+			foreach (var child in children)
+				AddChild(child);
+			return this;
 		}
 
 		public void Remove(Widget widget)
@@ -152,6 +157,18 @@ namespace MonoHaven.UI
 					return widget.GetChildAt(p) ?? widget;
 			}
 			return null;
+		}
+
+		public Widget SetLocation(int x, int y)
+		{
+			bounds.Location = new Point(x, y);
+			return this;
+		}
+
+		public Widget SetSize(int width, int height)
+		{
+			bounds.Size = new Size(width, height);
+			return this;
 		}
 
 		protected virtual void OnButtonDown(MouseButtonEventArgs e) {}

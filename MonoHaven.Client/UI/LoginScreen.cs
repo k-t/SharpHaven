@@ -16,46 +16,50 @@ namespace MonoHaven.UI
 
 		private void InitializeWidgets()
 		{
-			var background = ResourceManager.LoadTexture("gfx/loginscr");
-			Add(new ImageWidget {
-				X = 0, Y = 0,
-				Width = background.Width,
-				Height = background.Height,
-				Image = background
-			});
+			var background = new ImageWidget();
+			background.Image = ResourceManager.LoadTexture("gfx/loginscr");
+			Add(background)
+				.SetLocation(0, 0)
+				.SetSize(background.Image.Width, background.Image.Height);
 
-			var logo = ResourceManager.LoadTexture("gfx/logo");
-			Add(new ImageWidget {
-				X = 420 - logo.Width / 2,
-				Y = 215 - logo.Height / 2,
-				Width = logo.Width,
-				Height = logo.Height,
-				Image =  logo
-			});
+			var logo = new ImageWidget();
+			logo.Image = ResourceManager.LoadTexture("gfx/logo");
+			Add(logo)
+				.SetLocation(420 - logo.Image.Width / 2, 215 - logo.Image.Height / 2)
+				.SetSize(logo.Width, logo.Height);
 
-			var upTexture = ResourceManager.LoadTexture("gfx/hud/buttons/loginu");
-			var btnLogin = new ImageButton {
-				X = 373,
-				Y = 460,
-				Width = upTexture.Width,
-				Height = upTexture.Height,
-				Up = upTexture,
-				Down = ResourceManager.LoadTexture("gfx/hud/buttons/logind")
-			};
+			var btnLogin = new ImageButton();
+			btnLogin.Up = ResourceManager.LoadTexture("gfx/hud/buttons/loginu");
+			btnLogin.Down = ResourceManager.LoadTexture("gfx/hud/buttons/logind");
 			btnLogin.Pressed += (sender, args) => OnLogin();
-			Add(btnLogin);
+			Add(btnLogin)
+				.SetLocation(373, 460)
+				.SetSize(btnLogin.Up.Width, btnLogin.Up.Height);
 
-			Add(new Label { Text = "User Name", TextColor = Color.White, X = 345, Y = 310, Width = 150, Height = 20 });
-			Add(new TextBox { X = 345, Y = 330, Width = 150, Height = 20, Text = "ken_tower" });
-			Add(new Label { Text = "Password", TextColor = Color.White, X = 345, Y = 370, Width = 150, Height = 20 });
-			Add(new TextBox { X = 345, Y = 390, Width = 150, Height = 20, Text = "pwd" });
+			var lbUserName = new Label();
+			lbUserName.Text = "User Name";
+			lbUserName.TextColor = Color.White;
+			Add(lbUserName).SetLocation(345, 310).SetSize(150, 20);
+
+			var tbUserName = new TextBox();
+			tbUserName.Text = "ken_tower";
+			Add(tbUserName).SetLocation(345, 330).SetSize(150, 20);
+
+			var lbPassword = new Label();
+			lbPassword.Text = "Password";
+			lbPassword.TextColor = Color.White;
+			Add(lbPassword).SetLocation(345, 370).SetSize(150, 20);
+
+			var tbPassword = new TextBox();
+			tbPassword.Text = "pwd";
+			Add(tbPassword).SetLocation(345, 390).SetSize(150, 20);
 		}
 
 		protected override void OnResize(int newWidth, int newHeight)
 		{
 			var w = newWidth > MinWidth ? newWidth : MinWidth;
 			var h = newHeight > MinHeight ? newHeight : MinHeight;
-			RootWidget.Location = new Point((w - MinWidth) / 2, (h - MinHeight) / 2);
+			RootWidget.SetLocation((w - MinWidth) / 2, (h - MinHeight) / 2);
 		}
 
 		private void OnLogin()
