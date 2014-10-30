@@ -15,14 +15,14 @@ namespace MonoHaven.UI
 
 		public string Text
 		{
-			get { return text.Value; }
-			set { text.Value = value; }
+			get { return text.Text; }
+			set { text.Text = value; }
 		}
 
 		public Color TextColor
 		{
-			get { return text.Color; }
-			set { text.Color = value; }
+			get { return text.TextColor; }
+			set { text.TextColor = value; }
 		}
 
 		protected override void OnDraw(DrawingContext dc)

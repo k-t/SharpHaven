@@ -40,7 +40,7 @@ namespace MonoHaven.UI
 
 			var tbUserName = new TextBox(RootWidget);
 			tbUserName.Text = "ken_tower";
-			tbUserName.SetLocation(345, 330).SetSize(150, 20);
+			tbUserName.SetLocation(345, 330).SetSize(150, 23);
 
 			var lbPassword = new Label(RootWidget);
 			lbPassword.Text = "Password";
@@ -49,7 +49,7 @@ namespace MonoHaven.UI
 
 			var tbPassword = new TextBox(RootWidget);
 			tbPassword.Text = "pwd";
-			tbPassword.SetLocation(345, 390).SetSize(150, 20);
+			tbPassword.SetLocation(345, 390).SetSize(150, 23);
 		}
 
 		protected override void OnResize(int newWidth, int newHeight)

@@ -14,6 +14,7 @@ namespace MonoHaven.Graphics
 
 		private Color color = Color.White;
 		private Texture currentTexture;
+		private Texture empty;
 		private bool isActive;
 
 		private readonly Shader shader;
@@ -36,6 +37,9 @@ namespace MonoHaven.Graphics
 			var fragmentShader = new FragmentShaderTemplate();
 
 			shader = new Shader(vertexShader.TransformText(), fragmentShader.TransformText());
+			
+			empty = new Texture(1, 1);
+			empty.Upload(new byte[] {255, 255, 255, 255}, PixelFormat.Rgba);
 		}
 
 		public void Dispose()
@@ -73,6 +77,18 @@ namespace MonoHaven.Graphics
 		public void SetColor(Color color)
 		{
 			this.color = color;
+		}
+
+		/// <summary>
+		/// Draws quad.
+		/// </summary>
+		public void Draw(int qx, int qy, int qw, int qh)
+		{
+			ChangeTexture(empty);
+			AddVertex(qx, qy, 0.0f, 0.0f);
+			AddVertex(qx + qw, qy, 0.0f, 0.0f);
+			AddVertex(qx + qw, qy + qh, 0.0f, 0.0f);
+			AddVertex(qx, qy + qh, 0.0f, 0.0f);
 		}
 
 		/// <summary>

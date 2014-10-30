@@ -6,6 +6,8 @@ namespace MonoHaven.UI
 {
 	public class TextBox : Widget
 	{
+		private const int TextPadding = 2;
+
 		private readonly TextBlock text;
 		private readonly Texture borderTexture;
 		private readonly NinePatch border;
@@ -14,7 +16,7 @@ namespace MonoHaven.UI
 			: base(parent)
 		{
 			text = new TextBlock(Fonts.Default);
-			text.Color = Color.Gray;
+			text.TextColor = Color.Gray;
 			borderTexture = new Texture(EmbeddedResource.GetImage("textbox.png"));
 			border = new NinePatch(borderTexture, 2, 2, 2, 2);
 
@@ -23,14 +25,14 @@ namespace MonoHaven.UI
 
 		public string Text
 		{
-			get { return text.Value; }
-			set { text.Value = value; }
+			get { return text.Text; }
+			set { text.Text = value; }
 		}
 
 		protected override void OnDraw(DrawingContext dc)
 		{
 			dc.Draw(border, 0, 0, Width, Height);
-			dc.Draw(text, 3, 4, Width, Height);
+			dc.Draw(text, TextPadding, TextPadding, Width, Height);
 		}
 
 		protected override void OnDispose()
@@ -40,7 +42,8 @@ namespace MonoHaven.UI
 
 		protected override void OnFocusChanged()
 		{
-			text.Color = IsFocused ? Color.Black : Color.Gray;
+			text.TextColor = IsFocused ? Color.White : Color.Gray;
+			text.BackgroundColor = IsFocused ? Color.SteelBlue : Color.Transparent;
 		}
 	}
 }

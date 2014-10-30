@@ -1,4 +1,6 @@
-﻿using System.Drawing;
+﻿using System.Collections.Generic;
+using System.Drawing;
+using System.Linq;
 
 namespace MonoHaven.Graphics
 {
@@ -9,35 +11,40 @@ namespace MonoHaven.Graphics
 		public TextBlock(SpriteFont font)
 		{
 			this.font = font;
+			this.BackgroundColor = Color.Transparent;
 		}
 
-		public Color Color
-		{
-			get;
-			set;
-		}
-
-		public string Value
-		{
-			get;
-			set;
-		}
+		public string Text { get; set; }
+		public Color TextColor { get; set; }
+		public Color BackgroundColor { get; set; }
 
 		public override void Draw(SpriteBatch batch, int x, int y, int w, int h)
 		{
-			if (string.IsNullOrEmpty(Value))
+			if (string.IsNullOrEmpty(Text))
 				return;
 
-			int i = x;
-			int j = y + font.Ascent;
+			int cx = x;
+			int cy = y + font.Ascent;
+			int textWidth = 0;
 
-			batch.SetColor(Color);
-			foreach (var c in Value)
+			// calculate text width
+			var glyphs = new TextGlyph[Text.Length];
+			for (int i = 0; i < Text.Length; i++)
 			{
-				var glyph = font.GetGlyph(c);
+				glyphs[i] = font.GetGlyph(Text[i]);
+				textWidth += (int)glyphs[i].Advance;
+			}
+			// draw background
+			batch.SetColor(BackgroundColor);
+			batch.Draw(x, y, textWidth, font.Height);
+			// draw text
+			batch.SetColor(TextColor);
+			for (int i = 0; i < Text.Length; i++)
+			{
+				var glyph = glyphs[i];
 				if (glyph.Image != null)
-					glyph.Image.Draw(batch, i + glyph.Offset.X, j + glyph.Offset.Y, glyph.Image.Width, glyph.Image.Height);
-				i += (int)glyph.Advance;
+					glyph.Image.Draw(batch, cx + glyph.Offset.X, cy + glyph.Offset.Y, glyph.Image.Width, glyph.Image.Height);
+				cx += (int)glyph.Advance;
 			}
 			batch.SetColor(Color.White);
 		}
