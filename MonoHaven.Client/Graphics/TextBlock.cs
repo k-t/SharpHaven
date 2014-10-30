@@ -29,7 +29,7 @@ namespace MonoHaven.Graphics
 				return;
 
 			int i = x;
-			int j = y + h / 2;
+			int j = y + font.Ascent;
 
 			batch.SetColor(Color);
 			foreach (var c in Value)

@@ -20,6 +20,16 @@ namespace MonoHaven.Graphics
 			this.face.SetPixelSizes((uint)pixelSize, (uint)pixelSize);
 		}
 
+		public int Ascent
+		{
+			get { return face.Size.Metrics.Ascender >> 6; }
+		}
+
+		public int Height
+		{
+			get { return face.Size.Metrics.Height >> 6; }
+		}
+
 		public void Dispose()
 		{
 			atlas.Dispose();
