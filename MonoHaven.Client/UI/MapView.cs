@@ -119,7 +119,7 @@ namespace MonoHaven.UI
 		{
 			if (e.Button == MouseButton.Left)
 			{
-				Host.RequestMouseFocus(this);
+				Host.GrabMouse(this);
 				dragging = true;
 			}
 		}

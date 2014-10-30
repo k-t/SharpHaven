@@ -26,7 +26,7 @@ namespace MonoHaven.UI
 
 		protected override void OnMouseButtonDown(MouseButtonEventArgs e)
 		{
-			Host.RequestMouseFocus(this);
+			Host.GrabMouse(this);
 			isPressed = true;
 		}
 

@@ -125,7 +125,7 @@ namespace MonoHaven.UI
 			SetKeyboardFocus(widget);
 		}
 
-		void IWidgetHost.RequestMouseFocus(Widget widget)
+		void IWidgetHost.GrabMouse(Widget widget)
 		{
 			mouseFocus = widget;
 		}

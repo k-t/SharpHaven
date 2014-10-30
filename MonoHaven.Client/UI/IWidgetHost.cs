@@ -3,7 +3,7 @@
 	public interface IWidgetHost
 	{
 		void RequestKeyboardFocus(Widget widget);
-		void RequestMouseFocus(Widget widget);
+		void GrabMouse(Widget widget);
 		void ReleaseMouse();
 	}
 }
