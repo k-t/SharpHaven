@@ -14,10 +14,10 @@ namespace MonoHaven.UI
 		public void Close() {}
 		public void Resize(int newWidth, int newHeight) {}
 		public void Draw(DrawingContext dc) {}
-		public void HandleMouseButtonDown(MouseButtonEventArgs e) {}
-		public void HandleMouseButtonUp(MouseButtonEventArgs e) {}
-		public void HandleMouseMove(MouseMoveEventArgs e) {}
-		public void HandleKeyDown(KeyboardKeyEventArgs e) {}
-		public void HandleKeyUp(KeyboardKeyEventArgs e) {}
+		public void MouseButtonDown(MouseButtonEventArgs e) {}
+		public void MouseButtonUp(MouseButtonEventArgs e) {}
+		public void MouseMove(MouseMoveEventArgs e) {}
+		public void KeyDown(KeyboardKeyEventArgs e) {}
+		public void KeyUp(KeyboardKeyEventArgs e) {}
 	}
 }

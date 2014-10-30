@@ -12,7 +12,8 @@ namespace MonoHaven.UI
 		private Point cameraOffset = new Point(0, 0);
 		private bool dragging;
 
-		public MapView(GameSession session)
+		public MapView(Widget parent, GameSession session)
+			: base(parent)
 		{
 			this.session = session;
 			this.cameraOffset = TileToScreen(new Point(-329200, 63600));
@@ -118,7 +119,7 @@ namespace MonoHaven.UI
 		{
 			if (e.Button == MouseButton.Left)
 			{
-				GrabMouse();
+				Host.RequestMouseFocus(this);
 				dragging = true;
 			}
 		}
@@ -127,7 +128,7 @@ namespace MonoHaven.UI
 		{
 			if (e.Button == MouseButton.Left)
 			{
-				ReleaseMouse();
+				Host.ReleaseMouse();
 				dragging = false;
 			}
 		}

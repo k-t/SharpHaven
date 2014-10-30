@@ -7,7 +7,8 @@ namespace MonoHaven.UI
 	{
 		private readonly TextBlock text;
 
-		public Label()
+		public Label(Widget parent)
+			: base(parent)
 		{
 			text = new TextBlock(Fonts.Default);
 		}

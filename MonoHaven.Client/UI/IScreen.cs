@@ -2,7 +2,7 @@
 
 namespace MonoHaven.UI
 {
-	public interface IScreen
+	public interface IScreen : IInputListener
 	{
 		void Show();
 		void Close();

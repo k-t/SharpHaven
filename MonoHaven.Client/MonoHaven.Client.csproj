@@ -82,6 +82,7 @@
     <Compile Include="UI\IInputListener.cs" />
     <Compile Include="UI\IScreen.cs" />
     <Compile Include="UI\IScreenHost.cs" />
+    <Compile Include="UI\IWidgetHost.cs" />
     <Compile Include="UI\Label.cs" />
     <Compile Include="UI\RootWidget.cs" />
     <Compile Include="Utils\MathUtils.cs" />

@@ -8,6 +8,10 @@ namespace MonoHaven.UI
 	{
 		private bool isPressed;
 
+		public ImageButton(Widget parent)
+			: base(parent)
+		{}
+
 		public Drawable Up { get; set; }
 		public Drawable Down { get; set; }
 
@@ -22,13 +26,13 @@ namespace MonoHaven.UI
 
 		protected override void OnMouseButtonDown(MouseButtonEventArgs e)
 		{
-			GrabMouse();
+			Host.RequestMouseFocus(this);
 			isPressed = true;
 		}
 
 		protected override void OnMouseButtonUp(MouseButtonEventArgs e)
 		{
-			ReleaseMouse();
+			Host.ReleaseMouse();
 			isPressed = false;
 			RaisePressedEvent();
 		}

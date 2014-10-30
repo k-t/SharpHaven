@@ -16,43 +16,40 @@ namespace MonoHaven.UI
 
 		private void InitializeWidgets()
 		{
-			var background = new ImageWidget();
+			var background = new ImageWidget(RootWidget);
 			background.Image = ResourceManager.LoadTexture("gfx/loginscr");
-			Add(background)
-				.SetLocation(0, 0)
-				.SetSize(background.Image.Width, background.Image.Height);
+			background.SetLocation(0, 0);
+			background.SetSize(background.Image.Width, background.Image.Height);
 
-			var logo = new ImageWidget();
+			var logo = new ImageWidget(RootWidget);
 			logo.Image = ResourceManager.LoadTexture("gfx/logo");
-			Add(logo)
-				.SetLocation(420 - logo.Image.Width / 2, 215 - logo.Image.Height / 2)
-				.SetSize(logo.Width, logo.Height);
+			logo.SetLocation(420 - logo.Image.Width / 2, 215 - logo.Image.Height / 2);
+			logo.SetSize(logo.Width, logo.Height);
 
-			var btnLogin = new ImageButton();
+			var btnLogin = new ImageButton(RootWidget);
 			btnLogin.Up = ResourceManager.LoadTexture("gfx/hud/buttons/loginu");
 			btnLogin.Down = ResourceManager.LoadTexture("gfx/hud/buttons/logind");
 			btnLogin.Pressed += (sender, args) => OnLogin();
-			Add(btnLogin)
-				.SetLocation(373, 460)
-				.SetSize(btnLogin.Up.Width, btnLogin.Up.Height);
+			btnLogin.SetLocation(373, 460);
+			btnLogin.SetSize(btnLogin.Up.Width, btnLogin.Up.Height);
 
-			var lbUserName = new Label();
+			var lbUserName = new Label(RootWidget);
 			lbUserName.Text = "User Name";
 			lbUserName.TextColor = Color.White;
-			Add(lbUserName).SetLocation(345, 310).SetSize(150, 20);
+			lbUserName.SetLocation(345, 310).SetSize(150, 20);
 
-			var tbUserName = new TextBox();
+			var tbUserName = new TextBox(RootWidget);
 			tbUserName.Text = "ken_tower";
-			Add(tbUserName).SetLocation(345, 330).SetSize(150, 20);
+			tbUserName.SetLocation(345, 330).SetSize(150, 20);
 
-			var lbPassword = new Label();
+			var lbPassword = new Label(RootWidget);
 			lbPassword.Text = "Password";
 			lbPassword.TextColor = Color.White;
-			Add(lbPassword).SetLocation(345, 370).SetSize(150, 20);
+			lbPassword.SetLocation(345, 370).SetSize(150, 20);
 
-			var tbPassword = new TextBox();
+			var tbPassword = new TextBox(RootWidget);
 			tbPassword.Text = "pwd";
-			Add(tbPassword).SetLocation(345, 390).SetSize(150, 20);
+			tbPassword.SetLocation(345, 390).SetSize(150, 20);
 		}
 
 		protected override void OnResize(int newWidth, int newHeight)

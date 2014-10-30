@@ -10,24 +10,34 @@ namespace MonoHaven.UI
 {
 	public abstract class Widget : IDisposable, IInputListener
 	{
-		private Widget parent;
+		private readonly IWidgetHost host;
+		private readonly Widget parent;
 		private Widget next;
 		private Widget previous;
 		private Widget firstChild;
 		private Widget lastChild;
 		private Rectangle bounds;
 		private bool isDisposed;
+		private bool isFocused;
 
-		protected Widget()
+		protected Widget(IWidgetHost host)
 		{
+			this.host = host;
 			Visible = true;
+		}
+
+		protected Widget(Widget parent)
+			: this(parent.Host)
+		{
+			this.parent = parent;
+			this.parent.AddChild(this);
 		}
 
 		#region Properties
 
-		protected virtual RootWidget Root
+		protected IWidgetHost Host
 		{
-			get { return parent != null ? parent.Root : null; }
+			get { return host; }
 		}
 
 		private IEnumerable<Widget> Children
@@ -92,37 +102,31 @@ namespace MonoHaven.UI
 
 		public bool IsFocusable { get; set; }
 
+		public bool IsFocused
+		{
+			get { return isFocused; }
+			set
+			{
+				if (isFocused == value)
+					return;
+				isFocused = value;
+				OnFocusChanged();
+			}
+		}
+
 		#endregion
 
 		#region Public Methods
 
-		public void AddChild(Widget child)
+		public Widget GetChildAt(Point p)
 		{
-			if (child.parent != null)
-				child.parent.Remove(child);
-
-			child.parent = this;
-
-			if (this.firstChild == null)
-				this.firstChild = child;
-
-			if (this.lastChild != null)
+			p = p.Sub(Location);
+			foreach (var widget in ReversedChildren)
 			{
-				child.previous = this.lastChild;
-				this.lastChild.next = child;
-				this.lastChild = child;
+				if (widget.Bounds.Contains(p.X, p.Y))
+					return widget.GetChildAt(p) ?? widget;
 			}
-			else
-			{
-				this.lastChild = child;
-			}
-		}
-
-		public Widget AddChildren(IEnumerable<Widget> children)
-		{
-			foreach (var child in children)
-				AddChild(child);
-			return this;
+			return null;
 		}
 
 		public void Remove(Widget widget)
@@ -136,8 +140,6 @@ namespace MonoHaven.UI
 				widget.next.previous = widget.previous;
 			if (widget.previous != null)
 				widget.previous.next = widget.next;
-
-			widget.parent = null;
 		}
 
 		public void Dispose()
@@ -177,37 +179,7 @@ namespace MonoHaven.UI
 
 		#region Protected Methods
 
-		protected Widget GetChildAt(Point p)
-		{
-			p = p.Sub(Location);
-			foreach (var widget in ReversedChildren)
-			{
-				if (widget.Bounds.Contains(p.X, p.Y))
-					return widget.GetChildAt(p) ?? widget;
-			}
-			return null;
-		}
-
-		protected void GrabMouse()
-		{
-			Root.SetMouseFocus(this);
-		}
-
-		protected void ReleaseMouse()
-		{
-			Root.SetMouseFocus(null);
-		}
-
-		protected virtual void OnMouseButtonDown(MouseButtonEventArgs e)
-		{
-			if (IsFocusable)
-			{
-				if (Root.KeyboardFocus != null)
-					Root.KeyboardFocus.OnLostFocus();
-				Root.SetKeyboardFocus(this);
-				OnGotFocus();
-			}
-		}
+		protected virtual void OnMouseButtonDown(MouseButtonEventArgs e) {}
 
 		protected virtual void OnMouseButtonUp(MouseButtonEventArgs e) {}
 		
@@ -221,11 +193,29 @@ namespace MonoHaven.UI
 		
 		protected virtual void OnDispose() {}
 
-		protected virtual void OnGotFocus() {}
-
-		protected virtual void OnLostFocus() {}
+		protected virtual void OnFocusChanged() {}
 
 		#endregion
+
+		private void AddChild(Widget child)
+		{
+			if (child.parent != null)
+				child.parent.Remove(child);
+
+			if (this.firstChild == null)
+				this.firstChild = child;
+
+			if (this.lastChild != null)
+			{
+				child.previous = this.lastChild;
+				this.lastChild.next = child;
+				this.lastChild = child;
+			}
+			else
+			{
+				this.lastChild = child;
+			}
+		}
 
 		#region IInputListener implementation
 

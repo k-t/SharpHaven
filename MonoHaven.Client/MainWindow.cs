@@ -34,15 +34,11 @@ namespace MonoHaven
 
 		private SpriteBatch SpriteBatch { get; set; }
 
-		public void SetInputListener(IInputListener listener)
-		{
-			inputListener = listener;
-		}
-
 		public void SetScreen(IScreen screen)
 		{
 			currentScreen.Close();
 			currentScreen = screen ?? EmptyScreen.Instance;
+			inputListener = currentScreen;
 			currentScreen.Show();
 		}
 

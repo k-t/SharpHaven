@@ -10,7 +10,8 @@ namespace MonoHaven.UI
 		private readonly Texture borderTexture;
 		private readonly NinePatch border;
 
-		public TextBox()
+		public TextBox(Widget parent)
+			: base(parent)
 		{
 			text = new TextBlock(Fonts.Default);
 			text.Color = Color.Gray;
@@ -37,14 +38,9 @@ namespace MonoHaven.UI
 			borderTexture.Dispose();
 		}
 
-		protected override void OnGotFocus()
+		protected override void OnFocusChanged()
 		{
-			text.Color = Color.Black;
-		}
-
-		protected override void OnLostFocus()
-		{
-			text.Color = Color.Gray;
+			text.Color = IsFocused ? Color.Black : Color.Gray;
 		}
 	}
 }
