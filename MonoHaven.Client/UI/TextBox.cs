@@ -42,7 +42,19 @@ namespace MonoHaven.UI
 
 		protected override void OnFocusChanged()
 		{
-			text.TextColor = IsFocused ? Color.White : Color.Gray;
+			Refresh();
+		}
+
+		protected override void OnHoverChanged()
+		{
+			Refresh();
+		}
+
+		private void Refresh()
+		{
+			text.TextColor = IsFocused ? Color.White
+				: IsHovered ? Color.Black
+				: Color.Gray;
 			text.BackgroundColor = IsFocused ? Color.SteelBlue : Color.Transparent;
 		}
 	}

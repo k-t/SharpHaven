@@ -10,6 +10,7 @@ namespace MonoHaven.UI
 		private readonly RootWidget rootWidget;
 		private Widget mouseFocus;
 		private Widget keyboardFocus;
+		private Widget hoveredWidget;
 
 		protected BaseScreen(IScreenHost host)
 		{
@@ -45,16 +46,20 @@ namespace MonoHaven.UI
 
 		private void SetKeyboardFocus(Widget widget)
 		{
-			if (keyboardFocus != null)
-				keyboardFocus.IsFocused = false;
-
+			if (keyboardFocus != null) keyboardFocus.IsFocused = false;
 			keyboardFocus = widget;
-
-			if (keyboardFocus != null)
-				keyboardFocus.IsFocused = true;
+			if (keyboardFocus != null) keyboardFocus.IsFocused = true;
 		}
 
-		#region IScreen implementation
+		private void SetHoveredWidget(Widget widget)
+		{
+			if (hoveredWidget == widget) return;
+			if (hoveredWidget != null) hoveredWidget.IsHovered = false;
+			hoveredWidget = widget;
+			if (hoveredWidget != null) hoveredWidget.IsHovered = true;
+		}
+
+		#region IScreen Implementation
 
 		void IScreen.Show()
 		{
@@ -78,7 +83,7 @@ namespace MonoHaven.UI
 
 		#endregion
 
-		#region IInputListener implementation
+		#region IInputListener Implementation
 
 		void IInputListener.MouseButtonDown(MouseButtonEventArgs e)
 		{
@@ -94,16 +99,25 @@ namespace MonoHaven.UI
 
 		void IInputListener.MouseButtonUp(MouseButtonEventArgs e)
 		{
-			IInputListener widget = mouseFocus ?? RootWidget.GetChildAt(e.Position);
+			var widget = mouseFocus ?? RootWidget.GetChildAt(e.Position);
 			if (widget != null)
-				widget.MouseButtonUp(e);
+				((IInputListener)widget).MouseButtonUp(e);
 		}
 
 		void IInputListener.MouseMove(MouseMoveEventArgs e)
 		{
-			IInputListener widget = mouseFocus ?? RootWidget.GetChildAt(e.Position);
-			if (widget != null)
-				widget.MouseMove(e);
+			if (mouseFocus != null)
+				// don't hover widgets mouse is grabbed
+				((IInputListener)mouseFocus).MouseMove(e);
+			else
+			{
+				var widget = mouseFocus ?? RootWidget.GetChildAt(e.Position);
+				SetHoveredWidget(widget);
+				if (widget != null)
+				{
+					((IInputListener)widget).MouseMove(e);
+				}
+			}
 		}
 
 		void IInputListener.KeyDown(KeyboardKeyEventArgs e)
@@ -120,6 +134,8 @@ namespace MonoHaven.UI
 
 		#endregion
 
+		#region IWidgetHost Implementation
+
 		void IWidgetHost.RequestKeyboardFocus(Widget widget)
 		{
 			SetKeyboardFocus(widget);
@@ -133,6 +149,9 @@ namespace MonoHaven.UI
 		void IWidgetHost.ReleaseMouse()
 		{
 			mouseFocus = null;
+			SetHoveredWidget(null);
 		}
+
+		#endregion
 	}
 }

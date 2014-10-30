@@ -19,6 +19,7 @@ namespace MonoHaven.UI
 		private Rectangle bounds;
 		private bool isDisposed;
 		private bool isFocused;
+		private bool isHovered;
 
 		protected Widget(IWidgetHost host)
 		{
@@ -114,6 +115,18 @@ namespace MonoHaven.UI
 			}
 		}
 
+		public bool IsHovered
+		{
+			get { return isHovered; }
+			set
+			{
+				if (isHovered == value)
+					return;
+				isHovered = value;
+				OnHoverChanged();
+			}
+		}
+
 		#endregion
 
 		#region Public Methods
@@ -194,6 +207,8 @@ namespace MonoHaven.UI
 		protected virtual void OnDispose() {}
 
 		protected virtual void OnFocusChanged() {}
+
+		protected virtual void OnHoverChanged() {}
 
 		#endregion
 
