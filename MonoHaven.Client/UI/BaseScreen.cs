@@ -56,7 +56,11 @@ namespace MonoHaven.UI
 			if (hoveredWidget == widget) return;
 			if (hoveredWidget != null) hoveredWidget.IsHovered = false;
 			hoveredWidget = widget;
-			if (hoveredWidget != null) hoveredWidget.IsHovered = true;
+			if (hoveredWidget != null)
+			{
+				host.SetCursor(hoveredWidget.Cursor);
+				hoveredWidget.IsHovered = true;
+			}
 		}
 
 		#region IScreen Implementation

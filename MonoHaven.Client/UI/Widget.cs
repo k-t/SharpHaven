@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Linq;
 using MonoHaven.Graphics;
 using MonoHaven.Utils;
+using OpenTK;
 using OpenTK.Input;
 
 namespace MonoHaven.UI
@@ -125,6 +126,11 @@ namespace MonoHaven.UI
 				isHovered = value;
 				OnHoverChanged();
 			}
+		}
+
+		public virtual MouseCursor Cursor
+		{
+			get { return Cursors.Default; }
 		}
 
 		#endregion

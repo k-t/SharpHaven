@@ -51,6 +51,7 @@
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="Constants.cs" />
+    <Compile Include="Cursors.cs" />
     <Compile Include="Graphics\TextGlyph.cs" />
     <Compile Include="Graphics\Shader.cs" />
     <Compile Include="Graphics\Shaders\FragmentShaderTemplate.cs">

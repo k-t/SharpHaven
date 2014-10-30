@@ -1,5 +1,8 @@
-﻿using MonoHaven.Graphics;
+﻿using System.Drawing;
+using System.IO;
+using MonoHaven.Graphics;
 using MonoHaven.Resources.Layers;
+using OpenTK;
 
 namespace MonoHaven.Resources
 {
@@ -10,6 +13,24 @@ namespace MonoHaven.Resources
 		public static Resource LoadResource(string resName)
 		{
 			return defaultSource.Get(resName);
+		}
+
+		public static MouseCursor LoadCursor(string resName)
+		{
+			MouseCursor cursor;
+			var cursorData = LoadResource(resName).GetLayer<ImageData>();
+
+			using (var ms = new MemoryStream(cursorData.Data))
+			using (var bitmap = new Bitmap(ms))
+			{
+				var bitmapData = bitmap.LockBits(
+					new Rectangle(0, 0, bitmap.Width, bitmap.Height),
+					System.Drawing.Imaging.ImageLockMode.ReadOnly,
+					System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+				cursor = new MouseCursor(1, 1, bitmap.Width, bitmap.Height, bitmapData.Scan0);
+				bitmap.UnlockBits(bitmapData);
+				return cursor;
+			}
 		}
 
 		public static Tileset LoadTileset(string resName)

@@ -34,6 +34,11 @@ namespace MonoHaven
 
 		private SpriteBatch SpriteBatch { get; set; }
 
+		public void SetCursor(MouseCursor cursor)
+		{
+			Cursor = cursor;
+		}
+
 		public void SetScreen(IScreen screen)
 		{
 			currentScreen.Close();
