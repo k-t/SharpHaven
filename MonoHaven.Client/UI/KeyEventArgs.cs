@@ -6,8 +6,13 @@ namespace MonoHaven.UI
 	{
 		public KeyEventArgs(KeyboardKeyEventArgs keyEventArgs)
 			: base(keyEventArgs)
-		{}
+		{
+		}
 
-		public bool Handled { get; set; }
+		public bool Handled
+		{
+			get;
+			set;
+		}
 	}
 }

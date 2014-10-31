@@ -14,10 +14,19 @@ namespace MonoHaven.UI
 			IsFocusable = true;
 		}
 
-		public Drawable Up { get; set; }
-		public Drawable Down { get; set; }
-
 		public event EventHandler Pressed;
+
+		public Drawable Up
+		{
+			get;
+			set;
+		}
+
+		public Drawable Down
+		{
+			get;
+			set;
+		}
 
 		protected override void OnDraw(DrawingContext dc)
 		{

@@ -40,7 +40,11 @@ namespace MonoHaven
 			get { return callbackDispatcher; }
 		}
 
-		private SpriteBatch SpriteBatch { get; set; }
+		private SpriteBatch SpriteBatch
+		{
+			get;
+			set;
+		}
 
 		public void SetCursor(MouseCursor cursor)
 		{

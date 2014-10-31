@@ -10,6 +10,10 @@ namespace MonoHaven
 			Default = ResourceManager.LoadCursor("gfx/hud/curs/arw");
 		}
 
-		public static MouseCursor Default { get; private set; }
+		public static MouseCursor Default
+		{
+			get;
+			private set;
+		}
 	}
 }

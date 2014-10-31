@@ -4,8 +4,13 @@
 	{
 		public KeyPressEventArgs(char c)
 			: base(c)
-		{ }
+		{
+		}
 
-		public bool Handled { get; set; }
+		public bool Handled
+		{
+			get;
+			set;
+		}
 	}
 }

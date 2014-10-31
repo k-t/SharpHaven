@@ -44,7 +44,8 @@ namespace MonoHaven.Resources
 		}
 
 		public void Dispose()
-		{}
+		{
+		}
 
 		private string ToFileName(string resName)
 		{

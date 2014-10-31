@@ -33,22 +33,34 @@ namespace MonoHaven.UI
 			get { return rootWidget; }
 		}
 
-		protected virtual void OnShow() {}
+		protected virtual void OnShow()
+		{
+		}
 
-		protected virtual void OnClose() {}
+		protected virtual void OnClose()
+		{
+		}
 
-		protected virtual void OnResize(int newWidth, int newHeight) {}
+		protected virtual void OnResize(int newWidth, int newHeight)
+		{
+		}
 
 		protected virtual void OnDraw(DrawingContext dc)
 		{
 			rootWidget.Draw(dc);
 		}
 
-		protected virtual void OnKeyDown(KeyEventArgs args) {}
+		protected virtual void OnKeyDown(KeyEventArgs args)
+		{
+		}
 
-		protected virtual void OnKeyUp(KeyEventArgs args) {}
+		protected virtual void OnKeyUp(KeyEventArgs args)
+		{
+		}
 
-		protected virtual void OnKeyPress(KeyPressEventArgs args) {}
+		protected virtual void OnKeyPress(KeyPressEventArgs args)
+		{
+		}
 
 		protected void SetKeyboardFocus(Widget widget)
 		{

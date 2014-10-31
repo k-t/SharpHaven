@@ -19,7 +19,10 @@ namespace MonoHaven.Network
 			this.message = message;
 		}
 
-		public bool IsEom() { return off >= message.Length; }
+		public bool IsEom
+		{
+			get { return off >= message.Length; }
+		}
 		
 		public sbyte Int8()
 		{

@@ -100,9 +100,17 @@ namespace MonoHaven.UI
 			set { bounds = value; }
 		}
 
-		public bool Visible { get; set; }
+		public bool Visible
+		{
+			get;
+			set;
+		}
 
-		public bool IsFocusable { get; set; }
+		public bool IsFocusable
+		{
+			get;
+			set;
+		}
 
 		public bool IsFocused
 		{
@@ -198,25 +206,45 @@ namespace MonoHaven.UI
 
 		#region Protected Methods
 
-		protected virtual void OnMouseButtonDown(MouseButtonEventArgs e) {}
+		protected virtual void OnMouseButtonDown(MouseButtonEventArgs e)
+		{
+		}
 
-		protected virtual void OnMouseButtonUp(MouseButtonEventArgs e) {}
+		protected virtual void OnMouseButtonUp(MouseButtonEventArgs e)
+		{
+		}
 		
-		protected virtual void OnKeyDown(KeyEventArgs e) {}
+		protected virtual void OnKeyDown(KeyEventArgs e)
+		{
+		}
 		
-		protected virtual void OnKeyUp(KeyEventArgs e) {}
+		protected virtual void OnKeyUp(KeyEventArgs e)
+		{
+		}
 
-		protected virtual void OnKeyPress(KeyPressEventArgs e) {}
+		protected virtual void OnKeyPress(KeyPressEventArgs e)
+		{
+		}
 		
-		protected virtual void OnMouseMove(MouseMoveEventArgs e) {}
+		protected virtual void OnMouseMove(MouseMoveEventArgs e)
+		{
+		}
 		
-		protected virtual void OnDraw(DrawingContext dc) {}
+		protected virtual void OnDraw(DrawingContext dc)
+		{
+		}
 		
-		protected virtual void OnDispose() {}
+		protected virtual void OnDispose()
+		{
+		}
 
-		protected virtual void OnFocusChanged() {}
+		protected virtual void OnFocusChanged()
+		{
+		}
 
-		protected virtual void OnHoverChanged() {}
+		protected virtual void OnHoverChanged()
+		{
+		}
 
 		#endregion
 

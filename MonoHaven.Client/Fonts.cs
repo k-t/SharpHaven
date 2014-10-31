@@ -19,6 +19,10 @@ namespace MonoHaven
 			Default = font;
 		}
 
-		public static SpriteFont Default { get; private set; }
+		public static SpriteFont Default
+		{
+			get;
+			private set;
+		}
 	}
 }

@@ -6,9 +6,14 @@ namespace MonoHaven.UI
 	{
 		public ImageWidget(Widget parent)
 			: base(parent)
-		{}
+		{
+		}
 
-		public Drawable Image { get; set; }
+		public Drawable Image
+		{
+			get;
+			set;
+		}
 
 		protected override void OnDraw(DrawingContext dc)
 		{

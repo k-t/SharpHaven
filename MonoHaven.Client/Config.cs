@@ -10,10 +10,29 @@ namespace MonoHaven
 			GamePort = 1870;
 		}
 
-		public static string AuthHost { get; private set; }
-		public static int AuthPort { get; private set; }
-		public static string GameHost { get; private set; }
-		public static int GamePort { get; private set; }
+		public static string AuthHost
+		{
+			get;
+			private set;
+		}
+
+		public static int AuthPort
+		{
+			get;
+			private set;
+		}
+
+		public static string GameHost
+		{
+			get;
+			private set;
+		}
+
+		public static int GamePort
+		{
+			get;
+			private set;
+		}
 	}
 }
 
