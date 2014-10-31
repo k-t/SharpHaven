@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
 using System.Text;
+using SharpFont;
 
 namespace MonoHaven.Graphics
 {
@@ -8,14 +9,14 @@ namespace MonoHaven.Graphics
 	{
 		private readonly SpriteFont font;
 		private readonly StringBuilder text;
-		private readonly List<TextGlyph> glyphs;
+		private readonly List<TextBlockGlyph> glyphs;
 		private int textWidth;
 
 		public TextBlock(SpriteFont font)
 		{
 			this.font = font;
 			this.text = new StringBuilder();
-			this.glyphs = new List<TextGlyph>();
+			this.glyphs = new List<TextBlockGlyph>();
 			
 			BackgroundColor = Color.Transparent;
 		}
@@ -101,48 +102,67 @@ namespace MonoHaven.Graphics
 
 		public override void Draw(SpriteBatch batch, int x, int y, int w, int h)
 		{
-			int cx = x;
-			int cy = y + font.Ascent;
-
 			// align text
 			switch (TextAlign)
 			{
 				case TextAlign.Center:
-					cx = x + (w - textWidth) / 2;
+					x = x + (w - textWidth) / 2;
 					break;
 				case TextAlign.Right:
-					cx = x + (w - textWidth);
+					x = x + (w - textWidth);
 					break;
 			}
 			// draw background
 			batch.SetColor(BackgroundColor);
-			batch.Draw(cx, y, textWidth, font.Height);
+			batch.Draw(x, y, textWidth, font.Height);
 			// draw text
 			batch.SetColor(TextColor);
 			foreach (var glyph in glyphs)
-			{
-				if (glyph.Image != null)
-					glyph.Image.Draw(batch, cx + glyph.Offset.X, cy + glyph.Offset.Y, glyph.Image.Width, glyph.Image.Height);
-				cx += (int)glyph.Advance;
-			}
+				glyph.Draw(batch, x, y, glyph.Width, glyph.Height);
 			batch.SetColor(Color.White);
 		}
 
 		private void UpdateGlyphs(int index, int count)
 		{
+			int gx;
+			int gy = font.Ascent;
+
+			if (index > 0 && index < glyphs.Count)
+				gx = glyphs[index - 1].Position.X;
+			else if (index >= glyphs.Count)
+				gx = textWidth;
+			else // index == 0
+				gx = 0;
+
+			// insert new glyphs
 			for (int i = 0; i < count; i++)
 			{
 				var glyph = font.GetGlyph(text[index + i]);
-				glyphs.Insert(index + i, glyph);
+				glyphs.Insert(index + i, new TextBlockGlyph(glyph, gx, gy));
+				gx += (int)glyph.Advance;
 			}
+
+			// update positions of the rest glyphs
+			for (int i = index + count; i < glyphs.Count; i++)
+			{
+				var glyph = glyphs[i];
+				glyph.Position = new Point(gx, gy);
+				gx += (int)glyph.Advance;
+			}
+
 			UpdateTextWidth();
 		}
 
 		private void UpdateTextWidth()
 		{
-			textWidth = 0;
-			foreach (var glyph in glyphs)
-				textWidth += (int)glyph.Advance;
+			if (glyphs.Count == 0)
+				textWidth = 0;
+			else
+			{
+				var last = glyphs[glyphs.Count - 1];
+				textWidth = last.Position.X + (int)last.Advance;
+			}
+			
 		}
 	}
 }

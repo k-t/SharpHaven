@@ -10,12 +10,12 @@ namespace MonoHaven.Graphics
 	{
 		private readonly Face face;
 		private readonly TextureAtlas atlas;
-		private readonly Dictionary<char, TextGlyph> glyphs;
+		private readonly Dictionary<char, Glyph> glyphs;
 
 		public SpriteFont(Face face, int pixelSize)
 		{
 			atlas = new TextureAtlas(512, 512);
-			glyphs = new Dictionary<char, TextGlyph>();
+			glyphs = new Dictionary<char, Glyph>();
 			this.face = face;
 			this.face.SetPixelSizes((uint)pixelSize, (uint)pixelSize);
 		}
@@ -35,9 +35,9 @@ namespace MonoHaven.Graphics
 			atlas.Dispose();
 		}
 
-		public TextGlyph GetGlyph(char c)
+		public Glyph GetGlyph(char c)
 		{
-			TextGlyph glyph;
+			Glyph glyph;
 			if (!glyphs.TryGetValue(c, out glyph))
 			{
 				glyph = LoadGlyph(c);
@@ -46,7 +46,7 @@ namespace MonoHaven.Graphics
 			return glyph;
 		}
 
-		private TextGlyph LoadGlyph(char c)
+		private Glyph LoadGlyph(char c)
 		{
 			var index = face.GetCharIndex(c);
 			face.LoadGlyph(index, LoadFlags.Default, LoadTarget.Normal);
@@ -54,7 +54,7 @@ namespace MonoHaven.Graphics
 			var sz = new Size(face.Glyph.Metrics.Width >> 6, face.Glyph.Metrics.Height >> 6);
 			if (sz == Size.Empty)
 			{
-				return new TextGlyph { Advance = face.Glyph.Advance.X / 64f };
+				return new Glyph { Advance = face.Glyph.Advance.X / 64f };
 			}
 
 			face.Glyph.RenderGlyph(RenderMode.Normal);
@@ -74,7 +74,7 @@ namespace MonoHaven.Graphics
 						glyphPixels[k + 3] = bufferData[i + bitmap.Width * j];
 					}
 
-				return new TextGlyph {
+				return new Glyph {
 					Advance = face.Glyph.Advance.X / 64f,
 					Offset = new Point(face.Glyph.BitmapLeft, -face.Glyph.BitmapTop),
 					Image = atlas.Add(glyphPixels, PixelFormat.Rgba, sz.Width, sz.Height)

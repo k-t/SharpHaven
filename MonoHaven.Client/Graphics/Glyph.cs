@@ -2,7 +2,7 @@
 
 namespace MonoHaven.Graphics
 {
-	public class TextGlyph
+	public class Glyph
 	{
 		public float Advance
 		{
