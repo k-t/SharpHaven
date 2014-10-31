@@ -1,6 +1,5 @@
 ﻿using System;
 using MonoHaven.Graphics;
-using OpenTK;
 using OpenTK.Input;
 
 namespace MonoHaven.UI
@@ -44,6 +43,12 @@ namespace MonoHaven.UI
 		{
 			rootWidget.Draw(dc);
 		}
+
+		protected virtual void OnKeyDown(KeyEventArgs args) {}
+
+		protected virtual void OnKeyUp(KeyEventArgs args) {}
+
+		protected virtual void OnKeyPress(KeyPressEventArgs args) {}
 
 		private void SetKeyboardFocus(Widget widget)
 		{
@@ -97,8 +102,7 @@ namespace MonoHaven.UI
 			{
 				if (widget != keyboardFocus && widget.IsFocusable)
 					SetKeyboardFocus(widget);
-				
-				((IInputListener)widget).MouseButtonDown(e);
+				widget.MouseButtonDown(e);
 			}
 		}
 
@@ -106,7 +110,7 @@ namespace MonoHaven.UI
 		{
 			var widget = mouseFocus ?? RootWidget.GetChildAt(e.Position);
 			if (widget != null)
-				((IInputListener)widget).MouseButtonUp(e);
+				widget.MouseButtonUp(e);
 		}
 
 		void IInputListener.MouseMove(MouseMoveEventArgs e)
@@ -119,28 +123,29 @@ namespace MonoHaven.UI
 				var widget = mouseFocus ?? RootWidget.GetChildAt(e.Position);
 				SetHoveredWidget(widget);
 				if (widget != null)
-				{
-					((IInputListener)widget).MouseMove(e);
-				}
+					widget.MouseMove(e);
 			}
 		}
 
-		void IInputListener.KeyDown(KeyboardKeyEventArgs e)
+		void IInputListener.KeyDown(KeyEventArgs e)
 		{
-			IInputListener widget = keyboardFocus;
+			var widget = keyboardFocus;
 			if (widget != null) widget.KeyDown(e);
+			if (!e.Handled) OnKeyDown(e);
 		}
 
-		void IInputListener.KeyUp(KeyboardKeyEventArgs e)
+		void IInputListener.KeyUp(KeyEventArgs e)
 		{
-			IInputListener widget = keyboardFocus;
+			var widget = keyboardFocus;
 			if (widget != null) widget.KeyUp(e);
+			if (!e.Handled) OnKeyUp(e);
 		}
 
 		void IInputListener.KeyPress(KeyPressEventArgs e)
 		{
-			IInputListener widget = keyboardFocus;
+			var widget = keyboardFocus;
 			if (widget != null) widget.KeyPress(e);
+			if (!e.Handled) OnKeyPress(e);
 		}
 
 		#endregion

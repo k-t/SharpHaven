@@ -2,6 +2,7 @@
 using MonoHaven.Graphics;
 using MonoHaven.Network;
 using MonoHaven.Resources;
+using OpenTK.Input;
 
 namespace MonoHaven.UI
 {
@@ -48,7 +49,7 @@ namespace MonoHaven.UI
 			btnLogin = new ImageButton(RootWidget);
 			btnLogin.Up = ResourceManager.LoadTexture("gfx/hud/buttons/loginu");
 			btnLogin.Down = ResourceManager.LoadTexture("gfx/hud/buttons/logind");
-			btnLogin.Pressed += (sender, args) => OnLogin();
+			btnLogin.Pressed += (sender, args) => Login();
 			btnLogin.SetLocation(373, 460);
 			btnLogin.SetSize(btnLogin.Up.Width, btnLogin.Up.Height);
 
@@ -91,7 +92,13 @@ namespace MonoHaven.UI
 			RootWidget.SetLocation((w - MinWidth) / 2, (h - MinHeight) / 2);
 		}
 
-		private void OnLogin()
+		protected override void OnKeyDown(KeyEventArgs args)
+		{
+			if (args.Key == Key.Enter)
+				Login();
+		}
+
+		private void Login()
 		{
 			btnLogin.Visible = false;
 			grLogin.Visible = false;

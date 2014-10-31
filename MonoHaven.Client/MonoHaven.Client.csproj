@@ -88,6 +88,8 @@
     <Compile Include="UI\IScreen.cs" />
     <Compile Include="UI\IScreenHost.cs" />
     <Compile Include="UI\IWidgetHost.cs" />
+    <Compile Include="UI\KeyEventArgs.cs" />
+    <Compile Include="UI\KeyPressEventArgs.cs" />
     <Compile Include="UI\Label.cs" />
     <Compile Include="UI\RootWidget.cs" />
     <Compile Include="UI\WidgetGroup.cs" />

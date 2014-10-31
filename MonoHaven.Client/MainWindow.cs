@@ -124,19 +124,19 @@ namespace MonoHaven
 		private void HandleKeyDown(object sender, KeyboardKeyEventArgs e)
 		{
 			if (inputListener != null)
-				inputListener.KeyDown(e);
+				inputListener.KeyDown(new KeyEventArgs(e));
 		}
 
 		private void HandleKeyUp(object sender, KeyboardKeyEventArgs e)
 		{
 			if (inputListener != null)
-				inputListener.KeyUp(e);
+				inputListener.KeyUp(new KeyEventArgs(e));
 		}
 
-		private void HandleKeyPress(object sender, KeyPressEventArgs e)
+		private void HandleKeyPress(object sender, OpenTK.KeyPressEventArgs e)
 		{
 			if (inputListener != null)
-				inputListener.KeyPress(e);
+				inputListener.KeyPress(new UI.KeyPressEventArgs(e.KeyChar));
 		}
 
 		private static class FpsCounter

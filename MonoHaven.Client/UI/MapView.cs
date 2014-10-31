@@ -96,8 +96,9 @@ namespace MonoHaven.UI
 				(p.Y / Constants.TileHeight - p.X / (Constants.TileWidth * 2)) / 2);
 		}
 
-		protected override void OnKeyDown(KeyboardKeyEventArgs e)
+		protected override void OnKeyDown(KeyEventArgs e)
 		{
+			e.Handled = true;
 			switch (e.Key)
 			{
 				case Key.Up:
@@ -111,6 +112,9 @@ namespace MonoHaven.UI
 					break;
 				case Key.Right:
 					cameraOffset.X += 50;
+					break;
+				default:
+					e.Handled = false;
 					break;
 			}
 		}

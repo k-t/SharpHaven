@@ -51,13 +51,17 @@ namespace MonoHaven.UI
 			}
 		}
 
-		protected override void OnKeyDown(KeyboardKeyEventArgs e)
+		protected override void OnKeyDown(KeyEventArgs e)
 		{
+			e.Handled = true;
 			switch (e.Key)
 			{
 				case Key.BackSpace:
 					if (text.Text.Length != 0)
 						text.Text.Remove(text.Text.Length - 1, 1);
+					break;
+				default:
+					e.Handled = false;
 					break;
 			}
 		}
@@ -68,6 +72,7 @@ namespace MonoHaven.UI
 				return;
 
 			text.Text.Append(e.KeyChar);
+			e.Handled = true;
 		}
 
 		protected override void OnDispose()

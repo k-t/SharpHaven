@@ -202,9 +202,9 @@ namespace MonoHaven.UI
 
 		protected virtual void OnMouseButtonUp(MouseButtonEventArgs e) {}
 		
-		protected virtual void OnKeyDown(KeyboardKeyEventArgs e) {}
+		protected virtual void OnKeyDown(KeyEventArgs e) {}
 		
-		protected virtual void OnKeyUp(KeyboardKeyEventArgs e) {}
+		protected virtual void OnKeyUp(KeyEventArgs e) {}
 
 		protected virtual void OnKeyPress(KeyPressEventArgs e) {}
 		
@@ -242,34 +242,41 @@ namespace MonoHaven.UI
 
 		#region IInputListener implementation
 
-		void IInputListener.MouseButtonDown(MouseButtonEventArgs e)
+		public void MouseButtonDown(MouseButtonEventArgs e)
 		{
 			OnMouseButtonDown(e);
 		}
 
-		void IInputListener.MouseButtonUp(MouseButtonEventArgs e)
+		public void MouseButtonUp(MouseButtonEventArgs e)
 		{
 			OnMouseButtonUp(e);
 		}
 
-		void IInputListener.MouseMove(MouseMoveEventArgs e)
+		public void MouseMove(MouseMoveEventArgs e)
 		{
 			OnMouseMove(e);
 		}
 
-		void IInputListener.KeyDown(KeyboardKeyEventArgs e)
+		public void KeyDown(KeyEventArgs e)
 		{
 			OnKeyDown(e);
+			if (!e.Handled && parent != null)
+				parent.KeyDown(e);
+
 		}
 
-		void IInputListener.KeyUp(KeyboardKeyEventArgs e)
+		public void KeyUp(KeyEventArgs e)
 		{
 			OnKeyUp(e);
+			if (!e.Handled && parent != null)
+				parent.KeyUp(e);
 		}
 
-		void IInputListener.KeyPress(KeyPressEventArgs e)
+		public void KeyPress(KeyPressEventArgs e)
 		{
 			OnKeyPress(e);
+			if (!e.Handled && parent != null)
+				parent.KeyPress(e);
 		}
 
 		#endregion

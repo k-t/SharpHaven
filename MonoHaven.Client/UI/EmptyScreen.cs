@@ -1,5 +1,4 @@
 ﻿using MonoHaven.Graphics;
-using OpenTK;
 using OpenTK.Input;
 
 namespace MonoHaven.UI
@@ -18,8 +17,8 @@ namespace MonoHaven.UI
 		public void MouseButtonDown(MouseButtonEventArgs e) {}
 		public void MouseButtonUp(MouseButtonEventArgs e) {}
 		public void MouseMove(MouseMoveEventArgs e) {}
-		public void KeyDown(KeyboardKeyEventArgs e) {}
-		public void KeyUp(KeyboardKeyEventArgs e) {}
+		public void KeyDown(KeyEventArgs e) {}
+		public void KeyUp(KeyEventArgs e) {}
 		public void KeyPress(KeyPressEventArgs e) { }
 	}
 }
