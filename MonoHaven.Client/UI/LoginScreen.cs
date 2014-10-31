@@ -82,7 +82,9 @@ namespace MonoHaven.UI
 			lbProgress = new Label(RootWidget);
 			lbProgress.TextColor = Color.White;
 			lbProgress.TextAlign = TextAlign.Center;
-			lbProgress.SetLocation(0, 350).SetSize(840, 20); ;
+			lbProgress.SetLocation(0, 350).SetSize(840, 20);
+
+			SetKeyboardFocus(tbUserName);
 		}
 
 		protected override void OnResize(int newWidth, int newHeight)
