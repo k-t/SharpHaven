@@ -83,13 +83,13 @@ namespace MonoHaven.Graphics
 		public void Insert(int index, string str)
 		{
 			text.Insert(index, str);
-			InsertGlyphs(index, str.Length);
+			UpdateGlyphs(index, str.Length);
 		}
 
 		public void Insert(int index, char c)
 		{
 			text.Append(c);
-			InsertGlyphs(index, 1);
+			UpdateGlyphs(index, 1);
 		}
 
 		public void Remove(int index, int count)
@@ -128,7 +128,7 @@ namespace MonoHaven.Graphics
 			batch.SetColor(Color.White);
 		}
 
-		private void InsertGlyphs(int index, int count)
+		private void UpdateGlyphs(int index, int count)
 		{
 			for (int i = 0; i < count; i++)
 			{
