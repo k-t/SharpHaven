@@ -1,4 +1,5 @@
 ﻿using System.Drawing;
+using MonoHaven.Graphics;
 using MonoHaven.Network;
 using MonoHaven.Resources;
 
@@ -74,11 +75,13 @@ namespace MonoHaven.UI
 
 			lbErrorMessage = new Label(RootWidget);
 			lbErrorMessage.TextColor = Color.Red;
-			lbErrorMessage.SetLocation(345, 500);
+			lbErrorMessage.TextAlign = TextAlign.Center;
+			lbErrorMessage.SetLocation(0, 500).SetSize(840, 20);
 
 			lbProgress = new Label(RootWidget);
 			lbProgress.TextColor = Color.White;
-			lbProgress.SetLocation(345, 350);
+			lbProgress.TextAlign = TextAlign.Center;
+			lbProgress.SetLocation(0, 350).SetSize(840, 20); ;
 		}
 
 		protected override void OnResize(int newWidth, int newHeight)

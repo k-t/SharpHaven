@@ -23,6 +23,12 @@ namespace MonoHaven.UI
 			}
 		}
 
+		public TextAlign TextAlign
+		{
+			get { return text.TextAlign; }
+			set { text.TextAlign = value; }
+		}
+
 		public Color TextColor
 		{
 			get { return text.TextColor; }

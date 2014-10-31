@@ -26,6 +26,12 @@ namespace MonoHaven.Graphics
 			get { return text; }
 		}
 
+		public TextAlign TextAlign
+		{
+			get;
+			set;
+		}
+
 		public int TextWidth
 		{
 			get { return textWidth; }
@@ -53,9 +59,19 @@ namespace MonoHaven.Graphics
 				glyphs[i] = font.GetGlyph(Text[i]);
 				textWidth += (int)glyphs[i].Advance;
 			}
+			// align text
+			switch (TextAlign)
+			{
+				case TextAlign.Center:
+					cx = x + (w - textWidth) / 2;
+					break;
+				case TextAlign.Right:
+					cx = x + (w - textWidth);
+					break;
+			}
 			// draw background
 			batch.SetColor(BackgroundColor);
-			batch.Draw(x, y, textWidth, font.Height);
+			batch.Draw(cx, y, textWidth, font.Height);
 			// draw text
 			batch.SetColor(TextColor);
 			for (int i = 0; i < Text.Length; i++)
