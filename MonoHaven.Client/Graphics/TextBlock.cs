@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
+﻿using System.Drawing;
 
 namespace MonoHaven.Graphics
 {
@@ -12,6 +10,11 @@ namespace MonoHaven.Graphics
 		{
 			this.font = font;
 			this.BackgroundColor = Color.Transparent;
+		}
+
+		public SpriteFont Font
+		{
+			get { return font; }
 		}
 
 		public string Text { get; set; }

@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
 using MonoHaven.Graphics;
 using MonoHaven.Resources;
 
@@ -7,6 +8,7 @@ namespace MonoHaven.UI
 	public class TextBox : Widget
 	{
 		private const int TextPadding = 2;
+		private const int CursorBlinkRate = 500;
 
 		private readonly TextBlock text;
 		private readonly Texture borderTexture;
@@ -16,7 +18,7 @@ namespace MonoHaven.UI
 			: base(parent)
 		{
 			text = new TextBlock(Fonts.Default);
-			text.TextColor = Color.Gray;
+			text.TextColor = Color.Black;
 			borderTexture = new Texture(EmbeddedResource.GetImage("textbox.png"));
 			border = new NinePatch(borderTexture, 2, 2, 2, 2);
 
@@ -33,29 +35,19 @@ namespace MonoHaven.UI
 		{
 			dc.Draw(border, 0, 0, Width, Height);
 			dc.Draw(text, TextPadding, TextPadding, Width, Height);
+
+			// draw cursor
+			if (IsFocused && DateTime.Now.Millisecond > CursorBlinkRate)
+			{
+				dc.SetColor(Color.Black);
+				dc.DrawRectangle(TextPadding, TextPadding, 1, text.Font.Height);
+				dc.ResetColor();
+			}
 		}
 
 		protected override void OnDispose()
 		{
 			borderTexture.Dispose();
-		}
-
-		protected override void OnFocusChanged()
-		{
-			Refresh();
-		}
-
-		protected override void OnHoverChanged()
-		{
-			Refresh();
-		}
-
-		private void Refresh()
-		{
-			text.TextColor = IsFocused ? Color.White
-				: IsHovered ? Color.Black
-				: Color.Gray;
-			text.BackgroundColor = IsFocused ? Color.SteelBlue : Color.Transparent;
 		}
 	}
 }

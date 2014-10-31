@@ -29,7 +29,7 @@ namespace MonoHaven.Graphics
 
 		public void SetColor(Color color)
 		{
-			spriteBatch.SetColor(Color.White);
+			spriteBatch.SetColor(color);
 		}
 
 		public void ResetColor()
@@ -70,6 +70,11 @@ namespace MonoHaven.Graphics
 		public void Draw(Drawable drawable, int x, int y, int width, int height)
 		{
 			drawable.Draw(spriteBatch, x + offset.X, y + offset.Y, width, height);
+		}
+
+		public void DrawRectangle(int x, int y, int width, int height)
+		{
+			spriteBatch.Draw(x + offset.X, y + offset.Y, width, height);
 		}
 	}
 }
