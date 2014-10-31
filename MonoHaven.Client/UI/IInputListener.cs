@@ -1,4 +1,5 @@
-﻿using OpenTK.Input;
+﻿using OpenTK;
+using OpenTK.Input;
 
 namespace MonoHaven.UI
 {
@@ -9,5 +10,6 @@ namespace MonoHaven.UI
 		void MouseMove(MouseMoveEventArgs e);
 		void KeyDown(KeyboardKeyEventArgs e);
 		void KeyUp(KeyboardKeyEventArgs e);
+		void KeyPress(KeyPressEventArgs e);
 	}
 }

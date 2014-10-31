@@ -2,6 +2,8 @@
 using System.Drawing;
 using MonoHaven.Graphics;
 using MonoHaven.Resources;
+using OpenTK;
+using OpenTK.Input;
 
 namespace MonoHaven.UI
 {
@@ -27,8 +29,12 @@ namespace MonoHaven.UI
 
 		public string Text
 		{
-			get { return text.Text; }
-			set { text.Text = value; }
+			get { return text.Text.ToString(); }
+			set
+			{
+				text.Text.Clear();
+				text.Text.Append(value);
+			}
 		}
 
 		protected override void OnDraw(DrawingContext dc)
@@ -40,9 +46,28 @@ namespace MonoHaven.UI
 			if (IsFocused && DateTime.Now.Millisecond > CursorBlinkRate)
 			{
 				dc.SetColor(Color.Black);
-				dc.DrawRectangle(TextPadding, TextPadding, 1, text.Font.Height);
+				dc.DrawRectangle(TextPadding + text.TextWidth, TextPadding, 1, text.Font.Height);
 				dc.ResetColor();
 			}
+		}
+
+		protected override void OnKeyDown(KeyboardKeyEventArgs e)
+		{
+			switch (e.Key)
+			{
+				case Key.BackSpace:
+					if (text.Text.Length != 0)
+						text.Text.Remove(text.Text.Length - 1, 1);
+					break;
+			}
+		}
+
+		protected override void OnKeyPress(KeyPressEventArgs e)
+		{
+			if (char.IsControl(e.KeyChar))
+				return;
+
+			text.Text.Append(e.KeyChar);
 		}
 
 		protected override void OnDispose()

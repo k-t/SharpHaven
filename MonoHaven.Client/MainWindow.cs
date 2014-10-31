@@ -30,6 +30,7 @@ namespace MonoHaven
 			Keyboard.KeyRepeat = true;
 			Keyboard.KeyDown += HandleKeyDown;
 			Keyboard.KeyUp += HandleKeyUp;
+			KeyPress += HandleKeyPress;
 		}
 
 		private SpriteBatch SpriteBatch { get; set; }
@@ -123,6 +124,12 @@ namespace MonoHaven
 		{
 			if (inputListener != null)
 				inputListener.KeyUp(e);
+		}
+
+		private void HandleKeyPress(object sender, KeyPressEventArgs e)
+		{
+			if (inputListener != null)
+				inputListener.KeyPress(e);
 		}
 
 		private static class FpsCounter

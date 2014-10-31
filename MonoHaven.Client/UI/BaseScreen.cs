@@ -1,5 +1,6 @@
 ﻿using System;
 using MonoHaven.Graphics;
+using OpenTK;
 using OpenTK.Input;
 
 namespace MonoHaven.UI
@@ -134,6 +135,12 @@ namespace MonoHaven.UI
 		{
 			IInputListener widget = keyboardFocus;
 			if (widget != null) widget.KeyUp(e);
+		}
+
+		void IInputListener.KeyPress(KeyPressEventArgs e)
+		{
+			IInputListener widget = keyboardFocus;
+			if (widget != null) widget.KeyPress(e);
 		}
 
 		#endregion

@@ -1,13 +1,17 @@
 ﻿using System.Drawing;
+using System.Text;
 
 namespace MonoHaven.Graphics
 {
 	public class TextBlock : Drawable
 	{
 		private readonly SpriteFont font;
+		private readonly StringBuilder text;
+		private int textWidth;
 
 		public TextBlock(SpriteFont font)
 		{
+			this.text = new StringBuilder();
 			this.font = font;
 			this.BackgroundColor = Color.Transparent;
 		}
@@ -17,18 +21,30 @@ namespace MonoHaven.Graphics
 			get { return font; }
 		}
 
-		public string Text { get; set; }
+		public StringBuilder Text
+		{
+			get { return text; }
+		}
+
+		public int TextWidth
+		{
+			get { return textWidth; }
+		}
+
 		public Color TextColor { get; set; }
 		public Color BackgroundColor { get; set; }
 
 		public override void Draw(SpriteBatch batch, int x, int y, int w, int h)
 		{
-			if (string.IsNullOrEmpty(Text))
+			if (Text.Length == 0)
+			{
+				textWidth = 0;
 				return;
+			}
 
 			int cx = x;
 			int cy = y + font.Ascent;
-			int textWidth = 0;
+			textWidth = 0;
 
 			// calculate text width
 			var glyphs = new TextGlyph[Text.Length];

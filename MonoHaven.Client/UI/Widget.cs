@@ -205,6 +205,8 @@ namespace MonoHaven.UI
 		protected virtual void OnKeyDown(KeyboardKeyEventArgs e) {}
 		
 		protected virtual void OnKeyUp(KeyboardKeyEventArgs e) {}
+
+		protected virtual void OnKeyPress(KeyPressEventArgs e) {}
 		
 		protected virtual void OnMouseMove(MouseMoveEventArgs e) {}
 		
@@ -263,6 +265,11 @@ namespace MonoHaven.UI
 		void IInputListener.KeyUp(KeyboardKeyEventArgs e)
 		{
 			OnKeyUp(e);
+		}
+
+		void IInputListener.KeyPress(KeyPressEventArgs e)
+		{
+			OnKeyPress(e);
 		}
 
 		#endregion
