@@ -94,8 +94,18 @@ namespace MonoHaven.UI
 
 		protected override void OnKeyDown(KeyEventArgs args)
 		{
-			if (args.Key == Key.Enter)
-				Login();
+			switch (args.Key)
+			{
+				case Key.Enter:
+					Login();
+					break;
+				case Key.Tab:
+					if (tbPassword.IsFocused)
+						SetKeyboardFocus(tbUserName);
+					else if (tbUserName.IsFocused)
+						SetKeyboardFocus(tbPassword);
+					break;
+			}
 		}
 
 		private void Login()

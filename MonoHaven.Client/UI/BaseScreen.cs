@@ -50,7 +50,7 @@ namespace MonoHaven.UI
 
 		protected virtual void OnKeyPress(KeyPressEventArgs args) {}
 
-		private void SetKeyboardFocus(Widget widget)
+		protected void SetKeyboardFocus(Widget widget)
 		{
 			if (keyboardFocus != null) keyboardFocus.IsFocused = false;
 			keyboardFocus = widget;
