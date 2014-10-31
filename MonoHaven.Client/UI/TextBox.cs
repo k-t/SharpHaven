@@ -2,7 +2,6 @@
 using System.Drawing;
 using MonoHaven.Graphics;
 using MonoHaven.Resources;
-using OpenTK;
 using OpenTK.Input;
 
 namespace MonoHaven.UI
@@ -29,12 +28,8 @@ namespace MonoHaven.UI
 
 		public string Text
 		{
-			get { return text.Text.ToString(); }
-			set
-			{
-				text.Text.Clear();
-				text.Text.Append(value);
-			}
+			get { return text.Text; }
+			set { text.Text = value; }
 		}
 
 		protected override void OnDraw(DrawingContext dc)
@@ -57,8 +52,8 @@ namespace MonoHaven.UI
 			switch (e.Key)
 			{
 				case Key.BackSpace:
-					if (text.Text.Length != 0)
-						text.Text.Remove(text.Text.Length - 1, 1);
+					if (text.TextLength != 0)
+						text.Remove(text.TextLength - 1, 1);
 					break;
 				default:
 					e.Handled = false;
@@ -71,7 +66,7 @@ namespace MonoHaven.UI
 			if (char.IsControl(e.KeyChar))
 				return;
 
-			text.Text.Append(e.KeyChar);
+			text.Append(e.KeyChar);
 			e.Handled = true;
 		}
 

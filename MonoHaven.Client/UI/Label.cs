@@ -15,12 +15,8 @@ namespace MonoHaven.UI
 
 		public string Text
 		{
-			get { return text.Text.ToString(); }
-			set
-			{
-				text.Text.Clear();
-				text.Text.Append(value);
-			}
+			get { return text.Text; }
+			set { text.Text = value; }
 		}
 
 		public TextAlign TextAlign
