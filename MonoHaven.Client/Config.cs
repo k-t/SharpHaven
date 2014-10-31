@@ -1,10 +1,8 @@
-using System;
-
 namespace MonoHaven
 {
-	internal class Config
+	public static class Config
 	{
-		public Config()
+		static Config()
 		{
 			AuthHost = "moltke.seatribe.se";
 			AuthPort = 1871;
@@ -12,10 +10,10 @@ namespace MonoHaven
 			GamePort = 1870;
 		}
 
-		public string AuthHost { get; private set; }
-		public int AuthPort { get; private set; } 
-		public string GameHost { get; private set; }
-		public int GamePort { get; private set; }
+		public static string AuthHost { get; private set; }
+		public static int AuthPort { get; private set; }
+		public static string GameHost { get; private set; }
+		public static int GamePort { get; private set; }
 	}
 }
 

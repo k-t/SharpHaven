@@ -7,22 +7,22 @@ using System.Text;
 
 namespace MonoHaven.Network
 {
-	public class AuthClient
+	public class AuthClient : IDisposable
 	{
 		private const int CMD_USR = 1;
 		private const int CMD_PASSWD = 2;
 		private const int CMD_GETTOKEN = 3;
 		private const int CMD_USETOKEN = 4;
-	
-		private readonly SslStream ctx;
-		private byte[] cookie;
+
+		private readonly string host;
+		private readonly int port;
+		private SslStream ctx;
 		private byte[] token;
 
 		public AuthClient(string host, int port)
 		{
-			TcpClient tc = new TcpClient(host, port);
-			ctx = new SslStream(tc.GetStream(), false, ValidateServerCertificate, null);
-			ctx.AuthenticateAsClient(string.Empty);
+			this.host = host;
+			this.port = port;
 		}
 
 		private static bool ValidateServerCertificate(
@@ -33,6 +33,13 @@ namespace MonoHaven.Network
 		{
 			// TODO: proper certificate validation
 			return true;
+		}
+
+		public void Connect()
+		{
+			TcpClient tc = new TcpClient(host, port);
+			ctx = new SslStream(tc.GetStream(), false, ValidateServerCertificate, null);
+			ctx.AuthenticateAsClient(string.Empty);
 		}
 
 		public void BindUser(string userName)
@@ -49,12 +56,7 @@ namespace MonoHaven.Network
 			}
 		}
 
-		public byte[] GetCookie()
-		{
-			return this.cookie;
-		}
-
-		public bool TryPassword(string password)
+		public bool TryPassword(string password, out byte[] cookie)
 		{
 			byte[] phash = Digest(password);
 
@@ -68,6 +70,7 @@ namespace MonoHaven.Network
 			}
 			else
 			{
+				cookie = null;
 				return false;
 			}
 		}

@@ -1,4 +1,5 @@
 ﻿using System.Drawing;
+using MonoHaven.Network;
 using MonoHaven.Resources;
 
 namespace MonoHaven.UI
@@ -8,10 +9,26 @@ namespace MonoHaven.UI
 		private const int MinWidth = 800;
 		private const int MinHeight = 600;
 
+		private AsyncAuthClient authClient;
+
+		private WidgetGroup grLogin;
+		private TextBox tbUserName;
+		private TextBox tbPassword;
+		private Label lbErrorMessage;
+		private Label lbProgress;
+
 		public LoginScreen(IScreenHost host)
 			: base(host)
 		{
+			InitializeAuthClient();
 			InitializeWidgets();
+		}
+
+		private void InitializeAuthClient()
+		{
+			authClient = new AsyncAuthClient(Config.AuthHost, Config.AuthPort, Host.CallbackDispatcher);
+			authClient.ProgressChanged += HandleAuthProgressChange;
+			authClient.Completed += HandleAuthComplete;
 		}
 
 		private void InitializeWidgets()
@@ -26,30 +43,41 @@ namespace MonoHaven.UI
 			logo.SetLocation(420 - logo.Image.Width / 2, 215 - logo.Image.Height / 2);
 			logo.SetSize(logo.Width, logo.Height);
 
-			var btnLogin = new ImageButton(RootWidget);
+			grLogin = new WidgetGroup(RootWidget);
+			grLogin.SetLocation(345, 310).SetSize(150, 180);
+
+			var btnLogin = new ImageButton(grLogin);
 			btnLogin.Up = ResourceManager.LoadTexture("gfx/hud/buttons/loginu");
 			btnLogin.Down = ResourceManager.LoadTexture("gfx/hud/buttons/logind");
 			btnLogin.Pressed += (sender, args) => OnLogin();
-			btnLogin.SetLocation(373, 460);
+			btnLogin.SetLocation(28, 150);
 			btnLogin.SetSize(btnLogin.Up.Width, btnLogin.Up.Height);
 
-			var lbUserName = new Label(RootWidget);
+			var lbUserName = new Label(grLogin);
 			lbUserName.Text = "User Name";
 			lbUserName.TextColor = Color.White;
-			lbUserName.SetLocation(345, 310).SetSize(150, 20);
+			lbUserName.SetLocation(0, 0).SetSize(150, 20);
 
-			var tbUserName = new TextBox(RootWidget);
+			tbUserName = new TextBox(grLogin);
 			tbUserName.Text = "ken_tower";
-			tbUserName.SetLocation(345, 330).SetSize(150, 23);
+			tbUserName.SetLocation(0, 20).SetSize(150, 23);
 
-			var lbPassword = new Label(RootWidget);
+			var lbPassword = new Label(grLogin);
 			lbPassword.Text = "Password";
 			lbPassword.TextColor = Color.White;
-			lbPassword.SetLocation(345, 370).SetSize(150, 20);
+			lbPassword.SetLocation(0, 60).SetSize(150, 20);
 
-			var tbPassword = new TextBox(RootWidget);
+			tbPassword = new TextBox(grLogin);
 			tbPassword.Text = "pwd";
-			tbPassword.SetLocation(345, 390).SetSize(150, 23);
+			tbPassword.SetLocation(0, 80).SetSize(150, 23);
+
+			lbErrorMessage = new Label(RootWidget);
+			lbErrorMessage.TextColor = Color.Red;
+			lbErrorMessage.SetLocation(345, 500);
+
+			lbProgress = new Label(RootWidget);
+			lbProgress.TextColor = Color.White;
+			lbProgress.SetLocation(345, 350);
 		}
 
 		protected override void OnResize(int newWidth, int newHeight)
@@ -61,7 +89,33 @@ namespace MonoHaven.UI
 
 		private void OnLogin()
 		{
-			Host.SetScreen(new GameSessionScreen(Host));
+			grLogin.Visible = false;
+			lbErrorMessage.Visible = false;
+			lbProgress.Text = "";
+			lbProgress.Visible = true;
+
+			authClient.Authenticate(tbUserName.Text, tbPassword.Text);
+		}
+
+		private void HandleAuthComplete(object sender, AuthResultEventArgs e)
+		{
+			lbProgress.Visible = false;
+			grLogin.Visible = true;
+
+			if (e.IsSuccessful)
+			{
+				Host.SetScreen(new GameSessionScreen(Host));
+			}
+			else
+			{
+				lbErrorMessage.Visible = true;
+				lbErrorMessage.Text = e.Error;
+			}
+		}
+
+		private void HandleAuthProgressChange(object sender, AuthProgressEventArgs e)
+		{
+			lbProgress.Text = e.StatusText;
 		}
 	}
 }

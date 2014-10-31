@@ -94,7 +94,7 @@ namespace MonoHaven.Network
 
 		public Message GetMessage()
 		{
-			return new Message(messageType, stream.GetBuffer());
+			return new Message(messageType, stream.ToArray());
 		}
 
 		public void Dispose()

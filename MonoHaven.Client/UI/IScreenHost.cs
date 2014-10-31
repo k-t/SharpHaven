@@ -4,6 +4,7 @@ namespace MonoHaven.UI
 {
 	public interface IScreenHost
 	{
+		CallbackDispatcher CallbackDispatcher { get; }
 		int Width { get; }
 		int Height { get; }
 

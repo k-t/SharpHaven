@@ -47,8 +47,10 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Drawing" />
+    <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CallbackDispatcher.cs" />
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="Cursors.cs" />
@@ -77,6 +79,7 @@
     <Compile Include="Graphics\TextureAtlas.cs" />
     <Compile Include="Graphics\TextureRegion.cs" />
     <Compile Include="Graphics\VertexBuffer.cs" />
+    <Compile Include="Network\AsyncAuthClient.cs" />
     <Compile Include="Resources\EmbeddedResource.cs" />
     <Compile Include="Resources\Tileset.cs" />
     <Compile Include="UI\EmptyScreen.cs" />
@@ -86,6 +89,7 @@
     <Compile Include="UI\IWidgetHost.cs" />
     <Compile Include="UI\Label.cs" />
     <Compile Include="UI\RootWidget.cs" />
+    <Compile Include="UI\WidgetGroup.cs" />
     <Compile Include="Utils\MathUtils.cs" />
     <Compile Include="Utils\PointComparer.cs" />
     <Compile Include="UI\GameSessionScreen.cs" />

@@ -10,7 +10,9 @@ namespace MonoHaven.UI
 
 		public ImageButton(Widget parent)
 			: base(parent)
-		{}
+		{
+			IsFocusable = true;
+		}
 
 		public Drawable Up { get; set; }
 		public Drawable Down { get; set; }
