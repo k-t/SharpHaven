@@ -16,6 +16,7 @@ namespace MonoHaven.UI
 		private TextBox tbPassword;
 		private Label lbErrorMessage;
 		private Label lbProgress;
+		private ImageButton btnLogin;
 
 		public LoginScreen(IScreenHost host)
 			: base(host)
@@ -43,15 +44,15 @@ namespace MonoHaven.UI
 			logo.SetLocation(420 - logo.Image.Width / 2, 215 - logo.Image.Height / 2);
 			logo.SetSize(logo.Width, logo.Height);
 
-			grLogin = new WidgetGroup(RootWidget);
-			grLogin.SetLocation(345, 310).SetSize(150, 180);
-
-			var btnLogin = new ImageButton(grLogin);
+			btnLogin = new ImageButton(RootWidget);
 			btnLogin.Up = ResourceManager.LoadTexture("gfx/hud/buttons/loginu");
 			btnLogin.Down = ResourceManager.LoadTexture("gfx/hud/buttons/logind");
 			btnLogin.Pressed += (sender, args) => OnLogin();
-			btnLogin.SetLocation(28, 150);
+			btnLogin.SetLocation(373, 460);
 			btnLogin.SetSize(btnLogin.Up.Width, btnLogin.Up.Height);
+
+			grLogin = new WidgetGroup(RootWidget);
+			grLogin.SetLocation(345, 310).SetSize(150, 100);
 
 			var lbUserName = new Label(grLogin);
 			lbUserName.Text = "User Name";
@@ -89,6 +90,7 @@ namespace MonoHaven.UI
 
 		private void OnLogin()
 		{
+			btnLogin.Visible = false;
 			grLogin.Visible = false;
 			lbErrorMessage.Visible = false;
 			lbProgress.Text = "";
@@ -101,6 +103,7 @@ namespace MonoHaven.UI
 		{
 			lbProgress.Visible = false;
 			grLogin.Visible = true;
+			btnLogin.Visible = true;
 
 			if (e.IsSuccessful)
 			{
