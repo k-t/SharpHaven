@@ -67,6 +67,7 @@ namespace MonoHaven
 			GL.PointSize(4);
 			GL.Enable(EnableCap.Blend);
 			GL.Enable(EnableCap.Texture2D);
+			GL.Enable(EnableCap.ScissorTest);
 			GL.Disable(EnableCap.DepthTest);
 			GL.Disable(EnableCap.Lighting);
 			GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
@@ -98,7 +99,7 @@ namespace MonoHaven
 			base.OnRenderFrame(e);
 
 			GL.Clear(ClearBufferMask.ColorBufferBit);
-			using (var dc = new DrawingContext(SpriteBatch))
+			using (var dc = new DrawingContext(this, SpriteBatch))
 			{
 				currentScreen.Draw(dc);
 			}

@@ -70,9 +70,9 @@ namespace MonoHaven.UI
 
 		protected override void OnDraw(DrawingContext dc)
 		{
+			dc.SetClip(0, 0, Width, Height);
 			dc.Draw(border, 0, 0, Width, Height);
 			dc.Draw(textBlock, TextPadding, TextPadding, Width, Height);
-
 			// draw cursor
 			if (IsFocused && DateTime.Now.Millisecond > CursorBlinkRate)
 			{
@@ -84,6 +84,7 @@ namespace MonoHaven.UI
 				dc.DrawRectangle(TextPadding + cx, TextPadding, 1, textBlock.Font.Height);
 				dc.ResetColor();
 			}
+			dc.ResetClip();
 		}
 
 		protected override void OnKeyDown(KeyEventArgs e)
