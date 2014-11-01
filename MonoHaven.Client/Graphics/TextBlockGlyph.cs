@@ -5,11 +5,13 @@ namespace MonoHaven.Graphics
 	public class TextBlockGlyph : Drawable
 	{
 		private readonly Glyph glyph;
+		private readonly int ascent;
 		private Rectangle box;
 
 		public TextBlockGlyph(SpriteFont font, char c)
 		{
 			glyph = font.GetGlyph(c);
+			ascent = font.Ascent;
 			Width = box.Width = (int)glyph.Advance;
 			Height = box.Height = font.Height;
 		}
@@ -26,7 +28,7 @@ namespace MonoHaven.Graphics
 
 			glyph.Image.Draw(batch,
 				x + box.X + glyph.Offset.X,
-				y + box.Y + glyph.Offset.Y,
+				y + box.Y + glyph.Offset.Y + ascent,
 				glyph.Image.Width,
 				glyph.Image.Height);
 		}

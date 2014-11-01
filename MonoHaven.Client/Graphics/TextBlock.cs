@@ -115,7 +115,6 @@ namespace MonoHaven.Graphics
 		private void UpdateGlyphs(int startIndex)
 		{
 			int gx;
-			int gy = font.Ascent;
 
 			if (startIndex > 0 && startIndex <= glyphs.Count)
 				gx = glyphs[startIndex - 1].Box.Right;
@@ -125,7 +124,7 @@ namespace MonoHaven.Graphics
 			// update glyphs positions
 			for (int i = startIndex; i < glyphs.Count; i++)
 			{
-				glyphs[i].SetPosition(gx, gy);
+				glyphs[i].SetPosition(gx, 0);
 				gx = glyphs[i].Box.Right;
 			}
 
