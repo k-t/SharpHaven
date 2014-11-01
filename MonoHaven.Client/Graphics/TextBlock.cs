@@ -134,10 +134,8 @@ namespace MonoHaven.Graphics
 			int gx;
 			int gy = font.Ascent;
 
-			if (startIndex > 0 && startIndex < glyphs.Count)
+			if (startIndex > 0 && startIndex <= glyphs.Count)
 				gx = glyphs[startIndex - 1].Box.Right;
-			else if (startIndex >= glyphs.Count)
-				gx = textWidth;
 			else // index == 0
 				gx = 0;
 
