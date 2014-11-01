@@ -5,35 +5,41 @@ namespace MonoHaven.UI
 {
 	public class Label : Widget
 	{
-		private readonly TextBlock text;
+		private string text;
+		private readonly TextBlock textBlock;
 
 		public Label(Widget parent)
 			: base(parent)
 		{
-			text = new TextBlock(Fonts.Default);
+			textBlock = new TextBlock(Fonts.Default);
 		}
 
 		public string Text
 		{
-			get { return text.Text; }
-			set { text.Text = value; }
+			get { return text; }
+			set
+			{
+				text = value;
+				textBlock.Clear();
+				textBlock.Append(text);
+			}
 		}
 
 		public TextAlign TextAlign
 		{
-			get { return text.TextAlign; }
-			set { text.TextAlign = value; }
+			get { return textBlock.TextAlign; }
+			set { textBlock.TextAlign = value; }
 		}
 
 		public Color TextColor
 		{
-			get { return text.TextColor; }
-			set { text.TextColor = value; }
+			get { return textBlock.TextColor; }
+			set { textBlock.TextColor = value; }
 		}
 
 		protected override void OnDraw(DrawingContext dc)
 		{
-			dc.Draw(text, 0, 0, Width, Height);
+			dc.Draw(textBlock, 0, 0, Width, Height);
 		}
 	}
 }

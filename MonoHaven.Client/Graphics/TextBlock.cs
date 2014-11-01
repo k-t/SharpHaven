@@ -1,21 +1,18 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using System.Text;
 
 namespace MonoHaven.Graphics
 {
 	public class TextBlock : Drawable
 	{
 		private readonly SpriteFont font;
-		private readonly StringBuilder text;
 		private readonly List<TextBlockGlyph> glyphs;
 		private int textWidth;
 
 		public TextBlock(SpriteFont font)
 		{
 			this.font = font;
-			this.text = new StringBuilder();
 			this.glyphs = new List<TextBlockGlyph>();
 			
 			BackgroundColor = Color.Transparent;
@@ -31,16 +28,6 @@ namespace MonoHaven.Graphics
 			get { return font; }
 		}
 
-		public string Text
-		{
-			get { return text.ToString(); }
-			set
-			{
-				Clear();
-				Append(value);
-			}
-		}
-
 		public TextAlign TextAlign
 		{
 			get;
@@ -54,7 +41,7 @@ namespace MonoHaven.Graphics
 
 		public int TextLength
 		{
-			get { return text.Length; }
+			get { return glyphs.Count; }
 		}
 
 		public Color TextColor
@@ -81,28 +68,24 @@ namespace MonoHaven.Graphics
 
 		public void Clear()
 		{
-			text.Clear();
 			glyphs.Clear();
 			UpdateTextWidth();
 		}
 
 		public void Insert(int index, string str)
 		{
-			text.Insert(index, str);
 			glyphs.InsertRange(index, str.Select(ConvertToGlyph));
 			UpdateGlyphs(index);
 		}
 
 		public void Insert(int index, char c)
 		{
-			text.Insert(index, c);
 			glyphs.Insert(index, ConvertToGlyph(c));
 			UpdateGlyphs(index);
 		}
 
 		public void Remove(int index, int count)
 		{
-			text.Remove(index, count);
 			glyphs.RemoveRange(index, count);
 			UpdateGlyphs(index);
 		}

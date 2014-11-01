@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Drawing;
+using System.Text;
 using MonoHaven.Graphics;
 using MonoHaven.Resources;
 using OpenTK;
@@ -12,7 +13,8 @@ namespace MonoHaven.UI
 		private const int TextPadding = 2;
 		private const int CursorBlinkRate = 500;
 
-		private readonly TextBlock text;
+		private readonly StringBuilder text;
+		private readonly TextBlock textBlock;
 		private readonly Texture borderTexture;
 		private readonly NinePatch border;
 
@@ -21,8 +23,9 @@ namespace MonoHaven.UI
 		public TextBox(Widget parent)
 			: base(parent)
 		{
-			text = new TextBlock(Fonts.Default);
-			text.TextColor = Color.Black;
+			text = new StringBuilder();
+			textBlock = new TextBlock(Fonts.Default);
+			textBlock.TextColor = Color.Black;
 			borderTexture = new Texture(EmbeddedResource.GetImage("textbox.png"));
 			border = new NinePatch(borderTexture, 2, 2, 2, 2);
 
@@ -31,34 +34,35 @@ namespace MonoHaven.UI
 
 		public string Text
 		{
-			get { return text.Text; }
+			get { return text.ToString(); }
 			set
 			{
-				text.Text = value;
-				caretPosition = text.TextLength;
+				ClearText();
+				InsertText(0, value);
+				caretPosition = text.Length;
 			}
 		}
 
 		private int CaretPosition
 		{
 			get { return caretPosition; }
-			set { caretPosition = MathHelper.Clamp(value, 0, text.TextLength); }
+			set { caretPosition = MathHelper.Clamp(value, 0, textBlock.TextLength); }
 		}
 
 		protected override void OnDraw(DrawingContext dc)
 		{
 			dc.Draw(border, 0, 0, Width, Height);
-			dc.Draw(text, TextPadding, TextPadding, Width, Height);
+			dc.Draw(textBlock, TextPadding, TextPadding, Width, Height);
 
 			// draw cursor
 			if (IsFocused && DateTime.Now.Millisecond > CursorBlinkRate)
 			{
-				int cx = caretPosition < text.TextLength
-					? text.Glyphs[caretPosition].Box.X
-					: text.TextWidth;
+				int cx = caretPosition < textBlock.TextLength
+					? textBlock.Glyphs[caretPosition].Box.X
+					: textBlock.TextWidth;
 
 				dc.SetColor(Color.Black);
-				dc.DrawRectangle(TextPadding + cx, TextPadding, 1, text.Font.Height);
+				dc.DrawRectangle(TextPadding + cx, TextPadding, 1, textBlock.Font.Height);
 				dc.ResetColor();
 			}
 		}
@@ -71,13 +75,13 @@ namespace MonoHaven.UI
 				case Key.BackSpace:
 					if (caretPosition > 0)
 					{
-						text.Remove(caretPosition - 1, 1);
+						RemoveText(caretPosition - 1, 1);
 						CaretPosition--;
 					}
 					break;
 				case Key.Delete:
-					if (caretPosition < text.TextLength)
-						text.Remove(caretPosition, 1);
+					if (caretPosition < text.Length)
+						RemoveText(caretPosition, 1);
 					break;
 				case Key.Left:
 					CaretPosition--;
@@ -96,7 +100,7 @@ namespace MonoHaven.UI
 			if (char.IsControl(e.KeyChar))
 				return;
 
-			text.Insert(caretPosition, e.KeyChar);
+			InsertText(caretPosition, e.KeyChar);
 			CaretPosition++;
 			e.Handled = true;
 		}
@@ -104,6 +108,30 @@ namespace MonoHaven.UI
 		protected override void OnDispose()
 		{
 			borderTexture.Dispose();
+		}
+
+		private void ClearText()
+		{
+			text.Clear();
+			textBlock.Clear();
+		}
+
+		private void InsertText(int index, char value)
+		{
+			text.Insert(index, value);
+			textBlock.Insert(index, value);
+		}
+
+		private void InsertText(int index, string value)
+		{
+			text.Insert(index, value);
+			textBlock.Insert(index, value);
+		}
+
+		private void RemoveText(int index, int length)
+		{
+			text.Remove(index, length);
+			textBlock.Remove(index, length);
 		}
 	}
 }
