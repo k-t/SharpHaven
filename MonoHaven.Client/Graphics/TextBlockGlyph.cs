@@ -7,10 +7,9 @@ namespace MonoHaven.Graphics
 		private readonly Glyph glyph;
 		private Point position;
 
-		public TextBlockGlyph(Glyph glyph, int gx, int gy)
+		public TextBlockGlyph(Glyph glyph)
 		{
 			this.glyph = glyph;
-			this.position = new Point(gx, gy);
 
 			if (glyph.Image != null)
 			{

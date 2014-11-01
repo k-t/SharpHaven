@@ -2,6 +2,7 @@
 using System.Drawing;
 using MonoHaven.Graphics;
 using MonoHaven.Resources;
+using OpenTK;
 using OpenTK.Input;
 
 namespace MonoHaven.UI
@@ -14,6 +15,8 @@ namespace MonoHaven.UI
 		private readonly TextBlock text;
 		private readonly Texture borderTexture;
 		private readonly NinePatch border;
+
+		private int caretPosition;
 
 		public TextBox(Widget parent)
 			: base(parent)
@@ -40,10 +43,20 @@ namespace MonoHaven.UI
 			// draw cursor
 			if (IsFocused && DateTime.Now.Millisecond > CursorBlinkRate)
 			{
+				int cx = caretPosition < text.TextLength
+					? text.Glyphs[caretPosition].Position.X
+					: text.TextWidth;
+
 				dc.SetColor(Color.Black);
-				dc.DrawRectangle(TextPadding + text.TextWidth, TextPadding, 1, text.Font.Height);
+				dc.DrawRectangle(TextPadding + cx, TextPadding, 1, text.Font.Height);
 				dc.ResetColor();
 			}
+		}
+
+		protected override void OnFocusChanged()
+		{
+			if (IsFocused)
+				caretPosition = text.TextLength;
 		}
 
 		protected override void OnKeyDown(KeyEventArgs e)
@@ -52,8 +65,21 @@ namespace MonoHaven.UI
 			switch (e.Key)
 			{
 				case Key.BackSpace:
-					if (text.TextLength != 0)
-						text.Remove(text.TextLength - 1, 1);
+					if (caretPosition > 0)
+					{
+						text.Remove(caretPosition - 1, 1);
+						MoveCaret(-1);
+					}
+					break;
+				case Key.Delete:
+					if (caretPosition < text.TextLength)
+						text.Remove(caretPosition, 1);
+					break;
+				case Key.Left:
+					MoveCaret(-1);
+					break;
+				case Key.Right:
+					MoveCaret(1);
 					break;
 				default:
 					e.Handled = false;
@@ -66,13 +92,20 @@ namespace MonoHaven.UI
 			if (char.IsControl(e.KeyChar))
 				return;
 
-			text.Append(e.KeyChar);
+			text.Insert(caretPosition, e.KeyChar);
+			MoveCaret(1);
 			e.Handled = true;
 		}
 
 		protected override void OnDispose()
 		{
 			borderTexture.Dispose();
+		}
+
+		private void MoveCaret(int offset)
+		{
+			caretPosition += offset;
+			caretPosition = MathHelper.Clamp(caretPosition, 0, text.TextLength);
 		}
 	}
 }

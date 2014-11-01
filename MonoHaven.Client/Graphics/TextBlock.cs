@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 using System.Text;
-using SharpFont;
 
 namespace MonoHaven.Graphics
 {
@@ -19,6 +19,11 @@ namespace MonoHaven.Graphics
 			this.glyphs = new List<TextBlockGlyph>();
 			
 			BackgroundColor = Color.Transparent;
+		}
+
+		public IReadOnlyList<TextBlockGlyph> Glyphs
+		{
+			get { return glyphs; }
 		}
 
 		public SpriteFont Font
@@ -84,20 +89,22 @@ namespace MonoHaven.Graphics
 		public void Insert(int index, string str)
 		{
 			text.Insert(index, str);
-			UpdateGlyphs(index, str.Length);
+			glyphs.InsertRange(index, str.Select(ConvertToGlyph));
+			UpdateGlyphs(index);
 		}
 
 		public void Insert(int index, char c)
 		{
-			text.Append(c);
-			UpdateGlyphs(index, 1);
+			text.Insert(index, c);
+			glyphs.Insert(index, ConvertToGlyph(c));
+			UpdateGlyphs(index);
 		}
 
 		public void Remove(int index, int count)
 		{
 			text.Remove(index, count);
 			glyphs.RemoveRange(index, count);
-			UpdateTextWidth();
+			UpdateGlyphs(index);
 		}
 
 		public override void Draw(SpriteBatch batch, int x, int y, int w, int h)
@@ -122,28 +129,23 @@ namespace MonoHaven.Graphics
 			batch.SetColor(Color.White);
 		}
 
-		private void UpdateGlyphs(int index, int count)
+		private void UpdateGlyphs(int startIndex)
 		{
 			int gx;
 			int gy = font.Ascent;
 
-			if (index > 0 && index < glyphs.Count)
-				gx = glyphs[index - 1].Position.X;
-			else if (index >= glyphs.Count)
+			if (startIndex > 0 && startIndex < glyphs.Count)
+			{
+				var glyph = glyphs[startIndex - 1];
+				gx = glyph.Position.X + (int)glyph.Advance;
+			}
+			else if (startIndex >= glyphs.Count)
 				gx = textWidth;
 			else // index == 0
 				gx = 0;
 
-			// insert new glyphs
-			for (int i = 0; i < count; i++)
-			{
-				var glyph = font.GetGlyph(text[index + i]);
-				glyphs.Insert(index + i, new TextBlockGlyph(glyph, gx, gy));
-				gx += (int)glyph.Advance;
-			}
-
-			// update positions of the rest glyphs
-			for (int i = index + count; i < glyphs.Count; i++)
+			// update glyphs positions
+			for (int i = startIndex; i < glyphs.Count; i++)
 			{
 				var glyph = glyphs[i];
 				glyph.Position = new Point(gx, gy);
@@ -162,7 +164,11 @@ namespace MonoHaven.Graphics
 				var last = glyphs[glyphs.Count - 1];
 				textWidth = last.Position.X + (int)last.Advance;
 			}
-			
+		}
+
+		private TextBlockGlyph ConvertToGlyph(char c)
+		{
+			return new TextBlockGlyph(font.GetGlyph(c));
 		}
 	}
 }
