@@ -186,22 +186,12 @@ namespace MonoHaven.UI
 
 		private void UpdateCaretPosition()
 		{
-			int position = GetGlyphPosition(CaretIndex);
-			if (position - caretOffset > Width - TextPadding * 2)
-			{
-				caretPosition = Width - TextPadding * 2;
-				caretOffset = position - caretPosition;
-			}
-			else if (position - caretOffset < 0)
-			{
-				caretPosition = TextPadding;
-				caretOffset = position - caretPosition;
-			}
-			else
-			{
-				caretPosition = position - caretOffset;
-				caretOffset = position - caretPosition;
-			}
+			int glyphPosition = GetGlyphPosition(CaretIndex);
+			caretPosition = MathHelper.Clamp(
+				glyphPosition - caretOffset,
+				TextPadding,
+				Width - TextPadding * 2);
+			caretOffset = glyphPosition - caretPosition;
 		}
 	}
 }
