@@ -72,6 +72,7 @@ namespace MonoHaven.UI
 
 			tbPassword = new TextBox(grLogin);
 			tbPassword.Text = "pwd";
+			tbPassword.PasswordChar = '*';
 			tbPassword.SetLocation(0, 80).SetSize(150, 23);
 
 			lbErrorMessage = new Label(RootWidget);

@@ -19,6 +19,7 @@ namespace MonoHaven.UI
 		private readonly NinePatch border;
 
 		private int caretPosition;
+		private char? passwordChar;
 
 		public TextBox(Widget parent)
 			: base(parent)
@@ -40,6 +41,24 @@ namespace MonoHaven.UI
 				ClearText();
 				InsertText(0, value);
 				caretPosition = text.Length;
+			}
+		}
+
+		public char? PasswordChar
+		{
+			get { return passwordChar; }
+			set
+			{
+				if (passwordChar == value)
+					return;
+
+				passwordChar = value;
+
+				textBlock.Clear();
+				if (passwordChar.HasValue)
+					textBlock.Insert(0, new string(passwordChar.Value, text.Length));
+				else
+					textBlock.Insert(0, Text);
 			}
 		}
 
@@ -119,13 +138,15 @@ namespace MonoHaven.UI
 		private void InsertText(int index, char value)
 		{
 			text.Insert(index, value);
-			textBlock.Insert(index, value);
+			textBlock.Insert(index, passwordChar ?? value);
 		}
 
 		private void InsertText(int index, string value)
 		{
 			text.Insert(index, value);
-			textBlock.Insert(index, value);
+			textBlock.Insert(index, passwordChar.HasValue
+				? new string(passwordChar.Value, text.Length)
+				: value);
 		}
 
 		private void RemoveText(int index, int length)
