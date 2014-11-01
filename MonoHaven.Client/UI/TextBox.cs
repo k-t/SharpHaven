@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Text;
 using MonoHaven.Graphics;
 using MonoHaven.Resources;
+using MonoHaven.Utils;
 using OpenTK;
 using OpenTK.Input;
 
@@ -18,7 +19,9 @@ namespace MonoHaven.UI
 		private readonly Texture borderTexture;
 		private readonly NinePatch border;
 
+		private int caretIndex;
 		private int caretPosition;
+		private int caretOffset;
 		private char? passwordChar;
 
 		public TextBox(Widget parent)
@@ -40,7 +43,7 @@ namespace MonoHaven.UI
 			{
 				ClearText();
 				InsertText(0, value);
-				caretPosition = text.Length;
+				CaretIndex = text.Length;
 			}
 		}
 
@@ -62,26 +65,26 @@ namespace MonoHaven.UI
 			}
 		}
 
-		private int CaretPosition
+		private int CaretIndex
 		{
-			get { return caretPosition; }
-			set { caretPosition = MathHelper.Clamp(value, 0, textBlock.Length); }
+			get { return caretIndex; }
+			set
+			{
+				caretIndex = MathHelper.Clamp(value, 0, textBlock.Length);
+				UpdateCaretPosition();
+			}
 		}
 
 		protected override void OnDraw(DrawingContext dc)
 		{
 			dc.SetClip(0, 0, Width, Height);
 			dc.Draw(border, 0, 0, Width, Height);
-			dc.Draw(textBlock, TextPadding, TextPadding, Width, Height);
+			dc.Draw(textBlock, TextPadding - caretOffset, TextPadding, Width, Height);
 			// draw cursor
 			if (IsFocused && DateTime.Now.Millisecond > CursorBlinkRate)
 			{
-				int cx = caretPosition < textBlock.Length
-					? textBlock.Glyphs[caretPosition].Box.X
-					: textBlock.TextWidth;
-
 				dc.SetColor(Color.Black);
-				dc.DrawRectangle(TextPadding + cx, TextPadding, 1, textBlock.Font.Height);
+				dc.DrawRectangle(caretPosition, TextPadding, 1, textBlock.Font.Height);
 				dc.ResetColor();
 			}
 			dc.ResetClip();
@@ -93,21 +96,21 @@ namespace MonoHaven.UI
 			switch (e.Key)
 			{
 				case Key.BackSpace:
-					if (caretPosition > 0)
+					if (caretIndex > 0)
 					{
-						RemoveText(caretPosition - 1, 1);
-						CaretPosition--;
+						RemoveText(caretIndex - 1, 1);
+						CaretIndex--;
 					}
 					break;
 				case Key.Delete:
-					if (caretPosition < text.Length)
-						RemoveText(caretPosition, 1);
+					if (caretIndex < text.Length)
+						RemoveText(caretIndex, 1);
 					break;
 				case Key.Left:
-					CaretPosition--;
+					CaretIndex--;
 					break;
 				case Key.Right:
-					CaretPosition++;
+					CaretIndex++;
 					break;
 				default:
 					e.Handled = false;
@@ -120,8 +123,8 @@ namespace MonoHaven.UI
 			if (char.IsControl(e.KeyChar))
 				return;
 
-			InsertText(caretPosition, e.KeyChar);
-			CaretPosition++;
+			InsertText(caretIndex, e.KeyChar);
+			CaretIndex++;
 			e.Handled = true;
 		}
 
@@ -129,11 +132,16 @@ namespace MonoHaven.UI
 		{
 			if (e.Button == MouseButton.Left)
 			{
-				var p = PointToWidget(e.X, e.Y);
-				var index = textBlock.PointToIndex(p.X - TextPadding, p.Y - TextPadding);
+				var p = PointToWidget(e.X, e.Y).Sub(TextPadding - caretOffset, TextPadding);
+				var index = textBlock.PointToIndex(p.X , p.Y);
 				if (index != -1)
-					CaretPosition = index;
+					CaretIndex = index;
 			}
+		}
+
+		protected override void OnSizeChanged()
+		{
+			UpdateCaretPosition();
 		}
 
 		protected override void OnDispose()
@@ -165,6 +173,34 @@ namespace MonoHaven.UI
 		{
 			text.Remove(index, length);
 			textBlock.Remove(index, length);
+		}
+
+		private int GetGlyphPosition(int glyphIndex)
+		{
+			int position = glyphIndex < textBlock.Length
+				? textBlock.Glyphs[glyphIndex].Box.X
+				: textBlock.TextWidth;
+			return position + TextPadding;
+		}
+
+		private void UpdateCaretPosition()
+		{
+			int position = GetGlyphPosition(CaretIndex);
+			if (position - caretOffset > Width - TextPadding * 2)
+			{
+				caretPosition = Width - TextPadding * 2;
+				caretOffset = position - caretPosition;
+			}
+			else if (position - caretOffset < 0)
+			{
+				caretPosition = TextPadding;
+				caretOffset = position - caretPosition;
+			}
+			else
+			{
+				caretPosition = position - caretOffset;
+				caretOffset = position - caretPosition;
+			}
 		}
 	}
 }

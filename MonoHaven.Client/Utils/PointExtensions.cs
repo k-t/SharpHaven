@@ -13,5 +13,10 @@ namespace MonoHaven.Utils
 		{
 			return new Point(a.X - b.X, a.Y - b.Y);
 		}
+
+		public static Point Sub(this Point a, int x, int y)
+		{
+			return new Point(a.X - x, a.Y - y);
+		}
 	}
 }

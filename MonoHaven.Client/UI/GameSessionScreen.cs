@@ -18,8 +18,7 @@ namespace MonoHaven.UI
 
 		protected override void OnResize(int newWidth, int newHeight)
 		{
-			mapView.Width = Host.Width;
-			mapView.Height = Host.Height;
+			mapView.SetSize(newWidth, newHeight);
 		}
 	}
 }

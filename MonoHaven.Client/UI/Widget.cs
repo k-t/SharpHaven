@@ -80,13 +80,11 @@ namespace MonoHaven.UI
 		public int Width
 		{
 			get { return bounds.Width; }
-			set { bounds.Width = value; }
 		}
 
 		public int Height
 		{
 			get { return bounds.Height; }
-			set { bounds.Height = value; }
 		}
 
 		public Size Size
@@ -97,7 +95,6 @@ namespace MonoHaven.UI
 		public Rectangle Bounds
 		{
 			get { return bounds; }
-			set { bounds = value; }
 		}
 
 		public bool Visible
@@ -199,6 +196,7 @@ namespace MonoHaven.UI
 		public Widget SetSize(int width, int height)
 		{
 			bounds.Size = new Size(width, height);
+			OnSizeChanged();
 			return this;
 		}
 
@@ -258,6 +256,10 @@ namespace MonoHaven.UI
 		}
 
 		protected virtual void OnHoverChanged()
+		{
+		}
+
+		protected virtual void OnSizeChanged()
 		{
 		}
 
