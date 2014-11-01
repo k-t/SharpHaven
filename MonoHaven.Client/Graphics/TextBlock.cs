@@ -135,10 +135,7 @@ namespace MonoHaven.Graphics
 			int gy = font.Ascent;
 
 			if (startIndex > 0 && startIndex < glyphs.Count)
-			{
-				var glyph = glyphs[startIndex - 1];
-				gx = glyph.Position.X + (int)glyph.Advance;
-			}
+				gx = glyphs[startIndex - 1].Box.Right;
 			else if (startIndex >= glyphs.Count)
 				gx = textWidth;
 			else // index == 0
@@ -147,9 +144,8 @@ namespace MonoHaven.Graphics
 			// update glyphs positions
 			for (int i = startIndex; i < glyphs.Count; i++)
 			{
-				var glyph = glyphs[i];
-				glyph.Position = new Point(gx, gy);
-				gx += (int)glyph.Advance;
+				glyphs[i].SetPosition(gx, gy);
+				gx = glyphs[i].Box.Right;
 			}
 
 			UpdateTextWidth();
@@ -162,13 +158,13 @@ namespace MonoHaven.Graphics
 			else
 			{
 				var last = glyphs[glyphs.Count - 1];
-				textWidth = last.Position.X + (int)last.Advance;
+				textWidth = last.Box.Right;
 			}
 		}
 
 		private TextBlockGlyph ConvertToGlyph(char c)
 		{
-			return new TextBlockGlyph(font.GetGlyph(c));
+			return new TextBlockGlyph(font, c);
 		}
 	}
 }

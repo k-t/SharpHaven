@@ -54,7 +54,7 @@ namespace MonoHaven.UI
 			if (IsFocused && DateTime.Now.Millisecond > CursorBlinkRate)
 			{
 				int cx = caretPosition < text.TextLength
-					? text.Glyphs[caretPosition].Position.X
+					? text.Glyphs[caretPosition].Box.X
 					: text.TextWidth;
 
 				dc.SetColor(Color.Black);
@@ -104,12 +104,6 @@ namespace MonoHaven.UI
 		protected override void OnDispose()
 		{
 			borderTexture.Dispose();
-		}
-
-		private void MoveCaret(int offset)
-		{
-			caretPosition += offset;
-			caretPosition = MathHelper.Clamp(caretPosition, 0, text.TextLength);
 		}
 	}
 }

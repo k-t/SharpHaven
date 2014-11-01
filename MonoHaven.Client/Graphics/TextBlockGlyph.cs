@@ -5,28 +5,18 @@ namespace MonoHaven.Graphics
 	public class TextBlockGlyph : Drawable
 	{
 		private readonly Glyph glyph;
-		private Point position;
+		private Rectangle box;
 
-		public TextBlockGlyph(Glyph glyph)
+		public TextBlockGlyph(SpriteFont font, char c)
 		{
-			this.glyph = glyph;
-
-			if (glyph.Image != null)
-			{
-				Width = glyph.Image.Height;
-				Height = glyph.Image.Height;
-			}
+			glyph = font.GetGlyph(c);
+			Width = box.Width = (int)glyph.Advance;
+			Height = box.Height = font.Height;
 		}
 
-		public float Advance
+		public Rectangle Box
 		{
-			get { return glyph.Advance; }
-		}
-
-		public Point Position
-		{
-			get { return position; }
-			set { position = value; }
+			get { return box; }
 		}
 
 		public override void Draw(SpriteBatch batch, int x, int y, int w, int h)
@@ -35,10 +25,15 @@ namespace MonoHaven.Graphics
 				return;
 
 			glyph.Image.Draw(batch,
-				x + position.X + glyph.Offset.X,
-				y + position.Y + glyph.Offset.Y,
+				x + box.X + glyph.Offset.X,
+				y + box.Y + glyph.Offset.Y,
 				glyph.Image.Width,
 				glyph.Image.Height);
+		}
+
+		public void SetPosition(int x, int y)
+		{
+			box.Location = new Point(x, y);
 		}
 	}
 }
