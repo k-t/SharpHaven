@@ -78,11 +78,13 @@ namespace MonoHaven.UI
 			lbErrorMessage = new Label(RootWidget);
 			lbErrorMessage.TextColor = Color.Red;
 			lbErrorMessage.TextAlign = TextAlign.Center;
+			lbErrorMessage.Visible = false;
 			lbErrorMessage.SetLocation(0, 500).SetSize(840, 20);
 
 			lbProgress = new Label(RootWidget);
 			lbProgress.TextColor = Color.White;
 			lbProgress.TextAlign = TextAlign.Center;
+			lbProgress.Visible = false;
 			lbProgress.SetLocation(0, 350).SetSize(840, 20);
 
 			SetKeyboardFocus(tbUserName);
