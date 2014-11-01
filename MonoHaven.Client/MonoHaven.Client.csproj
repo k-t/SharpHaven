@@ -98,7 +98,7 @@
     <Compile Include="UI\Label.cs" />
     <Compile Include="UI\RootWidget.cs" />
     <Compile Include="UI\WidgetGroup.cs" />
-    <Compile Include="Utils\MathUtils.cs" />
+    <Compile Include="Utils\MathExtensions.cs" />
     <Compile Include="Utils\PointComparer.cs" />
     <Compile Include="UI\GameSessionScreen.cs" />
     <Compile Include="Resources\ResourceManager.cs" />
@@ -114,7 +114,7 @@
     <Compile Include="UI\ImageButton.cs" />
     <Compile Include="MainWindow.cs" />
     <Compile Include="UI\TextBox.cs" />
-    <Compile Include="Utils\PointUtils.cs" />
+    <Compile Include="Utils\PointExtensions.cs" />
     <Compile Include="Utils\RandomUtils.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

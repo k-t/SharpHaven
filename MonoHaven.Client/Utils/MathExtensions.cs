@@ -1,6 +1,6 @@
 ﻿namespace MonoHaven.Utils
 {
-	public static class MathUtils
+	public static class MathExtensions
 	{
 		public static int Div(this int n, int d)
 		{

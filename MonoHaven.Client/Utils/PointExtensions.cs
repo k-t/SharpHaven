@@ -2,7 +2,7 @@
 
 namespace MonoHaven.Utils
 {
-	public static class PointUtils
+	public static class PointExtensions
 	{
 		public static Point Add(this Point a, Point b)
 		{
