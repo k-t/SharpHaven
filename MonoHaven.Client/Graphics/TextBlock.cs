@@ -39,7 +39,7 @@ namespace MonoHaven.Graphics
 			get { return textWidth; }
 		}
 
-		public int TextLength
+		public int Length
 		{
 			get { return glyphs.Count; }
 		}
@@ -58,12 +58,12 @@ namespace MonoHaven.Graphics
 
 		public void Append(string str)
 		{
-			Insert(TextLength, str);
+			Insert(Length, str);
 		}
 
 		public void Append(char c)
 		{
-			Insert(TextLength, c);
+			Insert(Length, c);
 		}
 
 		public void Clear()
@@ -110,6 +110,16 @@ namespace MonoHaven.Graphics
 			foreach (var glyph in glyphs)
 				glyph.Draw(batch, x, y, glyph.Width, glyph.Height);
 			batch.SetColor(Color.White);
+		}
+
+		public int PointToIndex(int x, int y)
+		{
+			if (x <= 0) return 0;
+			if (x > textWidth) return Length;
+			for (int i = 0; i < glyphs.Count; i++)
+				if (glyphs[i].Box.Contains(x, y))
+					return i;
+			return -1;
 		}
 
 		private void UpdateGlyphs(int startIndex)

@@ -65,7 +65,7 @@ namespace MonoHaven.UI
 		private int CaretPosition
 		{
 			get { return caretPosition; }
-			set { caretPosition = MathHelper.Clamp(value, 0, textBlock.TextLength); }
+			set { caretPosition = MathHelper.Clamp(value, 0, textBlock.Length); }
 		}
 
 		protected override void OnDraw(DrawingContext dc)
@@ -76,7 +76,7 @@ namespace MonoHaven.UI
 			// draw cursor
 			if (IsFocused && DateTime.Now.Millisecond > CursorBlinkRate)
 			{
-				int cx = caretPosition < textBlock.TextLength
+				int cx = caretPosition < textBlock.Length
 					? textBlock.Glyphs[caretPosition].Box.X
 					: textBlock.TextWidth;
 
@@ -122,6 +122,17 @@ namespace MonoHaven.UI
 			InsertText(caretPosition, e.KeyChar);
 			CaretPosition++;
 			e.Handled = true;
+		}
+
+		protected override void OnMouseButtonDown(MouseButtonEventArgs e)
+		{
+			if (e.Button == MouseButton.Left)
+			{
+				var p = PointToWidget(e.X, e.Y);
+				var index = textBlock.PointToIndex(p.X - TextPadding, p.Y - TextPadding);
+				if (index != -1)
+					CaretPosition = index;
+			}
 		}
 
 		protected override void OnDispose()

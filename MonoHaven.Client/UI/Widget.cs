@@ -206,6 +206,21 @@ namespace MonoHaven.UI
 
 		#region Protected Methods
 
+		protected Point PointToWidget(Point p)
+		{
+			return PointToWidget(p.X, p.Y);
+		}
+
+		protected Point PointToWidget(int x, int y)
+		{
+			for (var widget = this; widget != null; widget = widget.parent)
+			{
+				x -= widget.X;
+				y -= widget.Y;
+			}
+			return new Point(x, y);
+		}
+
 		protected virtual void OnMouseButtonDown(MouseButtonEventArgs e)
 		{
 		}
