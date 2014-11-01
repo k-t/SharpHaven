@@ -32,7 +32,17 @@ namespace MonoHaven.UI
 		public string Text
 		{
 			get { return text.Text; }
-			set { text.Text = value; }
+			set
+			{
+				text.Text = value;
+				caretPosition = text.TextLength;
+			}
+		}
+
+		private int CaretPosition
+		{
+			get { return caretPosition; }
+			set { caretPosition = MathHelper.Clamp(value, 0, text.TextLength); }
 		}
 
 		protected override void OnDraw(DrawingContext dc)
@@ -53,12 +63,6 @@ namespace MonoHaven.UI
 			}
 		}
 
-		protected override void OnFocusChanged()
-		{
-			if (IsFocused)
-				caretPosition = text.TextLength;
-		}
-
 		protected override void OnKeyDown(KeyEventArgs e)
 		{
 			e.Handled = true;
@@ -68,7 +72,7 @@ namespace MonoHaven.UI
 					if (caretPosition > 0)
 					{
 						text.Remove(caretPosition - 1, 1);
-						MoveCaret(-1);
+						CaretPosition--;
 					}
 					break;
 				case Key.Delete:
@@ -76,10 +80,10 @@ namespace MonoHaven.UI
 						text.Remove(caretPosition, 1);
 					break;
 				case Key.Left:
-					MoveCaret(-1);
+					CaretPosition--;
 					break;
 				case Key.Right:
-					MoveCaret(1);
+					CaretPosition++;
 					break;
 				default:
 					e.Handled = false;
@@ -93,7 +97,7 @@ namespace MonoHaven.UI
 				return;
 
 			text.Insert(caretPosition, e.KeyChar);
-			MoveCaret(1);
+			CaretPosition++;
 			e.Handled = true;
 		}
 
