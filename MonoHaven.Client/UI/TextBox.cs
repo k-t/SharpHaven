@@ -141,6 +141,7 @@ namespace MonoHaven.UI
 
 		protected override void OnSizeChanged()
 		{
+			caretOffset = 0;
 			UpdateCaretPosition();
 		}
 
