@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Drawing;
 using System.Linq;
 
@@ -18,9 +19,9 @@ namespace MonoHaven.Graphics
 			BackgroundColor = Color.Transparent;
 		}
 
-		public IReadOnlyList<TextBlockGlyph> Glyphs
+		public ReadOnlyCollection<TextBlockGlyph> Glyphs
 		{
-			get { return glyphs; }
+			get { return glyphs.AsReadOnly(); }
 		}
 
 		public SpriteFont Font
