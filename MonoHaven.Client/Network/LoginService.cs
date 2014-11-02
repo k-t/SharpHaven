@@ -4,31 +4,31 @@ using System.Threading.Tasks;
 
 namespace MonoHaven.Network
 {
-	public class Login
+	public class LoginService
 	{
 		private readonly LoginOptions options;
 
-		public Login(LoginOptions options)
+		public LoginService(LoginOptions options)
 		{
 			this.options = options;
 		}
 
 		public event EventHandler<LoginStatusEventArgs> StatusChanged;
 
-		public LoginResult DoLogin(string userName, string password)
+		public LoginResult Login(string userName, string password)
 		{
-			return DoLogin(userName, password, null);
+			return Login(userName, password, null);
 		}
 
-		public async Task<LoginResult> DoLoginAsync(string userName, string password)
+		public async Task<LoginResult> LoginAsync(string userName, string password)
 		{
 			var operation = AsyncOperationManager.CreateOperation(null);
 			var result = await Task<LoginResult>.Factory.StartNew(
-				() => DoLogin(userName, password, operation));
+				() => Login(userName, password, operation));
 			return result;
 		}
 
-		private LoginResult DoLogin(string userName, string password, AsyncOperation operation)
+		private LoginResult Login(string userName, string password, AsyncOperation operation)
 		{
 			byte[] cookie;
 			try

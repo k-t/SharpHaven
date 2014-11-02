@@ -12,7 +12,7 @@ namespace MonoHaven.UI
 		private const int MinWidth = 800;
 		private const int MinHeight = 600;
 
-		private Login login;
+		private LoginService loginService;
 
 		private WidgetGroup grLogin;
 		private TextBox tbUserName;
@@ -30,8 +30,8 @@ namespace MonoHaven.UI
 
 		private void InitializeAuthClient()
 		{
-			login = new Login(Config.LoginOptions);
-			login.StatusChanged += HandleLoginStatusChange;
+			loginService = new LoginService(Config.LoginOptions);
+			loginService.StatusChanged += HandleLoginStatusChange;
 		}
 
 		private void InitializeWidgets()
@@ -121,7 +121,7 @@ namespace MonoHaven.UI
 			lbProgress.Text = "";
 			lbProgress.Visible = true;
 
-			var authResult = await login.DoLoginAsync(tbUserName.Text, tbPassword.Text);
+			var authResult = await loginService.LoginAsync(tbUserName.Text, tbPassword.Text);
 
 			lbProgress.Visible = false;
 			grLogin.Visible = true;

@@ -87,7 +87,7 @@
     <Compile Include="Graphics\TextureAtlas.cs" />
     <Compile Include="Graphics\TextureRegion.cs" />
     <Compile Include="Graphics\VertexBuffer.cs" />
-    <Compile Include="Network\Login.cs" />
+    <Compile Include="Network\LoginService.cs" />
     <Compile Include="Network\LoginOptions.cs" />
     <Compile Include="Network\LoginStatusEventArgs.cs" />
     <Compile Include="Network\LoginResult.cs" />
