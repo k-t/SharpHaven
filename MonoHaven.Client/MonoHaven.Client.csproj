@@ -87,9 +87,10 @@
     <Compile Include="Graphics\TextureAtlas.cs" />
     <Compile Include="Graphics\TextureRegion.cs" />
     <Compile Include="Graphics\VertexBuffer.cs" />
-    <Compile Include="Network\AsyncAuthClient.cs" />
-    <Compile Include="Network\AuthStatusEventArgs.cs" />
-    <Compile Include="Network\AuthResult.cs" />
+    <Compile Include="Network\Login.cs" />
+    <Compile Include="Network\LoginOptions.cs" />
+    <Compile Include="Network\LoginStatusEventArgs.cs" />
+    <Compile Include="Network\LoginResult.cs" />
     <Compile Include="Resources\EmbeddedResource.cs" />
     <Compile Include="Resources\Tileset.cs" />
     <Compile Include="UI\EmptyScreen.cs" />
@@ -102,7 +103,6 @@
     <Compile Include="UI\Label.cs" />
     <Compile Include="UI\RootWidget.cs" />
     <Compile Include="UI\WidgetGroup.cs" />
-    <Compile Include="Utils\AsyncOperationExtensions.cs" />
     <Compile Include="Utils\MathExtensions.cs" />
     <Compile Include="Utils\PointComparer.cs" />
     <Compile Include="UI\GameSessionScreen.cs" />

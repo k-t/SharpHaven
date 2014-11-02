@@ -1,16 +1,16 @@
 ﻿namespace MonoHaven.Network
 {
-	public class AuthResult
+	public class LoginResult
 	{
 		private readonly byte[] cookie;
 		private readonly string error;
 
-		public AuthResult(string error)
+		public LoginResult(string error)
 		{
 			this.error = error;
 		}
 
-		public AuthResult(byte[] cookie)
+		public LoginResult(byte[] cookie)
 		{
 			this.cookie = cookie;
 		}

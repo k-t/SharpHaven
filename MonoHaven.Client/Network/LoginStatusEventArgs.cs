@@ -2,11 +2,11 @@
 
 namespace MonoHaven.Network
 {
-	public class AuthStatusEventArgs : EventArgs
+	public class LoginStatusEventArgs : EventArgs
 	{
 		private readonly string status;
 
-		public AuthStatusEventArgs(string status)
+		public LoginStatusEventArgs(string status)
 		{
 			this.status = status;
 		}
