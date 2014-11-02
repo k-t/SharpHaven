@@ -13,7 +13,6 @@ namespace MonoHaven
 	{
 		private const string WindowTitle = "MonoHaven";
 
-		private readonly CallbackDispatcher callbackDispatcher;
 		private IScreen currentScreen;
 		private IInputListener inputListener;
 
@@ -21,7 +20,6 @@ namespace MonoHaven
 			: base(width, height, GraphicsMode.Default, WindowTitle)
 		{
 			currentScreen = EmptyScreen.Instance;
-			callbackDispatcher = new CallbackDispatcher();
 
 			VSync = VSyncMode.On;
 
@@ -33,11 +31,6 @@ namespace MonoHaven
 			Keyboard.KeyDown += HandleKeyDown;
 			Keyboard.KeyUp += HandleKeyUp;
 			KeyPress += HandleKeyPress;
-		}
-
-		public CallbackDispatcher CallbackDispatcher
-		{
-			get { return callbackDispatcher; }
 		}
 
 		private SpriteBatch SpriteBatch

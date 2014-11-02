@@ -1,4 +1,5 @@
 ﻿using System.Drawing;
+using System.Threading.Tasks;
 using MonoHaven.Graphics;
 using MonoHaven.Network;
 using MonoHaven.Resources;
@@ -29,9 +30,8 @@ namespace MonoHaven.UI
 
 		private void InitializeAuthClient()
 		{
-			authClient = new AsyncAuthClient(Config.AuthHost, Config.AuthPort, Host.CallbackDispatcher);
-			authClient.ProgressChanged += HandleAuthProgressChange;
-			authClient.Completed += HandleAuthComplete;
+			authClient = new AsyncAuthClient(Config.AuthHost, Config.AuthPort);
+			authClient.StatusChanged += HandleAuthStatusChange;
 		}
 
 		private void InitializeWidgets()
@@ -113,7 +113,7 @@ namespace MonoHaven.UI
 			}
 		}
 
-		private void Login()
+		private async void Login()
 		{
 			btnLogin.Visible = false;
 			grLogin.Visible = false;
@@ -121,29 +121,26 @@ namespace MonoHaven.UI
 			lbProgress.Text = "";
 			lbProgress.Visible = true;
 
-			authClient.Authenticate(tbUserName.Text, tbPassword.Text);
-		}
+			var authResult = await authClient.Authenticate(tbUserName.Text, tbPassword.Text);
 
-		private void HandleAuthComplete(object sender, AuthResultEventArgs e)
-		{
 			lbProgress.Visible = false;
 			grLogin.Visible = true;
 			btnLogin.Visible = true;
 
-			if (e.IsSuccessful)
+			if (authResult.IsSuccessful)
 			{
 				Host.SetScreen(new GameSessionScreen(Host));
 			}
 			else
 			{
 				lbErrorMessage.Visible = true;
-				lbErrorMessage.Text = e.Error;
+				lbErrorMessage.Text = authResult.Error;
 			}
 		}
 
-		private void HandleAuthProgressChange(object sender, AuthProgressEventArgs e)
+		private void HandleAuthStatusChange(object sender, AuthStatusEventArgs args)
 		{
-			lbProgress.Text = e.StatusText;
+			lbProgress.Text = args.Status;
 		}
 	}
 }

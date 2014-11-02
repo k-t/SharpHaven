@@ -1,5 +1,7 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Threading.Tasks;
+using MonoHaven.Utils;
 
 namespace MonoHaven.Network
 {
@@ -7,40 +9,38 @@ namespace MonoHaven.Network
 	{
 		private readonly string host;
 		private readonly int port;
-		private readonly CallbackDispatcher dispatcher;
 
-		public AsyncAuthClient(string host, int port, CallbackDispatcher dispatcher)
+		public AsyncAuthClient(string host, int port)
 		{
 			this.host = host;
 			this.port = port;
-			this.dispatcher = dispatcher;
 		}
 
-		public event EventHandler<AuthProgressEventArgs> ProgressChanged;
-		public event EventHandler<AuthResultEventArgs> Completed;
+		public event EventHandler<AuthStatusEventArgs> StatusChanged;
 
-		public void Authenticate(string userName, string password)
+		public async Task<AuthResult> Authenticate(string userName, string password)
 		{
-			Task.Factory.StartNew(() => {
+			var operation = AsyncOperationManager.CreateOperation(null);
+			var result = await Task<AuthResult>.Factory.StartNew(() => {
 				AuthClient authClient = null;
 				try
 				{
 					authClient = new AuthClient(host, port);
 					byte[] cookie;
-					ChangeProgress("Authenticating...");
+					ChangeProgress(operation, "Authenticating...");
 					authClient.Connect();
 					authClient.BindUser(userName);
 					if (authClient.TryPassword(password, out cookie))
 					{
-						ChangeProgress("Connecting...");
-						Complete(cookie);
+						ChangeProgress(operation, "Connecting...");
+						return new AuthResult(cookie);
 					}
 					else
-						Complete("Username or password incorrect");
+						return new AuthResult("Username or password incorrect");
 				}
 				catch (Exception e)
 				{
-					Complete(e.Message);
+					return new AuthResult(e.Message);
 				}
 				finally
 				{
@@ -48,27 +48,12 @@ namespace MonoHaven.Network
 						authClient.Dispose();
 				}
 			});
+			return result;
 		}
 
-		private void Complete(byte[] cookie)
+		private void ChangeProgress(AsyncOperation operation, string status)
 		{
-			Complete(new AuthResultEventArgs(cookie));
-		}
-
-		private void Complete(string error)
-		{
-			Complete(new AuthResultEventArgs(error));
-		}
-
-		private void Complete(AuthResultEventArgs args)
-		{
-			dispatcher.Dispatch(Completed, this, args);
-		}
-
-		private void ChangeProgress(string statusText)
-		{
-			var args = new AuthProgressEventArgs(statusText);
-			dispatcher.Dispatch(ProgressChanged, this, args);
+			operation.PostEvent(StatusChanged, this, new AuthStatusEventArgs(status));
 		}
 	}
 }

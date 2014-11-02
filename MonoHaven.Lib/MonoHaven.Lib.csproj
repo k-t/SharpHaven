@@ -48,8 +48,6 @@
     <Reference Include="System.Drawing" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Network\AuthProgressEventArgs.cs" />
-    <Compile Include="Network\AuthResultEventArgs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resources\IEnumerableResourceSource.cs" />
     <Compile Include="Resources\IDataLayer.cs" />
