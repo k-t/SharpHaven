@@ -90,6 +90,7 @@ namespace MonoHaven
 			GL.MatrixMode(MatrixMode.Projection);
 			GL.LoadIdentity();
 			GL.Ortho(0, Width, Height, 0, -1, 1);
+			GL.Scissor(0, 0, Width, Height);
 
 			currentScreen.Resize(Width, Height);
 		}
