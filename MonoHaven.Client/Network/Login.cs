@@ -15,24 +15,29 @@ namespace MonoHaven.Network
 
 		public event EventHandler<LoginStatusEventArgs> StatusChanged;
 
+		public LoginResult DoLogin(string userName, string password)
+		{
+			return DoLogin(userName, password, null);
+		}
+
 		public async Task<LoginResult> DoLoginAsync(string userName, string password)
 		{
 			var operation = AsyncOperationManager.CreateOperation(null);
 			var result = await Task<LoginResult>.Factory.StartNew(
-				() => DoLogin(operation, userName, password));
+				() => DoLogin(userName, password, operation));
 			return result;
 		}
 
-		private LoginResult DoLogin(AsyncOperation operation, string userName, string password)
+		private LoginResult DoLogin(string userName, string password, AsyncOperation operation)
 		{
 			byte[] cookie;
 			try
 			{
-				ChangeStatus(operation, "Authenticating...");
+				ChangeStatus("Authenticating...", operation);
 				if (!Authenticate(userName, password, out cookie))
 					return new LoginResult("Username or password incorrect");
 
-				ChangeStatus(operation, "Connecting...");
+				ChangeStatus("Connecting...", operation);
 				// TODO: connect to game server
 				return new LoginResult(cookie);
 			}
@@ -52,7 +57,7 @@ namespace MonoHaven.Network
 			}
 		}
 
-		private void ChangeStatus(AsyncOperation operation, string status)
+		private void ChangeStatus(string status, AsyncOperation operation)
 		{
 			var args = new LoginStatusEventArgs(status);
 			if (operation != null)
