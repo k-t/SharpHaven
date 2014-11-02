@@ -19,36 +19,36 @@ namespace MonoHaven.Network
 		{
 			var operation = AsyncOperationManager.CreateOperation(null);
 			var result = await Task<LoginResult>.Factory.StartNew(
-				() => Authenticate(operation, userName, password));
+				() => DoLogin(operation, userName, password));
 			return result;
 		}
 
-		private LoginResult Authenticate(AsyncOperation operation, string userName, string password)
+		private LoginResult DoLogin(AsyncOperation operation, string userName, string password)
 		{
-			AuthClient authClient = null;
+			byte[] cookie;
 			try
 			{
-				authClient = new AuthClient(options.AuthHost, options.AuthPort);
-				byte[] cookie;
 				ChangeStatus(operation, "Authenticating...");
-				authClient.Connect();
-				authClient.BindUser(userName);
-				if (authClient.TryPassword(password, out cookie))
-				{
-					ChangeStatus(operation, "Connecting...");
-					return new LoginResult(cookie);
-				}
-				else
+				if (!Authenticate(userName, password, out cookie))
 					return new LoginResult("Username or password incorrect");
+
+				ChangeStatus(operation, "Connecting...");
+				// TODO: connect to game server
+				return new LoginResult(cookie);
 			}
 			catch (Exception e)
 			{
 				return new LoginResult(e.Message);
 			}
-			finally
+		}
+
+		private bool Authenticate(string userName, string password, out byte[] cookie)
+		{
+			using (var authClient = new AuthClient(options.AuthHost, options.AuthPort))
 			{
-				if (authClient != null)
-					authClient.Dispose();
+				authClient.Connect();
+				authClient.BindUser(userName);
+				return authClient.TryPassword(password, out cookie);
 			}
 		}
 
