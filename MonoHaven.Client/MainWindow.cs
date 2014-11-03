@@ -49,6 +49,7 @@ namespace MonoHaven
 			currentScreen.Close();
 			currentScreen = screen ?? EmptyScreen.Instance;
 			inputListener = currentScreen;
+			currentScreen.Resize(Width, Height);
 			currentScreen.Show();
 		}
 
