@@ -4,14 +4,12 @@ namespace MonoHaven.UI
 {
 	public class GameScreen : BaseScreen
 	{
-		private readonly GameSession session;
 		private readonly MapView mapView;
 
-		public GameScreen(IScreenHost host)
+		public GameScreen(IScreenHost host, GameState gstate)
 			: base(host)
 		{
-			session = new GameSession();
-			mapView = new MapView(RootWidget, session);
+			this.mapView = new MapView(RootWidget, gstate);
 		}
 
 		protected override void OnResize(int newWidth, int newHeight)

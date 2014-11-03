@@ -1,5 +1,6 @@
 ﻿using System.Drawing;
 using System.Threading.Tasks;
+using MonoHaven.Game;
 using MonoHaven.Graphics;
 using MonoHaven.Network;
 using MonoHaven.Resources;
@@ -129,7 +130,7 @@ namespace MonoHaven.UI
 
 			if (authResult.IsSuccessful)
 			{
-				Host.SetScreen(new GameScreen(Host));
+				Host.SetScreen(new GameScreen(Host, new GameState()));
 			}
 			else
 			{

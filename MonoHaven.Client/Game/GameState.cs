@@ -3,11 +3,11 @@ using System.IO;
 
 namespace MonoHaven.Game
 {
-	public class GameSession
+	public class GameState
 	{
 		private readonly Map map = new Map();
 		
-		public GameSession()
+		public GameState()
 		{
 			foreach (var file in Directory.EnumerateFiles(@"d:\Projects\RunHH\etc\map\", "*.map"))
 			{

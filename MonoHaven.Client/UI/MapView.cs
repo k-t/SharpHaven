@@ -7,15 +7,15 @@ namespace MonoHaven.UI
 {
 	public class MapView : Widget
 	{
-		private readonly GameSession session;
+		private readonly GameState gstate;
 
 		private Point cameraOffset = new Point(0, 0);
 		private bool dragging;
 
-		public MapView(Widget parent, GameSession session)
+		public MapView(Widget parent, GameState gstate)
 			: base(parent)
 		{
-			this.session = session;
+			this.gstate = gstate;
 			this.cameraOffset = TileToScreen(new Point(-329200, 63600));
 		}
 
@@ -43,7 +43,7 @@ namespace MonoHaven.UI
 						var p = TileToScreen(new Point(tx, ty));
 						p = Point.Add(p, new Size(Width / 2 - cameraOffset.X, Height / 2 - cameraOffset.Y));
 
-						var tile = session.Map.GetTile(tx, ty);
+						var tile = gstate.Map.GetTile(tx, ty);
 						if (tile != null)
 						{
 							g.Draw(tile.Texture, p.X, p.Y);
@@ -55,7 +55,7 @@ namespace MonoHaven.UI
 
 		private void DrawFlavor(DrawingContext g)
 		{
-			foreach (var tuple in session.Map.FlavorObjects)
+			foreach (var tuple in gstate.Map.FlavorObjects)
 			{
 				var c = tuple.Item1;
 				var t = tuple.Item2;
