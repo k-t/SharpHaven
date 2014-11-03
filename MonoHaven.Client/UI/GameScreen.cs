@@ -2,12 +2,12 @@
 
 namespace MonoHaven.UI
 {
-	public class GameSessionScreen : BaseScreen
+	public class GameScreen : BaseScreen
 	{
 		private readonly GameSession session;
 		private readonly MapView mapView;
 
-		public GameSessionScreen(IScreenHost host)
+		public GameScreen(IScreenHost host)
 			: base(host)
 		{
 			session = new GameSession();

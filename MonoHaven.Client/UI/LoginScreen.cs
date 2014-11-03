@@ -129,7 +129,7 @@ namespace MonoHaven.UI
 
 			if (authResult.IsSuccessful)
 			{
-				Host.SetScreen(new GameSessionScreen(Host));
+				Host.SetScreen(new GameScreen(Host));
 			}
 			else
 			{

@@ -107,7 +107,7 @@
     <Compile Include="UI\WidgetGroup.cs" />
     <Compile Include="Utils\MathExtensions.cs" />
     <Compile Include="Utils\PointComparer.cs" />
-    <Compile Include="UI\GameSessionScreen.cs" />
+    <Compile Include="UI\GameScreen.cs" />
     <Compile Include="Resources\ResourceManager.cs" />
     <Compile Include="UI\LoginScreen.cs" />
     <Compile Include="Program.cs" />
