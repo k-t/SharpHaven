@@ -8,10 +8,10 @@ namespace MonoHaven.Network
 {
 	public class MessageWriter : IDisposable
 	{
-		private readonly int messageType;
+		private readonly byte messageType;
 		private readonly MemoryStream stream;
 
-		public MessageWriter(int messageType)
+		public MessageWriter(byte messageType)
 		{
 			this.messageType = messageType;
 			this.stream = new MemoryStream();

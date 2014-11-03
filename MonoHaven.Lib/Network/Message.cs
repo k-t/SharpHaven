@@ -25,16 +25,16 @@ namespace MonoHaven.Network
 		public const int T_COORD = 3;
 		public const int T_COLOR = 6;
 
-		private readonly int type;
+		private readonly byte type;
 		private readonly byte[] data;
 
-		public Message(int type, byte[] data)
+		public Message(byte type, byte[] data)
 		{
 			this.type = type;
 			this.data = data;
 		}
 
-		public Message(int type, byte[] blob, int offset, int len)
+		public Message(byte type, byte[] blob, int offset, int len)
 		{
 			if (blob == null)
 				throw new ArgumentNullException("blob");
@@ -89,7 +89,7 @@ namespace MonoHaven.Network
 			{
 				sb.Append(string.Format("{0:X2} ", b));
 			}
-			return "Message(" + type + "): " + sb.ToString();
+			return "Message(" + type + "): " + sb;
 		}
 	}
 }
