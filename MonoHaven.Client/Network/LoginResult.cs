@@ -2,22 +2,20 @@
 {
 	public class LoginResult
 	{
-		private readonly byte[] cookie;
 		private readonly string error;
+
+		public LoginResult()
+		{
+		}
 
 		public LoginResult(string error)
 		{
 			this.error = error;
 		}
 
-		public LoginResult(byte[] cookie)
-		{
-			this.cookie = cookie;
-		}
-
 		public bool IsSuccessful
 		{
-			get { return cookie != null; }
+			get { return string.IsNullOrEmpty(error); }
 		}
 
 		public string Error

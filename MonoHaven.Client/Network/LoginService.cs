@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Net.Configuration;
 using System.Threading.Tasks;
 
 namespace MonoHaven.Network
@@ -38,8 +39,11 @@ namespace MonoHaven.Network
 					return new LoginResult("Username or password incorrect");
 
 				ChangeStatus("Connecting...", operation);
-				// TODO: connect to game server
-				return new LoginResult(cookie);
+				var connectResult = Connect(userName, cookie);
+				if (connectResult.IsSuccessful())
+					return new LoginResult();
+				else
+					return new LoginResult(connectResult.GetErrorMessage());
 			}
 			catch (Exception e)
 			{
@@ -55,6 +59,12 @@ namespace MonoHaven.Network
 				authClient.BindUser(userName);
 				return authClient.TryPassword(password, out cookie);
 			}
+		}
+
+		private ConnectResult Connect(string userName, byte[] cookie)
+		{
+			var gameClient = new GameClient(options.GameHost, options.GamePort);
+			return gameClient.Connect(userName, cookie);
 		}
 
 		private void ChangeStatus(string status, AsyncOperation operation)
