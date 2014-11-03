@@ -11,9 +11,7 @@ namespace MonoHaven.UI
 			: base(host)
 		{
 			session = new GameSession();
-
 			mapView = new MapView(RootWidget, session);
-			mapView.SetSize(host.Width, host.Height);
 		}
 
 		protected override void OnResize(int newWidth, int newHeight)

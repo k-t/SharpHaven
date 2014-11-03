@@ -1,21 +1,21 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using MonoHaven.UI;
+using OpenTK;
 using OpenTK.Graphics.OpenGL;
 
 namespace MonoHaven.Graphics
 {
 	public class DrawingContext : IDisposable
 	{
-		private readonly IScreenHost screenHost;
+		private readonly INativeWindow window;
 		private readonly SpriteBatch spriteBatch;
 		private Point offset;
 		private readonly Stack<Point> offsetStack;
 
-		public DrawingContext(IScreenHost screenHost, SpriteBatch spriteBatch)
+		public DrawingContext(INativeWindow window, SpriteBatch spriteBatch)
 		{
-			this.screenHost = screenHost;
+			this.window = window;
 			this.offset = Point.Empty;
 			this.offsetStack = new Stack<Point>();
 			this.spriteBatch = spriteBatch;
@@ -32,14 +32,14 @@ namespace MonoHaven.Graphics
 			// flush unclipped drawables
 			spriteBatch.Flush();
 			// window coordinates have the origin at the bottom-left
-			GL.Scissor(x + offset.X, screenHost.Height - offset.Y - y - height, width, height);
+			GL.Scissor(x + offset.X, window.Height - offset.Y - y - height, width, height);
 		}
 
 		public void ResetClip()
 		{
 			// flush clipped drawables
 			spriteBatch.Flush();
-			GL.Scissor(0, 0, screenHost.Width, screenHost.Height);
+			GL.Scissor(0, 0, window.Width, window.Height);
 		}
 
 		public void SetColor(Color color)
