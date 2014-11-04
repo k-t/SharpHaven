@@ -12,23 +12,27 @@ namespace MonoHaven.Network
 		private const int MSG_SESS = 0;
 
 		private readonly Object syncRoot = new object();
+		private readonly ConnectionSettings settings;
 		private readonly Socket socket;
 		private readonly Receiver receiver;
 		private readonly Sender sender;
 		private ConnectionState state;
 		private ConnectionResult connectionResult;
 
-		public GameConnection(string host, int port)
+		public GameConnection(ConnectionSettings settings)
 		{
+			this.settings = settings;
+
 			state = ConnectionState.Created;
 			socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
-			socket.Connect(host, port);
 			sender = new Sender(this);
 			receiver = new Receiver(this);
 		}
 
-		public ConnectionResult Open(string userName, byte[] cookie)
+		public ConnectionResult Open()
 		{
+			socket.Connect(settings.Host, settings.Port);
+
 			sender.Start();
 			receiver.Start();
 
@@ -38,8 +42,8 @@ namespace MonoHaven.Network
 				hello.AddUint16(1);
 				hello.AddString("Haven");
 				hello.AddUint16(PVER);
-				hello.AddString(userName);
-				hello.AddBytes(cookie);
+				hello.AddString(settings.UserName);
+				hello.AddBytes(settings.Cookie);
 				sender.Send(hello.GetMessage());
 
 				state = ConnectionState.Opening;

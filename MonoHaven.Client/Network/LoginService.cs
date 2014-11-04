@@ -62,8 +62,14 @@ namespace MonoHaven.Network
 
 		private ConnectionResult Connect(string userName, byte[] cookie)
 		{
-			var connection = new GameConnection(options.GameHost, options.GamePort);
-			return connection.Open(userName, cookie);
+			var settings = new ConnectionSettings
+			{
+				Host = options.GameHost,
+				Port = options.GamePort,
+				UserName = userName,
+				Cookie = cookie
+			};
+			return new GameConnection(settings).Open();
 		}
 
 		private void ChangeStatus(string status, AsyncOperation operation)

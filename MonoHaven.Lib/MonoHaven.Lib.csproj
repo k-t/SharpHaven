@@ -51,6 +51,7 @@
     <Reference Include="System.Drawing" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Network\ConnectionSettings.cs" />
     <Compile Include="Network\ConnectionResult.cs" />
     <Compile Include="Network\ConnectionState.cs" />
     <Compile Include="Network\GameConnection.cs" />
