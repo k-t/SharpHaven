@@ -25,17 +25,17 @@ namespace MonoHaven.UI
 		public LoginScreen(IScreenHost host)
 			: base(host)
 		{
-			InitializeAuthClient();
-			InitializeWidgets();
+			InitAuthClient();
+			InitWidgets();
 		}
 
-		private void InitializeAuthClient()
+		private void InitAuthClient()
 		{
 			loginService = new LoginService(Config.LoginSettings);
 			loginService.StatusChanged += HandleLoginStatusChange;
 		}
 
-		private void InitializeWidgets()
+		private void InitWidgets()
 		{
 			var background = new ImageWidget(RootWidget);
 			background.Image = ResourceManager.LoadTexture("gfx/loginscr");
