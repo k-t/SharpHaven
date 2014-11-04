@@ -18,7 +18,7 @@ namespace MonoHaven
 			AppDomain.CurrentDomain.UnhandledException += OnUnhandledException;
 			SetSynchronizationContext();
 
-			using (var iconImage = EmbeddedResource.GetImage("icosn.png"))
+			using (var iconImage = EmbeddedResource.GetImage("icon.png"))
 			using (var icon = Icon.FromHandle(iconImage.GetHicon()))
 			using (var gameWindow = new MainWindow(800, 600))
 			{
