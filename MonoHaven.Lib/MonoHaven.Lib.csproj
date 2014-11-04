@@ -51,6 +51,7 @@
     <Reference Include="System.Drawing" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Network\NetworkLoop.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resources\IEnumerableResourceSource.cs" />
     <Compile Include="Resources\IDataLayer.cs" />
