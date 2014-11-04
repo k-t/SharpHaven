@@ -60,6 +60,7 @@
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="Cursors.cs" />
+    <Compile Include="FrameCounter.cs" />
     <Compile Include="Graphics\TextAlign.cs" />
     <Compile Include="Graphics\Glyph.cs" />
     <Compile Include="Graphics\Shader.cs" />

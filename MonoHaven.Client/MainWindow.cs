@@ -15,11 +15,13 @@ namespace MonoHaven
 
 		private IScreen currentScreen;
 		private IInputListener inputListener;
+		private FrameCounter frameCounter;
 
 		public MainWindow(int width, int height)
 			: base(width, height, GraphicsMode.Default, WindowTitle)
 		{
 			currentScreen = EmptyScreen.Instance;
+			frameCounter = new FrameCounter();
 
 			VSync = VSyncMode.On;
 
@@ -100,7 +102,8 @@ namespace MonoHaven
 			}
 			SwapBuffers();
 
-			Title = string.Format("{0} [FPS: {1}]", WindowTitle, FpsCounter.GetFps());
+			frameCounter.Update();
+			Title = string.Format("{0} [FPS: {1}]", WindowTitle, frameCounter.FramesPerSecond);
 		}
 
 		private void HandleMouseButtonDown(object sender, MouseButtonEventArgs e)
@@ -137,26 +140,6 @@ namespace MonoHaven
 		{
 			if (inputListener != null)
 				inputListener.KeyPress(new UI.KeyPressEventArgs(e.KeyChar));
-		}
-
-		private static class FpsCounter
-		{
-			private static int fps;
-			private static int frameCount;
-			private static DateTime last;
-
-			public static int GetFps()
-			{
-				frameCount++;
-				var now = DateTime.Now;
-				if ((now - last).TotalMilliseconds > 1000)
-				{
-					fps = frameCount;
-					frameCount = 0;
-					last = now;
-				}
-				return fps;
-			}
 		}
 	}
 }
