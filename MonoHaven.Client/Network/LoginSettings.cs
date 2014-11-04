@@ -1,6 +1,6 @@
 ﻿namespace MonoHaven.Network
 {
-	public class LoginOptions
+	public class LoginSettings
 	{
 		public string AuthHost { get; set; }
 		public int AuthPort { get; set; }

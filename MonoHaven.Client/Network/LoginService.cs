@@ -6,11 +6,11 @@ namespace MonoHaven.Network
 {
 	public class LoginService
 	{
-		private readonly LoginOptions options;
+		private readonly LoginSettings settings;
 
-		public LoginService(LoginOptions options)
+		public LoginService(LoginSettings settings)
 		{
-			this.options = options;
+			this.settings = settings;
 		}
 
 		public event EventHandler<LoginStatusEventArgs> StatusChanged;
@@ -52,7 +52,7 @@ namespace MonoHaven.Network
 
 		private bool Authenticate(string userName, string password, out byte[] cookie)
 		{
-			using (var authClient = new AuthClient(options.AuthHost, options.AuthPort))
+			using (var authClient = new AuthClient(settings.AuthHost, settings.AuthPort))
 			{
 				authClient.Connect();
 				authClient.BindUser(userName);
@@ -64,8 +64,8 @@ namespace MonoHaven.Network
 		{
 			var settings = new ConnectionSettings
 			{
-				Host = options.GameHost,
-				Port = options.GamePort,
+				Host = this.settings.GameHost,
+				Port = this.settings.GamePort,
 				UserName = userName,
 				Cookie = cookie
 			};

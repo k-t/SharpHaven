@@ -6,7 +6,7 @@ namespace MonoHaven
 	{
 		static Config()
 		{
-			LoginOptions = new LoginOptions
+			LoginSettings = new LoginSettings
 			{
 				AuthHost = "moltke.seatribe.se",
 				AuthPort = 1871,
@@ -15,7 +15,7 @@ namespace MonoHaven
 			};
 		}
 
-		public static LoginOptions LoginOptions
+		public static LoginSettings LoginSettings
 		{
 			get;
 			private set;

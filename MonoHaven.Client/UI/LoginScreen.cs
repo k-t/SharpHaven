@@ -31,7 +31,7 @@ namespace MonoHaven.UI
 
 		private void InitializeAuthClient()
 		{
-			loginService = new LoginService(Config.LoginOptions);
+			loginService = new LoginService(Config.LoginSettings);
 			loginService.StatusChanged += HandleLoginStatusChange;
 		}
 
