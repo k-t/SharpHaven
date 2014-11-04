@@ -4,7 +4,7 @@ using System.Threading;
 
 namespace MonoHaven.Network
 {
-	public class GameClient : IDisposable
+	public class GameConnection : IDisposable
 	{
 		private const int SocketTimeout = 10000000; // 1 sec
 
@@ -15,19 +15,19 @@ namespace MonoHaven.Network
 		private readonly Socket socket;
 		private readonly Receiver receiver;
 		private readonly Sender sender;
-		private GameClientState state;
+		private GameConnectionState state;
 		private ConnectResult connectResult;
 
-		public GameClient(string host, int port)
+		public GameConnection(string host, int port)
 		{
-			state = GameClientState.Created;
+			state = GameConnectionState.Created;
 			socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
 			socket.Connect(host, port);
 			sender = new Sender(this);
 			receiver = new Receiver(this);
 		}
 
-		public ConnectResult Connect(string userName, byte[] cookie)
+		public ConnectResult Open(string userName, byte[] cookie)
 		{
 			sender.Start();
 			receiver.Start();
@@ -42,9 +42,10 @@ namespace MonoHaven.Network
 				hello.AddBytes(cookie);
 				sender.Send(hello.GetMessage());
 
-				state = GameClientState.Connecting;
-				while (state == GameClientState.Connecting)
+				state = GameConnectionState.Opening;
+				while (state == GameConnectionState.Opening)
 					Monitor.Wait(syncRoot);
+
 				return connectResult;
 			}
 		}
@@ -61,16 +62,14 @@ namespace MonoHaven.Network
 			Close();
 		}
 
-		class Receiver : NetworkLoop
+		class Receiver : GameConnectionWorker
 		{
 			private readonly byte[] receiveBuffer;
-			private readonly GameClient client;
 
-			public Receiver(GameClient client)
-				: base("Message Receiver")
+			public Receiver(GameConnection connection)
+				: base("Message Receiver", connection)
 			{
-				this.client = client;
-				receiveBuffer = new byte[client.socket.ReceiveBufferSize];
+				receiveBuffer = new byte[connection.socket.ReceiveBufferSize];
 			}
 
 			protected override void Run()
@@ -81,7 +80,7 @@ namespace MonoHaven.Network
 
 			private void Connect()
 			{
-				ConnectResult connectResult;
+				ConnectResult result;
 				while (!IsCancelled)
 				{
 					var message = ReceiveMessage();
@@ -89,18 +88,18 @@ namespace MonoHaven.Network
 					{
 						if (message.Type != MSG_SESS)
 							continue;
-						connectResult = (ConnectResult)message.Data[0];
+						result = (ConnectResult)message.Data[0];
 					}
 					else
-						connectResult = ConnectResult.ConnectionFailed;
+						result = ConnectResult.ConnectionFailed;
 
-					lock (client.syncRoot)
+					lock (Connection.syncRoot)
 					{
-						client.state = connectResult == ConnectResult.Ok
-							? GameClientState.Connected
-							: GameClientState.Closed;
-						client.connectResult = connectResult;
-						Monitor.PulseAll(client.syncRoot);
+						Connection.state = result == ConnectResult.Ok
+							? GameConnectionState.Opened
+							: GameConnectionState.Closed;
+						Connection.connectResult = result;
+						Monitor.PulseAll(Connection.syncRoot);
 					}
 					break;
 				}
@@ -108,17 +107,17 @@ namespace MonoHaven.Network
 
 			private void Loop()
 			{
-				while (!IsCancelled && client.socket.Poll(SocketTimeout, SelectMode.SelectRead))
+				while (!IsCancelled && Connection.socket.Poll(SocketTimeout, SelectMode.SelectRead))
 				{
-					client.socket.Receive(receiveBuffer);
+					Connection.socket.Receive(receiveBuffer);
 				}
 			}
 
 			private Message ReceiveMessage()
 			{
-				while (client.socket.Poll(SocketTimeout, SelectMode.SelectRead))
+				while (Connection.socket.Poll(SocketTimeout, SelectMode.SelectRead))
 				{
-					int size = client.socket.Receive(receiveBuffer);
+					int size = Connection.socket.Receive(receiveBuffer);
 					if (size == 0)
 						throw new InvalidOperationException("Connection is closed");
 					var type = receiveBuffer[0];
@@ -130,14 +129,11 @@ namespace MonoHaven.Network
 			}
 		}
 
-		class Sender : NetworkLoop
+		class Sender : GameConnectionWorker
 		{
-			private readonly GameClient client;
-
-			public Sender(GameClient client)
-				: base("Message Sender")
+			public Sender(GameConnection connection)
+				: base("Message Sender", connection)
 			{
-				this.client = client;
 			}
 
 			public void Send(Message msg)
@@ -145,7 +141,7 @@ namespace MonoHaven.Network
 				byte[] buf = new byte[msg.Length + 1];
 				buf[0] = (byte)msg.Type;
 				Array.Copy(msg.Data, 0, buf, 1, msg.Length);
-				client.socket.Send(buf);
+				Connection.socket.Send(buf);
 			}
 
 			protected override void Run()

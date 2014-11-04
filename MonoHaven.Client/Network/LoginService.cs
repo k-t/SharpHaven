@@ -1,6 +1,5 @@
 ﻿using System;
 using System.ComponentModel;
-using System.Net.Configuration;
 using System.Threading.Tasks;
 
 namespace MonoHaven.Network
@@ -63,8 +62,8 @@ namespace MonoHaven.Network
 
 		private ConnectResult Connect(string userName, byte[] cookie)
 		{
-			var gameClient = new GameClient(options.GameHost, options.GamePort);
-			return gameClient.Connect(userName, cookie);
+			var connection = new GameConnection(options.GameHost, options.GamePort);
+			return connection.Open(userName, cookie);
 		}
 
 		private void ChangeStatus(string status, AsyncOperation operation)
