@@ -15,19 +15,19 @@ namespace MonoHaven.Network
 		private readonly Socket socket;
 		private readonly Receiver receiver;
 		private readonly Sender sender;
-		private GameConnectionState state;
-		private ConnectResult connectResult;
+		private ConnectionState state;
+		private ConnectionResult connectionResult;
 
 		public GameConnection(string host, int port)
 		{
-			state = GameConnectionState.Created;
+			state = ConnectionState.Created;
 			socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
 			socket.Connect(host, port);
 			sender = new Sender(this);
 			receiver = new Receiver(this);
 		}
 
-		public ConnectResult Open(string userName, byte[] cookie)
+		public ConnectionResult Open(string userName, byte[] cookie)
 		{
 			sender.Start();
 			receiver.Start();
@@ -42,11 +42,11 @@ namespace MonoHaven.Network
 				hello.AddBytes(cookie);
 				sender.Send(hello.GetMessage());
 
-				state = GameConnectionState.Opening;
-				while (state == GameConnectionState.Opening)
+				state = ConnectionState.Opening;
+				while (state == ConnectionState.Opening)
 					Monitor.Wait(syncRoot);
 
-				return connectResult;
+				return connectionResult;
 			}
 		}
 
@@ -62,7 +62,7 @@ namespace MonoHaven.Network
 			Close();
 		}
 
-		class Receiver : GameConnectionWorker
+		class Receiver : ConnectionWorker
 		{
 			private readonly byte[] receiveBuffer;
 
@@ -80,7 +80,7 @@ namespace MonoHaven.Network
 
 			private void Connect()
 			{
-				ConnectResult result;
+				ConnectionResult result;
 				while (!IsCancelled)
 				{
 					var message = ReceiveMessage();
@@ -88,17 +88,17 @@ namespace MonoHaven.Network
 					{
 						if (message.Type != MSG_SESS)
 							continue;
-						result = (ConnectResult)message.Data[0];
+						result = (ConnectionResult)message.Data[0];
 					}
 					else
-						result = ConnectResult.ConnectionFailed;
+						result = ConnectionResult.ConnectionFailed;
 
 					lock (Connection.syncRoot)
 					{
-						Connection.state = result == ConnectResult.Ok
-							? GameConnectionState.Opened
-							: GameConnectionState.Closed;
-						Connection.connectResult = result;
+						Connection.state = result == ConnectionResult.Ok
+							? ConnectionState.Opened
+							: ConnectionState.Closed;
+						Connection.connectionResult = result;
 						Monitor.PulseAll(Connection.syncRoot);
 					}
 					break;
@@ -129,7 +129,7 @@ namespace MonoHaven.Network
 			}
 		}
 
-		class Sender : GameConnectionWorker
+		class Sender : ConnectionWorker
 		{
 			public Sender(GameConnection connection)
 				: base("Message Sender", connection)

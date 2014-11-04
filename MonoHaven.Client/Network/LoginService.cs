@@ -60,7 +60,7 @@ namespace MonoHaven.Network
 			}
 		}
 
-		private ConnectResult Connect(string userName, byte[] cookie)
+		private ConnectionResult Connect(string userName, byte[] cookie)
 		{
 			var connection = new GameConnection(options.GameHost, options.GamePort);
 			return connection.Open(userName, cookie);

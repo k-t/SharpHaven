@@ -1,6 +1,6 @@
 ﻿namespace MonoHaven.Network
 {
-	public enum GameConnectionState
+	public enum ConnectionState
 	{
 		Created,
 		Opening,

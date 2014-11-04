@@ -51,10 +51,10 @@
     <Reference Include="System.Drawing" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Network\ConnectResult.cs" />
-    <Compile Include="Network\GameConnectionState.cs" />
+    <Compile Include="Network\ConnectionResult.cs" />
+    <Compile Include="Network\ConnectionState.cs" />
     <Compile Include="Network\GameConnection.cs" />
-    <Compile Include="Network\GameConnectionWorker.cs" />
+    <Compile Include="Network\ConnectionWorker.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resources\IEnumerableResourceSource.cs" />
     <Compile Include="Resources\IDataLayer.cs" />

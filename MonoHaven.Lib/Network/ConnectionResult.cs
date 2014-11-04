@@ -1,6 +1,6 @@
 ﻿namespace MonoHaven.Network
 {
-	public enum ConnectResult : byte
+	public enum ConnectionResult : byte
 	{
 		Ok = 0,
 		InvalidToken = 1,
@@ -12,26 +12,26 @@
 
 	public static class ConnectResultExtensions
 	{
-		public static bool IsSuccessful(this ConnectResult value)
+		public static bool IsSuccessful(this ConnectionResult value)
 		{
-			return value == ConnectResult.Ok;
+			return value == ConnectionResult.Ok;
 		}
 
-		public static string GetErrorMessage(this ConnectResult value)
+		public static string GetErrorMessage(this ConnectionResult value)
 		{
 			switch (value)
 			{
-				case ConnectResult.Ok:
+				case ConnectionResult.Ok:
 					return "";
-				case ConnectResult.InvalidToken:
+				case ConnectionResult.InvalidToken:
 					return "Invalid authentication token";
-				case ConnectResult.AlreadyLoggedIn:
+				case ConnectionResult.AlreadyLoggedIn:
 					return "Already logged in";
-				case ConnectResult.ConnectionFailed:
+				case ConnectionResult.ConnectionFailed:
 					return "Could not connect to server";
-				case ConnectResult.OldVersion:
+				case ConnectionResult.OldVersion:
 					return "This client is too old";
-				case ConnectResult.ExpiredToken:
+				case ConnectionResult.ExpiredToken:
 					return "Authentication token expired";
 				default:
 					return "Connection failed";

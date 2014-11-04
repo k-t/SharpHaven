@@ -2,14 +2,14 @@
 
 namespace MonoHaven.Network
 {
-	public abstract class GameConnectionWorker
+	public abstract class ConnectionWorker
 	{
 		private readonly GameConnection connection;
 		private readonly CancellationTokenSource tokenSource;
 		private readonly CancellationToken token;
 		private readonly Thread thread;
 		
-		protected GameConnectionWorker(string name, GameConnection connection)
+		protected ConnectionWorker(string name, GameConnection connection)
 		{
 			this.connection = connection;
 
