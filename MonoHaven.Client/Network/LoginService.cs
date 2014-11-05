@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace MonoHaven.Network
@@ -20,14 +21,15 @@ namespace MonoHaven.Network
 			{
 				ChangeStatus("Authenticating...");
 
-				var cookie = await Task<byte[]>.Factory.StartNew(() => Authenticate(userName, password));
+				var cookie = await RunAsync(() => Authenticate(userName, password));
 				if (cookie == null)
 					return new LoginResult("Username or password incorrect");
 
 				ChangeStatus("Connecting...");
 
 				var connection = CreateConnection(userName, cookie);
-				await Task.Factory.StartNew(connection.Open);
+				await RunAsync(connection.Open);
+
 				return new LoginResult();
 			}
 			catch (Exception e)
@@ -64,6 +66,24 @@ namespace MonoHaven.Network
 			var args = new LoginStatusEventArgs(status);
 			if (StatusChanged != null)
 				StatusChanged(this, args);
+		}
+
+		private static Task RunAsync(Action action)
+		{
+			return Task.Factory.StartNew(
+				action,
+				CancellationToken.None,
+				TaskCreationOptions.None,
+				TaskScheduler.Default);
+		}
+
+		private static Task<T> RunAsync<T>(Func<T> func)
+		{
+			return Task<T>.Factory.StartNew(
+				func,
+				CancellationToken.None,
+				TaskCreationOptions.None,
+				TaskScheduler.Default);
 		}
 	}
 }
