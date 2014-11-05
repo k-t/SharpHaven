@@ -51,8 +51,9 @@
     <Reference Include="System.Drawing" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Network\ConnectionErrorCode.cs" />
     <Compile Include="Network\ConnectionSettings.cs" />
-    <Compile Include="Network\ConnectionResult.cs" />
+    <Compile Include="Network\ConnectionException.cs" />
     <Compile Include="Network\ConnectionState.cs" />
     <Compile Include="Network\GameConnection.cs" />
     <Compile Include="Network\ConnectionWorker.cs" />

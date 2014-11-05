@@ -17,7 +17,7 @@ namespace MonoHaven.Network
 		private readonly Receiver receiver;
 		private readonly Sender sender;
 		private ConnectionState state;
-		private ConnectionResult connectionResult;
+		private ConnectionErrorCode errorCode;
 
 		public GameConnection(ConnectionSettings settings)
 		{
@@ -29,7 +29,7 @@ namespace MonoHaven.Network
 			receiver = new Receiver(this);
 		}
 
-		public ConnectionResult Open()
+		public void Open()
 		{
 			socket.Connect(settings.Host, settings.Port);
 
@@ -50,7 +50,8 @@ namespace MonoHaven.Network
 				while (state == ConnectionState.Opening)
 					Monitor.Wait(syncRoot);
 
-				return connectionResult;
+				if (errorCode != 0)
+					throw new ConnectionException(errorCode, GetErrorMessage(errorCode));
 			}
 		}
 
@@ -64,6 +65,27 @@ namespace MonoHaven.Network
 		public void Dispose()
 		{
 			Close();
+		}
+
+		private static string GetErrorMessage(ConnectionErrorCode errorCode)
+		{
+			switch (errorCode)
+			{
+				case 0:
+					return "";
+				case ConnectionErrorCode.InvalidToken:
+					return "Invalid authentication token";
+				case ConnectionErrorCode.AlreadyLoggedIn:
+					return "Already logged in";
+				case ConnectionErrorCode.ConnectionError:
+					return "Could not connect to server";
+				case ConnectionErrorCode.InvalidProtocolVersion:
+					return "This client is too old";
+				case ConnectionErrorCode.ExpiredToken:
+					return "Authentication token expired";
+				default:
+					return "Connection failed";
+			}
 		}
 
 		class Receiver : ConnectionWorker
@@ -84,7 +106,7 @@ namespace MonoHaven.Network
 
 			private void Connect()
 			{
-				ConnectionResult result;
+				ConnectionErrorCode errorCode;
 				while (!IsCancelled)
 				{
 					var message = ReceiveMessage();
@@ -92,17 +114,17 @@ namespace MonoHaven.Network
 					{
 						if (message.Type != MSG_SESS)
 							continue;
-						result = (ConnectionResult)message.Data[0];
+						errorCode = (ConnectionErrorCode)message.Data[0];
 					}
 					else
-						result = ConnectionResult.ConnectionFailed;
+						errorCode = ConnectionErrorCode.ConnectionError;
 
 					lock (Connection.syncRoot)
 					{
-						Connection.state = result == ConnectionResult.Ok
+						Connection.state = errorCode == 0
 							? ConnectionState.Opened
 							: ConnectionState.Closed;
-						Connection.connectionResult = result;
+						Connection.errorCode = errorCode;
 						Monitor.PulseAll(Connection.syncRoot);
 					}
 					break;

@@ -38,11 +38,9 @@ namespace MonoHaven.Network
 					return new LoginResult("Username or password incorrect");
 
 				ChangeStatus("Connecting...", operation);
-				var connectResult = Connect(userName, cookie);
-				if (connectResult.IsSuccessful())
-					return new LoginResult();
-				else
-					return new LoginResult(connectResult.GetErrorMessage());
+				var connection = CreateConnection(userName, cookie);
+				connection.Open();
+				return new LoginResult();
 			}
 			catch (Exception e)
 			{
@@ -60,7 +58,7 @@ namespace MonoHaven.Network
 			}
 		}
 
-		private ConnectionResult Connect(string userName, byte[] cookie)
+		private GameConnection CreateConnection(string userName, byte[] cookie)
 		{
 			var settings = new ConnectionSettings
 			{
@@ -69,7 +67,7 @@ namespace MonoHaven.Network
 				UserName = userName,
 				Cookie = cookie
 			};
-			return new GameConnection(settings).Open();
+			return new GameConnection(settings);
 		}
 
 		private void ChangeStatus(string status, AsyncOperation operation)
