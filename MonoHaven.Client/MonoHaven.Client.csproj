@@ -93,7 +93,6 @@
     <Compile Include="Graphics\VertexBuffer.cs" />
     <Compile Include="Network\LoginService.cs" />
     <Compile Include="Network\LoginSettings.cs" />
-    <Compile Include="Network\LoginStatusEventArgs.cs" />
     <Compile Include="Network\LoginResult.cs" />
     <Compile Include="Resources\EmbeddedResource.cs" />
     <Compile Include="Resources\Tileset.cs" />

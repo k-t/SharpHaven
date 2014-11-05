@@ -16,19 +16,20 @@ namespace MonoHaven.Network
 			this.settings = settings;
 		}
 
-		public event EventHandler<LoginStatusEventArgs> StatusChanged;
-
-		public async Task<LoginResult> LoginAsync(string userName, string password)
+		public async Task<LoginResult> LoginAsync(
+			string userName,
+			string password,
+			Action<string> reportStatus)
 		{
 			try
 			{
-				ChangeStatus("Authenticating...");
+				reportStatus("Authenticating...");
 
 				var cookie = await RunAsync(() => Authenticate(userName, password));
 				if (cookie == null)
 					return new LoginResult("Username or password incorrect");
 
-				ChangeStatus("Connecting...");
+				reportStatus("Connecting...");
 
 				var connection = CreateConnection(userName, cookie);
 				await RunAsync(connection.Open);
@@ -74,13 +75,6 @@ namespace MonoHaven.Network
 				Cookie = cookie
 			};
 			return new GameConnection(settings);
-		}
-
-		private void ChangeStatus(string status)
-		{
-			var args = new LoginStatusEventArgs(status);
-			if (StatusChanged != null)
-				StatusChanged(this, args);
 		}
 
 		private static Task RunAsync(Action action)

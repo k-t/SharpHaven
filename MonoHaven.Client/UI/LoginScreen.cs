@@ -32,7 +32,6 @@ namespace MonoHaven.UI
 		private void InitAuthClient()
 		{
 			loginService = new LoginService(Config.LoginSettings);
-			loginService.StatusChanged += HandleLoginStatusChange;
 		}
 
 		private void InitWidgets()
@@ -122,7 +121,8 @@ namespace MonoHaven.UI
 			lbProgress.Text = "";
 			lbProgress.Visible = true;
 
-			var authResult = await loginService.LoginAsync(tbUserName.Text, tbPassword.Text);
+			var authResult = await loginService.LoginAsync(
+				tbUserName.Text, tbPassword.Text, ChangeProgress);
 
 			lbProgress.Visible = false;
 			grLogin.Visible = true;
@@ -139,9 +139,9 @@ namespace MonoHaven.UI
 			}
 		}
 
-		private void HandleLoginStatusChange(object sender, LoginStatusEventArgs args)
+		private void ChangeProgress(string status)
 		{
-			lbProgress.Text = args.Status;
+			lbProgress.Text = status;
 		}
 	}
 }
