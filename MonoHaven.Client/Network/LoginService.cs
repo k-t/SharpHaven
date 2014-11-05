@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
+using NLog;
 
 namespace MonoHaven.Network
 {
 	public class LoginService
 	{
+		private static readonly Logger Log = LogManager.GetCurrentClassLogger();
+
 		private readonly LoginSettings settings;
 
 		public LoginService(LoginSettings settings)
@@ -30,11 +33,23 @@ namespace MonoHaven.Network
 				var connection = CreateConnection(userName, cookie);
 				await RunAsync(connection.Open);
 
+				Log.Info("<{0}> logged in successfully", userName);
 				return new LoginResult();
 			}
-			catch (Exception e)
+			catch (AuthException ex)
 			{
-				return new LoginResult(e.Message);
+				Log.Error("Authentication error", (Exception)ex);
+				return new LoginResult(ex.Message);
+			}
+			catch (ConnectionException ex)
+			{
+				Log.Error("Connection error ({0})", (byte)ex.ErrorCode);
+				return new LoginResult(ex.Message);
+			}
+			catch (Exception ex)
+			{
+				Log.Error("Unexpected login error", ex);
+				return new LoginResult(ex.Message);
 			}
 		}
 
