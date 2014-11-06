@@ -11,7 +11,7 @@ namespace MonoHaven.Network
 		private const int MSG_SESS = 0;
 		private const int MSG_CLOSE = 8;
 
-		private readonly Object syncRoot = new object();
+		private readonly Object connLock = new object();
 		private readonly ConnectionSettings settings;
 		private readonly Socket socket;
 		private readonly MessageReceiver receiver;
@@ -28,33 +28,15 @@ namespace MonoHaven.Network
 			socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
 			sender = new MessageSender(socket);
 			receiver = new MessageReceiver(socket);
-			receiver.SetHandler(ReceiveHandshake);
 		}
 
 		public void Open()
 		{
 			socket.Connect(settings.Host, settings.Port);
-
-			sender.Start();
+			receiver.SetHandler(EndHandshake);
 			receiver.Start();
-
-			lock (syncRoot)
-			{
-				var hello = new Message(MSG_SESS);
-				hello.AddUint16(1);
-				hello.AddString("Haven");
-				hello.AddUint16(PROTOCOL_VERSION);
-				hello.AddString(settings.UserName);
-				hello.AddBytes(settings.Cookie);
-				Send(hello);
-
-				state = ConnectionState.Opening;
-				while (state == ConnectionState.Opening)
-					Monitor.Wait(syncRoot);
-
-				if (error != 0)
-					throw new ConnectionException(error, GetErrorMessage(error));
-			}
+			sender.Start();
+			BeginHandshake();
 		}
 
 		public void Close()
@@ -69,7 +51,28 @@ namespace MonoHaven.Network
 			Close();
 		}
 
-		private void ReceiveHandshake(MessageReader reader)
+		private void BeginHandshake()
+		{
+			lock (connLock)
+			{
+				var hello = new Message(MSG_SESS);
+				hello.AddUint16(1);
+				hello.AddString("Haven");
+				hello.AddUint16(PROTOCOL_VERSION);
+				hello.AddString(settings.UserName);
+				hello.AddBytes(settings.Cookie);
+				Send(hello);
+
+				state = ConnectionState.Opening;
+				while (state == ConnectionState.Opening)
+					Monitor.Wait(connLock);
+
+				if (error != 0)
+					throw new ConnectionException(error, GetErrorMessage(error));
+			}
+		}
+
+		private void EndHandshake(MessageReader reader)
 		{
 			ConnectionError err;
 			switch (reader.MessageType)
@@ -83,11 +86,11 @@ namespace MonoHaven.Network
 				default:
 					return;
 			}
-			lock (syncRoot)
+			lock (connLock)
 			{
 				state = err == 0 ? ConnectionState.Opened : ConnectionState.Closed;
 				error = err;
-				Monitor.PulseAll(syncRoot);
+				Monitor.PulseAll(connLock);
 			}
 		}
 
