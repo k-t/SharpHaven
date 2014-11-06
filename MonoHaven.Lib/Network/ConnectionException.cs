@@ -4,22 +4,22 @@ namespace MonoHaven.Network
 {
 	public class ConnectionException : Exception
 	{
-		private readonly ConnectionErrorCode errorCode;
+		private readonly ConnectionError error;
 
 		public ConnectionException(string message)
 			: base(message)
 		{
 		}
 
-		public ConnectionException(ConnectionErrorCode errorCode, string message)
+		public ConnectionException(ConnectionError error, string message)
 			: this(message)
 		{
-			this.errorCode = errorCode;
+			this.error = error;
 		}
 
-		public ConnectionErrorCode ErrorCode
+		public ConnectionError Error
 		{
-			get { return errorCode; }
+			get { return error; }
 		}
 	}
 }

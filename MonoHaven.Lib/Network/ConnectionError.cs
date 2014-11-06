@@ -1,6 +1,6 @@
 ﻿namespace MonoHaven.Network
 {
-	public enum ConnectionErrorCode : byte
+	public enum ConnectionError : byte
 	{
 		InvalidToken = 1,
 		AlreadyLoggedIn = 2,

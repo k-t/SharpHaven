@@ -6,8 +6,10 @@ namespace MonoHaven.Network
 {
 	public class Connection : IDisposable
 	{
-		private const int PVER = 2;
+		private const int PROTOCOL_VERSION = 2;
+
 		private const int MSG_SESS = 0;
+		private const int MSG_CLOSE = 8;
 
 		private readonly Object syncRoot = new object();
 		private readonly ConnectionSettings settings;
@@ -16,7 +18,7 @@ namespace MonoHaven.Network
 		private readonly MessageSender sender;
 
 		private ConnectionState state;
-		private ConnectionErrorCode errorCode;
+		private ConnectionError error;
 
 		public Connection(ConnectionSettings settings)
 		{
@@ -41,7 +43,7 @@ namespace MonoHaven.Network
 				var hello = new MessageWriter(MSG_SESS);
 				hello.AddUint16(1);
 				hello.AddString("Haven");
-				hello.AddUint16(PVER);
+				hello.AddUint16(PROTOCOL_VERSION);
 				hello.AddString(settings.UserName);
 				hello.AddBytes(settings.Cookie);
 				Send(hello.GetMessage());
@@ -50,8 +52,8 @@ namespace MonoHaven.Network
 				while (state == ConnectionState.Opening)
 					Monitor.Wait(syncRoot);
 
-				if (errorCode != 0)
-					throw new ConnectionException(errorCode, GetErrorMessage(errorCode));
+				if (error != 0)
+					throw new ConnectionException(error, GetErrorMessage(error));
 			}
 		}
 
@@ -69,23 +71,22 @@ namespace MonoHaven.Network
 
 		private void ReceiveHandshake(Message message)
 		{
-			ConnectionErrorCode errorCode;
-			
-			if (message != null)
+			ConnectionError err;
+			switch (message.Type)
 			{
-				if (message.Type != MSG_SESS)
+				case MSG_SESS:
+					err = (ConnectionError)message.Data[0];
+					break;
+				case MSG_CLOSE:
+					err = ConnectionError.ConnectionError;
+					break;
+				default:
 					return;
-				errorCode = (ConnectionErrorCode)message.Data[0];
 			}
-			else
-				errorCode = ConnectionErrorCode.ConnectionError;
-
 			lock (syncRoot)
 			{
-				state = errorCode == 0
-					? ConnectionState.Opened
-					: ConnectionState.Closed;
-				this.errorCode = errorCode;
+				state = err == 0 ? ConnectionState.Opened : ConnectionState.Closed;
+				error = err;
 				Monitor.PulseAll(syncRoot);
 			}
 		}
@@ -98,21 +99,21 @@ namespace MonoHaven.Network
 			socket.Send(buf);
 		}
 
-		private static string GetErrorMessage(ConnectionErrorCode errorCode)
+		private static string GetErrorMessage(ConnectionError error)
 		{
-			switch (errorCode)
+			switch (error)
 			{
 				case 0:
 					return "";
-				case ConnectionErrorCode.InvalidToken:
+				case ConnectionError.InvalidToken:
 					return "Invalid authentication token";
-				case ConnectionErrorCode.AlreadyLoggedIn:
+				case ConnectionError.AlreadyLoggedIn:
 					return "Already logged in";
-				case ConnectionErrorCode.ConnectionError:
+				case ConnectionError.ConnectionError:
 					return "Could not connect to server";
-				case ConnectionErrorCode.InvalidProtocolVersion:
+				case ConnectionError.InvalidProtocolVersion:
 					return "This client is too old";
-				case ConnectionErrorCode.ExpiredToken:
+				case ConnectionError.ExpiredToken:
 					return "Authentication token expired";
 				default:
 					return "Connection failed";

@@ -44,7 +44,7 @@ namespace MonoHaven.Network
 			}
 			catch (ConnectionException ex)
 			{
-				Log.Error("Connection error ({0})", (byte)ex.ErrorCode);
+				Log.Error("Connection error ({0})", (byte)ex.Error);
 				return new LoginResult(ex.Message);
 			}
 			catch (Exception ex)
