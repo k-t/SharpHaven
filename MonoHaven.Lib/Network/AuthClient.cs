@@ -37,45 +37,33 @@ namespace MonoHaven.Network
 
 		public void Connect()
 		{
-			TcpClient tc = new TcpClient(host, port);
+			var tc = new TcpClient(host, port);
 			ctx = new SslStream(tc.GetStream(), false, ValidateServerCertificate, null);
 			ctx.AuthenticateAsClient(string.Empty);
 		}
 
 		public void BindUser(string userName)
 		{
-			using(var req = new Message(CMD_USR))
-			{
-				req.AddChars(userName);
-				SendMessage(req);
-				var reply = ReceiveMessage();
-				if (reply.MessageType != 0)
-				{
-					throw new AuthException("Unhandled reply " + reply.MessageType + " when binding username");
-				}
-			}
+			var msg = new Message(CMD_USR).Chars(userName);
+			Send(msg);
+			var reply = GetReply();
+			if (reply.MessageType != 0)
+				throw new AuthException("Unhandled reply " + reply.MessageType + " when binding username");
 		}
 
 		public bool TryPassword(string password, out byte[] cookie)
 		{
 			byte[] phash = Digest(password);
-			using (var msg = new Message(CMD_PASSWD))
+			var msg = new Message(CMD_PASSWD).Bytes(phash);
+			Send(msg);
+			var reply = GetReply();
+			if (reply.MessageType != 0)
 			{
-				msg.AddBytes(phash);
-				SendMessage(msg);
-
-				var reply = ReceiveMessage();
-				if (reply.MessageType == 0)
-				{
-					cookie = reply.GetBytes();
-					return true;
-				}
-				else
-				{
-					cookie = null;
-					return false;
-				}
+				cookie = null;
+				return false;
 			}
+			cookie = reply.GetBytes();
+			return true;
 		}
 
 		private byte[] Digest(string password)
@@ -96,7 +84,7 @@ namespace MonoHaven.Network
 			}
 		}
 
-		private MessageReader ReceiveMessage()
+		private MessageReader GetReply()
 		{
 			byte[] header = new byte[2];
 			ReadAll(header);
@@ -105,17 +93,17 @@ namespace MonoHaven.Network
 			return new MessageReader(header[0], buf);
 		}
 
-		private void SendMessage(Message msg)
+		private void Send(Message msg)
 		{
 			if (msg.Length > 255)
 				throw new AuthException("Message is too long (" + msg.Length + " bytes)");
 
-			byte[] buf = new byte[msg.Length + 2];
-			buf[0] = msg.Type;
-			buf[1] = (byte)msg.Length;
-			msg.CopyBytesTo(buf, 2, msg.Length);
+			var bytes = new byte[msg.Length + 2];
+			bytes[0] = msg.Type;
+			bytes[1] = (byte)msg.Length;
+			msg.CopyBytes(bytes, 2, msg.Length);
 
-			ctx.Write(buf);
+			ctx.Write(bytes);
 		}
 
 		#region IDisposable Members

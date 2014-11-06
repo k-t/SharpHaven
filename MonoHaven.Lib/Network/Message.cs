@@ -2,7 +2,6 @@ using System;
 using System.Drawing;
 using System.IO;
 using System.Text;
-using MiscUtil.Collections.Extensions;
 using MiscUtil.Conversion;
 
 namespace MonoHaven.Network
@@ -39,71 +38,80 @@ namespace MonoHaven.Network
 			stream.Dispose();
 		}
 
-		public void AddBytes(byte[] src, int off, int len)
+		public Message Bytes(byte[] src, int off, int len)
 		{
 			stream.Write(src, off, len);
+			return this;
 		}
 
-		public void AddBytes(byte[] src)
+		public Message Bytes(byte[] src)
 		{
-			AddBytes(src, 0, src.Length);
+			Bytes(src, 0, src.Length);
+			return this;
 		}
 
-		public void AddUint8(byte value)
+		public Message Byte(byte value)
 		{
-			AddBytes(EndianBitConverter.Little.GetBytes(value));
+			Bytes(EndianBitConverter.Little.GetBytes(value));
+			return this;
 		}
 
-		public void AddUint16(ushort value)
+		public Message Uint16(ushort value)
 		{
-			AddBytes(EndianBitConverter.Little.GetBytes(value));
+			Bytes(EndianBitConverter.Little.GetBytes(value));
+			return this;
 		}
 
-		public void AddInt32(int value)
+		public Message Int32(int value)
 		{
-			AddBytes(EndianBitConverter.Little.GetBytes(value));
+			Bytes(EndianBitConverter.Little.GetBytes(value));
+			return this;
 		}
 
-		public void AddString(string str)
+		public Message String(string str)
 		{
-			AddChars(str);
-			AddBytes(new byte[] { 0 });
+			Chars(str);
+			Bytes(new byte[] { 0 });
+			return this;
 		}
 
-		public void AddChars(char[] chars)
+		public Message Chars(char[] chars)
 		{
-			AddBytes(Encoding.UTF8.GetBytes(chars));
+			Bytes(Encoding.UTF8.GetBytes(chars));
+			return this;
 		}
 
-		public void AddChars(string str)
+		public Message Chars(string str)
 		{
-			AddBytes(Encoding.UTF8.GetBytes(str));
+			Bytes(Encoding.UTF8.GetBytes(str));
+			return this;
 		}
 
-		public void AddCoord(Point c)
+		public Message Coord(Point c)
 		{
-			AddInt32(c.X);
-			AddInt32(c.Y);
+			Int32(c.X);
+			Int32(c.Y);
+			return this;
 		}
 
-		public void AddList(params object[] args)
+		public Message List(params object[] args)
 		{
 			foreach (object o in args)
 			{
 				if (o is int)
 				{
-					AddUint8(Message.T_INT);
-					AddInt32((int)o);
+					Byte(Message.T_INT);
+					Int32((int)o);
 				}
 				else if (o is string)
 				{
-					AddUint8(Message.T_STR);
-					AddString((string)o);
+					Byte(Message.T_STR);
+					String((string)o);
 				}
 				else if (o is Point)
 				{
-					AddUint8(Message.T_COORD);
-					AddCoord((Point)o);
+					Byte(Message.T_COORD);
+					Coord((Point)o);
 				}
 				else if (o != null)
 				{
@@ -117,6 +125,7 @@ namespace MonoHaven.Network
 						"args", "One of the arguments is null");
 				}
 			}
+			return this;
 		}
 
 		public byte[] GetBytes()
@@ -124,7 +133,7 @@ namespace MonoHaven.Network
 			return stream.ToArray();
 		}
 
-		public void CopyBytesTo(byte[] buffer, int offset, int count)
+		public void CopyBytes(byte[] buffer, int offset, int count)
 		{
 			var oldpos = stream.Position;
 			stream.Position = 0;

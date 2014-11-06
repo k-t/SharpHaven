@@ -55,12 +55,12 @@ namespace MonoHaven.Network
 		{
 			lock (connLock)
 			{
-				var hello = new Message(MSG_SESS);
-				hello.AddUint16(1);
-				hello.AddString("Haven");
-				hello.AddUint16(PROTOCOL_VERSION);
-				hello.AddString(settings.UserName);
-				hello.AddBytes(settings.Cookie);
+				var hello = new Message(MSG_SESS)
+					.Uint16(1)
+					.String("Haven")
+					.Uint16(PROTOCOL_VERSION)
+					.String(settings.UserName)
+					.Bytes(settings.Cookie);
 				Send(hello);
 
 				state = ConnectionState.Opening;
@@ -98,7 +98,7 @@ namespace MonoHaven.Network
 		{
 			byte[] bytes = new byte[msg.Length + 1];
 			bytes[0] = msg.Type;
-			msg.CopyBytesTo(bytes, 1, msg.Length);
+			msg.CopyBytes(bytes, 1, msg.Length);
 			socket.Send(bytes);
 		}
 

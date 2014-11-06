@@ -10,8 +10,8 @@ namespace MonoHaven.Tests
 		public void ReadWriteTest()
 		{
 			var writer = new Message(1);
-			writer.AddString("Test");
-			writer.AddString("Test2");
+			writer.String("Test");
+			writer.String("Test2");
 
 			var messageBytes = writer.GetBytes();
 
