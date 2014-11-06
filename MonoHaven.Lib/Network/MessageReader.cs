@@ -8,56 +8,77 @@ namespace MonoHaven.Network
 {
 	public class MessageReader
 	{
-		private readonly Message message;
-		private int off;
+		private readonly byte[] buffer;
+		private readonly int offset;
+		private readonly int length;
+		private readonly byte messageType;
+		private int position;
 
-		public MessageReader(Message message)
+		public MessageReader(byte messageType, byte[] buffer)
+			: this(messageType, buffer, 0, buffer.Length)
 		{
-			if (message == null)
-				throw new ArgumentNullException("message");
+		}
 
-			this.message = message;
+		public MessageReader(byte messageType, byte[] buffer, int offset, int length)
+		{
+			this.messageType = messageType;
+			this.buffer = buffer;
+			this.offset = offset;
+			this.length = length;
+
+			Position = offset;
+		}
+
+		public byte MessageType
+		{
+			get { return messageType; }
 		}
 
 		public bool IsEom
 		{
-			get { return off >= message.Length; }
-		}
-		
-		public sbyte Int8()
-		{
-			return (sbyte)message.Data[off++];
+			get { return Position >= offset + length; }
 		}
 
-		public byte ReadUint8()
+		private int Position
 		{
-			return message.Data[off++];
+			get { return position; }
+			set { position = value; }
+		}
+		
+		public sbyte ReadSByte()
+		{
+			return (sbyte)buffer[Position++];
+		}
+
+		public byte ReadByte()
+		{
+			return buffer[Position++];
 		}
 
 		public ushort ReadUint16()
 		{
-			off += 2;
-			return EndianBitConverter.Little.ToUInt16(message.Data, off - 2);
+			Position += 2;
+			return EndianBitConverter.Little.ToUInt16(buffer, Position - 2);
 		}
 
 		public int ReadInt32()
 		{
-			off += 4;
-			return EndianBitConverter.Little.ToInt32(message.Data, off - 4);
+			Position += 4;
+			return EndianBitConverter.Little.ToInt32(buffer, Position - 4);
 		}
 
 		public string ReadString()
 		{
-			int start = off;
-			int end = message.Data.Length;
-			for (int i = start; i < message.Data.Length; i++)
-				if (message.Data[i] == 0)
+			int start = position;
+			int end = offset + length;
+			for (int i = start; i < end; i++)
+				if (buffer[i] == 0)
 				{
 					end = i;
 					break;
 				}
-			off = end + 1;
-			return Encoding.UTF8.GetString(message.Data, start, end - start);
+			position = end + 1;
+			return Encoding.UTF8.GetString(buffer, start, end - start);
 		}
 
 		public Point ReadCoord()
@@ -67,43 +88,48 @@ namespace MonoHaven.Network
 
 		public Color ReadColor()
 		{
-			int r = ReadUint8();
-			int g = ReadUint8();
-			int b = ReadUint8();
-			int a = ReadUint8();
+			int r = ReadByte();
+			int g = ReadByte();
+			int b = ReadByte();
+			int a = ReadByte();
 			return Color.FromArgb(a, r, g, b);
 		}
 
 		public object[] ReadList()
 		{
-			List<object> ret = new List<object>();
-
+			var list = new List<object>();
 			while (true)
 			{
-				if (off >= message.Length)
+				if (position >= offset + length)
 					break;
 
-				int t = ReadUint8();
+				byte t = ReadByte();
 				switch (t)
 				{
 					case Message.T_INT:
-						ret.Add(ReadInt32());
+						list.Add(ReadInt32());
 						break;
 					case Message.T_STR:
-						ret.Add(ReadString());
+						list.Add(ReadString());
 						break;
 					case Message.T_COLOR:
-						ret.Add(ReadColor());
+						list.Add(ReadColor());
 						break;
 					case Message.T_COORD:
-						ret.Add(ReadCoord());
+						list.Add(ReadCoord());
 						break;
 					case Message.T_END:
 						break;
 				}
 			}
+			return list.ToArray();
+		}
 
-			return ret.ToArray();
+		public byte[] GetBytes()
+		{
+			var bytes = new byte[length];
+			Array.Copy(buffer, offset, bytes, 0, length);
+			return bytes;
 		}
 	}
 }

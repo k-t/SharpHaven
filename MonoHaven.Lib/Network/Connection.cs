@@ -40,13 +40,13 @@ namespace MonoHaven.Network
 
 			lock (syncRoot)
 			{
-				var hello = new MessageWriter(MSG_SESS);
+				var hello = new Message(MSG_SESS);
 				hello.AddUint16(1);
 				hello.AddString("Haven");
 				hello.AddUint16(PROTOCOL_VERSION);
 				hello.AddString(settings.UserName);
 				hello.AddBytes(settings.Cookie);
-				Send(hello.GetMessage());
+				Send(hello);
 
 				state = ConnectionState.Opening;
 				while (state == ConnectionState.Opening)
@@ -69,13 +69,13 @@ namespace MonoHaven.Network
 			Close();
 		}
 
-		private void ReceiveHandshake(Message message)
+		private void ReceiveHandshake(MessageReader reader)
 		{
 			ConnectionError err;
-			switch (message.Type)
+			switch (reader.MessageType)
 			{
 				case MSG_SESS:
-					err = (ConnectionError)message.Data[0];
+					err = (ConnectionError)reader.ReadByte();
 					break;
 				case MSG_CLOSE:
 					err = ConnectionError.ConnectionError;
@@ -93,10 +93,10 @@ namespace MonoHaven.Network
 
 		private void Send(Message msg)
 		{
-			byte[] buf = new byte[msg.Length + 1];
-			buf[0] = (byte)msg.Type;
-			Array.Copy(msg.Data, 0, buf, 1, msg.Length);
-			socket.Send(buf);
+			byte[] bytes = new byte[msg.Length + 1];
+			bytes[0] = msg.Type;
+			msg.CopyBytesTo(bytes, 1, msg.Length);
+			socket.Send(bytes);
 		}
 
 		private static string GetErrorMessage(ConnectionError error)

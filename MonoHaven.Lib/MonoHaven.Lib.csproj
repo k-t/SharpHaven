@@ -51,7 +51,7 @@
     <Reference Include="System.Drawing" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Network\ConnectionErrorCode.cs" />
+    <Compile Include="Network\ConnectionError.cs" />
     <Compile Include="Network\ConnectionSettings.cs" />
     <Compile Include="Network\ConnectionException.cs" />
     <Compile Include="Network\ConnectionState.cs" />
@@ -76,7 +76,6 @@
     <Compile Include="Network\AuthException.cs" />
     <Compile Include="Network\Message.cs" />
     <Compile Include="Network\MessageReader.cs" />
-    <Compile Include="Network\MessageWriter.cs" />
     <Compile Include="WeightList.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

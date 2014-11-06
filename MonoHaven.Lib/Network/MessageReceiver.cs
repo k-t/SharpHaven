@@ -7,7 +7,7 @@ namespace MonoHaven.Network
 	{
 		private const int ReceiveTimeout = 10000000; // 1 sec
 
-		private Action<Message> handler;
+		private Action<MessageReader> handler;
 		private readonly byte[] receiveBuffer;
 		private readonly Socket socket;
 
@@ -18,7 +18,7 @@ namespace MonoHaven.Network
 			this.handler = _ => {};
 		}
 
-		public void SetHandler(Action<Message> handler)
+		public void SetHandler(Action<MessageReader> handler)
 		{
 			if (handler == null)
 				throw new ArgumentNullException("handler");
@@ -37,7 +37,7 @@ namespace MonoHaven.Network
 			}
 		}
 
-		private Message ReceiveMessage()
+		private MessageReader ReceiveMessage()
 		{
 			int size = socket.Receive(receiveBuffer);
 			if (size == 0)
@@ -45,7 +45,7 @@ namespace MonoHaven.Network
 			var type = receiveBuffer[0];
 			var blob = new byte[size - 1];
 			Array.Copy(receiveBuffer, 1, blob, 0, size - 1);
-			return new Message(type, blob);
+			return new MessageReader(type, blob);
 		}
 	}
 }

@@ -44,14 +44,14 @@ namespace MonoHaven.Network
 
 		public void BindUser(string userName)
 		{
-			using(var writer = new MessageWriter(CMD_USR))
+			using(var req = new Message(CMD_USR))
 			{
-				writer.AddString2(userName);
-				SendMessage(writer.GetMessage());
-				Message reply = ReceiveMessage();
-				if (reply.Type != 0)
+				req.AddChars(userName);
+				SendMessage(req);
+				var reply = ReceiveMessage();
+				if (reply.MessageType != 0)
 				{
-					throw new AuthException("Unhandled reply " + reply.Type + " when binding username");
+					throw new AuthException("Unhandled reply " + reply.MessageType + " when binding username");
 				}
 			}
 		}
@@ -59,19 +59,22 @@ namespace MonoHaven.Network
 		public bool TryPassword(string password, out byte[] cookie)
 		{
 			byte[] phash = Digest(password);
-
-			SendMessage(new Message(CMD_PASSWD, phash));
-			Message reply = ReceiveMessage();
-
-			if (reply.Type == 0)
+			using (var msg = new Message(CMD_PASSWD))
 			{
-				cookie = reply.Data;
-				return true;
-			}
-			else
-			{
-				cookie = null;
-				return false;
+				msg.AddBytes(phash);
+				SendMessage(msg);
+
+				var reply = ReceiveMessage();
+				if (reply.MessageType == 0)
+				{
+					cookie = reply.GetBytes();
+					return true;
+				}
+				else
+				{
+					cookie = null;
+					return false;
+				}
 			}
 		}
 
@@ -93,13 +96,13 @@ namespace MonoHaven.Network
 			}
 		}
 
-		private Message ReceiveMessage()
+		private MessageReader ReceiveMessage()
 		{
 			byte[] header = new byte[2];
 			ReadAll(header);
 			byte[] buf = new byte[header[1]];
 			ReadAll(buf);
-			return new Message(header[0], buf);
+			return new MessageReader(header[0], buf);
 		}
 
 		private void SendMessage(Message msg)
@@ -108,9 +111,9 @@ namespace MonoHaven.Network
 				throw new AuthException("Message is too long (" + msg.Length + " bytes)");
 
 			byte[] buf = new byte[msg.Length + 2];
-			buf[0] = (byte)msg.Type;
+			buf[0] = msg.Type;
 			buf[1] = (byte)msg.Length;
-			Array.Copy(msg.Data, 0, buf, 2, msg.Length);
+			msg.CopyBytesTo(buf, 2, msg.Length);
 
 			ctx.Write(buf);
 		}

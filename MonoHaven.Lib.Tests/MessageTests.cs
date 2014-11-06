@@ -1,22 +1,21 @@
 using NUnit.Framework;
-using System;
 using MonoHaven.Network;
 
 namespace MonoHaven.Tests
 {
-	[TestFixture()]
+	[TestFixture]
 	public class MessageTests
 	{
-		[Test()]
+		[Test]
 		public void ReadWriteTest()
 		{
-			var writer = new Network.MessageWriter(Message.RMSG_BUFF);
+			var writer = new Message(1);
 			writer.AddString("Test");
 			writer.AddString("Test2");
 
-			var message = writer.GetMessage();
+			var messageBytes = writer.GetBytes();
 
-			var reader = new MessageReader(message);
+			var reader = new MessageReader(1, messageBytes);
 			Assert.AreEqual("Test", reader.ReadString());
 			Assert.AreEqual("Test2", reader.ReadString());
 		}
