@@ -33,9 +33,6 @@ namespace MonoHaven.Network
 		public void Open()
 		{
 			socket.Connect(settings.Host, settings.Port);
-			receiver.SetHandler(EndHandshake);
-			receiver.Start();
-			sender.Start();
 			BeginHandshake();
 		}
 
@@ -55,6 +52,10 @@ namespace MonoHaven.Network
 		{
 			lock (connLock)
 			{
+				receiver.SetHandler(EndHandshake);
+				receiver.Start();
+				sender.Start();
+
 				var hello = new Message(MSG_SESS)
 					.Uint16(1)
 					.String("Haven")
