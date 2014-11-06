@@ -56,7 +56,9 @@
     <Compile Include="Network\ConnectionException.cs" />
     <Compile Include="Network\ConnectionState.cs" />
     <Compile Include="Network\GameConnection.cs" />
-    <Compile Include="Network\ConnectionWorker.cs" />
+    <Compile Include="BackgroundTask.cs" />
+    <Compile Include="Network\MessageReceiver.cs" />
+    <Compile Include="Network\MessageSender.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resources\IEnumerableResourceSource.cs" />
     <Compile Include="Resources\IDataLayer.cs" />
