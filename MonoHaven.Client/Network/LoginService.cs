@@ -65,7 +65,7 @@ namespace MonoHaven.Network
 			}
 		}
 
-		private GameConnection CreateConnection(string userName, byte[] cookie)
+		private Connection CreateConnection(string userName, byte[] cookie)
 		{
 			var settings = new ConnectionSettings
 			{
@@ -74,7 +74,7 @@ namespace MonoHaven.Network
 				UserName = userName,
 				Cookie = cookie
 			};
-			return new GameConnection(settings);
+			return new Connection(settings);
 		}
 
 		private static Task RunAsync(Action action)

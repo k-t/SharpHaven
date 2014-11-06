@@ -4,7 +4,7 @@ using System.Threading;
 
 namespace MonoHaven.Network
 {
-	public class GameConnection : IDisposable
+	public class Connection : IDisposable
 	{
 		private const int PVER = 2;
 		private const int MSG_SESS = 0;
@@ -18,7 +18,7 @@ namespace MonoHaven.Network
 		private ConnectionState state;
 		private ConnectionErrorCode errorCode;
 
-		public GameConnection(ConnectionSettings settings)
+		public Connection(ConnectionSettings settings)
 		{
 			this.settings = settings;
 
