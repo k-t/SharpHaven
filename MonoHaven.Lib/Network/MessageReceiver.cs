@@ -1,51 +1,29 @@
 ﻿using System;
-using System.Net.Sockets;
 
 namespace MonoHaven.Network
 {
 	internal class MessageReceiver : BackgroundTask
 	{
-		private const int ReceiveTimeout = 1000000; // 1 sec
+		private Action<MessageReader> messageHandler;
+		private readonly GameSocket socket;
 
-		private Action<MessageReader> handler;
-		private readonly byte[] receiveBuffer;
-		private readonly Socket socket;
-
-		public MessageReceiver(Socket socket) : base("Message Receiver")
+		public MessageReceiver(GameSocket socket) : base("Message Receiver")
 		{
 			this.socket = socket;
-			this.receiveBuffer = new byte[socket.ReceiveBufferSize];
-			this.handler = _ => {};
+			this.messageHandler = _ => {};
 		}
 
 		public void SetHandler(Action<MessageReader> handler)
 		{
 			if (handler == null)
 				throw new ArgumentNullException("handler");
-			this.handler = handler;
+			this.messageHandler = handler;
 		}
 
 		protected override void OnStart()
 		{
 			while (!IsCancelled)
-			{
-				if (!socket.Poll(ReceiveTimeout, SelectMode.SelectRead))
-					continue;
-
-				var message = ReceiveMessage();
-				handler(message);
-			}
-		}
-
-		private MessageReader ReceiveMessage()
-		{
-			int size = socket.Receive(receiveBuffer);
-			if (size == 0)
-				throw new InvalidOperationException("Socket is closed");
-			var type = receiveBuffer[0];
-			var blob = new byte[size - 1];
-			Array.Copy(receiveBuffer, 1, blob, 0, size - 1);
-			return new MessageReader(type, blob);
+				messageHandler(socket.ReceiveMessage());
 		}
 	}
 }

@@ -57,6 +57,7 @@
     <Compile Include="Network\ConnectionState.cs" />
     <Compile Include="Network\Connection.cs" />
     <Compile Include="BackgroundTask.cs" />
+    <Compile Include="Network\GameSocket.cs" />
     <Compile Include="Network\MessageReceiver.cs" />
     <Compile Include="Network\MessageSender.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

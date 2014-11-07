@@ -4,9 +4,9 @@ namespace MonoHaven.Network
 {
 	internal class MessageSender : BackgroundTask
 	{
-		private readonly Socket socket;
+		private readonly GameSocket socket;
 
-		public MessageSender(Socket socket) : base("Message Sender")
+		public MessageSender(GameSocket socket) : base("Message Sender")
 		{
 			this.socket = socket;
 		}

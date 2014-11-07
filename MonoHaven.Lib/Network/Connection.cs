@@ -13,7 +13,7 @@ namespace MonoHaven.Network
 
 		private readonly Object connLock = new object();
 		private readonly ConnectionSettings settings;
-		private readonly Socket socket;
+		private readonly GameSocket socket;
 		private readonly MessageReceiver receiver;
 		private readonly MessageSender sender;
 
@@ -25,14 +25,14 @@ namespace MonoHaven.Network
 			this.settings = settings;
 
 			state = ConnectionState.Created;
-			socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
+			socket = new GameSocket(settings.Host, settings.Port);
 			sender = new MessageSender(socket);
 			receiver = new MessageReceiver(socket);
 		}
 
 		public void Open()
 		{
-			socket.Connect(settings.Host, settings.Port);
+			socket.Connect();
 			BeginHandshake();
 		}
 
@@ -62,7 +62,7 @@ namespace MonoHaven.Network
 					.Uint16(PROTOCOL_VERSION)
 					.String(settings.UserName)
 					.Bytes(settings.Cookie);
-				Send(hello);
+				socket.SendMessage(hello);
 
 				state = ConnectionState.Opening;
 				while (state == ConnectionState.Opening)
@@ -93,14 +93,6 @@ namespace MonoHaven.Network
 				error = err;
 				Monitor.PulseAll(connLock);
 			}
-		}
-
-		private void Send(Message msg)
-		{
-			byte[] bytes = new byte[msg.Length + 1];
-			bytes[0] = msg.Type;
-			msg.CopyBytes(bytes, 1, msg.Length);
-			socket.Send(bytes);
 		}
 	}
 }
