@@ -5,7 +5,7 @@ namespace MonoHaven.Network
 {
 	internal class MessageReceiver : BackgroundTask
 	{
-		private const int ReceiveTimeout = 10000000; // 1 sec
+		private const int ReceiveTimeout = 1000000; // 1 sec
 
 		private Action<MessageReader> handler;
 		private readonly byte[] receiveBuffer;
