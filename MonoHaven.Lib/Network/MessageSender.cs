@@ -1,6 +1,4 @@
-﻿using System.Net.Sockets;
-
-namespace MonoHaven.Network
+﻿namespace MonoHaven.Network
 {
 	internal class MessageSender : BackgroundTask
 	{

@@ -4,7 +4,6 @@ using System.Net.Sockets;
 
 namespace MonoHaven.Network
 {
-
 	public class GameSocket : IDisposable
 	{
 		private const int ReceiveTimeout = 1000; // 1 sec
@@ -40,19 +39,19 @@ namespace MonoHaven.Network
 		{
 			int size = socket.Receive(receiveBuffer);
 			if (size == 0)
-				throw new InvalidOperationException("Socket is closed");
+				throw new Exception("Couldn't receive data from socket");
 			var type = receiveBuffer[0];
-			var blob = new byte[size - 1];
-			Array.Copy(receiveBuffer, 1, blob, 0, size - 1);
-			return new MessageReader(type, blob);
+			var buffer = new byte[size - 1];
+			Array.Copy(receiveBuffer, 1, buffer, 0, size - 1);
+			return new MessageReader(type, buffer);
 		}
 
 		public void SendMessage(Message msg)
 		{
-			var bytes = new byte[msg.Length + 1];
-			bytes[0] = msg.Type;
-			msg.CopyBytes(bytes, 1, msg.Length);
-			socket.Send(bytes);
+			var buffer = new byte[msg.Length + 1];
+			buffer[0] = msg.Type;
+			msg.CopyBytes(buffer, 1, msg.Length);
+			socket.Send(buffer);
 		}
 	}
 }
