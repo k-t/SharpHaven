@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Net.Sockets;
-using System.Threading;
 
 namespace MonoHaven.Network
 {
@@ -11,14 +9,11 @@ namespace MonoHaven.Network
 		private const int MSG_SESS = 0;
 		private const int MSG_CLOSE = 8;
 
-		private readonly Object connLock = new object();
 		private readonly ConnectionSettings settings;
 		private readonly GameSocket socket;
 		private readonly MessageReceiver receiver;
 		private readonly MessageSender sender;
-
-		private ConnectionState state;
-		private ConnectionError error;
+		private int state;
 
 		public Connection(ConnectionSettings settings)
 		{
@@ -30,10 +25,17 @@ namespace MonoHaven.Network
 			receiver = new MessageReceiver(socket);
 		}
 
+		public void Dispose()
+		{
+			Close();
+		}
+
 		public void Open()
 		{
-			socket.Connect();
-			BeginHandshake();
+			Connect();
+			receiver.Run();
+			sender.Run();
+			state = ConnectionState.Opened;
 		}
 
 		public void Close()
@@ -41,58 +43,39 @@ namespace MonoHaven.Network
 			receiver.Stop();
 			sender.Stop();
 			socket.Close();
+			state = ConnectionState.Closed;
 		}
 
-		public void Dispose()
+		private void Connect()
 		{
-			Close();
-		}
+			socket.Connect();
 
-		private void BeginHandshake()
-		{
-			lock (connLock)
+			var hello = new Message(MSG_SESS)
+				.Uint16(1)
+				.String("Haven")
+				.Uint16(PROTOCOL_VERSION)
+				.String(settings.UserName)
+				.Bytes(settings.Cookie);
+
+			socket.SendMessage(hello);
+
+			ConnectionError error;
+			while (true)
 			{
-				receiver.SetHandler(EndHandshake);
-				receiver.Start();
-				sender.Start();
-
-				var hello = new Message(MSG_SESS)
-					.Uint16(1)
-					.String("Haven")
-					.Uint16(PROTOCOL_VERSION)
-					.String(settings.UserName)
-					.Bytes(settings.Cookie);
-				socket.SendMessage(hello);
-
-				state = ConnectionState.Opening;
-				while (state == ConnectionState.Opening)
-					Monitor.Wait(connLock);
-
-				if (error != ConnectionError.None)
-					throw new ConnectionException(error);
-			}
-		}
-
-		private void EndHandshake(MessageReader reader)
-		{
-			ConnectionError err;
-			switch (reader.MessageType)
-			{
-				case MSG_SESS:
-					err = (ConnectionError)reader.ReadByte();
+				var reply = socket.ReceiveMessage();
+				if (reply.MessageType == MSG_SESS)
+				{
+					error = (ConnectionError)reply.ReadByte();
 					break;
-				case MSG_CLOSE:
-					err = ConnectionError.ConnectionError;
+				}
+				if (reply.MessageType == MSG_CLOSE)
+				{
+					error = ConnectionError.ConnectionError;
 					break;
-				default:
-					return;
+				}
 			}
-			lock (connLock)
-			{
-				state = err == 0 ? ConnectionState.Opened : ConnectionState.Closed;
-				error = err;
-				Monitor.PulseAll(connLock);
-			}
+			if (error != ConnectionError.None)
+				throw new ConnectionException(error);
 		}
 	}
 }
