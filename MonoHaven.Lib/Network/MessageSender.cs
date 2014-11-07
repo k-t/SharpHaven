@@ -11,7 +11,7 @@ namespace MonoHaven.Network
 			this.socket = socket;
 		}
 
-		protected override void Run()
+		protected override void OnStart()
 		{
 		}
 	}

@@ -25,7 +25,7 @@ namespace MonoHaven.Network
 			this.handler = handler;
 		}
 
-		protected override void Run()
+		protected override void OnStart()
 		{
 			while (!IsCancelled)
 			{
