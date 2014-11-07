@@ -43,28 +43,21 @@ namespace MonoHaven
 
 		private void Start()
 		{
-			log.Info("Task [{0}] started", GetName());
+			log.Info("Task started");
 			try
 			{
 				OnStart();
 			}
 			catch (Exception ex)
 			{
-				log.Error(string.Format("Exception in task [{0}]", GetName()), ex);
+				log.Error("Unhandled exception within task", ex);
 			}
 			finally
 			{
 				if (Finished != null)
 					Finished(this, EventArgs.Empty);
-				log.Info("Task [{0}] stopped", GetName());
+				log.Info("Task stopped");
 			}
-		}
-
-		private string GetName()
-		{
-			return !string.IsNullOrEmpty(thread.Name)
-				? thread.Name
-				: thread.ManagedThreadId.ToString();
 		}
 	}
 }

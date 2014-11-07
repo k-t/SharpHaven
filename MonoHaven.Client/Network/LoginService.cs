@@ -34,7 +34,7 @@ namespace MonoHaven.Network
 				var connection = CreateConnection(userName, cookie);
 				await RunAsync(connection.Open);
 
-				Log.Info("<{0}> logged in successfully", userName);
+				Log.Info("{0} logged in successfully", userName);
 				return new LoginResult();
 			}
 			catch (AuthException ex)
