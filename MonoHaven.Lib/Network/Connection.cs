@@ -68,8 +68,8 @@ namespace MonoHaven.Network
 				while (state == ConnectionState.Opening)
 					Monitor.Wait(connLock);
 
-				if (error != 0)
-					throw new ConnectionException(error, GetErrorMessage(error));
+				if (error != ConnectionError.None)
+					throw new ConnectionException(error);
 			}
 		}
 
@@ -101,27 +101,6 @@ namespace MonoHaven.Network
 			bytes[0] = msg.Type;
 			msg.CopyBytes(bytes, 1, msg.Length);
 			socket.Send(bytes);
-		}
-
-		private static string GetErrorMessage(ConnectionError error)
-		{
-			switch (error)
-			{
-				case 0:
-					return "";
-				case ConnectionError.InvalidToken:
-					return "Invalid authentication token";
-				case ConnectionError.AlreadyLoggedIn:
-					return "Already logged in";
-				case ConnectionError.ConnectionError:
-					return "Could not connect to server";
-				case ConnectionError.InvalidProtocolVersion:
-					return "This client is too old";
-				case ConnectionError.ExpiredToken:
-					return "Authentication token expired";
-				default:
-					return "Connection failed";
-			}
 		}
 	}
 }

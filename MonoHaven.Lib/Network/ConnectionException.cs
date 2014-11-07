@@ -6,13 +6,8 @@ namespace MonoHaven.Network
 	{
 		private readonly ConnectionError error;
 
-		public ConnectionException(string message)
-			: base(message)
-		{
-		}
-
-		public ConnectionException(ConnectionError error, string message)
-			: this(message)
+		public ConnectionException(ConnectionError error)
+			: base(error.GetMessage())
 		{
 			this.error = error;
 		}
