@@ -2,9 +2,9 @@ using MonoHaven.Network;
 
 namespace MonoHaven
 {
-	public static class Config
+	public class Config
 	{
-		static Config()
+		public Config()
 		{
 			LoginSettings = new LoginSettings
 			{
@@ -15,7 +15,7 @@ namespace MonoHaven
 			};
 		}
 
-		public static LoginSettings LoginSettings
+		public LoginSettings LoginSettings
 		{
 			get;
 			private set;

@@ -3,17 +3,19 @@ using System.Drawing;
 using System.Threading;
 using System.Windows.Threading;
 using NLog;
+using MonoHaven.UI;
 using MonoHaven.Resources;
 
 namespace MonoHaven
 {
-	internal class Program
+	public class App
 	{
-		private static readonly Logger Log = LogManager.GetCurrentClassLogger();
+		private static readonly Logger log = LogManager.GetCurrentClassLogger();
+		private static readonly App instance = new App();
 
 		public static void Main(string[] args)
 		{
-			Log.Info("Client started");
+			log.Info("Client started");
 
 			AppDomain.CurrentDomain.UnhandledException += OnUnhandledException;
 			SetSynchronizationContext();
@@ -22,9 +24,29 @@ namespace MonoHaven
 			using (var icon = Icon.FromHandle(iconImage.GetHicon()))
 			using (var gameWindow = new MainWindow(800, 600))
 			{
+				instance.Config = new Config();
+				instance.Window = gameWindow;
+
 				gameWindow.Icon = icon;
-				gameWindow.Run();
+				gameWindow.Run(30, 60);
 			}
+		}
+
+		public static App Instance
+		{
+			get { return instance; }
+		}
+
+		public Config Config
+		{
+			get;
+			private set;
+		}
+
+		public IScreenHost Window
+		{
+			get;
+			private set;
 		}
 
 		private static void SetSynchronizationContext()
@@ -35,7 +57,7 @@ namespace MonoHaven
 
 		private static void OnUnhandledException(object sender, UnhandledExceptionEventArgs e)
 		{
-			Log.Fatal((Exception)e.ExceptionObject);
+			log.Fatal((Exception)e.ExceptionObject);
 			// flush log before the termination (otherwise it can be empty)
 			LogManager.Flush();
 		}

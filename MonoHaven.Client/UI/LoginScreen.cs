@@ -22,8 +22,7 @@ namespace MonoHaven.UI
 		private Label lbProgress;
 		private ImageButton btnLogin;
 
-		public LoginScreen(IScreenHost host)
-			: base(host)
+		public LoginScreen()
 		{
 			InitAuthClient();
 			InitWidgets();
@@ -31,7 +30,7 @@ namespace MonoHaven.UI
 
 		private void InitAuthClient()
 		{
-			loginService = new LoginService(Config.LoginSettings);
+			loginService = new LoginService(App.Instance.Config.LoginSettings);
 		}
 
 		private void InitWidgets()
@@ -130,7 +129,7 @@ namespace MonoHaven.UI
 
 			if (authResult.IsSuccessful)
 			{
-				Host.SetScreen(new GameScreen(Host, new GameState()));
+				Host.SetScreen(new GameScreen(new GameState()));
 			}
 			else
 			{

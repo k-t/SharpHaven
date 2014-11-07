@@ -6,16 +6,14 @@ namespace MonoHaven.UI
 {
 	public abstract class BaseScreen : IDisposable, IScreen, IWidgetHost
 	{
-		private readonly IScreenHost host;
 		private readonly RootWidget rootWidget;
 		private Widget mouseFocus;
 		private Widget keyboardFocus;
 		private Widget hoveredWidget;
 
-		protected BaseScreen(IScreenHost host)
+		protected BaseScreen()
 		{
 			this.rootWidget = new RootWidget(this);
-			this.host = host;
 		}
 
 		public virtual void Dispose()
@@ -25,7 +23,7 @@ namespace MonoHaven.UI
 
 		protected IScreenHost Host
 		{
-			get { return host; }
+			get { return App.Instance.Window; }
 		}
 
 		protected RootWidget RootWidget
@@ -76,7 +74,7 @@ namespace MonoHaven.UI
 			hoveredWidget = widget;
 			if (hoveredWidget != null)
 			{
-				host.SetCursor(hoveredWidget.Cursor);
+				Host.SetCursor(hoveredWidget.Cursor);
 				hoveredWidget.IsHovered = true;
 			}
 		}

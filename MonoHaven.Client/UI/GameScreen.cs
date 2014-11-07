@@ -6,8 +6,7 @@ namespace MonoHaven.UI
 	{
 		private readonly MapView mapView;
 
-		public GameScreen(IScreenHost host, GameState gstate)
-			: base(host)
+		public GameScreen(GameState gstate)
 		{
 			this.mapView = new MapView(RootWidget, gstate);
 		}

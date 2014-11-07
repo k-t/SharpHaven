@@ -37,6 +37,9 @@
     <ConsolePause>False</ConsolePause>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>MonoHaven.App</StartupObject>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="AsyncBridge">
       <HintPath>..\packages\AsyncBridge.0.1.1\lib\net40-Client\AsyncBridge.dll</HintPath>
@@ -111,7 +114,7 @@
     <Compile Include="UI\GameScreen.cs" />
     <Compile Include="Resources\ResourceManager.cs" />
     <Compile Include="UI\LoginScreen.cs" />
-    <Compile Include="Program.cs" />
+    <Compile Include="App.cs" />
     <Compile Include="Config.cs" />
     <Compile Include="UI\BaseScreen.cs" />
     <Compile Include="UI\MapView.cs" />

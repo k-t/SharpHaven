@@ -68,7 +68,7 @@ namespace MonoHaven
 			GL.Disable(EnableCap.Lighting);
 			GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
 
-			SetScreen(new LoginScreen(this));
+			SetScreen(new LoginScreen());
 			SpriteBatch = new SpriteBatch();
 		}
 
