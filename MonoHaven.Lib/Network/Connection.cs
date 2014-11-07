@@ -1,10 +1,11 @@
 ﻿using System;
+using System.Net.Sockets;
 
 namespace MonoHaven.Network
 {
 	public class Connection : IDisposable
 	{
-		private const int PROTOCOL_VERSION = 2;
+		private const int ProtocolVersion = 2;
 
 		private const int MSG_SESS = 0;
 		private const int MSG_CLOSE = 8;
@@ -32,10 +33,17 @@ namespace MonoHaven.Network
 
 		public void Open()
 		{
-			Connect();
-			receiver.Run();
-			sender.Run();
-			state = ConnectionState.Opened;
+			try
+			{
+				Connect();
+				receiver.Run();
+				sender.Run();
+				state = ConnectionState.Opened;
+			}
+			catch (SocketException ex)
+			{
+				throw new ConnectionException(ex.Message, ex);
+			}
 		}
 
 		public void Close()
@@ -53,7 +61,7 @@ namespace MonoHaven.Network
 			var hello = new Message(MSG_SESS)
 				.Uint16(1)
 				.String("Haven")
-				.Uint16(PROTOCOL_VERSION)
+				.Uint16(ProtocolVersion)
 				.String(settings.UserName)
 				.Bytes(settings.Cookie);
 
