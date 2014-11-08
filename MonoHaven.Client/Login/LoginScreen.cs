@@ -2,11 +2,11 @@
 using System.Threading.Tasks;
 using MonoHaven.Game;
 using MonoHaven.Graphics;
-using MonoHaven.Network;
 using MonoHaven.Resources;
+using MonoHaven.UI;
 using OpenTK.Input;
 
-namespace MonoHaven.UI
+namespace MonoHaven.Login
 {
 	public class LoginScreen : BaseScreen
 	{
@@ -129,7 +129,7 @@ namespace MonoHaven.UI
 
 			if (authResult.IsSuccessful)
 			{
-				Host.SetScreen(new GameScreen(new GameState()));
+				Host.SetScreen(authResult.Session.Screen);
 			}
 			else
 			{

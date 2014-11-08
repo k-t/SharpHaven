@@ -1,4 +1,4 @@
-﻿namespace MonoHaven.Network
+﻿namespace MonoHaven.Login
 {
 	public class LoginSettings
 	{

@@ -1,6 +1,6 @@
-﻿using MonoHaven.Game;
+﻿using MonoHaven.UI;
 
-namespace MonoHaven.UI
+namespace MonoHaven.Game
 {
 	public class GameScreen : BaseScreen
 	{

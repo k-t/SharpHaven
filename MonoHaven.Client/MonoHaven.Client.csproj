@@ -67,6 +67,7 @@
     <Compile Include="Constants.cs" />
     <Compile Include="Cursors.cs" />
     <Compile Include="FrameCounter.cs" />
+    <Compile Include="Game\GameSession.cs" />
     <Compile Include="Graphics\TextAlign.cs" />
     <Compile Include="Graphics\Glyph.cs" />
     <Compile Include="Graphics\Shader.cs" />
@@ -94,9 +95,9 @@
     <Compile Include="Graphics\TextureAtlas.cs" />
     <Compile Include="Graphics\TextureRegion.cs" />
     <Compile Include="Graphics\VertexBuffer.cs" />
-    <Compile Include="Network\LoginService.cs" />
-    <Compile Include="Network\LoginSettings.cs" />
-    <Compile Include="Network\LoginResult.cs" />
+    <Compile Include="Login\LoginService.cs" />
+    <Compile Include="Login\LoginSettings.cs" />
+    <Compile Include="Login\LoginResult.cs" />
     <Compile Include="Resources\EmbeddedResource.cs" />
     <Compile Include="Resources\Tileset.cs" />
     <Compile Include="UI\EmptyScreen.cs" />
@@ -111,9 +112,9 @@
     <Compile Include="UI\WidgetGroup.cs" />
     <Compile Include="Utils\MathExtensions.cs" />
     <Compile Include="Utils\PointComparer.cs" />
-    <Compile Include="UI\GameScreen.cs" />
+    <Compile Include="Game\GameScreen.cs" />
     <Compile Include="Resources\ResourceManager.cs" />
-    <Compile Include="UI\LoginScreen.cs" />
+    <Compile Include="Login\LoginScreen.cs" />
     <Compile Include="App.cs" />
     <Compile Include="Config.cs" />
     <Compile Include="UI\BaseScreen.cs" />

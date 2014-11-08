@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
+using MonoHaven.Game;
+using MonoHaven.Network;
 using NLog;
 
-namespace MonoHaven.Network
+namespace MonoHaven.Login
 {
 	public class LoginService
 	{
@@ -31,11 +33,11 @@ namespace MonoHaven.Network
 
 				reportStatus("Connecting...");
 
-				var connection = CreateConnection(userName, cookie);
-				await RunAsync(connection.Open);
+				var session = CreateSession(userName, cookie);
+				await RunAsync(session.Start);
 
 				Log.Info("{0} logged in successfully", userName);
-				return new LoginResult();
+				return new LoginResult(session);
 			}
 			catch (AuthException ex)
 			{
@@ -65,16 +67,16 @@ namespace MonoHaven.Network
 			}
 		}
 
-		private Connection CreateConnection(string userName, byte[] cookie)
+		private GameSession CreateSession(string userName, byte[] cookie)
 		{
-			var settings = new ConnectionSettings
+			var connSettings = new ConnectionSettings
 			{
-				Host = this.settings.GameHost,
-				Port = this.settings.GamePort,
+				Host = settings.GameHost,
+				Port = settings.GamePort,
 				UserName = userName,
 				Cookie = cookie
 			};
-			return new Connection(settings);
+			return new GameSession(connSettings);
 		}
 
 		private static Task RunAsync(Action action)
