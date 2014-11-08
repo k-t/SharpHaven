@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Net.Sockets;
-using System.Threading;
 
 namespace MonoHaven.Network
 {
@@ -25,10 +24,12 @@ namespace MonoHaven.Network
 			state = ConnectionState.Created;
 			socket = new GameSocket(settings.Host, settings.Port);
 			sender = new MessageSender(socket);
-			sender.Finished += TaskFinished;
+			sender.Finished += OnTaskFinished;
 			receiver = new MessageReceiver(socket);
-			receiver.Finished += TaskFinished;
+			receiver.Finished += OnTaskFinished;
 		}
+
+		public event EventHandler Closed;
 
 		public void Dispose()
 		{
@@ -64,7 +65,10 @@ namespace MonoHaven.Network
 				if (state != ConnectionState.Opened)
 					return;
 
+				receiver.Finished -= OnTaskFinished;
 				receiver.Stop();
+
+				sender.Finished -= OnTaskFinished;
 				sender.Stop();
 
 				socket.SendMessage(new Message(MSG_CLOSE));
@@ -72,6 +76,8 @@ namespace MonoHaven.Network
 
 				state = ConnectionState.Closed;
 			}
+			if (Closed != null)
+				Closed(this, EventArgs.Empty);
 		}
 
 		private void Connect()
@@ -106,7 +112,7 @@ namespace MonoHaven.Network
 				throw new ConnectionException(error);
 		}
 
-		private void TaskFinished(object sender, EventArgs args)
+		private void OnTaskFinished(object sender, EventArgs args)
 		{
 			// TODO: call this method in another thread so it won't block task completion?
 			Close();
