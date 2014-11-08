@@ -7,7 +7,12 @@ namespace MonoHaven.Game
 	{
 		private readonly Map map = new Map();
 		
-		public GameState()
+		public Map Map
+		{
+			get { return map; }
+		}
+
+		public void LoadMap()
 		{
 			foreach (var file in Directory.EnumerateFiles(@"d:\Projects\RunHH\etc\map\", "*.map"))
 			{
@@ -19,11 +24,6 @@ namespace MonoHaven.Game
 				Array.Copy(bytes, tiles, tiles.Length);
 				map.AddGrid(x, y, tiles);
 			}
-		}
-
-		public Map Map
-		{
-			get { return map; }
 		}
 	}
 }

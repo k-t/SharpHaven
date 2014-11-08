@@ -73,7 +73,7 @@ namespace MonoHaven.Game
 			var buf = new List<TextureRegion>();
 			for (int i = type - 1; i >= 0; i--)
 			{
-				var set = map.GetTileset(i);
+				var set = map.GetTileset((byte)i);
 				if (set == null || set.BorderTransitions == null || set.CrossTransitions == null)
 					continue;
 				int bm = 0, cm = 0;
