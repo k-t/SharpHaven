@@ -35,18 +35,18 @@ namespace MonoHaven.Login
 		private void InitWidgets()
 		{
 			var background = new ImageWidget(RootWidget);
-			background.Image = ResourceManager.LoadTexture("gfx/loginscr");
+			background.Image = App.Instance.Resources.GetTexture("gfx/loginscr");
 			background.SetLocation(0, 0);
 			background.SetSize(background.Image.Width, background.Image.Height);
 
 			var logo = new ImageWidget(RootWidget);
-			logo.Image = ResourceManager.LoadTexture("gfx/logo");
+			logo.Image = App.Instance.Resources.GetTexture("gfx/logo");
 			logo.SetLocation(420 - logo.Image.Width / 2, 215 - logo.Image.Height / 2);
 			logo.SetSize(logo.Width, logo.Height);
 
 			btnLogin = new ImageButton(RootWidget);
-			btnLogin.Up = ResourceManager.LoadTexture("gfx/hud/buttons/loginu");
-			btnLogin.Down = ResourceManager.LoadTexture("gfx/hud/buttons/logind");
+			btnLogin.Up = App.Instance.Resources.GetTexture("gfx/hud/buttons/loginu");
+			btnLogin.Down = App.Instance.Resources.GetTexture("gfx/hud/buttons/logind");
 			btnLogin.Pressed += (sender, args) => Login();
 			btnLogin.SetLocation(373, 460);
 			btnLogin.SetSize(btnLogin.Up.Width, btnLogin.Up.Height);

@@ -7,7 +7,7 @@ namespace MonoHaven
 	{
 		static Cursors()
 		{
-			Default = ResourceManager.LoadCursor("gfx/hud/curs/arw");
+			Default = App.Instance.Resources.GetCursor("gfx/hud/curs/arw");
 		}
 
 		public static MouseCursor Default

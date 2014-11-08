@@ -106,7 +106,7 @@ namespace MonoHaven.Game
 						var id = msg.ReadByte();
 						var resName = msg.ReadString();
 						var resVer = msg.ReadUint16();
-						state.Map.SetTileset(id, ResourceManager.LoadTileset(resName));
+						state.Map.SetTileset(id, App.Instance.Resources.GetTileset(resName));
 					}
 					break;
 				case RMSG_BUFF:

@@ -49,7 +49,7 @@ namespace MonoHaven.Resources
 
 			foreach (var flavor in data.FlavorObjects)
 			{
-				var image = ResourceManager.LoadResource(flavor.ResName).GetLayer<ImageData>();
+				var image = App.Instance.Resources.Get(flavor.ResName).GetLayer<ImageData>();
 				if (image != null)
 				{
 					flavorObjects.Add(atlas.Add(image.Data), flavor.Weight);

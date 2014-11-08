@@ -7,20 +7,20 @@ using OpenTK;
 
 namespace MonoHaven.Resources
 {
-	public static class ResourceManager
+	public class ResourceManager
 	{
-		private static readonly IResourceSource defaultSource = new FolderSource("haven-res/res");
-		private static readonly Dictionary<string, Tileset> tilesetCache = new Dictionary<string, Tileset>();
+		private readonly IResourceSource defaultSource = new FolderSource("haven-res/res");
+		private readonly Dictionary<string, Tileset> tilesetCache = new Dictionary<string, Tileset>();
 
-		public static Resource LoadResource(string resName)
+		public Resource Get(string resName)
 		{
 			return defaultSource.Get(resName);
 		}
 
-		public static MouseCursor LoadCursor(string resName)
+		public MouseCursor GetCursor(string resName)
 		{
 			MouseCursor cursor;
-			var cursorData = LoadResource(resName).GetLayer<ImageData>();
+			var cursorData = Get(resName).GetLayer<ImageData>();
 
 			using (var ms = new MemoryStream(cursorData.Data))
 			using (var bitmap = new Bitmap(ms))
@@ -35,13 +35,13 @@ namespace MonoHaven.Resources
 			}
 		}
 
-		public static Tileset LoadTileset(string resName)
+		public Tileset GetTileset(string resName)
 		{
 			Tileset tileset;
 			if (tilesetCache.TryGetValue(resName, out tileset))
 				return tileset;
 
-			var res = LoadResource(resName);
+			var res = Get(resName);
 			var data = res.GetLayer<TilesetData>();
 			var tiles = res.GetLayers<TileData>();
 
@@ -51,12 +51,12 @@ namespace MonoHaven.Resources
 			return tileset;
 		}
 
-		public static Texture LoadTexture(string resName)
+		public Texture GetTexture(string resName)
 		{
-			var image = LoadResource(resName).GetLayer<ImageData>();
+			var image = Get(resName).GetLayer<ImageData>();
 			if (image == null)
 				throw new ResourceLoadException(string.Format("Couldn't find image layer in the resource '{0}'", resName));
-			// TODO: it actually loads texture into GPU memory and this is wrong!
+			// FIXME: it actually loads texture into GPU memory and this is wrong!
 			return new Texture(image.Data);
 		}
 	}

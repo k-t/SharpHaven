@@ -25,6 +25,7 @@ namespace MonoHaven
 			using (var gameWindow = new MainWindow(800, 600))
 			{
 				instance.Config = new Config();
+				instance.Resources = new ResourceManager();
 				instance.Window = gameWindow;
 
 				gameWindow.Icon = icon;
@@ -38,6 +39,12 @@ namespace MonoHaven
 		}
 
 		public Config Config
+		{
+			get;
+			private set;
+		}
+
+		public ResourceManager Resources
 		{
 			get;
 			private set;
