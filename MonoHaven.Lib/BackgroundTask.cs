@@ -36,6 +36,7 @@ namespace MonoHaven
 
 		public void Stop()
 		{
+			// TODO: it's assumed that task acts nicely but what if it's not the case?
 			tokenSource.Cancel();
 		}
 

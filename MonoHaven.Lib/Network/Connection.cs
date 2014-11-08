@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Net.Sockets;
+using System.Threading;
 
 namespace MonoHaven.Network
 {
@@ -14,7 +15,8 @@ namespace MonoHaven.Network
 		private readonly GameSocket socket;
 		private readonly MessageReceiver receiver;
 		private readonly MessageSender sender;
-		private int state;
+		private ConnectionState state;
+		private readonly object stateLock = new object();
 
 		public Connection(ConnectionSettings settings)
 		{
@@ -23,7 +25,9 @@ namespace MonoHaven.Network
 			state = ConnectionState.Created;
 			socket = new GameSocket(settings.Host, settings.Port);
 			sender = new MessageSender(socket);
+			sender.Finished += TaskFinished;
 			receiver = new MessageReceiver(socket);
+			receiver.Finished += TaskFinished;
 		}
 
 		public void Dispose()
@@ -35,10 +39,17 @@ namespace MonoHaven.Network
 		{
 			try
 			{
-				Connect();
-				receiver.Run();
-				sender.Run();
-				state = ConnectionState.Opened;
+				lock (stateLock)
+				{
+					if (state != ConnectionState.Created)
+						throw new InvalidOperationException("Can't open already opened/closed connection");
+
+					Connect();
+					receiver.Run();
+					sender.Run();
+
+					state = ConnectionState.Opened;
+				}
 			}
 			catch (SocketException ex)
 			{
@@ -48,10 +59,19 @@ namespace MonoHaven.Network
 
 		public void Close()
 		{
-			receiver.Stop();
-			sender.Stop();
-			socket.Close();
-			state = ConnectionState.Closed;
+			lock (stateLock)
+			{
+				if (state != ConnectionState.Opened)
+					return;
+
+				receiver.Stop();
+				sender.Stop();
+
+				socket.SendMessage(new Message(MSG_CLOSE));
+				socket.Close();
+
+				state = ConnectionState.Closed;
+			}
 		}
 
 		private void Connect()
@@ -84,6 +104,12 @@ namespace MonoHaven.Network
 			}
 			if (error != ConnectionError.None)
 				throw new ConnectionException(error);
+		}
+
+		private void TaskFinished(object sender, EventArgs args)
+		{
+			// TODO: call this method in another thread so it won't block task completion?
+			Close();
 		}
 	}
 }

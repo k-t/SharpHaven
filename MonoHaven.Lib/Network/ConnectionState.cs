@@ -2,9 +2,8 @@
 {
 	public enum ConnectionState
 	{
-		Created,
-		Opening,
-		Opened,
-		Closed
+		Closed = 0,
+		Created = 1,
+		Opened = 2,
 	}
 }
