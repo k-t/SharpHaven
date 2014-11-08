@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using MonoHaven.Graphics;
 using MonoHaven.Resources.Layers;
@@ -8,7 +9,8 @@ namespace MonoHaven.Resources
 {
 	public static class ResourceManager
 	{
-		private readonly static IResourceSource defaultSource = new FolderSource("haven-res/res");
+		private static readonly IResourceSource defaultSource = new FolderSource("haven-res/res");
+		private static readonly Dictionary<string, Tileset> tilesetCache = new Dictionary<string, Tileset>();
 
 		public static Resource LoadResource(string resName)
 		{
@@ -35,12 +37,18 @@ namespace MonoHaven.Resources
 
 		public static Tileset LoadTileset(string resName)
 		{
-			var res = LoadResource(resName);
+			Tileset tileset;
+			if (tilesetCache.TryGetValue(resName, out tileset))
+				return tileset;
 
-			var tileset = res.GetLayer<TilesetData>();
+			var res = LoadResource(resName);
+			var data = res.GetLayer<TilesetData>();
 			var tiles = res.GetLayers<TileData>();
 
-			return new Tileset(tileset, tiles);
+			tileset = new Tileset(data, tiles);
+			tilesetCache[resName] = tileset;
+
+			return tileset;
 		}
 
 		public static Texture LoadTexture(string resName)
