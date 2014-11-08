@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading;
+using MonoHaven.Utils;
 using NLog;
 
 namespace MonoHaven
@@ -55,8 +56,7 @@ namespace MonoHaven
 			}
 			finally
 			{
-				if (Finished != null)
-					Finished(this, EventArgs.Empty);
+				Finished.Raise(this, EventArgs.Empty);
 				log.Info("Task stopped");
 			}
 		}

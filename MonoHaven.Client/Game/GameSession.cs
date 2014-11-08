@@ -1,5 +1,4 @@
-﻿using System;
-using MonoHaven.Network;
+﻿using MonoHaven.Network;
 using MonoHaven.UI;
 
 namespace MonoHaven.Game
@@ -35,7 +34,7 @@ namespace MonoHaven.Game
 			screen.Close();
 		}
 
-		private void OnConnectionClosed(object sender, EventArgs eventArgs)
+		private void OnConnectionClosed()
 		{
 			Finish();
 		}

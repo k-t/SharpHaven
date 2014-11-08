@@ -29,7 +29,7 @@ namespace MonoHaven.Network
 			receiver.Finished += OnTaskFinished;
 		}
 
-		public event EventHandler Closed;
+		public event Action Closed;
 
 		public void Dispose()
 		{
@@ -76,8 +76,7 @@ namespace MonoHaven.Network
 
 				state = ConnectionState.Closed;
 			}
-			if (Closed != null)
-				Closed(this, EventArgs.Empty);
+			Closed.Raise();
 		}
 
 		private void Connect()
