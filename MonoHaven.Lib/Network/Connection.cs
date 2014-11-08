@@ -1,14 +1,44 @@
 ﻿using System;
 using System.Net.Sockets;
+using C5;
+using NLog;
+using MonoHaven.Utils;
 
 namespace MonoHaven.Network
 {
 	public class Connection : IDisposable
 	{
+		#region Constants
+
 		private const int ProtocolVersion = 2;
 
 		private const int MSG_SESS = 0;
+		private const int MSG_REL = 1;
+		private const int MSG_ACK = 2;
+		private const int MSG_BEAT = 3;
+		private const int MSG_MAPREQ = 4;
+		private const int MSG_MAPDATA = 5;
+		private const int MSG_OBJDATA = 6;
+		private const int MSG_OBJACK = 7;
 		private const int MSG_CLOSE = 8;
+
+		private const int RMSG_NEWWDG = 0;
+		private const int RMSG_WDGMSG = 1;
+		private const int RMSG_DSTWDG = 2;
+		private const int RMSG_MAPIV = 3;
+		private const int RMSG_GLOBLOB = 4;
+		private const int RMSG_PAGINAE = 5;
+		private const int RMSG_RESID = 6;
+		private const int RMSG_PARTY = 7;
+		private const int RMSG_SFX = 8;
+		private const int RMSG_CATTR = 9;
+		private const int RMSG_MUSIC = 10;
+		private const int RMSG_TILES = 11;
+		private const int RMSG_BUFF = 12;
+
+		#endregion
+
+		private static readonly NLog.Logger log = LogManager.GetCurrentClassLogger();
 
 		private readonly ConnectionSettings settings;
 		private readonly GameSocket socket;
@@ -16,20 +46,25 @@ namespace MonoHaven.Network
 		private readonly MessageSender sender;
 		private ConnectionState state;
 		private readonly object stateLock = new object();
+		private ushort rseq;
+		private readonly TreeDictionary<ushort, MessageReader> waiting;
 
 		public Connection(ConnectionSettings settings)
 		{
 			this.settings = settings;
 
+			waiting = new TreeDictionary<ushort, MessageReader>();
+
 			state = ConnectionState.Created;
 			socket = new GameSocket(settings.Host, settings.Port);
 			sender = new MessageSender(socket);
 			sender.Finished += OnTaskFinished;
-			receiver = new MessageReceiver(socket);
+			receiver = new MessageReceiver(socket, ReceiveMessage);
 			receiver.Finished += OnTaskFinished;
 		}
 
 		public event Action Closed;
+		public event Action<Message> Received;
 
 		public void Dispose()
 		{
@@ -109,6 +144,118 @@ namespace MonoHaven.Network
 			}
 			if (error != ConnectionError.None)
 				throw new ConnectionException(error);
+		}
+
+		private void ReceiveMessage(MessageReader msg)
+		{
+			switch (msg.MessageType)
+			{
+				case MSG_REL:
+					var seq = msg.ReadUint16();
+					while (!msg.IsEom)
+					{
+						var type = msg.ReadByte();
+						int len;
+						if ((type & 0x80) != 0) // is not last?
+						{
+							type &= 0x7f;
+							len = msg.ReadUint16();
+						}
+						else
+							len = msg.Length - msg.Position;
+						HandleRel(seq, new MessageReader(type, msg, msg.Position, len));
+						msg.Position += len;
+						seq++;
+					}
+					break;
+				case MSG_ACK:
+					log.Info("MSG_ACK");
+					break;
+				case MSG_MAPDATA:
+					log.Info("MSG_MAPDATA");
+					break;
+				case MSG_OBJDATA:
+					log.Info("MSG_OBJDATA");
+					break;
+				case MSG_CLOSE:
+					log.Info("Server dropped connection");
+					Close();
+					return;
+			}
+		}
+
+		private void HandleRel(ushort seq, MessageReader msg)
+		{
+			if (seq > rseq)
+			{
+				waiting.Add(seq, msg);
+				return;
+			}
+			log.Info(seq);
+			HandleRel(msg);
+			while(true)
+			{
+				rseq++;
+				if (!waiting.Remove(rseq, out msg))
+					break;
+				HandleRel(msg);
+			}
+
+			SendAck((ushort)(rseq - 1));
+		}
+
+		private void HandleRel(MessageReader msg)
+		{
+			switch (msg.MessageType)
+			{
+				case RMSG_NEWWDG:
+					log.Info("RMSG_NEWWDG");
+					break;
+				case RMSG_WDGMSG:
+					log.Info("RMSG_WDGMSG");
+					break;
+				case RMSG_DSTWDG:
+					log.Info("RMSG_DSTWDG");
+					break;
+				case RMSG_MAPIV:
+					log.Info("RMSG_MAPIV");
+					break;
+				case RMSG_GLOBLOB:
+					log.Info("RMSG_GLOBLOB");
+					break;
+				case RMSG_PAGINAE:
+					log.Info("RMSG_PAGINAE");
+					break;
+				case RMSG_RESID:
+					log.Info("RMSG_RESID");
+					break;
+				case RMSG_PARTY:
+					log.Info("RMSG_PARTY");
+					break;
+				case RMSG_SFX:
+					log.Info("RMSG_SFX");
+					break;
+				case RMSG_CATTR:
+					log.Info("RMSG_CATTR");
+					break;
+				case RMSG_MUSIC:
+					log.Info("RMSG_MUSIC");
+					break;
+				case RMSG_TILES:
+					log.Info("RMSG_TILES");
+					break;
+				case RMSG_BUFF:
+					log.Info("RMSG_BUFF");
+					break;
+				default:
+					throw new Exception("Unknown rmsg type: " + msg.MessageType);
+			}
+		}
+
+		private void SendAck(ushort seq)
+		{
+			// FIXME: it sending ack for each received message
+			socket.SendMessage(new Message(MSG_ACK).Uint16(seq));
 		}
 
 		private void OnTaskFinished(object sender, EventArgs args)

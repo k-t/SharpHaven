@@ -14,6 +14,11 @@ namespace MonoHaven.Network
 		private readonly byte messageType;
 		private int position;
 
+		public MessageReader(byte messageType, MessageReader baseReader, int offset, int length)
+			: this(messageType, baseReader.buffer, offset, length)
+		{
+		}
+
 		public MessageReader(byte messageType, byte[] buffer)
 			: this(messageType, buffer, 0, buffer.Length)
 		{
@@ -39,7 +44,12 @@ namespace MonoHaven.Network
 			get { return Position >= offset + length; }
 		}
 
-		private int Position
+		public int Length
+		{
+			get { return length; }
+		}
+
+		public int Position
 		{
 			get { return position; }
 			set { position = value; }
