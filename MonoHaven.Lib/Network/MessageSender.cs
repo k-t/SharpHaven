@@ -1,4 +1,7 @@
-﻿namespace MonoHaven.Network
+﻿using System;
+using System.Threading;
+
+namespace MonoHaven.Network
 {
 	internal class MessageSender : BackgroundTask
 	{
@@ -11,6 +14,8 @@
 
 		protected override void OnStart()
 		{
+			while(!IsCancelled)
+				Thread.Sleep(TimeSpan.FromSeconds(10));
 		}
 	}
 }

@@ -1,6 +1,5 @@
 ﻿using System.Drawing;
 using System.Threading.Tasks;
-using MonoHaven.Game;
 using MonoHaven.Graphics;
 using MonoHaven.Resources;
 using MonoHaven.UI;

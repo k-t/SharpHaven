@@ -114,8 +114,8 @@ namespace MonoHaven.Network
 
 		private void OnTaskFinished(object sender, EventArgs args)
 		{
-			// TODO: call this method in another thread so it won't block task completion?
-			Close();
+			// it shouldn't happen normally, so let it crash
+			throw new Exception("Task finished abruptly");
 		}
 	}
 }

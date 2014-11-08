@@ -1,4 +1,5 @@
-﻿using MonoHaven.Network;
+﻿using System;
+using MonoHaven.Network;
 using MonoHaven.UI;
 
 namespace MonoHaven.Game
@@ -12,6 +13,7 @@ namespace MonoHaven.Game
 		public GameSession(ConnectionSettings connSettings)
 		{
 			connection = new Connection(connSettings);
+			connection.Closed += OnConnectionClosed;
 			state = new GameState();
 			screen = new GameScreen(state);
 		}
@@ -24,6 +26,18 @@ namespace MonoHaven.Game
 		public void Start()
 		{
 			connection.Open();
+		}
+
+		public void Finish()
+		{
+			connection.Closed -= OnConnectionClosed;
+			connection.Close();
+			screen.Close();
+		}
+
+		private void OnConnectionClosed(object sender, EventArgs eventArgs)
+		{
+			Finish();
 		}
 	}
 }

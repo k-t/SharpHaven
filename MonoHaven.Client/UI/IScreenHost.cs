@@ -1,4 +1,5 @@
-﻿using OpenTK;
+﻿using System;
+using OpenTK;
 
 namespace MonoHaven.UI
 {
@@ -6,5 +7,6 @@ namespace MonoHaven.UI
 	{
 		void SetCursor(MouseCursor cursor);
 		void SetScreen(IScreen screen);
+		void InvokeOnMainThread(Action action);
 	}
 }

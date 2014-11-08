@@ -1,5 +1,6 @@
 using System;
 using System.Drawing;
+using System.Windows.Threading;
 using MonoHaven.Graphics;
 using MonoHaven.Login;
 using MonoHaven.UI;
@@ -16,13 +17,15 @@ namespace MonoHaven
 
 		private IScreen currentScreen;
 		private IInputListener inputListener;
-		private FrameCounter frameCounter;
+		private readonly FrameCounter frameCounter;
+		private readonly Dispatcher dispatcher;
 
 		public MainWindow(int width, int height)
 			: base(width, height, GraphicsMode.Default, WindowTitle)
 		{
 			currentScreen = EmptyScreen.Instance;
 			frameCounter = new FrameCounter();
+			dispatcher = Dispatcher.CurrentDispatcher;
 
 			VSync = VSyncMode.On;
 
@@ -40,6 +43,11 @@ namespace MonoHaven
 		{
 			get;
 			set;
+		}
+
+		public void InvokeOnMainThread(Action action)
+		{
+			dispatcher.BeginInvoke(action, null);
 		}
 
 		public void SetCursor(MouseCursor cursor)
