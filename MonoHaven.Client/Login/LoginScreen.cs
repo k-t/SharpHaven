@@ -1,7 +1,6 @@
 ﻿using System.Drawing;
 using System.Threading.Tasks;
 using MonoHaven.Graphics;
-using MonoHaven.Resources;
 using MonoHaven.UI;
 using OpenTK.Input;
 
@@ -122,16 +121,16 @@ namespace MonoHaven.Login
 			var authResult = await loginService.LoginAsync(
 				tbUserName.Text, tbPassword.Text, ChangeProgress);
 
-			lbProgress.Visible = false;
-			grLogin.Visible = true;
-			btnLogin.Visible = true;
-
 			if (authResult.IsSuccessful)
 			{
 				Host.SetScreen(authResult.Session.Screen);
 			}
 			else
 			{
+				lbProgress.Visible = false;
+				grLogin.Visible = true;
+				btnLogin.Visible = true;
+
 				lbErrorMessage.Visible = true;
 				lbErrorMessage.Text = authResult.Error;
 			}
