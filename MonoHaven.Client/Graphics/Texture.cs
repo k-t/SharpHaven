@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using OpenTK.Graphics.OpenGL;
@@ -12,12 +11,12 @@ namespace MonoHaven.Graphics
 
 		public Texture(int width, int height)
 		{
-			this.id = GL.GenTexture();
 			this.Width = width;
 			this.Height = height;
 
 			var data = new byte[width * height * 4];
 
+			this.id = GL.GenTexture();
 			Bind();
 			SetFilter(TextureMinFilter.Nearest, TextureMagFilter.Nearest);
 			Upload(data, PixelFormat.Rgba);
@@ -45,6 +44,26 @@ namespace MonoHaven.Graphics
 			Upload(bitmap);
 		}
 
+		public Texture(int width, int height, PixelFormat pixelFormat, byte[] pixels)
+		{
+			this.Width = width;
+			this.Height = height;
+
+			this.id = GL.GenTexture();
+			Bind();
+			SetFilter(TextureMinFilter.Nearest, TextureMagFilter.Nearest);
+			Upload(pixels, pixelFormat);
+		}
+
+		public override void Dispose()
+		{
+			if (id != 0)
+			{
+				GL.DeleteTexture(id);
+				id = 0;
+			}
+		}
+
 		public int Id
 		{
 			get { return id; }
@@ -66,13 +85,13 @@ namespace MonoHaven.Graphics
 				GL.BindTexture(TextureTarget.Texture2D, id);
 		}
 
-		public void Upload(byte[] pixelData, PixelFormat format)
+		private void Upload(byte[] pixelData, PixelFormat format)
 		{
 			GL.TexImage2D(Target, 0, PixelInternalFormat.Rgba, Width, Height,
 				0, format, PixelType.UnsignedByte, pixelData);
 		}
 
-		public void Upload(byte[] bitmapData)
+		private void Upload(byte[] bitmapData)
 		{
 			using (var stream = new MemoryStream(bitmapData))
 			using (var bitmap = new Bitmap(stream))
@@ -81,7 +100,7 @@ namespace MonoHaven.Graphics
 			}
 		}
 		
-		public void Upload(Bitmap bitmap)
+		private void Upload(Bitmap bitmap)
 		{
 			this.Width = bitmap.Width;
 			this.Height = bitmap.Height;
@@ -96,15 +115,6 @@ namespace MonoHaven.Graphics
 				PixelType.UnsignedByte, bitmapData.Scan0);
 
 			bitmap.UnlockBits(bitmapData);
-		}
-
-		public override void Dispose()
-		{
-			if (id != 0)
-			{
-				GL.DeleteTexture(id);
-				id = 0;
-			}
 		}
 
 		private void SetFilter(TextureMinFilter min, TextureMagFilter mag)

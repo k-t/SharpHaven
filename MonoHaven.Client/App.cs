@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Threading;
 using System.Windows.Threading;
 using NLog;
+using OpenTK.Graphics;
 using MonoHaven.UI;
 using MonoHaven.Resources;
 
@@ -13,20 +14,25 @@ namespace MonoHaven
 		private static readonly Logger log = LogManager.GetCurrentClassLogger();
 		private static readonly App instance = new App();
 
+		private Config config;
+		private ResourceManager resourceManager;
+		private MainWindow window;
+
 		public static void Main(string[] args)
 		{
 			log.Info("Client started");
 
 			AppDomain.CurrentDomain.UnhandledException += OnUnhandledException;
 			SetSynchronizationContext();
+			GraphicsContext.ShareContexts = false;
 
 			using (var iconImage = EmbeddedResource.GetImage("icon.png"))
 			using (var icon = Icon.FromHandle(iconImage.GetHicon()))
 			using (var gameWindow = new MainWindow(800, 600))
 			{
-				instance.Config = new Config();
-				instance.Resources = new ResourceManager();
-				instance.Window = gameWindow;
+				instance.config = new Config();
+				instance.resourceManager = new ResourceManager();
+				instance.window = gameWindow;
 
 				gameWindow.Icon = icon;
 				gameWindow.Run(30, 60);
@@ -40,20 +46,22 @@ namespace MonoHaven
 
 		public Config Config
 		{
-			get;
-			private set;
+			get { return config; }
 		}
 
 		public ResourceManager Resources
 		{
-			get;
-			private set;
+			get { return resourceManager; }
 		}
 
 		public IScreenHost Window
 		{
-			get;
-			private set;
+			get { return window; }
+		}
+
+		public void QueueOnMainThread(Action action)
+		{
+			window.QueueUpdate(action);
 		}
 
 		private static void SetSynchronizationContext()

@@ -16,7 +16,7 @@ namespace MonoHaven.Game
 
 		public void Close()
 		{
-			Host.InvokeOnMainThread(() => Host.SetScreen(new LoginScreen()));
+			Host.SetScreen(new LoginScreen());
 		}
 
 		protected override void OnShow()

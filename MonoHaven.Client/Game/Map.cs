@@ -33,6 +33,8 @@ namespace MonoHaven.Game
 			for (int i = 0; i < tiles.Length; i++)
 			{
 				var tileset = tilesets[tiles[i]];
+				if (tileset == null)
+					throw new Exception(string.Format("Unknown tileset ({0})", tiles[i]));
 				mapTiles[i] = new MapTile(this, GetAbsoluteTileCoord(p, i), tiles[i], tileset.GroundTiles.PickRandom(rng));
 			}
 			var grid = new MapGrid(p, mapTiles);

@@ -101,13 +101,16 @@ namespace MonoHaven.Game
 					log.Info("RMSG_MUSIC");
 					break;
 				case RMSG_TILES:
-					while(!msg.IsEom)
+					App.Instance.QueueOnMainThread(() =>
 					{
-						var id = msg.ReadByte();
-						var resName = msg.ReadString();
-						var resVer = msg.ReadUint16();
-						state.Map.SetTileset(id, App.Instance.Resources.GetTileset(resName));
-					}
+						while (!msg.IsEom)
+						{
+							var id = msg.ReadByte();
+							var resName = msg.ReadString();
+							var resVer = msg.ReadUint16();
+							state.Map.SetTileset(id, App.Instance.Resources.GetTileset(resName));
+						}
+					});
 					break;
 				case RMSG_BUFF:
 					log.Info("RMSG_BUFF");

@@ -1,6 +1,7 @@
 using System;
+using System.Collections;
+using System.Collections.Concurrent;
 using System.Drawing;
-using System.Windows.Threading;
 using MonoHaven.Graphics;
 using MonoHaven.Login;
 using MonoHaven.UI;
@@ -18,14 +19,14 @@ namespace MonoHaven
 		private IScreen currentScreen;
 		private IInputListener inputListener;
 		private readonly FrameCounter frameCounter;
-		private readonly Dispatcher dispatcher;
+		private readonly ConcurrentQueue<Action> updateQueue;
 
 		public MainWindow(int width, int height)
 			: base(width, height, GraphicsMode.Default, WindowTitle)
 		{
 			currentScreen = EmptyScreen.Instance;
 			frameCounter = new FrameCounter();
-			dispatcher = Dispatcher.CurrentDispatcher;
+			updateQueue = new ConcurrentQueue<Action>();
 
 			VSync = VSyncMode.On;
 
@@ -45,9 +46,9 @@ namespace MonoHaven
 			set;
 		}
 
-		public void InvokeOnMainThread(Action action)
+		public void QueueUpdate(Action action)
 		{
-			dispatcher.BeginInvoke(action, null);
+			updateQueue.Enqueue(action);
 		}
 
 		public void SetCursor(MouseCursor cursor)
@@ -57,11 +58,14 @@ namespace MonoHaven
 
 		public void SetScreen(IScreen screen)
 		{
-			currentScreen.Close();
-			currentScreen = screen ?? EmptyScreen.Instance;
-			inputListener = currentScreen;
-			currentScreen.Resize(Width, Height);
-			currentScreen.Show();
+			QueueUpdate(() =>
+			{
+				currentScreen.Close();
+				currentScreen = screen ?? EmptyScreen.Instance;
+				inputListener = currentScreen;
+				currentScreen.Resize(Width, Height);
+				currentScreen.Show();
+			});
 		}
 
 		protected override void OnLoad(EventArgs e)
@@ -98,6 +102,15 @@ namespace MonoHaven
 			GL.Scissor(0, 0, Width, Height);
 
 			currentScreen.Resize(Width, Height);
+		}
+
+		protected override void OnUpdateFrame(FrameEventArgs e)
+		{
+			base.OnUpdateFrame(e);
+
+			Action action;
+			while (updateQueue.TryDequeue(out action))
+				action();
 		}
 
 		protected override void OnRenderFrame(FrameEventArgs e)

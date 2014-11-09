@@ -38,8 +38,7 @@ namespace MonoHaven.Graphics
 
 			shader = new Shader(vertexShader.TransformText(), fragmentShader.TransformText());
 			
-			empty = new Texture(1, 1);
-			empty.Upload(new byte[] {255, 255, 255, 255}, PixelFormat.Rgba);
+			empty = new Texture(1, 1, PixelFormat.Rgba, new byte[] {255, 255, 255, 255});
 		}
 
 		public void Dispose()
