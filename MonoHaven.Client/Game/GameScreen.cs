@@ -19,11 +19,6 @@ namespace MonoHaven.Game
 			Host.SetScreen(new LoginScreen());
 		}
 
-		protected override void OnShow()
-		{
-			gstate.LoadMap();
-		}
-
 		protected override void OnResize(int newWidth, int newHeight)
 		{
 			mapView.SetSize(newWidth, newHeight);
