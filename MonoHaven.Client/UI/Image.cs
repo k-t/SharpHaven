@@ -2,14 +2,13 @@ using MonoHaven.Graphics;
 
 namespace MonoHaven.UI
 {
-	public class ImageWidget : Widget
+	public class Image : Widget
 	{
-		public ImageWidget(Widget parent)
-			: base(parent)
+		public Image(Widget parent) : base(parent)
 		{
 		}
 
-		public Drawable Image
+		public Drawable Drawable
 		{
 			get;
 			set;
@@ -17,10 +16,10 @@ namespace MonoHaven.UI
 
 		protected override void OnDraw(DrawingContext dc)
 		{
-			if (Image == null)
+			if (Drawable == null)
 				return;
 
-			dc.Draw(Image, 0, 0);
+			dc.Draw(Drawable, 0, 0);
 		}
 	}
 }

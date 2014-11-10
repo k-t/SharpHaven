@@ -193,6 +193,11 @@ namespace MonoHaven.UI
 			return this;
 		}
 
+		public Widget SetLocation(Point p)
+		{
+			return SetLocation(p.X, p.Y);
+		}
+
 		public Widget SetSize(int width, int height)
 		{
 			bounds.Size = new Size(width, height);

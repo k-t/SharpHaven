@@ -1,6 +1,5 @@
 ﻿using System;
 using MonoHaven.Network;
-using MonoHaven.Resources;
 using MonoHaven.UI;
 using NLog;
 
@@ -68,13 +67,31 @@ namespace MonoHaven.Game
 			switch (msg.MessageType)
 			{
 				case RMSG_NEWWDG:
-					log.Info("RMSG_NEWWDG");
+					App.Instance.QueueOnMainThread(() =>
+					{
+						var id = msg.ReadUint16();
+						var type = msg.ReadString();
+						var location = msg.ReadCoord();
+						var parent = msg.ReadUint16();
+						var args = msg.ReadList();
+						screen.CreateWidget(id, type, location, parent, args);
+					});
 					break;
 				case RMSG_WDGMSG:
-					log.Info("RMSG_WDGMSG");
+					App.Instance.QueueOnMainThread(() =>
+					{
+						var id = msg.ReadUint16();
+						var name = msg.ReadString();
+						var args = msg.ReadList();
+						screen.MessageWidget(id, name, args);
+					});
 					break;
 				case RMSG_DSTWDG:
-					log.Info("RMSG_DSTWDG");
+					App.Instance.QueueOnMainThread(() =>
+					{
+						var id = msg.ReadUint16();
+						screen.DestroyWidget(id);
+					});
 					break;
 				case RMSG_MAPIV:
 					log.Info("RMSG_MAPIV");

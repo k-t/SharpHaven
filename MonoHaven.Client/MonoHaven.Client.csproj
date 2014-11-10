@@ -108,8 +108,14 @@
     <Compile Include="UI\KeyEventArgs.cs" />
     <Compile Include="UI\KeyPressEventArgs.cs" />
     <Compile Include="UI\Label.cs" />
+    <Compile Include="UI\Remote\RemoteContainer.cs" />
+    <Compile Include="UI\Remote\RemoteImage.cs" />
+    <Compile Include="UI\Remote\RemoteImageButton.cs" />
+    <Compile Include="UI\Remote\RemoteRoot.cs" />
+    <Compile Include="UI\Remote\RemoteWidget.cs" />
+    <Compile Include="UI\Remote\RemoteWidgetFactory.cs" />
     <Compile Include="UI\RootWidget.cs" />
-    <Compile Include="UI\WidgetGroup.cs" />
+    <Compile Include="UI\Container.cs" />
     <Compile Include="Utils\MathExtensions.cs" />
     <Compile Include="Utils\PointComparer.cs" />
     <Compile Include="Game\GameScreen.cs" />
@@ -122,7 +128,7 @@
     <Compile Include="UI\Widget.cs" />
     <Compile Include="Graphics\Texture.cs" />
     <Compile Include="Graphics\DrawingContext.cs" />
-    <Compile Include="UI\ImageWidget.cs" />
+    <Compile Include="UI\Image.cs" />
     <Compile Include="UI\ImageButton.cs" />
     <Compile Include="MainWindow.cs" />
     <Compile Include="UI\TextBox.cs" />
@@ -158,6 +164,7 @@
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <Target Name="BeforeBuild">
     <Copy SourceFiles="$(SolutionDir)\lib\freetype6.dll" DestinationFolder="$(OutputPath)" />

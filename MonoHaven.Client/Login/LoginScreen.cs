@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using MonoHaven.Graphics;
 using MonoHaven.UI;
 using OpenTK.Input;
+using Image = MonoHaven.UI.Image;
 
 namespace MonoHaven.Login
 {
@@ -13,7 +14,7 @@ namespace MonoHaven.Login
 
 		private LoginService loginService;
 
-		private WidgetGroup grLogin;
+		private Container grLogin;
 		private TextBox tbUserName;
 		private TextBox tbPassword;
 		private Label lbErrorMessage;
@@ -33,14 +34,14 @@ namespace MonoHaven.Login
 
 		private void InitWidgets()
 		{
-			var background = new ImageWidget(RootWidget);
-			background.Image = App.Instance.Resources.GetTexture("gfx/loginscr");
+			var background = new Image(RootWidget);
+			background.Drawable = App.Instance.Resources.GetTexture("gfx/loginscr");
 			background.SetLocation(0, 0);
-			background.SetSize(background.Image.Width, background.Image.Height);
+			background.SetSize(background.Drawable.Width, background.Drawable.Height);
 
-			var logo = new ImageWidget(RootWidget);
-			logo.Image = App.Instance.Resources.GetTexture("gfx/logo");
-			logo.SetLocation(420 - logo.Image.Width / 2, 215 - logo.Image.Height / 2);
+			var logo = new Image(RootWidget);
+			logo.Drawable = App.Instance.Resources.GetTexture("gfx/logo");
+			logo.SetLocation(420 - logo.Drawable.Width / 2, 215 - logo.Drawable.Height / 2);
 			logo.SetSize(logo.Width, logo.Height);
 
 			btnLogin = new ImageButton(RootWidget);
@@ -50,7 +51,7 @@ namespace MonoHaven.Login
 			btnLogin.SetLocation(373, 460);
 			btnLogin.SetSize(btnLogin.Up.Width, btnLogin.Up.Height);
 
-			grLogin = new WidgetGroup(RootWidget);
+			grLogin = new Container(RootWidget);
 			grLogin.SetLocation(345, 310).SetSize(150, 100);
 
 			var lbUserName = new Label(grLogin);
