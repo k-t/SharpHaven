@@ -108,6 +108,7 @@
     <Compile Include="UI\KeyEventArgs.cs" />
     <Compile Include="UI\KeyPressEventArgs.cs" />
     <Compile Include="UI\Label.cs" />
+    <Compile Include="UI\Remote\CharlistController.cs" />
     <Compile Include="UI\Remote\ContainerController.cs" />
     <Compile Include="UI\Remote\ImageController.cs" />
     <Compile Include="UI\Remote\ImageButtonController.cs" />

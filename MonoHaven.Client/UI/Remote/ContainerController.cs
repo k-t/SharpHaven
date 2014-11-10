@@ -1,4 +1,6 @@
-﻿namespace MonoHaven.UI.Remote
+﻿using System.Drawing;
+
+namespace MonoHaven.UI.Remote
 {
 	public class ContainerController : Controller
 	{
@@ -16,7 +18,13 @@
 
 		public static Controller Create(int id, Controller parent, object[] args)
 		{
-			return new ContainerController(id, new Container(parent.Widget));
+			var widget = new Container(parent.Widget);
+			if (args.Length > 0)
+			{
+				var size = (Point)args[0];
+				widget.SetSize(size.X, size.Y);
+			}
+			return new ContainerController(id, widget);
 		}
 	}
 }

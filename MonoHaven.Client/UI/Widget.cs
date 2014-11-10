@@ -12,7 +12,7 @@ namespace MonoHaven.UI
 	public abstract class Widget : IDisposable, IInputListener
 	{
 		private readonly IWidgetHost host;
-		private readonly Widget parent;
+		private Widget parent;
 		private Widget next;
 		private Widget previous;
 		private Widget firstChild;
@@ -31,8 +31,7 @@ namespace MonoHaven.UI
 		protected Widget(Widget parent)
 			: this(parent.Host)
 		{
-			this.parent = parent;
-			this.parent.AddChild(this);
+			parent.AddChild(this);
 		}
 
 		#region Properties
@@ -275,6 +274,8 @@ namespace MonoHaven.UI
 			if (child.parent != null)
 				child.parent.Remove(child);
 
+			child.parent = this;
+
 			if (this.firstChild == null)
 				this.firstChild = child;
 
@@ -285,9 +286,7 @@ namespace MonoHaven.UI
 				this.lastChild = child;
 			}
 			else
-			{
 				this.lastChild = child;
-			}
 		}
 
 		#region IInputListener implementation

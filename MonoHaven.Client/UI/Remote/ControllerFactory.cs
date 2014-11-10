@@ -14,7 +14,7 @@ namespace MonoHaven.UI.Remote
 			delegates = new Dictionary<string, CreateDelegate>();
 			delegates["cnt"] = ContainerController.Create;
 			delegates["img"] = ImageController.Create;
-			delegates["charlist"] = ContainerController.Create;
+			delegates["charlist"] = CharlistController.Create;
 			delegates["ibtn"] = ImageButtonController.Create;
 		}
 

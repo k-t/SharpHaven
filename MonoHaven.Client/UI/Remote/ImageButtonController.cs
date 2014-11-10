@@ -23,6 +23,7 @@
 			var widget = new ImageButton(parent.Widget);
 			widget.Image = App.Instance.Resources.GetTexture(defaultImage);
 			widget.PressedImage = App.Instance.Resources.GetTexture(pressedImage);
+			widget.SetSize(widget.Image.Width, widget.Image.Height);
 			return new ImageButtonController(id, widget);
 		}
 	}
