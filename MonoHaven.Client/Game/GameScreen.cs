@@ -26,7 +26,7 @@ namespace MonoHaven.Game
 
 		public void Close()
 		{
-			Host.SetScreen(new LoginScreen());
+			App.Instance.QueueOnMainThread(() => Host.SetScreen(new LoginScreen()));
 		}
 
 		public void CreateWidget(int id, string type, Point location, int parentId, object[] args)

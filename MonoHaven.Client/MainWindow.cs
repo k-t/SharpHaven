@@ -58,14 +58,11 @@ namespace MonoHaven
 
 		public void SetScreen(IScreen screen)
 		{
-			QueueUpdate(() =>
-			{
-				currentScreen.Close();
-				currentScreen = screen ?? EmptyScreen.Instance;
-				inputListener = currentScreen;
-				currentScreen.Resize(Width, Height);
-				currentScreen.Show();
-			});
+			currentScreen.Close();
+			currentScreen = screen ?? EmptyScreen.Instance;
+			inputListener = currentScreen;
+			currentScreen.Resize(Width, Height);
+			currentScreen.Show();
 		}
 
 		protected override void OnLoad(EventArgs e)
