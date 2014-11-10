@@ -16,13 +16,13 @@ namespace MonoHaven.UI
 
 		public event EventHandler Pressed;
 
-		public Drawable Up
+		public Drawable Image
 		{
 			get;
 			set;
 		}
 
-		public Drawable Down
+		public Drawable PressedImage
 		{
 			get;
 			set;
@@ -30,7 +30,7 @@ namespace MonoHaven.UI
 
 		protected override void OnDraw(DrawingContext dc)
 		{
-			var tex = isPressed ? Down : Up;
+			var tex = isPressed ? PressedImage : Image;
 			if (tex != null)
 				dc.Draw(tex, 0, 0);
 		}

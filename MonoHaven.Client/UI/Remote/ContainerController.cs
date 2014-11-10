@@ -4,9 +4,9 @@
 	{
 		private readonly Container widget;
 
-		private ContainerController(int id, Controller parent) : base(id)
+		private ContainerController(int id, Container widget) : base(id)
 		{
-			widget = new Container(parent.Widget);
+			this.widget = widget;
 		}
 
 		public override Widget Widget
@@ -16,7 +16,7 @@
 
 		public static Controller Create(int id, Controller parent, object[] args)
 		{
-			return new ContainerController(id, parent);
+			return new ContainerController(id, new Container(parent.Widget));
 		}
 	}
 }

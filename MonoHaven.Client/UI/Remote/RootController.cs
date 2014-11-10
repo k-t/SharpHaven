@@ -4,9 +4,9 @@
 	{
 		private readonly RootWidget widget;
 
-		public RootController(int id, RootWidget rootWidget) : base(id)
+		public RootController(int id, RootWidget widget) : base(id)
 		{
-			widget = rootWidget;
+			this.widget = widget;
 		}
 
 		public override Widget Widget

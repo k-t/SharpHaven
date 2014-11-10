@@ -4,18 +4,10 @@
 	{
 		private readonly ImageButton widget;
 
-		public ImageButtonController(int id, Controller parent, object[] args)
+		private ImageButtonController(int id, ImageButton widget)
 			: base(id)
 		{
-			widget = new ImageButton(parent.Widget);
-
-			if (args.Length > 0)
-				widget.Up = App.Instance.Resources.GetTexture((string)args[0]);
-
-			if (args.Length > 1)
-				widget.Down = App.Instance.Resources.GetTexture((string)args[1]);
-			else
-				widget.Down = App.Instance.Resources.GetTexture((string)args[0]);
+			this.widget = widget;
 		}
 
 		public override Widget Widget
@@ -25,7 +17,13 @@
 
 		public static Controller Create(int id, Controller parent, object[] args)
 		{
-			return new ImageButtonController(id, parent, args);
+			var defaultImage = args.Length > 0 ? (string)args[0] : null;
+			var pressedImage = args.Length > 1 ? (string)args[1] : defaultImage;
+
+			var widget = new ImageButton(parent.Widget);
+			widget.Image = App.Instance.Resources.GetTexture(defaultImage);
+			widget.PressedImage = App.Instance.Resources.GetTexture(pressedImage);
+			return new ImageButtonController(id, widget);
 		}
 	}
 }

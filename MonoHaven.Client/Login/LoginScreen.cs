@@ -45,11 +45,11 @@ namespace MonoHaven.Login
 			logo.SetSize(logo.Width, logo.Height);
 
 			btnLogin = new ImageButton(RootWidget);
-			btnLogin.Up = App.Instance.Resources.GetTexture("gfx/hud/buttons/loginu");
-			btnLogin.Down = App.Instance.Resources.GetTexture("gfx/hud/buttons/logind");
+			btnLogin.Image = App.Instance.Resources.GetTexture("gfx/hud/buttons/loginu");
+			btnLogin.PressedImage = App.Instance.Resources.GetTexture("gfx/hud/buttons/logind");
 			btnLogin.Pressed += (sender, args) => Login();
 			btnLogin.SetLocation(373, 460);
-			btnLogin.SetSize(btnLogin.Up.Width, btnLogin.Up.Height);
+			btnLogin.SetSize(btnLogin.Image.Width, btnLogin.Image.Height);
 
 			grLogin = new Container(RootWidget);
 			grLogin.SetLocation(345, 310).SetSize(150, 100);

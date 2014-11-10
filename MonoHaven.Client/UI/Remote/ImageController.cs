@@ -4,12 +4,10 @@
 	{
 		private readonly Image widget;
 
-		public ImageController(int id, Controller parent, object[] args)
+		private ImageController(int id, Image widget)
 			: base(id)
 		{
-			widget = new Image(parent.Widget);
-			if (args.Length > 0)
-				widget.Drawable = App.Instance.Resources.GetTexture((string)args[0]);
+			this.widget = widget;
 		}
 
 		public override Widget Widget
@@ -19,7 +17,11 @@
 
 		public static Controller Create(int id, Controller parent, object[] args)
 		{
-			return new ImageController(id, parent, args);
+			var widget = new Image(parent.Widget);
+			if (args.Length > 0)
+				widget.Drawable = App.Instance.Resources.GetTexture((string)args[0]);
+
+			return new ImageController(id, widget);
 		}
 	}
 }
