@@ -13,15 +13,15 @@ namespace MonoHaven.Game
 		private static readonly Logger log = LogManager.GetCurrentClassLogger();
 		
 		private readonly GameState gstate;
-		private readonly Dictionary<int, RemoteWidget> rwidgets;
-		private readonly RemoteWidgetFactory rwidgetFactory;
+		private readonly Dictionary<int, Controller> controllers;
+		private readonly ControllerFactory controllerFactory;
 
 		public GameScreen(GameState gstate)
 		{
 			this.gstate = gstate;
-			this.rwidgets = new Dictionary<int, RemoteWidget>();
-			this.rwidgets[0] = new RemoteRoot(0, RootWidget);
-			this.rwidgetFactory = new RemoteWidgetFactory();
+			this.controllers = new Dictionary<int, Controller>();
+			this.controllers[0] = new RootController(0, RootWidget);
+			this.controllerFactory = new ControllerFactory();
 		}
 
 		public void Close()
@@ -31,40 +31,40 @@ namespace MonoHaven.Game
 
 		public void CreateWidget(int id, string type, Point location, int parentId, object[] args)
 		{
-			var parent = FindWidget(parentId);
+			var parent = FindController(parentId);
 			if (parent == null)
 				throw new Exception(
 					string.Format("Non-existent parent widget {0} for {1}", parentId, id));
 
-			var rwidget = rwidgetFactory.Create(id, type, parent, args);
-			rwidget.Widget.SetLocation(location);
-			rwidgets[id] = rwidget;
+			var ctl = controllerFactory.Create(id, type, parent, args);
+			ctl.Widget.SetLocation(location);
+			controllers[id] = ctl;
 		}
 
 		public void MessageWidget(int id, string message, object[] args)
 		{
-			var rwidget = FindWidget(id);
-			if (rwidget == null)
+			var ctl = FindController(id);
+			if (ctl == null)
 			{
 				log.Warn("UI message {1} to non-existent widget {0}", id, message);
 				return;
 			}
-			rwidget.HandleMessage(message, args);
+			ctl.HandleMessage(message, args);
 		}
 
 		public void DestroyWidget(int id)
 		{
-			if (rwidgets.Remove(id))
+			if (controllers.Remove(id))
 			{
 				return;
 			}
 			log.Warn("Try to remove non-existent widget {0}", id);
 		}
 
-		private RemoteWidget FindWidget(int id)
+		private Controller FindController(int id)
 		{
-			RemoteWidget widget;
-			return rwidgets.TryGetValue(id, out widget) ? widget : null;
+			Controller ctl;
+			return controllers.TryGetValue(id, out ctl) ? ctl : null;
 		}
 	}
 }

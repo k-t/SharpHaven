@@ -1,10 +1,10 @@
 ﻿namespace MonoHaven.UI.Remote
 {
-	public abstract class RemoteWidget
+	public abstract class Controller
 	{
 		private readonly int id;
 
-		protected RemoteWidget(int id)
+		protected Controller(int id)
 		{
 			this.id = id;
 		}

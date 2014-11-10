@@ -1,10 +1,10 @@
 ﻿namespace MonoHaven.UI.Remote
 {
-	public class RemoteRoot : RemoteWidget
+	public class RootController : Controller
 	{
 		private readonly RootWidget widget;
 
-		public RemoteRoot(int id, RootWidget rootWidget) : base(id)
+		public RootController(int id, RootWidget rootWidget) : base(id)
 		{
 			widget = rootWidget;
 		}

@@ -1,10 +1,10 @@
 ﻿namespace MonoHaven.UI.Remote
 {
-	public class RemoteImageButton : RemoteWidget
+	public class ImageButtonController : Controller
 	{
 		private readonly ImageButton widget;
 
-		public RemoteImageButton(int id, RemoteWidget parent, object[] args)
+		public ImageButtonController(int id, Controller parent, object[] args)
 			: base(id)
 		{
 			widget = new ImageButton(parent.Widget);
