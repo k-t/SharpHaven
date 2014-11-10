@@ -16,5 +16,10 @@
 		{
 			get { return widget; }
 		}
+
+		public static Controller Create(int id, Controller parent, object[] args)
+		{
+			return new ImageController(id, parent, args);
+		}
 	}
 }
