@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
 using MonoHaven.Graphics;
+using MonoHaven.Resources;
 using OpenTK;
 using OpenTK.Input;
 
@@ -46,9 +47,9 @@ namespace MonoHaven.UI
 			btnScrollDown.Clicked += (s, a) => Scroll(1);
 		}
 
-		public void AddChar(string name)
+		public void AddChar(string name, IEnumerable<Resource> layers)
 		{
-			items.Add(new ListItem(this, name));
+			items.Add(new ListItem(this, name, layers));
 			btnScrollDown.Visible = btnScrollUp.Visible = items.Count > listHeight;
 			UpdateItems();
 		}
@@ -83,9 +84,11 @@ namespace MonoHaven.UI
 		private class ListItem : Widget
 		{
 			private readonly TextBlock charName;
+			private readonly AvatarView avatar;
 			private readonly Button btnPlay;
 
-			public ListItem(Widget parent, string charName) : base(parent)
+			public ListItem(Widget parent, string charName, IEnumerable<Resource> layers)
+				: base(parent)
 			{
 				SetSize(background.Width, background.Height);
 
@@ -96,12 +99,16 @@ namespace MonoHaven.UI
 				btnPlay = new Button(this, 100);
 				btnPlay.Text = "Play";
 				btnPlay.SetLocation(Width - 105, Height - 24);
+
+				avatar = new AvatarView(this, layers);
+				var padding = (Height - avatar.Height) / 2;
+				avatar.SetLocation(padding, padding);
 			}
 
 			protected override void OnDraw(DrawingContext dc)
 			{
 				dc.Draw(background, 0, 0);
-				dc.Draw(charName, 5, 0);
+				dc.Draw(charName, avatar.Bounds.Right + 5, avatar.Y);
 			}
 
 			protected override void OnMouseWheel(MouseWheelEventArgs e)

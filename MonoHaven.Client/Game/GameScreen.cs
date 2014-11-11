@@ -11,16 +11,16 @@ namespace MonoHaven.Game
 	public class GameScreen : BaseScreen
 	{
 		private static readonly Logger log = LogManager.GetCurrentClassLogger();
-		
-		private readonly GameState gstate;
+
+		private readonly GameSession session;
 		private readonly Dictionary<int, Controller> controllers;
 		private readonly ControllerFactory controllerFactory;
 
-		public GameScreen(GameState gstate)
+		public GameScreen(GameSession session)
 		{
-			this.gstate = gstate;
+			this.session = session;
 			this.controllers = new Dictionary<int, Controller>();
-			this.controllers[0] = new RootController(0, RootWidget);
+			this.controllers[0] = new RootController(0, session, RootWidget);
 			this.controllerFactory = new ControllerFactory();
 		}
 
@@ -36,7 +36,7 @@ namespace MonoHaven.Game
 				throw new Exception(
 					string.Format("Non-existent parent widget {0} for {1}", parentId, id));
 
-			var ctl = controllerFactory.Create(id, type, parent, args);
+			var ctl = controllerFactory.Create(id, session, type, parent, args);
 			ctl.Widget.SetLocation(location);
 			controllers[id] = ctl;
 		}

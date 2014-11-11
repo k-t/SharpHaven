@@ -1,10 +1,13 @@
-﻿namespace MonoHaven.UI.Remote
+﻿using MonoHaven.Game;
+
+namespace MonoHaven.UI.Remote
 {
 	public class RootController : Controller
 	{
 		private readonly RootWidget widget;
 
-		public RootController(int id, RootWidget widget) : base(id)
+		public RootController(int id, GameSession session, RootWidget widget)
+			: base(id, session)
 		{
 			this.widget = widget;
 		}

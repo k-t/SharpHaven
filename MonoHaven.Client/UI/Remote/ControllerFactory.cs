@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using MonoHaven.Game;
 
 namespace MonoHaven.UI.Remote
 {
 	public class ControllerFactory
 	{
-		public delegate Controller CreateDelegate(int id, Controller parent, object[] args);
+		public delegate Controller CreateDelegate(
+			int id, GameSession session, Controller parent, object[] args);
 
 		private readonly Dictionary<string, CreateDelegate> delegates;
 
@@ -18,12 +20,17 @@ namespace MonoHaven.UI.Remote
 			delegates["ibtn"] = ImageButtonController.Create;
 		}
 
-		public Controller Create(int id, string type, Controller parent, object[] args)
+		public Controller Create(
+			int id,
+			GameSession session,
+			string type,
+			Controller parent,
+			object[] args)
 		{
 			CreateDelegate create;
 			if (!delegates.TryGetValue(type, out create))
 				throw new Exception("Unknown widget type " + type);
-			return create(id, parent, args);
+			return create(id, session, parent, args);
 		}
 	}
 }

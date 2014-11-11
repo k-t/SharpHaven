@@ -40,7 +40,7 @@ namespace MonoHaven.Game
 			connection.MessageReceived += OnMessageReceived;
 			connection.Closed += OnConnectionClosed;
 			state = new GameState();
-			screen = new GameScreen(state);
+			screen = new GameScreen(this);
 			resources = new Dictionary<int, Resource>();
 		}
 

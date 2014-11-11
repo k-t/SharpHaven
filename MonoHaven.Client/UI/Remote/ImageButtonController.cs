@@ -1,11 +1,13 @@
-﻿namespace MonoHaven.UI.Remote
+﻿using MonoHaven.Game;
+
+namespace MonoHaven.UI.Remote
 {
 	public class ImageButtonController : Controller
 	{
 		private readonly ImageButton widget;
 
-		private ImageButtonController(int id, ImageButton widget)
-			: base(id)
+		private ImageButtonController(int id, GameSession session, ImageButton widget)
+			: base(id, session)
 		{
 			this.widget = widget;
 		}
@@ -15,7 +17,7 @@
 			get { return widget; }
 		}
 
-		public static Controller Create(int id, Controller parent, object[] args)
+		public static Controller Create(int id, GameSession session, Controller parent, object[] args)
 		{
 			var defaultImage = args.Length > 0 ? (string)args[0] : null;
 			var pressedImage = args.Length > 1 ? (string)args[1] : defaultImage;
@@ -24,7 +26,7 @@
 			widget.Image = App.Instance.Resources.GetTexture(defaultImage);
 			widget.PressedImage = App.Instance.Resources.GetTexture(pressedImage);
 			widget.SetSize(widget.Image.Width, widget.Image.Height);
-			return new ImageButtonController(id, widget);
+			return new ImageButtonController(id, session, widget);
 		}
 	}
 }

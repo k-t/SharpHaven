@@ -67,6 +67,7 @@
     <Compile Include="Constants.cs" />
     <Compile Include="Cursors.cs" />
     <Compile Include="FrameCounter.cs" />
+    <Compile Include="Game\Avatar.cs" />
     <Compile Include="Game\GameSession.cs" />
     <Compile Include="Graphics\TextAlign.cs" />
     <Compile Include="Graphics\Glyph.cs" />
@@ -100,6 +101,7 @@
     <Compile Include="Login\LoginResult.cs" />
     <Compile Include="Resources\EmbeddedResource.cs" />
     <Compile Include="Resources\Tileset.cs" />
+    <Compile Include="UI\AvatarView.cs" />
     <Compile Include="UI\Button.cs" />
     <Compile Include="UI\Charlist.cs" />
     <Compile Include="UI\EmptyScreen.cs" />
@@ -119,6 +121,7 @@
     <Compile Include="UI\Remote\ControllerFactory.cs" />
     <Compile Include="UI\RootWidget.cs" />
     <Compile Include="UI\Container.cs" />
+    <Compile Include="Utils\ImageUtils.cs" />
     <Compile Include="Utils\MathExtensions.cs" />
     <Compile Include="Utils\PointComparer.cs" />
     <Compile Include="Game\GameScreen.cs" />
