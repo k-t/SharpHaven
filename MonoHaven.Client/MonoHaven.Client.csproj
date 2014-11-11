@@ -101,6 +101,7 @@
     <Compile Include="Resources\EmbeddedResource.cs" />
     <Compile Include="Resources\Tileset.cs" />
     <Compile Include="UI\Button.cs" />
+    <Compile Include="UI\Charlist.cs" />
     <Compile Include="UI\EmptyScreen.cs" />
     <Compile Include="UI\IInputListener.cs" />
     <Compile Include="UI\IScreen.cs" />

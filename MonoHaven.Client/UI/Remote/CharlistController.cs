@@ -1,12 +1,10 @@
-﻿using System;
-
-namespace MonoHaven.UI.Remote
+﻿namespace MonoHaven.UI.Remote
 {
 	public class CharlistController : Controller
 	{
-		private readonly Widget widget;
+		private readonly Charlist widget;
 
-		private CharlistController(int id, Widget widget) : base(id)
+		private CharlistController(int id, Charlist widget) : base(id)
 		{
 			this.widget = widget;
 		}
@@ -16,9 +14,21 @@ namespace MonoHaven.UI.Remote
 			get { return widget; }
 		}
 
+		public override void HandleMessage(string message, object[] args)
+		{
+			if (message == "add")
+			{
+				var name = (string)args[0];
+				widget.AddChar(name);
+				return;
+			}
+			base.HandleMessage(message, args);
+		}
+
 		public static Controller Create(int id, Controller parent, object[] args)
 		{
-			return new CharlistController(id, new Container(parent.Widget));
+			int height = args.Length > 0 ? (int)args[0] : 0;
+			return new CharlistController(id, new Charlist(parent.Widget, height));
 		}
 	}
 }
