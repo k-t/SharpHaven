@@ -60,6 +60,11 @@ namespace MonoHaven.UI
 			}
 		}
 
+		protected override void OnDispose()
+		{
+			textBlock.Dispose();
+		}
+
 		protected override void OnDraw(DrawingContext dc)
 		{
 			// draw borders
