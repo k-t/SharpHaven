@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using MonoHaven.Network;
+using MonoHaven.Resources;
 using MonoHaven.UI;
 using NLog;
 
@@ -30,6 +32,7 @@ namespace MonoHaven.Game
 		private readonly Connection connection;
 		private readonly GameState state;
 		private readonly GameScreen screen;
+		private readonly Dictionary<int, Resource> resources;
 
 		public GameSession(ConnectionSettings connSettings)
 		{
@@ -38,11 +41,17 @@ namespace MonoHaven.Game
 			connection.Closed += OnConnectionClosed;
 			state = new GameState();
 			screen = new GameScreen(state);
+			resources = new Dictionary<int, Resource>();
 		}
 
 		public IScreen Screen
 		{
 			get { return screen; }
+		}
+
+		public Resource GetResource(int id)
+		{
+			return resources[id];
 		}
 
 		public void Start()
@@ -55,6 +64,11 @@ namespace MonoHaven.Game
 			connection.Closed -= OnConnectionClosed;
 			connection.Close();
 			screen.Close();
+		}
+
+		private void LoadResource(int id, string name, int version)
+		{
+			resources[id] = App.Instance.Resources.Get(name);
 		}
 
 		private void OnConnectionClosed()
@@ -103,7 +117,12 @@ namespace MonoHaven.Game
 					log.Info("RMSG_PAGINAE");
 					break;
 				case RMSG_RESID:
-					log.Info("RMSG_RESID");
+					App.Instance.QueueOnMainThread(() => {
+						var id = msg.ReadUint16();
+						var name = msg.ReadString();
+						var ver = msg.ReadUint16();
+						LoadResource(id, name, ver);
+					});
 					break;
 				case RMSG_PARTY:
 					log.Info("RMSG_PARTY");
@@ -123,9 +142,9 @@ namespace MonoHaven.Game
 						while (!msg.IsEom)
 						{
 							var id = msg.ReadByte();
-							var resName = msg.ReadString();
-							var resVer = msg.ReadUint16();
-							state.Map.SetTileset(id, App.Instance.Resources.GetTileset(resName));
+							var name = msg.ReadString();
+							var version = msg.ReadUint16();
+							state.Map.SetTileset(id, App.Instance.Resources.GetTileset(name));
 						}
 					});
 					break;
