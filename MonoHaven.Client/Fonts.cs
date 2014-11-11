@@ -11,9 +11,9 @@ namespace MonoHaven
 		static Fonts()
 		{
 			fontLibrary = new Library();
-			
-			var sans = LoadFace("Fonts.NotoSans-Regular.ttf");
-			var serif = LoadFace("Fonts.NotoSerif-Regular.ttf");
+
+			var sans = LoadFace("Fonts.SourceSansPro-Regular.ttf");
+			var serif = LoadFace("Fonts.SourceSerifPro-Regular.ttf");
 
 			Default = new SpriteFont(sans, 14);
 			ButtonText = new SpriteFont(serif, 12);
