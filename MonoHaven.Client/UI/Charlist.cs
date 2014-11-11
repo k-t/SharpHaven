@@ -83,7 +83,7 @@ namespace MonoHaven.UI
 			{
 				SetSize(background.Width, background.Height);
 
-				this.charName = new TextBlock(Fonts.Default);
+				this.charName = new TextBlock(Fonts.Heading);
 				this.charName.TextColor = Color.White;
 				this.charName.Append(charName);
 

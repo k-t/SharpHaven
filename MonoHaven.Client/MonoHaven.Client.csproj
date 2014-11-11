@@ -151,6 +151,7 @@
   <ItemGroup>
     <EmbeddedResource Include="Content\Fonts\NotoSans-Regular.ttf" />
     <None Include="App.config" />
+    <EmbeddedResource Include="Content\Fonts\NotoSerif-Regular.ttf" />
     <None Include="Graphics\Shaders\FragmentShaderTemplate.tt">
       <Generator>TextTemplatingFilePreprocessor</Generator>
       <LastGenOutput>FragmentShaderTemplate.cs</LastGenOutput>
