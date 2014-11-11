@@ -74,13 +74,15 @@ namespace MonoHaven.UI
 			dc.Draw(bt, 3, 0, Width - 6, bt.Height);
 			dc.Draw(bb, 3, Height - bb.Height, Width - 6, bb.Height);
 			// draw content
+			int offset = isPressed ? 1 : 0;
 			if (Image != null)
 			{
-				var cp = new Point((Width - Image.Width) / 2, (Height - Image.Height) / 2);
-				if (isPressed) cp.Offset(1, 1);
-				dc.Draw(Image, cp);
+				var p = new Point(
+					(Width - Image.Width) / 2 + offset,
+					(Height - Image.Height) / 2 + offset);
+				dc.Draw(Image, p);
 			}
-			dc.Draw(textBlock, 0, 0);
+			dc.Draw(textBlock, offset, offset + 2);
 		}
 
 		protected override void OnMouseButtonDown(MouseButtonEventArgs e)
