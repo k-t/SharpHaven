@@ -73,8 +73,8 @@ namespace MonoHaven.Resources
 			/* Obsolete flag 1: Layered */
 			reader.ReadByte();
 			img.Id = reader.ReadInt16();
-			short x = reader.ReadInt16();
-			short y = reader.ReadInt16();
+			img.OffsetX = reader.ReadInt16();
+			img.OffsetY = reader.ReadInt16();
 			img.Data = new byte[size - 11];
 			reader.Read(img.Data, 0, img.Data.Length);
 			return img;
