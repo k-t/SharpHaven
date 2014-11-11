@@ -177,7 +177,6 @@ namespace MonoHaven.Network
 				waiting.Add(seq, msg);
 				return;
 			}
-			log.Info(seq);
 			MessageReceived.Raise(msg);
 			while(true)
 			{
@@ -186,7 +185,6 @@ namespace MonoHaven.Network
 					break;
 				MessageReceived.Raise(msg);
 			}
-
 			SendAck((ushort)(rseq - 1));
 		}
 
