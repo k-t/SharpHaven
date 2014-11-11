@@ -37,6 +37,10 @@ namespace MonoHaven.UI
 		public void MouseMove(MouseMoveEventArgs e)
 		{
 		}
+
+		public void MouseWheel(MouseWheelEventArgs e)
+		{
+		}
 		
 		public void KeyDown(KeyEventArgs e)
 		{

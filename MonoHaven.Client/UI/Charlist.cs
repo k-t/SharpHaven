@@ -2,6 +2,7 @@
 using System.Drawing;
 using MonoHaven.Graphics;
 using OpenTK;
+using OpenTK.Input;
 
 namespace MonoHaven.UI
 {
@@ -52,6 +53,11 @@ namespace MonoHaven.UI
 			UpdateItems();
 		}
 
+		protected override void OnMouseWheel(MouseWheelEventArgs e)
+		{
+			Scroll(-e.Delta);
+		}
+
 		private void Scroll(int amount)
 		{
 			scrollOffset += amount;
@@ -96,6 +102,11 @@ namespace MonoHaven.UI
 			{
 				dc.Draw(background, 0, 0);
 				dc.Draw(charName, 5, 0);
+			}
+
+			protected override void OnMouseWheel(MouseWheelEventArgs e)
+			{
+				Parent.MouseWheel(e);
 			}
 
 			protected override void OnDispose()

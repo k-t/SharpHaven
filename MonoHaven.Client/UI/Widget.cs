@@ -41,6 +41,11 @@ namespace MonoHaven.UI
 			get { return host; }
 		}
 
+		protected Widget Parent
+		{
+			get { return parent; }
+		}
+
 		private IEnumerable<Widget> Children
 		{
 			get
@@ -246,6 +251,11 @@ namespace MonoHaven.UI
 		protected virtual void OnMouseMove(MouseMoveEventArgs e)
 		{
 		}
+
+		protected virtual void OnMouseWheel(MouseWheelEventArgs e)
+		{
+
+		}
 		
 		protected virtual void OnDraw(DrawingContext dc)
 		{
@@ -304,6 +314,11 @@ namespace MonoHaven.UI
 		public void MouseMove(MouseMoveEventArgs e)
 		{
 			OnMouseMove(e);
+		}
+
+		public void MouseWheel(MouseWheelEventArgs e)
+		{
+			OnMouseWheel(e);
 		}
 
 		public void KeyDown(KeyEventArgs e)

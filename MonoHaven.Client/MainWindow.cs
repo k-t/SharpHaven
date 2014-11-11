@@ -33,6 +33,7 @@ namespace MonoHaven
 			Mouse.ButtonUp += HandleMouseButtonUp;
 			Mouse.ButtonDown += HandleMouseButtonDown;
 			Mouse.Move += HandleMouseMove;
+			Mouse.WheelChanged += HandleMouseWheel;
 
 			Keyboard.KeyRepeat = true;
 			Keyboard.KeyDown += HandleKeyDown;
@@ -141,6 +142,12 @@ namespace MonoHaven
 		{
 			if (inputListener != null)
 				inputListener.MouseMove(e);
+		}
+
+		private void HandleMouseWheel(object sender, MouseWheelEventArgs e)
+		{
+			if (inputListener != null)
+				inputListener.MouseWheel(e);
 		}
 
 		private void HandleKeyDown(object sender, KeyboardKeyEventArgs e)

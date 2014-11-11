@@ -138,6 +138,13 @@ namespace MonoHaven.UI
 			}
 		}
 
+		void IInputListener.MouseWheel(MouseWheelEventArgs e)
+		{
+			var widget = mouseFocus ?? hoveredWidget;
+			if (widget != null)
+				widget.MouseWheel(e);
+		}
+
 		void IInputListener.KeyDown(KeyEventArgs e)
 		{
 			var widget = keyboardFocus;
