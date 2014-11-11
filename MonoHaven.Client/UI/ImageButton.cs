@@ -1,5 +1,7 @@
 using System;
+using System.Drawing;
 using MonoHaven.Graphics;
+using MonoHaven.Utils;
 using OpenTK.Input;
 
 namespace MonoHaven.UI
@@ -45,13 +47,11 @@ namespace MonoHaven.UI
 		{
 			Host.ReleaseMouse();
 			isPressed = false;
-			RaisePressedEvent();
-		}
 
-		private void RaisePressedEvent()
-		{
-			if (Pressed != null)
-				Pressed(this, EventArgs.Empty);
+			// button released outside of borders?
+			var p = PointToWidget(e.Position);
+			if (Rectangle.FromLTRB(0, 0, Width, Height).Contains(p))
+				Pressed.Raise(this, EventArgs.Empty);
 		}
 	}
 }

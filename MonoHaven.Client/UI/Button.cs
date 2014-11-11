@@ -97,9 +97,14 @@ namespace MonoHaven.UI
 		{
 			if (e.Button != MouseButton.Left)
 				return;
+
 			Host.ReleaseMouse();
 			isPressed = false;
-			Pressed.Raise(this, EventArgs.Empty);
+
+			// button released outside of borders?
+			var p = PointToWidget(e.Position);
+			if (Rectangle.FromLTRB(0, 0, Width, Height).Contains(p))
+				Pressed.Raise(this, EventArgs.Empty);
 		}
 	}
 }
