@@ -37,13 +37,13 @@ namespace MonoHaven.UI
 			btnScrollUp = new Button(this, 100);
 			btnScrollUp.Image = scrollUp;
 			btnScrollUp.Visible = false;
-			btnScrollUp.Pressed += (s, a) => Scroll(-1);
+			btnScrollUp.Clicked += (s, a) => Scroll(-1);
 
 			btnScrollDown = new Button(this, 100);
 			btnScrollDown.Image = scrollDown;
 			btnScrollDown.SetLocation(0, Height - 19);
 			btnScrollDown.Visible = false;
-			btnScrollDown.Pressed += (s, a) => Scroll(1);
+			btnScrollDown.Clicked += (s, a) => Scroll(1);
 		}
 
 		public void AddChar(string name)

@@ -47,7 +47,7 @@ namespace MonoHaven.Login
 			btnLogin = new ImageButton(RootWidget);
 			btnLogin.Image = App.Instance.Resources.GetTexture("gfx/hud/buttons/loginu");
 			btnLogin.PressedImage = App.Instance.Resources.GetTexture("gfx/hud/buttons/logind");
-			btnLogin.Pressed += (sender, args) => Login();
+			btnLogin.Clicked += (sender, args) => Login();
 			btnLogin.SetLocation(373, 460);
 			btnLogin.SetSize(btnLogin.Image.Width, btnLogin.Image.Height);
 
