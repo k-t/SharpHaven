@@ -9,7 +9,7 @@ namespace MonoHaven.Network
 		private readonly EndPoint address;
 		private readonly Socket socket;
 		private readonly byte[] receiveBuffer;
-		private int pollTimeout;
+		private int receiveTimeout;
 
 		public GameSocket(string host, int port)
 		{
@@ -33,11 +33,11 @@ namespace MonoHaven.Network
 			socket.Close();
 		}
 
-		public bool Poll(out MessageReader messageReader)
+		public bool Receive(out MessageReader message)
 		{
-			if (!socket.Poll(pollTimeout * 1000, SelectMode.SelectRead))
+			if (!socket.Poll(receiveTimeout * 1000, SelectMode.SelectRead))
 			{
-				messageReader = null;
+				message = null;
 				return false;
 			}
 
@@ -48,7 +48,7 @@ namespace MonoHaven.Network
 			var buffer = new byte[size - 1];
 			Array.Copy(receiveBuffer, 1, buffer, 0, size - 1);
 
-			messageReader = new MessageReader(type, buffer);
+			message = new MessageReader(type, buffer);
 			return true;
 		}
 
@@ -60,9 +60,9 @@ namespace MonoHaven.Network
 			socket.Send(buffer);
 		}
 
-		public void SetPollTimeout(int milliseconds)
+		public void SetReceiveTimeout(int milliseconds)
 		{
-			pollTimeout = milliseconds * 1000;
+			receiveTimeout = milliseconds * 1000;
 		}
 	}
 }

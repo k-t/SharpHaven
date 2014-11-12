@@ -44,7 +44,7 @@ namespace MonoHaven.Network
 
 			state = ConnectionState.Created;
 			socket = new GameSocket(settings.Host, settings.Port);
-			socket.SetPollTimeout(PollTimeout);
+			socket.SetReceiveTimeout(PollTimeout);
 			sender = new MessageSender(socket);
 			sender.Finished += OnTaskFinished;
 			receiver = new MessageReceiver(socket, ReceiveMessage);
@@ -119,7 +119,7 @@ namespace MonoHaven.Network
 			ConnectionError error;
 			while (true)
 			{
-				if (!socket.Poll(out reply))
+				if (!socket.Receive(out reply))
 					throw new ConnectionException(ConnectionError.ConnectionError);
 
 				if (reply.MessageType == MSG_SESS)

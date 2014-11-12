@@ -16,11 +16,11 @@ namespace MonoHaven.Network
 
 		protected override void OnStart()
 		{
-			MessageReader msg;
+			MessageReader message;
 			while (!IsCancelled)
 			{
-				if (socket.Poll(out msg))
-					messageHandler(msg);
+				if (socket.Receive(out message))
+					messageHandler(message);
 			}
 		}
 	}
