@@ -1,6 +1,4 @@
-﻿using System.Drawing;
-
-namespace MonoHaven
+﻿namespace MonoHaven
 {
 	public static class Constants
 	{

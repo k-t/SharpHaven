@@ -67,7 +67,7 @@
     <Compile Include="Constants.cs" />
     <Compile Include="Cursors.cs" />
     <Compile Include="FrameCounter.cs" />
-    <Compile Include="Game\Avatar.cs" />
+    <Compile Include="Graphics\Avatar.cs" />
     <Compile Include="Game\GameSession.cs" />
     <Compile Include="Graphics\TextAlign.cs" />
     <Compile Include="Graphics\Glyph.cs" />

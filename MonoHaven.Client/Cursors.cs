@@ -1,5 +1,4 @@
-﻿using MonoHaven.Resources;
-using OpenTK;
+﻿using OpenTK;
 
 namespace MonoHaven
 {

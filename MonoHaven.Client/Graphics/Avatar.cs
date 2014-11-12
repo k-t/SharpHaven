@@ -1,10 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using MonoHaven.Graphics;
 using MonoHaven.Resources;
 using MonoHaven.Utils;
 
-namespace MonoHaven.Game
+namespace MonoHaven.Graphics
 {
 	public class Avatar : Drawable
 	{

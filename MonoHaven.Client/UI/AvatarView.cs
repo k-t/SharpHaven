@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
-using MonoHaven.Game;
 using MonoHaven.Graphics;
 using MonoHaven.Resources;
 
