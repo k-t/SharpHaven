@@ -41,7 +41,7 @@ namespace MonoHaven.Game
 			connection.MessageReceived += OnMessageReceived;
 			connection.Closed += OnConnectionClosed;
 			state = new GameState();
-			screen = new GameScreen(new ControllerFactory(this));
+			screen = new GameScreen(new WidgetAdapterRegistry(this));
 			resources = new Dictionary<int, Resource>();
 		}
 

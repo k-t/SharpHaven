@@ -1,26 +1,26 @@
-﻿using MonoHaven.Game;
-
-namespace MonoHaven.UI.Remote
+﻿namespace MonoHaven.UI.Remote
 {
-	public abstract class Controller
+	public class Controller
 	{
 		private readonly int id;
+		private readonly WidgetAdapter adapter;
+		private readonly Widget widget;
 
-		protected Controller(int id)
+		public Controller(int id, Widget widget, WidgetAdapter adapter)
 		{
 			this.id = id;
+			this.widget = widget;
+			this.adapter = adapter;
 		}
 
-		public abstract Widget Widget { get; }
-
-		public GameSession Session
+		public Widget Widget
 		{
-			get;
-			set;
+			get { return widget; }
 		}
 
-		public virtual void HandleMessage(string message, object[] args)
+		public void HandleRemoteMessage(string message, object[] args)
 		{
+			adapter.HandleMessage(widget, message, args);
 		}
 	}
 }

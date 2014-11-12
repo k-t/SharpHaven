@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Runtime.InteropServices;
 using MonoHaven.Login;
 using MonoHaven.UI;
 using MonoHaven.UI.Remote;
@@ -13,13 +14,13 @@ namespace MonoHaven.Game
 		private static readonly Logger log = LogManager.GetCurrentClassLogger();
 
 		private readonly Dictionary<int, Controller> controllers;
-		private readonly ControllerFactory controllerFactory;
+		private readonly WidgetAdapterRegistry adapterRegistry;
 
-		public GameScreen(ControllerFactory controllerFactory)
+		public GameScreen(WidgetAdapterRegistry adapterRegistry)
 		{
 			this.controllers = new Dictionary<int, Controller>();
-			this.controllers[0] = new RootController(0, RootWidget);
-			this.controllerFactory = controllerFactory;
+			this.controllers[0] = new Controller(0, RootWidget, new RootAdapter());
+			this.adapterRegistry = adapterRegistry;
 		}
 
 		public void Close()
@@ -33,10 +34,10 @@ namespace MonoHaven.Game
 			if (parent == null)
 				throw new Exception(
 					string.Format("Non-existent parent widget {0} for {1}", parentId, id));
-
-			var ctl = controllerFactory.Create(id, type, parent, args);
-			ctl.Widget.SetLocation(location);
-			controllers[id] = ctl;
+			var adapter = adapterRegistry.Get(type);
+			var widget = adapter.Create(parent.Widget, args);
+			widget.SetLocation(location);
+			controllers[id] = new Controller(id, widget, adapter);
 		}
 
 		public void MessageWidget(int id, string message, object[] args)
@@ -47,7 +48,7 @@ namespace MonoHaven.Game
 				log.Warn("UI message {1} to non-existent widget {0}", id, message);
 				return;
 			}
-			ctl.HandleMessage(message, args);
+			ctl.HandleRemoteMessage(message, args);
 		}
 
 		public void DestroyWidget(int id)
