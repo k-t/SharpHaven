@@ -4,6 +4,7 @@ using System.Drawing;
 using MonoHaven.Login;
 using MonoHaven.UI;
 using MonoHaven.UI.Remote;
+using MonoHaven.Utils;
 using NLog;
 
 namespace MonoHaven.Game
@@ -21,6 +22,8 @@ namespace MonoHaven.Game
 			this.controllers[0] = new Controller(0, RootWidget, new RootAdapter());
 			this.adapterRegistry = adapterRegistry;
 		}
+
+		public EventHandler Closed;
 
 		public void Close()
 		{
@@ -57,6 +60,11 @@ namespace MonoHaven.Game
 				return;
 			}
 			log.Warn("Try to remove non-existent widget {0}", id);
+		}
+
+		protected override void OnClose()
+		{
+			Closed.Raise(this, EventArgs.Empty);
 		}
 
 		private Controller FindController(int id)

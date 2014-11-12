@@ -42,6 +42,7 @@ namespace MonoHaven.Game
 			connection.Closed += OnConnectionClosed;
 			state = new GameState();
 			screen = new GameScreen(new WidgetAdapterRegistry(this));
+			screen.Closed += OnScreenClosed;
 			resources = new Dictionary<int, Resource>();
 		}
 
@@ -62,9 +63,13 @@ namespace MonoHaven.Game
 
 		public void Finish()
 		{
-			connection.Closed -= OnConnectionClosed;
-			connection.Close();
-			screen.Close();
+			lock (this)
+			{
+				connection.Closed -= OnConnectionClosed;
+				connection.Close();
+				screen.Closed -= OnScreenClosed;
+				screen.Close();
+			}
 		}
 
 		private void LoadResource(int id, string name, int version)
@@ -73,6 +78,11 @@ namespace MonoHaven.Game
 		}
 
 		private void OnConnectionClosed()
+		{
+			Finish();
+		}
+
+		private void OnScreenClosed(object sender, EventArgs args)
 		{
 			Finish();
 		}

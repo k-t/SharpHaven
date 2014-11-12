@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Concurrent;
+using System.ComponentModel;
 using System.Drawing;
 using MonoHaven.Graphics;
 using MonoHaven.Login;
@@ -123,6 +124,11 @@ namespace MonoHaven
 
 			frameCounter.Update();
 			Title = string.Format("{0} [FPS: {1}]", WindowTitle, frameCounter.FramesPerSecond);
+		}
+
+		protected override void OnClosing(CancelEventArgs e)
+		{
+			currentScreen.Close();
 		}
 
 		private void HandleMouseButtonDown(object sender, MouseButtonEventArgs e)
