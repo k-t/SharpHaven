@@ -10,6 +10,8 @@ namespace MonoHaven.Network
 	{
 		#region Constants
 
+		private const int PollTimeout = 1000; // milliseconds
+
 		private const int ProtocolVersion = 2;
 
 		private const int MSG_SESS = 0;
@@ -43,6 +45,7 @@ namespace MonoHaven.Network
 
 			state = ConnectionState.Created;
 			socket = new GameSocket(settings.Host, settings.Port);
+			socket.SetPollTimeout(PollTimeout);
 			sender = new MessageSender(socket);
 			sender.Finished += OnTaskFinished;
 			receiver = new MessageReceiver(socket, ReceiveMessage);
@@ -113,10 +116,13 @@ namespace MonoHaven.Network
 
 			socket.SendMessage(hello);
 
+			MessageReader reply;
 			ConnectionError error;
 			while (true)
 			{
-				var reply = socket.ReceiveMessage();
+				if (!socket.Poll(out reply))
+					throw new ConnectionException(ConnectionError.ConnectionError);
+
 				if (reply.MessageType == MSG_SESS)
 				{
 					error = (ConnectionError)reply.ReadByte();
