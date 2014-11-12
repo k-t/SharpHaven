@@ -17,7 +17,6 @@ namespace MonoHaven.Network
 		private const int MSG_SESS = 0;
 		private const int MSG_REL = 1;
 		private const int MSG_ACK = 2;
-		private const int MSG_BEAT = 3;
 		private const int MSG_MAPREQ = 4;
 		private const int MSG_MAPDATA = 5;
 		private const int MSG_OBJDATA = 6;
