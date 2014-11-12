@@ -12,8 +12,7 @@ namespace MonoHaven.Graphics
 		public Avatar(IEnumerable<Resource> layers)
 		{
 			var images = layers
-				.Select(x => x.GetLayer<ImageData>())
-				.Where(x => x != null)
+				.SelectMany(x => x.GetLayers<ImageData>())
 				.OrderBy(x => x.Z);
 			tex = new Texture(ImageUtils.Combine(images));
 			Width = tex.Width;
