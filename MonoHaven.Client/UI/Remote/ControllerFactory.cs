@@ -6,13 +6,14 @@ namespace MonoHaven.UI.Remote
 {
 	public class ControllerFactory
 	{
-		public delegate Controller CreateDelegate(
-			int id, GameSession session, Controller parent, object[] args);
+		public delegate Controller CreateDelegate(int id, Controller parent, object[] args);
 
+		private readonly GameSession session;
 		private readonly Dictionary<string, CreateDelegate> delegates;
 
-		public ControllerFactory()
+		public ControllerFactory(GameSession session)
 		{
+			this.session = session;
 			delegates = new Dictionary<string, CreateDelegate>();
 			delegates["cnt"] = ContainerController.Create;
 			delegates["img"] = ImageController.Create;
@@ -20,17 +21,16 @@ namespace MonoHaven.UI.Remote
 			delegates["ibtn"] = ImageButtonController.Create;
 		}
 
-		public Controller Create(
-			int id,
-			GameSession session,
-			string type,
-			Controller parent,
-			object[] args)
+		public Controller Create(int id, string type, Controller parent, object[] args)
 		{
 			CreateDelegate create;
+
 			if (!delegates.TryGetValue(type, out create))
 				throw new Exception("Unknown widget type " + type);
-			return create(id, session, parent, args);
+
+			var ctl = create(id, parent, args);
+			ctl.Session = session;
+			return ctl;
 		}
 	}
 }

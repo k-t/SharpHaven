@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using MonoHaven.Network;
 using MonoHaven.Resources;
 using MonoHaven.UI;
+using MonoHaven.UI.Remote;
 using NLog;
 
 namespace MonoHaven.Game
@@ -40,7 +41,7 @@ namespace MonoHaven.Game
 			connection.MessageReceived += OnMessageReceived;
 			connection.Closed += OnConnectionClosed;
 			state = new GameState();
-			screen = new GameScreen(this);
+			screen = new GameScreen(new ControllerFactory(this));
 			resources = new Dictionary<int, Resource>();
 		}
 

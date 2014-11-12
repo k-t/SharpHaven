@@ -5,19 +5,18 @@ namespace MonoHaven.UI.Remote
 	public abstract class Controller
 	{
 		private readonly int id;
-		private readonly GameSession session;
 
-		protected Controller(int id, GameSession session)
+		protected Controller(int id)
 		{
 			this.id = id;
-			this.session = session;
 		}
 
 		public abstract Widget Widget { get; }
 
-		protected GameSession Session
+		public GameSession Session
 		{
-			get { return session; }
+			get;
+			set;
 		}
 
 		public virtual void HandleMessage(string message, object[] args)

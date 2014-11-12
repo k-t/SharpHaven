@@ -1,5 +1,4 @@
 ﻿using System.Drawing;
-using MonoHaven.Game;
 
 namespace MonoHaven.UI.Remote
 {
@@ -7,8 +6,7 @@ namespace MonoHaven.UI.Remote
 	{
 		private readonly Container widget;
 
-		private ContainerController(int id, GameSession session, Container widget)
-			: base(id, session)
+		private ContainerController(int id, Container widget) : base(id)
 		{
 			this.widget = widget;
 		}
@@ -18,7 +16,7 @@ namespace MonoHaven.UI.Remote
 			get { return widget; }
 		}
 
-		public static Controller Create(int id, GameSession session, Controller parent, object[] args)
+		public static Controller Create(int id, Controller parent, object[] args)
 		{
 			var widget = new Container(parent.Widget);
 			if (args.Length > 0)
@@ -26,7 +24,7 @@ namespace MonoHaven.UI.Remote
 				var size = (Point)args[0];
 				widget.SetSize(size.X, size.Y);
 			}
-			return new ContainerController(id, session, widget);
+			return new ContainerController(id, widget);
 		}
 	}
 }

@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using MonoHaven.Game;
 using MonoHaven.Resources;
 
 namespace MonoHaven.UI.Remote
@@ -8,8 +7,7 @@ namespace MonoHaven.UI.Remote
 	{
 		private readonly Charlist widget;
 
-		private CharlistController(int id, GameSession session, Charlist widget)
-			: base(id, session)
+		private CharlistController(int id, Charlist widget) : base(id)
 		{
 			this.widget = widget;
 		}
@@ -33,10 +31,10 @@ namespace MonoHaven.UI.Remote
 			base.HandleMessage(message, args);
 		}
 
-		public static Controller Create(int id, GameSession session, Controller parent, object[] args)
+		public static Controller Create(int id, Controller parent, object[] args)
 		{
 			int height = args.Length > 0 ? (int)args[0] : 0;
-			return new CharlistController(id, session, new Charlist(parent.Widget, height));
+			return new CharlistController(id, new Charlist(parent.Widget, height));
 		}
 	}
 }
