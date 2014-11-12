@@ -1,7 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using MonoHaven.Graphics;
 using MonoHaven.Resources;
+using MonoHaven.Utils;
 using OpenTK;
 using OpenTK.Input;
 
@@ -47,11 +49,15 @@ namespace MonoHaven.UI
 			btnScrollDown.Clicked += (s, a) => Scroll(1);
 		}
 
+		public event Action<string> CharacterSelected;
+
 		public void AddChar(string name, IEnumerable<Resource> layers)
 		{
-			items.Add(new ListItem(this, name, layers));
-			btnScrollDown.Visible = btnScrollUp.Visible = items.Count > listHeight;
+			var item = new ListItem(this, name, layers);
+			item.Selected += () => CharacterSelected.Raise(name);
+			items.Add(item);
 			UpdateItems();
+			btnScrollDown.Visible = btnScrollUp.Visible = items.Count > listHeight;
 		}
 
 		protected override void OnMouseWheel(MouseWheelEventArgs e)
@@ -83,7 +89,7 @@ namespace MonoHaven.UI
 
 		private class ListItem : Widget
 		{
-			private readonly TextBlock charName;
+			private readonly TextBlock nameTextBlock;
 			private readonly AvatarView avatar;
 			private readonly Button btnPlay;
 
@@ -91,24 +97,27 @@ namespace MonoHaven.UI
 				: base(parent)
 			{
 				SetSize(background.Width, background.Height);
-
-				this.charName = new TextBlock(Fonts.Heading);
-				this.charName.TextColor = Color.White;
-				this.charName.Append(charName);
+				
+				nameTextBlock = new TextBlock(Fonts.Heading);
+				nameTextBlock.TextColor = Color.White;
+				nameTextBlock.Append(charName);
 
 				btnPlay = new Button(this, 100);
 				btnPlay.Text = "Play";
 				btnPlay.SetLocation(Width - 105, Height - 24);
+				btnPlay.Clicked += (s, a) => Selected.Raise();
 
 				avatar = new AvatarView(this, layers);
 				var padding = (Height - avatar.Height) / 2;
 				avatar.SetLocation(padding, padding);
 			}
 
+			public event Action Selected;
+
 			protected override void OnDraw(DrawingContext dc)
 			{
 				dc.Draw(background, 0, 0);
-				dc.Draw(charName, avatar.Bounds.Right + 5, avatar.Y);
+				dc.Draw(nameTextBlock, avatar.Bounds.Right + 5, avatar.Y);
 			}
 
 			protected override void OnMouseWheel(MouseWheelEventArgs e)
@@ -118,7 +127,7 @@ namespace MonoHaven.UI
 
 			protected override void OnDispose()
 			{
-				charName.Dispose();
+				nameTextBlock.Dispose();
 			}
 		}
 	}

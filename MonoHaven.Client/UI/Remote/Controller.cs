@@ -11,6 +11,8 @@
 			this.id = id;
 			this.widget = widget;
 			this.adapter = adapter;
+			
+			adapter.SetEventHandler(widget, HandleWidgetMessage);
 		}
 
 		public Widget Widget
@@ -21,6 +23,10 @@
 		public void HandleRemoteMessage(string message, object[] args)
 		{
 			adapter.HandleMessage(widget, message, args);
+		}
+
+		private void HandleWidgetMessage(string message, object[] args)
+		{
 		}
 	}
 }

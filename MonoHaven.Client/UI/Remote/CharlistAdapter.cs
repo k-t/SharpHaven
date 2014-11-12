@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using MonoHaven.Game;
 using MonoHaven.Resources;
 
@@ -32,6 +33,12 @@ namespace MonoHaven.UI.Remote
 			}
 			else
 				base.HandleMessage(widget, message, args);
+		}
+
+		public override void SetEventHandler(Widget widget, Action<string, object[]> handler)
+		{
+			var charlist = (Charlist)widget;
+			charlist.CharacterSelected += charName => handler("play", new object[] { charName });
 		}
 	}
 }
