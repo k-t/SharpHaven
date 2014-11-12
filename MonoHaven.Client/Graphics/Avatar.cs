@@ -14,7 +14,10 @@ namespace MonoHaven.Graphics
 			var images = layers
 				.SelectMany(x => x.GetLayers<ImageData>())
 				.OrderBy(x => x.Z);
-			tex = new Texture(ImageUtils.Combine(images));
+
+			using (var bitmap = ImageUtils.Combine(images))
+				tex = new Texture(bitmap);
+
 			Width = tex.Width;
 			Height = tex.Height;
 		}

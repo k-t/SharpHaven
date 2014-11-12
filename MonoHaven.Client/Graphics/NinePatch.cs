@@ -15,13 +15,11 @@ namespace MonoHaven.Graphics
 		private const int BottomCenter = 7;
 		private const int BottomRight = 8;
 
-		private readonly Texture texture;
 		private readonly Rectangle patchBounds;
 		private readonly TextureRegion[] patches = new TextureRegion[9];
 		
 		public NinePatch(Texture texture, int left, int right, int top, int bottom)
 		{
-			this.texture = texture;
 			this.patchBounds = Rectangle.FromLTRB(left, top, right, bottom);
 			
 			var textureBounds = new Rectangle(0, 0, texture.Width, texture.Height);

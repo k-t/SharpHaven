@@ -8,28 +8,35 @@ namespace MonoHaven.UI
 	public class AvatarView : Widget
 	{
 		private static readonly Point defaultSize = new Point(74, 74);
-		private static readonly Texture missing;
+		private static readonly Drawable missing;
+		private static readonly Drawable background;
+		private static readonly Drawable box;
 
 		private readonly Avatar avatar;
 
 		static AvatarView()
 		{
 			missing = App.Instance.Resources.GetTexture("gfx/hud/equip/missing");
+			background = App.Instance.Resources.GetTexture("gfx/hud/equip/bg");
+
+			using (var bitmap = EmbeddedResource.GetImage("wbox.png"))
+				box = new NinePatch(new Texture(bitmap), 8, 8, 8, 8);
 		}
 
 		public AvatarView(Widget parent, IEnumerable<Resource> resources)
 			: base(parent)
 		{
 			avatar = new Avatar(resources);
-			SetSize(defaultSize.X, defaultSize.Y);
+			SetSize(defaultSize.X + 10, defaultSize.Y + 10);
 		}
 
 		protected override void OnDraw(DrawingContext dc)
 		{
-			//dc.Draw(missing, 0, 0);
-			dc.SetClip(0, 0, Width, Height);
-			dc.Draw(avatar, -70, -20);
+			dc.SetClip(5, 5, defaultSize.X, defaultSize.Y);
+			dc.Draw(background, -(background.Width - Width) / 2, -20 + 5);
+			dc.Draw(avatar, -(background.Width - Width) / 2, -20 + 5);
 			dc.ResetClip();
+			dc.Draw(box, 0, 0, Width, Height);
 		}
 
 		protected override void OnDispose()
