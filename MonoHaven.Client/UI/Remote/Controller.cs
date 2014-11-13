@@ -7,6 +7,7 @@ namespace MonoHaven.UI.Remote
 	public class Controller : IDisposable
 	{
 		private readonly ushort id;
+		private readonly Controller parent;
 		private readonly List<Controller> children;
 		private readonly GameSession session;
 		private Widget widget;
@@ -22,7 +23,8 @@ namespace MonoHaven.UI.Remote
 		public Controller(ushort id, Controller parent)
 			: this(id, parent.session)
 		{
-			parent.AddChild(this);
+			this.parent = parent;
+			this.parent.AddChild(this);
 		}
 
 		public ushort Id
@@ -66,6 +68,7 @@ namespace MonoHaven.UI.Remote
 		{
 			widget.Remove();
 			widget.Dispose();
+			parent.children.Remove(this);
 		}
 	}
 }
