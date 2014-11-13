@@ -61,7 +61,7 @@ namespace MonoHaven.Login
 
 			tbUserName = new TextBox(grLogin);
 			tbUserName.Text = "ken_tower";
-			tbUserName.SetLocation(0, 20).SetSize(150, 23);
+			tbUserName.SetLocation(0, 20).SetSize(150, 24);
 
 			var lbPassword = new Label(grLogin);
 			lbPassword.Text = "Password";
@@ -71,7 +71,7 @@ namespace MonoHaven.Login
 			tbPassword = new TextBox(grLogin);
 			tbPassword.Text = "pwd";
 			tbPassword.PasswordChar = '*';
-			tbPassword.SetLocation(0, 80).SetSize(150, 23);
+			tbPassword.SetLocation(0, 80).SetSize(150, 24);
 
 			lbErrorMessage = new Label(RootWidget);
 			lbErrorMessage.TextColor = Color.Red;
