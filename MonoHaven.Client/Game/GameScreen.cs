@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Drawing;
 using C5;
 using MonoHaven.Login;
@@ -22,7 +21,8 @@ namespace MonoHaven.Game
 		{
 			this.session = session;
 			this.controllers = new TreeDictionary<ushort, Controller>();
-			this.controllers[0] = new Controller(0, session, RootWidget, new RootAdapter());
+			this.controllers[0] = new Controller(0, session);
+			this.controllers[0].Bind(RootWidget, new RootAdapter());
 			this.adapterRegistry = new WidgetAdapterRegistry(session);
 		}
 
@@ -39,10 +39,14 @@ namespace MonoHaven.Game
 			if (parent == null)
 				throw new Exception(
 					string.Format("Non-existent parent widget {0} for {1}", parentId, id));
+
 			var adapter = adapterRegistry.Get(type);
 			var widget = adapter.Create(parent.Widget, args);
 			widget.SetLocation(location);
-			controllers[id] = new Controller(id, session, widget, adapter);
+
+			var ctl = new Controller(id, parent);
+			ctl.Bind(widget, adapter);
+			controllers[id] = ctl;
 		}
 
 		public void MessageWidget(ushort id, string message, object[] args)
@@ -61,8 +65,7 @@ namespace MonoHaven.Game
 			Controller ctl;
 			if (controllers.Remove(id, out ctl))
 			{
-				ctl.Widget.Remove();
-				ctl.Widget.Dispose();
+				ctl.Dispose();
 				return;
 			}
 			log.Warn("Try to remove non-existent widget {0}", id);

@@ -1,27 +1,40 @@
-﻿using MonoHaven.Game;
+﻿using System;
+using System.Collections.Generic;
+using MonoHaven.Game;
 
 namespace MonoHaven.UI.Remote
 {
-	public class Controller
+	public class Controller : IDisposable
 	{
 		private readonly ushort id;
+		private readonly List<Controller> children;
 		private readonly GameSession session;
-		private readonly WidgetAdapter adapter;
-		private readonly Widget widget;
+		private Widget widget;
+		private WidgetAdapter adapter;
 
-		public Controller(ushort id, GameSession session, Widget widget, WidgetAdapter adapter)
+		public Controller(ushort id, GameSession session)
 		{
 			this.id = id;
-			this.widget = widget;
-			this.adapter = adapter;
 			this.session = session;
-			
-			adapter.SetEventHandler(widget, HandleWidgetMessage);
+			this.children = new List<Controller>();
+		}
+
+		public Controller(ushort id, Controller parent)
+			: this(id, parent.session)
+		{
+			parent.AddChild(this);
 		}
 
 		public Widget Widget
 		{
 			get { return widget; }
+		}
+
+		public void Bind(Widget widget, WidgetAdapter adapter)
+		{
+			this.widget = widget;
+			this.adapter = adapter;
+			adapter.SetEventHandler(widget, HandleWidgetMessage);
 		}
 
 		public void HandleRemoteMessage(string message, object[] args)
@@ -32,6 +45,20 @@ namespace MonoHaven.UI.Remote
 		private void HandleWidgetMessage(string message, object[] args)
 		{
 			session.SendWidgetMessage(id, message, args);
+		}
+
+		private void AddChild(Controller child)
+		{
+			children.Add(child);
+		}
+
+		public void Dispose()
+		{
+			foreach (var child in children)
+				session.Screen.DestroyWidget(child.id);
+
+			widget.Remove();
+			widget.Dispose();
 		}
 	}
 }
