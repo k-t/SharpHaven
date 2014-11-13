@@ -1,4 +1,6 @@
-﻿namespace MonoHaven.UI.Remote
+﻿using System;
+
+namespace MonoHaven.UI.Remote
 {
 	public class ImageButtonAdapter : WidgetAdapter
 	{
@@ -12,6 +14,12 @@
 			widget.PressedImage = App.Instance.Resources.GetTexture(pressedImage);
 			widget.SetSize(widget.Image.Width, widget.Image.Height);
 			return widget;
+		}
+
+		public override void SetEventHandler(Widget widget, Action<string, object[]> handler)
+		{
+			var button = (ImageButton)widget;
+			button.Clicked += () => handler("activate", null);
 		}
 	}
 }
