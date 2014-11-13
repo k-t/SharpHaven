@@ -12,6 +12,8 @@ namespace MonoHaven.Graphics
 		private readonly TextureAtlas atlas;
 		private readonly Dictionary<char, Glyph> glyphs;
 		private readonly uint pixelSize;
+		private readonly int ascent;
+		private readonly int height;
 
 		public SpriteFont(Face face, uint pixelSize)
 		{
@@ -19,24 +21,23 @@ namespace MonoHaven.Graphics
 			glyphs = new Dictionary<char, Glyph>();
 			this.face = face;
 			this.pixelSize = pixelSize;
+
+			EnsureSize();
+			using (var size = face.Size)
+			{
+				ascent = size.Metrics.Ascender >> 6;
+				height = size.Metrics.Height >> 6;
+			}
 		}
 
 		public int Ascent
 		{
-			get
-			{
-				EnsureSize();
-				return face.Size.Metrics.Ascender >> 6;
-			}
+			get { return ascent; }
 		}
 
 		public int Height
 		{
-			get
-			{
-				EnsureSize();
-				return face.Size.Metrics.Height >> 6;
-			}
+			get { return height; }
 		}
 
 		public void Dispose()
