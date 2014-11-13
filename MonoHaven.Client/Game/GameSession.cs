@@ -76,8 +76,9 @@ namespace MonoHaven.Game
 		{
 			var message = new Message(RMSG_WDGMSG)
 				.Uint16(widgetId)
-				.String(name)
-				.List(args);
+				.String(name);
+			if (args != null)
+				message.List(args);
 			connection.SendMessage(message);
 		}
 
