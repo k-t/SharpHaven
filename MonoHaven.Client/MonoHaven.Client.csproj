@@ -112,16 +112,21 @@
     <Compile Include="UI\KeyEventArgs.cs" />
     <Compile Include="UI\KeyPressEventArgs.cs" />
     <Compile Include="UI\Label.cs" />
+    <Compile Include="UI\Remote\AvatarViewAdapter.cs" />
+    <Compile Include="UI\Remote\ButtonAdapter.cs" />
     <Compile Include="UI\Remote\CharlistAdapter.cs" />
     <Compile Include="UI\Remote\ContainerAdapter.cs" />
     <Compile Include="UI\Remote\ImageAdapter.cs" />
     <Compile Include="UI\Remote\ImageButtonAdapter.cs" />
+    <Compile Include="UI\Remote\LabelAdapter.cs" />
     <Compile Include="UI\Remote\WidgetAdapter.cs" />
     <Compile Include="UI\Remote\RootAdapter.cs" />
     <Compile Include="UI\Remote\Controller.cs" />
     <Compile Include="UI\Remote\WidgetAdapterRegistry.cs" />
+    <Compile Include="UI\Remote\WindowAdapter.cs" />
     <Compile Include="UI\RootWidget.cs" />
     <Compile Include="UI\Container.cs" />
+    <Compile Include="UI\Window.cs" />
     <Compile Include="Utils\ImageUtils.cs" />
     <Compile Include="Utils\MathExtensions.cs" />
     <Compile Include="Utils\PointComparer.cs" />
@@ -174,6 +179,9 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Content\wbox.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Content\wcap.png" />
   </ItemGroup>
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <Target Name="BeforeBuild">

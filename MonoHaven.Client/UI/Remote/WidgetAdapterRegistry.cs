@@ -15,6 +15,10 @@ namespace MonoHaven.UI.Remote
 			adapters["img"] = new ImageAdapter();
 			adapters["charlist"] = new CharlistAdapter(session);
 			adapters["ibtn"] = new ImageButtonAdapter();
+			adapters["wnd"] = new WindowAdapter();
+			adapters["av2"] = new AvatarViewAdapter(session);
+			adapters["lbl"] = new LabelAdapter();
+			adapters["btn"] = new ButtonAdapter();
 		}
 
 		public WidgetAdapter Get(string widgetType)

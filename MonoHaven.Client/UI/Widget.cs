@@ -46,7 +46,7 @@ namespace MonoHaven.UI
 			get { return parent; }
 		}
 
-		private IEnumerable<Widget> Children
+		protected IEnumerable<Widget> Children
 		{
 			get
 			{
