@@ -8,10 +8,15 @@ namespace MonoHaven.UI
 		private string text;
 		private readonly TextBlock textBlock;
 
-		public Label(Widget parent)
-			: base(parent)
+		public Label(Widget parent, SpriteFont font) : base(parent)
 		{
-			textBlock = new TextBlock(Fonts.Default);
+			textBlock = new TextBlock(font);
+			textBlock.TextColor = Color.White;
+			SetSize(0, font.Height);
+		}
+
+		public Label(Widget parent) : this(parent, Fonts.Default)
+		{
 		}
 
 		public string Text
