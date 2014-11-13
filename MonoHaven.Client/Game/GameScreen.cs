@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using C5;
 using MonoHaven.Login;
 using MonoHaven.UI;
 using MonoHaven.UI.Remote;
@@ -11,16 +12,16 @@ namespace MonoHaven.Game
 {
 	public class GameScreen : BaseScreen
 	{
-		private static readonly Logger log = LogManager.GetCurrentClassLogger();
+		private static readonly NLog.Logger log = LogManager.GetCurrentClassLogger();
 
 		private readonly GameSession session;
-		private readonly Dictionary<ushort, Controller> controllers;
+		private readonly TreeDictionary<ushort, Controller> controllers;
 		private readonly WidgetAdapterRegistry adapterRegistry;
 
 		public GameScreen(GameSession session)
 		{
 			this.session = session;
-			this.controllers = new Dictionary<ushort, Controller>();
+			this.controllers = new TreeDictionary<ushort, Controller>();
 			this.controllers[0] = new Controller(0, session, RootWidget, new RootAdapter());
 			this.adapterRegistry = new WidgetAdapterRegistry(session);
 		}
@@ -57,8 +58,11 @@ namespace MonoHaven.Game
 
 		public void DestroyWidget(ushort id)
 		{
-			if (controllers.Remove(id))
+			Controller ctl;
+			if (controllers.Remove(id, out ctl))
 			{
+				ctl.Widget.Remove();
+				ctl.Widget.Dispose();
 				return;
 			}
 			log.Warn("Try to remove non-existent widget {0}", id);
@@ -72,7 +76,7 @@ namespace MonoHaven.Game
 		private Controller FindController(ushort id)
 		{
 			Controller ctl;
-			return controllers.TryGetValue(id, out ctl) ? ctl : null;
+			return controllers.Find(ref id, out ctl) ? ctl : null;
 		}
 	}
 }

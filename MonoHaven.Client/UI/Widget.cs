@@ -157,6 +157,12 @@ namespace MonoHaven.UI
 			return null;
 		}
 
+		public void Remove()
+		{
+			if (Parent != null)
+				Parent.Remove(this);
+		}
+
 		public void Remove(Widget widget)
 		{
 			if (this.firstChild == widget)
@@ -168,6 +174,8 @@ namespace MonoHaven.UI
 				widget.next.previous = widget.previous;
 			if (widget.previous != null)
 				widget.previous.next = widget.next;
+
+			widget.parent = null;
 		}
 
 		public void Dispose()
