@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Drawing;
+using System.Linq;
 using C5;
 using MonoHaven.Login;
 using MonoHaven.UI;
@@ -66,7 +67,7 @@ namespace MonoHaven.Game
 			if (controllers.Remove(id, out ctl))
 			{
 				ctl.Dispose();
-				foreach (var child in ctl.Children)
+				foreach (var child in ctl.Children.ToList())
 					DestroyWidget(child.Id);
 				return;
 			}
