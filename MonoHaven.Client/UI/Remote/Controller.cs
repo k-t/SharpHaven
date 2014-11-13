@@ -25,6 +25,16 @@ namespace MonoHaven.UI.Remote
 			parent.AddChild(this);
 		}
 
+		public ushort Id
+		{
+			get { return id; }
+		}
+
+		public IEnumerable<Controller> Children
+		{
+			get { return children; }
+		}
+
 		public Widget Widget
 		{
 			get { return widget; }
@@ -54,9 +64,6 @@ namespace MonoHaven.UI.Remote
 
 		public void Dispose()
 		{
-			foreach (var child in children)
-				session.Screen.DestroyWidget(child.id);
-
 			widget.Remove();
 			widget.Dispose();
 		}

@@ -66,6 +66,8 @@ namespace MonoHaven.Game
 			if (controllers.Remove(id, out ctl))
 			{
 				ctl.Dispose();
+				foreach (var child in ctl.Children)
+					DestroyWidget(child.Id);
 				return;
 			}
 			log.Warn("Try to remove non-existent widget {0}", id);

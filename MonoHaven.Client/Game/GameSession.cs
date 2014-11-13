@@ -46,7 +46,7 @@ namespace MonoHaven.Game
 			resources = new Dictionary<int, Resource>();
 		}
 
-		public GameScreen Screen
+		public IScreen Screen
 		{
 			get { return screen; }
 		}
