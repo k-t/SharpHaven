@@ -30,11 +30,25 @@ namespace MonoHaven.UI
 			set;
 		}
 
+		public Drawable HoveredImage
+		{
+			get;
+			set;
+		}
+
 		protected override void OnDraw(DrawingContext dc)
 		{
-			var tex = isPressed ? PressedImage : Image;
-			if (tex != null)
-				dc.Draw(tex, 0, 0);
+			Drawable image = null;
+
+			if (isPressed && PressedImage != null)
+				image = PressedImage;
+			else if (IsHovered && HoveredImage != null)
+				image = HoveredImage;
+			else
+				image = Image;
+
+			if (image != null)
+				dc.Draw(image, 0, 0);
 		}
 
 		protected override void OnMouseButtonDown(MouseButtonEventArgs e)
