@@ -182,20 +182,20 @@ namespace MonoHaven.Network
 
 		private void HandleRel(ushort seq, MessageReader msg)
 		{
-			if (seq > rseq)
+			if (seq == rseq)
 			{
-				waiting.Add(seq, msg);
-				return;
-			}
-			MessageReceived.Raise(msg);
-			while(true)
-			{
-				rseq++;
-				if (!waiting.Remove(rseq, out msg))
-					break;
 				MessageReceived.Raise(msg);
+				while (true)
+				{
+					rseq++;
+					if (!waiting.Remove(rseq, out msg))
+						break;
+					MessageReceived.Raise(msg);
+				}
+				SendAck((ushort)(rseq - 1));
 			}
-			SendAck((ushort)(rseq - 1));
+			else if (seq > rseq)
+				waiting.Add(seq, msg);
 		}
 
 		private void SendAck(ushort seq)
