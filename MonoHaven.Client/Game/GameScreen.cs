@@ -13,14 +13,16 @@ namespace MonoHaven.Game
 	{
 		private static readonly Logger log = LogManager.GetCurrentClassLogger();
 
-		private readonly Dictionary<int, Controller> controllers;
+		private readonly GameSession session;
+		private readonly Dictionary<ushort, Controller> controllers;
 		private readonly WidgetAdapterRegistry adapterRegistry;
 
-		public GameScreen(WidgetAdapterRegistry adapterRegistry)
+		public GameScreen(GameSession session)
 		{
-			this.controllers = new Dictionary<int, Controller>();
-			this.controllers[0] = new Controller(0, RootWidget, new RootAdapter());
-			this.adapterRegistry = adapterRegistry;
+			this.session = session;
+			this.controllers = new Dictionary<ushort, Controller>();
+			this.controllers[0] = new Controller(0, session, RootWidget, new RootAdapter());
+			this.adapterRegistry = new WidgetAdapterRegistry(session);
 		}
 
 		public EventHandler Closed;
@@ -30,7 +32,7 @@ namespace MonoHaven.Game
 			App.Instance.QueueOnMainThread(() => Host.SetScreen(new LoginScreen()));
 		}
 
-		public void CreateWidget(int id, string type, Point location, int parentId, object[] args)
+		public void CreateWidget(ushort id, string type, Point location, ushort parentId, object[] args)
 		{
 			var parent = FindController(parentId);
 			if (parent == null)
@@ -39,10 +41,10 @@ namespace MonoHaven.Game
 			var adapter = adapterRegistry.Get(type);
 			var widget = adapter.Create(parent.Widget, args);
 			widget.SetLocation(location);
-			controllers[id] = new Controller(id, widget, adapter);
+			controllers[id] = new Controller(id, session, widget, adapter);
 		}
 
-		public void MessageWidget(int id, string message, object[] args)
+		public void MessageWidget(ushort id, string message, object[] args)
 		{
 			var ctl = FindController(id);
 			if (ctl == null)
@@ -53,7 +55,7 @@ namespace MonoHaven.Game
 			ctl.HandleRemoteMessage(message, args);
 		}
 
-		public void DestroyWidget(int id)
+		public void DestroyWidget(ushort id)
 		{
 			if (controllers.Remove(id))
 			{
@@ -67,7 +69,7 @@ namespace MonoHaven.Game
 			Closed.Raise(this, EventArgs.Empty);
 		}
 
-		private Controller FindController(int id)
+		private Controller FindController(ushort id)
 		{
 			Controller ctl;
 			return controllers.TryGetValue(id, out ctl) ? ctl : null;

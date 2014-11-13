@@ -1,16 +1,20 @@
-﻿namespace MonoHaven.UI.Remote
+﻿using MonoHaven.Game;
+
+namespace MonoHaven.UI.Remote
 {
 	public class Controller
 	{
-		private readonly int id;
+		private readonly ushort id;
+		private readonly GameSession session;
 		private readonly WidgetAdapter adapter;
 		private readonly Widget widget;
 
-		public Controller(int id, Widget widget, WidgetAdapter adapter)
+		public Controller(ushort id, GameSession session, Widget widget, WidgetAdapter adapter)
 		{
 			this.id = id;
 			this.widget = widget;
 			this.adapter = adapter;
+			this.session = session;
 			
 			adapter.SetEventHandler(widget, HandleWidgetMessage);
 		}
@@ -27,6 +31,7 @@
 
 		private void HandleWidgetMessage(string message, object[] args)
 		{
+			session.SendWidgetMessage(id, message, args);
 		}
 	}
 }

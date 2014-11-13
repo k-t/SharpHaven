@@ -41,7 +41,7 @@ namespace MonoHaven.Game
 			connection.MessageReceived += OnMessageReceived;
 			connection.Closed += OnConnectionClosed;
 			state = new GameState();
-			screen = new GameScreen(new WidgetAdapterRegistry(this));
+			screen = new GameScreen(this);
 			screen.Closed += OnScreenClosed;
 			resources = new Dictionary<int, Resource>();
 		}
@@ -70,6 +70,15 @@ namespace MonoHaven.Game
 				screen.Closed -= OnScreenClosed;
 				screen.Close();
 			}
+		}
+
+		public void SendWidgetMessage(ushort widgetId, string name, object[] args)
+		{
+			var message = new Message(RMSG_WDGMSG)
+				.Uint16(widgetId)
+				.String(name)
+				.List(args);
+			connection.SendMessage(message);
 		}
 
 		private void LoadResource(int id, string name, int version)
@@ -128,7 +137,8 @@ namespace MonoHaven.Game
 					log.Info("RMSG_PAGINAE");
 					break;
 				case RMSG_RESID:
-					App.Instance.QueueOnMainThread(() => {
+					App.Instance.QueueOnMainThread(() =>
+					{
 						var id = msg.ReadUint16();
 						var name = msg.ReadString();
 						var ver = msg.ReadUint16();

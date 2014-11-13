@@ -102,6 +102,11 @@ namespace MonoHaven.Network
 			Closed.Raise();
 		}
 
+		public void SendMessage(Message message)
+		{
+			sender.QueueMessage(message);
+		}
+
 		private void Connect()
 		{
 			socket.Connect();
