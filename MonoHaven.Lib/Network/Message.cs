@@ -52,7 +52,7 @@ namespace MonoHaven.Network
 
 		public Message Byte(byte value)
 		{
-			Bytes(EndianBitConverter.Little.GetBytes(value));
+			stream.WriteByte(value);
 			return this;
 		}
 
