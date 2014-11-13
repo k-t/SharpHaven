@@ -15,8 +15,8 @@ namespace MonoHaven
 			var sans = LoadFace("Fonts.SourceSansPro-Regular.ttf");
 			var serif = LoadFace("Fonts.SourceSerifPro-Regular.ttf");
 
-			Default = new SpriteFont(sans, 14);
-			ButtonText = new SpriteFont(serif, 12);
+			Default = new SpriteFont(sans, 16);
+			Text = new SpriteFont(serif, 12);
 			Heading = new SpriteFont(serif, 18);
 		}
 
@@ -26,7 +26,7 @@ namespace MonoHaven
 			private set;
 		}
 
-		public static SpriteFont ButtonText
+		public static SpriteFont Text
 		{
 			get;
 			private set;

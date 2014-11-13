@@ -35,7 +35,7 @@ namespace MonoHaven.UI
 		{
 			SetSize(width, ButtonHeight);
 
-			textBlock = new TextBlock(Fonts.ButtonText);
+			textBlock = new TextBlock(Fonts.Text);
 			textBlock.TextColor = Color.Yellow;
 			textBlock.TextAlign = TextAlign.Center;
 			textBlock.Width = width;
