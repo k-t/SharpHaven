@@ -41,7 +41,7 @@ namespace MonoHaven.UI
 			btnClose.Image = closeButton;
 			btnClose.PressedImage = closeButtonPressed;
 			btnClose.HoveredImage = closeButtonHovered;
-			btnClose.Clicked += (s, a) => Closed.Raise();
+			btnClose.Clicked += () => Closed.Raise();
 
 			tblCaption = new TextBlock(Fonts.Text);
 			tblCaption.TextColor = Color.Yellow;
