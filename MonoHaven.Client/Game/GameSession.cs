@@ -51,6 +51,11 @@ namespace MonoHaven.Game
 			get { return screen; }
 		}
 
+		public GameState State
+		{
+			get { return state; }
+		}
+
 		public Resource GetResource(int id)
 		{
 			return resources[id];

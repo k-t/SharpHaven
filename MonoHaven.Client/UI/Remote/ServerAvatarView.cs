@@ -4,6 +4,12 @@ namespace MonoHaven.UI.Remote
 {
 	public class ServerAvatarView : ServerWidget
 	{
+		public static ServerWidget Create(ushort id, ServerWidget parent, object[] args)
+		{
+			var widget = new AvatarView(parent.Widget);
+			return new ServerAvatarView(id, parent, widget);
+		}
+
 		public static ServerWidget CreateFromLayers(ushort id, ServerWidget parent, object[] args)
 		{
 			var session = parent.Session;

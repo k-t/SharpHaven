@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using MonoHaven.Game;
 
 namespace MonoHaven.UI.Remote
 {
@@ -18,9 +17,20 @@ namespace MonoHaven.UI.Remote
 			methods["charlist"] = ServerCharlist.Create;
 			methods["ibtn"] = ServerImageButton.Create;
 			methods["wnd"] = ServerWindow.Create;
+			methods["av"] = ServerAvatarView.Create;
 			methods["av2"] = ServerAvatarView.CreateFromLayers;
 			methods["lbl"] = ServerLabel.Create;
 			methods["btn"] = ServerButton.Create;
+			methods["mapview"] = ServerMapView.Create;
+			methods["slen"] = ServerHud.Create;
+			methods["cal"] = ServerCalendar.Create;
+			methods["slenlog"] = ServerLogWindow.Create;
+			methods["slenchat"] = ServerChatWindow.Create;
+			methods["im"] = ServerMeter.Create;
+			methods["speedget"] = ServerSpeedget.Create;
+			methods["buffs"] = ServerBufflist.Create;
+			methods["scm"] = ServerMenuGrid.Create;
+			methods["pv"] = ServerPartyView.Create;
 		}
 
 		public ServerWidget Create(
