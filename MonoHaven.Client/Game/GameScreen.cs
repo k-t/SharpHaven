@@ -14,17 +14,14 @@ namespace MonoHaven.Game
 	{
 		private static readonly NLog.Logger log = LogManager.GetCurrentClassLogger();
 
-		private readonly GameSession session;
-		private readonly TreeDictionary<ushort, Controller> controllers;
-		private readonly WidgetAdapterRegistry adapterRegistry;
+		private readonly ServerWidgetFactory factory;
+		private readonly IDictionary<ushort, ServerWidget> serverWidgets;
 
 		public GameScreen(GameSession session)
 		{
-			this.session = session;
-			this.controllers = new TreeDictionary<ushort, Controller>();
-			this.controllers[0] = new Controller(0, session);
-			this.controllers[0].Bind(RootWidget, new RootAdapter());
-			this.adapterRegistry = new WidgetAdapterRegistry(session);
+			factory = new ServerWidgetFactory();
+			serverWidgets = new TreeDictionary<ushort, ServerWidget>();
+			serverWidgets[0] = new ServerRootWidget(0, session, RootWidget);
 		}
 
 		public EventHandler Closed;
@@ -36,38 +33,32 @@ namespace MonoHaven.Game
 
 		public void CreateWidget(ushort id, string type, Point location, ushort parentId, object[] args)
 		{
-			var parent = FindController(parentId);
+			var parent = GetWidget(parentId);
 			if (parent == null)
 				throw new Exception(
 					string.Format("Non-existent parent widget {0} for {1}", parentId, id));
 
-			var adapter = adapterRegistry.Get(type);
-			var widget = adapter.Create(parent.Widget, args);
-			widget.SetLocation(location);
-
-			var ctl = new Controller(id, parent);
-			ctl.Bind(widget, adapter);
-			controllers[id] = ctl;
+			var swidget = factory.Create(type, id, parent, args);
+			swidget.Widget.SetLocation(location);
+			serverWidgets[id] = swidget;
 		}
 
 		public void MessageWidget(ushort id, string message, object[] args)
 		{
-			var ctl = FindController(id);
-			if (ctl == null)
-			{
+			var widget = GetWidget(id);
+			if (widget != null)
+				widget.ReceiveMessage(message, args);
+			else
 				log.Warn("UI message {1} to non-existent widget {0}", id, message);
-				return;
-			}
-			ctl.HandleRemoteMessage(message, args);
 		}
 
 		public void DestroyWidget(ushort id)
 		{
-			Controller ctl;
-			if (controllers.Remove(id, out ctl))
+			ServerWidget widget;
+			if (serverWidgets.Remove(id, out widget))
 			{
-				ctl.Dispose();
-				foreach (var child in ctl.Children.ToList())
+				widget.Dispose();
+				foreach (var child in widget.Children.ToList())
 					DestroyWidget(child.Id);
 				return;
 			}
@@ -79,10 +70,10 @@ namespace MonoHaven.Game
 			Closed.Raise(this, EventArgs.Empty);
 		}
 
-		private Controller FindController(ushort id)
+		private ServerWidget GetWidget(ushort id)
 		{
-			Controller ctl;
-			return controllers.Find(ref id, out ctl) ? ctl : null;
+			ServerWidget widget;
+			return serverWidgets.Find(ref id, out widget) ? widget : null;
 		}
 	}
 }
