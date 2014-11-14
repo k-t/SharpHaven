@@ -39,6 +39,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MessageTests.cs" />
+    <Compile Include="NodeTests.cs" />
     <Compile Include="Resources\FolderSourceTests.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>

@@ -51,6 +51,7 @@
     <Reference Include="System.Drawing" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Node.cs" />
     <Compile Include="Utils\EventExtensions.cs" />
     <Compile Include="Network\ConnectionError.cs" />
     <Compile Include="Network\ConnectionSettings.cs" />
