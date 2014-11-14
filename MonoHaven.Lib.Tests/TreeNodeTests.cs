@@ -103,8 +103,6 @@ namespace MonoHaven.Tests
 				nodes[13].AddChild(
 					nodes[14]));
 
-			var a = node.Descendants.ToArray();
-
 			Assert.That(node.Descendants, Is.EquivalentTo(nodes),
 				"Invalid descendant collection");
 		}
