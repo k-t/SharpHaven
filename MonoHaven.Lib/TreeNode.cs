@@ -4,33 +4,33 @@ using System.Linq;
 
 namespace MonoHaven
 {
-	public class Node<T>
+	public class TreeNode<T>
 	{
 		private static readonly Func<T, T, bool> comparer = EqualityComparer<T>.Default.Equals;
 
 		private readonly T value;
 
-		private Node<T> parent;
-		private Node<T> prev;
-		private Node<T> next;
-		private Node<T> firstChild;
-		private Node<T> lastChild;
+		private TreeNode<T> parent;
+		private TreeNode<T> prev;
+		private TreeNode<T> next;
+		private TreeNode<T> firstChild;
+		private TreeNode<T> lastChild;
 
-		public Node()
+		public TreeNode()
 		{
 		}
 
-		public Node(T value)
+		public TreeNode(T value)
 		{
 			this.value = value;
 		}
 
-		public Node<T> Parent
+		public TreeNode<T> Parent
 		{
 			get { return parent; }
 		}
 
-		public IEnumerable<Node<T>> Children
+		public IEnumerable<TreeNode<T>> Children
 		{
 			get
 			{
@@ -39,11 +39,11 @@ namespace MonoHaven
 			}
 		}
 
-		public IEnumerable<Node<T>> Descendants
+		public IEnumerable<TreeNode<T>> Descendants
 		{
 			get
 			{
-				var stack = new Stack<Node<T>>(Children);
+				var stack = new Stack<TreeNode<T>>(Children);
 				while (stack.Any())
 				{
 					var node = stack.Pop();
@@ -62,7 +62,7 @@ namespace MonoHaven
 		/// <summary>
 		/// Adds specified node as a child to this node.
 		/// </summary>
-		public Node<T> AddChild(Node<T> node)
+		public TreeNode<T> AddChild(TreeNode<T> node)
 		{
 			node.Remove();
 
@@ -86,7 +86,7 @@ namespace MonoHaven
 		/// <summary>
 		/// Adds range of children nodes to this node.
 		/// </summary>
-		public Node<T> AddChildren(IEnumerable<Node<T>> children)
+		public TreeNode<T> AddChildren(IEnumerable<TreeNode<T>> children)
 		{
 			foreach (var child in children)
 				AddChild(child);
@@ -96,7 +96,7 @@ namespace MonoHaven
 		/// <summary>
 		/// Adds range of children nodes to this node.
 		/// </summary>
-		public Node<T> AddChildren(params Node<T>[] children)
+		public TreeNode<T> AddChildren(params TreeNode<T>[] children)
 		{
 			return AddChildren(children.AsEnumerable());
 		}
@@ -118,7 +118,7 @@ namespace MonoHaven
 			parent = null;
 		}
 
-		public Node<T> FindChild(T value)
+		public TreeNode<T> FindChild(T value)
 		{
 			return Children.FirstOrDefault(x => comparer(x.Value, value));
 		}
