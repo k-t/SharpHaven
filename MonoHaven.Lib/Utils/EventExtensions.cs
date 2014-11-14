@@ -16,6 +16,12 @@ namespace MonoHaven.Utils
 				action(arg);
 		}
 
+		public static void Raise<T, U>(this Action<T, U> action, T arg1, U arg2)
+		{
+			if (action != null)
+				action(arg1, arg2);
+		}
+
 		public static void Raise(this EventHandler handler, object sender, EventArgs args)
 		{
 			if (handler != null)

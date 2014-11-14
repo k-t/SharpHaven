@@ -2,7 +2,12 @@
 {
 	public class GameState
 	{
-		private readonly Map map = new Map();
+		private readonly Map map;
+
+		public GameState(GameSession session)
+		{
+			map = new Map(session);
+		}
 		
 		public Map Map
 		{

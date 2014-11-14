@@ -67,6 +67,8 @@
     <Compile Include="Constants.cs" />
     <Compile Include="Cursors.cs" />
     <Compile Include="FrameCounter.cs" />
+    <Compile Include="Game\IMapDataProvider.cs" />
+    <Compile Include="Game\MapData.cs" />
     <Compile Include="Graphics\Avatar.cs" />
     <Compile Include="Game\GameSession.cs" />
     <Compile Include="Graphics\TextAlign.cs" />

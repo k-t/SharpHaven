@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using MonoHaven.Network;
 using MonoHaven.Resources;
 using MonoHaven.UI;
-using MonoHaven.UI.Remote;
+using MonoHaven.Utils;
 using NLog;
 
 namespace MonoHaven.Game
 {
-	public class GameSession
+	public class GameSession : IMapDataProvider
 	{
 		#region Constants
 
@@ -40,7 +40,7 @@ namespace MonoHaven.Game
 			connection = new Connection(connSettings);
 			connection.MessageReceived += OnMessageReceived;
 			connection.Closed += OnConnectionClosed;
-			state = new GameState();
+			state = new GameState(this);
 			screen = new GameScreen(this);
 			screen.Closed += OnScreenClosed;
 			resources = new Dictionary<int, Resource>();
@@ -171,7 +171,8 @@ namespace MonoHaven.Game
 							var id = msg.ReadByte();
 							var name = msg.ReadString();
 							var version = msg.ReadUint16();
-							state.Map.SetTileset(id, App.Instance.Resources.GetTileset(name));
+							var tileset = App.Instance.Resources.GetTileset(name);
+							TilesetAvailable.Raise(id, tileset);
 						}
 					});
 					break;
@@ -182,5 +183,16 @@ namespace MonoHaven.Game
 					throw new Exception("Unknown rmsg type: " + msg.MessageType);
 			}
 		}
+
+		#region IMapDataProvider Implementation
+
+		public void RequestTiles(int gx, int gy)
+		{
+		}
+
+		public event Action<MapData> DataAvailable;
+		public event Action<byte, Tileset> TilesetAvailable;
+
+		#endregion
 	}
 }

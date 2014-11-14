@@ -10,54 +10,25 @@ namespace MonoHaven.Game
 {
 	public class Map
 	{
+		private readonly IMapDataProvider provider;
 		private readonly Tileset[] tilesets = new Tileset[256];
 		private readonly TreeDictionary<Point, MapGrid> grids;
-		private readonly C5Random rng;
+		private readonly C5Random random;
 		private readonly List<Tuple<Point, TextureRegion>> flavorObjects = new List<Tuple<Point, TextureRegion>>();
 
-		public Map()
+		public Map(IMapDataProvider provider)
 		{
 			grids = new TreeDictionary<Point, MapGrid>(new PointComparer());
-			rng = new C5Random(RandomUtils.GetSeed());
+			random = new C5Random(RandomUtils.GetSeed());
+
+			this.provider = provider;
+			this.provider.TilesetAvailable += AddTileset;
+			this.provider.DataAvailable += AddGrid;
 		}
 
 		public IEnumerable<Tuple<Point, TextureRegion>> FlavorObjects
 		{
 			get { return flavorObjects; }
-		}
-
-		public void AddGrid(int gx, int gy, byte[] tiles)
-		{
-			var p = new Point(gx, gy);
-			var mapTiles = new MapTile[tiles.Length];
-			for (int i = 0; i < tiles.Length; i++)
-			{
-				var tileset = tilesets[tiles[i]];
-				if (tileset == null)
-					throw new Exception(string.Format("Unknown tileset ({0})", tiles[i]));
-				mapTiles[i] = new MapTile(this, GetAbsoluteTileCoord(p, i), tiles[i], tileset.GroundTiles.PickRandom(rng));
-			}
-			var grid = new MapGrid(p, mapTiles);
-			grids[p] = grid;
-
-			// generate flavor
-			int ox = gx * Constants.GridWidth;
-			int oy = gy * Constants.GridHeight;
-			for (int y = 0; y < Constants.GridHeight; y++)
-				for (int x = 0; x < Constants.GridWidth; x++)
-				{
-					var set = GetTileset(grid[x, y].Type);
-					if (set.FlavorDensity != 0 && set.FlavorObjects.Count > 0)
-					{
-						if (rng.Next(set.FlavorDensity) == 0)
-						{
-							var fo = set.FlavorObjects.PickRandom(rng);
-							flavorObjects.Add(Tuple.Create(new Point(
-								(x + ox) * Constants.TileWidth,
-								(y + oy) * Constants.TileHeight), fo));
-						}
-					}
-				}
 		}
 
 		public MapTile GetTile(int tx, int ty)
@@ -77,16 +48,51 @@ namespace MonoHaven.Game
 			return tilesets[tileType];
 		}
 
-		public void SetTileset(byte tileType, Tileset tileset)
-		{
-			tilesets[tileType] = tileset;
-		}
-
 		private MapGrid GetGrid(int tx, int ty)
 		{
 			var gc = new Point(tx.Div(Constants.GridWidth), ty.Div(Constants.GridHeight));
 			MapGrid grid;
 			return grids.Find(ref gc, out grid) ? grid : null;
+		}
+
+		private void AddGrid(MapData data)
+		{
+			var gp = data.Grid;
+			var tiles = new MapTile[data.Tiles.Length];
+			for (int i = 0; i < data.Tiles.Length; i++)
+			{
+				var tile = data.Tiles[i];
+				var tileset = tilesets[tile];
+				if (tileset == null)
+					throw new Exception(string.Format("Unknown tileset ({0})", tile));
+				tiles[i] = new MapTile(this, GetAbsoluteTileCoord(gp, i), tile, tileset.GroundTiles.PickRandom(random));
+			}
+			var grid = new MapGrid(gp, tiles);
+			grids[gp] = grid;
+
+			// generate flavor
+			int ox = gp.X * Constants.GridWidth;
+			int oy = gp.Y * Constants.GridHeight;
+			for (int y = 0; y < Constants.GridHeight; y++)
+				for (int x = 0; x < Constants.GridWidth; x++)
+				{
+					var set = GetTileset(grid[x, y].Type);
+					if (set.FlavorDensity != 0 && set.FlavorObjects.Count > 0)
+					{
+						if (random.Next(set.FlavorDensity) == 0)
+						{
+							var fo = set.FlavorObjects.PickRandom(random);
+							flavorObjects.Add(Tuple.Create(new Point(
+								(x + ox) * Constants.TileWidth,
+								(y + oy) * Constants.TileHeight), fo));
+						}
+					}
+				}
+		}
+
+		private void AddTileset(byte id, Tileset tileset)
+		{
+			tilesets[id] = tileset;
 		}
 
 		private static Point GetAbsoluteTileCoord(Point gp, int tileIndex)
