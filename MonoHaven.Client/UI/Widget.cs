@@ -9,10 +9,9 @@ using OpenTK.Input;
 
 namespace MonoHaven.UI
 {
-	public abstract class Widget : IDisposable, IInputListener
+	public abstract class Widget : TreeNode<Widget>, IDisposable, IInputListener
 	{
 		private readonly IWidgetHost host;
-		private readonly TreeNode<Widget> node;
 		private Rectangle bounds;
 		private bool isDisposed;
 		private bool isFocused;
@@ -20,7 +19,6 @@ namespace MonoHaven.UI
 
 		protected Widget(IWidgetHost host)
 		{
-			this.node = new TreeNode<Widget>(this);
 			this.host = host;
 			Visible = true;
 		}
@@ -38,22 +36,12 @@ namespace MonoHaven.UI
 			get { return host; }
 		}
 
-		protected Widget Parent
-		{
-			get { return node.Parent != null ? node.Parent.Value : null; }
-		}
-
-		protected IEnumerable<Widget> Children
-		{
-			get { return node.Children.Select(x => x.Value); }
-		}
-
 		private IEnumerable<Widget> ReversedChildren
 		{
 			get
 			{
-				for (var child = node.LastChild; child != null; child = child.Previous)
-					yield return child.Value;
+				for (var child = LastChild; child != null; child = child.Previous)
+					yield return child;
 			}
 		}
 
@@ -148,11 +136,6 @@ namespace MonoHaven.UI
 					return widget.GetChildAt(p) ?? widget;
 			}
 			return null;
-		}
-
-		public void Remove()
-		{
-			node.Remove();
 		}
 
 		public void Dispose()
@@ -263,11 +246,6 @@ namespace MonoHaven.UI
 		}
 
 		#endregion
-
-		private void AddChild(Widget child)
-		{
-			node.AddChild(child.node);
-		}
 
 		#region IInputListener implementation
 

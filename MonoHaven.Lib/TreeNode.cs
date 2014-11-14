@@ -1,56 +1,42 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 namespace MonoHaven
 {
-	public class TreeNode<T>
+	public class TreeNode<T> where T : TreeNode<T>
 	{
-		private static readonly Func<T, T, bool> comparer = EqualityComparer<T>.Default.Equals;
+		private T parent;
+		private T prev;
+		private T next;
+		private T firstChild;
+		private T lastChild;
 
-		private readonly T value;
-
-		private TreeNode<T> parent;
-		private TreeNode<T> prev;
-		private TreeNode<T> next;
-		private TreeNode<T> firstChild;
-		private TreeNode<T> lastChild;
-
-		public TreeNode()
-		{
-		}
-
-		public TreeNode(T value)
-		{
-			this.value = value;
-		}
-
-		public TreeNode<T> Parent
+		public T Parent
 		{
 			get { return parent; }
 		}
 
-		public TreeNode<T> Next
+		public T Next
 		{
 			get { return next; }
 		}
 
-		public TreeNode<T> Previous
+		public T Previous
 		{
 			get { return prev; }
 		}
 
-		public TreeNode<T> FirstChild
+		public T FirstChild
 		{
 			get { return firstChild; }
 		}
 
-		public TreeNode<T> LastChild
+		public T LastChild
 		{
 			get { return lastChild; }
 		}
 
-		public IEnumerable<TreeNode<T>> Children
+		public IEnumerable<T> Children
 		{
 			get
 			{
@@ -59,11 +45,11 @@ namespace MonoHaven
 			}
 		}
 
-		public IEnumerable<TreeNode<T>> Descendants
+		public IEnumerable<T> Descendants
 		{
 			get
 			{
-				var stack = new Stack<TreeNode<T>>(Children);
+				var stack = new Stack<T>(Children);
 				while (stack.Any())
 				{
 					var node = stack.Pop();
@@ -74,19 +60,14 @@ namespace MonoHaven
 			}
 		}
 
-		public T Value
-		{
-			get { return value; }
-		}
-
 		/// <summary>
 		/// Adds specified node as a child to this node.
 		/// </summary>
-		public TreeNode<T> AddChild(TreeNode<T> node)
+		public T AddChild(T node)
 		{
 			node.Remove();
 
-			node.parent = this;
+			node.parent = (T)this;
 
 			if (this.firstChild == null)
 				this.firstChild = node;
@@ -100,23 +81,23 @@ namespace MonoHaven
 			else
 				this.lastChild = node;
 
-			return this;
+			return (T)this;
 		}
 
 		/// <summary>
 		/// Adds range of children nodes to this node.
 		/// </summary>
-		public TreeNode<T> AddChildren(IEnumerable<TreeNode<T>> children)
+		public T AddChildren(IEnumerable<T> children)
 		{
 			foreach (var child in children)
 				AddChild(child);
-			return this;
+			return (T)this;
 		}
 
 		/// <summary>
 		/// Adds range of children nodes to this node.
 		/// </summary>
-		public TreeNode<T> AddChildren(params TreeNode<T>[] children)
+		public T AddChildren(params T[] children)
 		{
 			return AddChildren(children.AsEnumerable());
 		}
@@ -136,11 +117,6 @@ namespace MonoHaven
 			if (next != null) next.prev = prev;
 			if (prev != null) prev.next = next;
 			parent = null;
-		}
-
-		public TreeNode<T> FindChild(T value)
-		{
-			return Children.FirstOrDefault(x => comparer(x.Value, value));
 		}
 	}
 }

@@ -4,7 +4,7 @@ using NLog;
 
 namespace MonoHaven.UI.Remote
 {
-	public abstract class ServerWidget : IDisposable
+	public abstract class ServerWidget : TreeNode<ServerWidget>, IDisposable
 	{
 		private readonly static Logger log = LogManager.GetCurrentClassLogger();
 
@@ -22,6 +22,7 @@ namespace MonoHaven.UI.Remote
 		protected ServerWidget(ushort id, ServerWidget parent, Widget widget)
 			: this(id, parent.Session, widget)
 		{
+			parent.AddChild(this);
 		}
 
 		public ushort Id

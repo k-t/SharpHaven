@@ -9,12 +9,12 @@ namespace MonoHaven.Tests
 		[Test]
 		public void AddChildWorks()
 		{
-			TreeNode<int> n, n1, n2, n3;
+			GenericTreeNode<int> n, n1, n2, n3;
 
-			n = new TreeNode<int>(0);
-			n.AddChild(n1 = new TreeNode<int>(1));
-			n.AddChild(n2 = new TreeNode<int>(2));
-			n.AddChild(n3 = new TreeNode<int>(3));
+			n = new GenericTreeNode<int>(0);
+			n.AddChild(n1 = new GenericTreeNode<int>(1));
+			n.AddChild(n2 = new GenericTreeNode<int>(2));
+			n.AddChild(n3 = new GenericTreeNode<int>(3));
 
 			Assert.That(n.Children, Is.EquivalentTo(new [] { n2, n1, n3 }),
 				"Invalid children collection");
@@ -27,10 +27,10 @@ namespace MonoHaven.Tests
 		[Test]
 		public void AddChildReturnsThis()
 		{
-			TreeNode<int> n1, n2, n3;
+			GenericTreeNode<int> n1, n2, n3;
 
-			n1 = new TreeNode<int>(0);
-			n2 = new TreeNode<int>(1);
+			n1 = new GenericTreeNode<int>(0);
+			n2 = new GenericTreeNode<int>(1);
 			n3 = n1.AddChild(n2);
 
 			Assert.AreSame(n1, n3);
@@ -39,7 +39,7 @@ namespace MonoHaven.Tests
 		[Test]
 		public void AddChildrenWorks()
 		{
-			var node = new TreeNode<int>(0);
+			var node = new GenericTreeNode<int>(0);
 			var children = GenerateNodes(3);
 
 			node.AddChildren(children);
@@ -55,7 +55,7 @@ namespace MonoHaven.Tests
 		[Test]
 		public void AddChildrenReturnsThis()
 		{
-			var n1 = new TreeNode<int>(0);
+			var n1 = new GenericTreeNode<int>(0);
 			var children = GenerateNodes(3);
 			var n2 = n1.AddChildren(children);
 
@@ -65,13 +65,13 @@ namespace MonoHaven.Tests
 		[Test]
 		public void RemoveChildWorks()
 		{
-			TreeNode<int> n, n1, n2, n3, n4;
+			GenericTreeNode<int> n, n1, n2, n3, n4;
 
-			n = new TreeNode<int>(0);
-			n.AddChild(n1 = new TreeNode<int>(1));
-			n.AddChild(n2 = new TreeNode<int>(2));
-			n.AddChild(n3 = new TreeNode<int>(3));
-			n.AddChild(n4 = new TreeNode<int>(4));
+			n = new GenericTreeNode<int>(0);
+			n.AddChild(n1 = new GenericTreeNode<int>(1));
+			n.AddChild(n2 = new GenericTreeNode<int>(2));
+			n.AddChild(n3 = new GenericTreeNode<int>(3));
+			n.AddChild(n4 = new GenericTreeNode<int>(4));
 			n2.Remove();
 
 			Assert.IsNull(n2.Parent, "Parent node is not set to null");
@@ -81,23 +81,9 @@ namespace MonoHaven.Tests
 		}
 
 		[Test]
-		public void FindWorks()
-		{
-			TreeNode<int> n, n1, n2, n3, n4;
-
-			n = new TreeNode<int>(0);
-			n.AddChild(n1 = new TreeNode<int>(1));
-			n.AddChild(n2 = new TreeNode<int>(2));
-			n.AddChild(n3 = new TreeNode<int>(3));
-			n.AddChild(n4 = new TreeNode<int>(2));
-
-			Assert.AreEqual(n2, n.FindChild(2));
-		}
-
-		[Test]
 		public void DescendantsWorks()
 		{
-			var node = new TreeNode<int>(0);
+			var node = new GenericTreeNode<int>(0);
 			var nodes = GenerateNodes(15);
 
 			node.AddChildren(
@@ -125,11 +111,11 @@ namespace MonoHaven.Tests
 
 		#region Helpers
 
-		private static TreeNode<int>[] GenerateNodes(int count)
+		private static GenericTreeNode<int>[] GenerateNodes(int count)
 		{
-			var children = new TreeNode<int>[count];
+			var children = new GenericTreeNode<int>[count];
 			for (int i = 0; i < count; i++)
-				children[i] = new TreeNode<int>(i + 1);
+				children[i] = new GenericTreeNode<int>(i + 1);
 			return children;
 		}
 
