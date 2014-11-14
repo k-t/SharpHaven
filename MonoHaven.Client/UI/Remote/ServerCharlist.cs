@@ -7,7 +7,7 @@ namespace MonoHaven.UI.Remote
 	{
 		public static ServerWidget Create(ushort id, ServerWidget parent, object[] args)
 		{
-			int height = args.Length > 0 ? (int)args[0] : 0;
+			var height = (int)args[0];
 			var widget = new Charlist(parent.Widget, height);
 			return new ServerCharlist(id, parent, widget);
 		}

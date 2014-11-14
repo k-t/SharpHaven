@@ -8,6 +8,7 @@ namespace MonoHaven.UI.Remote
 		{
 			var size = (Point)args[0];
 			var caption = args.Length > 1 ? (string)args[1] : "";
+
 			var window = new Window(parent.Widget, caption);
 			window.SetSize(size.X, size.Y);
 			return new ServerWindow(id, parent, window);

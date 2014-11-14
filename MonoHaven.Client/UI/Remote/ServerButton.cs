@@ -4,8 +4,11 @@
 	{
 		public static ServerWidget Create(ushort id, ServerWidget parent, object[] args)
 		{
-			var button = new Button(parent.Widget, (int)args[0]);
-			button.Text = (string)args[1];
+			var width = (int)args[0];
+			var text = (string)args[1];
+
+			var button = new Button(parent.Widget, width);
+			button.Text = text;
 			return new ServerButton(id, parent, button);
 		}
 

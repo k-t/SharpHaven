@@ -6,12 +6,9 @@ namespace MonoHaven.UI.Remote
 	{
 		public static ServerWidget Create(ushort id, ServerWidget parent, object[] args)
 		{
+			var size = (Point)args[0];
 			var widget = new Container(parent.Widget);
-			if (args.Length > 0)
-			{
-				var size = (Point)args[0];
-				widget.SetSize(size.X, size.Y);
-			}
+			widget.SetSize(size.X, size.Y);
 			return new ServerContainer(id, parent, widget);
 		}
 

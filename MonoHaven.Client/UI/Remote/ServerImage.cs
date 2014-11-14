@@ -4,12 +4,11 @@
 	{
 		public static ServerWidget Create(ushort id, ServerWidget parent, object[] args)
 		{
+			var resName = (string)args[0];
+
 			var widget = new Image(parent.Widget);
-			if (args.Length > 0)
-			{
-				widget.Drawable = App.Instance.Resources.GetTexture((string)args[0]);
-				widget.SetSize(widget.Drawable.Width, widget.Drawable.Height);
-			}
+			widget.Drawable = App.Instance.Resources.GetTexture(resName);
+			widget.SetSize(widget.Drawable.Width, widget.Drawable.Height);
 			return new ServerImage(id, parent, widget);
 		}
 
