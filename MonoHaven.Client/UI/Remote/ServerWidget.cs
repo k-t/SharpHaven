@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using MonoHaven.Game;
 using NLog;
 
@@ -10,34 +9,24 @@ namespace MonoHaven.UI.Remote
 		private readonly static Logger log = LogManager.GetCurrentClassLogger();
 
 		private readonly ushort id;
-		private readonly ServerWidget parent;
-		private readonly List<ServerWidget> children;
 		private readonly GameSession session;
 		private readonly Widget widget;
 
-		public ServerWidget(ushort id, GameSession session, Widget widget)
+		protected ServerWidget(ushort id, GameSession session, Widget widget)
 		{
 			this.id = id;
 			this.widget = widget;
 			this.session = session;
-			this.children = new List<ServerWidget>();
 		}
 
-		public ServerWidget(ushort id, ServerWidget parent, Widget widget)
+		protected ServerWidget(ushort id, ServerWidget parent, Widget widget)
 			: this(id, parent.Session, widget)
 		{
-			this.parent = parent;
-			this.parent.AddChild(this);
 		}
 
 		public ushort Id
 		{
 			get { return id; }
-		}
-
-		public IEnumerable<ServerWidget> Children
-		{
-			get { return children; }
 		}
 
 		public GameSession Session
@@ -68,16 +57,10 @@ namespace MonoHaven.UI.Remote
 			session.SendWidgetMessage(id, message, args);
 		}
 
-		private void AddChild(ServerWidget child)
-		{
-			children.Add(child);
-		}
-
 		public void Dispose()
 		{
 			widget.Remove();
 			widget.Dispose();
-			parent.children.Remove(this);
 		}
 	}
 }
