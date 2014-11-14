@@ -4,22 +4,26 @@ using System.Linq;
 
 namespace MonoHaven
 {
-	public class GenericTreeNode<T> : TreeNode<GenericTreeNode<T>>
+	public class ValueTreeNode<T> : TreeNode<ValueTreeNode<T>>
 	{
 		private static readonly Func<T, T, bool> comparer = EqualityComparer<T>.Default.Equals;
 
-		public GenericTreeNode() : this(default(T))
+		public ValueTreeNode() : this(default(T))
 		{
 		}
 
-		public GenericTreeNode(T value)
+		public ValueTreeNode(T value)
 		{
 			Value = value;
 		}
 
-		public T Value { get; set; }
+		public T Value
+		{
+			get;
+			set;
+		}
 
-		public GenericTreeNode<T> Find(T value)
+		public ValueTreeNode<T> Find(T value)
 		{
 			return Children.FirstOrDefault(x => comparer(x.Value, value));
 		}

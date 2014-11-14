@@ -51,7 +51,7 @@
     <Reference Include="System.Drawing" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="GenericTreeNode.cs" />
+    <Compile Include="ValueTreeNode.cs" />
     <Compile Include="TreeNode.cs" />
     <Compile Include="Utils\EventExtensions.cs" />
     <Compile Include="Network\ConnectionError.cs" />
