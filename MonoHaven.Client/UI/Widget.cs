@@ -12,11 +12,7 @@ namespace MonoHaven.UI
 	public abstract class Widget : IDisposable, IInputListener
 	{
 		private readonly IWidgetHost host;
-		private Widget parent;
-		private Widget next;
-		private Widget previous;
-		private Widget firstChild;
-		private Widget lastChild;
+		private readonly TreeNode<Widget> node;
 		private Rectangle bounds;
 		private bool isDisposed;
 		private bool isFocused;
@@ -24,6 +20,7 @@ namespace MonoHaven.UI
 
 		protected Widget(IWidgetHost host)
 		{
+			this.node = new TreeNode<Widget>(this);
 			this.host = host;
 			Visible = true;
 		}
@@ -43,24 +40,20 @@ namespace MonoHaven.UI
 
 		protected Widget Parent
 		{
-			get { return parent; }
+			get { return node.Parent != null ? node.Parent.Value : null; }
 		}
 
 		protected IEnumerable<Widget> Children
 		{
-			get
-			{
-				for (var child = firstChild; child != null; child = child.next)
-					yield return child;
-			}
+			get { return node.Children.Select(x => x.Value); }
 		}
 
 		private IEnumerable<Widget> ReversedChildren
 		{
 			get
 			{
-				for (var child = lastChild; child != null; child = child.previous)
-					yield return child;
+				for (var child = node.LastChild; child != null; child = child.Previous)
+					yield return child.Value;
 			}
 		}
 
@@ -159,23 +152,7 @@ namespace MonoHaven.UI
 
 		public void Remove()
 		{
-			if (Parent != null)
-				Parent.Remove(this);
-		}
-
-		public void Remove(Widget widget)
-		{
-			if (this.firstChild == widget)
-				this.firstChild = widget.next;
-			if (this.lastChild == widget)
-				this.lastChild = widget.previous;
-
-			if (widget.next != null)
-				widget.next.previous = widget.previous;
-			if (widget.previous != null)
-				widget.previous.next = widget.next;
-
-			widget.parent = null;
+			node.Remove();
 		}
 
 		public void Dispose()
@@ -228,7 +205,7 @@ namespace MonoHaven.UI
 
 		protected Point PointToWidget(int x, int y)
 		{
-			for (var widget = this; widget != null; widget = widget.parent)
+			for (var widget = this; widget != null; widget = widget.Parent)
 			{
 				x -= widget.X;
 				y -= widget.Y;
@@ -289,22 +266,7 @@ namespace MonoHaven.UI
 
 		private void AddChild(Widget child)
 		{
-			if (child.parent != null)
-				child.parent.Remove(child);
-
-			child.parent = this;
-
-			if (this.firstChild == null)
-				this.firstChild = child;
-
-			if (this.lastChild != null)
-			{
-				child.previous = this.lastChild;
-				this.lastChild.next = child;
-				this.lastChild = child;
-			}
-			else
-				this.lastChild = child;
+			node.AddChild(child.node);
 		}
 
 		#region IInputListener implementation
@@ -332,23 +294,23 @@ namespace MonoHaven.UI
 		public void KeyDown(KeyEventArgs e)
 		{
 			OnKeyDown(e);
-			if (!e.Handled && parent != null)
-				parent.KeyDown(e);
+			if (!e.Handled && Parent != null)
+				Parent.KeyDown(e);
 
 		}
 
 		public void KeyUp(KeyEventArgs e)
 		{
 			OnKeyUp(e);
-			if (!e.Handled && parent != null)
-				parent.KeyUp(e);
+			if (!e.Handled && Parent != null)
+				Parent.KeyUp(e);
 		}
 
 		public void KeyPress(KeyPressEventArgs e)
 		{
 			OnKeyPress(e);
-			if (!e.Handled && parent != null)
-				parent.KeyPress(e);
+			if (!e.Handled && Parent != null)
+				Parent.KeyPress(e);
 		}
 
 		#endregion

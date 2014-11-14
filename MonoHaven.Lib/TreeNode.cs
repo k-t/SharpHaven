@@ -30,6 +30,26 @@ namespace MonoHaven
 			get { return parent; }
 		}
 
+		public TreeNode<T> Next
+		{
+			get { return next; }
+		}
+
+		public TreeNode<T> Previous
+		{
+			get { return prev; }
+		}
+
+		public TreeNode<T> FirstChild
+		{
+			get { return firstChild; }
+		}
+
+		public TreeNode<T> LastChild
+		{
+			get { return lastChild; }
+		}
+
 		public IEnumerable<TreeNode<T>> Children
 		{
 			get
