@@ -1,6 +1,7 @@
 ﻿using System.Drawing;
 using MonoHaven.Game;
 using MonoHaven.Graphics;
+using MonoHaven.Utils;
 using OpenTK.Input;
 
 namespace MonoHaven.UI
@@ -9,20 +10,28 @@ namespace MonoHaven.UI
 	{
 		private readonly GameState gstate;
 
-		private Point cameraOffset = new Point(0, 0);
+		private Point worldPosition;
+		private Point cameraOffset;
 		private bool dragging;
 
-		public MapView(Widget parent, GameState gstate)
+		public MapView(Widget parent, GameState gstate, Point worldPosition, int playerId)
 			: base(parent)
 		{
 			this.gstate = gstate;
-			this.cameraOffset = TileToScreen(new Point(-329200, 63600));
+			this.worldPosition = worldPosition;
+			this.cameraOffset = WorldToScreen(worldPosition);
+			RequestMaps();
 		}
 
 		protected override void OnDraw(DrawingContext dc)
 		{
 			DrawTiles(dc);
 			DrawFlavor(dc);
+		}
+
+		private void RequestMaps()
+		{
+			this.gstate.Map.Request(worldPosition.X.Div(100 * 11), worldPosition.Y.Div(100 * 11));
 		}
 
 		private void DrawTiles(DrawingContext g)

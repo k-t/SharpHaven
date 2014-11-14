@@ -5,7 +5,7 @@ namespace MonoHaven.Game
 {
 	public interface IMapDataProvider
 	{
-		void RequestTiles(int gx, int gy);
+		void RequestData(int gx, int gy);
 		event Action<MapData> DataAvailable;
 		event Action<byte, Tileset> TilesetAvailable;
 	}

@@ -48,6 +48,11 @@ namespace MonoHaven.Game
 			return tilesets[tileType];
 		}
 
+		public void Request(int gx, int gy)
+		{
+			provider.RequestData(gx, gy);
+		}
+
 		private MapGrid GetGrid(int tx, int ty)
 		{
 			var gc = new Point(tx.Div(Constants.GridWidth), ty.Div(Constants.GridHeight));

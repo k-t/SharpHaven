@@ -186,8 +186,12 @@ namespace MonoHaven.Game
 
 		#region IMapDataProvider Implementation
 
-		public void RequestTiles(int gx, int gy)
+		public void RequestData(int gx, int gy)
 		{
+			var dummy = new byte[100 * 100];
+			for (int i = 0; i < dummy.Length; i++)
+				dummy[i] = 8;
+			DataAvailable.Raise(new MapData(gx, gy, new byte[100 * 100]));
 		}
 
 		public event Action<MapData> DataAvailable;
