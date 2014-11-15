@@ -9,7 +9,7 @@ using OpenTK.Input;
 
 namespace MonoHaven.UI
 {
-	public abstract class Widget : TreeNode<Widget>, IDisposable, IInputListener
+	public abstract class Widget : TreeNode<Widget>, IDisposable
 	{
 		private readonly IWidgetHost host;
 		private Rectangle bounds;

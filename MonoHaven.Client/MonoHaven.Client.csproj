@@ -111,7 +111,6 @@
     <Compile Include="UI\Button.cs" />
     <Compile Include="UI\Charlist.cs" />
     <Compile Include="UI\EmptyScreen.cs" />
-    <Compile Include="UI\IInputListener.cs" />
     <Compile Include="UI\IScreen.cs" />
     <Compile Include="UI\IScreenHost.cs" />
     <Compile Include="UI\IWidgetHost.cs" />

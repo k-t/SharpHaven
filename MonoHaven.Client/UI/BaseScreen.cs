@@ -102,11 +102,7 @@ namespace MonoHaven.UI
 			this.OnDraw(dc);
 		}
 
-		#endregion
-
-		#region IInputListener Implementation
-
-		void IInputListener.MouseButtonDown(MouseButtonEventArgs e)
+		void IScreen.MouseButtonDown(MouseButtonEventArgs e)
 		{
 			var widget = mouseFocus ?? RootWidget.GetChildAt(e.Position);
 			if (widget != null)
@@ -117,18 +113,18 @@ namespace MonoHaven.UI
 			}
 		}
 
-		void IInputListener.MouseButtonUp(MouseButtonEventArgs e)
+		void IScreen.MouseButtonUp(MouseButtonEventArgs e)
 		{
 			var widget = mouseFocus ?? RootWidget.GetChildAt(e.Position);
 			if (widget != null)
 				widget.MouseButtonUp(e);
 		}
 
-		void IInputListener.MouseMove(MouseMoveEventArgs e)
+		void IScreen.MouseMove(MouseMoveEventArgs e)
 		{
 			if (mouseFocus != null)
 				// don't hover widgets mouse is grabbed
-				((IInputListener)mouseFocus).MouseMove(e);
+				mouseFocus.MouseMove(e);
 			else
 			{
 				var widget = mouseFocus ?? RootWidget.GetChildAt(e.Position);
@@ -138,28 +134,28 @@ namespace MonoHaven.UI
 			}
 		}
 
-		void IInputListener.MouseWheel(MouseWheelEventArgs e)
+		void IScreen.MouseWheel(MouseWheelEventArgs e)
 		{
 			var widget = mouseFocus ?? hoveredWidget;
 			if (widget != null)
 				widget.MouseWheel(e);
 		}
 
-		void IInputListener.KeyDown(KeyEventArgs e)
+		void IScreen.KeyDown(KeyEventArgs e)
 		{
 			var widget = keyboardFocus;
 			if (widget != null) widget.KeyDown(e);
 			if (!e.Handled) OnKeyDown(e);
 		}
 
-		void IInputListener.KeyUp(KeyEventArgs e)
+		void IScreen.KeyUp(KeyEventArgs e)
 		{
 			var widget = keyboardFocus;
 			if (widget != null) widget.KeyUp(e);
 			if (!e.Handled) OnKeyUp(e);
 		}
 
-		void IInputListener.KeyPress(KeyPressEventArgs e)
+		void IScreen.KeyPress(KeyPressEventArgs e)
 		{
 			var widget = keyboardFocus;
 			if (widget != null) widget.KeyPress(e);
