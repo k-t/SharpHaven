@@ -81,35 +81,26 @@ namespace MonoHaven.Game
 			Finish();
 		}
 
-		private void OnMessageReceived(MessageReader msg)
+		private void OnMessageReceived(MessageReader messageReader)
 		{
-			switch (msg.MessageType)
+			switch (messageReader.MessageType)
 			{
 				case RMSG_NEWWDG:
-					App.Instance.QueueOnMainThread(() =>
-					{
-						var id = msg.ReadUint16();
-						var type = msg.ReadString();
-						var location = msg.ReadCoord();
-						var parent = msg.ReadUint16();
-						var args = msg.ReadList();
-						WidgetCreated.Raise(new WidgetCreateMessage(id, parent, type, location, args));
+					App.Instance.QueueOnMainThread(() => {
+						var msg = WidgetCreateMessage.ReadFrom(messageReader);
+						WidgetCreated.Raise(msg);
 					});
 					break;
 				case RMSG_WDGMSG:
-					App.Instance.QueueOnMainThread(() =>
-					{
-						var id = msg.ReadUint16();
-						var name = msg.ReadString();
-						var args = msg.ReadList();
-						WidgetMessage.Raise(new WidgetMessage(id, name, args));
+					App.Instance.QueueOnMainThread(() => {
+						var msg = Messages.WidgetMessage.ReadFrom(messageReader);
+						WidgetMessage.Raise(msg);
 					});
 					break;
 				case RMSG_DSTWDG:
-					App.Instance.QueueOnMainThread(() =>
-					{
-						var id = msg.ReadUint16();
-						WidgetDestroyed.Raise(new WidgetDestroyMessage(id));
+					App.Instance.QueueOnMainThread(() => {
+						var msg = WidgetDestroyMessage.ReadFrom(messageReader);
+						WidgetDestroyed.Raise(msg);
 					});
 					break;
 				case RMSG_MAPIV:
@@ -124,9 +115,9 @@ namespace MonoHaven.Game
 				case RMSG_RESID:
 					App.Instance.QueueOnMainThread(() =>
 					{
-						var id = msg.ReadUint16();
-						var name = msg.ReadString();
-						var ver = msg.ReadUint16();
+						var id = messageReader.ReadUint16();
+						var name = messageReader.ReadString();
+						var ver = messageReader.ReadUint16();
 						LoadResource(id, name, ver);
 					});
 					break;
@@ -145,11 +136,11 @@ namespace MonoHaven.Game
 				case RMSG_TILES:
 					App.Instance.QueueOnMainThread(() =>
 					{
-						while (!msg.IsEom)
+						while (!messageReader.IsEom)
 						{
-							var id = msg.ReadByte();
-							var name = msg.ReadString();
-							var version = msg.ReadUint16();
+							var id = messageReader.ReadByte();
+							var name = messageReader.ReadString();
+							var version = messageReader.ReadUint16();
 							var tileset = App.Instance.Resources.GetTileset(name);
 							TilesetAvailable.Raise(id, tileset);
 						}
@@ -159,7 +150,7 @@ namespace MonoHaven.Game
 					log.Info("RMSG_BUFF");
 					break;
 				default:
-					throw new Exception("Unknown rmsg type: " + msg.MessageType);
+					throw new Exception("Unknown rmsg type: " + messageReader.MessageType);
 			}
 		}
 

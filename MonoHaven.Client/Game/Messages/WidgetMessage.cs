@@ -1,4 +1,6 @@
-﻿namespace MonoHaven.Game.Messages
+﻿using MonoHaven.Network;
+
+namespace MonoHaven.Game.Messages
 {
 	public class WidgetMessage
 	{
@@ -25,6 +27,15 @@
 		{
 			get;
 			private set;
+		}
+
+		public static WidgetMessage ReadFrom(MessageReader reader)
+		{
+			return new WidgetMessage(
+				id: reader.ReadUint16(),
+				name: reader.ReadString(),
+				args: reader.ReadList()
+			);
 		}
 	}
 }

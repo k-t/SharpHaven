@@ -8,6 +8,13 @@ namespace MonoHaven.Game.Messages
 {
 	public class MapDataMessage
 	{
+		public MapDataMessage(Point grid, string minimapName, byte[] tiles)
+		{
+			Grid = grid;
+			MinimapName = minimapName;
+			Tiles = tiles;
+		}
+
 		public Point Grid
 		{
 			get;
@@ -26,28 +33,29 @@ namespace MonoHaven.Game.Messages
 			private set;
 		}
 
-		public static MapDataMessage ReadFrom(MessageReader msg)
+		public static MapDataMessage ReadFrom(MessageReader reader)
 		{
-			var result = new MapDataMessage();
-			result.Grid = msg.ReadCoord();
-			result.MinimapName = msg.ReadString();
-			result.Tiles = new byte[Constants.GridWidth * Constants.GridHeight];
+			var msg = new MapDataMessage(
+				grid: reader.ReadCoord(),
+				minimapName: reader.ReadString(),
+				tiles: new byte[Constants.GridWidth * Constants.GridHeight]
+			);
 
 			var pfl = new byte[256];
 			while (true)
 			{
-				int pidx = msg.ReadByte();
+				int pidx = reader.ReadByte();
 				if (pidx == 255)
 					break;
-				pfl[pidx] = msg.ReadByte();
+				pfl[pidx] = reader.ReadByte();
 			}
 
-			var blob = Unpack(msg.Buffer, msg.Position, msg.Length - msg.Position);
-			Array.Copy(blob, result.Tiles, result.Tiles.Length);
+			var blob = Unpack(reader.Buffer, reader.Position, reader.Length - reader.Position);
+			Array.Copy(blob, msg.Tiles, msg.Tiles.Length);
 
 			// TODO: handle overlays
 
-			return result;
+			return msg;
 		}
 
 		private static byte[] Unpack(byte[] input, int offset, int length)

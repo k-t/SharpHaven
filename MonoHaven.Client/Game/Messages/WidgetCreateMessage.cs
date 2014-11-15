@@ -1,4 +1,5 @@
 ﻿using System.Drawing;
+using MonoHaven.Network;
 
 namespace MonoHaven.Game.Messages
 {
@@ -46,6 +47,17 @@ namespace MonoHaven.Game.Messages
 		{
 			get;
 			private set;
+		}
+
+		public static WidgetCreateMessage ReadFrom(MessageReader reader)
+		{
+			return new WidgetCreateMessage(
+				id: reader.ReadUint16(),
+				type: reader.ReadString(),
+				location: reader.ReadCoord(),
+				parentId: reader.ReadUint16(),
+				args: reader.ReadList()
+			);
 		}
 	}
 }
