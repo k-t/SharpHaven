@@ -45,7 +45,7 @@ namespace MonoHaven
 			ChangeScreen(loginScreen);
 
 			gameScreen.Dispose();
-			// ensure that the instance is not lingering between switches
+			// ensure that the instance is not lingering
 			gameScreen = null;
 		}
 
