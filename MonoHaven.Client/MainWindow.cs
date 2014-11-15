@@ -17,7 +17,6 @@ namespace MonoHaven
 		private const string WindowTitle = "MonoHaven";
 
 		private IScreen currentScreen;
-		private IInputListener inputListener;
 		private readonly FrameCounter frameCounter;
 		private readonly ConcurrentQueue<Action> updateQueue;
 
@@ -61,7 +60,6 @@ namespace MonoHaven
 		{
 			currentScreen.Close();
 			currentScreen = screen ?? EmptyScreen.Instance;
-			inputListener = currentScreen;
 			currentScreen.Resize(Width, Height);
 			currentScreen.Show();
 		}
@@ -133,44 +131,37 @@ namespace MonoHaven
 
 		private void HandleMouseButtonDown(object sender, MouseButtonEventArgs e)
 		{
-			if (inputListener != null)
-				inputListener.MouseButtonDown(e);
+			currentScreen.MouseButtonDown(e);
 		}
 
 		private void HandleMouseButtonUp(object sender, MouseButtonEventArgs e)
 		{
-			if (inputListener != null)
-				inputListener.MouseButtonUp(e);
+			currentScreen.MouseButtonUp(e);
 		}
 
 		private void HandleMouseMove(object sedner, MouseMoveEventArgs e)
 		{
-			if (inputListener != null)
-				inputListener.MouseMove(e);
+			currentScreen.MouseMove(e);
 		}
 
 		private void HandleMouseWheel(object sender, MouseWheelEventArgs e)
 		{
-			if (inputListener != null)
-				inputListener.MouseWheel(e);
+			currentScreen.MouseWheel(e);
 		}
 
 		private void HandleKeyDown(object sender, KeyboardKeyEventArgs e)
 		{
-			if (inputListener != null)
-				inputListener.KeyDown(new KeyEventArgs(e));
+			currentScreen.KeyDown(new KeyEventArgs(e));
 		}
 
 		private void HandleKeyUp(object sender, KeyboardKeyEventArgs e)
 		{
-			if (inputListener != null)
-				inputListener.KeyUp(new KeyEventArgs(e));
+			currentScreen.KeyUp(new KeyEventArgs(e));
 		}
 
 		private void HandleKeyPress(object sender, OpenTK.KeyPressEventArgs e)
 		{
-			if (inputListener != null)
-				inputListener.KeyPress(new UI.KeyPressEventArgs(e.KeyChar));
+			currentScreen.KeyPress(new UI.KeyPressEventArgs(e.KeyChar));
 		}
 	}
 }
