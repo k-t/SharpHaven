@@ -100,11 +100,6 @@ namespace MonoHaven.Game
 			Finish();
 		}
 
-		private void OnScreenClosed(object sender, EventArgs args)
-		{
-			Finish();
-		}
-
 		private void OnMessageReceived(MessageReader msg)
 		{
 			switch (msg.MessageType)
@@ -198,10 +193,7 @@ namespace MonoHaven.Game
 				throw new NotImplementedException("Defragmentation is not supported yet");
 
 			var mapData = MapData.FromMessage(msg);
-			App.Instance.QueueOnMainThread(() =>
-			{
-				DataAvailable.Raise(mapData);
-			});
+			App.Instance.QueueOnMainThread(() => DataAvailable.Raise(mapData));
 		}
 
 		#region IMapDataProvider Implementation
