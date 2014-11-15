@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net;
+using MonoHaven.Game.Messages;
 using MonoHaven.Network;
 using MonoHaven.Resources;
 using MonoHaven.UI;
@@ -93,7 +95,7 @@ namespace MonoHaven.Game
 						var location = msg.ReadCoord();
 						var parent = msg.ReadUint16();
 						var args = msg.ReadList();
-						screen.CreateWidget(id, type, location, parent, args);
+						WidgetCreated.Raise(new WidgetCreateMessage(id, parent, type, location, args));
 					});
 					break;
 				case RMSG_WDGMSG:
@@ -102,14 +104,14 @@ namespace MonoHaven.Game
 						var id = msg.ReadUint16();
 						var name = msg.ReadString();
 						var args = msg.ReadList();
-						screen.MessageWidget(id, name, args);
+						WidgetMessage.Raise(new WidgetMessage(id, name, args));
 					});
 					break;
 				case RMSG_DSTWDG:
 					App.Instance.QueueOnMainThread(() =>
 					{
 						var id = msg.ReadUint16();
-						screen.DestroyWidget(id);
+						WidgetDestroyed.Raise(new WidgetDestroyMessage(id));
 					});
 					break;
 				case RMSG_MAPIV:
@@ -192,6 +194,10 @@ namespace MonoHaven.Game
 		#endregion
 
 		#region Widget Management
+
+		public event Action<WidgetCreateMessage> WidgetCreated;
+		public event Action<WidgetDestroyMessage> WidgetDestroyed;
+		public event Action<WidgetMessage> WidgetMessage;
 
 		public void SendMessage(ushort widgetId, string name, object[] args)
 		{
