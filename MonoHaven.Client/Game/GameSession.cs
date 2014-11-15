@@ -12,8 +12,6 @@ namespace MonoHaven.Game
 	{
 		#region Constants
 
-		private const int MSG_MAPREQ = 4;
-
 		private const int RMSG_NEWWDG = 0;
 		private const int RMSG_WDGMSG = 1;
 		private const int RMSG_DSTWDG = 2;
