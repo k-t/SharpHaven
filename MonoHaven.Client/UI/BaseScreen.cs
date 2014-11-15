@@ -1,5 +1,6 @@
 ﻿using System;
 using MonoHaven.Graphics;
+using OpenTK;
 using OpenTK.Input;
 
 namespace MonoHaven.UI
@@ -21,7 +22,7 @@ namespace MonoHaven.UI
 			rootWidget.Dispose();
 		}
 
-		protected IScreenHost Host
+		protected INativeWindow Window
 		{
 			get { return App.Instance.Window; }
 		}
@@ -75,7 +76,7 @@ namespace MonoHaven.UI
 			hoveredWidget = widget;
 			if (hoveredWidget != null)
 			{
-				Host.SetCursor(hoveredWidget.Cursor);
+				Window.Cursor = hoveredWidget.Cursor;
 				hoveredWidget.IsHovered = true;
 			}
 		}

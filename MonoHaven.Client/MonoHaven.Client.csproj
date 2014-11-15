@@ -105,14 +105,13 @@
     <Compile Include="Login\LoginService.cs" />
     <Compile Include="Login\LoginSettings.cs" />
     <Compile Include="Login\LoginResult.cs" />
+    <Compile Include="MainScreen.cs" />
     <Compile Include="Resources\EmbeddedResource.cs" />
     <Compile Include="Resources\Tileset.cs" />
     <Compile Include="UI\AvatarView.cs" />
     <Compile Include="UI\Button.cs" />
     <Compile Include="UI\Charlist.cs" />
-    <Compile Include="UI\EmptyScreen.cs" />
     <Compile Include="UI\IScreen.cs" />
-    <Compile Include="UI\IScreenHost.cs" />
     <Compile Include="UI\IWidgetHost.cs" />
     <Compile Include="UI\KeyEventArgs.cs" />
     <Compile Include="UI\KeyPressEventArgs.cs" />

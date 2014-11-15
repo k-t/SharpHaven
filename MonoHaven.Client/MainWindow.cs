@@ -3,7 +3,6 @@ using System.Collections.Concurrent;
 using System.ComponentModel;
 using System.Drawing;
 using MonoHaven.Graphics;
-using MonoHaven.Login;
 using MonoHaven.UI;
 using OpenTK;
 using OpenTK.Graphics;
@@ -12,7 +11,7 @@ using OpenTK.Input;
 
 namespace MonoHaven
 {
-	public sealed class MainWindow : GameWindow, IScreenHost
+	public sealed class MainWindow : GameWindow
 	{
 		private const string WindowTitle = "MonoHaven";
 
@@ -23,7 +22,6 @@ namespace MonoHaven
 		public MainWindow(int width, int height)
 			: base(width, height, GraphicsMode.Default, WindowTitle)
 		{
-			currentScreen = EmptyScreen.Instance;
 			frameCounter = new FrameCounter();
 			updateQueue = new ConcurrentQueue<Action>();
 
@@ -56,18 +54,10 @@ namespace MonoHaven
 			Cursor = cursor;
 		}
 
-		public void SetScreen(IScreen screen)
-		{
-			currentScreen.Close();
-			currentScreen = screen ?? EmptyScreen.Instance;
-			currentScreen.Resize(Width, Height);
-			currentScreen.Show();
-		}
-
 		protected override void OnLoad(EventArgs e)
 		{
 			base.OnLoad(e);
-		
+
 			GL.Color3(Color.White);
 			GL.PointSize(4);
 			GL.Enable(EnableCap.Blend);
@@ -77,7 +67,7 @@ namespace MonoHaven
 			GL.Disable(EnableCap.Lighting);
 			GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
 
-			SetScreen(new LoginScreen());
+			currentScreen = new MainScreen();
 			SpriteBatch = new SpriteBatch();
 		}
 

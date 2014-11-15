@@ -3,8 +3,8 @@ using System.Drawing;
 using System.Threading;
 using System.Windows.Threading;
 using NLog;
+using OpenTK;
 using OpenTK.Graphics;
-using MonoHaven.UI;
 using MonoHaven.Resources;
 
 namespace MonoHaven
@@ -54,7 +54,7 @@ namespace MonoHaven
 			get { return resourceManager; }
 		}
 
-		public IScreenHost Window
+		public INativeWindow Window
 		{
 			get { return window; }
 		}

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Drawing;
 using C5;
-using MonoHaven.Login;
 using MonoHaven.UI;
 using MonoHaven.UI.Remote;
 using MonoHaven.Utils;
@@ -13,22 +12,21 @@ namespace MonoHaven.Game
 	{
 		private static readonly NLog.Logger log = LogManager.GetCurrentClassLogger();
 
+		private readonly GameSession session;
 		private readonly ServerWidgetFactory factory;
 		private readonly IDictionary<ushort, ServerWidget> serverWidgets;
 
 		public GameScreen(GameSession session)
 		{
+			this.session = session;
+			this.session.Finished += OnSessionFinished;
+
 			factory = new ServerWidgetFactory();
 			serverWidgets = new TreeDictionary<ushort, ServerWidget>();
 			serverWidgets[0] = new ServerRootWidget(0, session, RootWidget);
 		}
 
-		public EventHandler Closed;
-
-		public void Close()
-		{
-			App.Instance.QueueOnMainThread(() => Host.SetScreen(new LoginScreen()));
-		}
+		public Action Exited;
 
 		public void CreateWidget(ushort id, string type, Point location, ushort parentId, object[] args)
 		{
@@ -70,13 +68,18 @@ namespace MonoHaven.Game
 
 		protected override void OnClose()
 		{
-			Closed.Raise(this, EventArgs.Empty);
+			session.Finish();
 		}
 
 		private ServerWidget GetWidget(ushort id)
 		{
 			ServerWidget widget;
 			return serverWidgets.Find(ref id, out widget) ? widget : null;
+		}
+
+		private void OnSessionFinished()
+		{
+			App.Instance.QueueOnMainThread(() => Exited.Raise());
 		}
 	}
 }

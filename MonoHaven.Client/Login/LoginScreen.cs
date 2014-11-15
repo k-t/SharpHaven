@@ -1,7 +1,10 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
 using System.Threading.Tasks;
+using MonoHaven.Game;
 using MonoHaven.Graphics;
 using MonoHaven.UI;
+using MonoHaven.Utils;
 using OpenTK.Input;
 using Image = MonoHaven.UI.Image;
 
@@ -26,6 +29,8 @@ namespace MonoHaven.Login
 			InitAuthClient();
 			InitWidgets();
 		}
+
+		public event Action<GameSession> LoginCompleted;
 
 		private void InitAuthClient()
 		{
@@ -124,7 +129,7 @@ namespace MonoHaven.Login
 
 			if (authResult.IsSuccessful)
 			{
-				Host.SetScreen(authResult.Session.Screen);
+				LoginCompleted.Raise(authResult.Session);
 			}
 			else
 			{

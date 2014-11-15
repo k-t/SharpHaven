@@ -45,11 +45,12 @@ namespace MonoHaven.Game
 			connection.Closed += OnConnectionClosed;
 			state = new GameState(this);
 			screen = new GameScreen(this);
-			screen.Closed += OnScreenClosed;
 			resources = new Dictionary<int, Resource>();
 		}
 
-		public IScreen Screen
+		public event Action Finished;
+
+		public GameScreen Screen
 		{
 			get { return screen; }
 		}
@@ -75,9 +76,8 @@ namespace MonoHaven.Game
 			{
 				connection.Closed -= OnConnectionClosed;
 				connection.Close();
-				screen.Closed -= OnScreenClosed;
-				screen.Close();
 			}
+			Finished.Raise();
 		}
 
 		public void SendWidgetMessage(ushort widgetId, string name, object[] args)
