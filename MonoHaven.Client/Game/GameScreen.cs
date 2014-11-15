@@ -16,6 +16,9 @@ namespace MonoHaven.Game
 		private readonly ServerWidgetFactory factory;
 		private readonly IDictionary<ushort, ServerWidget> serverWidgets;
 
+		private Container charlistContainer;
+		private MapView mapView;
+
 		public GameScreen(GameSession session)
 		{
 			this.session = session;
@@ -36,10 +39,15 @@ namespace MonoHaven.Game
 			session.Finish();
 		}
 
-		private ServerWidget GetWidget(ushort id)
+		protected override void OnResize(int newWidth, int newHeight)
 		{
-			ServerWidget widget;
-			return serverWidgets.Find(ref id, out widget) ? widget : null;
+			if (mapView != null)
+				mapView.SetSize(newWidth, newHeight);
+
+			if (charlistContainer != null)
+				charlistContainer.SetLocation(
+					(newWidth - charlistContainer.Width) / 2,
+					(newHeight - charlistContainer.Height) / 2);
 		}
 
 		private void OnWidgetCreated(WidgetCreateMessage message)
@@ -53,6 +61,7 @@ namespace MonoHaven.Game
 
 			var swidget = factory.Create(message.Type, message.Id, parent, message.Args);
 			swidget.Widget.SetLocation(message.Location);
+			HandleCreatedWidget(swidget.Widget);
 			serverWidgets[message.Id] = swidget;
 		}
 
@@ -77,7 +86,9 @@ namespace MonoHaven.Game
 				{
 					serverWidgets.Remove(child.Id);
 					child.Dispose();
+					HandleDestroyedWidget(widget.Widget);
 				}
+				HandleDestroyedWidget(widget.Widget);
 				return;
 			}
 			log.Warn("Try to remove non-existent widget {0}", message.Id);
@@ -86,6 +97,34 @@ namespace MonoHaven.Game
 		private void OnSessionFinished()
 		{
 			App.Instance.QueueOnMainThread(() => Exited.Raise());
+		}
+
+		private ServerWidget GetWidget(ushort id)
+		{
+			ServerWidget widget;
+			return serverWidgets.Find(ref id, out widget) ? widget : null;
+		}
+
+		private void HandleCreatedWidget(Widget widget)
+		{
+			if (widget is MapView)
+			{
+				mapView = (MapView)widget;
+				mapView.SetSize(Window.Width, Window.Height);
+			}
+			if (widget is Container)
+			{
+				charlistContainer = (Container)widget;
+				charlistContainer.SetLocation(
+					(Window.Width - charlistContainer.Width) / 2,
+					(Window.Height - charlistContainer.Height) / 2);
+			}
+		}
+
+		private void HandleDestroyedWidget(Widget widget)
+		{
+			if (widget == mapView) mapView = null;
+			if (widget == charlistContainer) charlistContainer = null;
 		}
 	}
 }
