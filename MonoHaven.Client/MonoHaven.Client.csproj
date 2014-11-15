@@ -72,7 +72,7 @@
     <Compile Include="Cursors.cs" />
     <Compile Include="FrameCounter.cs" />
     <Compile Include="Game\IMapDataProvider.cs" />
-    <Compile Include="Game\MapData.cs" />
+    <Compile Include="Game\Messages\MapDataMessage.cs" />
     <Compile Include="Game\Messages\WidgetCreateMessage.cs" />
     <Compile Include="Game\Messages\WidgetDestroyMessage.cs" />
     <Compile Include="Game\Messages\WidgetMessage.cs" />

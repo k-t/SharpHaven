@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using C5;
+using MonoHaven.Game.Messages;
 using MonoHaven.Graphics;
 using MonoHaven.Resources;
 using MonoHaven.Utils;
@@ -60,7 +61,7 @@ namespace MonoHaven.Game
 			return grids.Find(ref gc, out grid) ? grid : null;
 		}
 
-		private void AddGrid(MapData data)
+		private void AddGrid(MapDataMessage data)
 		{
 			var gp = data.Grid;
 			var tiles = new MapTile[data.Tiles.Length];

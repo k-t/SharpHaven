@@ -4,39 +4,34 @@ using System.IO;
 using ICSharpCode.SharpZipLib.Zip.Compression;
 using MonoHaven.Network;
 
-namespace MonoHaven.Game
+namespace MonoHaven.Game.Messages
 {
-	public class MapData
+	public class MapDataMessage
 	{
-		private Point grid;
-		private string minimapName;
-		private byte[] tiles;
-
-		private MapData()
-		{
-		}
-
 		public Point Grid
 		{
-			get { return grid; }
+			get;
+			private set;
 		}
 
 		public string MinimapName
 		{
-			get { return minimapName; }
+			get;
+			private set;
 		}
 
 		public byte[] Tiles
 		{
-			get { return tiles; }
+			get;
+			private set;
 		}
 
-		public static MapData FromMessage(MessageReader msg)
+		public static MapDataMessage ReadFrom(MessageReader msg)
 		{
-			var result = new MapData();
-			result.grid = msg.ReadCoord();
-			result.minimapName = msg.ReadString();
-			result.tiles = new byte[Constants.GridWidth * Constants.GridHeight];
+			var result = new MapDataMessage();
+			result.Grid = msg.ReadCoord();
+			result.MinimapName = msg.ReadString();
+			result.Tiles = new byte[Constants.GridWidth * Constants.GridHeight];
 
 			var pfl = new byte[256];
 			while (true)
@@ -48,7 +43,7 @@ namespace MonoHaven.Game
 			}
 
 			var blob = Unpack(msg.Buffer, msg.Position, msg.Length - msg.Position);
-			Array.Copy(blob, result.tiles, result.tiles.Length);
+			Array.Copy(blob, result.Tiles, result.Tiles.Length);
 
 			// TODO: handle overlays
 

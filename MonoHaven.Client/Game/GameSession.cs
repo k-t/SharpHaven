@@ -175,7 +175,7 @@ namespace MonoHaven.Game
 			if (offset != 0 || msg.Length - 8 < length)
 				throw new NotImplementedException("Defragmentation is not supported yet");
 
-			var mapData = MapData.FromMessage(msg);
+			var mapData = MapDataMessage.ReadFrom(msg);
 			App.Instance.QueueOnMainThread(() => DataAvailable.Raise(mapData));
 		}
 
@@ -213,7 +213,7 @@ namespace MonoHaven.Game
 
 		#region Map Data Management
 
-		public event Action<MapData> DataAvailable;
+		public event Action<MapDataMessage> DataAvailable;
 		public event Action<byte, Tileset> TilesetAvailable;
 
 		public void RequestData(int x, int y)
