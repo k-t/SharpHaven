@@ -55,7 +55,7 @@ namespace MonoHaven.UI.Remote
 
 		protected void SendMessage(string message, params object[] args)
 		{
-			session.SendWidgetMessage(id, message, args);
+			session.SendMessage(id, message, args);
 		}
 
 		public void Dispose()

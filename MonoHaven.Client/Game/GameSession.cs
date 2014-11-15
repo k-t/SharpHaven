@@ -43,6 +43,7 @@ namespace MonoHaven.Game
 			connection.MessageReceived += OnMessageReceived;
 			connection.MapDataReceived += OnMapDataReceived;
 			connection.Closed += OnConnectionClosed;
+
 			state = new GameState(this);
 			screen = new GameScreen(this);
 			resources = new Dictionary<int, Resource>();
@@ -60,11 +61,6 @@ namespace MonoHaven.Game
 			get { return state; }
 		}
 
-		public Resource GetResource(int id)
-		{
-			return resources[id];
-		}
-
 		public void Start()
 		{
 			connection.Open();
@@ -78,21 +74,6 @@ namespace MonoHaven.Game
 				connection.Close();
 			}
 			Finished.Raise();
-		}
-
-		public void SendWidgetMessage(ushort widgetId, string name, object[] args)
-		{
-			var message = new Message(RMSG_WDGMSG)
-				.Uint16(widgetId)
-				.String(name);
-			if (args != null)
-				message.List(args);
-			connection.SendMessage(message);
-		}
-
-		private void LoadResource(int id, string name, int version)
-		{
-			resources[id] = App.Instance.Resources.Get(name);
 		}
 
 		private void OnConnectionClosed()
@@ -196,15 +177,43 @@ namespace MonoHaven.Game
 			App.Instance.QueueOnMainThread(() => DataAvailable.Raise(mapData));
 		}
 
-		#region IMapDataProvider Implementation
+		#region Resource Management
+
+		public Resource GetResource(int id)
+		{
+			return resources[id];
+		}
+
+		private void LoadResource(int id, string name, int version)
+		{
+			resources[id] = App.Instance.Resources.Get(name);
+		}
+
+		#endregion
+
+		#region Widget Management
+
+		public void SendMessage(ushort widgetId, string name, object[] args)
+		{
+			var message = new Message(RMSG_WDGMSG)
+				.Uint16(widgetId)
+				.String(name);
+			if (args != null)
+				message.List(args);
+			connection.SendMessage(message);
+		}
+
+		#endregion
+
+		#region Map Data Management
+
+		public event Action<MapData> DataAvailable;
+		public event Action<byte, Tileset> TilesetAvailable;
 
 		public void RequestData(int x, int y)
 		{
 			connection.RequestMapData(x, y);
 		}
-
-		public event Action<MapData> DataAvailable;
-		public event Action<byte, Tileset> TilesetAvailable;
 
 		#endregion
 	}
