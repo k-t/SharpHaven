@@ -6,9 +6,9 @@ using MonoHaven.Network;
 
 namespace MonoHaven.Game.Messages
 {
-	public class MapDataMessage
+	public class MapData
 	{
-		public MapDataMessage(Point grid, string minimapName, byte[] tiles)
+		public MapData(Point grid, string minimapName, byte[] tiles)
 		{
 			Grid = grid;
 			MinimapName = minimapName;
@@ -33,9 +33,9 @@ namespace MonoHaven.Game.Messages
 			private set;
 		}
 
-		public static MapDataMessage ReadFrom(MessageReader reader)
+		public static MapData ReadFrom(MessageReader reader)
 		{
-			var msg = new MapDataMessage(
+			var msg = new MapData(
 				grid: reader.ReadCoord(),
 				minimapName: reader.ReadString(),
 				tiles: new byte[Constants.GridWidth * Constants.GridHeight]

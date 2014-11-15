@@ -71,7 +71,8 @@
     <Compile Include="Constants.cs" />
     <Compile Include="Cursors.cs" />
     <Compile Include="FrameCounter.cs" />
-    <Compile Include="Game\Messages\MapDataMessage.cs" />
+    <Compile Include="Game\Messages\MapData.cs" />
+    <Compile Include="Game\Messages\TilesetBinding.cs" />
     <Compile Include="Game\Messages\WidgetCreateMessage.cs" />
     <Compile Include="Game\Messages\WidgetDestroyMessage.cs" />
     <Compile Include="Game\Messages\WidgetMessage.cs" />

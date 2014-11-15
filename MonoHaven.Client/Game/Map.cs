@@ -23,8 +23,8 @@ namespace MonoHaven.Game
 			random = new C5Random(RandomUtils.GetSeed());
 
 			this.session = session;
-			this.session.TilesetAvailable += AddTileset;
-			this.session.DataAvailable += AddGrid;
+			this.session.TilesetBound += BindTileset;
+			this.session.MapDataAvailable += AddGrid;
 		}
 
 		public IEnumerable<Tuple<Point, TextureRegion>> FlavorObjects
@@ -61,7 +61,7 @@ namespace MonoHaven.Game
 			return grids.Find(ref gc, out grid) ? grid : null;
 		}
 
-		private void AddGrid(MapDataMessage data)
+		private void AddGrid(MapData data)
 		{
 			var gp = data.Grid;
 			var tiles = new MapTile[data.Tiles.Length];
@@ -96,9 +96,10 @@ namespace MonoHaven.Game
 				}
 		}
 
-		private void AddTileset(byte id, Tileset tileset)
+		private void BindTileset(TilesetBinding binding)
 		{
-			tilesets[id] = tileset;
+			var tileset = App.Instance.Resources.GetTileset(binding.Name);
+			tilesets[binding.Id] = tileset;
 		}
 
 		private static Point GetAbsoluteTileCoord(Point gp, int tileIndex)

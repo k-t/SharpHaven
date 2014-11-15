@@ -138,11 +138,8 @@ namespace MonoHaven.Game
 					{
 						while (!messageReader.IsEom)
 						{
-							var id = messageReader.ReadByte();
-							var name = messageReader.ReadString();
-							var version = messageReader.ReadUint16();
-							var tileset = App.Instance.Resources.GetTileset(name);
-							TilesetAvailable.Raise(id, tileset);
+							var msg = TilesetBinding.ReadFrom(messageReader);
+							TilesetBound.Raise(msg);
 						}
 					});
 					break;
@@ -164,8 +161,8 @@ namespace MonoHaven.Game
 			if (offset != 0 || msg.Length - 8 < length)
 				throw new NotImplementedException("Defragmentation is not supported yet");
 
-			var mapData = MapDataMessage.ReadFrom(msg);
-			App.Instance.QueueOnMainThread(() => DataAvailable.Raise(mapData));
+			var mapData = MapData.ReadFrom(msg);
+			App.Instance.QueueOnMainThread(() => MapDataAvailable.Raise(mapData));
 		}
 
 		#region Resource Management
@@ -202,8 +199,8 @@ namespace MonoHaven.Game
 
 		#region Map Data Management
 
-		public event Action<MapDataMessage> DataAvailable;
-		public event Action<byte, Tileset> TilesetAvailable;
+		public event Action<MapData> MapDataAvailable;
+		public event Action<TilesetBinding> TilesetBound;
 
 		public void RequestData(int x, int y)
 		{
