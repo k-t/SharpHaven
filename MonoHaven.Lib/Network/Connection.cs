@@ -10,7 +10,7 @@ namespace MonoHaven.Network
 	{
 		#region Constants
 
-		private const int PollTimeout = 1000; // milliseconds
+		private const int ReceiveTimeout = 1000; // milliseconds
 
 		private const int ProtocolVersion = 2;
 
@@ -44,7 +44,7 @@ namespace MonoHaven.Network
 
 			state = ConnectionState.Created;
 			socket = new GameSocket(settings.Host, settings.Port);
-			socket.SetReceiveTimeout(PollTimeout);
+			socket.SetReceiveTimeout(ReceiveTimeout);
 			sender = new MessageSender(socket);
 			sender.Finished += OnTaskFinished;
 			receiver = new MessageReceiver(socket, ReceiveMessage);
@@ -53,6 +53,7 @@ namespace MonoHaven.Network
 
 		public event Action Closed;
 		public event Action<MessageReader> MessageReceived;
+		public event Action<MessageReader> MapDataReceived;
 
 		public void Dispose()
 		{
@@ -105,6 +106,12 @@ namespace MonoHaven.Network
 		public void SendMessage(Message message)
 		{
 			sender.QueueMessage(message);
+		}
+
+		public void RequestMapData(int x, int y)
+		{
+			var msg = new Message(MSG_MAPREQ).Coord(x, y);
+			socket.SendMessage(msg);
 		}
 
 		private void Connect()
@@ -165,13 +172,11 @@ namespace MonoHaven.Network
 					}
 					break;
 				case MSG_ACK:
-					log.Info("MSG_ACK");
 					break;
 				case MSG_MAPDATA:
-					log.Info("MSG_MAPDATA");
+					MapDataReceived.Raise(msg);
 					break;
 				case MSG_OBJDATA:
-					log.Info("MSG_OBJDATA");
 					break;
 				case MSG_CLOSE:
 					log.Info("Server dropped connection");

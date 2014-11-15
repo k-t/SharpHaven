@@ -87,11 +87,16 @@ namespace MonoHaven.Network
 			return this;
 		}
 
+		public Message Coord(int x, int y)
+		{
+			Int32(x);
+			Int32(y);
+			return this;
+		}
+
 		public Message Coord(Point c)
 		{
-			Int32(c.X);
-			Int32(c.Y);
-			return this;
+			return Coord(c.X, c.Y);
 		}
 
 		public Message List(params object[] args)

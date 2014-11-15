@@ -31,7 +31,12 @@ namespace MonoHaven.UI
 
 		private void RequestMaps()
 		{
-			this.gstate.Map.Request(worldPosition.X.Div(100 * 11), worldPosition.Y.Div(100 * 11));
+			int x = worldPosition.X.Div(100 * 11);
+			int y = worldPosition.Y.Div(100 * 11);
+
+			for (int i = -5; i < 5; i++)
+				for (int j = -5; j < 5; j++)
+					this.gstate.Map.Request(x + i, y + j);
 		}
 
 		private void DrawTiles(DrawingContext g)

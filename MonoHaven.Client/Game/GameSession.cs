@@ -12,6 +12,8 @@ namespace MonoHaven.Game
 	{
 		#region Constants
 
+		private const int MSG_MAPREQ = 4;
+
 		private const int RMSG_NEWWDG = 0;
 		private const int RMSG_WDGMSG = 1;
 		private const int RMSG_DSTWDG = 2;
@@ -39,6 +41,7 @@ namespace MonoHaven.Game
 		{
 			connection = new Connection(connSettings);
 			connection.MessageReceived += OnMessageReceived;
+			connection.MapDataReceived += OnMapDataReceived;
 			connection.Closed += OnConnectionClosed;
 			state = new GameState(this);
 			screen = new GameScreen(this);
@@ -184,14 +187,28 @@ namespace MonoHaven.Game
 			}
 		}
 
+		private void OnMapDataReceived(MessageReader msg)
+		{
+			int packetId = msg.ReadInt32();
+			int offset = msg.ReadUint16();
+			int length = msg.ReadUint16();
+
+			// TODO: defragmentation
+			if (offset != 0 || msg.Length - 8 < length)
+				throw new NotImplementedException("Defragmentation is not supported yet");
+
+			var mapData = MapData.FromMessage(msg);
+			App.Instance.QueueOnMainThread(() =>
+			{
+				DataAvailable.Raise(mapData);
+			});
+		}
+
 		#region IMapDataProvider Implementation
 
-		public void RequestData(int gx, int gy)
+		public void RequestData(int x, int y)
 		{
-			var dummy = new byte[100 * 100];
-			for (int i = 0; i < dummy.Length; i++)
-				dummy[i] = 8;
-			DataAvailable.Raise(new MapData(gx, gy, new byte[100 * 100]));
+			connection.RequestMapData(x, y);
 		}
 
 		public event Action<MapData> DataAvailable;

@@ -34,6 +34,11 @@ namespace MonoHaven.Network
 			Position = offset;
 		}
 
+		public byte[] Buffer
+		{
+			get { return buffer; }
+		}
+
 		public byte MessageType
 		{
 			get { return messageType; }

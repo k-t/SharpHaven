@@ -45,7 +45,7 @@ namespace MonoHaven.UI.Remote
 			// TODO: handle common widget commands (focus, tab, etc).
 
 			log.Warn("Unhandled message {0}({1}) for {2}",
-				message, string.Join(",", args), widget.GetType());
+				message, string.Join(",", args), GetType());
 		}
 
 		protected void SendMessage(string message)
