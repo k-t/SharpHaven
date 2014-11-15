@@ -11,20 +11,20 @@ namespace MonoHaven.Game
 {
 	public class Map
 	{
-		private readonly IMapDataProvider provider;
+		private readonly GameSession session;
 		private readonly Tileset[] tilesets = new Tileset[256];
 		private readonly TreeDictionary<Point, MapGrid> grids;
 		private readonly C5Random random;
 		private readonly List<Tuple<Point, TextureRegion>> flavorObjects = new List<Tuple<Point, TextureRegion>>();
 
-		public Map(IMapDataProvider provider)
+		public Map(GameSession session)
 		{
 			grids = new TreeDictionary<Point, MapGrid>(new PointComparer());
 			random = new C5Random(RandomUtils.GetSeed());
 
-			this.provider = provider;
-			this.provider.TilesetAvailable += AddTileset;
-			this.provider.DataAvailable += AddGrid;
+			this.session = session;
+			this.session.TilesetAvailable += AddTileset;
+			this.session.DataAvailable += AddGrid;
 		}
 
 		public IEnumerable<Tuple<Point, TextureRegion>> FlavorObjects
@@ -51,7 +51,7 @@ namespace MonoHaven.Game
 
 		public void Request(int gx, int gy)
 		{
-			provider.RequestData(gx, gy);
+			session.RequestData(gx, gy);
 		}
 
 		private MapGrid GetGrid(int tx, int ty)

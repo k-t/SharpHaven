@@ -1,16 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Net;
 using MonoHaven.Game.Messages;
 using MonoHaven.Network;
 using MonoHaven.Resources;
-using MonoHaven.UI;
 using MonoHaven.Utils;
 using NLog;
 
 namespace MonoHaven.Game
 {
-	public class GameSession : IMapDataProvider
+	public class GameSession
 	{
 		#region Constants
 
