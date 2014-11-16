@@ -54,6 +54,7 @@ namespace MonoHaven.Network
 		public event Action Closed;
 		public event Action<MessageReader> MessageReceived;
 		public event Action<MessageReader> MapDataReceived;
+		public event Action<MessageReader> ObjDataReceived;
 
 		public void Dispose()
 		{
@@ -112,6 +113,12 @@ namespace MonoHaven.Network
 		{
 			var msg = new Message(MSG_MAPREQ).Coord(x, y);
 			socket.SendMessage(msg);
+		}
+
+		public void SendObjectAck(int id, int frame)
+		{
+			// FIXME: make it smarter
+			socket.SendMessage(new Message(MSG_OBJACK).Int32(id).Int32(frame));
 		}
 
 		private void Connect()
@@ -177,6 +184,8 @@ namespace MonoHaven.Network
 					MapDataReceived.Raise(msg);
 					break;
 				case MSG_OBJDATA:
+					while (msg.Position < msg.Length)
+						ObjDataReceived.Raise(msg);
 					break;
 				case MSG_CLOSE:
 					log.Info("Server dropped connection");

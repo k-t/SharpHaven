@@ -70,6 +70,14 @@ namespace MonoHaven.Network
 			return buffer[Position++];
 		}
 
+		public byte[] ReadBytes(int count)
+		{
+			var bytes = new byte[count];
+			Array.Copy(buffer, Position, bytes, 0, count);
+			position += count;
+			return bytes;
+		}
+
 		public ushort ReadUint16()
 		{
 			Position += 2;

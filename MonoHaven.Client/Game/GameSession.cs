@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.Linq;
 using MonoHaven.Game.Messages;
 using MonoHaven.Network;
 using MonoHaven.Resources;
@@ -26,6 +28,24 @@ namespace MonoHaven.Game
 		private const int RMSG_TILES = 11;
 		private const int RMSG_BUFF = 12;
 
+		private const int OD_REM = 0;
+		private const int OD_MOVE = 1;
+		private const int OD_RES = 2;
+		private const int OD_LINBEG = 3;
+		private const int OD_LINSTEP = 4;
+		private const int OD_SPEECH = 5;
+		private const int OD_LAYERS = 6;
+		private const int OD_DRAWOFF = 7;
+		private const int OD_LUMIN = 8;
+		private const int OD_AVATAR = 9;
+		private const int OD_FOLLOW = 10;
+		private const int OD_HOMING = 11;
+		private const int OD_OVERLAY = 12;
+		/* private const int OD_AUTH = 13; -- Removed */
+		private const int OD_HEALTH = 14;
+		private const int OD_BUDDY = 15;
+		private const int OD_END = 255;
+
 		#endregion
 
 		private static readonly Logger log = LogManager.GetCurrentClassLogger();
@@ -40,6 +60,7 @@ namespace MonoHaven.Game
 			connection = new Connection(connSettings);
 			connection.MessageReceived += OnMessageReceived;
 			connection.MapDataReceived += OnMapDataReceived;
+			connection.ObjDataReceived += OnObjDataReceived;
 			connection.Closed += OnConnectionClosed;
 
 			state = new GameState(this);
@@ -163,11 +184,200 @@ namespace MonoHaven.Game
 			App.Instance.QueueOnMainThread(() => MapDataAvailable.Raise(mapData));
 		}
 
+		private void OnObjDataReceived(MessageReader msg)
+		{
+			var replace = (msg.ReadByte() & 1) != 0;
+			var id = msg.ReadInt32();
+			var frame = msg.ReadInt32();
+			var end = false;
+			while (!end)
+			{
+				int type = msg.ReadByte();
+				switch (type)
+				{
+					case OD_REM:
+						Queue(() => State.Objects.Remove(id, frame));
+						break;
+					case OD_MOVE:
+					{
+						var position = msg.ReadCoord();
+						Queue(() => State.Objects.Move(id, frame, position));
+						break;
+					}
+					case OD_RES:
+					{
+						int resId = msg.ReadUint16();
+						byte[] spriteData;
+						if ((resId & 0x8000) != 0)
+						{
+							resId &= ~0x8000;
+							var len = msg.ReadByte();
+							spriteData = msg.ReadBytes(len);
+						}
+						else
+						{
+							spriteData = new byte[0];
+						}
+						Queue(() => {
+							var res = GetResource(resId);
+							State.Objects.ChangeResource(id, frame, res, spriteData);
+						});
+						break;
+					}
+					case OD_LINBEG:
+					{
+						var orig = msg.ReadCoord();
+						var dest = msg.ReadCoord();
+						var time = msg.ReadInt32();
+						Queue(() => State.Objects.StartMove(id, frame, orig, dest, time));
+						break;
+					}
+					case OD_LINSTEP:
+					{
+						var time = msg.ReadInt32();
+						Queue(() => State.Objects.AdjustMove(id, frame, time));
+						break;
+					}
+					case OD_SPEECH:
+					{
+						var offset = msg.ReadCoord();
+						var text = msg.ReadString();
+						Queue(() => State.Objects.Speak(id, frame, offset, text));
+						break;
+					}
+					case OD_LAYERS:
+					case OD_AVATAR:
+					{
+						int baseResId = -1;
+						if (type == OD_LAYERS)
+							baseResId = msg.ReadUint16();
+						
+						var layerIds = new List<int>();
+						while (true)
+						{
+							int layer = msg.ReadUint16();
+							if (layer == 65535)
+								break;
+							layerIds.Add(layer);
+						}
+						Queue(() => {
+							var layers = layerIds.Select(GetResource);
+							if (type == OD_LAYERS)
+							{
+								var baseRes = GetResource(baseResId);
+								State.Objects.SetLayers(id, frame, baseRes, layers);
+							}
+							else
+								State.Objects.SetAvatar(id, frame, layers);
+						});
+						break;
+					}
+					case OD_DRAWOFF:
+					{
+						var offset = msg.ReadCoord();
+						Queue(() => state.Objects.SetDrawOffset(id, frame, offset));
+						break;
+					}
+					case OD_LUMIN:
+					{
+						var offset = msg.ReadCoord();
+						var size = msg.ReadUint16();
+						var intensity = msg.ReadByte();
+						Queue(() => state.Objects.Light(id, frame, offset, size, intensity));
+						break;
+					}
+					case OD_FOLLOW:
+					{
+						int oid = msg.ReadInt32();
+						if (oid != -1)
+						{
+							var szo = msg.ReadByte();
+							var offset = msg.ReadCoord();
+							Queue(() => state.Objects.Follow(id, frame, oid, szo, offset));
+						}
+						else
+							Queue(() => state.Objects.Unfollow(id, frame));
+						break;
+					}
+					case OD_HOMING:
+					{
+						int oid = msg.ReadInt32();
+						if (oid != -1)
+							Queue(() => state.Objects.StopShot(id, frame));
+						else
+						{
+							var target = msg.ReadCoord();
+							var velocity = msg.ReadUint16();
+							if (oid == -2)
+								Queue(() => state.Objects.ShootAt(id, frame, target, velocity));
+							else
+								Queue(() => state.Objects.ShootAt(id, frame, oid, target, velocity));
+						}
+						break;
+					}
+					case OD_OVERLAY:
+					{
+						int olid = msg.ReadInt32();
+						var prs = (olid & 1) != 0;
+						olid >>= 1;
+						int resid = msg.ReadUint16();
+						
+						byte[] spriteData = null;
+						if (resid != 65535)
+						{
+							if ((resid & 0x8000) != 0)
+							{
+								resid &= ~0x8000;
+								var len = msg.ReadByte();
+								spriteData = msg.ReadBytes(len);
+							}
+							else
+								spriteData = new byte[0];
+						}
+						Queue(() => {
+							Resource res = null;
+							if (resid != 65535)
+								res = GetResource(resid);
+							state.Objects.SetOverlay(id, frame, olid, prs, res, spriteData);
+						});
+						break;
+					}
+					case OD_HEALTH:
+					{
+						var hp = msg.ReadByte();
+						Queue(() => state.Objects.SetHealth(id, frame, hp));
+						break;
+					}
+					case OD_BUDDY:
+					{
+						var name = msg.ReadString();
+						var group = msg.ReadByte();
+						var btype = msg.ReadByte();
+						Queue(() => state.Objects.SetBuddy(id, frame, name, group, btype));
+						break;
+					}
+					case OD_END:
+						end = true;
+						break;
+					default:
+						// TODO: MessageException
+						throw new Exception("Unknown objdelta type: " + type);
+				}
+			}
+			connection.SendObjectAck(id, frame);
+		}
+
+		private void Queue(Action action)
+		{
+			App.Instance.QueueOnMainThread(action);
+		}
+
 		#region Resource Management
 
 		public Resource GetResource(int id)
 		{
-			return resources[id];
+			Resource res;
+			return resources.TryGetValue(id, out res) ? res : null;
 		}
 
 		private void LoadResource(int id, string name, int version)
