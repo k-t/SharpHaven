@@ -30,7 +30,7 @@ namespace MonoHaven.Network
 					var rmsg = new Message(MSG_REL)
 						.Uint16(seq)
 						.Byte(message.Type)
-						.Bytes(message.GetBytes());
+						.Bytes(message.GetAllBytes());
 					socket.SendMessage(rmsg);
 					seq++;
 				}

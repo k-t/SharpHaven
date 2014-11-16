@@ -13,7 +13,7 @@ namespace MonoHaven.Tests
 			writer.String("Test");
 			writer.String("Test2");
 
-			var messageBytes = writer.GetBytes();
+			var messageBytes = writer.GetAllBytes();
 
 			var reader = new MessageReader(1, messageBytes);
 			Assert.AreEqual("Test", reader.ReadString());

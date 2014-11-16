@@ -133,7 +133,7 @@ namespace MonoHaven.Network
 			return this;
 		}
 
-		public byte[] GetBytes()
+		public byte[] GetAllBytes()
 		{
 			return stream.ToArray();
 		}
