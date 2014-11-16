@@ -73,6 +73,7 @@
     <Compile Include="FrameCounter.cs" />
     <Compile Include="Game\GameObject.cs" />
     <Compile Include="Game\GameObjectCache.cs" />
+    <Compile Include="Game\GameObjectDelta.cs" />
     <Compile Include="Game\Messages\MapData.cs" />
     <Compile Include="Game\Messages\TilesetBinding.cs" />
     <Compile Include="Game\Messages\WidgetCreateMessage.cs" />

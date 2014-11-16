@@ -189,8 +189,7 @@ namespace MonoHaven.Game
 			var replace = (msg.ReadByte() & 1) != 0;
 			var id = msg.ReadInt32();
 			var frame = msg.ReadInt32();
-			if (replace)
-				Queue(() => State.Objects.Remove(id, frame - 1));
+			var delta = new GameObjectDelta(this, id, frame, replace);
 			var end = false;
 			while (!end)
 			{
@@ -198,12 +197,12 @@ namespace MonoHaven.Game
 				switch (type)
 				{
 					case OD_REM:
-						Queue(() => State.Objects.Remove(id, frame));
+						delta.Remove();
 						break;
 					case OD_MOVE:
 					{
-						var position = msg.ReadCoord();
-						Queue(() => State.Objects.Move(id, frame, position));
+						var pos = msg.ReadCoord();
+						delta.SetPosition(pos);
 						break;
 					}
 					case OD_RES:
@@ -220,10 +219,7 @@ namespace MonoHaven.Game
 						{
 							spriteData = new byte[0];
 						}
-						Queue(() => {
-							var res = GetResource(resId);
-							State.Objects.ChangeResource(id, frame, res, spriteData);
-						});
+						delta.SetResource(resId, spriteData);
 						break;
 					}
 					case OD_LINBEG:
@@ -231,20 +227,20 @@ namespace MonoHaven.Game
 						var orig = msg.ReadCoord();
 						var dest = msg.ReadCoord();
 						var time = msg.ReadInt32();
-						Queue(() => State.Objects.StartMove(id, frame, orig, dest, time));
+						delta.MoveStart(orig, dest, time);
 						break;
 					}
 					case OD_LINSTEP:
 					{
 						var time = msg.ReadInt32();
-						Queue(() => State.Objects.AdjustMove(id, frame, time));
+						delta.MoveAdjust(time);
 						break;
 					}
 					case OD_SPEECH:
 					{
 						var offset = msg.ReadCoord();
 						var text = msg.ReadString();
-						Queue(() => State.Objects.Speak(id, frame, offset, text));
+						delta.SetSpeech(offset, text);
 						break;
 					}
 					case OD_LAYERS:
@@ -254,30 +250,24 @@ namespace MonoHaven.Game
 						if (type == OD_LAYERS)
 							baseResId = msg.ReadUint16();
 						
-						var layerIds = new List<int>();
+						var layers = new List<int>();
 						while (true)
 						{
 							int layer = msg.ReadUint16();
 							if (layer == 65535)
 								break;
-							layerIds.Add(layer);
+							layers.Add(layer);
 						}
-						Queue(() => {
-							var layers = layerIds.Select(GetResource);
-							if (type == OD_LAYERS)
-							{
-								var baseRes = GetResource(baseResId);
-								State.Objects.SetLayers(id, frame, baseRes, layers);
-							}
-							else
-								State.Objects.SetAvatar(id, frame, layers);
-						});
+						if (type == OD_LAYERS)
+							delta.SetLayers(baseResId, layers);
+						else
+							delta.SetAvatar(layers);
 						break;
 					}
 					case OD_DRAWOFF:
 					{
 						var offset = msg.ReadCoord();
-						Queue(() => state.Objects.SetDrawOffset(id, frame, offset));
+						delta.SetDrawOffset(offset);
 						break;
 					}
 					case OD_LUMIN:
@@ -285,7 +275,7 @@ namespace MonoHaven.Game
 						var offset = msg.ReadCoord();
 						var size = msg.ReadUint16();
 						var intensity = msg.ReadByte();
-						Queue(() => state.Objects.Light(id, frame, offset, size, intensity));
+						delta.SetLight(offset, size, intensity);
 						break;
 					}
 					case OD_FOLLOW:
@@ -295,59 +285,53 @@ namespace MonoHaven.Game
 						{
 							var szo = msg.ReadByte();
 							var offset = msg.ReadCoord();
-							Queue(() => state.Objects.Follow(id, frame, oid, szo, offset));
+							delta.SetFollow(oid, szo, offset);
 						}
 						else
-							Queue(() => state.Objects.Unfollow(id, frame));
+							delta.ResetFollow();
 						break;
 					}
 					case OD_HOMING:
 					{
 						int oid = msg.ReadInt32();
 						if (oid != -1)
-							Queue(() => state.Objects.StopShot(id, frame));
+							delta.ResetHoming();
 						else
 						{
 							var target = msg.ReadCoord();
 							var velocity = msg.ReadUint16();
 							if (oid == -2)
-								Queue(() => state.Objects.ShootAt(id, frame, target, velocity));
+								delta.SetHoming(target, velocity);
 							else
-								Queue(() => state.Objects.ShootAt(id, frame, oid, target, velocity));
+								delta.SetHoming(oid, target, velocity);
 						}
 						break;
 					}
 					case OD_OVERLAY:
 					{
-						int olid = msg.ReadInt32();
-						var prs = (olid & 1) != 0;
-						olid >>= 1;
-						int resid = msg.ReadUint16();
-						
+						int overlayId = msg.ReadInt32();
+						var prs = (overlayId & 1) != 0;
+						overlayId >>= 1;
+						int resId = msg.ReadUint16();
 						byte[] spriteData = null;
-						if (resid != 65535)
+						if (resId != 65535)
 						{
-							if ((resid & 0x8000) != 0)
+							if ((resId & 0x8000) != 0)
 							{
-								resid &= ~0x8000;
+								resId &= ~0x8000;
 								var len = msg.ReadByte();
 								spriteData = msg.ReadBytes(len);
 							}
 							else
 								spriteData = new byte[0];
 						}
-						Queue(() => {
-							Resource res = null;
-							if (resid != 65535)
-								res = GetResource(resid);
-							state.Objects.SetOverlay(id, frame, olid, prs, res, spriteData);
-						});
+						delta.SetOverlay(overlayId, prs, resId, spriteData);
 						break;
 					}
 					case OD_HEALTH:
 					{
 						var hp = msg.ReadByte();
-						Queue(() => state.Objects.SetHealth(id, frame, hp));
+						delta.SetHealth(hp);
 						break;
 					}
 					case OD_BUDDY:
@@ -355,7 +339,7 @@ namespace MonoHaven.Game
 						var name = msg.ReadString();
 						var group = msg.ReadByte();
 						var btype = msg.ReadByte();
-						Queue(() => state.Objects.SetBuddy(id, frame, name, group, btype));
+						delta.SetBuddy(name, group, btype);
 						break;
 					}
 					case OD_END:
@@ -366,6 +350,7 @@ namespace MonoHaven.Game
 						throw new Exception("Unknown objdelta type: " + type);
 				}
 			}
+			App.Instance.QueueOnMainThread(delta.Apply);
 			connection.SendObjectAck(id, frame);
 		}
 
