@@ -189,6 +189,8 @@ namespace MonoHaven.Game
 			var replace = (msg.ReadByte() & 1) != 0;
 			var id = msg.ReadInt32();
 			var frame = msg.ReadInt32();
+			if (replace)
+				Queue(() => State.Objects.Remove(id, frame - 1));
 			var end = false;
 			while (!end)
 			{
