@@ -57,6 +57,7 @@ namespace MonoHaven.UI
 
 						var p = TileToScreen(new Point(tx, ty));
 						p = Point.Add(p, new Size(Width / 2 - cameraOffset.X, Height / 2 - cameraOffset.Y));
+						p.X -= Constants.TileWidth * 2;
 
 						var tile = gstate.Map.GetTile(tx, ty);
 						if (tile != null)
