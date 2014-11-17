@@ -11,7 +11,7 @@ namespace MonoHaven.Graphics.Sprites
 
 		public LayeredSprite(IEnumerable<FutureResource> layers)
 		{
-			sprites = new List<Sprite>(layers.Select(x => Create(x, null)));
+			sprites = new List<Sprite>(layers.Select(x => App.Instance.Resources.GetSprite(x)));
 		}
 
 		public override void Draw(SpriteBatch batch, int x, int y, int w, int h)

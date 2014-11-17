@@ -2,6 +2,7 @@
 using System.Drawing;
 using System.IO;
 using MonoHaven.Graphics;
+using MonoHaven.Graphics.Sprites;
 using MonoHaven.Resources.Layers;
 using OpenTK;
 
@@ -11,6 +12,9 @@ namespace MonoHaven.Resources
 	{
 		private readonly IResourceSource defaultSource = new FolderSource("haven-res/res");
 		private readonly Dictionary<string, Tileset> tilesetCache = new Dictionary<string, Tileset>();
+		
+		// TODO: future is bound to a session, so either use weak references or rethink approach
+		private readonly Dictionary<FutureResource, Sprite> spriteCache = new Dictionary<FutureResource, Sprite>();
 
 		public Resource Get(string resName)
 		{
@@ -58,6 +62,17 @@ namespace MonoHaven.Resources
 				throw new ResourceLoadException(string.Format("Couldn't find image layer in the resource '{0}'", resName));
 			// FIXME: it actually loads texture into GPU memory and this is wrong!
 			return new Texture(image.Data);
+		}
+
+		public Sprite GetSprite(FutureResource future)
+		{
+			Sprite sprite;
+			if (!spriteCache.TryGetValue(future, out sprite))
+			{
+				sprite = new ImageSprite(future, null);
+				spriteCache[future] = sprite;
+			}
+			return sprite;
 		}
 	}
 }
