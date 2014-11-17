@@ -6,7 +6,7 @@ namespace MonoHaven.Game
 {
 	public class GameObject
 	{
-		private Sprite sprite;
+		private Delayed<Sprite> sprite;
 
 		public Point Position
 		{
@@ -22,12 +22,13 @@ namespace MonoHaven.Game
 
 		public Drawable Sprite
 		{
-			get { return sprite; }
+			get { return sprite.Value; }
 		}
 
-		public void SetSprite(Sprite value)
+		public void SetSprite(Delayed<Sprite> value)
 		{
-			if (sprite != null) sprite.Dispose();
+			if (sprite != null && sprite.Value != null)
+				sprite.Value.Dispose();
 			sprite = value;
 		}
 	}

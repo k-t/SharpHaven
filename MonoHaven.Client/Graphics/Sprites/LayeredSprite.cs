@@ -1,27 +1,28 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using MonoHaven.Resources;
+﻿using System;
+using System.Collections.Generic;
 
 namespace MonoHaven.Graphics.Sprites
 {
 	public class LayeredSprite : Sprite
 	{
 		private Texture tex;
-		private readonly List<Sprite> sprites;
+		private readonly List<Delayed<Sprite>> sprites;
 
-		public LayeredSprite(IEnumerable<FutureResource> layers)
+		public LayeredSprite(IEnumerable<Delayed<Sprite>> layers)
 		{
-			sprites = new List<Sprite>(layers.Select(x => App.Instance.Resources.GetSprite(x)));
+			sprites = new List<Delayed<Sprite>>(layers);
 		}
 
 		public override void Draw(SpriteBatch batch, int x, int y, int w, int h)
 		{
-			// TODO: find a better place to do it
-			Width = sprites.Max(s => s.Width);
-			Height = sprites.Max(s => s.Height);
-			
 			foreach (var sprite in sprites)
-				sprite.Draw(batch, x, y, sprite.Width, sprite.Height);
+				if (sprite.Value != null)
+				{
+					// TODO: find a better place to do it
+					Width = Math.Max(Width, sprite.Value.Width);
+					Height = Math.Max(Height, sprite.Value.Height);
+					sprite.Value.Draw(batch, x, y, sprite.Value.Width, sprite.Value.Height);
+				}
 		}
 	}
 }

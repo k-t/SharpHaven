@@ -9,7 +9,7 @@ namespace MonoHaven.Graphics
 	{
 		private readonly Texture tex;
 
-		public Avatar(IEnumerable<FutureResource> layers)
+		public Avatar(IEnumerable<Delayed<Resource>> layers)
 		{
 			var images = layers.SelectMany(x => x.Value.GetLayers<ImageData>());
 

@@ -84,8 +84,10 @@ namespace MonoHaven.Game
 		{
 			AddChange(o =>
 			{
-				var resources = layers.Select(x => session.GetResource(x));
-				o.SetSprite(new LayeredSprite(resources));
+				var sprites = layers.Select(x => session.GetSprite(x));
+				var sprite = new LayeredSprite(sprites);
+				var delayed = new Delayed<Sprite>(sprite);
+				o.SetSprite(delayed);
 				return true;
 			});
 		}
@@ -109,9 +111,8 @@ namespace MonoHaven.Game
 		public void SetResource(int resId, byte[] data)
 		{
 			AddChange(o => {
-				var res = session.GetResource(resId);
-				var sprite = App.Instance.Resources.GetSprite(res);
-				o.SetSprite(sprite);
+				var res = session.GetSprite(resId);
+				o.SetSprite(res);
 				return true;
 			});
 		}

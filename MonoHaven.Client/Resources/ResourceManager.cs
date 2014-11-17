@@ -12,9 +12,7 @@ namespace MonoHaven.Resources
 	{
 		private readonly IResourceSource defaultSource = new FolderSource("haven-res/res");
 		private readonly Dictionary<string, Tileset> tilesetCache = new Dictionary<string, Tileset>();
-		
-		// TODO: future is bound to a session, so either use weak references or rethink approach
-		private readonly Dictionary<FutureResource, Sprite> spriteCache = new Dictionary<FutureResource, Sprite>();
+		private readonly Dictionary<string, Sprite> spriteCache = new Dictionary<string, Sprite>();
 
 		public Resource Get(string resName)
 		{
@@ -64,13 +62,14 @@ namespace MonoHaven.Resources
 			return new Texture(image.Data);
 		}
 
-		public Sprite GetSprite(FutureResource future)
+		public Sprite GetSprite(string resName)
 		{
 			Sprite sprite;
-			if (!spriteCache.TryGetValue(future, out sprite))
+			if (!spriteCache.TryGetValue(resName, out sprite))
 			{
-				sprite = new ImageSprite(future, null);
-				spriteCache[future] = sprite;
+				var res = Get(resName);
+				sprite = new ImageSprite(res, null);
+				spriteCache[resName] = sprite;
 			}
 			return sprite;
 		}

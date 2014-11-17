@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using MonoHaven.Game.Messages;
+using MonoHaven.Graphics.Sprites;
 using MonoHaven.Network;
 using MonoHaven.Resources;
 using MonoHaven.Utils;
@@ -51,8 +52,7 @@ namespace MonoHaven.Game
 		private readonly Connection connection;
 		private readonly GameState state;
 		private readonly GameScreen screen;
-		private readonly Dictionary<int, FutureResource> resources;
-		private readonly Dictionary<int, string> resourceBindings;
+		private readonly Dictionary<int, string> resources;
 
 		public GameSession(ConnectionSettings connSettings)
 		{
@@ -64,8 +64,7 @@ namespace MonoHaven.Game
 
 			state = new GameState(this);
 			screen = new GameScreen(this);
-			resources = new Dictionary<int, FutureResource>();
-			resourceBindings = new Dictionary<int, string>();
+			resources = new Dictionary<int, string>();
 		}
 
 		public event Action Finished;
@@ -355,25 +354,35 @@ namespace MonoHaven.Game
 
 		#region Resource Management
 
-		public FutureResource GetResource(int id)
+		public Delayed<Resource> GetResource(int id)
 		{
-			FutureResource res;
-			if (!resources.TryGetValue(id, out res))
+			return GetResource(id, App.Instance.Resources.Get);
+		}
+
+		public Delayed<Sprite> GetSprite(int id)
+		{
+			return GetResource(id, App.Instance.Resources.GetSprite);
+		}
+
+		private Delayed<T> GetResource<T>(int id, Func<string, T> getter)
+			where T : class
+		{
+			return new Delayed<T>((out T res) =>
 			{
-				res = new FutureResource(() => {
-					string resName;
-					return resourceBindings.TryGetValue(id, out resName)
-						? App.Instance.Resources.Get(resName)
-						: null;
-				});
-				resources[id] = res;
-			}
-			return res;
+				string resName;
+				if (resources.TryGetValue(id, out resName))
+				{
+					res = getter(resName);
+					return true;
+				}
+				res = null;
+				return false;
+			});
 		}
 
 		private void BindResource(int id, string name, int version)
 		{
-			resourceBindings[id] = name;
+			resources[id] = name;
 		}
 
 		#endregion

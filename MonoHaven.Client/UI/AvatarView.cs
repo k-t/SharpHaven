@@ -27,7 +27,7 @@ namespace MonoHaven.UI
 		{
 		}
 
-		public AvatarView(Widget parent, IEnumerable<FutureResource> resources)
+		public AvatarView(Widget parent, IEnumerable<Delayed<Resource>> resources)
 			: base(parent)
 		{
 			avatar = resources != null ? new Avatar(resources) : null;
