@@ -36,6 +36,8 @@ namespace MonoHaven.Game
 					var negc = neg != null ? neg.Center : Point.Empty;
 					using (var bitmap = ImageUtils.Combine(imageData))
 					{
+						if (image != null)
+							image.Dispose();
 						image = new Texture(bitmap);
 						image.DrawOffset = new Point(-negc.X, -negc.Y);
 					}
