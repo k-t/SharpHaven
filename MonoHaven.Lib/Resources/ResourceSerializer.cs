@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Text;
 using MonoHaven.Resources.Layers;
@@ -19,6 +20,7 @@ namespace MonoHaven.Resources
 			dataReaders.Add("image", ReadImageData);
 			dataReaders.Add("tile", ReadTileData);
 			dataReaders.Add("tileset", ReadTilesetData);
+			dataReaders.Add("neg", ReadNeg);
 		}
 
 		public Resource Deserialize(Stream stream)
@@ -73,8 +75,7 @@ namespace MonoHaven.Resources
 			/* Obsolete flag 1: Layered */
 			reader.ReadByte();
 			img.Id = reader.ReadInt16();
-			img.OffsetX = reader.ReadInt16();
-			img.OffsetY = reader.ReadInt16();
+			img.DrawOffset = new Point(reader.ReadInt16(), reader.ReadInt16());
 			img.Data = new byte[size - 11];
 			reader.Read(img.Data, 0, img.Data.Length);
 			return img;
@@ -109,6 +110,24 @@ namespace MonoHaven.Resources
 			return tileset;
 		}
 
+		private static IDataLayer ReadNeg(int size, BinaryReader reader)
+		{
+			var neg = new Neg();
+			neg.Center = ReadPoint(reader);
+			ReadPoint(reader); /* bc */
+			ReadPoint(reader); /* bs */
+			ReadPoint(reader); /* sz */
+			var en = reader.ReadByte();
+			for (int i = 0; i < en; i++)
+			{
+				reader.ReadByte(); /* epid */
+				var cnt = reader.ReadUInt16();
+				for (int j = 0; j < cnt; j++)
+					ReadPoint(reader); /* ep[epid][j] */
+			}
+			return neg;
+		}
+
 		private static string ReadString(BinaryReader reader)
 		{
 			var sb = new StringBuilder();
@@ -125,6 +144,11 @@ namespace MonoHaven.Resources
 				sb.Append(Convert.ToChar(next));
 			}
 			return sb.ToString();
+		}
+
+		private static Point ReadPoint(BinaryReader reader)
+		{
+			return new Point(reader.ReadInt16(), reader.ReadInt16());
 		}
 	}
 }

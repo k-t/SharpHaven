@@ -51,6 +51,7 @@
     <Reference Include="System.Drawing" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Resources\Layers\Neg.cs" />
     <Compile Include="ValueTreeNode.cs" />
     <Compile Include="TreeNode.cs" />
     <Compile Include="Utils\EventExtensions.cs" />

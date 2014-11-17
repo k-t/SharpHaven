@@ -8,8 +8,7 @@ namespace MonoHaven.Resources
 		public short Z { get; set; }
 		public short SubZ { get; set; }
 		public byte[] Data { get; set; }
-		public short OffsetX { get; set; }
-		public short OffsetY { get; set; }
+		public Point DrawOffset { get; set; }
 	}
 }
 
