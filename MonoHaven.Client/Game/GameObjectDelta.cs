@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 using MonoHaven.Graphics.Sprites;
 
 namespace MonoHaven.Game
@@ -81,6 +82,12 @@ namespace MonoHaven.Game
 
 		public void SetLayers(int baseResId, IEnumerable<int> layers)
 		{
+			AddChange(o =>
+			{
+				var resources = layers.Select(x => session.GetResource(x));
+				o.SetSprite(new LayeredSprite(resources));
+				return true;
+			});
 		}
 
 		public void SetLight(Point offset, int size, byte intensity)

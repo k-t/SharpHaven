@@ -31,7 +31,7 @@ namespace MonoHaven.Utils
 					{
 						var bitmap = tuple.Item1;
 						var offset = tuple.Item2;
-						g.DrawImage(bitmap, offset.X, offset.Y, bitmap.Width,bitmap.Height);
+						g.DrawImage(bitmap, offset.X, offset.Y, bitmap.Width, bitmap.Height);
 					}
 				}
 				return combined;

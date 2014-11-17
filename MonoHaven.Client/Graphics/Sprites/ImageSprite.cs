@@ -8,7 +8,7 @@ namespace MonoHaven.Graphics.Sprites
 	public class ImageSprite : Sprite
 	{
 		private FutureResource res;
-		private Texture tex;
+		public Texture tex;
 		private Point center;
 
 		public ImageSprite(FutureResource res, byte[] data)
@@ -32,7 +32,7 @@ namespace MonoHaven.Graphics.Sprites
 				tex.Dispose();
 		}
 
-		private bool Init()
+		public bool Init()
 		{
 			if (tex != null || res.Value == null)
 				return false;
