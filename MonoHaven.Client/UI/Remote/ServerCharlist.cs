@@ -26,7 +26,7 @@ namespace MonoHaven.UI.Remote
 			if (message == "add")
 			{
 				var name = (string)args[0];
-				var layers = new List<Resource>();
+				var layers = new List<FutureResource>();
 				for (int i = 1; i < args.Length; i++)
 					layers.Add(Session.GetResource((int)args[i]));
 				widget.AddChar(name, layers);

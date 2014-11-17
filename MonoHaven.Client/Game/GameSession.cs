@@ -51,7 +51,8 @@ namespace MonoHaven.Game
 		private readonly Connection connection;
 		private readonly GameState state;
 		private readonly GameScreen screen;
-		private readonly Dictionary<int, Resource> resources;
+		private readonly Dictionary<int, FutureResource> resources;
+		private readonly Dictionary<int, string> resourceBindings;
 
 		public GameSession(ConnectionSettings connSettings)
 		{
@@ -63,7 +64,8 @@ namespace MonoHaven.Game
 
 			state = new GameState(this);
 			screen = new GameScreen(this);
-			resources = new Dictionary<int, Resource>();
+			resources = new Dictionary<int, FutureResource>();
+			resourceBindings = new Dictionary<int, string>();
 		}
 
 		public event Action Finished;
@@ -135,7 +137,7 @@ namespace MonoHaven.Game
 						var id = messageReader.ReadUint16();
 						var name = messageReader.ReadString();
 						var ver = messageReader.ReadUint16();
-						LoadResource(id, name, ver);
+						BindResource(id, name, ver);
 					});
 					break;
 				case RMSG_PARTY:
@@ -353,15 +355,25 @@ namespace MonoHaven.Game
 
 		#region Resource Management
 
-		public Resource GetResource(int id)
+		public FutureResource GetResource(int id)
 		{
-			Resource res;
-			return resources.TryGetValue(id, out res) ? res : null;
+			FutureResource res;
+			if (!resources.TryGetValue(id, out res))
+			{
+				res = new FutureResource(() => {
+					string resName;
+					return resourceBindings.TryGetValue(id, out resName)
+						? App.Instance.Resources.Get(resName)
+						: null;
+				});
+				resources[id] = res;
+			}
+			return res;
 		}
 
-		private void LoadResource(int id, string name, int version)
+		private void BindResource(int id, string name, int version)
 		{
-			resources[id] = App.Instance.Resources.Get(name);
+			resourceBindings[id] = name;
 		}
 
 		#endregion

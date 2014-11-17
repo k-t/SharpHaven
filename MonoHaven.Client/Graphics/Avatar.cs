@@ -9,10 +9,10 @@ namespace MonoHaven.Graphics
 	{
 		private readonly Texture tex;
 
-		public Avatar(IEnumerable<Resource> layers)
+		public Avatar(IEnumerable<FutureResource> layers)
 		{
 			var images = layers
-				.SelectMany(x => x.GetLayers<ImageData>())
+				.SelectMany(x => x.Value.GetLayers<ImageData>())
 				.OrderBy(x => x.Z);
 
 			using (var bitmap = ImageUtils.Combine(images))

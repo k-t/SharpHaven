@@ -113,6 +113,7 @@
     <Compile Include="Login\LoginResult.cs" />
     <Compile Include="MainScreen.cs" />
     <Compile Include="Resources\EmbeddedResource.cs" />
+    <Compile Include="Resources\FutureResource.cs" />
     <Compile Include="Resources\Tileset.cs" />
     <Compile Include="UI\AvatarView.cs" />
     <Compile Include="UI\Button.cs" />
