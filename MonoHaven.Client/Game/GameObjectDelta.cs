@@ -100,6 +100,11 @@ namespace MonoHaven.Game
 
 		public void SetResource(int resId, byte[] spriteData)
 		{
+			AddChange(o => {
+				var res = session.GetResource(resId);
+				o.SetResource(res);
+				return true;
+			});
 		}
 
 		public void SetSpeech(Point offset, string text)

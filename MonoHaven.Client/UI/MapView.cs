@@ -9,7 +9,6 @@ namespace MonoHaven.UI
 	public class MapView : Widget
 	{
 		private readonly GameState gstate;
-		private readonly Drawable gobStub;
 
 		private Point worldPosition;
 		private Point cameraOffset;
@@ -21,7 +20,6 @@ namespace MonoHaven.UI
 			this.gstate = gstate;
 			this.worldPosition = worldPosition;
 			this.cameraOffset = WorldToScreen(worldPosition);
-			this.gobStub = App.Instance.Resources.GetTexture("gfx/terobjs/items/hat-top");
 			RequestMaps();
 		}
 
@@ -89,10 +87,13 @@ namespace MonoHaven.UI
 		{
 			foreach (var gob in gstate.Objects)
 			{
+				if (gob.Image == null)
+					return;
+
 				var p = WorldToScreen(gob.Position);
 				p = Point.Add(p, new Size(Width / 2 - cameraOffset.X, Height / 2 - cameraOffset.Y));
 				if (Bounds.Contains(p))
-					g.Draw(gobStub, p.X + gob.DrawOffset.X, p.Y + gob.DrawOffset.Y);
+					g.Draw(gob.Image, p.X + gob.DrawOffset.X, p.Y + gob.DrawOffset.Y);
 			}
 		}
 
