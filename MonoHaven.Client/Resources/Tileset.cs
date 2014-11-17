@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using MonoHaven.Graphics;
 using MonoHaven.Resources.Layers;
+using MonoHaven.Utils;
 
 namespace MonoHaven.Resources
 {
@@ -49,11 +50,9 @@ namespace MonoHaven.Resources
 
 			foreach (var flavor in data.FlavorObjects)
 			{
-				var image = App.Instance.Resources.Get(flavor.ResName).GetLayer<ImageData>();
-				if (image != null)
-				{
-					flavorObjects.Add(atlas.Add(image.Data), flavor.Weight);
-				}
+				var images = App.Instance.Resources.Get(flavor.ResName).GetLayers<ImageData>();
+				using (var image = ImageUtils.Combine(images))
+					flavorObjects.Add(atlas.Add(image), flavor.Weight);
 				// TODO: else log warning
 			}
 		}
