@@ -103,7 +103,7 @@ namespace MonoHaven.Game
 		{
 			AddChange(o => {
 				var res = session.GetResource(resId);
-				var sprite = new ImageSprite(res, data);
+				var sprite = Sprite.Create(res, data);
 				o.SetSprite(sprite);
 				return true;
 			});

@@ -5,7 +5,7 @@ using MonoHaven.Utils;
 
 namespace MonoHaven.Graphics.Sprites
 {
-	public class ImageSprite : Drawable
+	public class ImageSprite : Sprite
 	{
 		private FutureResource res;
 		private Texture tex;

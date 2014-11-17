@@ -6,7 +6,7 @@ namespace MonoHaven.Game
 {
 	public class GameObject
 	{
-		private ImageSprite sprite;
+		private Sprite sprite;
 
 		public Point Position
 		{
@@ -25,7 +25,7 @@ namespace MonoHaven.Game
 			get { return sprite; }
 		}
 
-		public void SetSprite(ImageSprite value)
+		public void SetSprite(Sprite value)
 		{
 			if (sprite != null) sprite.Dispose();
 			sprite = value;
