@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using MonoHaven.Graphics.Sprites;
 
 namespace MonoHaven.Game
 {
@@ -98,11 +99,12 @@ namespace MonoHaven.Game
 			});
 		}
 
-		public void SetResource(int resId, byte[] spriteData)
+		public void SetResource(int resId, byte[] data)
 		{
 			AddChange(o => {
 				var res = session.GetResource(resId);
-				o.SetResource(res);
+				var sprite = new ImageSprite(res, data);
+				o.SetSprite(sprite);
 				return true;
 			});
 		}

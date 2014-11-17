@@ -88,13 +88,13 @@ namespace MonoHaven.UI
 		{
 			foreach (var gob in gstate.Objects)
 			{
-				if (gob.Image == null)
+				if (gob.Sprite == null)
 					return;
 
 				var p = WorldToScreen(gob.Position);
 				p = Point.Add(p, new Size(Width / 2 - cameraOffset.X, Height / 2 - cameraOffset.Y));
 				if (Bounds.Contains(p))
-					g.Draw(gob.Image, p.X + gob.DrawOffset.X, p.Y + gob.DrawOffset.Y);
+					g.Draw(gob.Sprite, p.X + gob.DrawOffset.X, p.Y + gob.DrawOffset.Y);
 			}
 		}
 

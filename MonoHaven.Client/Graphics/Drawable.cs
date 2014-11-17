@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Drawing;
 
 namespace MonoHaven.Graphics
 {
@@ -12,12 +11,6 @@ namespace MonoHaven.Graphics
 		}
 
 		public int Height
-		{
-			get;
-			set;
-		}
-
-		public Point DrawOffset
 		{
 			get;
 			set;

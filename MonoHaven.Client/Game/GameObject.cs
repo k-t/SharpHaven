@@ -1,15 +1,12 @@
 ﻿using System.Drawing;
-using System.IO;
 using MonoHaven.Graphics;
-using MonoHaven.Resources;
-using MonoHaven.Utils;
+using MonoHaven.Graphics.Sprites;
 
 namespace MonoHaven.Game
 {
 	public class GameObject
 	{
-		private FutureResource res;
-		private Drawable image; 
+		private ImageSprite sprite;
 
 		public Point Position
 		{
@@ -23,32 +20,15 @@ namespace MonoHaven.Game
 			set;
 		}
 
-		public Drawable Image
+		public Drawable Sprite
 		{
-			get
-			{
-				if (image == null && res != null && res.Value != null)
-				{
-					var imageData = res.Value.GetLayers<ImageData>();
-					if (imageData == null)
-						return null;
-					var neg = res.Value.GetLayer<Neg>();
-					var negc = neg != null ? neg.Center : Point.Empty;
-					using (var bitmap = ImageUtils.Combine(imageData))
-					{
-						if (image != null)
-							image.Dispose();
-						image = new Texture(bitmap);
-						image.DrawOffset = new Point(-negc.X, -negc.Y);
-					}
-				}
-				return image;
-			}
+			get { return sprite; }
 		}
 
-		public void SetResource(FutureResource value)
+		public void SetSprite(ImageSprite value)
 		{
-			res = value;
+			if (sprite != null) sprite.Dispose();
+			sprite = value;
 		}
 	}
 }
