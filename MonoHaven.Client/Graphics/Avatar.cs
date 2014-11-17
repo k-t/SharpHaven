@@ -11,9 +11,7 @@ namespace MonoHaven.Graphics
 
 		public Avatar(IEnumerable<FutureResource> layers)
 		{
-			var images = layers
-				.SelectMany(x => x.Value.GetLayers<ImageData>())
-				.OrderBy(x => x.Z);
+			var images = layers.SelectMany(x => x.Value.GetLayers<ImageData>());
 
 			using (var bitmap = ImageUtils.Combine(images))
 				tex = new Texture(bitmap);
