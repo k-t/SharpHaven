@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
 using MonoHaven.Game.Messages;
 using MonoHaven.Network;
 using MonoHaven.Resources;
@@ -249,7 +247,6 @@ namespace MonoHaven.Game
 						int baseResId = -1;
 						if (type == OD_LAYERS)
 							baseResId = msg.ReadUint16();
-						
 						var layers = new List<int>();
 						while (true)
 						{
@@ -352,11 +349,6 @@ namespace MonoHaven.Game
 			}
 			App.Instance.QueueOnMainThread(delta.Apply);
 			connection.SendObjectAck(id, frame);
-		}
-
-		private void Queue(Action action)
-		{
-			App.Instance.QueueOnMainThread(action);
 		}
 
 		#region Resource Management
