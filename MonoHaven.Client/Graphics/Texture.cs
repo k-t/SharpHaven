@@ -76,7 +76,7 @@ namespace MonoHaven.Graphics
 
 		public override void Draw(SpriteBatch batch, int x, int y, int w, int h)
 		{
-			batch.Draw(this, x, y, w, h, 0.0f, 0.0f, 1.0f, 1.0f);
+			batch.Draw(this, x + DrawOffset.X, y + DrawOffset.Y, w, h, 0.0f, 0.0f, 1.0f, 1.0f);
 		}
 
 		public void Bind()
