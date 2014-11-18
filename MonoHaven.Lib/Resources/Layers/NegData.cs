@@ -2,7 +2,7 @@
 
 namespace MonoHaven.Resources
 {
-	public class Neg : IDataLayer
+	public class NegData : IDataLayer
 	{
 		public Point Center { get; set; }
 	}

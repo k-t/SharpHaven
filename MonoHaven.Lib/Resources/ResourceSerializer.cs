@@ -20,7 +20,7 @@ namespace MonoHaven.Resources
 			dataReaders.Add("image", ReadImageData);
 			dataReaders.Add("tile", ReadTileData);
 			dataReaders.Add("tileset", ReadTilesetData);
-			dataReaders.Add("neg", ReadNeg);
+			dataReaders.Add("neg", ReadNegData);
 		}
 
 		public Resource Deserialize(Stream stream)
@@ -110,9 +110,9 @@ namespace MonoHaven.Resources
 			return tileset;
 		}
 
-		private static IDataLayer ReadNeg(int size, BinaryReader reader)
+		private static IDataLayer ReadNegData(int size, BinaryReader reader)
 		{
-			var neg = new Neg();
+			var neg = new NegData();
 			neg.Center = ReadPoint(reader);
 			ReadPoint(reader); /* bc */
 			ReadPoint(reader); /* bs */

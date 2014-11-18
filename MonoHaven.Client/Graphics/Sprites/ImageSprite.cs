@@ -39,7 +39,7 @@ namespace MonoHaven.Graphics.Sprites
 				Height = bitmap.Height;
 			}
 
-			var neg = res.GetLayer<Neg>();
+			var neg = res.GetLayer<NegData>();
 			center = neg != null ? neg.Center : Point.Empty;
 
 			return true;
