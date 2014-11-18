@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
+using System.Linq;
 using MonoHaven.Graphics;
 using MonoHaven.Graphics.Sprites;
 using MonoHaven.Resources.Layers;
@@ -68,10 +69,18 @@ namespace MonoHaven.Resources
 			if (!spriteCache.TryGetValue(resName, out sprite))
 			{
 				var res = Get(resName);
-				sprite = new ImageSprite(res, null);
+				sprite = CreateSprite(res);
 				spriteCache[resName] = sprite;
 			}
 			return sprite;
+		}
+
+		private Sprite CreateSprite(Resource res)
+		{
+			var anim = res.GetLayer<AnimData>();
+			return (anim != null)
+				? new AnimSprite(res)
+				: new ImageSprite(res) as Sprite;
 		}
 	}
 }

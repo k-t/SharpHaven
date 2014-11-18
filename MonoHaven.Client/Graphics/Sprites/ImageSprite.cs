@@ -10,7 +10,7 @@ namespace MonoHaven.Graphics.Sprites
 		private Texture tex;
 		private Point center;
 
-		public ImageSprite(Resource res, byte[] data)
+		public ImageSprite(Resource res)
 		{
 			Init(res);
 		}
