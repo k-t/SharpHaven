@@ -14,12 +14,10 @@ namespace MonoHaven.Graphics
 
 		public Texture(int width, int height)
 		{
-			var data = new byte[width * height * 4];
 			this.id = GL.GenTexture();
 			Bind();
 			SetSize(width, height);
 			SetFilter(TextureMinFilter.Nearest, TextureMagFilter.Nearest);
-			Upload(data, PixelFormat.Rgba);
 		}
 
 		public Texture(byte[] bitmapData)
