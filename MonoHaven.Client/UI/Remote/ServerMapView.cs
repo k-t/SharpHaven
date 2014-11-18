@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
 
 namespace MonoHaven.UI.Remote
 {
@@ -18,6 +19,12 @@ namespace MonoHaven.UI.Remote
 		public ServerMapView(ushort id, ServerWidget parent, MapView widget)
 			: base(id, parent, widget)
 		{
+			widget.Clicked += OnClick;
+		}
+
+		private void OnClick(Point sc, Point mc)
+		{
+			SendMessage("click", sc, mc, 1, 0);
 		}
 	}
 }

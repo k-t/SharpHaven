@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
 using MonoHaven.Game;
 using MonoHaven.Graphics;
 using MonoHaven.Utils;
@@ -22,6 +23,8 @@ namespace MonoHaven.UI
 			this.cameraOffset = WorldToScreen(worldPosition);
 			RequestMaps();
 		}
+
+		public event Action<Point, Point> Clicked;
 
 		protected override void OnDraw(DrawingContext dc)
 		{
@@ -76,7 +79,6 @@ namespace MonoHaven.UI
 				var c = tuple.Item1;
 				var t = tuple.Item2;
 				var p = WorldToScreen(c);
-				p = Point.Add(p, new Size(Width / 2 - cameraOffset.X, Height / 2 - cameraOffset.Y));
 				if (Bounds.Contains(p))
 				{
 					g.Draw(t, p.X, p.Y);
@@ -92,7 +94,6 @@ namespace MonoHaven.UI
 					return;
 
 				var p = WorldToScreen(gob.Position);
-				p = Point.Add(p, new Size(Width / 2 - cameraOffset.X, Height / 2 - cameraOffset.Y));
 				if (Bounds.Contains(p))
 					g.Draw(gob.Sprite, p.X + gob.DrawOffset.X, p.Y + gob.DrawOffset.Y);
 			}
@@ -113,7 +114,9 @@ namespace MonoHaven.UI
 		/// </summary>
 		private Point WorldToScreen(Point p)
 		{
-			return new Point((p.X - p.Y) * 2, (p.X + p.Y));
+			return new Point(
+				(p.X - p.Y) * 2 + Width / 2 - cameraOffset.X,
+				(p.X + p.Y) + Height / 2 - cameraOffset.Y);
 		}
 
 		/// <summary>
@@ -124,6 +127,17 @@ namespace MonoHaven.UI
 			return new Point(
 				(p.X / (Constants.TileWidth * 2) + p.Y / Constants.TileHeight) / 2,
 				(p.Y / Constants.TileHeight - p.X / (Constants.TileWidth * 2)) / 2);
+		}
+
+		/// <summary>
+		/// Converts absolute screen coordinate to absolute world position.
+		/// </summary>
+		private Point ScreenToWorld(Point p)
+		{
+			p = new Point(
+				p.X - Width / 2 + cameraOffset.X,
+				p.Y - Height / 2 + cameraOffset.Y);
+			return new Point((p.X / 2 + p.Y) / 2, (p.Y - p.X / 2) / 2);
 		}
 
 		protected override void OnKeyDown(KeyEventArgs e)
@@ -151,16 +165,20 @@ namespace MonoHaven.UI
 
 		protected override void OnMouseButtonDown(MouseButtonEventArgs e)
 		{
-			if (e.Button == MouseButton.Left)
+			if (e.Button == MouseButton.Right)
 			{
 				Host.GrabMouse(this);
 				dragging = true;
+			}
+			if (e.Button == MouseButton.Left)
+			{
+				Clicked.Raise(e.Position, ScreenToWorld(e.Position));
 			}
 		}
 
 		protected override void OnMouseButtonUp(MouseButtonEventArgs e)
 		{
-			if (e.Button == MouseButton.Left)
+			if (e.Button == MouseButton.Right)
 			{
 				Host.ReleaseMouse();
 				dragging = false;
