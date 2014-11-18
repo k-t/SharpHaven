@@ -10,7 +10,7 @@ namespace MonoHaven.Graphics
 	{
 		private int id;
 		private int potWidth;
-		private int potHeigth;
+		private int potHeight;
 
 		public Texture(int width, int height)
 		{
@@ -63,7 +63,7 @@ namespace MonoHaven.Graphics
 
 		public int PotHeight
 		{
-			get { return potHeigth; }
+			get { return potHeight; }
 		}
 
 		public override void Dispose()
@@ -83,7 +83,7 @@ namespace MonoHaven.Graphics
 		public override void Draw(SpriteBatch batch, int x, int y, int w, int h)
 		{
 			batch.Draw(this, x, y, w, h, 0.0f, 0.0f,
-				(float)Width / potWidth, (float)Height / potHeigth);
+				(float)Width / potWidth, (float)Height / potHeight);
 		}
 
 		public void Bind()
@@ -133,8 +133,8 @@ namespace MonoHaven.Graphics
 			Width = width;
 			Height = height;
 			potWidth = MathHelper.NextPowerOfTwo(width);
-			potHeigth = MathHelper.NextPowerOfTwo(height);
-			GL.TexImage2D(Target, 0, PixelInternalFormat.Rgba, potWidth, potHeigth,
+			potHeight = MathHelper.NextPowerOfTwo(height);
+			GL.TexImage2D(Target, 0, PixelInternalFormat.Rgba, potWidth, potHeight,
 				0, PixelFormat.Bgra, PixelType.UnsignedByte, IntPtr.Zero);
 		}
 	}
