@@ -100,7 +100,7 @@ namespace MonoHaven.Graphics
 
 		public void Update(int x, int y, PixelFormat format, byte[] pixelData)
 		{
-			GL.TexSubImage2D(Target, 0, 0, 0, Width, Height, format,
+			GL.TexSubImage2D(Target, 0, x, y, Width, Height, format,
 				PixelType.UnsignedByte, pixelData);
 		}
 
@@ -111,14 +111,12 @@ namespace MonoHaven.Graphics
 
 		public void Update(int x, int y, Bitmap bitmap)
 		{
-			SetSize(bitmap.Width, bitmap.Height);
-
 			var bitmapData = bitmap.LockBits(
 				new Rectangle(0, 0, bitmap.Width, bitmap.Height),
 				System.Drawing.Imaging.ImageLockMode.ReadOnly,
 				System.Drawing.Imaging.PixelFormat.Format32bppArgb);
 
-			GL.TexSubImage2D(Target, 0, 0, 0, bitmapData.Width, bitmapData.Height,
+			GL.TexSubImage2D(Target, 0, x, y, bitmapData.Width, bitmapData.Height,
 				PixelFormat.Bgra, PixelType.UnsignedByte, bitmapData.Scan0);
 
 			bitmap.UnlockBits(bitmapData);
