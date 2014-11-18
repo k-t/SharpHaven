@@ -14,15 +14,21 @@ namespace MonoHaven.UI
 		private const int TextPadding = 2;
 		private const int CursorBlinkRate = 500;
 
+		private static readonly Drawable border;
+
 		private readonly StringBuilder text;
 		private readonly TextBlock textBlock;
-		private readonly Texture borderTexture;
-		private readonly NinePatch border;
 
 		private int caretIndex;
 		private int caretPosition;
 		private int caretOffset;
 		private char? passwordChar;
+
+		static TextBox()
+		{
+			using (var bitmap = EmbeddedResource.GetImage("textbox.png"))
+				border = new NinePatch(Texture.FromBitmap(bitmap), 2, 2, 2, 2);
+		}
 
 		public TextBox(Widget parent)
 			: base(parent)
@@ -30,9 +36,6 @@ namespace MonoHaven.UI
 			text = new StringBuilder();
 			textBlock = new TextBlock(Fonts.Default);
 			textBlock.TextColor = Color.Black;
-			borderTexture = Texture.FromBitmap(EmbeddedResource.GetImage("textbox.png"));
-			border = new NinePatch(borderTexture, 2, 2, 2, 2);
-
 			IsFocusable = true;
 		}
 
@@ -147,7 +150,7 @@ namespace MonoHaven.UI
 
 		protected override void OnDispose()
 		{
-			borderTexture.Dispose();
+			textBlock.Dispose();
 		}
 
 		private void ClearText()
