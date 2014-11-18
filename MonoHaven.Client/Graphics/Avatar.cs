@@ -7,14 +7,14 @@ namespace MonoHaven.Graphics
 {
 	public class Avatar : Drawable
 	{
-		private readonly Texture tex;
+		private readonly TextureRegion tex;
 
 		public Avatar(IEnumerable<Delayed<Resource>> layers)
 		{
 			var images = layers.SelectMany(x => x.Value.GetLayers<ImageData>());
 
 			using (var bitmap = ImageUtils.Combine(images))
-				tex = Texture.FromBitmap(bitmap);
+				tex = TextureRegion.FromBitmap(bitmap);
 
 			Width = tex.Width;
 			Height = tex.Height;

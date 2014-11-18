@@ -53,13 +53,13 @@ namespace MonoHaven.Resources
 			return tileset;
 		}
 
-		public Texture GetTexture(string resName)
+		public TextureRegion GetTexture(string resName)
 		{
 			var image = Get(resName).GetLayer<ImageData>();
 			if (image == null)
 				throw new ResourceLoadException(string.Format("Couldn't find image layer in the resource '{0}'", resName));
 			// FIXME: it actually loads texture into GPU memory and this is wrong!
-			return Texture.FromBitmap(image.Data);
+			return TextureRegion.FromBitmap(image.Data);
 		}
 
 		public Sprite GetSprite(string resName)

@@ -27,7 +27,7 @@ namespace MonoHaven.UI
 		static TextBox()
 		{
 			using (var bitmap = EmbeddedResource.GetImage("textbox.png"))
-				border = new NinePatch(Texture.FromBitmap(bitmap), 2, 2, 2, 2);
+				border = new NinePatch(bitmap, 2, 2, 2, 2);
 		}
 
 		public TextBox(Widget parent)

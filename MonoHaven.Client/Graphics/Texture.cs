@@ -1,27 +1,26 @@
 using System;
 using System.Drawing;
-using System.IO;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
 
 namespace MonoHaven.Graphics
 {
-	public class Texture : Drawable
+	public class Texture : IDisposable
 	{
 		private int id;
-		private int potWidth;
-		private int potHeight;
+		private readonly int width;
+		private readonly int height;
 
 		public Texture(Size size) : this(size.Width, size.Height)
 		{
 		}
 
-		public Texture(int width, int height)
+		public Texture(int minWidth, int minHeight)
 		{
-			this.id = GL.GenTexture();
-			Bind();
-			SetSize(width, height);
-			SetFilter(TextureMinFilter.Nearest, TextureMagFilter.Nearest);
+			id = GL.GenTexture();
+			width = MathHelper.NextPowerOfTwo(minWidth);
+			height = MathHelper.NextPowerOfTwo(minHeight);
+			Init();
 		}
 
 		public int Id
@@ -29,14 +28,19 @@ namespace MonoHaven.Graphics
 			get { return id; }
 		}
 
-		public int PotWidth
+		public int Width
 		{
-			get { return potWidth; }
+			get { return width; }
 		}
 
-		public int PotHeight
+		public int Height
 		{
-			get { return potHeight; }
+			get { return height; }
+		}
+
+		public PixelFormat PixelFormat
+		{
+			get { return PixelFormat.Bgra; }
 		}
 
 		public TextureTarget Target
@@ -44,34 +48,7 @@ namespace MonoHaven.Graphics
 			get { return TextureTarget.Texture2D; }
 		}
 
-		public static Texture FromBitmap(byte[] bitmapData)
-		{
-			using (var stream = new MemoryStream(bitmapData))
-			using (var bitmap = new Bitmap(stream))
-				return FromBitmap(bitmap);
-		}
-
-		public static Texture FromBitmap(Bitmap bitmap)
-		{
-			if (bitmap == null)
-				throw new ArgumentNullException("bitmap");
-			var tex = new Texture(bitmap.Size);
-			tex.Update(bitmap);
-			return tex;
-		}
-
-		public static Texture FromPixelData(
-			int width,
-			int height,
-			PixelFormat pixelFormat,
-			byte[] pixels)
-		{
-			var tex = new Texture(width, height);
-			tex.Update(pixelFormat, pixels);
-			return tex;
-		}
-
-		public override void Dispose()
+		public void Dispose()
 		{
 			if (id != 0)
 			{
@@ -85,12 +62,6 @@ namespace MonoHaven.Graphics
 			if (id == 0)
 				throw new InvalidOperationException("Can't bind disposed texture");
 			GL.BindTexture(TextureTarget.Texture2D, id);
-		}
-
-		public override void Draw(SpriteBatch batch, int x, int y, int w, int h)
-		{
-			batch.Draw(this, x, y, w, h, 0.0f, 0.0f,
-				(float)Width / potWidth, (float)Height / potHeight);
 		}
 
 		public void Update(PixelFormat format, byte[] pixelData)
@@ -122,20 +93,18 @@ namespace MonoHaven.Graphics
 			bitmap.UnlockBits(bitmapData);
 		}
 
-		public void SetFilter(TextureMinFilter min, TextureMagFilter mag)
+		private void Init()
+		{
+			Bind();
+			SetFilter(TextureMinFilter.Nearest, TextureMagFilter.Nearest);
+			GL.TexImage2D(Target, 0, PixelInternalFormat.Rgba, Width, Height,
+				0, PixelFormat, PixelType.UnsignedByte, IntPtr.Zero);
+		}
+
+		private void SetFilter(TextureMinFilter min, TextureMagFilter mag)
 		{
 			GL.TexParameter(Target, TextureParameterName.TextureMinFilter, (int)min);
 			GL.TexParameter(Target, TextureParameterName.TextureMagFilter, (int)mag);
-		}
-
-		private void SetSize(int width, int height)
-		{
-			Width = width;
-			Height = height;
-			potWidth = MathHelper.NextPowerOfTwo(width);
-			potHeight = MathHelper.NextPowerOfTwo(height);
-			GL.TexImage2D(Target, 0, PixelInternalFormat.Rgba, potWidth, potHeight,
-				0, PixelFormat.Bgra, PixelType.UnsignedByte, IntPtr.Zero);
 		}
 	}
 }

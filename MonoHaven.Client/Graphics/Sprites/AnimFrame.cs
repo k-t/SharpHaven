@@ -3,9 +3,9 @@
 	public class AnimFrame
 	{
 		private readonly int duration;
-		private readonly Texture tex;
+		private readonly TextureRegion tex;
 
-		public AnimFrame(int duration, Texture tex)
+		public AnimFrame(int duration, TextureRegion tex)
 		{
 			this.duration = duration;
 			this.tex = tex;
@@ -16,7 +16,7 @@
 			get { return duration; }
 		}
 
-		public Texture Tex
+		public TextureRegion Tex
 		{
 			get { return tex; }
 		}
