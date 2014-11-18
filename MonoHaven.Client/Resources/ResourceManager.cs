@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
-using System.Linq;
 using MonoHaven.Graphics;
 using MonoHaven.Graphics.Sprites;
 using MonoHaven.Resources.Layers;
@@ -60,7 +59,7 @@ namespace MonoHaven.Resources
 			if (image == null)
 				throw new ResourceLoadException(string.Format("Couldn't find image layer in the resource '{0}'", resName));
 			// FIXME: it actually loads texture into GPU memory and this is wrong!
-			return new Texture(image.Data);
+			return Texture.FromBitmap(image.Data);
 		}
 
 		public Sprite GetSprite(string resName)

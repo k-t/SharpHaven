@@ -34,7 +34,7 @@ namespace MonoHaven.Graphics.Sprites
 
 			using (var bitmap = ImageUtils.Combine(imageData))
 			{
-				tex = new Texture(bitmap);
+				tex = Texture.FromBitmap(bitmap);
 				Width = bitmap.Width;
 				Height = bitmap.Height;
 			}

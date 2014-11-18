@@ -30,7 +30,7 @@ namespace MonoHaven.UI
 			text = new StringBuilder();
 			textBlock = new TextBlock(Fonts.Default);
 			textBlock.TextColor = Color.Black;
-			borderTexture = new Texture(EmbeddedResource.GetImage("textbox.png"));
+			borderTexture = Texture.FromBitmap(EmbeddedResource.GetImage("textbox.png"));
 			border = new NinePatch(borderTexture, 2, 2, 2, 2);
 
 			IsFocusable = true;

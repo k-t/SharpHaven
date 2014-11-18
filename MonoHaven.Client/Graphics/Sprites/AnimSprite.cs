@@ -77,7 +77,7 @@ namespace MonoHaven.Graphics.Sprites
 			this.frames = new AnimFrame[frames.Length];
 			for (int i = 0; i < frames.Length; i++)
 				using (var bitmap = ImageUtils.Combine(frames[i]))
-					this.frames[i] = new AnimFrame(0, new Texture(bitmap));
+					this.frames[i] = new AnimFrame(0, Texture.FromBitmap(bitmap));
 		}
 	}
 }
