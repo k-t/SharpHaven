@@ -22,10 +22,10 @@ namespace MonoHaven.Graphics
 			this.Width = width;
 			this.Height = height;
 			this.textureBounds = RectangleF.FromLTRB(
-				(float)textureX / texture.Width,
-				(float)textureY / texture.Height,
-				(float)(textureX + width) / texture.Width,
-				(float)(textureY + height) / texture.Height);
+				(float)textureX / texture.PotWidth,
+				(float)textureY / texture.PotHeight,
+				(float)(textureX + width) / texture.PotWidth,
+				(float)(textureY + height) / texture.PotHeight);
 		}
 
 		public override void Draw(SpriteBatch batch, int x, int y, int w, int h)

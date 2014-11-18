@@ -1,6 +1,7 @@
 using System;
 using System.Drawing;
 using System.IO;
+using OpenTK;
 using OpenTK.Graphics.OpenGL;
 
 namespace MonoHaven.Graphics
@@ -8,16 +9,15 @@ namespace MonoHaven.Graphics
 	public class Texture : Drawable
 	{
 		private int id;
+		private int potWidth;
+		private int potHeigth;
 
 		public Texture(int width, int height)
 		{
-			this.Width = width;
-			this.Height = height;
-
 			var data = new byte[width * height * 4];
-
 			this.id = GL.GenTexture();
 			Bind();
+			SetSize(width, height);
 			SetFilter(TextureMinFilter.Nearest, TextureMagFilter.Nearest);
 			Upload(data, PixelFormat.Rgba);
 		}
@@ -46,13 +46,26 @@ namespace MonoHaven.Graphics
 
 		public Texture(int width, int height, PixelFormat pixelFormat, byte[] pixels)
 		{
-			this.Width = width;
-			this.Height = height;
-
 			this.id = GL.GenTexture();
 			Bind();
+			SetSize(width, height);
 			SetFilter(TextureMinFilter.Nearest, TextureMagFilter.Nearest);
 			Upload(pixels, pixelFormat);
+		}
+
+		public int Id
+		{
+			get { return id; }
+		}
+
+		public int PotWidth
+		{
+			get { return potWidth; }
+		}
+
+		public int PotHeight
+		{
+			get { return potHeigth; }
 		}
 
 		public override void Dispose()
@@ -64,11 +77,6 @@ namespace MonoHaven.Graphics
 			}
 		}
 
-		public int Id
-		{
-			get { return id; }
-		}
-
 		public TextureTarget Target
 		{
 			get { return TextureTarget.Texture2D; }
@@ -76,7 +84,8 @@ namespace MonoHaven.Graphics
 
 		public override void Draw(SpriteBatch batch, int x, int y, int w, int h)
 		{
-			batch.Draw(this, x, y, w, h, 0.0f, 0.0f, 1.0f, 1.0f);
+			batch.Draw(this, x, y, w, h, 0.0f, 0.0f,
+				(float)Width / potWidth, (float)Height / potHeigth);
 		}
 
 		public void Bind()
@@ -87,8 +96,8 @@ namespace MonoHaven.Graphics
 
 		private void Upload(byte[] pixelData, PixelFormat format)
 		{
-			GL.TexImage2D(Target, 0, PixelInternalFormat.Rgba, Width, Height,
-				0, format, PixelType.UnsignedByte, pixelData);
+			GL.TexSubImage2D(Target, 0, 0, 0, Width, Height, format,
+				PixelType.UnsignedByte, pixelData);
 		}
 
 		private void Upload(byte[] bitmapData)
@@ -102,17 +111,15 @@ namespace MonoHaven.Graphics
 		
 		private void Upload(Bitmap bitmap)
 		{
-			this.Width = bitmap.Width;
-			this.Height = bitmap.Height;
+			SetSize(bitmap.Width, bitmap.Height);
 
 			var bitmapData = bitmap.LockBits(
 				new Rectangle(0, 0, bitmap.Width, bitmap.Height),
 				System.Drawing.Imaging.ImageLockMode.ReadOnly,
 				System.Drawing.Imaging.PixelFormat.Format32bppArgb);
 
-			GL.TexImage2D(Target, 0, PixelInternalFormat.Rgba,
-				bitmapData.Width, bitmapData.Height, 0,  PixelFormat.Bgra,
-				PixelType.UnsignedByte, bitmapData.Scan0);
+			GL.TexSubImage2D(Target, 0, 0, 0, bitmapData.Width, bitmapData.Height,
+				PixelFormat.Bgra, PixelType.UnsignedByte, bitmapData.Scan0);
 
 			bitmap.UnlockBits(bitmapData);
 		}
@@ -121,6 +128,16 @@ namespace MonoHaven.Graphics
 		{
 			GL.TexParameter(Target, TextureParameterName.TextureMinFilter, (int)min);
 			GL.TexParameter(Target, TextureParameterName.TextureMagFilter, (int)mag);
+		}
+
+		private void SetSize(int width, int height)
+		{
+			Width = width;
+			Height = height;
+			potWidth = MathHelper.NextPowerOfTwo(width);
+			potHeigth = MathHelper.NextPowerOfTwo(height);
+			GL.TexImage2D(Target, 0, PixelInternalFormat.Rgba, potWidth, potHeigth,
+				0, PixelFormat.Bgra, PixelType.UnsignedByte, IntPtr.Zero);
 		}
 	}
 }
