@@ -5,7 +5,6 @@ using System.Linq;
 using MonoHaven.Resources;
 using MonoHaven.Resources.Layers;
 using MonoHaven.Utils;
-using NLog.LayoutRenderers;
 
 namespace MonoHaven.Graphics.Sprites
 {
@@ -13,7 +12,7 @@ namespace MonoHaven.Graphics.Sprites
 	{
 		private Point center;
 		private AnimFrame[] frames;
-		private int frameIndex = 0;
+		private int frameIndex;
 
 		public AnimSprite(Resource res)
 		{
