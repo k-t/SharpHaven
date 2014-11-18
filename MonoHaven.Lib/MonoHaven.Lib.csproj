@@ -52,6 +52,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Delayed.cs" />
+    <Compile Include="Resources\Layers\AnimData.cs" />
     <Compile Include="Resources\Layers\NegData.cs" />
     <Compile Include="ValueTreeNode.cs" />
     <Compile Include="TreeNode.cs" />

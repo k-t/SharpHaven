@@ -21,6 +21,7 @@ namespace MonoHaven.Resources
 			dataReaders.Add("tile", ReadTileData);
 			dataReaders.Add("tileset", ReadTilesetData);
 			dataReaders.Add("neg", ReadNegData);
+			dataReaders.Add("anim", ReadAnimData);
 		}
 
 		public Resource Deserialize(Stream stream)
@@ -126,6 +127,20 @@ namespace MonoHaven.Resources
 					ReadPoint(reader); /* ep[epid][j] */
 			}
 			return neg;
+		}
+
+		private static IDataLayer ReadAnimData(int size, BinaryReader reader)
+		{
+			var anim = new AnimData();
+			anim.Id = reader.ReadInt16();
+			anim.Duration = reader.ReadUInt16();
+			var frameCount = reader.ReadUInt16();
+			if (frameCount * 2 != size - 6)
+				throw new ResourceLoadException("Invalid anim descriptor");
+			anim.Frames = new short[frameCount];
+			for (int i = 0; i < frameCount; i++)
+				anim.Frames[i] = reader.ReadInt16();
+			return anim;
 		}
 
 		private static string ReadString(BinaryReader reader)
