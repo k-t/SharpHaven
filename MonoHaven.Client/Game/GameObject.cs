@@ -7,6 +7,7 @@ namespace MonoHaven.Game
 	public class GameObject
 	{
 		private Delayed<Sprite> sprite;
+		private Delayed<Sprite> avatar;
 
 		public Point Position
 		{
@@ -22,14 +23,22 @@ namespace MonoHaven.Game
 
 		public Drawable Sprite
 		{
-			get { return sprite.Value; }
+			get { return sprite != null ? sprite.Value : null; }
+		}
+
+		public Drawable Avatar
+		{
+			get { return avatar != null ? avatar.Value : null; }
 		}
 
 		public void SetSprite(Delayed<Sprite> value)
 		{
-			if (sprite != null && sprite.Value != null)
-				sprite.Value.Dispose();
 			sprite = value;
+		}
+
+		public void SetAvatar(Delayed<Sprite> value)
+		{
+			avatar = value;
 		}
 	}
 }

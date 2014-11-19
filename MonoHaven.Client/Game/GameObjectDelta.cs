@@ -62,6 +62,13 @@ namespace MonoHaven.Game
 
 		public void SetAvatar(IEnumerable<int> layers)
 		{
+			AddChange(o => {
+				var sprites = layers.Select(x => session.GetSprite(x));
+				var sprite = new LayeredSprite(sprites);
+				var delayed = new Delayed<Sprite>(sprite);
+				o.SetAvatar(delayed);
+				return true;
+			});
 		}
 
 		public void SetBuddy(string name, byte group, byte type)

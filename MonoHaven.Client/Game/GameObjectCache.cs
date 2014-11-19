@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Drawing;
 using C5;
 namespace MonoHaven.Game
 {
@@ -12,7 +11,7 @@ namespace MonoHaven.Game
 			objects = new TreeDictionary<int, GameObject>();
 		}
 
-		public GameObject Get(int id, int frame)
+		public GameObject Get(int id)
 		{
 			GameObject gob;
 			if (!objects.Find(ref id, out gob))
@@ -21,6 +20,11 @@ namespace MonoHaven.Game
 				objects[id] = gob;
 			}
 			return gob;
+		}
+
+		public GameObject Get(int id, int frame)
+		{
+			return Get(id);
 		}
 
 		public void Remove(int id, int frame)

@@ -6,7 +6,8 @@ namespace MonoHaven.UI.Remote
 	{
 		public static ServerWidget Create(ushort id, ServerWidget parent, object[] args)
 		{
-			var widget = new AvatarView(parent.Widget);
+			int gobId = (int)args[0];
+			var widget = new AvatarView(parent.Widget, gobId, parent.Session.State.Objects);
 			return new ServerAvatarView(id, parent, widget);
 		}
 

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
+using MonoHaven.Game;
 using MonoHaven.Graphics;
 using MonoHaven.Graphics.Sprites;
 using MonoHaven.Resources;
@@ -14,6 +15,8 @@ namespace MonoHaven.UI
 		private static readonly Drawable box;
 
 		private readonly Drawable avatar;
+		private readonly GameObjectCache gobCache;
+		private readonly int? gobId;
 
 		static AvatarView()
 		{
@@ -24,8 +27,12 @@ namespace MonoHaven.UI
 				box = new NinePatch(TextureSlice.FromBitmap(bitmap), 8, 8, 8, 8);
 		}
 
-		public AvatarView(Widget parent) : this(parent, null)
+		public AvatarView(Widget parent, int gobId, GameObjectCache gobCache)
+			: base(parent)
 		{
+			this.gobId = gobId;
+			this.gobCache = gobCache;
+			SetSize(defaultSize.X + 10, defaultSize.Y + 10);
 		}
 
 		public AvatarView(Widget parent, IEnumerable<Delayed<Sprite>> layers)
@@ -38,13 +45,18 @@ namespace MonoHaven.UI
 		protected override void OnDraw(DrawingContext dc)
 		{
 			dc.SetClip(5, 5, defaultSize.X, defaultSize.Y);
-			if (avatar != null)
+
+			var image = gobId.HasValue
+				? gobCache.Get(gobId.Value).Avatar
+				: avatar;
+			if (image != null)
 			{
 				dc.Draw(background, -(background.Width - Width) / 2, -20 + 5);
-				dc.Draw(avatar, -(background.Width - Width) / 2, -20 + 5);
+				dc.Draw(image, -(background.Width - Width) / 2, -20 + 5);
 			}
 			else
 				dc.Draw(missing, 5, 5);
+
 			dc.ResetClip();
 			dc.Draw(box, 0, 0, Width, Height);
 		}
