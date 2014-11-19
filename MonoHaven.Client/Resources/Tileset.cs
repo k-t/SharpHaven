@@ -2,7 +2,6 @@
 using MonoHaven.Graphics;
 using MonoHaven.Graphics.Sprites;
 using MonoHaven.Resources.Layers;
-using MonoHaven.Utils;
 
 namespace MonoHaven.Resources
 {
@@ -53,7 +52,6 @@ namespace MonoHaven.Resources
 			{
 				var sprite = App.Instance.Resources.GetSprite(flavor.ResName);
 				flavorObjects.Add(sprite, flavor.Weight);
-				// TODO: else log warning
 			}
 		}
 
