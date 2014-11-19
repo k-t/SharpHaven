@@ -17,7 +17,7 @@ namespace MonoHaven.Graphics
 
 		private readonly Texture tex;
 		private readonly Rectangle patchBounds;
-		private readonly TextureRegion[] patches = new TextureRegion[9];
+		private readonly TextureSlice[] patches = new TextureSlice[9];
 		
 		public NinePatch(Bitmap bitmap, int left, int right, int top, int bottom)
 		{
@@ -26,7 +26,7 @@ namespace MonoHaven.Graphics
 			tex.Update(bitmap);
 			var textureBounds = new Rectangle(0, 0, bitmap.Width, bitmap.Height);
 			patches = SplitToPatches(textureBounds, patchBounds)
-				.Select(x => new TextureRegion(tex, x))
+				.Select(x => new TextureSlice(tex, x))
 				.ToArray();
 		}
 

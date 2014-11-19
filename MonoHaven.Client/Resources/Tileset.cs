@@ -8,10 +8,10 @@ namespace MonoHaven.Resources
 	public class Tileset
 	{
 		private static TextureAtlas atlas;
-		private readonly WeightList<TextureRegion> groundTiles;
-		private readonly WeightList<TextureRegion> flavorObjects; 
-		private readonly WeightList<TextureRegion>[] borderTransitions;
-		private readonly WeightList<TextureRegion>[] crossTransitions;
+		private readonly WeightList<TextureSlice> groundTiles;
+		private readonly WeightList<TextureSlice> flavorObjects; 
+		private readonly WeightList<TextureSlice>[] borderTransitions;
+		private readonly WeightList<TextureSlice>[] crossTransitions;
 		private readonly int flavorDensity;
 
 		public Tileset(TilesetData data, IEnumerable<TileData> tiles)
@@ -20,22 +20,22 @@ namespace MonoHaven.Resources
 				atlas = new TextureAtlas(2048, 2048);
 
 			flavorDensity = data.FlavorDensity;
-			groundTiles = new WeightList<TextureRegion>();
-			flavorObjects = new WeightList<TextureRegion>();
+			groundTiles = new WeightList<TextureSlice>();
+			flavorObjects = new WeightList<TextureSlice>();
 			if (data.HasTransitions)
 			{
-				crossTransitions = new WeightList<TextureRegion>[15];
-				borderTransitions = new WeightList<TextureRegion>[15];
+				crossTransitions = new WeightList<TextureSlice>[15];
+				borderTransitions = new WeightList<TextureSlice>[15];
 				for (int i = 0; i < 15; i++)
 				{
-					crossTransitions[i] = new WeightList<TextureRegion>();
-					borderTransitions[i] = new WeightList<TextureRegion>();
+					crossTransitions[i] = new WeightList<TextureSlice>();
+					borderTransitions[i] = new WeightList<TextureSlice>();
 				}
 			}
 
 			foreach (var tile in tiles)
 			{
-				WeightList<TextureRegion> targetList;
+				WeightList<TextureSlice> targetList;
 				if (tile.Type == 'g')
 					targetList = groundTiles;
 				else if (tile.Type == 'c' && data.HasTransitions)
@@ -62,22 +62,22 @@ namespace MonoHaven.Resources
 			get { return flavorDensity; }
 		}
 
-		public WeightList<TextureRegion>[] BorderTransitions
+		public WeightList<TextureSlice>[] BorderTransitions
 		{
 			get { return borderTransitions; }
 		}
 
-		public WeightList<TextureRegion>[] CrossTransitions
+		public WeightList<TextureSlice>[] CrossTransitions
 		{
 			get { return crossTransitions; }
 		}
 
-		public WeightList<TextureRegion> GroundTiles
+		public WeightList<TextureSlice> GroundTiles
 		{
 			get { return groundTiles; }
 		}
 
-		public WeightList<TextureRegion> FlavorObjects
+		public WeightList<TextureSlice> FlavorObjects
 		{
 			get { return flavorObjects; }
 		}

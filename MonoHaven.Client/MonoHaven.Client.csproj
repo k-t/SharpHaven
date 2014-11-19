@@ -112,7 +112,7 @@
     <Compile Include="Graphics\TextBlock.cs" />
     <Compile Include="Graphics\TextBlockGlyph.cs" />
     <Compile Include="Graphics\TextureAtlas.cs" />
-    <Compile Include="Graphics\TextureRegion.cs" />
+    <Compile Include="Graphics\TextureSlice.cs" />
     <Compile Include="Graphics\VertexBuffer.cs" />
     <Compile Include="Login\LoginService.cs" />
     <Compile Include="Login\LoginSettings.cs" />

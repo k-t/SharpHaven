@@ -6,7 +6,7 @@ namespace MonoHaven.Graphics
 {
 	public class TextureAtlas : IDisposable
 	{
-		private const int Padding = 2;
+		private const int Padding = 1;
 
 		private readonly Texture texture;
 		private int nx;
@@ -18,12 +18,12 @@ namespace MonoHaven.Graphics
 			texture = new Texture(width, height);
 		}
 
-		public TextureRegion Add(RawImage image)
+		public TextureSlice Add(RawImage image)
 		{
 			return Allocate(image.Width, image.Height).Update(image);
 		}
 
-		public TextureRegion Add(byte[] bitmapData)
+		public TextureSlice Add(byte[] bitmapData)
 		{
 			using (var stream = new MemoryStream(bitmapData))
 			using (var bitmap = new Bitmap(stream))
@@ -32,12 +32,12 @@ namespace MonoHaven.Graphics
 			}
 		}
 
-		public TextureRegion Add(Bitmap bitmap)
+		public TextureSlice Add(Bitmap bitmap)
 		{
 			return Allocate(bitmap.Width, bitmap.Height).Update(bitmap);
 		}
 
-		public TextureRegion Allocate(int width, int height)
+		public TextureSlice Allocate(int width, int height)
 		{
 			if (ny + height > texture.Height)
 				// TODO: specific exceptions
@@ -58,7 +58,7 @@ namespace MonoHaven.Graphics
 			if (height > maxRowHeight)
 				maxRowHeight = height;
 
-			return new TextureRegion(texture, x, y, width, height);
+			return new TextureSlice(texture, x, y, width, height);
 		}
 
 		public void Dispose()

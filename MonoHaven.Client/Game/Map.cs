@@ -15,7 +15,7 @@ namespace MonoHaven.Game
 		private readonly Tileset[] tilesets = new Tileset[256];
 		private readonly TreeDictionary<Point, MapGrid> grids;
 		private readonly C5Random random;
-		private readonly List<Tuple<Point, TextureRegion>> flavorObjects = new List<Tuple<Point, TextureRegion>>();
+		private readonly List<Tuple<Point, TextureSlice>> flavorObjects = new List<Tuple<Point, TextureSlice>>();
 
 		public Map(GameSession session)
 		{
@@ -27,7 +27,7 @@ namespace MonoHaven.Game
 			this.session.MapDataAvailable += AddGrid;
 		}
 
-		public IEnumerable<Tuple<Point, TextureRegion>> FlavorObjects
+		public IEnumerable<Tuple<Point, TextureSlice>> FlavorObjects
 		{
 			get { return flavorObjects; }
 		}

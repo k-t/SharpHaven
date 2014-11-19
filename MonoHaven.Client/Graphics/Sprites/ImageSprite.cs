@@ -7,7 +7,7 @@ namespace MonoHaven.Graphics.Sprites
 {
 	public class ImageSprite : Sprite
 	{
-		private TextureRegion tex;
+		private TextureSlice tex;
 		private Point center;
 
 		public ImageSprite(Resource res)
@@ -34,7 +34,7 @@ namespace MonoHaven.Graphics.Sprites
 
 			using (var bitmap = ImageUtils.Combine(imageData))
 			{
-				tex = TextureRegion.FromBitmap(bitmap);
+				tex = TextureSlice.FromBitmap(bitmap);
 				Width = bitmap.Width;
 				Height = bitmap.Height;
 			}

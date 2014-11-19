@@ -5,14 +5,14 @@ using OpenTK;
 
 namespace MonoHaven.Graphics
 {
-	public class TextureRegion : Drawable
+	public class TextureSlice : Drawable
 	{
 		private readonly Texture tex;
 		private readonly Vector2 uv;
 		private readonly Vector2 uv2;
 		private readonly bool ownsTexture;
 
-		public TextureRegion(Texture tex, RectangleF region, bool ownsTexture = false)
+		public TextureSlice(Texture tex, RectangleF region, bool ownsTexture = false)
 		{
 			this.tex = tex;
 			this.ownsTexture = ownsTexture;
@@ -22,25 +22,25 @@ namespace MonoHaven.Graphics
 			this.Height = (int)region.Height;
 		}
 
-		public TextureRegion(Texture tex, int x, int y, int w, int h, bool ownsTexture = false)
+		public TextureSlice(Texture tex, int x, int y, int w, int h, bool ownsTexture = false)
 			: this(tex, new RectangleF(x, y, w, h), ownsTexture)
 		{
 		}
 
-		public static TextureRegion FromBitmap(byte[] bitmapData)
+		public static TextureSlice FromBitmap(byte[] bitmapData)
 		{
 			using (var stream = new MemoryStream(bitmapData))
 			using (var bitmap = new Bitmap(stream))
 				return FromBitmap(bitmap);
 		}
 
-		public static TextureRegion FromBitmap(Bitmap bitmap)
+		public static TextureSlice FromBitmap(Bitmap bitmap)
 		{
 			if (bitmap == null)
 				throw new ArgumentNullException("bitmap");
 			var tex = new Texture(bitmap.Size);
 			tex.Update(bitmap);
-			return new TextureRegion(tex, 0, 0, bitmap.Width, bitmap.Height, true);
+			return new TextureSlice(tex, 0, 0, bitmap.Width, bitmap.Height, true);
 		}
 
 		public override void Dispose()
@@ -54,14 +54,14 @@ namespace MonoHaven.Graphics
 			batch.Draw(tex, x, y, w, h, uv.X, uv.Y, uv2.X, uv2.Y);
 		}
 
-		public TextureRegion Update(Bitmap bitmap)
+		public TextureSlice Update(Bitmap bitmap)
 		{
 			tex.Bind();
 			tex.Update((int)(tex.Width * uv.X), (int)(tex.Height * uv.Y), bitmap);
 			return this;
 		}
 
-		public TextureRegion Update(RawImage image)
+		public TextureSlice Update(RawImage image)
 		{
 			tex.Bind();
 			tex.Update((int)(tex.Width * uv.X), (int)(tex.Height * uv.Y), image);
