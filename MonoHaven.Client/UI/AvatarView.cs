@@ -20,7 +20,7 @@ namespace MonoHaven.UI
 			background = App.Instance.Resources.GetTexture("gfx/hud/equip/bg");
 
 			using (var bitmap = EmbeddedResource.GetImage("wbox.png"))
-				box = new NinePatch(bitmap, 8, 8, 8, 8);
+				box = new NinePatch(TextureSlice.FromBitmap(bitmap), 8, 8, 8, 8);
 		}
 
 		public AvatarView(Widget parent) : this(parent, null)

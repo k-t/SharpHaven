@@ -27,6 +27,16 @@ namespace MonoHaven.Graphics
 		{
 		}
 
+		private int OffsetX
+		{
+			get { return (int)(tex.Width * uv.X); }
+		}
+
+		private int OffsetY
+		{
+			get { return (int)(tex.Height * uv.Y); }
+		}
+
 		public static TextureSlice FromBitmap(byte[] bitmapData)
 		{
 			using (var stream = new MemoryStream(bitmapData))
@@ -57,15 +67,29 @@ namespace MonoHaven.Graphics
 		public TextureSlice Update(Bitmap bitmap)
 		{
 			tex.Bind();
-			tex.Update((int)(tex.Width * uv.X), (int)(tex.Height * uv.Y), bitmap);
+			tex.Update(OffsetX, OffsetY, bitmap);
 			return this;
 		}
 
 		public TextureSlice Update(RawImage image)
 		{
 			tex.Bind();
-			tex.Update((int)(tex.Width * uv.X), (int)(tex.Height * uv.Y), image);
+			tex.Update(OffsetX, OffsetY, image);
 			return this;
+		}
+
+		public TextureSlice Slice(RectangleF region)
+		{
+			int offsetX = OffsetX;
+			int offsetY = OffsetY;
+			if (offsetX + region.Width > Width || offsetY + region.Height > Height)
+				throw new ArgumentException("Slice is out bounds");
+			return new TextureSlice(tex, region);
+		}
+
+		public TextureSlice Slice(int x, int y, int width, int height)
+		{
+			return Slice(new RectangleF(x, y, width, height));
 		}
 	}
 }

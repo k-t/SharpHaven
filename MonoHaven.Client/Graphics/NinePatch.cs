@@ -15,24 +15,16 @@ namespace MonoHaven.Graphics
 		private const int BottomCenter = 7;
 		private const int BottomRight = 8;
 
-		private readonly Texture tex;
 		private readonly Rectangle patchBounds;
 		private readonly TextureSlice[] patches = new TextureSlice[9];
 		
-		public NinePatch(Bitmap bitmap, int left, int right, int top, int bottom)
+		public NinePatch(TextureSlice tex, int left, int right, int top, int bottom)
 		{
 			patchBounds = Rectangle.FromLTRB(left, top, right, bottom);
-			tex = new Texture(bitmap.Width, bitmap.Height);
-			tex.Update(bitmap);
-			var textureBounds = new Rectangle(0, 0, bitmap.Width, bitmap.Height);
+			var textureBounds = new Rectangle(0, 0, tex.Width, tex.Height);
 			patches = SplitToPatches(textureBounds, patchBounds)
-				.Select(x => new TextureSlice(tex, x))
+				.Select(x => tex.Slice(x))
 				.ToArray();
-		}
-
-		public override void Dispose()
-		{
-			tex.Dispose();
 		}
 
 		public override void Draw(SpriteBatch batch, int x, int y, int w, int h)
