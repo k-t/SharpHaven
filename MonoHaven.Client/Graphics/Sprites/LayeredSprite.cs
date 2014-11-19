@@ -5,7 +5,6 @@ namespace MonoHaven.Graphics.Sprites
 {
 	public class LayeredSprite : Sprite
 	{
-		private Texture tex;
 		private readonly List<Delayed<Sprite>> sprites;
 
 		public LayeredSprite(IEnumerable<Delayed<Sprite>> layers)

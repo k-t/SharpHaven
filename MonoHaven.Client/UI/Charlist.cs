@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using MonoHaven.Graphics;
-using MonoHaven.Resources;
+using MonoHaven.Graphics.Sprites;
 using MonoHaven.Utils;
 using OpenTK;
 using OpenTK.Input;
@@ -51,7 +51,7 @@ namespace MonoHaven.UI
 
 		public event Action<string> CharacterSelected;
 
-		public void AddChar(string name, IEnumerable<Delayed<Resource>> layers)
+		public void AddChar(string name, IEnumerable<Delayed<Sprite>> layers)
 		{
 			var item = new ListItem(this, name, layers);
 			item.Selected += () => CharacterSelected.Raise(name);
@@ -93,7 +93,7 @@ namespace MonoHaven.UI
 			private readonly AvatarView avatar;
 			private readonly Button btnPlay;
 
-			public ListItem(Widget parent, string charName, IEnumerable<Delayed<Resource>> layers)
+			public ListItem(Widget parent, string charName, IEnumerable<Delayed<Sprite>> layers)
 				: base(parent)
 			{
 				SetSize(background.Width, background.Height);

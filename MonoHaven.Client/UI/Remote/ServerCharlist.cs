@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using MonoHaven.Resources;
+using MonoHaven.Graphics.Sprites;
 
 namespace MonoHaven.UI.Remote
 {
@@ -26,9 +26,9 @@ namespace MonoHaven.UI.Remote
 			if (message == "add")
 			{
 				var name = (string)args[0];
-				var layers = new List<Delayed<Resource>>();
+				var layers = new List<Delayed<Sprite>>();
 				for (int i = 1; i < args.Length; i++)
-					layers.Add(Session.GetResource((int)args[i]));
+					layers.Add(Session.GetSprite((int)args[i]));
 				widget.AddChar(name, layers);
 			}
 			else

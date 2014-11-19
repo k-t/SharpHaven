@@ -13,7 +13,7 @@ namespace MonoHaven.UI.Remote
 		public static ServerWidget CreateFromLayers(ushort id, ServerWidget parent, object[] args)
 		{
 			var session = parent.Session;
-			var layers = args.Select(x => session.GetResource((int)x));
+			var layers = args.Select(x => session.GetSprite((int)x));
 			var widget = new AvatarView(parent.Widget, layers);
 			return new ServerAvatarView(id, parent, widget);
 		}

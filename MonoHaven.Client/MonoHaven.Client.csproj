@@ -79,7 +79,6 @@
     <Compile Include="Game\Messages\WidgetCreateMessage.cs" />
     <Compile Include="Game\Messages\WidgetDestroyMessage.cs" />
     <Compile Include="Game\Messages\WidgetMessage.cs" />
-    <Compile Include="Graphics\Avatar.cs" />
     <Compile Include="Game\GameSession.cs" />
     <Compile Include="Graphics\RawImage.cs" />
     <Compile Include="Graphics\Sprites\AnimFrame.cs" />

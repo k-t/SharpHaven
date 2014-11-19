@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
 using MonoHaven.Graphics;
+using MonoHaven.Graphics.Sprites;
 using MonoHaven.Resources;
 
 namespace MonoHaven.UI
@@ -12,7 +13,7 @@ namespace MonoHaven.UI
 		private static readonly Drawable background;
 		private static readonly Drawable box;
 
-		private readonly Avatar avatar;
+		private readonly Drawable avatar;
 
 		static AvatarView()
 		{
@@ -27,10 +28,10 @@ namespace MonoHaven.UI
 		{
 		}
 
-		public AvatarView(Widget parent, IEnumerable<Delayed<Resource>> resources)
+		public AvatarView(Widget parent, IEnumerable<Delayed<Sprite>> layers)
 			: base(parent)
 		{
-			avatar = resources != null ? new Avatar(resources) : null;
+			avatar = layers != null ? new LayeredSprite(layers) : null;
 			SetSize(defaultSize.X + 10, defaultSize.Y + 10);
 		}
 
