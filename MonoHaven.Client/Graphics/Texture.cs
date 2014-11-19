@@ -1,6 +1,5 @@
 using System;
 using System.Drawing;
-using System.IO;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
 
