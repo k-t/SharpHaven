@@ -1,5 +1,6 @@
 using System;
 using System.Drawing;
+using System.IO;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
 
@@ -38,11 +39,6 @@ namespace MonoHaven.Graphics
 			get { return height; }
 		}
 
-		public PixelFormat PixelFormat
-		{
-			get { return PixelFormat.Bgra; }
-		}
-
 		public TextureTarget Target
 		{
 			get { return TextureTarget.Texture2D; }
@@ -64,15 +60,15 @@ namespace MonoHaven.Graphics
 			GL.BindTexture(TextureTarget.Texture2D, id);
 		}
 
-		public void Update(PixelFormat format, byte[] pixelData)
+		public void Update(RawImage image)
 		{
-			Update(0, 0, format, pixelData);
+			Update(0, 0, image);
 		}
 
-		public void Update(int x, int y, PixelFormat format, byte[] pixelData)
+		public void Update(int x, int y, RawImage image)
 		{
-			GL.TexSubImage2D(Target, 0, x, y, Width, Height, format,
-				PixelType.UnsignedByte, pixelData);
+			GL.TexSubImage2D(Target, 0, x, y, image.Width, image.Height,
+				image.Format, PixelType.UnsignedByte, image.PixelData);
 		}
 
 		public void Update(Bitmap bitmap)
@@ -93,12 +89,18 @@ namespace MonoHaven.Graphics
 			bitmap.UnlockBits(bitmapData);
 		}
 
+		public void Update(PixelFormat format, byte[] pixels)
+		{
+			GL.TexSubImage2D(Target, 0, 0, 0, Width, Height, format,
+				PixelType.UnsignedByte, pixels);
+		}
+
 		private void Init()
 		{
 			Bind();
 			SetFilter(TextureMinFilter.Nearest, TextureMagFilter.Nearest);
 			GL.TexImage2D(Target, 0, PixelInternalFormat.Rgba, Width, Height,
-				0, PixelFormat, PixelType.UnsignedByte, IntPtr.Zero);
+				0, PixelFormat.Bgra, PixelType.UnsignedByte, IntPtr.Zero);
 		}
 
 		private void SetFilter(TextureMinFilter min, TextureMagFilter mag)

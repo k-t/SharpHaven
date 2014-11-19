@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Drawing;
-using System.Drawing.Imaging;
 using System.IO;
 using OpenTK.Graphics.OpenGL;
-using PixelFormat = OpenTK.Graphics.OpenGL.PixelFormat;
 
 namespace MonoHaven.Graphics
 {
@@ -70,29 +68,17 @@ namespace MonoHaven.Graphics
 				textureBounds.Right, textureBounds.Bottom);
 		}
 
-		public TextureRegion Upload(byte[] pixels, PixelFormat format)
+		public TextureRegion Update(Bitmap bitmap)
 		{
 			texture.Bind();
-			GL.TexSubImage2D(texture.Target, 0,
-				x, y, Width, Height,
-				format, PixelType.UnsignedByte, pixels);
-
+			texture.Update(x, y, bitmap);
 			return this;
 		}
 
-		public TextureRegion Upload(Bitmap image)
+		public TextureRegion Update(RawImage image)
 		{
-			var bitmapData = image.LockBits(
-				new Rectangle(0, 0, image.Width, image.Height),
-				ImageLockMode.ReadOnly,
-				System.Drawing.Imaging.PixelFormat.Format32bppArgb);
-
 			texture.Bind();
-			GL.TexSubImage2D(texture.Target, 0,
-				x, y, Width, Height,
-				PixelFormat.Bgra, PixelType.UnsignedByte, bitmapData.Scan0);
-
-			image.UnlockBits(bitmapData);
+			texture.Update(x, y, image);
 			return this;
 		}
 	}

@@ -81,6 +81,7 @@
     <Compile Include="Game\Messages\WidgetMessage.cs" />
     <Compile Include="Graphics\Avatar.cs" />
     <Compile Include="Game\GameSession.cs" />
+    <Compile Include="Graphics\RawImage.cs" />
     <Compile Include="Graphics\Sprites\AnimFrame.cs" />
     <Compile Include="Graphics\Sprites\AnimSprite.cs" />
     <Compile Include="Graphics\Sprites\ImageSprite.cs" />

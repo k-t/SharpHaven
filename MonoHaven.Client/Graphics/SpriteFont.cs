@@ -74,22 +74,20 @@ namespace MonoHaven.Graphics
 			using (var bitmap = face.Glyph.Bitmap)
 			{
 				var bufferData = bitmap.BufferData;
-				var glyphPixels = new byte[4 * sz.Width * sz.Height];
-
+				var image = new RawImage(PixelFormat.Rgba, sz);
 				for (int j = 0; j < sz.Height; j++)
 					for (int i = 0; i < sz.Width; i++)
 					{
 						int k = (i + bitmap.Width * j) * 4;
-						glyphPixels[k] = 255;
-						glyphPixels[k + 1] = 255;
-						glyphPixels[k + 2] = 255;
-						glyphPixels[k + 3] = bufferData[i + bitmap.Width * j];
+						image.PixelData[k] = 255;
+						image.PixelData[k + 1] = 255;
+						image.PixelData[k + 2] = 255;
+						image.PixelData[k + 3] = bufferData[i + bitmap.Width * j];
 					}
-
 				return new Glyph {
 					Advance = face.Glyph.Advance.X / 64f,
 					Offset = new Point(face.Glyph.BitmapLeft, -face.Glyph.BitmapTop),
-					Image = atlas.Add(glyphPixels, PixelFormat.Rgba, sz.Width, sz.Height)
+					Image = atlas.Add(image)
 				};
 			}
 		}

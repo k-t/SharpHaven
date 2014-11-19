@@ -19,9 +19,9 @@ namespace MonoHaven.Graphics
 			texture = new Texture(width, height);
 		}
 
-		public TextureRegion Add(byte[] pixelData, PixelFormat pixelFormat, int width, int height)
+		public TextureRegion Add(RawImage image)
 		{
-			return Allocate(width, height).Upload(pixelData, pixelFormat);
+			return Allocate(image.Width, image.Height).Update(image);
 		}
 
 		public TextureRegion Add(byte[] bitmapData)
@@ -35,7 +35,7 @@ namespace MonoHaven.Graphics
 
 		public TextureRegion Add(Bitmap bitmap)
 		{
-			return Allocate(bitmap.Width, bitmap.Height).Upload(bitmap);
+			return Allocate(bitmap.Width, bitmap.Height).Update(bitmap);
 		}
 
 		public TextureRegion Allocate(int width, int height)
