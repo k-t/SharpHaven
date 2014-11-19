@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using MonoHaven.Graphics;
 using MonoHaven.Graphics.Sprites;
 
 namespace MonoHaven.Game
@@ -65,7 +66,7 @@ namespace MonoHaven.Game
 			AddChange(o => {
 				var sprites = layers.Select(x => session.GetSprite(x));
 				var sprite = new LayeredSprite(sprites);
-				var delayed = new Delayed<Sprite>(sprite);
+				var delayed = new Delayed<ISprite>(sprite);
 				o.SetAvatar(delayed);
 				return true;
 			});
@@ -93,7 +94,7 @@ namespace MonoHaven.Game
 			{
 				var sprites = layers.Select(x => session.GetSprite(x));
 				var sprite = new LayeredSprite(sprites);
-				var delayed = new Delayed<Sprite>(sprite);
+				var delayed = new Delayed<ISprite>(sprite);
 				o.SetSprite(delayed);
 				return true;
 			});

@@ -14,7 +14,7 @@ namespace MonoHaven.UI
 		private static readonly Drawable background;
 		private static readonly Drawable box;
 
-		private readonly Drawable avatar;
+		private readonly ISprite avatar;
 		private readonly GameObjectCache gobCache;
 		private readonly int? gobId;
 
@@ -35,7 +35,7 @@ namespace MonoHaven.UI
 			SetSize(defaultSize.X + 10, defaultSize.Y + 10);
 		}
 
-		public AvatarView(Widget parent, IEnumerable<Delayed<Sprite>> layers)
+		public AvatarView(Widget parent, IEnumerable<Delayed<ISprite>> layers)
 			: base(parent)
 		{
 			avatar = layers != null ? new LayeredSprite(layers) : null;

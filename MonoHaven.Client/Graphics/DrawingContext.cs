@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using MonoHaven.Graphics.Sprites;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
 
@@ -90,6 +91,11 @@ namespace MonoHaven.Graphics
 		public void DrawRectangle(int x, int y, int width, int height)
 		{
 			spriteBatch.Draw(x + offset.X, y + offset.Y, width, height);
+		}
+
+		public void Draw(ISprite sprite, int x, int y)
+		{
+			sprite.Draw(spriteBatch, x + offset.X, y + offset.Y);
 		}
 	}
 }

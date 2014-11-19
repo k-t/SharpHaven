@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using MonoHaven.Game.Messages;
+using MonoHaven.Graphics;
 using MonoHaven.Graphics.Sprites;
 using MonoHaven.Network;
 using MonoHaven.Resources;
@@ -359,7 +360,7 @@ namespace MonoHaven.Game
 			return GetResource(id, App.Instance.Resources.Get);
 		}
 
-		public Delayed<Sprite> GetSprite(int id)
+		public Delayed<ISprite> GetSprite(int id)
 		{
 			return GetResource(id, App.Instance.Resources.GetSprite);
 		}

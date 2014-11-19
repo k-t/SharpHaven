@@ -1,14 +1,16 @@
-﻿namespace MonoHaven.Graphics.Sprites
+﻿using System.Collections.Generic;
+
+namespace MonoHaven.Graphics.Sprites
 {
 	public class AnimFrame
 	{
 		private readonly int duration;
-		private readonly TextureSlice tex;
+		private readonly List<SpritePart> parts;
 
-		public AnimFrame(int duration, TextureSlice tex)
+		public AnimFrame(int duration, IEnumerable<SpritePart> parts)
 		{
 			this.duration = duration;
-			this.tex = tex;
+			this.parts = new List<SpritePart>(parts);
 		}
 
 		public int Duration
@@ -16,9 +18,9 @@
 			get { return duration; }
 		}
 
-		public TextureSlice Tex
+		public List<SpritePart> Parts
 		{
-			get { return tex; }
+			get { return parts; }
 		}
 	}
 }

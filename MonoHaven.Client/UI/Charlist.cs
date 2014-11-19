@@ -51,7 +51,7 @@ namespace MonoHaven.UI
 
 		public event Action<string> CharacterSelected;
 
-		public void AddChar(string name, IEnumerable<Delayed<Sprite>> layers)
+		public void AddChar(string name, IEnumerable<Delayed<ISprite>> layers)
 		{
 			var item = new ListItem(this, name, layers);
 			item.Selected += () => CharacterSelected.Raise(name);
@@ -93,7 +93,7 @@ namespace MonoHaven.UI
 			private readonly AvatarView avatar;
 			private readonly Button btnPlay;
 
-			public ListItem(Widget parent, string charName, IEnumerable<Delayed<Sprite>> layers)
+			public ListItem(Widget parent, string charName, IEnumerable<Delayed<ISprite>> layers)
 				: base(parent)
 			{
 				SetSize(background.Width, background.Height);

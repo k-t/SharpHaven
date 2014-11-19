@@ -1,13 +1,12 @@
 ﻿using System.Drawing;
-using MonoHaven.Graphics;
 using MonoHaven.Graphics.Sprites;
 
 namespace MonoHaven.Game
 {
 	public class GameObject
 	{
-		private Delayed<Sprite> sprite;
-		private Delayed<Sprite> avatar;
+		private Delayed<ISprite> sprite;
+		private Delayed<ISprite> avatar;
 
 		public Point Position
 		{
@@ -21,22 +20,22 @@ namespace MonoHaven.Game
 			set;
 		}
 
-		public Drawable Sprite
+		public ISprite Sprite
 		{
 			get { return sprite != null ? sprite.Value : null; }
 		}
 
-		public Drawable Avatar
+		public ISprite Avatar
 		{
 			get { return avatar != null ? avatar.Value : null; }
 		}
 
-		public void SetSprite(Delayed<Sprite> value)
+		public void SetSprite(Delayed<ISprite> value)
 		{
 			sprite = value;
 		}
 
-		public void SetAvatar(Delayed<Sprite> value)
+		public void SetAvatar(Delayed<ISprite> value)
 		{
 			avatar = value;
 		}

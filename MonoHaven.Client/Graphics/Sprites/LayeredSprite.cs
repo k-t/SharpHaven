@@ -1,27 +1,28 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace MonoHaven.Graphics.Sprites
 {
-	public class LayeredSprite : Sprite
+	public class LayeredSprite : ISprite
 	{
-		private readonly List<Delayed<Sprite>> sprites;
+		private readonly List<Delayed<ISprite>> sprites;
 
-		public LayeredSprite(IEnumerable<Delayed<Sprite>> layers)
+		public LayeredSprite(IEnumerable<Delayed<ISprite>> layers)
 		{
-			sprites = new List<Delayed<Sprite>>(layers);
+			sprites = new List<Delayed<ISprite>>(layers);
 		}
 
-		public override void Draw(SpriteBatch batch, int x, int y, int w, int h)
+		public void Draw(SpriteBatch batch, int x, int y)
 		{
 			foreach (var sprite in sprites)
 				if (sprite.Value != null)
-				{
-					// TODO: find a better place to do it
-					Width = Math.Max(Width, sprite.Value.Width);
-					Height = Math.Max(Height, sprite.Value.Height);
-					sprite.Value.Draw(batch, x, y, sprite.Value.Width, sprite.Value.Height);
-				}
+					sprite.Value.Draw(batch, x, y);
+		}
+
+		public void Dispose()
+		{
+			foreach (var sprite in sprites)
+				if (sprite.Value != null)
+					sprite.Value.Dispose();
 		}
 	}
 }
