@@ -153,7 +153,6 @@
     <Compile Include="UI\RootWidget.cs" />
     <Compile Include="UI\Container.cs" />
     <Compile Include="UI\Window.cs" />
-    <Compile Include="Utils\ImageUtils.cs" />
     <Compile Include="Utils\MathExtensions.cs" />
     <Compile Include="Utils\PointComparer.cs" />
     <Compile Include="Game\GameScreen.cs" />
