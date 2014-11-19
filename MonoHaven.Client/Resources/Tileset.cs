@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using MonoHaven.Graphics;
+using MonoHaven.Graphics.Sprites;
 using MonoHaven.Resources.Layers;
 using MonoHaven.Utils;
 
@@ -9,7 +10,7 @@ namespace MonoHaven.Resources
 	{
 		private static TextureAtlas atlas;
 		private readonly WeightList<TextureSlice> groundTiles;
-		private readonly WeightList<TextureSlice> flavorObjects; 
+		private readonly WeightList<ISprite> flavorObjects; 
 		private readonly WeightList<TextureSlice>[] borderTransitions;
 		private readonly WeightList<TextureSlice>[] crossTransitions;
 		private readonly int flavorDensity;
@@ -21,7 +22,7 @@ namespace MonoHaven.Resources
 
 			flavorDensity = data.FlavorDensity;
 			groundTiles = new WeightList<TextureSlice>();
-			flavorObjects = new WeightList<TextureSlice>();
+			flavorObjects = new WeightList<ISprite>();
 			if (data.HasTransitions)
 			{
 				crossTransitions = new WeightList<TextureSlice>[15];
@@ -50,9 +51,8 @@ namespace MonoHaven.Resources
 
 			foreach (var flavor in data.FlavorObjects)
 			{
-				var images = App.Instance.Resources.Get(flavor.ResName).GetLayers<ImageData>();
-				using (var image = ImageUtils.Combine(images))
-					flavorObjects.Add(atlas.Add(image), flavor.Weight);
+				var sprite = App.Instance.Resources.GetSprite(flavor.ResName);
+				flavorObjects.Add(sprite, flavor.Weight);
 				// TODO: else log warning
 			}
 		}
@@ -77,7 +77,7 @@ namespace MonoHaven.Resources
 			get { return groundTiles; }
 		}
 
-		public WeightList<TextureSlice> FlavorObjects
+		public WeightList<ISprite> FlavorObjects
 		{
 			get { return flavorObjects; }
 		}

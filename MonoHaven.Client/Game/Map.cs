@@ -4,6 +4,7 @@ using System.Drawing;
 using C5;
 using MonoHaven.Game.Messages;
 using MonoHaven.Graphics;
+using MonoHaven.Graphics.Sprites;
 using MonoHaven.Resources;
 using MonoHaven.Utils;
 
@@ -15,7 +16,7 @@ namespace MonoHaven.Game
 		private readonly Tileset[] tilesets = new Tileset[256];
 		private readonly TreeDictionary<Point, MapGrid> grids;
 		private readonly C5Random random;
-		private readonly List<Tuple<Point, TextureSlice>> flavorObjects = new List<Tuple<Point, TextureSlice>>();
+		private readonly List<Tuple<Point, ISprite>> flavorObjects = new List<Tuple<Point, ISprite>>();
 
 		public Map(GameSession session)
 		{
@@ -27,7 +28,7 @@ namespace MonoHaven.Game
 			this.session.MapDataAvailable += AddGrid;
 		}
 
-		public IEnumerable<Tuple<Point, TextureSlice>> FlavorObjects
+		public IEnumerable<Tuple<Point, ISprite>> FlavorObjects
 		{
 			get { return flavorObjects; }
 		}
