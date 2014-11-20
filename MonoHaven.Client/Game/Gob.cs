@@ -3,7 +3,7 @@ using MonoHaven.Graphics.Sprites;
 
 namespace MonoHaven.Game
 {
-	public class GameObject
+	public class Gob
 	{
 		private Delayed<ISprite> sprite;
 		private Delayed<ISprite> avatar;

@@ -2,27 +2,27 @@
 using C5;
 namespace MonoHaven.Game
 {
-	public class GameObjectCache : IEnumerable<GameObject>
+	public class GobCache : IEnumerable<Gob>
 	{
-		private readonly TreeDictionary<int, GameObject> objects;
+		private readonly TreeDictionary<int, Gob> objects;
 
-		public GameObjectCache()
+		public GobCache()
 		{
-			objects = new TreeDictionary<int, GameObject>();
+			objects = new TreeDictionary<int, Gob>();
 		}
 
-		public GameObject Get(int id)
+		public Gob Get(int id)
 		{
-			GameObject gob;
+			Gob gob;
 			if (!objects.Find(ref id, out gob))
 			{
-				gob = new GameObject();
+				gob = new Gob();
 				objects[id] = gob;
 			}
 			return gob;
 		}
 
-		public GameObject Get(int id, int frame)
+		public Gob Get(int id, int frame)
 		{
 			return Get(id);
 		}
@@ -32,7 +32,7 @@ namespace MonoHaven.Game
 			objects.Remove(id);
 		}
 
-		public IEnumerator<GameObject> GetEnumerator()
+		public IEnumerator<Gob> GetEnumerator()
 		{
 			return objects.Values.GetEnumerator();
 		}

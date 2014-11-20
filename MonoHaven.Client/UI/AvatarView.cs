@@ -15,7 +15,7 @@ namespace MonoHaven.UI
 		private static readonly Drawable box;
 
 		private readonly ISprite avatar;
-		private readonly GameObjectCache gobCache;
+		private readonly GobCache gobCache;
 		private readonly int? gobId;
 
 		static AvatarView()
@@ -27,7 +27,7 @@ namespace MonoHaven.UI
 				box = new NinePatch(TextureSlice.FromBitmap(bitmap), 8, 8, 8, 8);
 		}
 
-		public AvatarView(Widget parent, int gobId, GameObjectCache gobCache)
+		public AvatarView(Widget parent, int gobId, GobCache gobCache)
 			: base(parent)
 		{
 			this.gobId = gobId;

@@ -2,27 +2,26 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using MonoHaven.Graphics;
 using MonoHaven.Graphics.Sprites;
 
 namespace MonoHaven.Game
 {
-	public class GameObjectDelta
+	public class GobDelta
 	{
 		private readonly GameSession session;
 		private readonly int id;
 		private readonly int frame;
 		private readonly bool replace;
-		private readonly List<Func<GameObject, bool>> changeset;
+		private readonly List<Func<Gob, bool>> changeset;
 
-		public GameObjectDelta(GameSession session, int id, int frame, bool replace)
+		public GobDelta(GameSession session, int id, int frame, bool replace)
 		{
 			this.session = session;
 			this.id = id;
 			this.frame = frame;
 			this.replace = replace;
 
-			changeset = new List<Func<GameObject, bool>>();
+			changeset = new List<Func<Gob, bool>>();
 		}
 
 		public void Apply()
@@ -30,7 +29,7 @@ namespace MonoHaven.Game
 			var objectCache = session.State.Objects;
 			if (replace)
 				objectCache.Remove(id, frame - 1);
-			GameObject gob = null;
+			Gob gob = null;
 			foreach (var change in changeset)
 			{
 				if (gob == null)
@@ -149,7 +148,7 @@ namespace MonoHaven.Game
 		{
 		}
 
-		private void AddChange(Func<GameObject, bool> change)
+		private void AddChange(Func<Gob, bool> change)
 		{
 			changeset.Add(change);
 		}
