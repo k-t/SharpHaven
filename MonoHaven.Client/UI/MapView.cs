@@ -92,10 +92,8 @@ namespace MonoHaven.UI
 			{
 				if (gob.Sprite == null)
 					return;
-
 				var p = WorldToScreen(gob.Position);
-				if (Bounds.Contains(p))
-					g.Draw(gob.Sprite, p.X + gob.DrawOffset.X, p.Y + gob.DrawOffset.Y);
+				g.Draw(gob.Sprite, p.X + gob.DrawOffset.X, p.Y + gob.DrawOffset.Y);
 			}
 		}
 
