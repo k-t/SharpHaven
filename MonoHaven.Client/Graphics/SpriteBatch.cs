@@ -13,13 +13,15 @@ namespace MonoHaven.Graphics
 		private const string TexCoordAttrName = "texcoord";
 		private const string ColorAttrName = "color";
 
+		private readonly Texture empty;
+		private readonly Shader shader;
+		private readonly int coordAtrrib;
+		private readonly int colorAttrib;
+		private readonly int texCoordAttrib;
+
 		private Color4 color = Color4.White;
 		private Texture currentTexture;
-		private Texture empty;
 		private bool isActive;
-
-		private readonly Shader shader;
-
 		private int idx;
 		private readonly float[] vertices;
 		private readonly VertexBuffer vertexBuffer;
@@ -39,6 +41,10 @@ namespace MonoHaven.Graphics
 			var fragmentShader = new FragmentShaderTemplate();
 
 			shader = new Shader(vertexShader.TransformText(), fragmentShader.TransformText());
+
+			coordAtrrib = shader.GetAttributeLocation(Coord2DAttrName);
+			colorAttrib = shader.GetAttributeLocation(ColorAttrName);
+			texCoordAttrib = shader.GetAttributeLocation(TexCoordAttrName);
 			
 			empty = new Texture(1, 1);
 			empty.Update(PixelFormat.Rgba, new byte[] {255, 255, 255, 255});
@@ -143,20 +149,16 @@ namespace MonoHaven.Graphics
 
 		private void Render()
 		{
-			int coords = shader.GetAttributeLocation(Coord2DAttrName);
-			int color = shader.GetAttributeLocation(ColorAttrName);
-			int texCoords = shader.GetAttributeLocation(TexCoordAttrName);
-
-			GL.EnableVertexAttribArray(coords);
-			GL.EnableVertexAttribArray(color);
-			GL.EnableVertexAttribArray(texCoords);
+			GL.EnableVertexAttribArray(coordAtrrib);
+			GL.EnableVertexAttribArray(colorAttrib);
+			GL.EnableVertexAttribArray(texCoordAttrib);
 
 			int stride = 8 * sizeof(float);
 
 			GL.BindBuffer(BufferTarget.ArrayBuffer, vertexBuffer.Id);
-			GL.VertexAttribPointer(coords, 2, VertexAttribPointerType.Float, false, stride, 0);
-			GL.VertexAttribPointer(color, 4, VertexAttribPointerType.Float, false, stride, 2 * sizeof(float));
-			GL.VertexAttribPointer(texCoords, 2, VertexAttribPointerType.Float, false, stride, 6 * sizeof(float));
+			GL.VertexAttribPointer(coordAtrrib, 2, VertexAttribPointerType.Float, false, stride, 0);
+			GL.VertexAttribPointer(colorAttrib, 4, VertexAttribPointerType.Float, false, stride, 2 * sizeof(float));
+			GL.VertexAttribPointer(texCoordAttrib, 2, VertexAttribPointerType.Float, false, stride, 6 * sizeof(float));
 
 			if (currentTexture != null)
 				GL.BindTexture(currentTexture.Target, currentTexture.Id);
@@ -165,10 +167,10 @@ namespace MonoHaven.Graphics
 
 			// TODO: Use triangles instead of quads?
 			GL.DrawArrays(PrimitiveType.Quads, 0, idx / 8);
-			
-			GL.DisableVertexAttribArray(coords);
-			GL.DisableVertexAttribArray(color);
-			GL.DisableVertexAttribArray(texCoords);
+
+			GL.DisableVertexAttribArray(coordAtrrib);
+			GL.DisableVertexAttribArray(colorAttrib);
+			GL.DisableVertexAttribArray(texCoordAttrib);
 		}
 	}
 }
