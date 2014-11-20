@@ -26,10 +26,10 @@ namespace MonoHaven.Graphics
 			GL.BindBuffer(BufferTarget.ArrayBuffer, 0);
 		}
 
-		public void Fill(float[] data)
+		public void Fill(float[] data, int count)
 		{
 			GL.BindBuffer(BufferTarget.ArrayBuffer, id);
-			GL.BufferData(BufferTarget.ArrayBuffer, (IntPtr)(sizeof(float) * data.Length), data, usageHint);
+			GL.BufferData(BufferTarget.ArrayBuffer, (IntPtr)(sizeof(float) * count), data, usageHint);
 			GL.BindBuffer(BufferTarget.ArrayBuffer, 0);
 		}
 

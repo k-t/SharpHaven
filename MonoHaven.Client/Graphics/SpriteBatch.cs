@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using MonoHaven.Graphics.Shaders;
+using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
 
 namespace MonoHaven.Graphics
@@ -12,19 +13,20 @@ namespace MonoHaven.Graphics
 		private const string TexCoordAttrName = "texcoord";
 		private const string ColorAttrName = "color";
 
-		private Color color = Color.White;
+		private Color4 color = Color4.White;
 		private Texture currentTexture;
 		private Texture empty;
 		private bool isActive;
 
 		private readonly Shader shader;
 
-		private readonly List<float> vertices;
+		private int idx;
+		private readonly float[] vertices;
 		private readonly VertexBuffer vertexBuffer;
 
 		public SpriteBatch()
 		{
-			vertices = new List<float>();
+			vertices = new float[4 * 8 * 2000];
 			vertexBuffer = new VertexBuffer(BufferUsageHint.StreamDraw);
 
 			var vertexShader = new VertexShaderTemplate();
@@ -69,9 +71,9 @@ namespace MonoHaven.Graphics
 
 		public void Flush()
 		{
-			vertexBuffer.Fill(vertices.ToArray());
+			vertexBuffer.Fill(vertices, idx);
 			Render();
-			vertices.Clear();
+			idx = 0;
 		}
 
 		public void SetColor(Color color)
@@ -115,15 +117,15 @@ namespace MonoHaven.Graphics
 
 		private void AddVertex(int x, int y, float u, float v)
 		{
-			vertices.Add(x);
-			vertices.Add(y);
+			vertices[idx++] = x;
+			vertices[idx++] = y;
 			// TODO: pack colors
-			vertices.Add(color.R / 255f);
-			vertices.Add(color.G / 255f);
-			vertices.Add(color.B / 255f);
-			vertices.Add(color.A / 255f);
-			vertices.Add(u);
-			vertices.Add(v);
+			vertices[idx++] = color.R;
+			vertices[idx++] = color.G;
+			vertices[idx++] = color.B;
+			vertices[idx++] = color.A;
+			vertices[idx++] = u;
+			vertices[idx++] = v;
 		}
 
 		private void ChangeTexture(Texture texture)
@@ -132,6 +134,10 @@ namespace MonoHaven.Graphics
 			{
 				Flush();
 				currentTexture = texture;
+			}
+			else if (idx == vertices.Length)
+			{
+				Flush();
 			}
 		}
 
@@ -158,7 +164,7 @@ namespace MonoHaven.Graphics
 				GL.BindTexture(TextureTarget.Texture2D, 0);
 
 			// TODO: Use triangles instead of quads?
-			GL.DrawArrays(PrimitiveType.Quads, 0, vertices.Count / 8);
+			GL.DrawArrays(PrimitiveType.Quads, 0, idx / 8);
 			
 			GL.DisableVertexAttribArray(coords);
 			GL.DisableVertexAttribArray(color);
