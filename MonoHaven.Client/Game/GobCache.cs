@@ -1,5 +1,8 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using C5;
+using MonoHaven.Graphics.Sprites;
+
 namespace MonoHaven.Game
 {
 	public class GobCache : IEnumerable<Gob>
@@ -44,8 +47,11 @@ namespace MonoHaven.Game
 
 		public void Tick(int dt)
 		{
-			foreach (var gob in this)
-				gob.Tick(dt);
+			// TODO: each object should have own state for a sprite
+			var sprites = new System.Collections.Generic.HashSet<ISprite>(this.Select(o => o.Sprite));
+			foreach (var sprite in sprites)
+				if (sprite != null)
+					sprite.Tick(dt);
 		}
 	}
 }

@@ -10,6 +10,7 @@ namespace MonoHaven.Graphics.Sprites
 	{
 		private AnimFrame[] frames;
 		private int frameIndex;
+		private int elapsed;
 
 		public AnimSprite(Resource res) : base(res)
 		{
@@ -23,9 +24,13 @@ namespace MonoHaven.Graphics.Sprites
 
 		public override void Tick(int dt)
 		{
-			frameIndex++;
-			if (frameIndex >= frames.Length)
-				frameIndex = 0;
+			elapsed += dt;
+			while (elapsed > frames[frameIndex].Duration)
+			{
+				elapsed -= frames[frameIndex].Duration;
+				if (++frameIndex >= frames.Length)
+					frameIndex = 0;
+			}
 		}
 
 		private void Init(Resource res)
