@@ -60,10 +60,5 @@ namespace MonoHaven.UI
 			dc.ResetClip();
 			dc.Draw(box, 0, 0, Width, Height);
 		}
-
-		protected override void OnDispose()
-		{
-			avatar.Dispose();
-		}
 	}
 }
