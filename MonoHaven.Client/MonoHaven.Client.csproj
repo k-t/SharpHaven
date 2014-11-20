@@ -88,6 +88,7 @@
     <Compile Include="Graphics\Sprites\LayeredSprite.cs" />
     <Compile Include="Graphics\Sprites\Sprite.cs" />
     <Compile Include="Graphics\Sprites\SpritePart.cs" />
+    <Compile Include="Graphics\Sprites\SpriteSheet.cs" />
     <Compile Include="Graphics\TextAlign.cs" />
     <Compile Include="Graphics\Glyph.cs" />
     <Compile Include="Graphics\Shader.cs" />
