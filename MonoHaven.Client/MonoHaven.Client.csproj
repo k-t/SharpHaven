@@ -71,6 +71,7 @@
     <Compile Include="Constants.cs" />
     <Compile Include="Cursors.cs" />
     <Compile Include="FrameCounter.cs" />
+    <Compile Include="Game\GameScene.cs" />
     <Compile Include="Game\Gob.cs" />
     <Compile Include="Game\GobCache.cs" />
     <Compile Include="Game\GobDelta.cs" />

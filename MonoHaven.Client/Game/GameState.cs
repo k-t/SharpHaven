@@ -4,11 +4,13 @@
 	{
 		private readonly Map map;
 		private readonly GobCache objects;
+		private readonly GameScene scene;
 
 		public GameState(GameSession session)
 		{
 			map = new Map(session);
 			objects = new GobCache();
+			scene = new GameScene(this);
 		}
 		
 		public Map Map
@@ -19,6 +21,11 @@
 		public GobCache Objects
 		{
 			get { return objects; }
+		}
+
+		public GameScene Scene
+		{
+			get { return scene; }
 		}
 	}
 }

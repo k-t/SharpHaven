@@ -30,7 +30,7 @@ namespace MonoHaven.UI
 		{
 			DrawTiles(dc);
 			DrawFlavor(dc);
-			DrawObjects(dc);
+			DrawScene(dc);
 		}
 
 		private void RequestMaps()
@@ -86,15 +86,9 @@ namespace MonoHaven.UI
 			}
 		}
 
-		private void DrawObjects(DrawingContext g)
+		private void DrawScene(DrawingContext g)
 		{
-			foreach (var gob in gstate.Objects)
-			{
-				if (gob.Sprite == null)
-					return;
-				var p = WorldToScreen(gob.Position);
-				g.Draw(gob.Sprite, p.X + gob.DrawOffset.X, p.Y + gob.DrawOffset.Y);
-			}
+			gstate.Scene.Draw(g, Width / 2 - cameraOffset.X, Height / 2 - cameraOffset.Y);
 		}
 
 		/// <summary>
