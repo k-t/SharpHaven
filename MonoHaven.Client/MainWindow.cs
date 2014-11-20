@@ -115,8 +115,11 @@ namespace MonoHaven
 			}
 			SwapBuffers();
 
+#if DEBUG
 			frameCounter.Update();
-			Title = string.Format("{0} [FPS: {1}]", WindowTitle, frameCounter.FramesPerSecond);
+			Title = string.Format("{0} [FPS: {1}] [Render Calls: {2}]", WindowTitle, frameCounter.FramesPerSecond, SpriteBatch.RenderCount);
+			SpriteBatch.RenderCount = 0;
+#endif
 		}
 
 		protected override void OnClosing(CancelEventArgs e)

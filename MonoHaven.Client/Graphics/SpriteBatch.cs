@@ -50,6 +50,10 @@ namespace MonoHaven.Graphics
 			empty.Update(PixelFormat.Rgba, new byte[] {255, 255, 255, 255});
 		}
 
+#if DEBUG
+		public int RenderCount;
+#endif
+
 		public void Dispose()
 		{
 			if (isActive) End();
@@ -148,6 +152,10 @@ namespace MonoHaven.Graphics
 
 		private void Render()
 		{
+#if DEBUG
+			RenderCount++;
+#endif
+
 			GL.EnableVertexAttribArray(coordAtrrib);
 			GL.EnableVertexAttribArray(colorAttrib);
 			GL.EnableVertexAttribArray(texCoordAttrib);
