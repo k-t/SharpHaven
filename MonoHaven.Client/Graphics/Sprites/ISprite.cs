@@ -6,5 +6,6 @@ namespace MonoHaven.Graphics.Sprites
 	public interface ISprite : IDisposable
 	{
 		IEnumerable<SpritePart> Parts { get; }
+		void Tick(int dt);
 	}
 }

@@ -39,6 +39,11 @@ namespace MonoHaven.Game
 			session.Finish();
 		}
 
+		protected override void OnUpdate(int dt)
+		{
+			session.State.Objects.Tick(dt);
+		}
+
 		protected override void OnResize(int newWidth, int newHeight)
 		{
 			if (mapView != null)

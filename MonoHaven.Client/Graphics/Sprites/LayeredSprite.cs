@@ -26,5 +26,12 @@ namespace MonoHaven.Graphics.Sprites
 		public void Dispose()
 		{
 		}
+
+		public void Tick(int dt)
+		{
+			foreach (var sprite in sprites)
+				if (sprite.Value != null)
+					sprite.Value.Tick(dt);
+		}
 	}
 }

@@ -18,10 +18,10 @@ namespace MonoHaven.Graphics.Sprites
 
 		public override IEnumerable<SpritePart> Parts
 		{
-			get { Tick(); return frames[frameIndex].Parts; }
+			get { return frames[frameIndex].Parts; }
 		}
 
-		private void Tick()
+		public override void Tick(int dt)
 		{
 			frameIndex++;
 			if (frameIndex >= frames.Length)

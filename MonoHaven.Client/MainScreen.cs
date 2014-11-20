@@ -71,6 +71,11 @@ namespace MonoHaven
 			current.Draw(dc);
 		}
 
+		void IScreen.Update(int dt)
+		{
+			current.Update(dt);
+		}
+
 		void IScreen.MouseButtonDown(MouseButtonEventArgs e)
 		{
 			current.MouseButtonDown(e);

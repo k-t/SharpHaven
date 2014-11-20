@@ -39,5 +39,11 @@ namespace MonoHaven.Game
 		{
 			avatar = value;
 		}
+
+		public void Tick(int dt)
+		{
+			if (Sprite != null)
+				Sprite.Tick(dt);
+		}
 	}
 }

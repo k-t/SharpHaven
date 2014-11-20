@@ -10,6 +10,7 @@ namespace MonoHaven.UI
 		void Close();
 		void Resize(int newWidth, int newHeight);
 		void Draw(DrawingContext dc);
+		void Update(int dt);
 
 		void MouseButtonDown(MouseButtonEventArgs e);
 		void MouseButtonUp(MouseButtonEventArgs e);

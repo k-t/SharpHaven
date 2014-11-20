@@ -22,5 +22,9 @@ namespace MonoHaven.Graphics.Sprites
 		{
 			parts.Dispose();
 		}
+
+		public virtual void Tick(int dt)
+		{
+		}
 	}
 }

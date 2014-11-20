@@ -41,5 +41,11 @@ namespace MonoHaven.Game
 		{
 			return GetEnumerator();
 		}
+
+		public void Tick(int dt)
+		{
+			foreach (var gob in this)
+				gob.Tick(dt);
+		}
 	}
 }

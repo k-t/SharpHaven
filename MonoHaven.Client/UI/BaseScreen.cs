@@ -50,6 +50,10 @@ namespace MonoHaven.UI
 			rootWidget.Draw(dc);
 		}
 
+		protected virtual void OnUpdate(int dt)
+		{
+		}
+
 		protected virtual void OnKeyDown(KeyEventArgs args)
 		{
 		}
@@ -101,6 +105,11 @@ namespace MonoHaven.UI
 		void IScreen.Draw(DrawingContext dc)
 		{
 			this.OnDraw(dc);
+		}
+
+		void IScreen.Update(int dt)
+		{
+			this.OnUpdate(dt);
 		}
 
 		void IScreen.MouseButtonDown(MouseButtonEventArgs e)

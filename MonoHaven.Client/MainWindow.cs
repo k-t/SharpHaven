@@ -18,6 +18,7 @@ namespace MonoHaven
 		private IScreen currentScreen;
 		private readonly FrameCounter frameCounter;
 		private readonly ConcurrentQueue<Action> updateQueue;
+		private DateTime lastUpdate = DateTime.Now;
 
 		public MainWindow(int width, int height)
 			: base(width, height, GraphicsMode.Default, WindowTitle)
@@ -93,6 +94,10 @@ namespace MonoHaven
 		protected override void OnUpdateFrame(FrameEventArgs e)
 		{
 			base.OnUpdateFrame(e);
+
+			var now = DateTime.Now;
+			currentScreen.Update((now - lastUpdate).Milliseconds);
+			lastUpdate = now;
 
 			Action action;
 			while (updateQueue.TryDequeue(out action))
