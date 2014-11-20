@@ -24,12 +24,12 @@ namespace MonoHaven.Graphics
 		private bool isActive;
 		private int idx;
 		private readonly float[] vertices;
-		private readonly VertexBuffer vertexBuffer;
+		private readonly VertexBuffer vbo;
 
 		public SpriteBatch()
 		{
 			vertices = new float[4 * 8 * 2000];
-			vertexBuffer = new VertexBuffer(BufferUsageHint.StreamDraw);
+			vbo = new VertexBuffer(BufferUsageHint.StreamDraw);
 
 			var vertexShader = new VertexShaderTemplate();
 			vertexShader.Session = new Dictionary<string, object>();
@@ -53,7 +53,7 @@ namespace MonoHaven.Graphics
 		public void Dispose()
 		{
 			if (isActive) End();
-			vertexBuffer.Dispose();
+			vbo.Dispose();
 			shader.Dispose();
 		}
 
@@ -77,7 +77,6 @@ namespace MonoHaven.Graphics
 
 		public void Flush()
 		{
-			vertexBuffer.Fill(vertices, idx);
 			Render();
 			idx = 0;
 		}
@@ -155,11 +154,12 @@ namespace MonoHaven.Graphics
 
 			int stride = 8 * sizeof(float);
 
-			GL.BindBuffer(BufferTarget.ArrayBuffer, vertexBuffer.Id);
+			GL.BindBuffer(BufferTarget.ArrayBuffer, vbo.Id);
+			vbo.Fill(vertices, idx);
 			GL.VertexAttribPointer(coordAtrrib, 2, VertexAttribPointerType.Float, false, stride, 0);
 			GL.VertexAttribPointer(colorAttrib, 4, VertexAttribPointerType.Float, false, stride, 2 * sizeof(float));
 			GL.VertexAttribPointer(texCoordAttrib, 2, VertexAttribPointerType.Float, false, stride, 6 * sizeof(float));
-
+			
 			if (currentTexture != null)
 				GL.BindTexture(currentTexture.Target, currentTexture.Id);
 			else
@@ -171,6 +171,7 @@ namespace MonoHaven.Graphics
 			GL.DisableVertexAttribArray(coordAtrrib);
 			GL.DisableVertexAttribArray(colorAttrib);
 			GL.DisableVertexAttribArray(texCoordAttrib);
+			GL.BindBuffer(BufferTarget.ArrayBuffer, 0);
 		}
 	}
 }

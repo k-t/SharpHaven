@@ -21,16 +21,12 @@ namespace MonoHaven.Graphics
 
 		public void Fill(int[] data)
 		{
-			GL.BindBuffer(BufferTarget.ArrayBuffer, id);
 			GL.BufferData(BufferTarget.ArrayBuffer, (IntPtr)(sizeof(int) * data.Length), data, usageHint);
-			GL.BindBuffer(BufferTarget.ArrayBuffer, 0);
 		}
 
 		public void Fill(float[] data, int count)
 		{
-			GL.BindBuffer(BufferTarget.ArrayBuffer, id);
 			GL.BufferData(BufferTarget.ArrayBuffer, (IntPtr)(sizeof(float) * count), data, usageHint);
-			GL.BindBuffer(BufferTarget.ArrayBuffer, 0);
 		}
 
 		public void Dispose()
