@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using MonoHaven.Resources;
 using MonoHaven.Resources.Layers;
@@ -15,14 +16,9 @@ namespace MonoHaven.Graphics.Sprites
 			Init(res);
 		}
 
-		public override void Draw(SpriteBatch batch, int x, int y)
+		public override IEnumerable<SpritePart> Parts
 		{
-			if (frames.Length > 0)
-			{
-				foreach (var part in frames[frameIndex].Parts.OrderBy(p => p.Z))
-					DrawPart(part, batch, x, y);
-			}
-			Tick();
+			get { Tick(); return frames[frameIndex].Parts; }
 		}
 
 		private void Tick()
@@ -34,7 +30,7 @@ namespace MonoHaven.Graphics.Sprites
 
 		private void Init(Resource res)
 		{
-			var staticParts = Parts.Where(p => p.Id < 0).ToList();
+			var staticParts = parts.Where(p => p.Id < 0).ToList();
 			var anims = res.GetLayers<AnimData>();
 			foreach (var anim in anims)
 			{
@@ -46,7 +42,7 @@ namespace MonoHaven.Graphics.Sprites
 				{
 					if (frames[i] == null)
 						frames[i] = new AnimFrame(anim.Duration, staticParts);
-					frames[i].Parts.AddRange(Parts.Where(x => x.Id == anim.Frames[i]));
+					frames[i].Parts.AddRange(parts.Where(x => x.Id == anim.Frames[i]));
 				}
 			}
 			if (frames == null)

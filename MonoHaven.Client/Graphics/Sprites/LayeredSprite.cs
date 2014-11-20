@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace MonoHaven.Graphics.Sprites
 {
@@ -11,18 +12,19 @@ namespace MonoHaven.Graphics.Sprites
 			sprites = new List<Delayed<ISprite>>(layers);
 		}
 
-		public void Draw(SpriteBatch batch, int x, int y)
+		public IEnumerable<SpritePart> Parts
 		{
-			foreach (var sprite in sprites)
-				if (sprite.Value != null)
-					sprite.Value.Draw(batch, x, y);
+			get
+			{
+				return sprites.SelectMany(
+					x => x.Value != null
+						? x.Value.Parts
+						: new SpritePart[0]);
+			}
 		}
 
 		public void Dispose()
 		{
-			foreach (var sprite in sprites)
-				if (sprite.Value != null)
-					sprite.Value.Dispose();
 		}
 	}
 }

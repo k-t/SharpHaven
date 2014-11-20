@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 using MonoHaven.Graphics.Sprites;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
@@ -95,7 +96,13 @@ namespace MonoHaven.Graphics
 
 		public void Draw(ISprite sprite, int x, int y)
 		{
-			sprite.Draw(spriteBatch, x + offset.X, y + offset.Y);
+			foreach (var part in sprite.Parts.OrderBy(s => s.Z))
+				part.Draw(spriteBatch, x + offset.X, y + offset.Y);
+		}
+
+		public void Draw(SpritePart sprite, int x, int y)
+		{
+			sprite.Draw(spriteBatch, x, y);
 		}
 	}
 }

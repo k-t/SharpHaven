@@ -1,9 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace MonoHaven.Graphics.Sprites
 {
 	public interface ISprite : IDisposable
 	{
-		void Draw(SpriteBatch batch, int x, int y);
+		IEnumerable<SpritePart> Parts { get; }
 	}
 }

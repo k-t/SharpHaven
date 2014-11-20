@@ -1,4 +1,4 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
 using MonoHaven.Resources;
 
 namespace MonoHaven.Graphics.Sprites
@@ -9,10 +9,9 @@ namespace MonoHaven.Graphics.Sprites
 		{
 		}
 
-		public override void Draw(SpriteBatch batch, int x, int y)
+		public override IEnumerable<SpritePart> Parts
 		{
-			foreach (var part in Parts.OrderBy(p => p.Z))
-				DrawPart(part, batch, x, y);
+			get { return parts; }
 		}
 	}
 }

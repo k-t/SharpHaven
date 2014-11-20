@@ -12,10 +12,10 @@ namespace MonoHaven.Graphics.Sprites
 		private Texture tex;
 		private readonly List<SpritePart> parts;
 
-		public SpriteSheet(IEnumerable<ImageData> images)
+		public SpriteSheet(IEnumerable<ImageData> images, Point center)
 		{
 			parts = new List<SpritePart>();
-			Pack(images.ToArray());
+			Pack(images.ToArray(), center);
 		}
 
 		public void Dispose()
@@ -34,7 +34,7 @@ namespace MonoHaven.Graphics.Sprites
 			return GetEnumerator();
 		}
 
-		private void Pack(ImageData[] images)
+		private void Pack(ImageData[] images, Point center)
 		{
 			var bitmaps = new Bitmap[images.Length];
 			var regions = new Rectangle[images.Length];
@@ -55,7 +55,8 @@ namespace MonoHaven.Graphics.Sprites
 					var slice = new TextureSlice(tex, regions[i]);
 					slice.Update(bitmaps[i]);
 					var img = images[i];
-					parts.Add(new SpritePart(img.Id, slice, img.DrawOffset, regions[i].Size, img.Z, img.SubZ));
+					var off = Point.Subtract(img.DrawOffset, (Size)center);
+					parts.Add(new SpritePart(img.Id, slice, off, regions[i].Size, img.Z, img.SubZ));
 				}
 			}
 			finally

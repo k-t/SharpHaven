@@ -60,5 +60,14 @@ namespace MonoHaven.Graphics.Sprites
 		{
 			get { return subz; }
 		}
+
+		public void Draw(SpriteBatch batch, int x, int y)
+		{
+			Tex.Draw(batch,
+				x + Offset.X,
+				y + Offset.Y,
+				Width,
+				Height);
+		}
 	}
 }
