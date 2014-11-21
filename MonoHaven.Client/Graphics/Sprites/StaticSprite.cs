@@ -1,17 +1,23 @@
 ﻿using System.Collections.Generic;
-using MonoHaven.Resources;
 
 namespace MonoHaven.Graphics.Sprites
 {
-	public class StaticSprite : Sprite
+	public class StaticSprite : ISprite
 	{
-		public StaticSprite(Resource res) : base(res)
+		private readonly IEnumerable<SpritePart> parts;
+
+		public StaticSprite(IEnumerable<SpritePart> parts)
 		{
+			this.parts = parts;
 		}
 
-		public override IEnumerable<SpritePart> Parts
+		public IEnumerable<SpritePart> Parts
 		{
 			get { return parts; }
+		}
+
+		public void Tick(int dt)
+		{
 		}
 	}
 }

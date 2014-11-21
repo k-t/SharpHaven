@@ -12,7 +12,7 @@ namespace MonoHaven.Resources
 	{
 		private readonly IResourceSource defaultSource = new FolderSource("haven-res/res");
 		private readonly Dictionary<string, Tileset> tilesetCache = new Dictionary<string, Tileset>();
-		private readonly Dictionary<string, ISprite> spriteCache = new Dictionary<string, ISprite>();
+		private readonly Dictionary<string, SpriteFactory> spriteCache = new Dictionary<string, SpriteFactory>();
 
 		public Resource Get(string resName)
 		{
@@ -62,24 +62,24 @@ namespace MonoHaven.Resources
 			return TextureSlice.FromBitmap(image.Data);
 		}
 
-		public ISprite GetSprite(string resName)
+		public ISprite GetSprite(string resName, byte[] state = null)
 		{
-			ISprite sprite;
-			if (!spriteCache.TryGetValue(resName, out sprite))
+			SpriteFactory spriteFactory;
+			if (!spriteCache.TryGetValue(resName, out spriteFactory))
 			{
 				var res = Get(resName);
-				sprite = CreateSprite(res);
-				spriteCache[resName] = sprite;
+				spriteFactory = CreateSpriteFactory(res);
+				spriteCache[resName] = spriteFactory;
 			}
-			return sprite;
+			return spriteFactory.Create(state);
 		}
 
-		private ISprite CreateSprite(Resource res)
+		private SpriteFactory CreateSpriteFactory(Resource res)
 		{
 			var anim = res.GetLayer<AnimData>();
 			return (anim != null)
-				? new AnimSprite(res)
-				: new StaticSprite(res) as ISprite;
+				? new AnimSpriteFactory(res)
+				: new StaticSpriteFactory(res) as SpriteFactory;
 		}
 	}
 }

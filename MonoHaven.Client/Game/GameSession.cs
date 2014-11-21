@@ -360,9 +360,9 @@ namespace MonoHaven.Game
 			return GetResource(id, App.Instance.Resources.Get);
 		}
 
-		public Delayed<ISprite> GetSprite(int id)
+		public Delayed<ISprite> GetSprite(int id, byte[] spriteState = null)
 		{
-			return GetResource(id, App.Instance.Resources.GetSprite);
+			return GetResource(id, nm => App.Instance.Resources.GetSprite(nm, spriteState));
 		}
 
 		private Delayed<T> GetResource<T>(int id, Func<string, T> getter)

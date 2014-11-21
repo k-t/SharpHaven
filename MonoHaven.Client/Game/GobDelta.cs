@@ -118,7 +118,7 @@ namespace MonoHaven.Game
 		public void SetResource(int resId, byte[] data)
 		{
 			AddChange(o => {
-				var res = session.GetSprite(resId);
+				var res = session.GetSprite(resId, data);
 				o.SetSprite(res);
 				return true;
 			});

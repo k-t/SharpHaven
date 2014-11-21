@@ -47,11 +47,8 @@ namespace MonoHaven.Game
 
 		public void Tick(int dt)
 		{
-			// TODO: each object should have own state for a sprite
-			var sprites = new System.Collections.Generic.HashSet<ISprite>(this.Select(o => o.Sprite));
-			foreach (var sprite in sprites)
-				if (sprite != null)
-					sprite.Tick(dt);
+			foreach (var gob in objects.Values)
+				gob.Tick(dt);
 		}
 	}
 }
