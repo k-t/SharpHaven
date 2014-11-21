@@ -2,7 +2,7 @@
 
 namespace MonoHaven.Graphics.Sprites
 {
-	public struct SpritePart
+	public class SpritePart
 	{
 		private readonly int id;
 		private readonly TextureSlice tex;
