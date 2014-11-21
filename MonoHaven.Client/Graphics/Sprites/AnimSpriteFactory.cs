@@ -1,12 +1,15 @@
 ﻿using System;
+using System.Collections;
 using System.Linq;
 using MonoHaven.Resources;
 using MonoHaven.Resources.Layers;
+using MonoHaven.Utils;
 
 namespace MonoHaven.Graphics.Sprites
 {
 	public class AnimSpriteFactory : SpriteFactory
 	{
+		private SpritePart[] parts;
 		private AnimFrame[] frames;
 
 		public AnimSpriteFactory(Resource res) : base(res)
@@ -16,12 +19,18 @@ namespace MonoHaven.Graphics.Sprites
 
 		public override ISprite Create(byte[] state)
 		{
-			return new AnimSprite(frames);
+			var flags = state != null
+				? new BitArray(state)
+				: new BitArray(0);
+			var ps = parts.Where(p => p.Id < 0 || flags.IsSet(p.Id));
+			var fs = frames.Where(f => f.Id < 0 || flags.IsSet(f.Id));
+			return new AnimSprite(ps, fs);
 		}
 
 		private void Init(Resource res)
 		{
-			var staticParts = Parts.Where(p => p.Id < 0).ToList();
+			parts = Parts.Where(p => p.Id < 0).ToArray();
+
 			var anims = res.GetLayers<AnimData>();
 			foreach (var anim in anims)
 			{
@@ -32,7 +41,7 @@ namespace MonoHaven.Graphics.Sprites
 				for (int i = 0; i < frames.Length; i++)
 				{
 					if (frames[i] == null)
-						frames[i] = new AnimFrame(anim.Duration, staticParts);
+						frames[i] = new AnimFrame(anim.Id, anim.Duration);
 					frames[i].Parts.AddRange(Parts.Where(x => x.Id == anim.Frames[i]));
 				}
 			}
