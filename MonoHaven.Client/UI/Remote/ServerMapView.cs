@@ -15,10 +15,23 @@ namespace MonoHaven.UI.Remote
 			return new ServerMapView(id, parent, widget);
 		}
 
+		private readonly MapView widget;
+
 		public ServerMapView(ushort id, ServerWidget parent, MapView widget)
 			: base(id, parent, widget)
 		{
-			widget.Clicked += OnClick;
+			this.widget = widget;
+			this.widget.Clicked += OnClick;
+		}
+
+		public override void ReceiveMessage(string message, object[] args)
+		{
+			if (message == "move")
+			{
+				widget.WorldCoord = (Point)args[0];
+				return;
+			}
+			base.ReceiveMessage(message, args);
 		}
 
 		private void OnClick(Point sc, Point mc)

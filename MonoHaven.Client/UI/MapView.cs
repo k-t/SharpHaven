@@ -11,22 +11,26 @@ namespace MonoHaven.UI
 	{
 		private readonly GameState gstate;
 
-		private Point worldPosition;
 		private int playerId;
 		private Point cameraOffset;
 		private bool dragging;
 
-		public MapView(Widget parent, GameState gstate, Point worldPosition, int playerId)
+		public MapView(Widget parent, GameState gstate, Point worldCoord, int playerId)
 			: base(parent)
 		{
 			this.gstate = gstate;
-			this.worldPosition = worldPosition;
-			this.cameraOffset = WorldToScreen(worldPosition);
-			RequestMaps();
 			this.playerId = playerId;
+			this.WorldCoord = worldCoord;
+			this.cameraOffset = WorldToScreen(worldCoord);
 		}
 
 		public event Action<Point, Point> Clicked;
+
+		public Point WorldCoord
+		{
+			get;
+			set;
+		}
 
 		protected override void OnDraw(DrawingContext dc)
 		{
