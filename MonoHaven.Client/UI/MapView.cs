@@ -24,7 +24,8 @@ namespace MonoHaven.UI
 			this.cameraOffset = WorldToScreen(worldCoord);
 		}
 
-		public event Action<Point, Point> Clicked;
+		public event Action<Point, Point> MapClick;
+		public event Action<Point, Point, Gob> GobClick;
 
 		public Point WorldCoord
 		{
@@ -154,6 +155,9 @@ namespace MonoHaven.UI
 
 		protected override void OnMouseButtonDown(MouseButtonEventArgs e)
 		{
+			var gob = gstate.Scene.GetObjectAt(new Point(
+				e.Position.X - Width / 2 + cameraOffset.X,
+				e.Position.Y - Height / 2 + cameraOffset.Y));
 			if (e.Button == MouseButton.Right)
 			{
 				Host.GrabMouse(this);
@@ -161,7 +165,11 @@ namespace MonoHaven.UI
 			}
 			if (e.Button == MouseButton.Left)
 			{
-				Clicked.Raise(e.Position, ScreenToWorld(e.Position));
+				var wc = ScreenToWorld(e.Position);
+				if (gob == null)
+					MapClick.Raise(e.Position, wc);
+				else
+					GobClick.Raise(e.Position, wc, gob);
 			}
 		}
 

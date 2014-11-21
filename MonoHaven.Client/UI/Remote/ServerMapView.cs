@@ -1,4 +1,5 @@
 ﻿using System.Drawing;
+using MonoHaven.Game;
 
 namespace MonoHaven.UI.Remote
 {
@@ -21,7 +22,9 @@ namespace MonoHaven.UI.Remote
 			: base(id, parent, widget)
 		{
 			this.widget = widget;
-			this.widget.Clicked += OnClick;
+			this.widget.MapClick += OnMapClick;
+			this.widget.GobClick += OnGobClick;
+
 		}
 
 		public override void ReceiveMessage(string message, object[] args)
@@ -34,9 +37,14 @@ namespace MonoHaven.UI.Remote
 			base.ReceiveMessage(message, args);
 		}
 
-		private void OnClick(Point sc, Point mc)
+		private void OnMapClick(Point sc, Point mc)
 		{
 			SendMessage("click", sc, mc, 1, 0);
+		}
+
+		private void OnGobClick(Point sc, Point mc, Gob gob)
+		{
+			SendMessage("click", sc, mc, 3, 0, gob.Id, gob.Position);
 		}
 	}
 }

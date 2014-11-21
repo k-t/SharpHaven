@@ -1,4 +1,5 @@
 ﻿using System.Drawing;
+using OpenTK.Graphics.OpenGL;
 
 namespace MonoHaven.Graphics.Sprites
 {
@@ -68,6 +69,11 @@ namespace MonoHaven.Graphics.Sprites
 				y + Offset.Y,
 				Width,
 				Height);
+		}
+
+		public bool CheckHit(int x, int y)
+		{
+			return x >= offset.X && x <= Width && y >= offset.Y && y <= Height;
 		}
 	}
 }

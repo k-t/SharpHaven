@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Drawing;
 using C5;
 using MonoHaven.Game.Messages;
-using MonoHaven.Graphics;
 using MonoHaven.Graphics.Sprites;
 using MonoHaven.Resources;
 using MonoHaven.Utils;

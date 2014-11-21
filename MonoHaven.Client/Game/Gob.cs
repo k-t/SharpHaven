@@ -5,8 +5,19 @@ namespace MonoHaven.Game
 {
 	public class Gob
 	{
+		private readonly int id;
 		private Delayed<ISprite> sprite;
 		private Delayed<ISprite> avatar;
+		
+		public Gob(int id)
+		{
+			this.id = id;
+		}
+
+		public int Id
+		{
+			get { return id; }
+		}
 
 		public Point Position
 		{

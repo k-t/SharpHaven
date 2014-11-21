@@ -19,7 +19,7 @@ namespace MonoHaven.Game
 			Gob gob;
 			if (!objects.Find(ref id, out gob))
 			{
-				gob = new Gob();
+				gob = new Gob(id);
 				objects[id] = gob;
 			}
 			return gob;
