@@ -1,21 +1,23 @@
-﻿namespace MonoHaven
+﻿using System;
+
+namespace MonoHaven
 {
 	public delegate bool Promise<T>(out T value);
 
 	public class Delayed<T>
 	{
 		private T value;
-		private bool bound;
-		private readonly Promise<T> promise;
+		private Promise<T> promise;
 
 		public Delayed(T value)
 		{
-			this.bound = true;
 			this.value = value;
 		}
 
 		public Delayed(Promise<T> promise)
 		{
+			if (promise == null)
+				throw new ArgumentNullException("promise");
 			this.promise = promise;
 			this.value = default(T);
 		}
@@ -24,8 +26,9 @@
 		{
 			get
 			{
-				if (!bound && promise(out value))
-					bound = true;
+				if (promise != null && promise(out value))
+					// ensure that closures are not lingering
+					promise = null;
 				return value;
 			}
 		}
