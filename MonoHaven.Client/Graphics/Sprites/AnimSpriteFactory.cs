@@ -9,7 +9,6 @@ namespace MonoHaven.Graphics.Sprites
 {
 	public class AnimSpriteFactory : SpriteFactory
 	{
-		private SpritePart[] parts;
 		private AnimFrame[] frames;
 
 		public AnimSpriteFactory(Resource res) : base(res)
@@ -22,15 +21,13 @@ namespace MonoHaven.Graphics.Sprites
 			var flags = state != null
 				? new BitArray(state)
 				: new BitArray(0);
-			var ps = parts.Where(p => p.Id < 0 || flags.IsSet(p.Id));
+			var ps = Parts.Where(p => p.Id < 0 || flags.IsSet(p.Id));
 			var fs = frames.Where(f => f.Id < 0 || flags.IsSet(f.Id));
 			return new AnimSprite(ps, fs);
 		}
 
 		private void Init(Resource res)
 		{
-			parts = Parts.Where(p => p.Id < 0).ToArray();
-
 			var anims = res.GetLayers<AnimData>();
 			foreach (var anim in anims)
 			{
