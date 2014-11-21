@@ -84,7 +84,7 @@
     <Compile Include="Graphics\RawImage.cs" />
     <Compile Include="Graphics\Sprites\AnimFrame.cs" />
     <Compile Include="Graphics\Sprites\AnimSprite.cs" />
-    <Compile Include="Graphics\Sprites\ImageSprite.cs" />
+    <Compile Include="Graphics\Sprites\StaticSprite.cs" />
     <Compile Include="Graphics\Sprites\ISprite.cs" />
     <Compile Include="Graphics\Sprites\LayeredSprite.cs" />
     <Compile Include="Graphics\Sprites\Sprite.cs" />
