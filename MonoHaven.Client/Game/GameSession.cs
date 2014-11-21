@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
 using MonoHaven.Game.Messages;
-using MonoHaven.Graphics;
 using MonoHaven.Graphics.Sprites;
 using MonoHaven.Network;
 using MonoHaven.Resources;
@@ -413,7 +413,8 @@ namespace MonoHaven.Game
 
 		public void RequestData(int x, int y)
 		{
-			connection.RequestMapData(x, y);
+			// TODO: Queue on sender thread?
+			ThreadPool.QueueUserWorkItem(o => connection.RequestMapData(x, y));
 		}
 
 		#endregion
