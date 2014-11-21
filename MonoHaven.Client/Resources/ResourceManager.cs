@@ -79,7 +79,7 @@ namespace MonoHaven.Resources
 			var anim = res.GetLayer<AnimData>();
 			return (anim != null)
 				? new AnimSprite(res)
-				: new ImageSprite(res) as ISprite;
+				: new StaticSprite(res) as ISprite;
 		}
 	}
 }

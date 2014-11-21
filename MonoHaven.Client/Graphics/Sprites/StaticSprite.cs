@@ -3,9 +3,9 @@ using MonoHaven.Resources;
 
 namespace MonoHaven.Graphics.Sprites
 {
-	public class ImageSprite : Sprite
+	public class StaticSprite : Sprite
 	{
-		public ImageSprite(Resource res) : base(res)
+		public StaticSprite(Resource res) : base(res)
 		{
 		}
 
