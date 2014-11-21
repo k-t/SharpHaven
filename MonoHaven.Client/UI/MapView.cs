@@ -29,7 +29,6 @@ namespace MonoHaven.UI
 		protected override void OnDraw(DrawingContext dc)
 		{
 			DrawTiles(dc);
-			DrawFlavor(dc);
 			DrawScene(dc);
 		}
 
@@ -70,20 +69,6 @@ namespace MonoHaven.UI
 								g.Draw(trans, p.X, p.Y);
 						}
 					}
-		}
-
-		private void DrawFlavor(DrawingContext g)
-		{
-			foreach (var tuple in gstate.Map.FlavorObjects)
-			{
-				var c = tuple.Item1;
-				var t = tuple.Item2;
-				var p = WorldToScreen(c);
-				if (Bounds.Contains(p))
-				{
-					g.Draw(t, p.X, p.Y);
-				}
-			}
 		}
 
 		private void DrawScene(DrawingContext g)
