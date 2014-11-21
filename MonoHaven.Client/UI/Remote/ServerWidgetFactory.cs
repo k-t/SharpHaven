@@ -31,6 +31,9 @@ namespace MonoHaven.UI.Remote
 			methods["buffs"] = ServerBufflist.Create;
 			methods["scm"] = ServerMenuGrid.Create;
 			methods["pv"] = ServerPartyView.Create;
+			methods["text"] = ServerTextBox.Create;
+			methods["inv"] = ServerInventoryWidget.Create;
+			methods["item"] = ServerItemWidget.Create;
 		}
 
 		public ServerWidget Create(

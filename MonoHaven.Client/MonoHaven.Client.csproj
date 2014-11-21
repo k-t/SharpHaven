@@ -140,6 +140,8 @@
     <Compile Include="UI\Remote\ServerCharlist.cs" />
     <Compile Include="UI\Remote\ServerChatWindow.cs" />
     <Compile Include="UI\Remote\ServerContainer.cs" />
+    <Compile Include="UI\Remote\ServerInventoryWidget.cs" />
+    <Compile Include="UI\Remote\ServerItemWidget.cs" />
     <Compile Include="UI\Remote\ServerMeter.cs" />
     <Compile Include="UI\Remote\ServerHud.cs" />
     <Compile Include="UI\Remote\ServerImage.cs" />
@@ -151,6 +153,7 @@
     <Compile Include="UI\Remote\ServerPartyView.cs" />
     <Compile Include="UI\Remote\ServerRootWidget.cs" />
     <Compile Include="UI\Remote\ServerSpeedget.cs" />
+    <Compile Include="UI\Remote\ServerTextBox.cs" />
     <Compile Include="UI\Remote\ServerWidget.cs" />
     <Compile Include="UI\Remote\ServerWidgetFactory.cs" />
     <Compile Include="UI\Remote\ServerWindow.cs" />
