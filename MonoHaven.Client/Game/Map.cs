@@ -52,7 +52,8 @@ namespace MonoHaven.Game
 
 		public void Request(int gx, int gy)
 		{
-			session.RequestData(gx, gy);
+			if (!grids.Contains(new Point(gx, gy)))
+				session.RequestData(gx, gy);
 		}
 
 		private MapGrid GetGrid(int tx, int ty)

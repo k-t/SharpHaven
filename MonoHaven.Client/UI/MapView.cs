@@ -12,6 +12,7 @@ namespace MonoHaven.UI
 		private readonly GameState gstate;
 
 		private Point worldPosition;
+		private int playerId;
 		private Point cameraOffset;
 		private bool dragging;
 
@@ -22,24 +23,31 @@ namespace MonoHaven.UI
 			this.worldPosition = worldPosition;
 			this.cameraOffset = WorldToScreen(worldPosition);
 			RequestMaps();
+			this.playerId = playerId;
 		}
 
 		public event Action<Point, Point> Clicked;
 
 		protected override void OnDraw(DrawingContext dc)
 		{
+			RequestMaps();
 			DrawTiles(dc);
 			DrawScene(dc);
 		}
 
 		private void RequestMaps()
 		{
-			int x = worldPosition.X.Div(100 * 11);
-			int y = worldPosition.Y.Div(100 * 11);
+			if (playerId != -1)
+			{
+				var player = gstate.Objects.Get(playerId);
 
-			for (int i = -5; i < 5; i++)
-				for (int j = -5; j < 5; j++)
-					this.gstate.Map.Request(x + i, y + j);
+				int x = player.Position.X.Div(100 * 11);
+				int y = player.Position.Y.Div(100 * 11);
+
+				for (int i = -5; i < 5; i++)
+					for (int j = -5; j < 5; j++)
+						gstate.Map.Request(x + i, y + j);
+			}
 		}
 
 		private void DrawTiles(DrawingContext g)
