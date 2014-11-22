@@ -2,7 +2,6 @@
 using System.Drawing;
 using System.Text;
 using MonoHaven.Graphics;
-using MonoHaven.Resources;
 using MonoHaven.Utils;
 using OpenTK;
 using OpenTK.Input;
@@ -29,6 +28,8 @@ namespace MonoHaven.UI
 			textBlock.TextColor = Color.Black;
 			IsFocusable = true;
 		}
+
+		public event Action<string> Done;
 
 		public string Text
 		{
@@ -112,6 +113,9 @@ namespace MonoHaven.UI
 				case Key.Right:
 					CaretIndex++;
 					break;
+				case Key.Enter:
+					Done.Raise(Text);
+					break;
 				default:
 					return base.OnKeyDown(e);
 			}
@@ -122,7 +126,6 @@ namespace MonoHaven.UI
 		{
 			if (char.IsControl(e.KeyChar))
 				return false;
-
 			InsertText(caretIndex, e.KeyChar);
 			CaretIndex++;
 			return true;
