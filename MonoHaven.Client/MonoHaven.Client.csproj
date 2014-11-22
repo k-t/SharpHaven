@@ -130,8 +130,6 @@
     <Compile Include="UI\Charlist.cs" />
     <Compile Include="UI\IScreen.cs" />
     <Compile Include="UI\IWidgetHost.cs" />
-    <Compile Include="UI\KeyEventArgs.cs" />
-    <Compile Include="UI\KeyPressEventArgs.cs" />
     <Compile Include="UI\Label.cs" />
     <Compile Include="UI\Remote\ServerAvatarView.cs" />
     <Compile Include="UI\Remote\ServerBufflist.cs" />

@@ -204,16 +204,19 @@ namespace MonoHaven.UI
 		{
 		}
 		
-		protected virtual void OnKeyDown(KeyEventArgs e)
+		protected virtual bool OnKeyDown(KeyboardKeyEventArgs e)
 		{
+			return false;
 		}
 		
-		protected virtual void OnKeyUp(KeyEventArgs e)
+		protected virtual bool OnKeyUp(KeyboardKeyEventArgs e)
 		{
+			return false;
 		}
 
-		protected virtual void OnKeyPress(KeyPressEventArgs e)
+		protected virtual bool OnKeyPress(KeyPressEventArgs e)
 		{
+			return false;
 		}
 		
 		protected virtual void OnMouseMove(MouseMoveEventArgs e)
@@ -269,26 +272,19 @@ namespace MonoHaven.UI
 			OnMouseWheel(e);
 		}
 
-		public void KeyDown(KeyEventArgs e)
+		public bool KeyDown(KeyboardKeyEventArgs e)
 		{
-			OnKeyDown(e);
-			if (!e.Handled && Parent != null)
-				Parent.KeyDown(e);
-
+			return OnKeyDown(e) || (Parent != null && Parent.KeyDown(e));
 		}
 
-		public void KeyUp(KeyEventArgs e)
+		public bool KeyUp(KeyboardKeyEventArgs e)
 		{
-			OnKeyUp(e);
-			if (!e.Handled && Parent != null)
-				Parent.KeyUp(e);
+			return OnKeyUp(e) || (Parent != null && Parent.KeyUp(e));
 		}
 
-		public void KeyPress(KeyPressEventArgs e)
+		public bool KeyPress(KeyPressEventArgs e)
 		{
-			OnKeyPress(e);
-			if (!e.Handled && Parent != null)
-				Parent.KeyPress(e);
+			return OnKeyPress(e) || (Parent != null && Parent.KeyPress(e));
 		}
 
 		#endregion

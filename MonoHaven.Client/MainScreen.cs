@@ -3,6 +3,7 @@ using MonoHaven.Game;
 using MonoHaven.Graphics;
 using MonoHaven.Login;
 using MonoHaven.UI;
+using OpenTK;
 using OpenTK.Input;
 
 namespace MonoHaven
@@ -96,12 +97,12 @@ namespace MonoHaven
 			current.MouseWheel(e);
 		}
 
-		void IScreen.KeyDown(KeyEventArgs e)
+		void IScreen.KeyDown(KeyboardKeyEventArgs e)
 		{
 			current.KeyDown(e);
 		}
 
-		void IScreen.KeyUp(KeyEventArgs e)
+		void IScreen.KeyUp(KeyboardKeyEventArgs e)
 		{
 			current.KeyUp(e);
 		}

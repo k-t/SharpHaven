@@ -28,6 +28,8 @@ namespace MonoHaven.Login
 		{
 			InitAuthClient();
 			InitWidgets();
+
+			RootWidget.UnhandledKeyDown += OnKeyDown;
 		}
 
 		public event Action<GameSession> LoginCompleted;
@@ -100,7 +102,7 @@ namespace MonoHaven.Login
 			RootWidget.SetLocation((w - MinWidth) / 2, (h - MinHeight) / 2);
 		}
 
-		protected override void OnKeyDown(KeyEventArgs args)
+		private void OnKeyDown(KeyboardKeyEventArgs args)
 		{
 			switch (args.Key)
 			{

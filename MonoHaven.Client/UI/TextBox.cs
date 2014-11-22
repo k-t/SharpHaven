@@ -93,9 +93,8 @@ namespace MonoHaven.UI
 			dc.ResetClip();
 		}
 
-		protected override void OnKeyDown(KeyEventArgs e)
+		protected override bool OnKeyDown(KeyboardKeyEventArgs e)
 		{
-			e.Handled = true;
 			switch (e.Key)
 			{
 				case Key.BackSpace:
@@ -116,19 +115,19 @@ namespace MonoHaven.UI
 					CaretIndex++;
 					break;
 				default:
-					e.Handled = false;
-					break;
+					return base.OnKeyDown(e);
 			}
+			return true;
 		}
 
-		protected override void OnKeyPress(KeyPressEventArgs e)
+		protected override bool OnKeyPress(KeyPressEventArgs e)
 		{
 			if (char.IsControl(e.KeyChar))
-				return;
+				return false;
 
 			InsertText(caretIndex, e.KeyChar);
 			CaretIndex++;
-			e.Handled = true;
+			return true;
 		}
 
 		protected override void OnMouseButtonDown(MouseButtonEventArgs e)

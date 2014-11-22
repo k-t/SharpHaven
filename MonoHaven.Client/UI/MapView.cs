@@ -130,9 +130,8 @@ namespace MonoHaven.UI
 			return new Point((p.X / 2 + p.Y) / 2, (p.Y - p.X / 2) / 2);
 		}
 
-		protected override void OnKeyDown(KeyEventArgs e)
+		protected override bool OnKeyDown(KeyboardKeyEventArgs e)
 		{
-			e.Handled = true;
 			switch (e.Key)
 			{
 				case Key.Up:
@@ -148,9 +147,9 @@ namespace MonoHaven.UI
 					cameraOffset.X += 50;
 					break;
 				default:
-					e.Handled = false;
-					break;
+					return base.OnKeyDown(e);
 			}
+			return true;
 		}
 
 		protected override void OnMouseButtonDown(MouseButtonEventArgs e)

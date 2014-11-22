@@ -54,18 +54,6 @@ namespace MonoHaven.UI
 		{
 		}
 
-		protected virtual void OnKeyDown(KeyEventArgs args)
-		{
-		}
-
-		protected virtual void OnKeyUp(KeyEventArgs args)
-		{
-		}
-
-		protected virtual void OnKeyPress(KeyPressEventArgs args)
-		{
-		}
-
 		protected void SetKeyboardFocus(Widget widget)
 		{
 			if (keyboardFocus != null) keyboardFocus.IsFocused = false;
@@ -151,25 +139,22 @@ namespace MonoHaven.UI
 				widget.MouseWheel(e);
 		}
 
-		void IScreen.KeyDown(KeyEventArgs e)
+		void IScreen.KeyDown(KeyboardKeyEventArgs e)
 		{
 			var widget = keyboardFocus;
 			if (widget != null) widget.KeyDown(e);
-			if (!e.Handled) OnKeyDown(e);
 		}
 
-		void IScreen.KeyUp(KeyEventArgs e)
+		void IScreen.KeyUp(KeyboardKeyEventArgs e)
 		{
 			var widget = keyboardFocus;
 			if (widget != null) widget.KeyUp(e);
-			if (!e.Handled) OnKeyUp(e);
 		}
 
 		void IScreen.KeyPress(KeyPressEventArgs e)
 		{
 			var widget = keyboardFocus;
 			if (widget != null) widget.KeyPress(e);
-			if (!e.Handled) OnKeyPress(e);
 		}
 
 		#endregion

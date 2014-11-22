@@ -149,17 +149,17 @@ namespace MonoHaven
 
 		private void HandleKeyDown(object sender, KeyboardKeyEventArgs e)
 		{
-			currentScreen.KeyDown(new KeyEventArgs(e));
+			currentScreen.KeyDown(e);
 		}
 
 		private void HandleKeyUp(object sender, KeyboardKeyEventArgs e)
 		{
-			currentScreen.KeyUp(new KeyEventArgs(e));
+			currentScreen.KeyUp(e);
 		}
 
-		private void HandleKeyPress(object sender, OpenTK.KeyPressEventArgs e)
+		private void HandleKeyPress(object sender, KeyPressEventArgs e)
 		{
-			currentScreen.KeyPress(new UI.KeyPressEventArgs(e.KeyChar));
+			currentScreen.KeyPress(e);
 		}
 	}
 }
