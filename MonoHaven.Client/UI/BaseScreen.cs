@@ -107,7 +107,7 @@ namespace MonoHaven.UI
 			{
 				if (widget != keyboardFocus && widget.IsFocusable)
 					SetKeyboardFocus(widget);
-				widget.MouseButtonDown(e);
+				widget.HandleMouseButtonDown(e);
 			}
 		}
 
@@ -115,45 +115,45 @@ namespace MonoHaven.UI
 		{
 			var widget = mouseFocus ?? RootWidget.GetChildAt(e.Position);
 			if (widget != null)
-				widget.MouseButtonUp(e);
+				widget.HandleMouseButtonUp(e);
 		}
 
 		void IScreen.MouseMove(MouseMoveEventArgs e)
 		{
 			if (mouseFocus != null)
 				// don't hover widgets mouse is grabbed
-				mouseFocus.MouseMove(e);
+				mouseFocus.HandleMouseMove(e);
 			else
 			{
 				var widget = mouseFocus ?? RootWidget.GetChildAt(e.Position);
 				SetHoveredWidget(widget);
 				if (widget != null)
-					widget.MouseMove(e);
+					widget.HandleMouseMove(e);
 			}
 		}
 
 		void IScreen.MouseWheel(MouseWheelEventArgs e)
 		{
 			var widget = mouseFocus ?? hoveredWidget;
-			if (widget != null) widget.MouseWheel(e);
+			if (widget != null) widget.HandleMouseWheel(e);
 		}
 
 		void IScreen.KeyDown(KeyboardKeyEventArgs e)
 		{
 			var widget = keyboardFocus;
-			if (widget != null) widget.KeyDown(e);
+			if (widget != null) widget.HandleKeyDown(e);
 		}
 
 		void IScreen.KeyUp(KeyboardKeyEventArgs e)
 		{
 			var widget = keyboardFocus;
-			if (widget != null) widget.KeyUp(e);
+			if (widget != null) widget.HandleKeyUp(e);
 		}
 
 		void IScreen.KeyPress(KeyPressEventArgs e)
 		{
 			var widget = keyboardFocus;
-			if (widget != null) widget.KeyPress(e);
+			if (widget != null) widget.HandleKeyPress(e);
 		}
 
 		#endregion
