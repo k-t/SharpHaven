@@ -41,12 +41,14 @@ namespace MonoHaven.Network
 		private readonly object stateLock = new object();
 		private ushort rseq;
 		private readonly TreeDictionary<ushort, MessageReader> waiting;
+		private readonly TreeDictionary<int, FragmentBuffer> mapFrags;
 
 		public Connection(ConnectionSettings settings)
 		{
 			this.settings = settings;
 
 			waiting = new TreeDictionary<ushort, MessageReader>();
+			mapFrags = new TreeDictionary<int, FragmentBuffer>();
 
 			state = ConnectionState.Created;
 			socket = new GameSocket(settings.Host, settings.Port);
@@ -187,7 +189,7 @@ namespace MonoHaven.Network
 				case MSG_ACK:
 					break;
 				case MSG_MAPDATA:
-					MapDataReceived.Raise(msg);
+					HandleMapData(msg);
 					break;
 				case MSG_OBJDATA:
 					while (msg.Position < msg.Length)
@@ -216,6 +218,33 @@ namespace MonoHaven.Network
 			}
 			else if (seq > rseq)
 				waiting[seq] = msg;
+		}
+
+		// TODO: delete lingering fragments?
+		private void HandleMapData(MessageReader msg)
+		{
+			int packetId = msg.ReadInt32();
+			int offset = msg.ReadUint16();
+			int length = msg.ReadUint16();
+
+			FragmentBuffer fragbuf;
+			if (mapFrags.Find(ref packetId, out fragbuf))
+			{
+				fragbuf.Add(offset, msg.Buffer, 8, msg.Length - 8);
+				if (fragbuf.IsComplete)
+				{
+					mapFrags.Remove(packetId);
+					MapDataReceived.Raise(new MessageReader(0, fragbuf.Content));
+				}
+			}
+			else if (offset != 0 || msg.Length - 8 < length)
+			{
+				fragbuf = new FragmentBuffer(length);
+				fragbuf.Add(offset, msg.Buffer, 8, msg.Length - 8);
+				mapFrags[packetId] = fragbuf;
+			}
+			else
+				MapDataReceived.Raise(msg);
 		}
 
 		private void SendAck(ushort seq)

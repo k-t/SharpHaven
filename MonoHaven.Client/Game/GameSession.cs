@@ -204,14 +204,6 @@ namespace MonoHaven.Game
 
 		private void OnMapDataReceived(MessageReader msg)
 		{
-			int packetId = msg.ReadInt32();
-			int offset = msg.ReadUint16();
-			int length = msg.ReadUint16();
-
-			// TODO: defragmentation
-			if (offset != 0 || msg.Length - 8 < length)
-				throw new NotImplementedException("Defragmentation is not supported yet");
-
 			var mapData = MapData.ReadFrom(msg);
 			App.Instance.QueueOnMainThread(() => MapDataAvailable.Raise(mapData));
 		}

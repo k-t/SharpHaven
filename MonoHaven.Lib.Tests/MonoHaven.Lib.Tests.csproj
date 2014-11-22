@@ -38,6 +38,7 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FragmentBufferTests.cs" />
     <Compile Include="MessageTests.cs" />
     <Compile Include="TreeNodeTests.cs" />
     <Compile Include="Resources\FolderSourceTests.cs">
