@@ -24,6 +24,7 @@ namespace MonoHaven.Game
 
 		private Container charlistContainer;
 		private MapView mapView;
+		private Calendar calendar;
 
 		public GameScreen(GameSession session)
 		{
@@ -59,6 +60,9 @@ namespace MonoHaven.Game
 				charlistContainer.SetLocation(
 					(newWidth - charlistContainer.Width) / 2,
 					(newHeight - charlistContainer.Height) / 2);
+
+			if (calendar != null)
+				calendar.SetLocation((Window.Width - calendar.Width) / 2, calendar.Y);
 		}
 
 		private void OnWidgetCreated(WidgetCreateMessage message)
@@ -130,12 +134,18 @@ namespace MonoHaven.Game
 					(Window.Width - charlistContainer.Width) / 2,
 					(Window.Height - charlistContainer.Height) / 2);
 			}
+			if (widget is Calendar)
+			{
+				calendar = (Calendar)widget;
+				calendar.SetLocation((Window.Width - calendar.Width) / 2, calendar.Y);
+			}
 		}
 
 		private void HandleDestroyedWidget(Widget widget)
 		{
 			if (widget == mapView) mapView = null;
 			if (widget == charlistContainer) charlistContainer = null;
+			if (widget == calendar) calendar = null;
 		}
 	}
 }
