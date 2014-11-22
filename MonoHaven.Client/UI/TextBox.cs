@@ -14,8 +14,6 @@ namespace MonoHaven.UI
 		private const int TextPadding = 2;
 		private const int CursorBlinkRate = 500;
 
-		private static readonly Drawable border;
-
 		private readonly StringBuilder text;
 		private readonly TextBlock textBlock;
 
@@ -24,14 +22,7 @@ namespace MonoHaven.UI
 		private int caretOffset;
 		private char? passwordChar;
 
-		static TextBox()
-		{
-			using (var bitmap = EmbeddedResource.GetImage("textbox.png"))
-				border = new NinePatch(TextureSlice.FromBitmap(bitmap), 2, 2, 2, 2);
-		}
-
-		public TextBox(Widget parent)
-			: base(parent)
+		public TextBox(Widget parent) : base(parent)
 		{
 			text = new StringBuilder();
 			textBlock = new TextBlock(Fonts.Default);
@@ -86,7 +77,9 @@ namespace MonoHaven.UI
 		protected override void OnDraw(DrawingContext dc)
 		{
 			dc.SetClip(0, 0, Width, Height);
-			dc.Draw(border, 0, 0, Width, Height);
+			dc.SetColor(Color.White);
+			dc.DrawRectangle(0, 0, Width, Height);
+			dc.ResetColor();
 			dc.Draw(textBlock, TextPadding - caretOffset, TextPadding, Width, Height);
 			// draw cursor
 			if (IsFocused && DateTime.Now.Millisecond > CursorBlinkRate)
