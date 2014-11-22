@@ -131,6 +131,7 @@
     <Compile Include="UI\IScreen.cs" />
     <Compile Include="UI\IWidgetHost.cs" />
     <Compile Include="UI\Label.cs" />
+    <Compile Include="UI\MapClickEventArgs.cs" />
     <Compile Include="UI\Remote\ServerAvatarView.cs" />
     <Compile Include="UI\Remote\ServerBufflist.cs" />
     <Compile Include="UI\Remote\ServerButton.cs" />
@@ -138,6 +139,7 @@
     <Compile Include="UI\Remote\ServerCharlist.cs" />
     <Compile Include="UI\Remote\ServerChatWindow.cs" />
     <Compile Include="UI\Remote\ServerContainer.cs" />
+    <Compile Include="UI\Remote\ServerInput.cs" />
     <Compile Include="UI\Remote\ServerInventoryWidget.cs" />
     <Compile Include="UI\Remote\ServerItemWidget.cs" />
     <Compile Include="UI\Remote\ServerMeter.cs" />

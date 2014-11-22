@@ -22,8 +22,7 @@ namespace MonoHaven.UI.Remote
 			: base(id, parent, widget)
 		{
 			this.widget = widget;
-			this.widget.MapClick += OnMapClick;
-			this.widget.GobClick += OnGobClick;
+			this.widget.MapClicked += OnMapClicked;
 
 		}
 
@@ -37,14 +36,14 @@ namespace MonoHaven.UI.Remote
 			base.ReceiveMessage(message, args);
 		}
 
-		private void OnMapClick(Point sc, Point mc)
+		private void OnMapClicked(MapClickEventArgs args)
 		{
-			SendMessage("click", sc, mc, 1, 0);
-		}
-
-		private void OnGobClick(Point sc, Point mc, Gob gob)
-		{
-			SendMessage("click", sc, mc, 3, 0, gob.Id, gob.Position);
+			var button = ServerInput.ToServerButton(args.Button);
+			if (args.Gob != null)
+				SendMessage("click", args.ScreenPoint, args.MapPoint, button, 0,
+					args.Gob.Id, args.Gob.Position);
+			else
+				SendMessage("click", args.ScreenPoint, args.MapPoint, button, 0);
 		}
 	}
 }
