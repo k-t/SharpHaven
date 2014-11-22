@@ -43,6 +43,11 @@ namespace MonoHaven.Resources
 			}
 		}
 
+		public ImageData GetImage(string resName)
+		{
+			return Get(resName).GetLayer<ImageData>();
+		}
+
 		public Tileset GetTileset(string resName)
 		{
 			Tileset tileset;

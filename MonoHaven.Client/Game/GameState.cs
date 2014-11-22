@@ -11,12 +11,14 @@ namespace MonoHaven.Game
 		private readonly Map map;
 		private readonly GobCache objects;
 		private readonly GameScene scene;
+		private readonly GameTime time;
 
 		public GameState(GameSession session)
 		{
 			map = new Map(session);
 			objects = new GobCache();
 			scene = new GameScene(this);
+			time = new GameTime();
 		}
 		
 		public Map Map
@@ -32,6 +34,11 @@ namespace MonoHaven.Game
 		public GameScene Scene
 		{
 			get { return scene; }
+		}
+
+		public GameTime Time
+		{
+			get { return time; }
 		}
 	}
 }

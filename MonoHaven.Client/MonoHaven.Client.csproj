@@ -71,6 +71,7 @@
     <Compile Include="Cursors.cs" />
     <Compile Include="FrameCounter.cs" />
     <Compile Include="Game\GameScene.cs" />
+    <Compile Include="Game\GameTime.cs" />
     <Compile Include="Game\Gob.cs" />
     <Compile Include="Game\GobCache.cs" />
     <Compile Include="Game\GobDelta.cs" />
@@ -127,6 +128,7 @@
     <Compile Include="Resources\Tileset.cs" />
     <Compile Include="UI\AvatarView.cs" />
     <Compile Include="UI\Button.cs" />
+    <Compile Include="UI\Calendar.cs" />
     <Compile Include="UI\Charlist.cs" />
     <Compile Include="UI\InventoryWidget.cs" />
     <Compile Include="UI\IScreen.cs" />
@@ -165,7 +167,7 @@
     <Compile Include="UI\Speedget.cs" />
     <Compile Include="UI\Window.cs" />
     <Compile Include="Utils\BitArrayExtensions.cs" />
-    <Compile Include="Utils\MathExtensions.cs" />
+    <Compile Include="Utils\MathUtils.cs" />
     <Compile Include="Utils\PointComparer.cs" />
     <Compile Include="Game\GameScreen.cs" />
     <Compile Include="Resources\ResourceManager.cs" />
