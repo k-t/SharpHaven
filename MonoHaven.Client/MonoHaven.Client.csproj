@@ -127,6 +127,7 @@
     <Compile Include="UI\AvatarView.cs" />
     <Compile Include="UI\Button.cs" />
     <Compile Include="UI\Charlist.cs" />
+    <Compile Include="UI\InventoryWidget.cs" />
     <Compile Include="UI\IScreen.cs" />
     <Compile Include="UI\IWidgetHost.cs" />
     <Compile Include="UI\Label.cs" />
