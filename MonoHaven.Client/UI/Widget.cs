@@ -177,6 +177,41 @@ namespace MonoHaven.UI
 			return this;
 		}
 
+		public void MouseButtonDown(MouseButtonEventArgs e)
+		{
+			OnMouseButtonDown(e);
+		}
+
+		public void MouseButtonUp(MouseButtonEventArgs e)
+		{
+			OnMouseButtonUp(e);
+		}
+
+		public void MouseMove(MouseMoveEventArgs e)
+		{
+			OnMouseMove(e);
+		}
+
+		public bool MouseWheel(MouseWheelEventArgs e)
+		{
+			return OnMouseWheel(e) || (Parent != null && Parent.MouseWheel(e));
+		}
+
+		public bool KeyDown(KeyboardKeyEventArgs e)
+		{
+			return OnKeyDown(e) || (Parent != null && Parent.KeyDown(e));
+		}
+
+		public bool KeyUp(KeyboardKeyEventArgs e)
+		{
+			return OnKeyUp(e) || (Parent != null && Parent.KeyUp(e));
+		}
+
+		public bool KeyPress(KeyPressEventArgs e)
+		{
+			return OnKeyPress(e) || (Parent != null && Parent.KeyPress(e));
+		}
+
 		#endregion
 
 		#region Protected Methods
@@ -246,45 +281,6 @@ namespace MonoHaven.UI
 
 		protected virtual void OnSizeChanged()
 		{
-		}
-
-		#endregion
-
-		#region IInputListener implementation
-
-		public void MouseButtonDown(MouseButtonEventArgs e)
-		{
-			OnMouseButtonDown(e);
-		}
-
-		public void MouseButtonUp(MouseButtonEventArgs e)
-		{
-			OnMouseButtonUp(e);
-		}
-
-		public void MouseMove(MouseMoveEventArgs e)
-		{
-			OnMouseMove(e);
-		}
-
-		public bool MouseWheel(MouseWheelEventArgs e)
-		{
-			return OnMouseWheel(e) || (Parent != null && Parent.MouseWheel(e));
-		}
-
-		public bool KeyDown(KeyboardKeyEventArgs e)
-		{
-			return OnKeyDown(e) || (Parent != null && Parent.KeyDown(e));
-		}
-
-		public bool KeyUp(KeyboardKeyEventArgs e)
-		{
-			return OnKeyUp(e) || (Parent != null && Parent.KeyUp(e));
-		}
-
-		public bool KeyPress(KeyPressEventArgs e)
-		{
-			return OnKeyPress(e) || (Parent != null && Parent.KeyPress(e));
 		}
 
 		#endregion

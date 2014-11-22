@@ -14,7 +14,7 @@ namespace MonoHaven.UI
 
 		protected BaseScreen()
 		{
-			this.rootWidget = new RootWidget(this);
+			rootWidget = new RootWidget(this);
 		}
 
 		public virtual void Dispose()
