@@ -135,8 +135,7 @@ namespace MonoHaven.UI
 		void IScreen.MouseWheel(MouseWheelEventArgs e)
 		{
 			var widget = mouseFocus ?? hoveredWidget;
-			if (widget != null)
-				widget.MouseWheel(e);
+			if (widget != null) widget.MouseWheel(e);
 		}
 
 		void IScreen.KeyDown(KeyboardKeyEventArgs e)

@@ -223,9 +223,9 @@ namespace MonoHaven.UI
 		{
 		}
 
-		protected virtual void OnMouseWheel(MouseWheelEventArgs e)
+		protected virtual bool OnMouseWheel(MouseWheelEventArgs e)
 		{
-
+			return false;
 		}
 		
 		protected virtual void OnDraw(DrawingContext dc)
@@ -267,9 +267,9 @@ namespace MonoHaven.UI
 			OnMouseMove(e);
 		}
 
-		public void MouseWheel(MouseWheelEventArgs e)
+		public bool MouseWheel(MouseWheelEventArgs e)
 		{
-			OnMouseWheel(e);
+			return OnMouseWheel(e) || (Parent != null && Parent.MouseWheel(e));
 		}
 
 		public bool KeyDown(KeyboardKeyEventArgs e)
