@@ -80,6 +80,7 @@
     <Compile Include="Game\Messages\WidgetDestroyMessage.cs" />
     <Compile Include="Game\Messages\WidgetMessage.cs" />
     <Compile Include="Game\GameSession.cs" />
+    <Compile Include="Game\Metric.cs" />
     <Compile Include="Graphics\RawImage.cs" />
     <Compile Include="Graphics\Sprites\AnimFrame.cs" />
     <Compile Include="Graphics\Sprites\AnimSprite.cs" />
@@ -133,6 +134,7 @@
     <Compile Include="UI\IWidgetHost.cs" />
     <Compile Include="UI\Label.cs" />
     <Compile Include="UI\MapClickEventArgs.cs" />
+    <Compile Include="UI\Meter.cs" />
     <Compile Include="UI\Remote\ServerAvatarView.cs" />
     <Compile Include="UI\Remote\ServerBufflist.cs" />
     <Compile Include="UI\Remote\ServerButton.cs" />

@@ -1,17 +1,43 @@
-﻿namespace MonoHaven.UI.Remote
+﻿using System.Collections.Generic;
+using System.Drawing;
+
+namespace MonoHaven.UI.Remote
 {
 	public class ServerMeter : ServerWidget
 	{
 		public static ServerWidget Create(ushort id, ServerWidget parent, object[] args)
 		{
-			var widget = new Label(parent.Widget);
-			widget.Text = "METER";
+			var metrics = new List<Metric>();
+
+			var resName = (string)args[0];
+			for (int i = 1; i < args.Length; i += 2)
+				metrics.Add(new Metric((Color)args[i], (int)args[i + 1]));
+			
+			var widget = new Meter(parent.Widget);
+			widget.Background = App.Instance.Resources.GetTexture(resName);
+			widget.SetMetrics(metrics);
 			return new ServerMeter(id, parent, widget);
 		}
 
-		public ServerMeter(ushort id, ServerWidget parent, Widget widget)
+		private readonly Meter widget;
+
+		public ServerMeter(ushort id, ServerWidget parent, Meter widget)
 			: base(id, parent, widget)
 		{
+			this.widget = widget;
+		}
+
+		public override void ReceiveMessage(string message, object[] args)
+		{
+			if (message == "set")
+			{
+				var metrics = new List<Metric>();
+				for (int i = 0; i < args.Length; i += 2)
+					metrics.Add(new Metric((Color)args[i], (int)args[i + 1]));
+				widget.SetMetrics(metrics);
+			}
+			else
+				base.ReceiveMessage(message, args);
 		}
 	}
 }
