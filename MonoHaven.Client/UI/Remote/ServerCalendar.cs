@@ -10,7 +10,7 @@ namespace MonoHaven.UI.Remote
 	{
 		public static ServerWidget Create(ushort id, ServerWidget parent, object[] args)
 		{
-			var widget = new Calendar(parent.Widget, parent.Session.State.Time);
+			var widget = new Calendar(parent.Widget, parent.Session.State);
 			return new ServerCalendar(id, parent, widget);
 		}
 

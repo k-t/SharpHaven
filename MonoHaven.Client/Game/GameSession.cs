@@ -52,6 +52,10 @@ namespace MonoHaven.Game
 		private const int OD_BUDDY = 15;
 		private const int OD_END = 255;
 
+		private const int GMSG_TIME = 0;
+		private const int GMSG_ASTRO = 1;
+		private const int GMSG_LIGHT = 2;
+
 		#endregion
 
 		private static readonly Logger log = LogManager.GetCurrentClassLogger();
@@ -132,7 +136,29 @@ namespace MonoHaven.Game
 					log.Info("RMSG_MAPIV");
 					break;
 				case RMSG_GLOBLOB:
-					log.Info("RMSG_GLOBLOB");
+					App.Instance.QueueOnMainThread(() => {
+						while (!messageReader.IsEom)
+						{
+							switch (messageReader.ReadByte())
+							{
+								case GMSG_TIME:
+									var time = messageReader.ReadInt32();
+									break;
+								case GMSG_ASTRO:
+									int dt = messageReader.ReadInt32();
+									int mp = messageReader.ReadInt32();
+									int yt = messageReader.ReadInt32();
+									double dtf = Defix(dt);
+									double mpf = Defix(mp);
+									double ytf = Defix(yt);
+									state.Time = new GameTime(dtf, mpf);
+									break;
+								case GMSG_LIGHT:
+									var amblight = messageReader.ReadColor();
+									break;
+							}
+						}
+					});
 					break;
 				case RMSG_PAGINAE:
 					log.Info("RMSG_PAGINAE");
@@ -357,6 +383,11 @@ namespace MonoHaven.Game
 			}
 			App.Instance.QueueOnMainThread(delta.Apply);
 			connection.SendObjectAck(id, frame);
+		}
+
+		private static double Defix(int i)
+		{
+			return i / 1e9;
 		}
 
 		#region Resource Management

@@ -8,7 +8,6 @@ using System;
 using MonoHaven.Game;
 using MonoHaven.Graphics;
 using MonoHaven.Utils;
-using OpenTK;
 
 namespace MonoHaven.UI
 {
@@ -40,16 +39,17 @@ namespace MonoHaven.UI
 				moons[i] = atlas.Add(App.Instance.Resources.GetImage(string.Format("gfx/hud/calendar/m{0:D2}", i)).Data);
 		}
 
-		private readonly GameTime time;
+		private readonly GameState gstate;
 
-		public Calendar(Widget parent, GameTime time) : base(parent)
+		public Calendar(Widget parent, GameState gstate) : base(parent)
 		{
-			this.time = time;
+			this.gstate = gstate;
 			base.SetSize(background.Width, background.Height);
 		}
 
 		protected override void OnDraw(DrawingContext dc)
 		{
+			var time = gstate.Time;
 			var mp = (int)(time.MoonPhase * moons.Length);
 			var moon = moons[mp];
 

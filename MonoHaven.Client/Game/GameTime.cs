@@ -6,21 +6,30 @@
 
 namespace MonoHaven.Game
 {
-	public class GameTime
+	public struct GameTime
 	{
+		private readonly double dayTime;
+		private readonly double moonPhase;
+
+		public GameTime(double dayTime, double moonPhase)
+		{
+			this.dayTime = dayTime;
+			this.moonPhase = moonPhase;
+		}
+
 		public bool IsNight
 		{
-			get { return false; }
+			get { return DayTime < 0.25 || DayTime > 0.75; }
 		}
 
 		public double DayTime
 		{
-			get { return 0.6; }
+			get { return dayTime; }
 		}
 
 		public double MoonPhase
 		{
-			get { return 0.8; }
+			get { return moonPhase; }
 		}
 	}
 }
