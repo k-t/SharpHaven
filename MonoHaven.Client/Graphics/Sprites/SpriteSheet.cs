@@ -45,7 +45,7 @@ namespace MonoHaven.Graphics.Sprites
 				for (int i = 0; i < images.Length; i++)
 					using (var ms = new MemoryStream(images[i].Data))
 					{
-						bitmaps[i] = new Bitmap(ms);
+						bitmaps[i] = MakeTransparent(new Bitmap(ms));
 						regions[i] = packer.Add(bitmaps[i].Size);
 					}
 				tex = new Texture(packer.PackWidth, packer.PackHeight);
@@ -64,6 +64,15 @@ namespace MonoHaven.Graphics.Sprites
 				foreach (var bitmap in bitmaps.Where(x => x != null))
 					bitmap.Dispose();
 			}
+		}
+
+		private static Bitmap MakeTransparent(Bitmap bitmap)
+		{
+			for (int i = 0; i < bitmap.Width; i++)
+				for (int j = 0; j < bitmap.Height; j++)
+					if ((bitmap.GetPixel(i, j).ToArgb() & 0x00ffffff) == 0x00ff0080)
+						bitmap.SetPixel(i, j, Color.FromArgb(128, 0, 0, 0));
+			return bitmap;
 		}
 
 		private class NaiveHorizontalPacker
