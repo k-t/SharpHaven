@@ -38,7 +38,7 @@ namespace MonoHaven.Game.Messages
 			var msg = new MapData(
 				grid: reader.ReadCoord(),
 				minimapName: reader.ReadString(),
-				tiles: new byte[Constants.GridWidth * Constants.GridHeight]
+				tiles: new byte[Map.GridWidth * Map.GridHeight]
 			);
 
 			var pfl = new byte[256];

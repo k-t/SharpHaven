@@ -8,6 +8,9 @@ namespace MonoHaven.Game
 {
 	public class GameScene
 	{
+		public const int ScreenTileWidth = 46;
+		public const int ScreenTileHeight = 23;
+
 		private readonly GameState state;
 		private readonly List<ObjectPart> spriteList;
 
@@ -50,12 +53,49 @@ namespace MonoHaven.Game
 			return a.Sprite.SubZ - b.Sprite.SubZ;
 		}
 
-		/// <summary>
-		/// Converts absolute world position to absolute screen coordinate.
-		/// </summary>
-		private Point WorldToScreen(Point p)
+		public static Point ScreenToWorld(int sx, int sy)
 		{
-			return new Point((p.X - p.Y) * 2, (p.X + p.Y));
+			return new Point((sx / 2 + sy) / 2, (sy - sx / 2) / 2);
+		}
+
+		public static Point ScreenToWorld(Point screen)
+		{
+			return ScreenToWorld(screen.X, screen.Y);
+		}
+
+		public static Point WorldToScreen(int wx, int wy)
+		{
+			return new Point((wx - wy) * 2, (wx + wy));
+		}
+
+		public static Point WorldToScreen(Point world)
+		{
+			return WorldToScreen(world.X, world.Y);
+		}
+
+		public static Point ScreenToTile(int sx, int sy)
+		{
+			// convert to world coordinate first
+			int wx = (sx / 2 + sy) / 2;
+			int wy = (sy - sx / 2) / 2;
+			return new Point(wx / Map.TileWidth, wy / Map.TileHeight);
+		}
+		
+		public static Point ScreenToTile(Point screen)
+		{
+			return ScreenToTile(screen.X, screen.Y);
+		}
+
+		public static Point TileToScreen(int tx, int ty)
+		{
+			return new Point(
+				(tx - ty) * Map.TileWidth * 2,
+				(tx + ty) * Map.TileHeight);
+		}
+
+		public static Point TileToScreen(Point tile)
+		{
+			return TileToScreen(tile.X, tile.Y);
 		}
 
 		private struct ObjectPart

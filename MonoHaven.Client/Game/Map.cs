@@ -11,6 +11,11 @@ namespace MonoHaven.Game
 {
 	public class Map
 	{
+		public const int TileWidth = 11;
+		public const int TileHeight = 11;
+		public const int GridWidth = 100;
+		public const int GridHeight = 100;
+
 		private readonly GameSession session;
 		private readonly Tileset[] tilesets = new Tileset[256];
 		private readonly TreeDictionary<Point, MapGrid> grids;
@@ -38,8 +43,8 @@ namespace MonoHaven.Game
 			if (grid == null)
 				return null;
 
-			var gtx = tx.Mod(Constants.GridWidth);
-			var gty = ty.Mod(Constants.GridHeight);
+			var gtx = tx.Mod(GridWidth);
+			var gty = ty.Mod(GridHeight);
 			
 			return grid[gtx, gty];
 		}
@@ -57,7 +62,7 @@ namespace MonoHaven.Game
 
 		private MapGrid GetGrid(int tx, int ty)
 		{
-			var gc = new Point(tx.Div(Constants.GridWidth), ty.Div(Constants.GridHeight));
+			var gc = new Point(tx.Div(GridWidth), ty.Div(GridHeight));
 			MapGrid grid;
 			return grids.Find(ref gc, out grid) ? grid : null;
 		}
@@ -78,10 +83,10 @@ namespace MonoHaven.Game
 			grids[gp] = grid;
 
 			// generate flavor
-			int ox = gp.X * Constants.GridWidth;
-			int oy = gp.Y * Constants.GridHeight;
-			for (int y = 0; y < Constants.GridHeight; y++)
-				for (int x = 0; x < Constants.GridWidth; x++)
+			int ox = gp.X * GridWidth;
+			int oy = gp.Y * GridHeight;
+			for (int y = 0; y < GridHeight; y++)
+				for (int x = 0; x < GridWidth; x++)
 				{
 					var set = GetTileset(grid[x, y].Type);
 					if (set.FlavorDensity != 0 && set.FlavorObjects.Count > 0)
@@ -90,8 +95,8 @@ namespace MonoHaven.Game
 						{
 							var fo = set.FlavorObjects.PickRandom(random);
 							flavorObjects.Add(Tuple.Create(new Point(
-								(x + ox) * Constants.TileWidth,
-								(y + oy) * Constants.TileHeight), fo));
+								(x + ox) * TileWidth,
+								(y + oy) * TileHeight), fo));
 						}
 					}
 				}
@@ -106,8 +111,8 @@ namespace MonoHaven.Game
 		private static Point GetAbsoluteTileCoord(Point gp, int tileIndex)
 		{
 			return new Point(
-				gp.X * Constants.GridWidth + tileIndex % Constants.GridWidth,
-				gp.Y * Constants.GridHeight + tileIndex / Constants.GridHeight
+				gp.X * GridWidth + tileIndex % GridWidth,
+				gp.Y * GridHeight + tileIndex / GridHeight
 			);
 		}
 	}

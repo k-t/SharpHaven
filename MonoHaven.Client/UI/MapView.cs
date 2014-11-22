@@ -15,18 +15,18 @@ namespace MonoHaven.UI
 		private Point cameraOffset;
 		private bool dragging;
 
-		public MapView(Widget parent, GameState gstate, Point worldCoord, int playerId)
+		public MapView(Widget parent, GameState gstate, Point worldPoint, int playerId)
 			: base(parent)
 		{
 			this.gstate = gstate;
 			this.playerId = playerId;
-			this.WorldCoord = worldCoord;
-			this.cameraOffset = WorldToScreen(worldCoord);
+			this.WorldPoint = worldPoint;
+			this.cameraOffset = ToRelative(GameScene.WorldToScreen(worldPoint));
 		}
 
 		public event Action<MapClickEventArgs> MapClicked;
 
-		public Point WorldCoord
+		public Point WorldPoint
 		{
 			get;
 			set;
@@ -45,8 +45,8 @@ namespace MonoHaven.UI
 			{
 				var player = gstate.Objects.Get(playerId);
 
-				int x = player.Position.X.Div(100 * 11);
-				int y = player.Position.Y.Div(100 * 11);
+				int x = player.Position.X.Div(Map.GridWidth * Map.TileWidth);
+				int y = player.Position.Y.Div(Map.GridHeight * Map.TileHeight);
 
 				for (int i = -5; i < 5; i++)
 					for (int j = -5; j < 5; j++)
@@ -57,10 +57,10 @@ namespace MonoHaven.UI
 		private void DrawTiles(DrawingContext g)
 		{
 			// get tile in the center
-			var center = ScreenToTile(cameraOffset);
+			var center = GameScene.ScreenToTile(cameraOffset);
 			// how much tiles fit onto screen vertically and horizontally
-			var h = Width / (Constants.ScreenTileWidth * 2);
-			var v = Height / (Constants.ScreenTileHeight * 2);
+			var h = Width / (GameScene.ScreenTileWidth * 2);
+			var v = Height / (GameScene.ScreenTileHeight * 2);
 			// draw all tiles around the center one
 			for (int x = -(h + 4); x <= h + 2; x++)
 				for (int y = -(v + 3); y <= v + 2; y++)
@@ -69,9 +69,8 @@ namespace MonoHaven.UI
 						int tx = center.X + x + y;
 						int ty = center.Y + y - x - i;
 
-						var p = TileToScreen(new Point(tx, ty));
-						p = Point.Add(p, new Size(Width / 2 - cameraOffset.X, Height / 2 - cameraOffset.Y));
-						p.X -= Constants.TileWidth * 2;
+						var p = ToRelative(GameScene.TileToScreen(tx, ty));
+						p.X -= Map.TileWidth * 2;
 
 						var tile = gstate.Map.GetTile(tx, ty);
 						if (tile != null)
@@ -86,47 +85,6 @@ namespace MonoHaven.UI
 		private void DrawScene(DrawingContext g)
 		{
 			gstate.Scene.Draw(g, Width / 2 - cameraOffset.X, Height / 2 - cameraOffset.Y);
-		}
-
-		/// <summary>
-		/// Converts absolute tile position to absolute screen coordinate.
-		/// </summary>
-		private Point TileToScreen(Point p)
-		{
-			return new Point(
-				(p.X - p.Y) * Constants.TileWidth * 2,
-				(p.X + p.Y) * Constants.TileHeight);
-		}
-
-		/// <summary>
-		/// Converts absolute world position to absolute screen coordinate.
-		/// </summary>
-		private Point WorldToScreen(Point p)
-		{
-			return new Point(
-				(p.X - p.Y) * 2 + Width / 2 - cameraOffset.X,
-				(p.X + p.Y) + Height / 2 - cameraOffset.Y);
-		}
-
-		/// <summary>
-		/// Converts absolute screen position to absolute tile position.
-		/// </summary>
-		private Point ScreenToTile(Point p)
-		{
-			return new Point(
-				(p.X / (Constants.TileWidth * 2) + p.Y / Constants.TileHeight) / 2,
-				(p.Y / Constants.TileHeight - p.X / (Constants.TileWidth * 2)) / 2);
-		}
-
-		/// <summary>
-		/// Converts absolute screen coordinate to absolute world position.
-		/// </summary>
-		private Point ScreenToWorld(Point p)
-		{
-			p = new Point(
-				p.X - Width / 2 + cameraOffset.X,
-				p.Y - Height / 2 + cameraOffset.Y);
-			return new Point((p.X / 2 + p.Y) / 2, (p.Y - p.X / 2) / 2);
 		}
 
 		protected override bool OnKeyDown(KeyboardKeyEventArgs e)
@@ -153,9 +111,8 @@ namespace MonoHaven.UI
 
 		protected override void OnMouseButtonDown(MouseButtonEventArgs e)
 		{
-			var gob = gstate.Scene.GetObjectAt(new Point(
-				e.Position.X - Width / 2 + cameraOffset.X,
-				e.Position.Y - Height / 2 + cameraOffset.Y));
+			var screenPoint = ToAbsolute(e.Position);
+			var gob = gstate.Scene.GetObjectAt(screenPoint);
 			if (e.Button == MouseButton.Middle)
 			{
 				Host.GrabMouse(this);
@@ -163,7 +120,7 @@ namespace MonoHaven.UI
 			}
 			else
 			{
-				var mapPoint = ScreenToWorld(e.Position);
+				var mapPoint = GameScene.ScreenToWorld(screenPoint);
 				var args = new MapClickEventArgs(e.Button, mapPoint, e.Position, gob);
 				MapClicked.Raise(args);
 			}
@@ -185,6 +142,26 @@ namespace MonoHaven.UI
 				cameraOffset.X -= e.XDelta;
 				cameraOffset.Y -= e.YDelta;
 			}
+		}
+
+		/// <summary>
+		/// Converts absolute screen coordinate to a relative to the current viewport.
+		/// </summary>
+		private Point ToRelative(Point abs)
+		{
+			return new Point(
+				abs.X + Width / 2 - cameraOffset.X,
+				abs.Y + Height / 2 - cameraOffset.Y);
+		}
+
+		/// <summary>
+		/// Converts relative screen coordinate to absolute.
+		/// </summary>
+		private Point ToAbsolute(Point rel)
+		{
+			return new Point(
+				rel.X - Width / 2 + cameraOffset.X,
+				rel.Y - Height / 2 + cameraOffset.Y);
 		}
 	}
 }

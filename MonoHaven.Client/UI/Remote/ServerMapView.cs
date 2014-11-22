@@ -30,7 +30,7 @@ namespace MonoHaven.UI.Remote
 		{
 			if (message == "move")
 			{
-				widget.WorldCoord = (Point)args[0];
+				widget.WorldPoint = (Point)args[0];
 				return;
 			}
 			base.ReceiveMessage(message, args);
