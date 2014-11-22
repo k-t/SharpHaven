@@ -215,7 +215,7 @@ namespace MonoHaven.Network
 				SendAck((ushort)(rseq - 1));
 			}
 			else if (seq > rseq)
-				waiting.Add(seq, msg);
+				waiting[seq] = msg;
 		}
 
 		private void SendAck(ushort seq)
