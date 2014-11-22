@@ -159,18 +159,18 @@ namespace MonoHaven.UI
 			dc.PopMatrix();
 		}
 
-		public Widget SetLocation(int x, int y)
+		public virtual Widget SetLocation(int x, int y)
 		{
 			bounds.Location = new Point(x, y);
 			return this;
 		}
 
-		public Widget SetLocation(Point p)
+		public virtual Widget SetLocation(Point p)
 		{
 			return SetLocation(p.X, p.Y);
 		}
 
-		public Widget SetSize(int width, int height)
+		public virtual Widget SetSize(int width, int height)
 		{
 			bounds.Size = new Size(width, height);
 			OnSizeChanged();
