@@ -129,6 +129,7 @@
     <Compile Include="UI\Charlist.cs" />
     <Compile Include="UI\InventoryWidget.cs" />
     <Compile Include="UI\IScreen.cs" />
+    <Compile Include="UI\ItemWidget.cs" />
     <Compile Include="UI\IWidgetHost.cs" />
     <Compile Include="UI\Label.cs" />
     <Compile Include="UI\MapClickEventArgs.cs" />
