@@ -4,8 +4,7 @@
 	{
 		public static ServerWidget Create(ushort id, ServerWidget parent, object[] args)
 		{
-			var widget = new Label(parent.Widget);
-			widget.Text = "MENU";
+			var widget = new MenuGrid(parent.Widget);
 			return new ServerMenuGrid(id, parent, widget);
 		}
 

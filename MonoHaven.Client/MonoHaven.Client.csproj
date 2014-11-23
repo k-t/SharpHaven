@@ -137,6 +137,7 @@
     <Compile Include="UI\IWidgetHost.cs" />
     <Compile Include="UI\Label.cs" />
     <Compile Include="UI\MapClickEventArgs.cs" />
+    <Compile Include="UI\MenuGrid.cs" />
     <Compile Include="UI\Meter.cs" />
     <Compile Include="UI\Remote\ServerAvatarView.cs" />
     <Compile Include="UI\Remote\ServerBufflist.cs" />
