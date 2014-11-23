@@ -5,7 +5,6 @@
 #endregion
 
 using System.Collections.Generic;
-using MonoHaven.Graphics;
 using MonoHaven.Graphics.Sprites;
 
 namespace MonoHaven.UI.Remote

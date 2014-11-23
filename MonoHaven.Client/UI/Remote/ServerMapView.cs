@@ -5,7 +5,6 @@
 #endregion
 
 using System.Drawing;
-using MonoHaven.Game;
 
 namespace MonoHaven.UI.Remote
 {

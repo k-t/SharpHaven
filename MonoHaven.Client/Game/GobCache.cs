@@ -5,9 +5,7 @@
 #endregion
 
 using System.Collections.Generic;
-using System.Linq;
 using C5;
-using MonoHaven.Graphics.Sprites;
 
 namespace MonoHaven.Game
 {

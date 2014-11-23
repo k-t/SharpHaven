@@ -48,7 +48,6 @@ namespace MonoHaven.Game
 			}
 		}
 
-
 		public void Remove()
 		{
 			AddChange(o => false);

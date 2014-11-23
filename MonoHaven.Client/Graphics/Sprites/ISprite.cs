@@ -4,7 +4,6 @@
 // (See accompanying LICENSE file or copy at http://opensource.org/licenses/MIT)
 #endregion
 
-using System;
 using System.Collections.Generic;
 
 namespace MonoHaven.Graphics.Sprites

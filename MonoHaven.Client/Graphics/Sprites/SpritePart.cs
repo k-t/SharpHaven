@@ -5,7 +5,6 @@
 #endregion
 
 using System.Drawing;
-using OpenTK.Graphics.OpenGL;
 
 namespace MonoHaven.Graphics.Sprites
 {

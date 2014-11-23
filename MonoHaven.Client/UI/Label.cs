@@ -18,7 +18,7 @@ namespace MonoHaven.UI
 		{
 			textBlock = new TextBlock(font);
 			textBlock.TextColor = Color.White;
-			SetSize(0, font.Height);
+			base.SetSize(0, font.Height);
 		}
 
 		public Label(Widget parent) : this(parent, Fonts.Default)

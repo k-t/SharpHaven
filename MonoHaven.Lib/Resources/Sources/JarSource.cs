@@ -4,10 +4,8 @@
 // (See accompanying LICENSE file or copy at http://opensource.org/licenses/MIT)
 #endregion
 
-using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using ICSharpCode.SharpZipLib.Zip;
 
 namespace MonoHaven.Resources
