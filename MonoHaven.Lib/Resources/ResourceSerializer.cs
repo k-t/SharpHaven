@@ -22,6 +22,7 @@ namespace MonoHaven.Resources
 			dataReaders.Add("tileset", ReadTilesetData);
 			dataReaders.Add("neg", ReadNegData);
 			dataReaders.Add("anim", ReadAnimData);
+			dataReaders.Add("pagina", ReadTextData);
 		}
 
 		public Resource Deserialize(Stream stream)
@@ -141,6 +142,13 @@ namespace MonoHaven.Resources
 			for (int i = 0; i < frameCount; i++)
 				anim.Frames[i] = reader.ReadInt16();
 			return anim;
+		}
+
+		private static IDataLayer ReadTextData(int size, BinaryReader reader)
+		{
+			var text = new TextData();
+			text.Text = Encoding.UTF8.GetString(reader.ReadBytes(size));
+			return text;
 		}
 
 		private static string ReadString(BinaryReader reader)
