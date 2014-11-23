@@ -4,7 +4,7 @@
 	{
 		public static ServerWidget Create(ushort id, ServerWidget parent, object[] args)
 		{
-			var widget = new MenuGrid(parent.Widget);
+			var widget = new MenuGrid(parent.Widget, parent.Session.State.Actions);
 			return new ServerMenuGrid(id, parent, widget);
 		}
 

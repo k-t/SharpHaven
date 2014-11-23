@@ -60,6 +60,11 @@ namespace MonoHaven
 			}
 		}
 
+		public bool HasChildren
+		{
+			get { return firstChild != null; }
+		}
+
 		/// <summary>
 		/// Adds specified node as a child to this node.
 		/// </summary>

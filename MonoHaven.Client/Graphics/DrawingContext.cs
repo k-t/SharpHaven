@@ -44,6 +44,11 @@ namespace MonoHaven.Graphics
 			GL.Scissor(0, 0, window.Width, window.Height);
 		}
 
+		public void SetColor(byte r, byte g, byte b, byte a)
+		{
+			spriteBatch.SetColor(Color.FromArgb(a, r, g, b));
+		}
+
 		public void SetColor(Color color)
 		{
 			spriteBatch.SetColor(color);

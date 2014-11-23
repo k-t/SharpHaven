@@ -155,7 +155,25 @@ namespace MonoHaven.Game
 					});
 					break;
 				case RMSG_PAGINAE:
-					log.Info("RMSG_PAGINAE");
+					App.Instance.QueueOnMainThread(() =>
+					{
+						while (!messageReader.IsEom)
+						{
+							var act = (char)messageReader.ReadByte();
+							if (act == '+')
+							{
+								var name = messageReader.ReadString();
+								var ver = messageReader.ReadUint16();
+								state.Actions.Add(name);
+							}
+							else if (act == '-')
+							{
+								var name = messageReader.ReadString();
+								var ver = messageReader.ReadUint16();
+								state.Actions.Remove(name);
+							}
+						}
+					});
 					break;
 				case RMSG_RESID:
 					App.Instance.QueueOnMainThread(() =>
