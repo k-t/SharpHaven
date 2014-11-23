@@ -23,6 +23,7 @@ namespace MonoHaven.Resources
 			dataReaders.Add("neg", ReadNegData);
 			dataReaders.Add("anim", ReadAnimData);
 			dataReaders.Add("pagina", ReadTextData);
+			dataReaders.Add("action", ReadActionData);
 		}
 
 		public Resource Deserialize(Stream stream)
@@ -149,6 +150,19 @@ namespace MonoHaven.Resources
 			var text = new TextData();
 			text.Text = Encoding.UTF8.GetString(reader.ReadBytes(size));
 			return text;
+		}
+
+		private static IDataLayer ReadActionData(int size, BinaryReader reader)
+		{
+			var action = new ActionData();
+			action.Parent = new ResourceRef(ReadString(reader), reader.ReadUInt16());
+			action.Name = ReadString(reader);
+			ReadString(reader); /* prerequisite skill */
+			action.Hotkey = (char)reader.ReadUInt16();
+			action.Verbs = new string[reader.ReadUInt16()];
+			for (int i = 0; i < action.Verbs.Length; i++)
+				action.Verbs[i] = ReadString(reader);
+			return action;
 		}
 
 		private static string ReadString(BinaryReader reader)
