@@ -8,9 +8,8 @@
 			var width = args.Length > 1 ? (int?)args[1] : null;
 
 			var widget = new Label(parent.Widget, Fonts.Text);
+			widget.AutoSize = true;
 			widget.Text = text;
-			if (width.HasValue)
-				widget.SetSize(width.Value, widget.Height);
 			return new ServerLabel(id, parent, widget);
 		}
 

@@ -5,18 +5,26 @@ namespace MonoHaven.UI
 {
 	public class Label : Widget
 	{
+		private readonly SpriteFont font;
 		private string text;
 		private readonly TextBlock textBlock;
 
 		public Label(Widget parent, SpriteFont font) : base(parent)
 		{
-			textBlock = new TextBlock(font);
-			textBlock.TextColor = Color.White;
+			this.font = font;
+			this.textBlock = new TextBlock(font);
+			this.textBlock.TextColor = Color.White;
 			base.SetSize(0, font.Height);
 		}
 
 		public Label(Widget parent) : this(parent, Fonts.Default)
 		{
+		}
+
+		public bool AutoSize
+		{
+			get;
+			set;
 		}
 
 		public string Text
@@ -27,6 +35,8 @@ namespace MonoHaven.UI
 				text = value;
 				textBlock.Clear();
 				textBlock.Append(text);
+				if (AutoSize)
+					SetSize(textBlock.TextWidth, font.Height);
 			}
 		}
 
