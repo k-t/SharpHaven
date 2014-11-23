@@ -24,6 +24,7 @@ namespace MonoHaven.Resources
 			dataReaders.Add("anim", ReadAnimData);
 			dataReaders.Add("pagina", ReadTextData);
 			dataReaders.Add("action", ReadActionData);
+			dataReaders.Add("tooltip", ReadTooltipData);
 		}
 
 		public Resource Deserialize(Stream stream)
@@ -163,6 +164,13 @@ namespace MonoHaven.Resources
 			for (int i = 0; i < action.Verbs.Length; i++)
 				action.Verbs[i] = ReadString(reader);
 			return action;
+		}
+
+		private static IDataLayer ReadTooltipData(int size, BinaryReader reader)
+		{
+			var tooltip = new TooltipData();
+			tooltip.Text = Encoding.UTF8.GetString(reader.ReadBytes(size));
+			return tooltip;
 		}
 
 		private static string ReadString(BinaryReader reader)
