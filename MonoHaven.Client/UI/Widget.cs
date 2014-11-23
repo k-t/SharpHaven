@@ -132,8 +132,12 @@ namespace MonoHaven.UI
 			p = p.Sub(Location);
 			foreach (var widget in ReversedChildren)
 			{
-				if (widget.Visible && widget.Bounds.Contains(p.X, p.Y))
-					return widget.GetChildAt(p) ?? widget;
+				if (widget.Visible)
+				{
+					var child = widget.GetChildAt(p);
+					if (child != null) return child;
+					if (widget.Bounds.Contains(p.X, p.Y)) return widget;
+				}
 			}
 			return null;
 		}
