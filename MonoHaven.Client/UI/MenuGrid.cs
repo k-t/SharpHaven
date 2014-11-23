@@ -17,6 +17,9 @@ namespace MonoHaven.UI
 
 		public MenuGrid(Widget parent) : base(parent)
 		{
+			base.SetSize(
+				(cellBackground.Width - 1) * ColumnCount,
+				(cellBackground.Height - 1) * RowCount);
 		}
 
 		protected override void OnDraw(DrawingContext dc)
