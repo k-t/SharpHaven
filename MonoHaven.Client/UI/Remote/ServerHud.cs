@@ -4,12 +4,11 @@
 	{
 		public static ServerWidget Create(ushort id, ServerWidget parent, object[] args)
 		{
-			var widget = new Label(parent.Widget);
-			widget.Text = "HUD";
+			var widget = new Hud(parent.Widget);
 			return new ServerHud(id, parent, widget);
 		}
 
-		public ServerHud(ushort id, ServerWidget parent, Widget widget)
+		public ServerHud(ushort id, ServerWidget parent, Hud widget)
 			: base(id, parent, widget)
 		{
 		}

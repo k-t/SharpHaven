@@ -133,6 +133,8 @@
     <Compile Include="UI\Calendar.cs" />
     <Compile Include="UI\Charlist.cs" />
     <Compile Include="UI\FlowerMenu.cs" />
+    <Compile Include="UI\Hud.cs" />
+    <Compile Include="UI\HudMenu.cs" />
     <Compile Include="UI\InventoryWidget.cs" />
     <Compile Include="UI\IScreen.cs" />
     <Compile Include="UI\ItemWidget.cs" />
