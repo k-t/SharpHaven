@@ -11,6 +11,7 @@
 		public ServerHud(ushort id, ServerWidget parent, Hud widget)
 			: base(id, parent, widget)
 		{
+			widget.Menu.ButtonClicked += i => SendMessage("inv");
 		}
 	}
 }

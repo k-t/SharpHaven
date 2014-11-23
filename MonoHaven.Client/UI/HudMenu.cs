@@ -1,5 +1,7 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using MonoHaven.Graphics;
+using MonoHaven.Utils;
 
 namespace MonoHaven.UI
 {
@@ -38,11 +40,19 @@ namespace MonoHaven.UI
 			base.SetSize(background.Width, background.Height);
 
 			for (int i = 0; i < ButtonCount * 2; i += 2)
-				new ImageButton(this) {
+			{
+				var button = new ImageButton(this)
+				{
 					Image = buttonImages[i],
 					PressedImage = buttonImages[i + 1]
-				}.SetSize(buttonImages[i].Width, buttonImages[i].Height);
+				};
+				button.SetSize(buttonImages[i].Width, buttonImages[i].Height);
+				int buttonIndex = i; // catch to closure
+				button.Clicked += () => ButtonClicked.Raise(buttonIndex);
+			}
 		}
+
+		public event Action<int> ButtonClicked;
 
 		protected override void OnDraw(DrawingContext dc)
 		{

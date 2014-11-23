@@ -64,7 +64,7 @@ namespace MonoHaven.Game
 				menuGrid.SetLocation(Window.Width - menuGrid.Width - 5, Window.Height - menuGrid.Height -5);
 		
 			if (hudMenu != null)
-				hudMenu.SetLocation((Window.Width - hudMenu.Width) / 2, Window.Height - hudMenu.Height);
+				hudMenu.SetLocation((Window.Width - hudMenu.Width) / 2, Window.Height - hudMenu.Height + 1);
 		}
 
 		private void OnWidgetCreated(WidgetCreateMessage message)
@@ -149,7 +149,7 @@ namespace MonoHaven.Game
 			if (widget is Hud)
 			{
 				hudMenu = ((Hud)widget).Menu;
-				hudMenu.SetLocation((Window.Width - hudMenu.Width) / 2, Window.Height - hudMenu.Height);
+				hudMenu.SetLocation((Window.Width - hudMenu.Width) / 2, Window.Height - hudMenu.Height + 1);
 			}
 		}
 
