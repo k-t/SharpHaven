@@ -40,6 +40,7 @@ namespace MonoHaven.UI.Remote
 			methods["text"] = ServerTextBox.Create;
 			methods["inv"] = ServerInventoryWidget.Create;
 			methods["item"] = ServerItemWidget.Create;
+			methods["sm"] = ServerFlowerMenu.Create;
 		}
 
 		public ServerWidget Create(

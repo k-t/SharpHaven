@@ -130,6 +130,7 @@
     <Compile Include="UI\Button.cs" />
     <Compile Include="UI\Calendar.cs" />
     <Compile Include="UI\Charlist.cs" />
+    <Compile Include="UI\FlowerMenu.cs" />
     <Compile Include="UI\InventoryWidget.cs" />
     <Compile Include="UI\IScreen.cs" />
     <Compile Include="UI\ItemWidget.cs" />
@@ -144,6 +145,7 @@
     <Compile Include="UI\Remote\ServerCharlist.cs" />
     <Compile Include="UI\Remote\ServerChatWindow.cs" />
     <Compile Include="UI\Remote\ServerContainer.cs" />
+    <Compile Include="UI\Remote\ServerFlowerMenu.cs" />
     <Compile Include="UI\Remote\ServerInput.cs" />
     <Compile Include="UI\Remote\ServerInventoryWidget.cs" />
     <Compile Include="UI\Remote\ServerItemWidget.cs" />
