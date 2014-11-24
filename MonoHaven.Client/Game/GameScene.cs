@@ -23,7 +23,7 @@ namespace MonoHaven.Game
 		public Gob GetObjectAt(Point sc)
 		{
 			for (int i = spriteList.Count - 1; i >= 0; i--)
-				if (spriteList[i].Sprite.CheckHit(spriteList[i].X - sc.X, spriteList[i].Y - sc.Y))
+				if (spriteList[i].Sprite.CheckHit(sc.X - spriteList[i].X, sc.Y - spriteList[i].Y))
 					return spriteList[i].Gob;
 			return null;
 		}

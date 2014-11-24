@@ -1,4 +1,6 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Collections;
+using System.Drawing;
 
 namespace MonoHaven.Graphics.Sprites
 {
@@ -6,19 +8,29 @@ namespace MonoHaven.Graphics.Sprites
 	{
 		private readonly int id;
 		private readonly TextureSlice tex;
-		private readonly Point offset;
-		private readonly Size size;
+		private readonly Rectangle bounds;
 		private readonly int z;
 		private readonly int subz;
+		private readonly BitArray hitmask;
 
-		public SpritePart(int id, TextureSlice tex, Point offset, Size size, int z, int subz)
+		public SpritePart(
+			int id,
+			TextureSlice tex,
+			Point offset,
+			Size size,
+			int z,
+			int subz,
+			BitArray hitmask)
 		{
+			if (hitmask.Count != tex.Width * tex.Height)
+				throw new ArgumentException("Invalid hitmask size");
+
 			this.id = id;
 			this.tex = tex;
-			this.offset = offset;
-			this.size = size;
+			this.bounds = new Rectangle(offset, size);
 			this.z = z;
 			this.subz = subz;
+			this.hitmask = hitmask;
 		}
 
 		public int Id
@@ -33,22 +45,22 @@ namespace MonoHaven.Graphics.Sprites
 
 		public Point Offset
 		{
-			get { return offset; }
+			get { return bounds.Location; }
 		}
 
 		public Size Size
 		{
-			get { return size; }
+			get { return bounds.Size; }
 		}
 
 		public int Width
 		{
-			get { return size.Width; }
+			get { return bounds.Width; }
 		}
 
 		public int Height
 		{
-			get { return size.Height; }
+			get { return bounds.Height; }
 		}
 
 		public int Z
@@ -72,7 +84,9 @@ namespace MonoHaven.Graphics.Sprites
 
 		public bool CheckHit(int x, int y)
 		{
-			return x >= offset.X && x <= Width && y >= offset.Y && y <= Height;
+			if (bounds.Contains(x, y))
+				return hitmask[(x - Offset.X) * Height + y - Offset.Y];
+			return false;
 		}
 	}
 }

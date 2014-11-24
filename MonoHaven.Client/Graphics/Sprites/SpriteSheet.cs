@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
@@ -29,7 +30,7 @@ namespace MonoHaven.Graphics.Sprites
 			return parts.GetEnumerator();
 		}
 
-		System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+		IEnumerator IEnumerable.GetEnumerator()
 		{
 			return GetEnumerator();
 		}
@@ -38,6 +39,7 @@ namespace MonoHaven.Graphics.Sprites
 		{
 			var bitmaps = new Bitmap[images.Length];
 			var regions = new Rectangle[images.Length];
+			var hitmasks = new BitArray[images.Length];
 			try
 			{
 				var packer = new NaiveHorizontalPacker();
@@ -45,8 +47,10 @@ namespace MonoHaven.Graphics.Sprites
 				for (int i = 0; i < images.Length; i++)
 					using (var ms = new MemoryStream(images[i].Data))
 					{
-						bitmaps[i] = MakeTransparent(new Bitmap(ms));
+						BitArray hitmask;
+						bitmaps[i] = ProcessImage(new Bitmap(ms), out hitmask);
 						regions[i] = packer.Add(bitmaps[i].Size);
+						hitmasks[i] = hitmask;
 					}
 				tex = new Texture(packer.PackWidth, packer.PackHeight);
 				// add sprite parts to the texture
@@ -56,7 +60,8 @@ namespace MonoHaven.Graphics.Sprites
 					slice.Update(bitmaps[i]);
 					var img = images[i];
 					var off = Point.Subtract(img.DrawOffset, (Size)center);
-					parts.Add(new SpritePart(img.Id, slice, off, regions[i].Size, img.Z, img.SubZ));
+					parts.Add(new SpritePart(img.Id, slice, off, regions[i].Size,
+						img.Z, img.SubZ, hitmasks[i]));
 				}
 			}
 			finally
@@ -66,12 +71,17 @@ namespace MonoHaven.Graphics.Sprites
 			}
 		}
 
-		private static Bitmap MakeTransparent(Bitmap bitmap)
+		private static Bitmap ProcessImage(Bitmap bitmap, out BitArray hitmask)
 		{
+			hitmask = new BitArray(bitmap.Width * bitmap.Height);
 			for (int i = 0; i < bitmap.Width; i++)
 				for (int j = 0; j < bitmap.Height; j++)
-					if ((bitmap.GetPixel(i, j).ToArgb() & 0x00ffffff) == 0x00ff0080)
+				{
+					var pixel = bitmap.GetPixel(i, j);
+					if ((pixel.ToArgb() & 0x00ffffff) == 0x00ff0080)
 						bitmap.SetPixel(i, j, Color.FromArgb(128, 0, 0, 0));
+					hitmask[i * bitmap.Height + j] = pixel.A > 128;
+				}
 			return bitmap;
 		}
 
