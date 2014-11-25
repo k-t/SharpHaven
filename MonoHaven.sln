@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.30723.0
+VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonoHaven.Lib", "MonoHaven.Lib\MonoHaven.Lib.csproj", "{37671BF5-2A78-46D2-B3DF-EAF21AC15850}"
 EndProject
@@ -14,27 +14,66 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{2EB20B
 		.nuget\NuGet.targets = .nuget\NuGet.targets
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "content", "content", "{1C51938B-29D0-4293-B484-71746F80ACA9}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "fonts", "fonts", "{E6136E2D-3AF2-4754-AA2E-FEAADFB36EBE}"
+	ProjectSection(SolutionItems) = preProject
+		content\fonts\sans.res = content\fonts\sans.res
+		content\fonts\serif.res = content\fonts\serif.res
+		content\fonts\SourceSansPro-Regular.ttf = content\fonts\SourceSansPro-Regular.ttf
+		content\fonts\SourceSerifPro-Regular.ttf = content\fonts\SourceSerifPro-Regular.ttf
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|Mixed Platforms = Debug|Mixed Platforms
 		Debug|x86 = Debug|x86
+		Release|Any CPU = Release|Any CPU
+		Release|Mixed Platforms = Release|Mixed Platforms
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{37671BF5-2A78-46D2-B3DF-EAF21AC15850}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{37671BF5-2A78-46D2-B3DF-EAF21AC15850}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{37671BF5-2A78-46D2-B3DF-EAF21AC15850}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{37671BF5-2A78-46D2-B3DF-EAF21AC15850}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
 		{37671BF5-2A78-46D2-B3DF-EAF21AC15850}.Debug|x86.ActiveCfg = Debug|Any CPU
 		{37671BF5-2A78-46D2-B3DF-EAF21AC15850}.Debug|x86.Build.0 = Debug|Any CPU
+		{37671BF5-2A78-46D2-B3DF-EAF21AC15850}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{37671BF5-2A78-46D2-B3DF-EAF21AC15850}.Release|Any CPU.Build.0 = Release|Any CPU
+		{37671BF5-2A78-46D2-B3DF-EAF21AC15850}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{37671BF5-2A78-46D2-B3DF-EAF21AC15850}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{37671BF5-2A78-46D2-B3DF-EAF21AC15850}.Release|x86.ActiveCfg = Release|Any CPU
 		{37671BF5-2A78-46D2-B3DF-EAF21AC15850}.Release|x86.Build.0 = Release|Any CPU
+		{2AC7E30C-B076-4FD8-B537-7A55CD115DB4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2AC7E30C-B076-4FD8-B537-7A55CD115DB4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2AC7E30C-B076-4FD8-B537-7A55CD115DB4}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{2AC7E30C-B076-4FD8-B537-7A55CD115DB4}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
 		{2AC7E30C-B076-4FD8-B537-7A55CD115DB4}.Debug|x86.ActiveCfg = Debug|Any CPU
 		{2AC7E30C-B076-4FD8-B537-7A55CD115DB4}.Debug|x86.Build.0 = Debug|Any CPU
+		{2AC7E30C-B076-4FD8-B537-7A55CD115DB4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2AC7E30C-B076-4FD8-B537-7A55CD115DB4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2AC7E30C-B076-4FD8-B537-7A55CD115DB4}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{2AC7E30C-B076-4FD8-B537-7A55CD115DB4}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{2AC7E30C-B076-4FD8-B537-7A55CD115DB4}.Release|x86.ActiveCfg = Release|Any CPU
 		{2AC7E30C-B076-4FD8-B537-7A55CD115DB4}.Release|x86.Build.0 = Release|Any CPU
+		{78A18B20-EE44-4B5A-8D07-9BB1BC25CB45}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{78A18B20-EE44-4B5A-8D07-9BB1BC25CB45}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{78A18B20-EE44-4B5A-8D07-9BB1BC25CB45}.Debug|Mixed Platforms.Build.0 = Debug|x86
 		{78A18B20-EE44-4B5A-8D07-9BB1BC25CB45}.Debug|x86.ActiveCfg = Debug|x86
 		{78A18B20-EE44-4B5A-8D07-9BB1BC25CB45}.Debug|x86.Build.0 = Debug|x86
+		{78A18B20-EE44-4B5A-8D07-9BB1BC25CB45}.Release|Any CPU.ActiveCfg = Release|x86
+		{78A18B20-EE44-4B5A-8D07-9BB1BC25CB45}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{78A18B20-EE44-4B5A-8D07-9BB1BC25CB45}.Release|Mixed Platforms.Build.0 = Release|x86
 		{78A18B20-EE44-4B5A-8D07-9BB1BC25CB45}.Release|x86.ActiveCfg = Release|x86
 		{78A18B20-EE44-4B5A-8D07-9BB1BC25CB45}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{E6136E2D-3AF2-4754-AA2E-FEAADFB36EBE} = {1C51938B-29D0-4293-B484-71746F80ACA9}
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
 		StartupItem = MonoHaven.Designer\MonoHaven.Designer.csproj

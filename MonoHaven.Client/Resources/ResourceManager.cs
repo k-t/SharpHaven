@@ -4,14 +4,22 @@ using System.IO;
 using MonoHaven.Graphics;
 using MonoHaven.Graphics.Sprites;
 using OpenTK;
+using SharpFont;
 
 namespace MonoHaven.Resources
 {
 	public class ResourceManager
 	{
+		private static readonly Library fontLibrary;
+
 		private readonly IResourceSource defaultSource = new FolderSource("haven-res/res");
 		private readonly Dictionary<string, Tileset> tilesetCache = new Dictionary<string, Tileset>();
 		private readonly Dictionary<string, SpriteFactory> spriteCache = new Dictionary<string, SpriteFactory>();
+
+		static ResourceManager()
+		{
+			fontLibrary = new Library();
+		}
 
 		public Resource Get(string resName)
 		{
@@ -34,6 +42,12 @@ namespace MonoHaven.Resources
 				bitmap.UnlockBits(bitmapData);
 				return cursor;
 			}
+		}
+
+		public Face GetFont(string resName)
+		{
+			var bytes = Get(resName).GetLayer<FontData>().Data;
+			return fontLibrary.NewMemoryFace(bytes, 0);
 		}
 
 		public ImageData GetImage(string resName)

@@ -195,9 +195,6 @@
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
-    <EmbeddedResource Include="Content\icon.png" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\MonoHaven.Lib\MonoHaven.Lib.csproj">
       <Project>{37671BF5-2A78-46D2-B3DF-EAF21AC15850}</Project>
       <Name>MonoHaven.Lib</Name>
@@ -205,8 +202,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <EmbeddedResource Include="Content\Fonts\SourceSansPro-Regular.ttf" />
-    <EmbeddedResource Include="Content\Fonts\SourceSerifPro-Regular.ttf" />
     <None Include="Graphics\Shaders\FragmentShaderTemplate.tt">
       <Generator>TextTemplatingFilePreprocessor</Generator>
       <LastGenOutput>FragmentShaderTemplate.cs</LastGenOutput>
@@ -221,9 +216,8 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Content\icon.png" />
     <EmbeddedResource Include="Content\wbox.png" />
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="Content\wcap.png" />
   </ItemGroup>
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
