@@ -41,21 +41,19 @@
     <Compile Include="FragmentBufferTests.cs" />
     <Compile Include="MessageTests.cs" />
     <Compile Include="TreeNodeTests.cs" />
-    <Compile Include="Resources\FolderSourceTests.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
+    <Compile Include="Resources\FolderSourceTests.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup />
   <ItemGroup>
     <None Include="packages.config" />
-    <None Include="Samples\FolderSourceTests\logo.res">
+    <None Include="Resources\Samples\tooltip.res">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Samples\FolderSourceTests\logo2.res">
+    <None Include="Resources\Samples\pagina.res">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Samples\FolderSourceTests\SubFolder\cabin-door.res">
+    <None Include="Resources\Samples\SubFolder\font.res">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>

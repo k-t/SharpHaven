@@ -1,15 +1,15 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using NUnit.Framework;
 using MonoHaven.Resources;
+using NUnit.Framework;
 
-namespace MonoHaven.Tests
+namespace MonoHaven.Tests.Resources
 {
-	[TestFixture()]
+	[TestFixture]
 	public class FolderSourceTests
 	{
-		private const string SamplesPath = "Samples/FolderSourceTests";
+		private const string SamplesPath = "Resources/Samples";
 
 		[Test]
 		[ExpectedException(typeof(ArgumentException))]
@@ -23,7 +23,7 @@ namespace MonoHaven.Tests
 		[Test]
 		public void GetWorks(
 			[ValueSource("GetTestItems")]
-			GetTestItem testItem)
+			TestItem testItem)
 		{
 			var source = new FolderSource(SamplesPath);
 			var resource = source.Get(testItem.ResourceName);
@@ -40,23 +40,23 @@ namespace MonoHaven.Tests
 			var result = source.EnumerateAll().ToList();
 
 			Assert.AreEqual(3, result.Count);
-			Assert.IsTrue(result.Contains("logo"));
-			Assert.IsTrue(result.Contains("logo2"));
-			Assert.IsTrue(result.Contains("SubFolder/cabin-door"));
+			Assert.IsTrue(result.Contains("pagina"));
+			Assert.IsTrue(result.Contains("tooltip"));
+			Assert.IsTrue(result.Contains("SubFolder/font"));
 		}
 
-		private IEnumerable<GetTestItem> GetTestItems
+		private IEnumerable<TestItem> GetTestItems
 		{
 			get
 			{
 				return new[] {
-					new GetTestItem { ResourceName = "logo2", ExpectedVersion = 1 },
-					new GetTestItem { ResourceName = "SubFolder/cabin-door", ExpectedVersion = 2 }
+					new TestItem { ResourceName = "pagina", ExpectedVersion = 1 },
+					new TestItem { ResourceName = "SubFolder/font", ExpectedVersion = 2 }
 				};
 			}
 		}
 
-		public class GetTestItem
+		public class TestItem
 		{
 			public string ResourceName { get; set; }
 			public int ExpectedVersion { get; set; }
