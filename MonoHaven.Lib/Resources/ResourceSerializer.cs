@@ -38,7 +38,7 @@ namespace MonoHaven.Resources
 			if (sig != Signature)
 				throw new ResourceException("Invalid signature");
 
-			var version = reader.ReadInt16();
+			var version = reader.ReadUInt16();
 			var layers = new List<object>();
 			while (true)
 			{
