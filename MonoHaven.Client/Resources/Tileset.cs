@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using MonoHaven.Graphics;
 using MonoHaven.Graphics.Sprites;
-using MonoHaven.Resources.Layers;
 
 namespace MonoHaven.Resources
 {

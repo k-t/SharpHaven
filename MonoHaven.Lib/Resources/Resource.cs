@@ -5,28 +5,28 @@ namespace MonoHaven.Resources
 {
 	public class Resource
 	{
-		private int _version;
-		private List<IDataLayer> _layers;
+		private readonly int version;
+		private readonly List<object> layers;
 
-		public Resource(int version, IEnumerable<IDataLayer> layers)
+		public Resource(int version, IEnumerable<object> layers)
 		{
-			_version = version;
-			_layers = new List<IDataLayer>(layers);
+			this.version = version;
+			this.layers = new List<object>(layers);
 		}
 
 		public int Version
 		{
-			get { return _version; }
+			get { return version; }
 		}
 		
-		public T GetLayer<T>() where T : IDataLayer
+		public T GetLayer<T>()
 		{
 			return GetLayers<T>().FirstOrDefault();
 		}
 
-		public IEnumerable<T> GetLayers<T>() where T : IDataLayer
+		public IEnumerable<T> GetLayers<T>()
 		{
-			return _layers.OfType<T>();
+			return layers.OfType<T>();
 		}
 	}
 }

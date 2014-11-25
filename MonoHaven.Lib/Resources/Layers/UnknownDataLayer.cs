@@ -1,13 +1,18 @@
 namespace MonoHaven.Resources
 {
-	public class UnknownDataLayer : IDataLayer
+	public class UnknownDataLayer
 	{
+		private readonly string type;
+
 		public UnknownDataLayer(string type)
 		{
-			Type = type;
+			this.type = type;
 		}
 
-		public string Type { get; private set; }
+		public string Type
+		{
+			get { return type; }
+		}
 	}
 }
 

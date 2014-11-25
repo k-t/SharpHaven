@@ -2,7 +2,6 @@
 using System.Collections;
 using System.Linq;
 using MonoHaven.Resources;
-using MonoHaven.Resources.Layers;
 using MonoHaven.Utils;
 
 namespace MonoHaven.Graphics.Sprites

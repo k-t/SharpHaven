@@ -29,7 +29,7 @@ namespace MonoHaven.Resources
 			var entryName = GetEntryName(resourceName);
 			var entry = _zip.GetEntry(entryName);
 			if (entry == null)
-				throw new ResourceLoadException(string.Format("Entry '{0}' not found", entryName));
+				throw new ResourceException(string.Format("Entry '{0}' not found", entryName));
 			return serializer.Deserialize(_zip.GetInputStream(entry));
 		}
 

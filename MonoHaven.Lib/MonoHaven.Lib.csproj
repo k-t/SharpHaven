@@ -59,6 +59,7 @@
     <Compile Include="Resources\Layers\AnimData.cs" />
     <Compile Include="Resources\Layers\NegData.cs" />
     <Compile Include="Resources\Layers\TextData.cs" />
+    <Compile Include="Resources\BinaryReaderExtensions.cs" />
     <Compile Include="ValueTreeNode.cs" />
     <Compile Include="TreeNode.cs" />
     <Compile Include="Utils\EventExtensions.cs" />
@@ -73,7 +74,7 @@
     <Compile Include="Network\MessageSender.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resources\IEnumerableResourceSource.cs" />
-    <Compile Include="Resources\IDataLayer.cs" />
+    <Compile Include="Resources\IDataLayerSerializer.cs" />
     <Compile Include="Resources\IResourceSource.cs" />
     <Compile Include="Resources\Layers\TileData.cs" />
     <Compile Include="Resources\Layers\TilesetData.cs" />
@@ -83,7 +84,7 @@
     <Compile Include="Resources\Sources\JarSource.cs" />
     <Compile Include="Resources\Layers\ImageData.cs" />
     <Compile Include="Resources\Layers\UnknownDataLayer.cs" />
-    <Compile Include="Resources\ResourceLoadException.cs" />
+    <Compile Include="Resources\ResourceException.cs" />
     <Compile Include="Network\AuthClient.cs" />
     <Compile Include="Network\AuthException.cs" />
     <Compile Include="Network\Message.cs" />

@@ -59,7 +59,7 @@ namespace MonoHaven.Graphics.Sprites
 					var slice = new TextureSlice(tex, regions[i]);
 					slice.Update(bitmaps[i]);
 					var img = images[i];
-					var off = Point.Subtract(img.DrawOffset, (Size)center);
+					var off = Point.Subtract(img.Offset, (Size)center);
 					parts.Add(new SpritePart(img.Id, slice, off, regions[i].Size,
 						img.Z, img.SubZ, hitmasks[i]));
 				}

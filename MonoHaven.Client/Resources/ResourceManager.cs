@@ -3,7 +3,6 @@ using System.Drawing;
 using System.IO;
 using MonoHaven.Graphics;
 using MonoHaven.Graphics.Sprites;
-using MonoHaven.Resources.Layers;
 using OpenTK;
 
 namespace MonoHaven.Resources
@@ -62,7 +61,7 @@ namespace MonoHaven.Resources
 		{
 			var image = Get(resName).GetLayer<ImageData>();
 			if (image == null)
-				throw new ResourceLoadException(string.Format("Couldn't find image layer in the resource '{0}'", resName));
+				throw new ResourceException(string.Format("Couldn't find image layer in the resource '{0}'", resName));
 			// FIXME: it actually loads texture into GPU memory and this is wrong!
 			return TextureSlice.FromBitmap(image.Data);
 		}
