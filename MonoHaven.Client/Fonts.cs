@@ -1,20 +1,13 @@
 ﻿using MonoHaven.Graphics;
-using MonoHaven.Resources;
-using SharpFont;
 
 namespace MonoHaven
 {
 	public static class Fonts
 	{
-		private static readonly Library fontLibrary;
-
 		static Fonts()
 		{
-			fontLibrary = new Library();
-
-			var sans = LoadFace("Fonts.SourceSansPro-Regular.ttf");
-			var serif = LoadFace("Fonts.SourceSerifPro-Regular.ttf");
-
+			var sans = App.Instance.Resources.GetFont("custom/fonts/sans");
+			var serif = App.Instance.Resources.GetFont("custom/fonts/serif");
 			Default = new SpriteFont(sans, 14);
 			Text = new SpriteFont(serif, 12);
 			Heading = new SpriteFont(serif, 18);
@@ -36,12 +29,6 @@ namespace MonoHaven
 		{
 			get;
 			private set;
-		}
-
-		private static Face LoadFace(string resName)
-		{
-			var bytes = EmbeddedResource.GetBytes(resName);
-			return fontLibrary.NewMemoryFace(bytes, 0);
 		}
 	}
 }

@@ -23,6 +23,7 @@ namespace MonoHaven.Resources
 			Register(new TileDataSerializer());
 			Register(new TilesetDataSerializer());
 			Register(new TooltipSerializer());
+			Register(new FontDataSerializer());
 		}
 
 		public void Register(IDataLayerSerializer serializer)

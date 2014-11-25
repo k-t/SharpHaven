@@ -53,6 +53,7 @@
   <ItemGroup>
     <Compile Include="Delayed.cs" />
     <Compile Include="FragmentBuffer.cs" />
+    <Compile Include="Resources\Layers\FontData.cs" />
     <Compile Include="Resources\Layers\TooltipData.cs" />
     <Compile Include="Resources\ResourceRef.cs" />
     <Compile Include="Resources\Layers\ActionData.cs" />
