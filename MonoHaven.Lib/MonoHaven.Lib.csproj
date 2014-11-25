@@ -62,7 +62,7 @@
     <Compile Include="Resources\BinaryReaderExtensions.cs" />
     <Compile Include="ValueTreeNode.cs" />
     <Compile Include="TreeNode.cs" />
-    <Compile Include="Utils\EventExtensions.cs" />
+    <Compile Include="EventHelper.cs" />
     <Compile Include="Network\ConnectionError.cs" />
     <Compile Include="Network\ConnectionSettings.cs" />
     <Compile Include="Network\ConnectionException.cs" />

@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using MonoHaven.Game;
 using MonoHaven.Graphics;
 using MonoHaven.UI;
-using MonoHaven.Utils;
 using OpenTK.Input;
 using Image = MonoHaven.UI.Image;
 

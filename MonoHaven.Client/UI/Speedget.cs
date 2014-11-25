@@ -2,7 +2,6 @@
 using System.Drawing;
 using MonoHaven.Graphics;
 using MonoHaven.Resources;
-using MonoHaven.Utils;
 using OpenTK;
 using OpenTK.Input;
 

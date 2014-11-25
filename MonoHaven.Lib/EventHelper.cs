@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace MonoHaven.Utils
+namespace MonoHaven
 {
-	public static class EventExtensions
+	public static class EventHelper
 	{
 		public static void Raise(this Action action)
 		{

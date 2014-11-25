@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Threading;
-using MonoHaven.Utils;
 using NLog;
 
 namespace MonoHaven

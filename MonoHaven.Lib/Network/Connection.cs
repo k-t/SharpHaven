@@ -2,7 +2,6 @@
 using System.Net.Sockets;
 using C5;
 using NLog;
-using MonoHaven.Utils;
 
 namespace MonoHaven.Network
 {

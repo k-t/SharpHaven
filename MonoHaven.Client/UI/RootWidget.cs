@@ -1,5 +1,4 @@
 ﻿using System;
-using MonoHaven.Utils;
 using OpenTK.Input;
 
 namespace MonoHaven.UI

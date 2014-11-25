@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Drawing;
 using MonoHaven.Graphics;
 using MonoHaven.Resources;
-using MonoHaven.Utils;
 using OpenTK.Input;
 
 namespace MonoHaven.UI
