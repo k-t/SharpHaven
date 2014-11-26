@@ -21,7 +21,7 @@ namespace MonoHaven.Resources
 			get { return typeof(TextData); }
 		}
 
-		public object Deserialize(int size, BinaryReader reader)
+		public object Deserialize(BinaryReader reader, int size)
 		{
 			var text = Encoding.UTF8.GetString(reader.ReadBytes(size));
 			return new TextData { Text =  text };

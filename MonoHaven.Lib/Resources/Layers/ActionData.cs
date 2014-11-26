@@ -24,7 +24,7 @@ namespace MonoHaven.Resources
 			get { return typeof(ActionData); }
 		}
 
-		public object Deserialize(int size, BinaryReader reader)
+		public object Deserialize(BinaryReader reader, int size)
 		{
 			var action = new ActionData();
 			action.Parent = new ResourceRef(reader.ReadCString(), reader.ReadUInt16());

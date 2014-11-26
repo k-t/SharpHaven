@@ -22,7 +22,7 @@ namespace MonoHaven.Resources
 			get { return typeof(AnimData); }
 		}
 
-		public object Deserialize(int size, BinaryReader reader)
+		public object Deserialize(BinaryReader reader, int size)
 		{
 			var anim = new AnimData();
 			anim.Id = reader.ReadInt16();

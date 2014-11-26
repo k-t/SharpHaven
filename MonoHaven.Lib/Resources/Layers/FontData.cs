@@ -20,7 +20,7 @@ namespace MonoHaven.Resources
 			get { return typeof(FontData); }
 		}
 
-		public object Deserialize(int size, BinaryReader reader)
+		public object Deserialize(BinaryReader reader, int size)
 		{
 			var data = reader.ReadBytes(size);
 			return new FontData { Data = data };

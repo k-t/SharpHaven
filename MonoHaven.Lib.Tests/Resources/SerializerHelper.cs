@@ -13,7 +13,7 @@ namespace MonoHaven.Tests.Resources
 			{
 				serializer.Serialize(new BinaryWriter(ms), input);
 				ms.Position = 0;
-				output = serializer.Deserialize((int)ms.Length, new BinaryReader(ms));
+				output = serializer.Deserialize(new BinaryReader(ms), (int)ms.Length);
 				Assert.That(ms.Position, Is.EqualTo(ms.Length), "Stream should be read till the end");
 			}
 			return output;

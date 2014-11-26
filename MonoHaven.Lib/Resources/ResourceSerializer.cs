@@ -89,7 +89,7 @@ namespace MonoHaven.Resources
 				reader.ReadBytes(size);
 				return new UnknownDataLayer(type);
 			}
-			return serializer.Deserialize(size, reader);
+			return serializer.Deserialize(reader, size);
 		}
 
 		private IDataLayerSerializer GetSerializer(string layerName)

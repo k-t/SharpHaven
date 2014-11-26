@@ -7,7 +7,7 @@ namespace MonoHaven.Resources
 	{
 		string LayerName { get; }
 		Type LayerType { get; }
-		object Deserialize(int size, BinaryReader reader);
+		object Deserialize(BinaryReader reader, int size);
 		void Serialize(BinaryWriter writer, object data);
 	}
 }

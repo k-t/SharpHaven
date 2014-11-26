@@ -28,7 +28,7 @@ namespace MonoHaven.Resources
 			get { return typeof(NegData); }
 		}
 
-		public object Deserialize(int size, BinaryReader reader)
+		public object Deserialize(BinaryReader reader, int size)
 		{
 			var neg = new NegData();
 			neg.Center = reader.ReadPoint();

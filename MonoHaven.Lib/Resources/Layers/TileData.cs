@@ -23,7 +23,7 @@ namespace MonoHaven.Resources
 			get { return typeof(TileData); }
 		}
 
-		public object Deserialize(int size, BinaryReader reader)
+		public object Deserialize(BinaryReader reader, int size)
 		{
 			var tile = new TileData();
 			tile.Type = reader.ReadChar();

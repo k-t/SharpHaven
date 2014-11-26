@@ -26,7 +26,7 @@ namespace MonoHaven.Resources
 			get { return typeof(ImageData); }
 		}
 
-		public object Deserialize(int size, BinaryReader reader)
+		public object Deserialize(BinaryReader reader, int size)
 		{
 			var img = new ImageData();
 			img.Z = reader.ReadInt16();

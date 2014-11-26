@@ -29,7 +29,7 @@ namespace MonoHaven.Resources
 			get { return typeof(TilesetData); }
 		}
 
-		public object Deserialize(int size, BinaryReader reader)
+		public object Deserialize(BinaryReader reader, int size)
 		{
 			var tileset = new TilesetData();
 			tileset.HasTransitions = reader.ReadBoolean();
