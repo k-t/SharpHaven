@@ -5,7 +5,7 @@ using System.Text;
 
 namespace MonoHaven.Resources
 {
-	public static class BinaryReaderExtensions
+	public static class BinaryStreamExtensions
 	{
 		/// <summary>
 		/// Reads a C-style (null-terminated) string from the current stream.
@@ -34,6 +34,24 @@ namespace MonoHaven.Resources
 		public static Point ReadPoint(this BinaryReader reader)
 		{
 			return new Point(reader.ReadInt16(), reader.ReadInt16());
+		}
+
+		/// <summary>
+		/// Writes a C-style (null-terminated) string to the current stream.
+		/// </summary>
+		public static void WriteCString(this BinaryWriter writer, string value)
+		{
+			writer.Write(value.ToCharArray());
+			writer.Write('\0');
+		}
+
+		/// <summary>
+		/// Writes a point to the current stream.
+		/// </summary>
+		public static void WritePoint(this BinaryWriter writer, Point value)
+		{
+			writer.Write((short)value.X);
+			writer.Write((short)value.Y);
 		}
 	}
 }

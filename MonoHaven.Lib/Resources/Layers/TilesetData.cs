@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 
 namespace MonoHaven.Resources
 {
@@ -9,11 +10,11 @@ namespace MonoHaven.Resources
 		public ushort FlavorDensity { get; set; }
 	}
 
-	public class FlavorObjectData
+	public struct FlavorObjectData
 	{
 		public string ResName { get; set; }
 		public ushort ResVersion { get; set; }
-		public ushort Weight { get; set; }
+		public byte Weight { get; set; }
 	}
 
 	public class TilesetDataSerializer : IDataLayerSerializer
@@ -21,6 +22,11 @@ namespace MonoHaven.Resources
 		public string LayerName
 		{
 			get { return "tileset"; }
+		}
+
+		public Type LayerType
+		{
+			get { return typeof(TilesetData); }
 		}
 
 		public object Deserialize(int size, BinaryReader reader)
@@ -39,6 +45,20 @@ namespace MonoHaven.Resources
 				tileset.FlavorObjects[i] = fob;
 			}
 			return tileset;
+		}
+
+		public void Serialize(BinaryWriter writer, object data)
+		{
+			var tileset = (TilesetData)data;
+			writer.Write(tileset.HasTransitions);
+			writer.Write((ushort)tileset.FlavorObjects.Length);
+			writer.Write(tileset.FlavorDensity);
+			foreach (var fob in tileset.FlavorObjects)
+			{
+				writer.WriteCString(fob.ResName);
+				writer.Write(fob.ResVersion);
+				writer.Write(fob.Weight);
+			}
 		}
 	}
 }

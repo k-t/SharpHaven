@@ -28,6 +28,11 @@ namespace MonoHaven.Resources
 		{
 			return layers.OfType<T>();
 		}
+
+		public IEnumerable<object> GetLayers()
+		{
+			return layers;
+		}
 	}
 }
 

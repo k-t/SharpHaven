@@ -5,9 +5,9 @@ namespace MonoHaven.Resources
 	public struct ResourceRef
 	{
 		private readonly string name;
-		private readonly int version;
+		private readonly ushort version;
 
-		public ResourceRef(string name, int version)
+		public ResourceRef(string name, ushort version)
 		{
 			if (name == null)
 				throw new ArgumentNullException("name");
@@ -20,7 +20,7 @@ namespace MonoHaven.Resources
 			get { return name; }
 		}
 
-		public int Version
+		public ushort Version
 		{
 			get { return version; }
 		}

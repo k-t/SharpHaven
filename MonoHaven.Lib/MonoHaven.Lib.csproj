@@ -60,7 +60,7 @@
     <Compile Include="Resources\Layers\AnimData.cs" />
     <Compile Include="Resources\Layers\NegData.cs" />
     <Compile Include="Resources\Layers\TextData.cs" />
-    <Compile Include="Resources\BinaryReaderExtensions.cs" />
+    <Compile Include="Resources\BinaryStreamExtensions.cs" />
     <Compile Include="ValueTreeNode.cs" />
     <Compile Include="TreeNode.cs" />
     <Compile Include="EventHelper.cs" />

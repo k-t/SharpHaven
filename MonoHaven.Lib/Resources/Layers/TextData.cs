@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Text;
 
 namespace MonoHaven.Resources
@@ -15,10 +16,21 @@ namespace MonoHaven.Resources
 			get { return "pagina"; }
 		}
 
+		public Type LayerType
+		{
+			get { return typeof(TextData); }
+		}
+
 		public object Deserialize(int size, BinaryReader reader)
 		{
 			var text = Encoding.UTF8.GetString(reader.ReadBytes(size));
 			return new TextData { Text =  text };
+		}
+
+		public void Serialize(BinaryWriter writer, object data)
+		{
+			var text = (TextData)data;
+			writer.Write(Encoding.UTF8.GetBytes(text.Text));
 		}
 	}
 }

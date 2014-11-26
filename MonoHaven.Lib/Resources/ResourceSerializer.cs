@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using C5;
 
 namespace MonoHaven.Resources
 {
@@ -9,11 +8,13 @@ namespace MonoHaven.Resources
 	{
 		private const string Signature = "Haven Resource 1";
 
-		private readonly TreeDictionary<string, IDataLayerSerializer> serializers;
+		private readonly Dictionary<string, IDataLayerSerializer> deserializers;
+		private readonly Dictionary<Type, IDataLayerSerializer> serializers;
 
 		public ResourceSerializer()
 		{
-			serializers = new TreeDictionary<string, IDataLayerSerializer>();
+			deserializers = new Dictionary<string, IDataLayerSerializer>();
+			serializers = new Dictionary<Type, IDataLayerSerializer>();
 			// register default serializers
 			Register(new ActionDataSerializer());
 			Register(new AnimDataSerializer());
@@ -22,13 +23,14 @@ namespace MonoHaven.Resources
 			Register(new TextDataSerializer());
 			Register(new TileDataSerializer());
 			Register(new TilesetDataSerializer());
-			Register(new TooltipSerializer());
+			Register(new TooltipDataSerializer());
 			Register(new FontDataSerializer());
 		}
 
 		public void Register(IDataLayerSerializer serializer)
 		{
-			serializers[serializer.LayerName] = serializer;
+			deserializers[serializer.LayerName] = serializer;
+			serializers[serializer.LayerType] = serializer;
 		}
 
 		public Resource Deserialize(Stream stream)
@@ -51,6 +53,29 @@ namespace MonoHaven.Resources
 			return new Resource(version, layers);
 		}
 
+		public void Serialize(Stream stream, Resource res)
+		{
+			var writer = new BinaryWriter(stream);
+			writer.Write(Signature.ToCharArray());
+			writer.Write((ushort)res.Version);
+			foreach (var layer in res.GetLayers())
+			{
+				var serializer = GetSerializer(layer.GetType());
+				if (serializer == null)
+					throw new ResourceException("Unsupported layer type " + layer.GetType().FullName);
+				writer.WriteCString(serializer.LayerName);
+				// write each layer to the temporary buffer
+				// to be able to prefix layer length
+				using (var ms = new MemoryStream())
+				using (var bw = new BinaryWriter(ms))
+				{
+					serializer.Serialize(bw, layer);
+					writer.Write((int)ms.Length);
+					ms.WriteTo(stream);
+				}
+			}
+		}
+
 		private object ReadLayer(BinaryReader reader)
 		{
 			var type = reader.ReadCString();
@@ -70,7 +95,13 @@ namespace MonoHaven.Resources
 		private IDataLayerSerializer GetSerializer(string layerName)
 		{
 			IDataLayerSerializer serializer;
-			return serializers.Find(ref layerName, out serializer) ? serializer : null;
+			return deserializers.TryGetValue(layerName, out serializer) ? serializer : null;
+		}
+
+		private IDataLayerSerializer GetSerializer(Type layerType)
+		{
+			IDataLayerSerializer serializer;
+			return serializers.TryGetValue(layerType, out serializer) ? serializer : null;
 		}
 	}
 }

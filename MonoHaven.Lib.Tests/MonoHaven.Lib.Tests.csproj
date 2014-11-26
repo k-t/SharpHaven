@@ -36,10 +36,22 @@
       <HintPath>..\packages\NUnit.2.6.3\lib\nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Drawing" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="FragmentBufferTests.cs" />
     <Compile Include="MessageTests.cs" />
+    <Compile Include="Resources\Layers\ActionDataTests.cs" />
+    <Compile Include="Resources\Layers\AnimDataTests.cs" />
+    <Compile Include="Resources\Layers\FontDataTests.cs" />
+    <Compile Include="Resources\Layers\ImageDataTests.cs" />
+    <Compile Include="Resources\Layers\NegDataTests.cs" />
+    <Compile Include="Resources\Layers\TextDataTests.cs" />
+    <Compile Include="Resources\Layers\TileDataTests.cs" />
+    <Compile Include="Resources\Layers\TilesetDataTests.cs" />
+    <Compile Include="Resources\Layers\TooltipDataTests.cs" />
+    <Compile Include="Resources\ResourceSerializerTests.cs" />
+    <Compile Include="Resources\SerializerHelper.cs" />
     <Compile Include="TreeNodeTests.cs" />
     <Compile Include="Resources\FolderSourceTests.cs" />
   </ItemGroup>
