@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Drawing;
 using MonoHaven.Graphics;
-using MonoHaven.Resources;
 using OpenTK.Input;
 
 namespace MonoHaven.UI
@@ -15,8 +14,8 @@ namespace MonoHaven.UI
 		static FlowerMenu()
 		{
 			back = App.Instance.Resources.GetTexture("gfx/hud/bgtex");
-			using (var bitmap = EmbeddedResource.GetImage("wbox.png"))
-				box = new NinePatch(TextureSlice.FromBitmap(bitmap), 8, 8, 8, 8);
+			var boxImage = App.Instance.Resources.GetImage("custom/ui/wbox");
+			box = new NinePatch(TextureSlice.FromBitmap(boxImage.Data), 8, 8, 8, 8);
 		}
 
 		public FlowerMenu(Widget parent, IEnumerable<string> options) : base(parent)

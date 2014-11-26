@@ -126,7 +126,6 @@
     <Compile Include="Login\LoginSettings.cs" />
     <Compile Include="Login\LoginResult.cs" />
     <Compile Include="MainScreen.cs" />
-    <Compile Include="Resources\EmbeddedResource.cs" />
     <Compile Include="Resources\Tileset.cs" />
     <Compile Include="UI\AvatarView.cs" />
     <Compile Include="UI\Button.cs" />
@@ -214,11 +213,6 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Content\icon.png" />
-    <EmbeddedResource Include="Content\wbox.png" />
-    <EmbeddedResource Include="Content\wcap.png" />
   </ItemGroup>
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <Target Name="BeforeBuild">

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Drawing;
 using MonoHaven.Graphics;
-using MonoHaven.Resources;
 using OpenTK.Input;
 
 namespace MonoHaven.UI
@@ -27,10 +26,10 @@ namespace MonoHaven.UI
 			closeButton = App.Instance.Resources.GetTexture("gfx/hud/cbtn");
 			closeButtonPressed = App.Instance.Resources.GetTexture("gfx/hud/cbtnd");
 			closeButtonHovered = App.Instance.Resources.GetTexture("gfx/hud/cbtnh");
-			using (var bitmap = EmbeddedResource.GetImage("wbox.png"))
-				box = new NinePatch(TextureSlice.FromBitmap(bitmap), 8, 8, 8, 8);
-			using (var bitmap = EmbeddedResource.GetImage("wcap.png"))
-				cap = new NinePatch(TextureSlice.FromBitmap(bitmap), 24, 24, 0, 0);
+			var boxImage = App.Instance.Resources.GetImage("custom/ui/wbox");
+			box = new NinePatch(TextureSlice.FromBitmap(boxImage.Data), 8, 8, 8, 8);
+			var capImage = App.Instance.Resources.GetImage("custom/ui/wcap");
+			cap = new NinePatch(TextureSlice.FromBitmap(capImage.Data), 24, 24, 0, 0);
 		}
 
 		public Window(Widget parent, string caption) : base(parent)

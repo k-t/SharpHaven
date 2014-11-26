@@ -3,7 +3,6 @@ using System.Drawing;
 using MonoHaven.Game;
 using MonoHaven.Graphics;
 using MonoHaven.Graphics.Sprites;
-using MonoHaven.Resources;
 
 namespace MonoHaven.UI
 {
@@ -23,8 +22,8 @@ namespace MonoHaven.UI
 			missing = App.Instance.Resources.GetTexture("gfx/hud/equip/missing");
 			background = App.Instance.Resources.GetTexture("gfx/hud/equip/bg");
 
-			using (var bitmap = EmbeddedResource.GetImage("wbox.png"))
-				box = new NinePatch(TextureSlice.FromBitmap(bitmap), 8, 8, 8, 8);
+			var boxImage = App.Instance.Resources.GetImage("custom/ui/wbox");
+			box = new NinePatch(TextureSlice.FromBitmap(boxImage.Data), 8, 8, 8, 8);
 		}
 
 		public AvatarView(Widget parent, int gobId, GobCache gobCache)

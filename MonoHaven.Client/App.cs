@@ -1,5 +1,6 @@
 using System;
 using System.Drawing;
+using System.IO;
 using System.Threading;
 using System.Windows.Threading;
 using NLog;
@@ -26,14 +27,15 @@ namespace MonoHaven
 			SetSynchronizationContext();
 			GraphicsContext.ShareContexts = false;
 
-			using (var iconImage = EmbeddedResource.GetImage("icon.png"))
+			instance.config = new Config();
+			instance.resourceManager = new ResourceManager();
+
+			using (var iconStream = new MemoryStream(Instance.Resources.GetImage("custom/ui/icon").Data))
+			using (var iconImage = new Bitmap(iconStream))
 			using (var icon = Icon.FromHandle(iconImage.GetHicon()))
 			using (var gameWindow = new MainWindow(800, 600))
 			{
-				instance.config = new Config();
-				instance.resourceManager = new ResourceManager();
 				instance.window = gameWindow;
-
 				gameWindow.Icon = icon;
 				gameWindow.Run(30, 60);
 			}
