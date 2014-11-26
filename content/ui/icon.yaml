@@ -1,0 +1,4 @@
+version: 1
+layers:
+  - !image
+    file: icon.png
