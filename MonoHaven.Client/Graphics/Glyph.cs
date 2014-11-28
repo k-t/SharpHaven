@@ -10,7 +10,7 @@ namespace MonoHaven.Graphics
 			set;
 		}
 
-		public Drawable Image
+		public TextureSlice Image
 		{
 			get;
 			set;

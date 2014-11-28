@@ -60,8 +60,7 @@ namespace MonoHaven.Graphics.Sprites
 					slice.Update(bitmaps[i]);
 					var img = images[i];
 					var off = Point.Subtract(img.Offset, (Size)center);
-					parts.Add(new Picture(img.Id, slice, off, regions[i].Size,
-						img.Z, img.SubZ, hitmasks[i]));
+					parts.Add(new Picture(img.Id, slice, off, img.Z, img.SubZ, hitmasks[i]));
 				}
 			}
 			finally

@@ -14,8 +14,8 @@ namespace MonoHaven.UI.Remote
 			var tooltip = args.Length > i ? (string)args[i++] : string.Empty;
 			var num = args.Length > i ? (int)args[i] : -1;
 
-			var res = parent.Session.GetResource(resId);
-			var widget = new ItemWidget(parent.Widget, res);
+			var image = parent.Session.GetImage(resId);
+			var widget = new ItemWidget(parent.Widget, image);
 			return new ServerItemWidget(id, parent, widget);
 		}
 

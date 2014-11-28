@@ -13,11 +13,15 @@ namespace MonoHaven.Graphics
 		private readonly int subz;
 		private readonly BitArray hitmask;
 
+		public Picture(TextureSlice tex)
+			: this(-1, tex, Point.Empty, 0, 0, new BitArray(tex.Width * tex.Height))
+		{
+		}
+
 		public Picture(
 			int id,
 			TextureSlice tex,
 			Point offset,
-			Size size,
 			int z,
 			int subz,
 			BitArray hitmask)
@@ -27,9 +31,9 @@ namespace MonoHaven.Graphics
 
 			this.id = id;
 			this.tex = tex;
-			this.width = size.Width;
-			this.height = size.Height;
-			this.bounds = new Rectangle(offset, size);
+			this.width = tex.Width;
+			this.height = tex.Height;
+			this.bounds = new Rectangle(offset.X, offset.Y, tex.Width, tex.Height);
 			this.z = z;
 			this.subz = subz;
 			this.hitmask = hitmask;

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading;
 using MonoHaven.Game.Messages;
+using MonoHaven.Graphics;
 using MonoHaven.Graphics.Sprites;
 using MonoHaven.Network;
 using MonoHaven.Resources;
@@ -403,6 +404,11 @@ namespace MonoHaven.Game
 		public Delayed<ISprite> GetSprite(int id, byte[] spriteState = null)
 		{
 			return GetResource(id, nm => App.Resources.GetSprite(nm, spriteState));
+		}
+
+		public Delayed<Drawable> GetImage(int id)
+		{
+			return GetResource(id, App.Resources.GetImage);
 		}
 
 		private Delayed<T> GetResource<T>(int id, Func<string, T> getter)

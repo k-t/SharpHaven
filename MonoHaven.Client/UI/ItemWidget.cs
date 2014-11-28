@@ -14,39 +14,38 @@ namespace MonoHaven.UI
 			missing = App.Resources.GetImage("gfx/invobjs/missing");
 		}
 
-		private readonly Delayed<Resource> res;
-		private Drawable image;
+		private readonly Delayed<Drawable> image;
+		private bool isSizeFixed;
 
-		public ItemWidget(Widget parent, Delayed<Resource> res) : base(parent)
+		public ItemWidget(Widget parent, Delayed<Drawable> image)
+			: base(parent)
 		{
-			this.res = res;
+			this.image = image;
 		}
 
 		protected override void OnDraw(DrawingContext dc)
 		{
-			if (image == null && res.Value == null)
+			if (image.Value == null)
 				dc.Draw(missing, 0, 0, defaultSize.X, defaultSize.Y);
 			else
 			{
-				if (image == null)
-				{
-					image = TextureSlice.FromBitmap(res.Value.GetLayer<ImageData>().Data);
+				if (!isSizeFixed)
 					FixSize();
-				}
-				dc.Draw(image, 0, 0);
+				dc.Draw(image.Value, 0, 0);
 			}
 			
 		}
 
 		protected override void OnDispose()
 		{
-			if (image != null)
-				image.Dispose();
+			if (image.Value != null)
+				image.Value.Dispose();
 		}
 
 		private void FixSize()
 		{
-			SetSize(image.Width, image.Height);
+			SetSize(image.Value.Width, image.Value.Height);
+			isSizeFixed = true;
 		}
 	}
 }

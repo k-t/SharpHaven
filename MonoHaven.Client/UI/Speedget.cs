@@ -17,14 +17,13 @@ namespace MonoHaven.UI
 			images = new Drawable[4, 3];
 			var names = new[] { "crawl", "walk", "run", "sprint" };
 			var vars = new[] { "dis", "off", "on" };
-			var atlas = new TextureAtlas(128, 64);
 			int w = 0;
 			for (int i = 0; i < images.GetLength(0); i++)
 			{
 				for (int j = 0; j < images.GetLength(1); j++)
 				{
-					var res = App.Resources.Get("gfx/hud/meter/rmeter/" + names[i] + "-" + vars[j]);
-					images[i, j] = atlas.Add(res.GetLayer<ImageData>().Data);
+					var image = App.Resources.GetImage("gfx/hud/meter/rmeter/" + names[i] + "-" + vars[j]);
+					images[i, j] = image;
 				}
 				w += images[i, 0].Width;
 			}

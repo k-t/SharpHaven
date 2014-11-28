@@ -5,17 +5,14 @@ using MonoHaven.Resources;
 
 namespace MonoHaven.Game
 {
-	public class GameActionTree : IDisposable
+	public class GameActionTree
 	{
 		private readonly GameAction root;
 		private readonly HashDictionary<string, GameAction> actions;
-		// TODO: atlas should be managed somewhere else
-		private readonly TextureAtlas atlas;
 
 		public GameActionTree()
 		{
 			root = new GameAction();
-			atlas = new TextureAtlas(1024, 1024);
 			actions = new HashDictionary<string, GameAction>();
 		}
 
@@ -40,11 +37,6 @@ namespace MonoHaven.Game
 				Changed.Raise();
 		}
 
-		public void Dispose()
-		{
-			atlas.Dispose();
-		}
-
 		private GameAction GetOrAdd(string resName)
 		{
 			if (string.IsNullOrEmpty(resName))
@@ -62,8 +54,9 @@ namespace MonoHaven.Game
 		{
 			var res = App.Resources.Get(resName);
 			var data = res.GetLayer<ActionData>();
-			var image =  atlas.Add(res.GetLayer<ImageData>().Data);
-			var act = new GameAction(data.Name, data.Name, image, data.Verbs);
+			// FIXME: that should be moved to resource manager!
+			var image = TextureSlice.FromBitmap(res.GetLayer<ImageData>().Data);
+			var act = new GameAction(data.Name, data.Name, new Picture(image), data.Verbs);
 
 			var parent = GetOrAdd(data.Parent.Name) ?? root;
 			parent.AddChild(act);

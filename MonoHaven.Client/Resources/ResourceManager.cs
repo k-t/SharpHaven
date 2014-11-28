@@ -77,7 +77,7 @@ namespace MonoHaven.Resources
 			foreach (var tile in res.GetLayers<TileData>())
 			{
 				var image = tileAtlas.Value.Add(tile.ImageData);
-				tileset.AddTile(tile.Id, tile.Type, tile.Weight, image);
+				tileset.AddTile(tile.Id, tile.Type, tile.Weight, new Picture(image));
 			}
 			tilesetCache[resName] = tileset;
 			return tileset;
@@ -100,7 +100,7 @@ namespace MonoHaven.Resources
 				return new NinePatch(tex, ninepatch.Left, ninepatch.Right,
 					ninepatch.Top, ninepatch.Bottom);
 			}
-			return tex;
+			return new Picture(tex);
 		}
 
 		public ISprite GetSprite(string resName, byte[] state = null)

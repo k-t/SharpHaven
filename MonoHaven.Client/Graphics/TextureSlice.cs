@@ -5,7 +5,7 @@ using OpenTK;
 
 namespace MonoHaven.Graphics
 {
-	public class TextureSlice : Drawable
+	public class TextureSlice : IDisposable
 	{
 		private readonly Texture tex;
 		private readonly Vector2 uv;
@@ -18,8 +18,6 @@ namespace MonoHaven.Graphics
 			this.ownsTexture = ownsTexture;
 			this.uv = new Vector2(region.X / tex.Width, region.Y / tex.Height);
 			this.uv2 = new Vector2(region.Right / tex.Width, region.Bottom / tex.Height);
-			width = (int)region.Width;
-			height = (int)region.Height;
 		}
 
 		public TextureSlice(Texture tex, int x, int y, int w, int h, bool ownsTexture = false)
@@ -27,14 +25,24 @@ namespace MonoHaven.Graphics
 		{
 		}
 
-		private int OffsetX
+		private int X
 		{
 			get { return (int)(tex.Width * uv.X); }
 		}
 
-		private int OffsetY
+		private int Y
 		{
 			get { return (int)(tex.Height * uv.Y); }
+		}
+
+		public int Width
+		{
+			get { return (int)(tex.Width * (uv2.X - uv.X)); }
+		}
+
+		public int Height
+		{
+			get { return (int)(tex.Height * (uv2.Y - uv.Y)); }
 		}
 
 		public static TextureSlice FromBitmap(byte[] bitmapData)
@@ -53,13 +61,13 @@ namespace MonoHaven.Graphics
 			return new TextureSlice(tex, 0, 0, bitmap.Width, bitmap.Height, true);
 		}
 
-		public override void Dispose()
+		public void Dispose()
 		{
 			if (ownsTexture)
 				tex.Dispose();
 		}
 
-		public override void Draw(SpriteBatch batch, int x, int y, int w, int h)
+		public void Draw(SpriteBatch batch, int x, int y, int w, int h)
 		{
 			batch.Draw(tex, x, y, w, h, uv.X, uv.Y, uv2.X, uv2.Y);
 		}
@@ -67,21 +75,21 @@ namespace MonoHaven.Graphics
 		public TextureSlice Update(Bitmap bitmap)
 		{
 			tex.Bind();
-			tex.Update(OffsetX, OffsetY, bitmap);
+			tex.Update(X, Y, bitmap);
 			return this;
 		}
 
 		public TextureSlice Update(Pixmap image)
 		{
 			tex.Bind();
-			tex.Update(OffsetX, OffsetY, image);
+			tex.Update(X, Y, image);
 			return this;
 		}
 
 		public TextureSlice Slice(RectangleF region)
 		{
-			int offsetX = OffsetX;
-			int offsetY = OffsetY;
+			int offsetX = X;
+			int offsetY = Y;
 			if (offsetX + region.Width > Width || offsetY + region.Height > Height)
 				throw new ArgumentException("Slice is out bounds");
 			return new TextureSlice(tex, region);
