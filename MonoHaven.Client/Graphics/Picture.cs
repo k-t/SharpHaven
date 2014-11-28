@@ -13,8 +13,8 @@ namespace MonoHaven.Graphics
 		private readonly int subz;
 		private readonly BitArray hitmask;
 
-		public Picture(TextureSlice tex)
-			: this(-1, tex, Point.Empty, 0, 0, new BitArray(tex.Width * tex.Height))
+		public Picture(TextureSlice tex, BitArray hitmask)
+			: this(-1, tex, Point.Empty, 0, 0, hitmask)
 		{
 		}
 
@@ -26,7 +26,7 @@ namespace MonoHaven.Graphics
 			int subz,
 			BitArray hitmask)
 		{
-			if (hitmask.Count != tex.Width * tex.Height)
+			if (hitmask != null && hitmask.Count != tex.Width * tex.Height)
 				throw new ArgumentException("Invalid hitmask size");
 
 			this.id = id;
@@ -74,11 +74,16 @@ namespace MonoHaven.Graphics
 			Tex.Draw(batch, x + Offset.X, y + Offset.Y, w, h);
 		}
 
-		public bool CheckHit(int x, int y)
+		public override bool CheckHit(int x, int y)
 		{
-			if (bounds.Contains(x, y))
-				return hitmask[(x - Offset.X) * Height + y - Offset.Y];
-			return false;
+			if (hitmask != null)
+			{
+				if (bounds.Contains(x, y))
+					return hitmask[(x - Offset.X) * Height + y - Offset.Y];
+				return false;
+			}
+			return base.CheckHit(x, y);
+			
 		}
 	}
 }

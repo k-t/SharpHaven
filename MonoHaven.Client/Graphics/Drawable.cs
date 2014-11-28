@@ -21,6 +21,11 @@ namespace MonoHaven.Graphics
 		{
 		}
 
+		public virtual bool CheckHit(int x, int y)
+		{
+			return x >= 0 && x < Width && y >= 0 && y < Height;
+		}
+
 		public abstract void Draw(SpriteBatch batch, int x, int y, int w, int h);
 	}
 }

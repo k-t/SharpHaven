@@ -403,12 +403,12 @@ namespace MonoHaven.Game
 
 		public Delayed<ISprite> GetSprite(int id, byte[] spriteState = null)
 		{
-			return GetResource(id, nm => App.Resources.GetSprite(nm, spriteState));
+			return GetResource(id, n => App.Resources.GetSprite(n, spriteState));
 		}
 
 		public Delayed<Drawable> GetImage(int id)
 		{
-			return GetResource(id, App.Resources.GetImage);
+			return GetResource(id, n => App.Resources.GetImage(n));
 		}
 
 		private Delayed<T> GetResource<T>(int id, Func<string, T> getter)

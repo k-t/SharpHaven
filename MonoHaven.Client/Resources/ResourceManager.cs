@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
@@ -77,13 +78,13 @@ namespace MonoHaven.Resources
 			foreach (var tile in res.GetLayers<TileData>())
 			{
 				var image = tileAtlas.Value.Add(tile.ImageData);
-				tileset.AddTile(tile.Id, tile.Type, tile.Weight, new Picture(image));
+				tileset.AddTile(tile.Id, tile.Type, tile.Weight, new Picture(image, null));
 			}
 			tilesetCache[resName] = tileset;
 			return tileset;
 		}
 
-		public Drawable GetImage(string resName)
+		public Drawable GetImage(string resName, bool generateHitmask = false)
 		{
 			var res = Get(resName);
 
@@ -91,16 +92,20 @@ namespace MonoHaven.Resources
 			if (imageData == null)
 				throw new ResourceException(string.Format("Couldn't find image layer in the resource '{0}'", resName));
 
-			// load texture
-			var tex = TextureSlice.FromBitmap(imageData.Data);
-			// check whether image is a ninepatch
-			var ninepatch = res.GetLayer<NinepatchData>();
-			if (ninepatch != null)
+			using (var ms = new MemoryStream(imageData.Data))
+			using (var bitmap = new Bitmap(ms))
 			{
-				return new NinePatch(tex, ninepatch.Left, ninepatch.Right,
-					ninepatch.Top, ninepatch.Bottom);
+				// load texture
+				var tex = TextureSlice.FromBitmap(bitmap);
+				// check whether image is a ninepatch
+				var ninepatch = res.GetLayer<NinepatchData>();
+				if (ninepatch != null)
+				{
+					return new NinePatch(tex, ninepatch.Left, ninepatch.Right,
+						ninepatch.Top, ninepatch.Bottom);
+				}
+				return new Picture(tex, generateHitmask ? GenerateHitmask(bitmap) : null);
 			}
-			return new Picture(tex);
 		}
 
 		public ISprite GetSprite(string resName, byte[] state = null)
@@ -121,6 +126,19 @@ namespace MonoHaven.Resources
 			return (anim != null)
 				? new AnimSpriteFactory(res)
 				: new StaticSpriteFactory(res) as SpriteFactory;
+		}
+
+		private BitArray GenerateHitmask(Bitmap bitmap)
+		{
+			// TODO: same thing exists for sprite
+			var hitmask = new BitArray(bitmap.Width * bitmap.Height);
+			for (int i = 0; i < bitmap.Width; i++)
+				for (int j = 0; j < bitmap.Height; j++)
+				{
+					var pixel = bitmap.GetPixel(i, j);
+					hitmask[i * bitmap.Height + j] = pixel.A > 128;
+				}
+			return hitmask;
 		}
 	}
 }

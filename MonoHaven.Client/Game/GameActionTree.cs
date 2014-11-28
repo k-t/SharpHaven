@@ -56,7 +56,7 @@ namespace MonoHaven.Game
 			var data = res.GetLayer<ActionData>();
 			// FIXME: that should be moved to resource manager!
 			var image = TextureSlice.FromBitmap(res.GetLayer<ImageData>().Data);
-			var act = new GameAction(data.Name, data.Name, new Picture(image), data.Verbs);
+			var act = new GameAction(data.Name, data.Name, new Picture(image, null), data.Verbs);
 
 			var parent = GetOrAdd(data.Parent.Name) ?? root;
 			parent.AddChild(act);
