@@ -22,12 +22,12 @@ namespace MonoHaven.UI
 
 		static Window()
 		{
-			background = App.Resources.GetTexture("gfx/hud/bgtex");
-			closeButton = App.Resources.GetTexture("gfx/hud/cbtn");
-			closeButtonPressed = App.Resources.GetTexture("gfx/hud/cbtnd");
-			closeButtonHovered = App.Resources.GetTexture("gfx/hud/cbtnh");
-			box = App.Resources.GetTexture("custom/ui/wbox");
-			cap = App.Resources.GetTexture("custom/ui/wcap");
+			background = App.Resources.GetImage("gfx/hud/bgtex");
+			closeButton = App.Resources.GetImage("gfx/hud/cbtn");
+			closeButtonPressed = App.Resources.GetImage("gfx/hud/cbtnd");
+			closeButtonHovered = App.Resources.GetImage("gfx/hud/cbtnh");
+			box = App.Resources.GetImage("custom/ui/wbox");
+			cap = App.Resources.GetImage("custom/ui/wcap");
 		}
 
 		public Window(Widget parent, string caption) : base(parent)

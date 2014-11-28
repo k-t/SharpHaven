@@ -72,7 +72,7 @@ namespace MonoHaven.Resources
 			return tileset;
 		}
 
-		public Drawable GetTexture(string resName)
+		public Drawable GetImage(string resName)
 		{
 			var res = Get(resName);
 

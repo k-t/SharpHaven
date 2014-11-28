@@ -19,16 +19,16 @@ namespace MonoHaven.UI
 
 		static Calendar()
 		{
-			background = App.Resources.GetTexture("gfx/hud/calendar/setting");
-			daySky = App.Resources.GetTexture("gfx/hud/calendar/daysky");
-			dayScape = App.Resources.GetTexture("gfx/hud/calendar/dayscape");
-			nightSky = App.Resources.GetTexture("gfx/hud/calendar/nightsky");
-			nightScape = App.Resources.GetTexture("gfx/hud/calendar/nightscape");
-			sun = App.Resources.GetTexture("gfx/hud/calendar/sun");
+			background = App.Resources.GetImage("gfx/hud/calendar/setting");
+			daySky = App.Resources.GetImage("gfx/hud/calendar/daysky");
+			dayScape = App.Resources.GetImage("gfx/hud/calendar/dayscape");
+			nightSky = App.Resources.GetImage("gfx/hud/calendar/nightsky");
+			nightScape = App.Resources.GetImage("gfx/hud/calendar/nightscape");
+			sun = App.Resources.GetImage("gfx/hud/calendar/sun");
 
 			moons = new Drawable[8];
 			for (int i = 0; i < moons.Length; i++)
-				moons[i] = App.Resources.GetTexture(string.Format("gfx/hud/calendar/m{0:D2}", i));
+				moons[i] = App.Resources.GetImage(string.Format("gfx/hud/calendar/m{0:D2}", i));
 		}
 
 		private readonly GameState gstate;

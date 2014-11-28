@@ -7,7 +7,7 @@
 			var resName = (string)args[0];
 
 			var widget = new Image(parent.Widget);
-			widget.Drawable = App.Resources.GetTexture(resName);
+			widget.Drawable = App.Resources.GetImage(resName);
 			widget.SetSize(widget.Drawable.Width, widget.Drawable.Height);
 			return new ServerImage(id, parent, widget);
 		}

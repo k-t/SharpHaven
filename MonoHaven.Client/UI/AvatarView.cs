@@ -19,9 +19,9 @@ namespace MonoHaven.UI
 
 		static AvatarView()
 		{
-			missing = App.Resources.GetTexture("gfx/hud/equip/missing");
-			background = App.Resources.GetTexture("gfx/hud/equip/bg");
-			box = App.Resources.GetTexture("custom/ui/wbox");
+			missing = App.Resources.GetImage("gfx/hud/equip/missing");
+			background = App.Resources.GetImage("gfx/hud/equip/bg");
+			box = App.Resources.GetImage("custom/ui/wbox");
 		}
 
 		public AvatarView(Widget parent, int gobId, GobCache gobCache)
