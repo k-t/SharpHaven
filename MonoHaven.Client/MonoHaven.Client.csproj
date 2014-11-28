@@ -84,7 +84,7 @@
     <Compile Include="Game\Messages\WidgetMessage.cs" />
     <Compile Include="Game\GameSession.cs" />
     <Compile Include="Game\Metric.cs" />
-    <Compile Include="Graphics\RawImage.cs" />
+    <Compile Include="Graphics\Pixmap.cs" />
     <Compile Include="Graphics\Sprites\AnimFrame.cs" />
     <Compile Include="Graphics\Sprites\AnimSprite.cs" />
     <Compile Include="Graphics\Sprites\AnimSpriteFactory.cs" />

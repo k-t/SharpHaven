@@ -4,13 +4,13 @@ using OpenTK.Graphics.OpenGL;
 
 namespace MonoHaven.Graphics
 {
-	public class RawImage
+	public class Pixmap
 	{
 		private readonly PixelFormat format;
 		private readonly byte[] pixelData;
 		private readonly Size size;
 
-		public RawImage(PixelFormat format, Size size)
+		public Pixmap(PixelFormat format, Size size)
 		{
 			this.size = size;
 			this.format = format;
@@ -18,7 +18,7 @@ namespace MonoHaven.Graphics
 			this.pixelData = new byte[size.Width * size.Height * bytesPerPixel];
 		}
 
-		public RawImage(PixelFormat format, int width, int height)
+		public Pixmap(PixelFormat format, int width, int height)
 			: this(format, new Size(width, height))
 		{
 		}

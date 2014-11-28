@@ -18,7 +18,7 @@ namespace MonoHaven.Graphics
 			texture = new Texture(width, height);
 		}
 
-		public TextureSlice Add(RawImage image)
+		public TextureSlice Add(Pixmap image)
 		{
 			return Allocate(image.Width, image.Height).Update(image);
 		}

@@ -71,7 +71,7 @@ namespace MonoHaven.Graphics
 			return this;
 		}
 
-		public TextureSlice Update(RawImage image)
+		public TextureSlice Update(Pixmap image)
 		{
 			tex.Bind();
 			tex.Update(OffsetX, OffsetY, image);

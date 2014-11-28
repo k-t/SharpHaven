@@ -74,7 +74,7 @@ namespace MonoHaven.Graphics
 			using (var bitmap = face.Glyph.Bitmap)
 			{
 				var bufferData = bitmap.BufferData;
-				var image = new RawImage(PixelFormat.Rgba, sz);
+				var image = new Pixmap(PixelFormat.Rgba, sz);
 				for (int j = 0; j < sz.Height; j++)
 					for (int i = 0; i < sz.Width; i++)
 					{

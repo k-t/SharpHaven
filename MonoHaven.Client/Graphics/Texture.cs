@@ -59,12 +59,12 @@ namespace MonoHaven.Graphics
 			GL.BindTexture(TextureTarget.Texture2D, id);
 		}
 
-		public void Update(RawImage image)
+		public void Update(Pixmap image)
 		{
 			Update(0, 0, image);
 		}
 
-		public void Update(int x, int y, RawImage image)
+		public void Update(int x, int y, Pixmap image)
 		{
 			GL.TexSubImage2D(Target, 0, x, y, image.Width, image.Height,
 				image.Format, PixelType.UnsignedByte, image.PixelData);
