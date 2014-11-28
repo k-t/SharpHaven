@@ -6,14 +6,6 @@ namespace MonoHaven.UI
 {
 	public class HudMenu : Widget
 	{
-		private const int ButtonHide = 0;
-		private const int ButtonInv = 1;
-		private const int ButtonEquip = 2;
-		private const int ButtonChara = 3;
-		private const int ButtonBuddies = 4;
-		private const int ButtonOptions = 5;
-		private const int ButtonCount = 6;
-
 		private static readonly Drawable background;
 		private static readonly Drawable[] buttonImages;
 
@@ -35,24 +27,34 @@ namespace MonoHaven.UI
 		{
 			base.SetSize(background.Width, background.Height);
 
-			for (int i = 0; i < ButtonCount * 2; i += 2)
+			for (int i = 0; i < 6; i++)
 			{
-				var button = new ImageButton(this)
+				var buttonWidget = new ImageButton(this)
 				{
-					Image = buttonImages[i],
-					PressedImage = buttonImages[i + 1]
+					Image = buttonImages[i * 2],
+					PressedImage = buttonImages[i * 2 + 1]
 				};
-				button.SetSize(buttonImages[i].Width, buttonImages[i].Height);
-				int buttonIndex = i; // catch to closure
-				button.Clicked += () => ButtonClicked.Raise(buttonIndex);
+				buttonWidget.SetSize(buttonImages[i * 2].Width, buttonImages[i * 2].Height);
+				var button = (Button)i;
+				buttonWidget.Clicked += () => ButtonClicked.Raise(button);
 			}
 		}
 
-		public event Action<int> ButtonClicked;
+		public event Action<Button> ButtonClicked;
 
 		protected override void OnDraw(DrawingContext dc)
 		{
 			dc.Draw(background, 0, 0);
+		}
+
+		public enum Button
+		{
+			Hide = 0,
+			Inventory = 1,
+			Equipment = 2,
+			Character = 3,
+			BuddyList = 4,
+			Options = 5
 		}
 	}
 }
