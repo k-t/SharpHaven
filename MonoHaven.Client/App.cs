@@ -1,6 +1,5 @@
 using System;
 using System.Drawing;
-using System.IO;
 using System.Threading;
 using System.Windows.Threading;
 using NLog;
@@ -29,8 +28,7 @@ namespace MonoHaven
 			config = new Config();
 			resourceManager = new ResourceManager();
 
-			using (var iconStream = new MemoryStream(Resources.GetImage("custom/ui/icon").Data))
-			using (var iconImage = new Bitmap(iconStream))
+			using (var iconImage = Resources.GetBitmap("custom/ui/icon"))
 			using (var icon = Icon.FromHandle(iconImage.GetHicon()))
 			using (var gameWindow = new MainWindow(800, 600))
 			{

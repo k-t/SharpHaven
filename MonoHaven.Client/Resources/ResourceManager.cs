@@ -26,19 +26,24 @@ namespace MonoHaven.Resources
 			return defaultSource.Get(resName);
 		}
 
+		public Bitmap GetBitmap(string resName)
+		{
+			var imageData = Get(resName).GetLayer<ImageData>();
+			if (imageData == null)
+				throw new ResourceException(string.Format("Couldn't find image layer in the resource '{0}'", resName));
+			using (var ms = new MemoryStream(imageData.Data))
+				return new Bitmap(ms);
+		}
+
 		public MouseCursor GetCursor(string resName)
 		{
-			MouseCursor cursor;
-			var cursorData = Get(resName).GetLayer<ImageData>();
-
-			using (var ms = new MemoryStream(cursorData.Data))
-			using (var bitmap = new Bitmap(ms))
+			using (var bitmap = GetBitmap(resName))
 			{
 				var bitmapData = bitmap.LockBits(
 					new Rectangle(0, 0, bitmap.Width, bitmap.Height),
 					System.Drawing.Imaging.ImageLockMode.ReadOnly,
 					System.Drawing.Imaging.PixelFormat.Format32bppArgb);
-				cursor = new MouseCursor(1, 1, bitmap.Width, bitmap.Height, bitmapData.Scan0);
+				var cursor = new MouseCursor(1, 1, bitmap.Width, bitmap.Height, bitmapData.Scan0);
 				bitmap.UnlockBits(bitmapData);
 				return cursor;
 			}
@@ -73,11 +78,11 @@ namespace MonoHaven.Resources
 
 		public TextureSlice GetTexture(string resName)
 		{
-			var image = Get(resName).GetLayer<ImageData>();
-			if (image == null)
+			var imageData = Get(resName).GetLayer<ImageData>();
+			if (imageData == null)
 				throw new ResourceException(string.Format("Couldn't find image layer in the resource '{0}'", resName));
 			// FIXME: it actually loads texture into GPU memory and this is wrong!
-			return TextureSlice.FromBitmap(image.Data);
+			return TextureSlice.FromBitmap(imageData.Data);
 		}
 
 		public ISprite GetSprite(string resName, byte[] state = null)
