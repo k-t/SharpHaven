@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using MonoHaven.Game;
@@ -14,12 +15,20 @@ namespace MonoHaven.Resources
 		private static readonly Library fontLibrary;
 
 		private readonly IResourceSource defaultSource = new FolderSource("haven-res/res");
-		private readonly Dictionary<string, Tileset> tilesetCache = new Dictionary<string, Tileset>();
-		private readonly Dictionary<string, SpriteFactory> spriteCache = new Dictionary<string, SpriteFactory>();
+		private readonly Lazy<TextureAtlas> tileAtlas;
+		private readonly Dictionary<string, Tileset> tilesetCache;
+		private readonly Dictionary<string, SpriteFactory> spriteCache;
 
 		static ResourceManager()
 		{
 			fontLibrary = new Library();
+		}
+
+		public ResourceManager()
+		{
+			tileAtlas = new Lazy<TextureAtlas>(() => new TextureAtlas(2048, 2048));
+			tilesetCache = new Dictionary<string, Tileset>();
+			spriteCache = new Dictionary<string, SpriteFactory>();
 		}
 
 		public Resource Get(string resName)
@@ -64,11 +73,13 @@ namespace MonoHaven.Resources
 
 			var res = Get(resName);
 			var data = res.GetLayer<TilesetData>();
-			var tiles = res.GetLayers<TileData>();
-
-			tileset = new Tileset(data, tiles);
+			tileset = new Tileset(data);
+			foreach (var tile in res.GetLayers<TileData>())
+			{
+				var image = tileAtlas.Value.Add(tile.ImageData);
+				tileset.AddTile(tile.Id, tile.Type, tile.Weight, image);
+			}
 			tilesetCache[resName] = tileset;
-
 			return tileset;
 		}
 
