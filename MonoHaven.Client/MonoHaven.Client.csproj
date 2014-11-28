@@ -126,7 +126,7 @@
     <Compile Include="Login\LoginSettings.cs" />
     <Compile Include="Login\LoginResult.cs" />
     <Compile Include="MainScreen.cs" />
-    <Compile Include="Resources\Tileset.cs" />
+    <Compile Include="Game\Tileset.cs" />
     <Compile Include="UI\AvatarView.cs" />
     <Compile Include="UI\Button.cs" />
     <Compile Include="UI\Calendar.cs" />

@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
 using MonoHaven.Graphics;
 using MonoHaven.Graphics.Sprites;
+using MonoHaven.Resources;
 
-namespace MonoHaven.Resources
+namespace MonoHaven.Game
 {
 	public class Tileset
 	{
