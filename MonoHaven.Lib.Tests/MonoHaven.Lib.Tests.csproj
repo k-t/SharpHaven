@@ -46,6 +46,7 @@
     <Compile Include="Resources\Layers\FontDataTests.cs" />
     <Compile Include="Resources\Layers\ImageDataTests.cs" />
     <Compile Include="Resources\Layers\NegDataTests.cs" />
+    <Compile Include="Resources\Layers\NinepatchDataTests.cs" />
     <Compile Include="Resources\Layers\TextDataTests.cs" />
     <Compile Include="Resources\Layers\TileDataTests.cs" />
     <Compile Include="Resources\Layers\TilesetDataTests.cs" />
