@@ -20,9 +20,9 @@ namespace MonoHaven.UI
 
 		static MenuGrid()
 		{
-			backImage = App.Instance.Resources.GetTexture("gfx/hud/sc-back");
-			nextImage = App.Instance.Resources.GetTexture("gfx/hud/sc-next");
-			cellImage = App.Instance.Resources.GetTexture("gfx/hud/invsq");
+			backImage = App.Resources.GetTexture("gfx/hud/sc-back");
+			nextImage = App.Resources.GetTexture("gfx/hud/sc-next");
+			cellImage = App.Resources.GetTexture("gfx/hud/invsq");
 			cellWidth = cellImage.Width - 1;
 			cellHeight = cellImage.Height - 1;
 		}

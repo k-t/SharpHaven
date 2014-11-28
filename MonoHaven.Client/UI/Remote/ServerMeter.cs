@@ -15,7 +15,7 @@ namespace MonoHaven.UI.Remote
 				metrics.Add(new Metric((Color)args[i], (int)args[i + 1]));
 			
 			var widget = new Meter(parent.Widget);
-			widget.Background = App.Instance.Resources.GetTexture(resName);
+			widget.Background = App.Resources.GetTexture(resName);
 			widget.SetMetrics(metrics);
 			return new ServerMeter(id, parent, widget);
 		}

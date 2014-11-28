@@ -28,7 +28,7 @@ namespace MonoHaven
 
 			current.Close();
 			current = screen;
-			current.Resize(App.Instance.Window.Size);
+			current.Resize(App.Window.Size);
 			current.Show();
 		}
 

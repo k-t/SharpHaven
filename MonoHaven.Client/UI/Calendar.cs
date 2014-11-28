@@ -21,16 +21,16 @@ namespace MonoHaven.UI
 		{
 			var atlas = new TextureAtlas(512, 512);
 
-			background = atlas.Add(App.Instance.Resources.GetImage("gfx/hud/calendar/setting").Data);
-			daySky = atlas.Add(App.Instance.Resources.GetImage("gfx/hud/calendar/daysky").Data);
-			dayScape = atlas.Add(App.Instance.Resources.GetImage("gfx/hud/calendar/dayscape").Data);
-			nightSky = atlas.Add(App.Instance.Resources.GetImage("gfx/hud/calendar/nightsky").Data);
-			nightScape = atlas.Add(App.Instance.Resources.GetImage("gfx/hud/calendar/nightscape").Data);
-			sun = atlas.Add(App.Instance.Resources.GetImage("gfx/hud/calendar/sun").Data);
+			background = atlas.Add(App.Resources.GetImage("gfx/hud/calendar/setting").Data);
+			daySky = atlas.Add(App.Resources.GetImage("gfx/hud/calendar/daysky").Data);
+			dayScape = atlas.Add(App.Resources.GetImage("gfx/hud/calendar/dayscape").Data);
+			nightSky = atlas.Add(App.Resources.GetImage("gfx/hud/calendar/nightsky").Data);
+			nightScape = atlas.Add(App.Resources.GetImage("gfx/hud/calendar/nightscape").Data);
+			sun = atlas.Add(App.Resources.GetImage("gfx/hud/calendar/sun").Data);
 
 			moons = new Drawable[8];
 			for (int i = 0; i < moons.Length; i++)
-				moons[i] = atlas.Add(App.Instance.Resources.GetImage(string.Format("gfx/hud/calendar/m{0:D2}", i)).Data);
+				moons[i] = atlas.Add(App.Resources.GetImage(string.Format("gfx/hud/calendar/m{0:D2}", i)).Data);
 		}
 
 		private readonly GameState gstate;

@@ -108,19 +108,19 @@ namespace MonoHaven.Game
 			switch (messageReader.MessageType)
 			{
 				case RMSG_NEWWDG:
-					App.Instance.QueueOnMainThread(() => {
+					App.QueueOnMainThread(() => {
 						var msg = WidgetCreateMessage.ReadFrom(messageReader);
 						WidgetCreated.Raise(msg);
 					});
 					break;
 				case RMSG_WDGMSG:
-					App.Instance.QueueOnMainThread(() => {
+					App.QueueOnMainThread(() => {
 						var msg = Messages.WidgetMessage.ReadFrom(messageReader);
 						WidgetMessage.Raise(msg);
 					});
 					break;
 				case RMSG_DSTWDG:
-					App.Instance.QueueOnMainThread(() => {
+					App.QueueOnMainThread(() => {
 						var msg = WidgetDestroyMessage.ReadFrom(messageReader);
 						WidgetDestroyed.Raise(msg);
 					});
@@ -129,7 +129,7 @@ namespace MonoHaven.Game
 					log.Info("RMSG_MAPIV");
 					break;
 				case RMSG_GLOBLOB:
-					App.Instance.QueueOnMainThread(() => {
+					App.QueueOnMainThread(() => {
 						while (!messageReader.IsEom)
 						{
 							switch (messageReader.ReadByte())
@@ -154,7 +154,7 @@ namespace MonoHaven.Game
 					});
 					break;
 				case RMSG_PAGINAE:
-					App.Instance.QueueOnMainThread(() =>
+					App.QueueOnMainThread(() =>
 					{
 						while (!messageReader.IsEom)
 						{
@@ -175,7 +175,7 @@ namespace MonoHaven.Game
 					});
 					break;
 				case RMSG_RESID:
-					App.Instance.QueueOnMainThread(() =>
+					App.QueueOnMainThread(() =>
 					{
 						var id = messageReader.ReadUint16();
 						var name = messageReader.ReadString();
@@ -196,7 +196,7 @@ namespace MonoHaven.Game
 					log.Info("RMSG_MUSIC");
 					break;
 				case RMSG_TILES:
-					App.Instance.QueueOnMainThread(() =>
+					App.QueueOnMainThread(() =>
 					{
 						while (!messageReader.IsEom)
 						{
@@ -216,7 +216,7 @@ namespace MonoHaven.Game
 		private void OnMapDataReceived(MessageReader msg)
 		{
 			var mapData = MapData.ReadFrom(msg);
-			App.Instance.QueueOnMainThread(() => MapDataAvailable.Raise(mapData));
+			App.QueueOnMainThread(() => MapDataAvailable.Raise(mapData));
 		}
 
 		private void OnObjDataReceived(MessageReader msg)
@@ -384,7 +384,7 @@ namespace MonoHaven.Game
 						throw new Exception("Unknown objdelta type: " + type);
 				}
 			}
-			App.Instance.QueueOnMainThread(delta.Apply);
+			App.QueueOnMainThread(delta.Apply);
 			connection.SendObjectAck(id, frame);
 		}
 
@@ -397,12 +397,12 @@ namespace MonoHaven.Game
 
 		public Delayed<Resource> GetResource(int id)
 		{
-			return GetResource(id, App.Instance.Resources.Get);
+			return GetResource(id, App.Resources.Get);
 		}
 
 		public Delayed<ISprite> GetSprite(int id, byte[] spriteState = null)
 		{
-			return GetResource(id, nm => App.Instance.Resources.GetSprite(nm, spriteState));
+			return GetResource(id, nm => App.Resources.GetSprite(nm, spriteState));
 		}
 
 		private Delayed<T> GetResource<T>(int id, Func<string, T> getter)

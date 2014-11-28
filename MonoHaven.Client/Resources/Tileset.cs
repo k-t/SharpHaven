@@ -49,7 +49,7 @@ namespace MonoHaven.Resources
 
 			foreach (var flavor in data.FlavorObjects)
 			{
-				var sprite = App.Instance.Resources.GetSprite(flavor.ResName);
+				var sprite = App.Resources.GetSprite(flavor.ResName);
 				flavorObjects.Add(sprite, flavor.Weight);
 			}
 		}

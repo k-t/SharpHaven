@@ -60,7 +60,7 @@ namespace MonoHaven.Game
 
 		private GameAction Load(string resName)
 		{
-			var res = App.Instance.Resources.Get(resName);
+			var res = App.Resources.Get(resName);
 			var data = res.GetLayer<ActionData>();
 			var image =  atlas.Add(res.GetLayer<ImageData>().Data);
 			var act = new GameAction(data.Name, data.Name, image, data.Verbs);

@@ -22,13 +22,13 @@ namespace MonoHaven.UI
 
 		static Window()
 		{
-			background = App.Instance.Resources.GetTexture("gfx/hud/bgtex");
-			closeButton = App.Instance.Resources.GetTexture("gfx/hud/cbtn");
-			closeButtonPressed = App.Instance.Resources.GetTexture("gfx/hud/cbtnd");
-			closeButtonHovered = App.Instance.Resources.GetTexture("gfx/hud/cbtnh");
-			var boxImage = App.Instance.Resources.GetImage("custom/ui/wbox");
+			background = App.Resources.GetTexture("gfx/hud/bgtex");
+			closeButton = App.Resources.GetTexture("gfx/hud/cbtn");
+			closeButtonPressed = App.Resources.GetTexture("gfx/hud/cbtnd");
+			closeButtonHovered = App.Resources.GetTexture("gfx/hud/cbtnh");
+			var boxImage = App.Resources.GetImage("custom/ui/wbox");
 			box = new NinePatch(TextureSlice.FromBitmap(boxImage.Data), 8, 8, 8, 8);
-			var capImage = App.Instance.Resources.GetImage("custom/ui/wcap");
+			var capImage = App.Resources.GetImage("custom/ui/wcap");
 			cap = new NinePatch(TextureSlice.FromBitmap(capImage.Data), 24, 24, 0, 0);
 		}
 

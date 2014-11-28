@@ -6,8 +6,8 @@ namespace MonoHaven
 	{
 		static Fonts()
 		{
-			var sans = App.Instance.Resources.GetFont("custom/fonts/sans");
-			var serif = App.Instance.Resources.GetFont("custom/fonts/serif");
+			var sans = App.Resources.GetFont("custom/fonts/sans");
+			var serif = App.Resources.GetFont("custom/fonts/serif");
 			Default = new SpriteFont(sans, 14);
 			Text = new SpriteFont(serif, 12);
 			Heading = new SpriteFont(serif, 18);

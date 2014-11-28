@@ -21,7 +21,7 @@ namespace MonoHaven.UI
 		{
 			var atlas = new TextureAtlas(512, 512);
 
-			background = atlas.Add(App.Instance.Resources.GetImage("gfx/hud/slen/mcircle").Data);
+			background = atlas.Add(App.Resources.GetImage("gfx/hud/slen/mcircle").Data);
 			
 			buttonImages = new[] {
 				"gfx/hud/slen/hbu", "gfx/hud/slen/hbd",
@@ -30,7 +30,7 @@ namespace MonoHaven.UI
 				"gfx/hud/slen/chru", "gfx/hud/slen/chrd",
 				"gfx/hud/slen/budu", "gfx/hud/slen/budd",
 				"gfx/hud/slen/optu", "gfx/hud/slen/optd" }
-				.Select(x => atlas.Add(App.Instance.Resources.GetImage(x).Data))
+				.Select(x => atlas.Add(App.Resources.GetImage(x).Data))
 				.ToArray();
 		}
 

@@ -13,8 +13,8 @@ namespace MonoHaven.UI
 
 		static FlowerMenu()
 		{
-			back = App.Instance.Resources.GetTexture("gfx/hud/bgtex");
-			var boxImage = App.Instance.Resources.GetImage("custom/ui/wbox");
+			back = App.Resources.GetTexture("gfx/hud/bgtex");
+			var boxImage = App.Resources.GetImage("custom/ui/wbox");
 			box = new NinePatch(TextureSlice.FromBitmap(boxImage.Data), 8, 8, 8, 8);
 		}
 

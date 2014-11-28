@@ -24,7 +24,7 @@ namespace MonoHaven.UI
 
 		protected INativeWindow Window
 		{
-			get { return App.Instance.Window; }
+			get { return App.Window; }
 		}
 
 		protected RootWidget RootWidget

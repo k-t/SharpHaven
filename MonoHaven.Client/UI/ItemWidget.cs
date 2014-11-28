@@ -11,7 +11,7 @@ namespace MonoHaven.UI
 
 		static ItemWidget()
 		{
-			missing = App.Instance.Resources.GetTexture("gfx/invobjs/missing");
+			missing = App.Resources.GetTexture("gfx/invobjs/missing");
 		}
 
 		private readonly Delayed<Resource> res;

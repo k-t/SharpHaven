@@ -104,7 +104,7 @@ namespace MonoHaven.Game
 
 		private void BindTileset(TilesetBinding binding)
 		{
-			var tileset = App.Instance.Resources.GetTileset(binding.Name);
+			var tileset = App.Resources.GetTileset(binding.Name);
 			tilesets[binding.Id] = tileset;
 		}
 

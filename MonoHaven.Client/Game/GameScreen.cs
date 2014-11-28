@@ -112,7 +112,7 @@ namespace MonoHaven.Game
 
 		private void OnSessionFinished()
 		{
-			App.Instance.QueueOnMainThread(() => Exited.Raise());
+			App.QueueOnMainThread(() => Exited.Raise());
 		}
 
 		private ServerWidget GetWidget(ushort id)

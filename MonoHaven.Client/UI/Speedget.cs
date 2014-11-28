@@ -23,7 +23,7 @@ namespace MonoHaven.UI
 			{
 				for (int j = 0; j < images.GetLength(1); j++)
 				{
-					var res = App.Instance.Resources.Get("gfx/hud/meter/rmeter/" + names[i] + "-" + vars[j]);
+					var res = App.Resources.Get("gfx/hud/meter/rmeter/" + names[i] + "-" + vars[j]);
 					images[i, j] = atlas.Add(res.GetLayer<ImageData>().Data);
 				}
 				w += images[i, 0].Width;

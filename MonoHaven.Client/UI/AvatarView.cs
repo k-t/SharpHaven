@@ -19,10 +19,10 @@ namespace MonoHaven.UI
 
 		static AvatarView()
 		{
-			missing = App.Instance.Resources.GetTexture("gfx/hud/equip/missing");
-			background = App.Instance.Resources.GetTexture("gfx/hud/equip/bg");
+			missing = App.Resources.GetTexture("gfx/hud/equip/missing");
+			background = App.Resources.GetTexture("gfx/hud/equip/bg");
 
-			var boxImage = App.Instance.Resources.GetImage("custom/ui/wbox");
+			var boxImage = App.Resources.GetImage("custom/ui/wbox");
 			box = new NinePatch(TextureSlice.FromBitmap(boxImage.Data), 8, 8, 8, 8);
 		}
 

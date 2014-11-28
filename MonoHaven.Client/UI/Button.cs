@@ -22,12 +22,12 @@ namespace MonoHaven.UI
 
 		static Button()
 		{
-			bl = App.Instance.Resources.GetTexture("gfx/hud/buttons/tbtn/left");
-			br = App.Instance.Resources.GetTexture("gfx/hud/buttons/tbtn/right");
-			bt = App.Instance.Resources.GetTexture("gfx/hud/buttons/tbtn/top");
-			bb = App.Instance.Resources.GetTexture("gfx/hud/buttons/tbtn/bottom");
-			dt = App.Instance.Resources.GetTexture("gfx/hud/buttons/tbtn/dtex");
-			ut = App.Instance.Resources.GetTexture("gfx/hud/buttons/tbtn/utex");
+			bl = App.Resources.GetTexture("gfx/hud/buttons/tbtn/left");
+			br = App.Resources.GetTexture("gfx/hud/buttons/tbtn/right");
+			bt = App.Resources.GetTexture("gfx/hud/buttons/tbtn/top");
+			bb = App.Resources.GetTexture("gfx/hud/buttons/tbtn/bottom");
+			dt = App.Resources.GetTexture("gfx/hud/buttons/tbtn/dtex");
+			ut = App.Resources.GetTexture("gfx/hud/buttons/tbtn/utex");
 		}
 
 		public Button(Widget parent, int width) : base(parent)
