@@ -8,7 +8,7 @@
 			var pressedImage = args.Length > 1 ? (string)args[1] : defaultImage;
 
 			var widget = new ImageButton(parent.Widget);
-			widget.Image = App.Resources.GetImage(defaultImage);
+			widget.Image = App.Resources.GetImage(defaultImage, true);
 			widget.PressedImage = App.Resources.GetImage(pressedImage);
 			widget.SetSize(widget.Image.Width, widget.Image.Height);
 

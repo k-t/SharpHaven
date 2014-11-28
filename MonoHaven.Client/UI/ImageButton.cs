@@ -50,6 +50,11 @@ namespace MonoHaven.UI
 				dc.Draw(image, 0, 0);
 		}
 
+		protected override bool CheckHit(int x, int y)
+		{
+			return Image != null && Image.CheckHit(x - X, y - Y);
+		}
+
 		protected override void OnMouseButtonDown(MouseButtonEventArgs e)
 		{
 			Host.GrabMouse(this);
@@ -63,7 +68,7 @@ namespace MonoHaven.UI
 
 			// button released outside of borders?
 			var p = PointToWidget(e.Position);
-			if (Rectangle.FromLTRB(0, 0, Width, Height).Contains(p))
+			if (CheckHit(p.X + X, p.Y + Y))
 				Clicked.Raise();
 		}
 	}

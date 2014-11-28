@@ -136,7 +136,7 @@ namespace MonoHaven.UI
 				{
 					var child = widget.GetChildAt(p);
 					if (child != null) return child;
-					if (widget.Bounds.Contains(p.X, p.Y)) return widget;
+					if (widget.CheckHit(p.X, p.Y)) return widget;
 				}
 			}
 			return null;
@@ -233,6 +233,11 @@ namespace MonoHaven.UI
 				y -= widget.Y;
 			}
 			return new Point(x, y);
+		}
+
+		protected virtual bool CheckHit(int x, int y)
+		{
+			return Bounds.Contains(x, y);
 		}
 
 		protected virtual void OnMouseButtonDown(MouseButtonEventArgs e)
