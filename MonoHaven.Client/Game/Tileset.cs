@@ -8,10 +8,10 @@ namespace MonoHaven.Game
 	public class Tileset
 	{
 		private static TextureAtlas atlas;
-		private readonly WeightList<TextureSlice> groundTiles;
+		private readonly WeightList<Drawable> groundTiles;
 		private readonly WeightList<ISprite> flavorObjects; 
-		private readonly WeightList<TextureSlice>[] borderTransitions;
-		private readonly WeightList<TextureSlice>[] crossTransitions;
+		private readonly WeightList<Drawable>[] borderTransitions;
+		private readonly WeightList<Drawable>[] crossTransitions;
 		private readonly int flavorDensity;
 
 		public Tileset(TilesetData data, IEnumerable<TileData> tiles)
@@ -20,22 +20,22 @@ namespace MonoHaven.Game
 				atlas = new TextureAtlas(2048, 2048);
 
 			flavorDensity = data.FlavorDensity;
-			groundTiles = new WeightList<TextureSlice>();
+			groundTiles = new WeightList<Drawable>();
 			flavorObjects = new WeightList<ISprite>();
 			if (data.HasTransitions)
 			{
-				crossTransitions = new WeightList<TextureSlice>[15];
-				borderTransitions = new WeightList<TextureSlice>[15];
+				crossTransitions = new WeightList<Drawable>[15];
+				borderTransitions = new WeightList<Drawable>[15];
 				for (int i = 0; i < 15; i++)
 				{
-					crossTransitions[i] = new WeightList<TextureSlice>();
-					borderTransitions[i] = new WeightList<TextureSlice>();
+					crossTransitions[i] = new WeightList<Drawable>();
+					borderTransitions[i] = new WeightList<Drawable>();
 				}
 			}
 
 			foreach (var tile in tiles)
 			{
-				WeightList<TextureSlice> targetList;
+				WeightList<Drawable> targetList;
 				if (tile.Type == 'g')
 					targetList = groundTiles;
 				else if (tile.Type == 'c' && data.HasTransitions)
@@ -60,17 +60,17 @@ namespace MonoHaven.Game
 			get { return flavorDensity; }
 		}
 
-		public WeightList<TextureSlice>[] BorderTransitions
+		public WeightList<Drawable>[] BorderTransitions
 		{
 			get { return borderTransitions; }
 		}
 
-		public WeightList<TextureSlice>[] CrossTransitions
+		public WeightList<Drawable>[] CrossTransitions
 		{
 			get { return crossTransitions; }
 		}
 
-		public WeightList<TextureSlice> GroundTiles
+		public WeightList<Drawable> GroundTiles
 		{
 			get { return groundTiles; }
 		}
