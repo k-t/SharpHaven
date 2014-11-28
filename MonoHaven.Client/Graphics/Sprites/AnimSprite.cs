@@ -5,12 +5,12 @@ namespace MonoHaven.Graphics.Sprites
 {
 	public class AnimSprite : ISprite
 	{
-		private readonly IEnumerable<SpritePart> parts;
+		private readonly IEnumerable<Picture> parts;
 		private readonly AnimFrame[] frames;
 		private int frameIndex;
 		private int elapsed;
 
-		public AnimSprite(IEnumerable<SpritePart> parts, IEnumerable<AnimFrame> frames)
+		public AnimSprite(IEnumerable<Picture> parts, IEnumerable<AnimFrame> frames)
 		{
 			this.parts = parts;
 			this.frames = frames.ToArray();
@@ -21,7 +21,7 @@ namespace MonoHaven.Graphics.Sprites
 			}
 		}
 
-		public IEnumerable<SpritePart> Parts
+		public IEnumerable<Picture> Parts
 		{
 			get { return parts.Concat(frames[frameIndex].Parts); }
 		}

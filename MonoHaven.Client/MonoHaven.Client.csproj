@@ -92,7 +92,7 @@
     <Compile Include="Graphics\Sprites\StaticSprite.cs" />
     <Compile Include="Graphics\Sprites\ISprite.cs" />
     <Compile Include="Graphics\Sprites\LayeredSprite.cs" />
-    <Compile Include="Graphics\Sprites\SpritePart.cs" />
+    <Compile Include="Graphics\Picture.cs" />
     <Compile Include="Graphics\Sprites\SpriteSheet.cs" />
     <Compile Include="Graphics\Sprites\StaticSpriteFactory.cs" />
     <Compile Include="Graphics\TextAlign.cs" />

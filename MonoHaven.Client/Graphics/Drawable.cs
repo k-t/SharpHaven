@@ -4,16 +4,17 @@ namespace MonoHaven.Graphics
 {
 	public abstract class Drawable : IDisposable
 	{
+		protected int width;
+		protected int height;
+
 		public int Width
 		{
-			get;
-			set;
+			get { return width; }
 		}
 
 		public int Height
 		{
-			get;
-			set;
+			get { return height; }
 		}
 
 		public virtual void Dispose()

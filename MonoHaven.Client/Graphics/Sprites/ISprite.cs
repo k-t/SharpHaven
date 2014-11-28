@@ -4,7 +4,7 @@ namespace MonoHaven.Graphics.Sprites
 {
 	public interface ISprite
 	{
-		IEnumerable<SpritePart> Parts { get; }
+		IEnumerable<Picture> Parts { get; }
 		void Tick(int dt);
 	}
 }

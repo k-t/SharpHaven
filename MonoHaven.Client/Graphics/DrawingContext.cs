@@ -102,12 +102,7 @@ namespace MonoHaven.Graphics
 		public void Draw(ISprite sprite, int x, int y)
 		{
 			foreach (var part in sprite.Parts.OrderBy(s => s.Z))
-				part.Draw(spriteBatch, x + offset.X, y + offset.Y);
-		}
-
-		public void Draw(SpritePart sprite, int x, int y)
-		{
-			sprite.Draw(spriteBatch, x, y);
+				Draw(part, x, y, part.Width, part.Height);
 		}
 	}
 }

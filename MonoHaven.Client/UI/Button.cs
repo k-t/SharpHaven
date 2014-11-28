@@ -32,12 +32,11 @@ namespace MonoHaven.UI
 
 		public Button(Widget parent, int width) : base(parent)
 		{
-			SetSize(width, ButtonHeight);
-
+			base.SetSize(width, ButtonHeight);
 			textBlock = new TextBlock(Fonts.Text);
 			textBlock.TextColor = Color.Yellow;
 			textBlock.TextAlign = TextAlign.Center;
-			textBlock.Width = width;
+			textBlock.SetWidth(width);
 		}
 
 		public event Action Clicked;

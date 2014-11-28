@@ -18,8 +18,8 @@ namespace MonoHaven.Graphics
 			this.ownsTexture = ownsTexture;
 			this.uv = new Vector2(region.X / tex.Width, region.Y / tex.Height);
 			this.uv2 = new Vector2(region.Right / tex.Width, region.Bottom / tex.Height);
-			this.Width = (int)region.Width;
-			this.Height = (int)region.Height;
+			width = (int)region.Width;
+			height = (int)region.Height;
 		}
 
 		public TextureSlice(Texture tex, int x, int y, int w, int h, bool ownsTexture = false)

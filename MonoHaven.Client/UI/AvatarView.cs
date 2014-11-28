@@ -29,14 +29,14 @@ namespace MonoHaven.UI
 		{
 			this.gobId = gobId;
 			this.gobCache = gobCache;
-			SetSize(defaultSize.X + 10, defaultSize.Y + 10);
+			base.SetSize(defaultSize.X + 10, defaultSize.Y + 10);
 		}
 
 		public AvatarView(Widget parent, IEnumerable<Delayed<ISprite>> layers)
 			: base(parent)
 		{
 			avatar = layers != null ? new LayeredSprite(layers) : null;
-			SetSize(defaultSize.X + 10, defaultSize.Y + 10);
+			base.SetSize(defaultSize.X + 10, defaultSize.Y + 10);
 		}
 
 		protected override void OnDraw(DrawingContext dc)

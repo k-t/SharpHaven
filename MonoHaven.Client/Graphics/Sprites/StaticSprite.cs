@@ -4,14 +4,14 @@ namespace MonoHaven.Graphics.Sprites
 {
 	public class StaticSprite : ISprite
 	{
-		private readonly IEnumerable<SpritePart> parts;
+		private readonly IEnumerable<Picture> parts;
 
-		public StaticSprite(IEnumerable<SpritePart> parts)
+		public StaticSprite(IEnumerable<Picture> parts)
 		{
 			this.parts = parts;
 		}
 
-		public IEnumerable<SpritePart> Parts
+		public IEnumerable<Picture> Parts
 		{
 			get { return parts; }
 		}

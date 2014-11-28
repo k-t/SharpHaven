@@ -2,7 +2,6 @@
 using System.Drawing;
 using System.Linq;
 using MonoHaven.Graphics;
-using MonoHaven.Graphics.Sprites;
 
 namespace MonoHaven.Game
 {
@@ -103,9 +102,9 @@ namespace MonoHaven.Game
 			public readonly int X;
 			public readonly int Y;
 			public readonly Gob Gob;
-			public readonly SpritePart Sprite;
+			public readonly Picture Sprite;
 
-			public ObjectPart(Point position, SpritePart sprite, Gob gob)
+			public ObjectPart(Point position, Picture sprite, Gob gob)
 			{
 				X = position.X;
 				Y = position.Y;

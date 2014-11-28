@@ -2,9 +2,9 @@
 using System.Collections;
 using System.Drawing;
 
-namespace MonoHaven.Graphics.Sprites
+namespace MonoHaven.Graphics
 {
-	public class SpritePart
+	public class Picture : Drawable
 	{
 		private readonly int id;
 		private readonly TextureSlice tex;
@@ -13,7 +13,7 @@ namespace MonoHaven.Graphics.Sprites
 		private readonly int subz;
 		private readonly BitArray hitmask;
 
-		public SpritePart(
+		public Picture(
 			int id,
 			TextureSlice tex,
 			Point offset,
@@ -27,6 +27,8 @@ namespace MonoHaven.Graphics.Sprites
 
 			this.id = id;
 			this.tex = tex;
+			this.width = size.Width;
+			this.height = size.Height;
 			this.bounds = new Rectangle(offset, size);
 			this.z = z;
 			this.subz = subz;
@@ -53,16 +55,6 @@ namespace MonoHaven.Graphics.Sprites
 			get { return bounds.Size; }
 		}
 
-		public int Width
-		{
-			get { return bounds.Width; }
-		}
-
-		public int Height
-		{
-			get { return bounds.Height; }
-		}
-
 		public int Z
 		{
 			get { return z; }
@@ -73,13 +65,9 @@ namespace MonoHaven.Graphics.Sprites
 			get { return subz; }
 		}
 
-		public void Draw(SpriteBatch batch, int x, int y)
+		public override void Draw(SpriteBatch batch, int x, int y, int w, int h)
 		{
-			Tex.Draw(batch,
-				x + Offset.X,
-				y + Offset.Y,
-				Width,
-				Height);
+			Tex.Draw(batch, x + Offset.X, y + Offset.Y, w, h);
 		}
 
 		public bool CheckHit(int x, int y)

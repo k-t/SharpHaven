@@ -123,6 +123,11 @@ namespace MonoHaven.Graphics
 			return -1;
 		}
 
+		public void SetWidth(int width)
+		{
+			this.width = width;
+		}
+
 		private void UpdateGlyphs(int startIndex)
 		{
 			int gx;
