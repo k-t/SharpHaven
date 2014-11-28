@@ -14,8 +14,7 @@ namespace MonoHaven.UI
 		static FlowerMenu()
 		{
 			back = App.Resources.GetTexture("gfx/hud/bgtex");
-			var boxImage = App.Resources.GetImage("custom/ui/wbox");
-			box = new NinePatch(TextureSlice.FromBitmap(boxImage.Data), 8, 8, 8, 8);
+			box = App.Resources.GetTexture("custom/ui/wbox");
 		}
 
 		public FlowerMenu(Widget parent, IEnumerable<string> options) : base(parent)

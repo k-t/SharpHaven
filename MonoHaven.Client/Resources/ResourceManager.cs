@@ -77,13 +77,24 @@ namespace MonoHaven.Resources
 			return tileset;
 		}
 
-		public TextureSlice GetTexture(string resName)
+		public Drawable GetTexture(string resName)
 		{
+			var res = Get(resName);
+
 			var imageData = Get(resName).GetLayer<ImageData>();
 			if (imageData == null)
 				throw new ResourceException(string.Format("Couldn't find image layer in the resource '{0}'", resName));
-			// FIXME: it actually loads texture into GPU memory and this is wrong!
-			return TextureSlice.FromBitmap(imageData.Data);
+
+			// load texture
+			var tex = TextureSlice.FromBitmap(imageData.Data);
+			// check whether image is a ninepatch
+			var ninepatch = res.GetLayer<NinepatchData>();
+			if (ninepatch != null)
+			{
+				return new NinePatch(tex, ninepatch.Left, ninepatch.Right,
+					ninepatch.Top, ninepatch.Bottom);
+			}
+			return tex;
 		}
 
 		public ISprite GetSprite(string resName, byte[] state = null)

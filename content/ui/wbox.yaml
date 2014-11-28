@@ -2,3 +2,8 @@ version: 1
 layers:
   - !image
     file: wbox.png
+  - !ninepatch
+    top: 8
+    bottom: 8
+    left: 8
+    right: 8

@@ -26,10 +26,8 @@ namespace MonoHaven.UI
 			closeButton = App.Resources.GetTexture("gfx/hud/cbtn");
 			closeButtonPressed = App.Resources.GetTexture("gfx/hud/cbtnd");
 			closeButtonHovered = App.Resources.GetTexture("gfx/hud/cbtnh");
-			var boxImage = App.Resources.GetImage("custom/ui/wbox");
-			box = new NinePatch(TextureSlice.FromBitmap(boxImage.Data), 8, 8, 8, 8);
-			var capImage = App.Resources.GetImage("custom/ui/wcap");
-			cap = new NinePatch(TextureSlice.FromBitmap(capImage.Data), 24, 24, 0, 0);
+			box = App.Resources.GetTexture("custom/ui/wbox");
+			cap = App.Resources.GetTexture("custom/ui/wcap");
 		}
 
 		public Window(Widget parent, string caption) : base(parent)
