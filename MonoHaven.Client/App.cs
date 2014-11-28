@@ -10,14 +10,13 @@ using MonoHaven.Resources;
 
 namespace MonoHaven
 {
-	public class App
+	public static class App
 	{
 		private static readonly Logger log = LogManager.GetCurrentClassLogger();
-		private static readonly App instance = new App();
 
-		private Config config;
-		private ResourceManager resourceManager;
-		private MainWindow window;
+		private static Config config;
+		private static ResourceManager resourceManager;
+		private static MainWindow window;
 
 		public static void Main(string[] args)
 		{
@@ -27,15 +26,15 @@ namespace MonoHaven
 			SetSynchronizationContext();
 			GraphicsContext.ShareContexts = false;
 
-			instance.config = new Config();
-			instance.resourceManager = new ResourceManager();
+			config = new Config();
+			resourceManager = new ResourceManager();
 
 			using (var iconStream = new MemoryStream(Resources.GetImage("custom/ui/icon").Data))
 			using (var iconImage = new Bitmap(iconStream))
 			using (var icon = Icon.FromHandle(iconImage.GetHicon()))
 			using (var gameWindow = new MainWindow(800, 600))
 			{
-				instance.window = gameWindow;
+				window = gameWindow;
 				gameWindow.Icon = icon;
 				gameWindow.Run(30, 60);
 			}
@@ -43,22 +42,22 @@ namespace MonoHaven
 
 		public static Config Config
 		{
-			get { return instance.config; }
+			get { return config; }
 		}
 
 		public static ResourceManager Resources
 		{
-			get { return instance.resourceManager; }
+			get { return resourceManager; }
 		}
 
 		public static INativeWindow Window
 		{
-			get { return instance.window; }
+			get { return window; }
 		}
 
 		public static void QueueOnMainThread(Action action)
 		{
-			instance.window.QueueUpdate(action);
+			window.QueueUpdate(action);
 		}
 
 		private static void SetSynchronizationContext()
