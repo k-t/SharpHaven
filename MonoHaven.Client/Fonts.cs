@@ -9,11 +9,18 @@ namespace MonoHaven
 			var sans = App.Resources.GetFont("custom/fonts/sans");
 			var serif = App.Resources.GetFont("custom/fonts/serif");
 			Default = new SpriteFont(sans, 14);
+			LabelText = new SpriteFont(sans, 12);
 			Text = new SpriteFont(serif, 12);
 			Heading = new SpriteFont(serif, 18);
 		}
 
 		public static SpriteFont Default
+		{
+			get;
+			private set;
+		}
+
+		public static SpriteFont LabelText
 		{
 			get;
 			private set;

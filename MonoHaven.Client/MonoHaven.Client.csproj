@@ -132,6 +132,7 @@
     <Compile Include="UI\Button.cs" />
     <Compile Include="UI\Calendar.cs" />
     <Compile Include="UI\Charlist.cs" />
+    <Compile Include="UI\CharWindow.cs" />
     <Compile Include="UI\Equipory.cs" />
     <Compile Include="UI\FlowerMenu.cs" />
     <Compile Include="UI\Hud.cs" />
