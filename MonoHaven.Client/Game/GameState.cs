@@ -6,6 +6,7 @@ namespace MonoHaven.Game
 	{
 		private readonly GameActionTree actions;
 		private readonly Dictionary<string, CharAttribute> attributes;
+		private readonly Dictionary<int, Buff> buffs;
 		private readonly Map map;
 		private readonly GobCache objects;
 		private readonly GameScene scene;
@@ -14,6 +15,7 @@ namespace MonoHaven.Game
 		{
 			actions = new GameActionTree();
 			attributes = new Dictionary<string, CharAttribute>();
+			buffs = new Dictionary<int, Buff>();
 			map = new Map(session);
 			objects = new GobCache();
 			scene = new GameScene(this);
@@ -61,6 +63,26 @@ namespace MonoHaven.Game
 				attr = new CharAttribute(name, baseValue, compValue);
 				attributes[name] = attr;
 			}
+		}
+
+		public void AddBuff(Buff buff)
+		{
+			buffs[buff.Id] = buff;
+		}
+
+		public void ClearBuffs()
+		{
+			buffs.Clear();
+		}
+
+		public IEnumerable<Buff> GetBuffs()
+		{
+			return buffs.Values;
+		}
+
+		public void RemoveBuff(int id)
+		{
+			buffs.Remove(id);
 		}
 	}
 }

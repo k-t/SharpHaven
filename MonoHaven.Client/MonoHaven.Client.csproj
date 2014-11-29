@@ -70,6 +70,7 @@
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="Cursors.cs" />
     <Compile Include="FrameCounter.cs" />
+    <Compile Include="Game\Buff.cs" />
     <Compile Include="Game\CharAttribute.cs" />
     <Compile Include="Game\GameAction.cs" />
     <Compile Include="Game\GameActionTree.cs" />
@@ -130,6 +131,7 @@
     <Compile Include="Game\Tileset.cs" />
     <Compile Include="UI\AvatarView.cs" />
     <Compile Include="UI\BuddyList.cs" />
+    <Compile Include="UI\Bufflist.cs" />
     <Compile Include="UI\Button.cs" />
     <Compile Include="UI\Calendar.cs" />
     <Compile Include="UI\Charlist.cs" />

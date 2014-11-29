@@ -216,7 +216,32 @@ namespace MonoHaven.Game
 					});
 					break;
 				case RMSG_BUFF:
-					log.Info("RMSG_BUFF");
+					App.QueueOnMainThread(() =>
+					{
+						var message = messageReader.ReadString();
+						switch (message)
+						{
+							case "clear":
+								State.ClearBuffs();
+								break;
+							case "rm":
+								int id = messageReader.ReadInt32();
+								State.RemoveBuff(id);
+								break;
+							case "set":
+								State.AddBuff(new Buff {
+									Id = messageReader.ReadInt32(),
+									Image = GetImage(messageReader.ReadUint16()),
+									Tooltip = messageReader.ReadString(),
+									AMeter = messageReader.ReadInt32(),
+									NMeter = messageReader.ReadInt32(),
+									CMeter = messageReader.ReadInt32(),
+									CTicks = messageReader.ReadInt32(),
+									Major = messageReader.ReadByte() != 0
+								});
+								break;
+						}
+					});
 					break;
 				default:
 					throw new Exception("Unknown rmsg type: " + messageReader.MessageType);
