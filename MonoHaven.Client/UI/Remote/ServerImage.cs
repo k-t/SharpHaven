@@ -8,7 +8,7 @@
 
 			var widget = new Image(parent.Widget);
 			widget.Drawable = App.Resources.GetImage(resName);
-			widget.SetSize(widget.Drawable.Width, widget.Drawable.Height);
+			widget.Resize(widget.Drawable.Size);
 			return new ServerImage(id, parent, widget);
 		}
 

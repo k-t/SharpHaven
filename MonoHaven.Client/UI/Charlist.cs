@@ -31,7 +31,7 @@ namespace MonoHaven.UI
 
 		public Charlist(Widget parent, int listHeight) : base(parent)
 		{
-			SetSize(background.Width, 40 + (background.Height * listHeight) + (Margin * (listHeight - 1)));
+			Resize(background.Width, 40 + (background.Height * listHeight) + (Margin * (listHeight - 1)));
 
 			this.items = new List<ListItem>(listHeight);
 			this.listHeight = listHeight;
@@ -43,7 +43,7 @@ namespace MonoHaven.UI
 
 			btnScrollDown = new Button(this, 100);
 			btnScrollDown.Image = scrollDown;
-			btnScrollDown.SetLocation(0, Height - 19);
+			btnScrollDown.Move(0, Height - 19);
 			btnScrollDown.Visible = false;
 			btnScrollDown.Clicked += () => Scroll(1);
 		}
@@ -81,7 +81,7 @@ namespace MonoHaven.UI
 				item.Visible = (i >= scrollOffset && i < scrollOffset + listHeight);
 				if (item.Visible)
 				{
-					item.SetLocation(0, y);
+					item.Move(0, y);
 					y += item.Height + Margin;
 				}
 			}
@@ -96,7 +96,7 @@ namespace MonoHaven.UI
 			public ListItem(Widget parent, string charName, IEnumerable<Delayed<ISprite>> layers)
 				: base(parent)
 			{
-				SetSize(background.Width, background.Height);
+				Resize(background.Size);
 				
 				nameTextBlock = new TextBlock(Fonts.Heading);
 				nameTextBlock.TextColor = Color.White;
@@ -104,12 +104,12 @@ namespace MonoHaven.UI
 
 				btnPlay = new Button(this, 100);
 				btnPlay.Text = "Play";
-				btnPlay.SetLocation(Width - 105, Height - 24);
+				btnPlay.Move(Width - 105, Height - 24);
 				btnPlay.Clicked += () => Selected.Raise();
 
 				avatar = new AvatarView(this, layers);
 				var padding = (Height - avatar.Height) / 2;
-				avatar.SetLocation(padding, padding);
+				avatar.Move(padding, padding);
 			}
 
 			public event Action Selected;

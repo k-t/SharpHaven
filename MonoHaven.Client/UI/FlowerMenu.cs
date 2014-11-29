@@ -23,7 +23,7 @@ namespace MonoHaven.UI
 			foreach (var option in options)
 			{
 				var petal = new Petal(this, option, n++);
-				petal.SetLocation(0, (n - 1) * 25);
+				petal.Move(0, (n - 1) * 25);
 			}
 			IsFocusable = true;
 			Host.GrabMouse(this);
@@ -54,7 +54,7 @@ namespace MonoHaven.UI
 				this.textBlock.Append(text);
 
 				// TODO: text block size should be used here
-				base.SetSize(textBlock.TextWidth + 14, Fonts.Default.Height + 8);
+				Resize(textBlock.TextWidth + 14, Fonts.Default.Height + 8);
 			}
 
 			protected override void OnDraw(DrawingContext dc)

@@ -48,16 +48,14 @@ namespace MonoHaven.UI
 		public int X
 		{
 			get { return bounds.X; }
-			set { bounds.X = value; }
 		}
 
 		public int Y
 		{
 			get { return bounds.Y; }
-			set { bounds.Y = value; }
 		}
 
-		public Point Location
+		public Point Position
 		{
 			get { return bounds.Location; }
 		}
@@ -129,7 +127,7 @@ namespace MonoHaven.UI
 
 		public Widget GetChildAt(Point p)
 		{
-			p = p.Sub(Location);
+			p = p.Sub(Position);
 			foreach (var widget in ReversedChildren)
 			{
 				if (widget.Visible)
@@ -163,22 +161,27 @@ namespace MonoHaven.UI
 			dc.PopMatrix();
 		}
 
-		public virtual Widget SetLocation(int x, int y)
+		public Widget Move(int x, int y)
 		{
 			bounds.Location = new Point(x, y);
 			return this;
 		}
 
-		public virtual Widget SetLocation(Point p)
+		public Widget Move(Point p)
 		{
-			return SetLocation(p.X, p.Y);
+			return Move(p.X, p.Y);
 		}
 
-		public virtual Widget SetSize(int width, int height)
+		public Widget Resize(int width, int height)
 		{
 			bounds.Size = new Size(width, height);
 			OnSizeChanged();
 			return this;
+		}
+
+		public Widget Resize(Size size)
+		{
+			return Resize(size.Width, size.Height);
 		}
 
 		public void HandleMouseButtonDown(MouseButtonEventArgs e)

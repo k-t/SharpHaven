@@ -36,7 +36,7 @@ namespace MonoHaven.UI
 		public Calendar(Widget parent, GameState gstate) : base(parent)
 		{
 			this.gstate = gstate;
-			base.SetSize(background.Width, background.Height);
+			Resize(background.Size);
 		}
 
 		protected override void OnDraw(DrawingContext dc)

@@ -10,7 +10,7 @@ namespace MonoHaven.UI.Remote
 			var text = (string)args[1];
 
 			var widget = new TextBox(parent.Widget);
-			widget.SetSize(size.X, size.Y);
+			widget.Resize(size.X, size.Y);
 			widget.Text = text;
 			return new ServerTextBox(id, parent, widget);
 		}

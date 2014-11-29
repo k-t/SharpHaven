@@ -26,7 +26,7 @@ namespace MonoHaven.UI
 		public Bufflist(Widget parent, GameState gstate) : base(parent)
 		{
 			this.gstate = gstate;
-			base.SetSize(Num * frame.Width + (Num - 1) * Margin, cframe.Width);
+			Resize(Num * frame.Width + (Num - 1) * Margin, cframe.Width);
 		}
 
 		protected override void OnDraw(DrawingContext dc)

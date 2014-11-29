@@ -70,11 +70,6 @@ namespace MonoHaven.UI
 			}
 		}
 
-		public override Widget SetSize(int width, int height)
-		{
-			return base.SetSize(width, Fonts.Default.Height + TextPadding * 2);
-		}
-
 		protected override void OnDraw(DrawingContext dc)
 		{
 			dc.SetClip(0, 0, Width, Height);

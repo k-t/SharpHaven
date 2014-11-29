@@ -10,7 +10,7 @@
 			var widget = new ImageButton(parent.Widget);
 			widget.Image = App.Resources.GetImage(defaultImage, true);
 			widget.PressedImage = App.Resources.GetImage(pressedImage);
-			widget.SetSize(widget.Image.Width, widget.Image.Height);
+			widget.Resize(widget.Image.Size);
 
 			return new ServerImageButton(id, parent, widget);
 		}

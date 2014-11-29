@@ -42,7 +42,7 @@ namespace MonoHaven.UI
 			this.buttons = new GridButton[RowCount, ColumnCount];
 			this.back = new GridButton(backImage);
 			this.next = new GridButton(nextImage);
-			base.SetSize(cellWidth * ColumnCount, cellHeight * RowCount);
+			Resize(cellWidth * ColumnCount, cellHeight * RowCount);
 		}
 
 		protected override void OnDraw(DrawingContext dc)

@@ -31,8 +31,7 @@ namespace MonoHaven.Graphics
 
 			this.id = id;
 			this.tex = tex;
-			this.width = tex.Width;
-			this.height = tex.Height;
+			this.size = new Size(tex.Width, tex.Height);
 			this.bounds = new Rectangle(offset.X, offset.Y, tex.Width, tex.Height);
 			this.z = z;
 			this.subz = subz;

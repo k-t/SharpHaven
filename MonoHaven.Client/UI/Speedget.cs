@@ -32,7 +32,7 @@ namespace MonoHaven.UI
 
 		public Speedget(Widget parent) : base(parent)
 		{
-			base.SetSize(size.X, size.Y);
+			Resize(size.X, size.Y);
 		}
 
 		public event Action<int> SpeedSelected;

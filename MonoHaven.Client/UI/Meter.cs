@@ -9,7 +9,7 @@ namespace MonoHaven.UI
 	public class Meter : Widget
 	{
 		private static readonly Point off = new Point(13, 7);
-		private static readonly Point fsz = new Point(63, 18);
+		private static readonly Size fsz = new Size(63, 18);
 		private static readonly Point msz = new Point(49, 4);
 
 		private List<Metric> metrics;
@@ -17,7 +17,7 @@ namespace MonoHaven.UI
 		public Meter(Widget parent) : base(parent)
 		{
 			metrics = new List<Metric>();
-			SetSize(fsz.X, fsz.Y);
+			Resize(fsz);
 		}
 
 		public Drawable Background

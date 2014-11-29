@@ -44,7 +44,7 @@ namespace MonoHaven.UI
 			foreach (var position in slotPositions)
 			{
 				var inv = new InventoryWidget(this);
-				inv.SetLocation(position);
+				inv.Move(position);
 				inv.SetInventorySize(1, 1);
 			}
 			Pack();
@@ -58,7 +58,7 @@ namespace MonoHaven.UI
 			if (item != null)
 			{
 				items[i] = new ItemWidget(this, item);
-				items[i].SetLocation(slotPositions[i].X + 21, slotPositions[i].Y + 21);
+				items[i].Move(slotPositions[i].X + 21, slotPositions[i].Y + 21);
 			}
 		}
 

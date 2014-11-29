@@ -25,7 +25,7 @@ namespace MonoHaven.UI
 
 		public HudMenu(Widget parent) : base(parent)
 		{
-			base.SetSize(background.Width, background.Height);
+			Resize(background.Size);
 
 			for (int i = 0; i < 6; i++)
 			{
@@ -34,7 +34,7 @@ namespace MonoHaven.UI
 					Image = buttonImages[i * 2],
 					PressedImage = buttonImages[i * 2 + 1]
 				};
-				buttonWidget.SetSize(buttonImages[i * 2].Width, buttonImages[i * 2].Height);
+				buttonWidget.Resize(buttonImages[i * 2].Size);
 				var button = (Button)i;
 				buttonWidget.Clicked += () => ButtonClicked.Raise(button);
 			}

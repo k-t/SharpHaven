@@ -5,7 +5,7 @@ namespace MonoHaven.UI
 	{
 		public BuddyList(Widget parent) : base(parent, "Kin")
 		{
-			base.SetSize(400, 370);
+			Resize(400, 370);
 		}
 	}
 }

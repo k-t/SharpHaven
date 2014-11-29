@@ -32,7 +32,7 @@ namespace MonoHaven.UI
 
 		public Button(Widget parent, int width) : base(parent)
 		{
-			base.SetSize(width, ButtonHeight);
+			Resize(width, ButtonHeight);
 			textBlock = new TextBlock(Fonts.Text);
 			textBlock.TextColor = Color.Yellow;
 			textBlock.TextAlign = TextAlign.Center;

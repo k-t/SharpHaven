@@ -8,7 +8,7 @@ namespace MonoHaven.UI.Remote
 		{
 			var size = (Point)args[0];
 			var widget = new Container(parent.Widget);
-			widget.SetSize(size.X, size.Y);
+			widget.Resize(size.X, size.Y);
 			return new ServerContainer(id, parent, widget);
 		}
 

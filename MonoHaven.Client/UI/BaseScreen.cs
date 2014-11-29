@@ -42,7 +42,7 @@ namespace MonoHaven.UI
 
 		protected virtual void OnResize(int newWidth, int newHeight)
 		{
-			RootWidget.SetSize(newWidth, newHeight);
+			RootWidget.Resize(newWidth, newHeight);
 		}
 
 		protected virtual void OnDraw(DrawingContext dc)

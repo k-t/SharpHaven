@@ -1,20 +1,25 @@
 ﻿using System;
+using System.Drawing;
 
 namespace MonoHaven.Graphics
 {
 	public abstract class Drawable : IDisposable
 	{
-		protected int width;
-		protected int height;
+		protected Size size;
 
 		public int Width
 		{
-			get { return width; }
+			get { return size.Width; }
 		}
 
 		public int Height
 		{
-			get { return height; }
+			get { return size.Height; }
+		}
+
+		public Size Size
+		{
+			get { return size; }
 		}
 
 		public virtual void Dispose()

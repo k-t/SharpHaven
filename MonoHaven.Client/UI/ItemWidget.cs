@@ -44,7 +44,7 @@ namespace MonoHaven.UI
 
 		private void FixSize()
 		{
-			SetSize(image.Value.Width, image.Value.Height);
+			Resize(image.Value.Size);
 			isSizeFixed = true;
 		}
 	}

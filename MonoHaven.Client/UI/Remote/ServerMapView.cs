@@ -11,7 +11,7 @@ namespace MonoHaven.UI.Remote
 			var playerId = args.Length > 2 ? (int)args[2] : -1;
 
 			var widget = new MapView(parent.Widget, parent.Session.State, worldpos, playerId);
-			widget.SetSize(size.X, size.Y);
+			widget.Resize(size.X, size.Y);
 			return new ServerMapView(id, parent, widget);
 		}
 

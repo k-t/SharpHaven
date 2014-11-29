@@ -12,8 +12,9 @@ namespace MonoHaven.Graphics
 		{
 			glyph = font.GetGlyph(c);
 			ascent = font.Ascent;
-			width = box.Width = (int)glyph.Advance;
-			height = box.Height = font.Height;
+			box.Width = (int)glyph.Advance;
+			box.Height = font.Height;
+			size = box.Size;
 		}
 
 		public Rectangle Box

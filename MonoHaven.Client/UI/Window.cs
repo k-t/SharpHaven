@@ -33,7 +33,7 @@ namespace MonoHaven.UI
 		public Window(Widget parent, string caption) : base(parent)
 		{
 			btnClose = new ImageButton(this);
-			btnClose.SetSize(closeButton.Width, closeButton.Height);
+			btnClose.Resize(closeButton.Size);
 			btnClose.Image = closeButton;
 			btnClose.PressedImage = closeButtonPressed;
 			btnClose.HoveredImage = closeButtonHovered;
@@ -57,10 +57,9 @@ namespace MonoHaven.UI
 				w = Math.Max(w, child.X + child.Width);
 				h = Math.Max(h, child.Y + child.Height);
 				// FIXME: temporary solution to properly place widgets
-				child.X += margin.X + 8;
-				child.Y += margin.Y + 8;
+				child.Move(child.X + margin.X + 8, child.Y + margin.Y + 8);
 			}
-			SetSize(w + margin.X * 2 + 16, h + margin.Y * 2 + 16);
+			Resize(w + margin.X * 2 + 16, h + margin.Y * 2 + 16);
 		}
 
 		protected override void OnDispose()
@@ -99,12 +98,12 @@ namespace MonoHaven.UI
 		protected override void OnMouseMove(MouseMoveEventArgs e)
 		{
 			if (dragging)
-				SetLocation(X + e.XDelta, Y + e.YDelta);
+				Move(X + e.XDelta, Y + e.YDelta);
 		}
 
 		protected override void OnSizeChanged()
 		{
-			btnClose.SetLocation(Width - closeButton.Width - 3, 3);
+			btnClose.Move(Width - closeButton.Width - 3, 3);
 		}
 	}
 }

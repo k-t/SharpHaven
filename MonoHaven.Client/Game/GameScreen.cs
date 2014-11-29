@@ -55,24 +55,24 @@ namespace MonoHaven.Game
 		protected override void OnResize(int newWidth, int newHeight)
 		{
 			if (mapView != null)
-				mapView.SetSize(newWidth, newHeight);
+				mapView.Resize(newWidth, newHeight);
 
 			if (charlistContainer != null)
-				charlistContainer.SetLocation(
+				charlistContainer.Move(
 					(newWidth - charlistContainer.Width) / 2,
 					(newHeight - charlistContainer.Height) / 2);
 
 			if (calendar != null)
-				calendar.SetLocation((Window.Width - calendar.Width) / 2, calendar.Y);
+				calendar.Move((Window.Width - calendar.Width) / 2, calendar.Y);
 
 			if (menuGrid != null)
-				menuGrid.SetLocation(Window.Width - menuGrid.Width - 5, Window.Height - menuGrid.Height -5);
+				menuGrid.Move(Window.Width - menuGrid.Width - 5, Window.Height - menuGrid.Height -5);
 		
 			if (hudMenu != null)
-				hudMenu.SetLocation((Window.Width - hudMenu.Width) / 2, Window.Height - hudMenu.Height + 1);
+				hudMenu.Move((Window.Width - hudMenu.Width) / 2, Window.Height - hudMenu.Height + 1);
 
 			if (chatWindow != null)
-				chatWindow.SetLocation(5, Window.Height - chatWindow.Height - 5);
+				chatWindow.Move(5, Window.Height - chatWindow.Height - 5);
 		}
 
 		private void OnWidgetCreated(WidgetCreateMessage message)
@@ -85,7 +85,7 @@ namespace MonoHaven.Game
 					message.Id));
 
 			var swidget = factory.Create(message.Type, message.Id, parent, message.Args);
-			swidget.Widget.SetLocation(message.Location);
+			swidget.Widget.Move(message.Location);
 			HandleCreatedWidget(swidget.Widget);
 			Bind(message.Id, swidget);
 		}
@@ -135,37 +135,37 @@ namespace MonoHaven.Game
 			if (widget is MapView)
 			{
 				mapView = (MapView)widget;
-				mapView.SetSize(Window.Width, Window.Height);
+				mapView.Resize(Window.Size);
 			}
 			if (widget is Container)
 			{
 				charlistContainer = (Container)widget;
-				charlistContainer.SetLocation(
+				charlistContainer.Move(
 					(Window.Width - charlistContainer.Width) / 2,
 					(Window.Height - charlistContainer.Height) / 2);
 			}
 			if (widget is Calendar)
 			{
 				calendar = (Calendar)widget;
-				calendar.SetLocation((Window.Width - calendar.Width) / 2, calendar.Y);
+				calendar.Move((Window.Width - calendar.Width) / 2, calendar.Y);
 			}
 			if (widget is MenuGrid)
 			{
 				menuGrid = (MenuGrid)widget;
-				menuGrid.SetLocation(Window.Width - widget.Width - 5, Window.Height - widget.Height - 5);
+				menuGrid.Move(Window.Width - widget.Width - 5, Window.Height - widget.Height - 5);
 			}
 			if (widget is Hud)
 			{
 				hudMenu = ((Hud)widget).Menu;
-				hudMenu.SetLocation((Window.Width - hudMenu.Width) / 2, Window.Height - hudMenu.Height + 1);
+				hudMenu.Move((Window.Width - hudMenu.Width) / 2, Window.Height - hudMenu.Height + 1);
 			}
 			if (widget is Chat)
 			{
 				if (chatWindow == null)
 				{
 					chatWindow = new ChatWindow(RootWidget);
-					chatWindow.SetSize(300, 200);
-					chatWindow.SetLocation(5, Window.Height - chatWindow.Height - 5);
+					chatWindow.Resize(300, 200);
+					chatWindow.Move(5, Window.Height - chatWindow.Height - 5);
 				}
 				chatWindow.AddTab((Chat)widget);
 			}

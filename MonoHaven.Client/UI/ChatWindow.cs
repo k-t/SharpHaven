@@ -17,8 +17,7 @@ namespace MonoHaven.UI
 		{
 			AddChild(chat);
 			tabs.Add(chat);
-			chat.X = 15;
-			chat.Y = tabPosition;
+			chat.Move(15, tabPosition);
 			tabPosition += 15;
 		}
 

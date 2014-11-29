@@ -14,7 +14,7 @@ namespace MonoHaven.UI
 			this.font = font;
 			this.textBlock = new TextBlock(font);
 			this.textBlock.TextColor = Color.White;
-			base.SetSize(0, font.Height);
+			Resize(0, font.Height);
 		}
 
 		public Label(Widget parent) : this(parent, Fonts.Default)
@@ -36,7 +36,7 @@ namespace MonoHaven.UI
 				textBlock.Clear();
 				textBlock.Append(text);
 				if (AutoSize)
-					SetSize(textBlock.TextWidth, font.Height);
+					Resize(textBlock.TextWidth, font.Height);
 			}
 		}
 

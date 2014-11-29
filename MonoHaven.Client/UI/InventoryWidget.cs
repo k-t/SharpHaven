@@ -30,7 +30,7 @@ namespace MonoHaven.UI
 			inventorySize = new Point(rows, columns);
 			int w = (tile.Width - 1) * rows - 1;
 			int h = (tile.Height - 1) * columns - 1;
-			SetSize(w, h);
+			Resize(w, h);
 		}
 
 		public void SetInventorySize(Point size)

@@ -125,7 +125,7 @@ namespace MonoHaven.Graphics
 
 		public void SetWidth(int width)
 		{
-			this.width = width;
+			size.Width = width;
 		}
 
 		private void UpdateGlyphs(int startIndex)
