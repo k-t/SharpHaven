@@ -129,6 +129,7 @@
     <Compile Include="MainScreen.cs" />
     <Compile Include="Game\Tileset.cs" />
     <Compile Include="UI\AvatarView.cs" />
+    <Compile Include="UI\BuddyList.cs" />
     <Compile Include="UI\Button.cs" />
     <Compile Include="UI\Calendar.cs" />
     <Compile Include="UI\Charlist.cs" />
