@@ -143,12 +143,15 @@
     <Compile Include="UI\MenuGrid.cs" />
     <Compile Include="UI\Meter.cs" />
     <Compile Include="UI\Remote\ServerAvatarView.cs" />
+    <Compile Include="UI\Remote\ServerBuddyList.cs" />
     <Compile Include="UI\Remote\ServerBufflist.cs" />
     <Compile Include="UI\Remote\ServerButton.cs" />
     <Compile Include="UI\Remote\ServerCalendar.cs" />
     <Compile Include="UI\Remote\ServerCharlist.cs" />
+    <Compile Include="UI\Remote\ServerCharWindow.cs" />
     <Compile Include="UI\Remote\ServerChatWindow.cs" />
     <Compile Include="UI\Remote\ServerContainer.cs" />
+    <Compile Include="UI\Remote\ServerEquipory.cs" />
     <Compile Include="UI\Remote\ServerFlowerMenu.cs" />
     <Compile Include="UI\Remote\ServerInput.cs" />
     <Compile Include="UI\Remote\ServerInventoryWidget.cs" />

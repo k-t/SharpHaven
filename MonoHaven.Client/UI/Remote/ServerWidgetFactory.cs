@@ -35,6 +35,9 @@ namespace MonoHaven.UI.Remote
 			methods["inv"] = ServerInventoryWidget.Create;
 			methods["item"] = ServerItemWidget.Create;
 			methods["sm"] = ServerFlowerMenu.Create;
+			methods["epry"] = ServerEquipory.Create;
+			methods["buddy"] = ServerBuddyList.Create;
+			methods["chr"] = ServerCharWindow.Create;
 		}
 
 		public ServerWidget Create(
