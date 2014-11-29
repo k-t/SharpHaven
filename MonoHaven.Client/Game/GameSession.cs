@@ -191,7 +191,16 @@ namespace MonoHaven.Game
 					log.Info("RMSG_SFX");
 					break;
 				case RMSG_CATTR:
-					log.Info("RMSG_CATTR");
+					App.QueueOnMainThread(() =>
+					{
+						while (!messageReader.IsEom)
+						{
+							var name = messageReader.ReadString();
+							var baseValue = messageReader.ReadInt32();
+							var compValue = messageReader.ReadInt32();
+							State.SetAttr(name, baseValue, compValue);
+						}
+					});
 					break;
 				case RMSG_MUSIC:
 					log.Info("RMSG_MUSIC");
