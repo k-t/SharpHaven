@@ -25,12 +25,17 @@ namespace MonoHaven.UI
 					dc.Draw(tile, (tile.Width - 1) * x, (tile.Height - 1) * y);
 		}
 
+		public void SetInventorySize(int rows, int columns)
+		{
+			inventorySize = new Point(rows, columns);
+			int w = (tile.Width - 1) * rows - 1;
+			int h = (tile.Height - 1) * columns - 1;
+			SetSize(w, h);
+		}
+
 		public void SetInventorySize(Point size)
 		{
-			inventorySize = size;
-			int w = (tile.Width - 1) * size.X - 1;
-			int h = (tile.Height - 1) * size.Y - 1;
-			SetSize(w, h);
+			SetInventorySize(size.X, size.Y);
 		}
 	}
 }
