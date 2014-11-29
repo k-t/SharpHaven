@@ -20,6 +20,7 @@ namespace MonoHaven.Game
 		private Calendar calendar;
 		private MenuGrid menuGrid;
 		private HudMenu hudMenu;
+		private ChatWindow chatWindow;
 
 		public GameScreen(GameSession session)
 		{
@@ -69,6 +70,9 @@ namespace MonoHaven.Game
 		
 			if (hudMenu != null)
 				hudMenu.SetLocation((Window.Width - hudMenu.Width) / 2, Window.Height - hudMenu.Height + 1);
+
+			if (chatWindow != null)
+				chatWindow.SetLocation(5, Window.Height - chatWindow.Height - 5);
 		}
 
 		private void OnWidgetCreated(WidgetCreateMessage message)
@@ -148,12 +152,22 @@ namespace MonoHaven.Game
 			if (widget is MenuGrid)
 			{
 				menuGrid = (MenuGrid)widget;
-				menuGrid.SetLocation(Window.Width - widget.Width - 5, Window.Height - widget.Height -5);
+				menuGrid.SetLocation(Window.Width - widget.Width - 5, Window.Height - widget.Height - 5);
 			}
 			if (widget is Hud)
 			{
 				hudMenu = ((Hud)widget).Menu;
 				hudMenu.SetLocation((Window.Width - hudMenu.Width) / 2, Window.Height - hudMenu.Height + 1);
+			}
+			if (widget is Chat)
+			{
+				if (chatWindow == null)
+				{
+					chatWindow = new ChatWindow(RootWidget);
+					chatWindow.SetSize(300, 200);
+					chatWindow.SetLocation(5, Window.Height - chatWindow.Height - 5);
+				}
+				chatWindow.AddTab((Chat)widget);
 			}
 		}
 

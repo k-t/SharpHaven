@@ -24,8 +24,8 @@ namespace MonoHaven.UI.Remote
 			methods["mapview"] = ServerMapView.Create;
 			methods["slen"] = ServerHud.Create;
 			methods["cal"] = ServerCalendar.Create;
-			methods["slenlog"] = ServerLogWindow.Create;
-			methods["slenchat"] = ServerChatWindow.Create;
+			methods["slenlog"] = ServerChat.Create;
+			methods["slenchat"] = ServerChat.Create;
 			methods["im"] = ServerMeter.Create;
 			methods["speedget"] = ServerSpeedget.Create;
 			methods["buffs"] = ServerBufflist.Create;

@@ -136,6 +136,8 @@
     <Compile Include="UI\Calendar.cs" />
     <Compile Include="UI\Charlist.cs" />
     <Compile Include="UI\CharWindow.cs" />
+    <Compile Include="UI\Chat.cs" />
+    <Compile Include="UI\ChatWindow.cs" />
     <Compile Include="UI\Equipory.cs" />
     <Compile Include="UI\FlowerMenu.cs" />
     <Compile Include="UI\Hud.cs" />
@@ -155,7 +157,7 @@
     <Compile Include="UI\Remote\ServerCalendar.cs" />
     <Compile Include="UI\Remote\ServerCharlist.cs" />
     <Compile Include="UI\Remote\ServerCharWindow.cs" />
-    <Compile Include="UI\Remote\ServerChatWindow.cs" />
+    <Compile Include="UI\Remote\ServerChat.cs" />
     <Compile Include="UI\Remote\ServerContainer.cs" />
     <Compile Include="UI\Remote\ServerEquipory.cs" />
     <Compile Include="UI\Remote\ServerFlowerMenu.cs" />
@@ -168,7 +170,6 @@
     <Compile Include="UI\Remote\ServerImageButton.cs" />
     <Compile Include="UI\Remote\ServerLabel.cs" />
     <Compile Include="UI\Remote\ServerMapView.cs" />
-    <Compile Include="UI\Remote\ServerLogWindow.cs" />
     <Compile Include="UI\Remote\ServerMenuGrid.cs" />
     <Compile Include="UI\Remote\ServerPartyView.cs" />
     <Compile Include="UI\Remote\ServerRootWidget.cs" />
