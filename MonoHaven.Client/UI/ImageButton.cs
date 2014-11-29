@@ -67,7 +67,7 @@ namespace MonoHaven.UI
 			isPressed = false;
 
 			// button released outside of borders?
-			var p = PointToWidget(e.Position);
+			var p = MapFromScreen(e.Position);
 			if (CheckHit(p.X + X, p.Y + Y))
 				Clicked.Raise();
 		}

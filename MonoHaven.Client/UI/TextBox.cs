@@ -130,7 +130,7 @@ namespace MonoHaven.UI
 		{
 			if (e.Button == MouseButton.Left)
 			{
-				var p = PointToWidget(e.X, e.Y).Sub(TextPadding - caretOffset, TextPadding);
+				var p = MapFromScreen(e.Position).Sub(TextPadding - caretOffset, TextPadding);
 				var index = textBlock.PointToIndex(p.X , p.Y);
 				if (index != -1)
 					CaretIndex = index;

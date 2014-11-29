@@ -63,7 +63,7 @@ namespace MonoHaven.UI
 		{
 			if (e.Button == MouseButton.Left)
 			{
-				var button = GetButtonAt(PointToWidget(e.Position));
+				var button = GetButtonAt(MapFromScreen(e.Position));
 				if (button != null)
 				{
 					pressed = button;

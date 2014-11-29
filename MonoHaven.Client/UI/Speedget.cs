@@ -68,7 +68,7 @@ namespace MonoHaven.UI
 
 		protected override void OnMouseButtonDown(MouseButtonEventArgs e)
 		{
-			var p = PointToWidget(e.Position);
+			var p = MapFromScreen(e.Position);
 			int x = 0;
 			for (int i = 0; i < 4; i++)
 			{

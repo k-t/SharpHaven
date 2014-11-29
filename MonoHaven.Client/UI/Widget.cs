@@ -223,12 +223,12 @@ namespace MonoHaven.UI
 
 		#region Protected Methods
 
-		protected Point PointToWidget(Point p)
+		protected Point MapFromScreen(Point p)
 		{
-			return PointToWidget(p.X, p.Y);
+			return MapFromScreen(p.X, p.Y);
 		}
 
-		protected Point PointToWidget(int x, int y)
+		protected Point MapFromScreen(int x, int y)
 		{
 			for (var widget = this; widget != null; widget = widget.Parent)
 			{
