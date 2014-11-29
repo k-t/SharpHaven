@@ -36,6 +36,11 @@ namespace MonoHaven.Game
 
 		public Action Exited;
 
+		public void Bind(ushort id, ServerWidget widget)
+		{
+			serverWidgets[id] = widget;
+		}
+
 		protected override void OnClose()
 		{
 			session.Finish();
@@ -78,7 +83,7 @@ namespace MonoHaven.Game
 			var swidget = factory.Create(message.Type, message.Id, parent, message.Args);
 			swidget.Widget.SetLocation(message.Location);
 			HandleCreatedWidget(swidget.Widget);
-			serverWidgets[message.Id] = swidget;
+			Bind(message.Id, swidget);
 		}
 
 		private void OnWidgetMessage(WidgetMessage message)
