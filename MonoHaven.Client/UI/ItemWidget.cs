@@ -32,7 +32,6 @@ namespace MonoHaven.UI
 					FixSize();
 				dc.Draw(image.Value, 0, 0);
 			}
-			
 		}
 
 		protected override void OnDispose()

@@ -15,8 +15,6 @@ namespace MonoHaven.UI
 		private static readonly Drawable closeButtonPressed;
 		private static readonly Drawable closeButtonHovered;
 
-		private static readonly Point margin = new Point(12, 12);
-
 		private bool dragging;
 		private readonly ImageButton btnClose;
 		private readonly TextBlock tblCaption;
@@ -43,6 +41,8 @@ namespace MonoHaven.UI
 			tblCaption = new TextBlock(Fonts.Text);
 			tblCaption.TextColor = Color.Yellow;
 			tblCaption.Append(caption);
+
+			Margin = 20;
 		}
 
 		public event Action Closed;
@@ -57,10 +57,8 @@ namespace MonoHaven.UI
 					continue;
 				w = Math.Max(w, child.X + child.Width);
 				h = Math.Max(h, child.Y + child.Height);
-				// FIXME: temporary solution to properly place widgets
-				child.Move(child.X + margin.X + 8, child.Y + margin.Y + 8);
 			}
-			Resize(w + margin.X * 2 + 16, h + margin.Y * 2 + 16);
+			Resize(w + Margin * 2, h + Margin * 2);
 		}
 
 		protected override void OnDispose()
@@ -106,7 +104,7 @@ namespace MonoHaven.UI
 
 		protected override void OnSizeChanged()
 		{
-			btnClose.Move(Width - closeButton.Width - 3, 3);
+			btnClose.Move(Width - Margin - closeButton.Width - 3, 3 - Margin);
 		}
 	}
 }

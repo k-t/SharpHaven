@@ -4,7 +4,6 @@ using System.Drawing;
 using System.Linq;
 using MonoHaven.Graphics;
 using MonoHaven.Input;
-using MonoHaven.Utils;
 using OpenTK;
 
 namespace MonoHaven.UI
@@ -75,9 +74,20 @@ namespace MonoHaven.UI
 			get { return bounds.Size; }
 		}
 
+		public virtual MouseCursor Cursor
+		{
+			get { return Cursors.Default; }
+		}
+
 		public Rectangle Bounds
 		{
 			get { return bounds; }
+		}
+
+		public int Margin
+		{
+			get;
+			set;
 		}
 
 		public bool Visible
@@ -116,18 +126,13 @@ namespace MonoHaven.UI
 			}
 		}
 
-		public virtual MouseCursor Cursor
-		{
-			get { return Cursors.Default; }
-		}
-
 		#endregion
 
 		#region Public Methods
 
 		public Widget GetChildAt(Point p)
 		{
-			p = p.Sub(Position);
+			p = new Point(p.X - X - Margin, p.Y - Y - Margin);
 			foreach (var widget in ReversedChildren)
 			{
 				if (widget.Visible)
@@ -156,6 +161,7 @@ namespace MonoHaven.UI
 			// draw itself
 			OnDraw(dc);
 			// draw all children
+			dc.Translate(Margin, Margin);
 			foreach (var widget in Children.Where(x => x.Visible))
 				widget.Draw(dc);
 			dc.PopMatrix();
@@ -244,8 +250,8 @@ namespace MonoHaven.UI
 		{
 			for (var widget = this; widget != null; widget = widget.Parent)
 			{
-				x -= widget.X;
-				y -= widget.Y;
+				x -= (widget.X + widget.Margin);
+				y -= (widget.Y + widget.Margin);
 			}
 			return new Point(x, y);
 		}

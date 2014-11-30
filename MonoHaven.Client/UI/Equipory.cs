@@ -7,7 +7,7 @@ namespace MonoHaven.UI
 	public class Equipory : Window
 	{
 		private static readonly Drawable background;
-		private static readonly Point avatarPosition = new Point(32 + 20, 20);
+		private static readonly Point avatarPosition = new Point(32, 0);
 		private static readonly Point[] slotPositions = {
 			new Point(0, 0),
 			new Point(244, 0),
@@ -70,6 +70,10 @@ namespace MonoHaven.UI
 		protected override void OnDraw(DrawingContext dc)
 		{
 			base.OnDraw(dc);
+
+			// offset contents
+			dc.PushMatrix();
+			dc.Translate(Margin, Margin);
 			dc.Draw(background, avatarPosition);
 			if (gobId != -1)
 			{
@@ -77,6 +81,7 @@ namespace MonoHaven.UI
 				if (gob != null && gob.Avatar != null)
 					dc.Draw(gob.Avatar, avatarPosition);
 			}
+			dc.PopMatrix();
 		}
 	}
 }
