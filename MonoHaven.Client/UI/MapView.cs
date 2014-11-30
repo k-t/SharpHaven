@@ -2,6 +2,7 @@
 using System.Drawing;
 using MonoHaven.Game;
 using MonoHaven.Graphics;
+using MonoHaven.Input;
 using MonoHaven.Utils;
 using OpenTK.Input;
 
@@ -87,7 +88,7 @@ namespace MonoHaven.UI
 			gstate.Scene.Draw(g, Width / 2 - cameraOffset.X, Height / 2 - cameraOffset.Y);
 		}
 
-		protected override bool OnKeyDown(KeyboardKeyEventArgs e)
+		protected override bool OnKeyDown(KeyEvent e)
 		{
 			switch (e.Key)
 			{
@@ -109,7 +110,7 @@ namespace MonoHaven.UI
 			return true;
 		}
 
-		protected override void OnMouseButtonDown(MouseButtonEventArgs e)
+		protected override void OnMouseButtonDown(MouseButtonEvent e)
 		{
 			var screenPoint = ToAbsolute(e.Position);
 			var gob = gstate.Scene.GetObjectAt(screenPoint);
@@ -126,7 +127,7 @@ namespace MonoHaven.UI
 			}
 		}
 
-		protected override void OnMouseButtonUp(MouseButtonEventArgs e)
+		protected override void OnMouseButtonUp(MouseButtonEvent e)
 		{
 			if (e.Button == MouseButton.Middle)
 			{
@@ -135,12 +136,12 @@ namespace MonoHaven.UI
 			}
 		}
 
-		protected override void OnMouseMove(MouseMoveEventArgs e)
+		protected override void OnMouseMove(MouseMoveEvent e)
 		{
 			if (dragging)
 			{
-				cameraOffset.X -= e.XDelta;
-				cameraOffset.Y -= e.YDelta;
+				cameraOffset.X -= e.DeltaX;
+				cameraOffset.Y -= e.DeltaY;
 			}
 		}
 

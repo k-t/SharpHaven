@@ -1,5 +1,5 @@
 ﻿using System;
-using OpenTK.Input;
+using MonoHaven.Input;
 
 namespace MonoHaven.UI
 {
@@ -9,16 +9,16 @@ namespace MonoHaven.UI
 		{
 		}
 
-		public event Action<KeyboardKeyEventArgs> UnhandledKeyDown;
-		public event Action<KeyboardKeyEventArgs> UnhandledKeyUp;
+		public event Action<KeyEvent> UnhandledKeyDown;
+		public event Action<KeyEvent> UnhandledKeyUp;
 
-		protected override bool OnKeyDown(KeyboardKeyEventArgs e)
+		protected override bool OnKeyDown(KeyEvent e)
 		{
 			UnhandledKeyDown.Raise(e);
 			return true;
 		}
 
-		protected override bool OnKeyUp(KeyboardKeyEventArgs e)
+		protected override bool OnKeyUp(KeyEvent e)
 		{
 			UnhandledKeyUp.Raise(e);
 			return true;

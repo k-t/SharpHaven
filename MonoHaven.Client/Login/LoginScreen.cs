@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Threading.Tasks;
 using MonoHaven.Game;
 using MonoHaven.Graphics;
+using MonoHaven.Input;
 using MonoHaven.UI;
 using OpenTK.Input;
 using Image = MonoHaven.UI.Image;
@@ -101,7 +102,7 @@ namespace MonoHaven.Login
 			RootWidget.Move((w - MinWidth) / 2, (h - MinHeight) / 2);
 		}
 
-		private void OnKeyDown(KeyboardKeyEventArgs args)
+		private void OnKeyDown(KeyEvent args)
 		{
 			switch (args.Key)
 			{

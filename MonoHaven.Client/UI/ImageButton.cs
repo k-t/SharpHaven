@@ -1,7 +1,6 @@
 using System;
-using System.Drawing;
 using MonoHaven.Graphics;
-using OpenTK.Input;
+using MonoHaven.Input;
 
 namespace MonoHaven.UI
 {
@@ -55,13 +54,13 @@ namespace MonoHaven.UI
 			return Image != null && Image.CheckHit(x - X, y - Y);
 		}
 
-		protected override void OnMouseButtonDown(MouseButtonEventArgs e)
+		protected override void OnMouseButtonDown(MouseButtonEvent e)
 		{
 			Host.GrabMouse(this);
 			isPressed = true;
 		}
 
-		protected override void OnMouseButtonUp(MouseButtonEventArgs e)
+		protected override void OnMouseButtonUp(MouseButtonEvent e)
 		{
 			Host.ReleaseMouse();
 			isPressed = false;

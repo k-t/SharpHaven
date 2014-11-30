@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Drawing;
 using MonoHaven.Graphics;
 using MonoHaven.Graphics.Sprites;
+using MonoHaven.Input;
 using OpenTK;
-using OpenTK.Input;
 
 namespace MonoHaven.UI
 {
@@ -59,7 +59,7 @@ namespace MonoHaven.UI
 			btnScrollDown.Visible = btnScrollUp.Visible = items.Count > listHeight;
 		}
 
-		protected override bool OnMouseWheel(MouseWheelEventArgs e)
+		protected override bool OnMouseWheel(MouseWheelEvent e)
 		{
 			Scroll(-e.Delta);
 			return true;

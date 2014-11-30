@@ -124,6 +124,14 @@
     <Compile Include="Graphics\TextureAtlas.cs" />
     <Compile Include="Graphics\TextureSlice.cs" />
     <Compile Include="Graphics\VertexBuffer.cs" />
+    <Compile Include="Input\InputEvent.cs" />
+    <Compile Include="Input\KeyEvent.cs" />
+    <Compile Include="Input\KeyPressEvent.cs" />
+    <Compile Include="Input\MouseButtonEvent.cs" />
+    <Compile Include="Input\MouseEvent.cs" />
+    <Compile Include="Input\MouseMoveEvent.cs" />
+    <Compile Include="Input\MouseWheelEvent.cs" />
+    <Compile Include="Input\InputConverter.cs" />
     <Compile Include="Login\LoginService.cs" />
     <Compile Include="Login\LoginSettings.cs" />
     <Compile Include="Login\LoginResult.cs" />

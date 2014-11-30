@@ -1,10 +1,9 @@
 ﻿using System;
 using MonoHaven.Game;
 using MonoHaven.Graphics;
+using MonoHaven.Input;
 using MonoHaven.Login;
 using MonoHaven.UI;
-using OpenTK;
-using OpenTK.Input;
 
 namespace MonoHaven
 {
@@ -77,37 +76,37 @@ namespace MonoHaven
 			current.Update(dt);
 		}
 
-		void IScreen.MouseButtonDown(MouseButtonEventArgs e)
+		void IScreen.MouseButtonDown(MouseButtonEvent e)
 		{
 			current.MouseButtonDown(e);
 		}
 
-		void IScreen.MouseButtonUp(MouseButtonEventArgs e)
+		void IScreen.MouseButtonUp(MouseButtonEvent e)
 		{
 			current.MouseButtonUp(e);
 		}
 
-		void IScreen.MouseMove(MouseMoveEventArgs e)
+		void IScreen.MouseMove(MouseMoveEvent e)
 		{
 			current.MouseMove(e);
 		}
 
-		void IScreen.MouseWheel(MouseWheelEventArgs e)
+		void IScreen.MouseWheel(MouseWheelEvent e)
 		{
 			current.MouseWheel(e);
 		}
 
-		void IScreen.KeyDown(KeyboardKeyEventArgs e)
+		void IScreen.KeyDown(KeyEvent e)
 		{
 			current.KeyDown(e);
 		}
 
-		void IScreen.KeyUp(KeyboardKeyEventArgs e)
+		void IScreen.KeyUp(KeyEvent e)
 		{
 			current.KeyUp(e);
 		}
 
-		void IScreen.KeyPress(KeyPressEventArgs e)
+		void IScreen.KeyPress(KeyPressEvent e)
 		{
 			current.KeyPress(e);
 		}

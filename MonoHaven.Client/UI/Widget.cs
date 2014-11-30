@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using MonoHaven.Graphics;
+using MonoHaven.Input;
 using MonoHaven.Utils;
 using OpenTK;
-using OpenTK.Input;
 
 namespace MonoHaven.UI
 {
@@ -184,37 +184,37 @@ namespace MonoHaven.UI
 			return Resize(size.Width, size.Height);
 		}
 
-		public void HandleMouseButtonDown(MouseButtonEventArgs e)
+		public void HandleMouseButtonDown(MouseButtonEvent e)
 		{
 			OnMouseButtonDown(e);
 		}
 
-		public void HandleMouseButtonUp(MouseButtonEventArgs e)
+		public void HandleMouseButtonUp(MouseButtonEvent e)
 		{
 			OnMouseButtonUp(e);
 		}
 
-		public void HandleMouseMove(MouseMoveEventArgs e)
+		public void HandleMouseMove(MouseMoveEvent e)
 		{
 			OnMouseMove(e);
 		}
 
-		public bool HandleMouseWheel(MouseWheelEventArgs e)
+		public bool HandleMouseWheel(MouseWheelEvent e)
 		{
 			return OnMouseWheel(e) || (Parent != null && Parent.HandleMouseWheel(e));
 		}
 
-		public bool HandleKeyDown(KeyboardKeyEventArgs e)
+		public bool HandleKeyDown(KeyEvent e)
 		{
 			return OnKeyDown(e) || (Parent != null && Parent.HandleKeyDown(e));
 		}
 
-		public bool HandleKeyUp(KeyboardKeyEventArgs e)
+		public bool HandleKeyUp(KeyEvent e)
 		{
 			return OnKeyUp(e) || (Parent != null && Parent.HandleKeyUp(e));
 		}
 
-		public bool HandleKeyPress(KeyPressEventArgs e)
+		public bool HandleKeyPress(KeyPressEvent e)
 		{
 			return OnKeyPress(e) || (Parent != null && Parent.HandleKeyPress(e));
 		}
@@ -243,34 +243,34 @@ namespace MonoHaven.UI
 			return Bounds.Contains(x, y);
 		}
 
-		protected virtual void OnMouseButtonDown(MouseButtonEventArgs e)
+		protected virtual void OnMouseButtonDown(MouseButtonEvent e)
 		{
 		}
 
-		protected virtual void OnMouseButtonUp(MouseButtonEventArgs e)
+		protected virtual void OnMouseButtonUp(MouseButtonEvent e)
 		{
 		}
 		
-		protected virtual bool OnKeyDown(KeyboardKeyEventArgs e)
-		{
-			return false;
-		}
-		
-		protected virtual bool OnKeyUp(KeyboardKeyEventArgs e)
+		protected virtual bool OnKeyDown(KeyEvent e)
 		{
 			return false;
 		}
 
-		protected virtual bool OnKeyPress(KeyPressEventArgs e)
+		protected virtual bool OnKeyUp(KeyEvent e)
+		{
+			return false;
+		}
+
+		protected virtual bool OnKeyPress(KeyPressEvent e)
 		{
 			return false;
 		}
 		
-		protected virtual void OnMouseMove(MouseMoveEventArgs e)
+		protected virtual void OnMouseMove(MouseMoveEvent e)
 		{
 		}
 
-		protected virtual bool OnMouseWheel(MouseWheelEventArgs e)
+		protected virtual bool OnMouseWheel(MouseWheelEvent e)
 		{
 			return false;
 		}

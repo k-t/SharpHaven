@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Linq;
 using MonoHaven.Game;
 using MonoHaven.Graphics;
+using MonoHaven.Input;
 using OpenTK.Input;
 
 namespace MonoHaven.UI
@@ -59,7 +60,7 @@ namespace MonoHaven.UI
 				}
 		}
 
-		protected override void OnMouseButtonDown(MouseButtonEventArgs e)
+		protected override void OnMouseButtonDown(MouseButtonEvent e)
 		{
 			if (e.Button == MouseButton.Left)
 			{
@@ -72,7 +73,7 @@ namespace MonoHaven.UI
 			}
 		}
 
-		protected override void OnMouseButtonUp(MouseButtonEventArgs e)
+		protected override void OnMouseButtonUp(MouseButtonEvent e)
 		{
 			if (e.Button == MouseButton.Left)
 			{

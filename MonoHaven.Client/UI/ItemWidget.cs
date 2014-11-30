@@ -1,6 +1,5 @@
 ﻿using System.Drawing;
 using MonoHaven.Graphics;
-using MonoHaven.Resources;
 
 namespace MonoHaven.UI
 {

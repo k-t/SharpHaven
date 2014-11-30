@@ -1,7 +1,7 @@
 ﻿using System;
 using MonoHaven.Graphics;
+using MonoHaven.Input;
 using OpenTK;
-using OpenTK.Input;
 
 namespace MonoHaven.UI
 {
@@ -100,7 +100,7 @@ namespace MonoHaven.UI
 			this.OnUpdate(dt);
 		}
 
-		void IScreen.MouseButtonDown(MouseButtonEventArgs e)
+		void IScreen.MouseButtonDown(MouseButtonEvent e)
 		{
 			var widget = mouseFocus ?? RootWidget.GetChildAt(e.Position);
 			if (widget != null)
@@ -111,14 +111,14 @@ namespace MonoHaven.UI
 			}
 		}
 
-		void IScreen.MouseButtonUp(MouseButtonEventArgs e)
+		void IScreen.MouseButtonUp(MouseButtonEvent e)
 		{
 			var widget = mouseFocus ?? RootWidget.GetChildAt(e.Position);
 			if (widget != null)
 				widget.HandleMouseButtonUp(e);
 		}
 
-		void IScreen.MouseMove(MouseMoveEventArgs e)
+		void IScreen.MouseMove(MouseMoveEvent e)
 		{
 			if (mouseFocus != null)
 				// don't hover widgets mouse is grabbed
@@ -132,25 +132,25 @@ namespace MonoHaven.UI
 			}
 		}
 
-		void IScreen.MouseWheel(MouseWheelEventArgs e)
+		void IScreen.MouseWheel(MouseWheelEvent e)
 		{
 			var widget = mouseFocus ?? hoveredWidget;
 			if (widget != null) widget.HandleMouseWheel(e);
 		}
 
-		void IScreen.KeyDown(KeyboardKeyEventArgs e)
+		void IScreen.KeyDown(KeyEvent e)
 		{
 			var widget = keyboardFocus;
 			if (widget != null) widget.HandleKeyDown(e);
 		}
 
-		void IScreen.KeyUp(KeyboardKeyEventArgs e)
+		void IScreen.KeyUp(KeyEvent e)
 		{
 			var widget = keyboardFocus;
 			if (widget != null) widget.HandleKeyUp(e);
 		}
 
-		void IScreen.KeyPress(KeyPressEventArgs e)
+		void IScreen.KeyPress(KeyPressEvent e)
 		{
 			var widget = keyboardFocus;
 			if (widget != null) widget.HandleKeyPress(e);

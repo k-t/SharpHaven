@@ -3,6 +3,7 @@ using System.Collections.Concurrent;
 using System.ComponentModel;
 using System.Drawing;
 using MonoHaven.Graphics;
+using MonoHaven.Input;
 using MonoHaven.UI;
 using OpenTK;
 using OpenTK.Graphics;
@@ -129,37 +130,37 @@ namespace MonoHaven
 
 		private void HandleMouseButtonDown(object sender, MouseButtonEventArgs e)
 		{
-			currentScreen.MouseButtonDown(e);
+			currentScreen.MouseButtonDown(InputConverter.Map(e));
 		}
 
 		private void HandleMouseButtonUp(object sender, MouseButtonEventArgs e)
 		{
-			currentScreen.MouseButtonUp(e);
+			currentScreen.MouseButtonUp(InputConverter.Map(e));
 		}
 
 		private void HandleMouseMove(object sedner, MouseMoveEventArgs e)
 		{
-			currentScreen.MouseMove(e);
+			currentScreen.MouseMove(InputConverter.Map(e));
 		}
 
 		private void HandleMouseWheel(object sender, MouseWheelEventArgs e)
 		{
-			currentScreen.MouseWheel(e);
+			currentScreen.MouseWheel(InputConverter.Map(e));
 		}
 
 		private void HandleKeyDown(object sender, KeyboardKeyEventArgs e)
 		{
-			currentScreen.KeyDown(e);
+			currentScreen.KeyDown(InputConverter.Map(e));
 		}
 
 		private void HandleKeyUp(object sender, KeyboardKeyEventArgs e)
 		{
-			currentScreen.KeyUp(e);
+			currentScreen.KeyUp(InputConverter.Map(e));
 		}
 
 		private void HandleKeyPress(object sender, KeyPressEventArgs e)
 		{
-			currentScreen.KeyPress(e);
+			currentScreen.KeyPress(InputConverter.Map(e));
 		}
 	}
 }

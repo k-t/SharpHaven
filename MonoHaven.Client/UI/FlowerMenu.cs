@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using MonoHaven.Graphics;
-using OpenTK.Input;
+using MonoHaven.Input;
 
 namespace MonoHaven.UI
 {
@@ -32,7 +32,7 @@ namespace MonoHaven.UI
 
 		public event Action<int> Selected;
 
-		protected override void OnMouseButtonDown(MouseButtonEventArgs e)
+		protected override void OnMouseButtonDown(MouseButtonEvent e)
 		{
 			Selected.Raise(-1);
 			Host.ReleaseMouse();

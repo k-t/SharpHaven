@@ -2,6 +2,7 @@
 using System.Drawing;
 using System.Text;
 using MonoHaven.Graphics;
+using MonoHaven.Input;
 using MonoHaven.Utils;
 using OpenTK;
 using OpenTK.Input;
@@ -87,7 +88,7 @@ namespace MonoHaven.UI
 			dc.ResetClip();
 		}
 
-		protected override bool OnKeyDown(KeyboardKeyEventArgs e)
+		protected override bool OnKeyDown(KeyEvent e)
 		{
 			switch (e.Key)
 			{
@@ -117,7 +118,7 @@ namespace MonoHaven.UI
 			return true;
 		}
 
-		protected override bool OnKeyPress(KeyPressEventArgs e)
+		protected override bool OnKeyPress(KeyPressEvent e)
 		{
 			if (char.IsControl(e.KeyChar))
 				return false;
@@ -126,7 +127,7 @@ namespace MonoHaven.UI
 			return true;
 		}
 
-		protected override void OnMouseButtonDown(MouseButtonEventArgs e)
+		protected override void OnMouseButtonDown(MouseButtonEvent e)
 		{
 			if (e.Button == MouseButton.Left)
 			{

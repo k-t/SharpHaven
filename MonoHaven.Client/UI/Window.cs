@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Drawing;
 using MonoHaven.Graphics;
+using MonoHaven.Input;
 using OpenTK.Input;
 
 namespace MonoHaven.UI
@@ -77,7 +78,7 @@ namespace MonoHaven.UI
 			dc.Draw(tblCaption, (Width - tblCaption.TextWidth) / 2, -5);
 		}
 
-		protected override void OnMouseButtonDown(MouseButtonEventArgs e)
+		protected override void OnMouseButtonDown(MouseButtonEvent e)
 		{
 			if (e.Button == MouseButton.Left)
 			{
@@ -86,7 +87,7 @@ namespace MonoHaven.UI
 			}
 		}
 
-		protected override void OnMouseButtonUp(MouseButtonEventArgs e)
+		protected override void OnMouseButtonUp(MouseButtonEvent e)
 		{
 			if (e.Button == MouseButton.Left)
 			{
@@ -95,10 +96,10 @@ namespace MonoHaven.UI
 			}
 		}
 
-		protected override void OnMouseMove(MouseMoveEventArgs e)
+		protected override void OnMouseMove(MouseMoveEvent e)
 		{
 			if (dragging)
-				Move(X + e.XDelta, Y + e.YDelta);
+				Move(X + e.DeltaX, Y + e.DeltaY);
 		}
 
 		protected override void OnSizeChanged()

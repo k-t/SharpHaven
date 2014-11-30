@@ -1,7 +1,6 @@
 ﻿using System.Drawing;
 using MonoHaven.Graphics;
-using OpenTK;
-using OpenTK.Input;
+using MonoHaven.Input;
 
 namespace MonoHaven.UI
 {
@@ -13,13 +12,13 @@ namespace MonoHaven.UI
 		void Draw(DrawingContext dc);
 		void Update(int dt);
 
-		void MouseButtonDown(MouseButtonEventArgs e);
-		void MouseButtonUp(MouseButtonEventArgs e);
-		void MouseMove(MouseMoveEventArgs e);
-		void MouseWheel(MouseWheelEventArgs e);
-		void KeyDown(KeyboardKeyEventArgs e);
-		void KeyUp(KeyboardKeyEventArgs e);
-		void KeyPress(KeyPressEventArgs e);
+		void MouseButtonDown(MouseButtonEvent e);
+		void MouseButtonUp(MouseButtonEvent e);
+		void MouseMove(MouseMoveEvent e);
+		void MouseWheel(MouseWheelEvent e);
+		void KeyDown(KeyEvent e);
+		void KeyUp(KeyEvent e);
+		void KeyPress(KeyPressEvent e);
 	}
 
 	public static class ScreenExt

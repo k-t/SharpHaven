@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Drawing;
 using MonoHaven.Graphics;
-using MonoHaven.Resources;
+using MonoHaven.Input;
 using OpenTK;
-using OpenTK.Input;
 
 namespace MonoHaven.UI
 {
@@ -66,7 +65,7 @@ namespace MonoHaven.UI
 			}
 		}
 
-		protected override void OnMouseButtonDown(MouseButtonEventArgs e)
+		protected override void OnMouseButtonDown(MouseButtonEvent e)
 		{
 			var p = MapFromScreen(e.Position);
 			int x = 0;
@@ -81,7 +80,7 @@ namespace MonoHaven.UI
 			}
 		}
 
-		protected override bool OnMouseWheel(MouseWheelEventArgs e)
+		protected override bool OnMouseWheel(MouseWheelEvent e)
 		{
 			int speed = MathHelper.Clamp(CurrentSpeed + e.Delta, 0, MaxSpeed);
 			SpeedSelected.Raise(speed);

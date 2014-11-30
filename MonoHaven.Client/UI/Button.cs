@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Drawing;
 using MonoHaven.Graphics;
+using MonoHaven.Input;
 using OpenTK.Input;
 
 namespace MonoHaven.UI
@@ -83,7 +84,7 @@ namespace MonoHaven.UI
 			dc.Draw(textBlock, offset, offset + 2);
 		}
 
-		protected override void OnMouseButtonDown(MouseButtonEventArgs e)
+		protected override void OnMouseButtonDown(MouseButtonEvent e)
 		{
 			if (e.Button != MouseButton.Left)
 				return;
@@ -91,7 +92,7 @@ namespace MonoHaven.UI
 			isPressed = true;
 		}
 
-		protected override void OnMouseButtonUp(MouseButtonEventArgs e)
+		protected override void OnMouseButtonUp(MouseButtonEvent e)
 		{
 			if (e.Button != MouseButton.Left)
 				return;
