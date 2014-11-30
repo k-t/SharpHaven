@@ -30,8 +30,6 @@ namespace MonoHaven.UI
 			IsFocusable = true;
 		}
 
-		public event Action<string> Done;
-
 		public string Text
 		{
 			get { return text.ToString(); }
@@ -109,9 +107,6 @@ namespace MonoHaven.UI
 					break;
 				case Key.Right:
 					CaretIndex++;
-					break;
-				case Key.Enter:
-					Done.Raise(Text);
 					break;
 				default:
 					e.Handled = false;

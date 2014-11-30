@@ -28,6 +28,19 @@ namespace MonoHaven.UI
 			parent.AddChild(this);
 		}
 
+		#region Events
+
+		public event Action<KeyEvent> KeyDown;
+		public event Action<KeyEvent> KeyUp;
+		public event Action<KeyPressEvent> KeyPress;
+
+		public event Action<MouseButtonEvent> MouseButtonDown;
+		public event Action<MouseButtonEvent> MouseButtonUp;
+		public event Action<MouseMoveEvent> MouseMove;
+		public event Action<MouseWheelEvent> MouseWheel;
+
+		#endregion
+
 		#region Properties
 
 		protected IWidgetHost Host
@@ -263,30 +276,37 @@ namespace MonoHaven.UI
 
 		protected virtual void OnMouseButtonDown(MouseButtonEvent e)
 		{
+			MouseButtonDown.Raise(e);
 		}
 
 		protected virtual void OnMouseButtonUp(MouseButtonEvent e)
 		{
-		}
-		
-		protected virtual void OnKeyDown(KeyEvent e)
-		{
+			MouseButtonUp.Raise(e);
 		}
 
-		protected virtual void OnKeyUp(KeyEvent e)
-		{
-		}
-
-		protected virtual void OnKeyPress(KeyPressEvent e)
-		{
-		}
-		
 		protected virtual void OnMouseMove(MouseMoveEvent e)
 		{
+			MouseMove.Raise(e);
 		}
 
 		protected virtual void OnMouseWheel(MouseWheelEvent e)
 		{
+			MouseWheel.Raise(e);
+		}
+		
+		protected virtual void OnKeyDown(KeyEvent e)
+		{
+			KeyDown.Raise(e);
+		}
+
+		protected virtual void OnKeyUp(KeyEvent e)
+		{
+			KeyUp.Raise(e);
+		}
+
+		protected virtual void OnKeyPress(KeyPressEvent e)
+		{
+			KeyPress.Raise(e);
 		}
 		
 		protected virtual void OnDraw(DrawingContext dc)

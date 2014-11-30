@@ -1,4 +1,6 @@
 ﻿using System.Drawing;
+using MonoHaven.Input;
+using OpenTK.Input;
 
 namespace MonoHaven.UI.Remote
 {
@@ -21,7 +23,18 @@ namespace MonoHaven.UI.Remote
 			: base(id, parent, widget)
 		{
 			this.widget = widget;
-			this.widget.Done += text => SendMessage("activate", text);
+			this.widget.KeyDown += HandleKeyDown;
+		}
+
+		private void HandleKeyDown(KeyEvent e)
+		{
+			switch (e.Key)
+			{
+				case Key.Enter:
+					SendMessage("activate", widget.Text);
+					e.Handled = true;
+					break;
+			}
 		}
 
 		public override void ReceiveMessage(string message, object[] args)

@@ -29,7 +29,7 @@ namespace MonoHaven.Login
 			InitAuthClient();
 			InitWidgets();
 
-			RootWidget.UnhandledKeyDown += OnKeyDown;
+			RootWidget.KeyDown += OnKeyDown;
 		}
 
 		public event Action<GameSession> LoginCompleted;
