@@ -187,11 +187,15 @@ namespace MonoHaven.UI
 		public void HandleMouseButtonDown(MouseButtonEvent e)
 		{
 			OnMouseButtonDown(e);
+			if (!e.Handled && Parent != null)
+				Parent.OnMouseButtonDown(e);
 		}
 
 		public void HandleMouseButtonUp(MouseButtonEvent e)
 		{
 			OnMouseButtonUp(e);
+			if (!e.Handled && Parent != null)
+				Parent.OnMouseButtonUp(e);
 		}
 
 		public void HandleMouseMove(MouseMoveEvent e)
@@ -199,24 +203,32 @@ namespace MonoHaven.UI
 			OnMouseMove(e);
 		}
 
-		public bool HandleMouseWheel(MouseWheelEvent e)
+		public void HandleMouseWheel(MouseWheelEvent e)
 		{
-			return OnMouseWheel(e) || (Parent != null && Parent.HandleMouseWheel(e));
+			OnMouseWheel(e);
+			if (!e.Handled && Parent != null)
+				Parent.HandleMouseWheel(e);
 		}
 
-		public bool HandleKeyDown(KeyEvent e)
+		public void HandleKeyDown(KeyEvent e)
 		{
-			return OnKeyDown(e) || (Parent != null && Parent.HandleKeyDown(e));
+			OnKeyDown(e);
+			if (!e.Handled && Parent != null)
+				Parent.HandleKeyDown(e);
 		}
 
-		public bool HandleKeyUp(KeyEvent e)
+		public void HandleKeyUp(KeyEvent e)
 		{
-			return OnKeyUp(e) || (Parent != null && Parent.HandleKeyUp(e));
+			OnKeyUp(e);
+			if (!e.Handled && Parent != null)
+				Parent.HandleKeyUp(e);
 		}
 
-		public bool HandleKeyPress(KeyPressEvent e)
+		public void HandleKeyPress(KeyPressEvent e)
 		{
-			return OnKeyPress(e) || (Parent != null && Parent.HandleKeyPress(e));
+			OnKeyPress(e);
+			if (!e.Handled && Parent != null)
+				Parent.HandleKeyPress(e);
 		}
 
 		#endregion
@@ -251,28 +263,24 @@ namespace MonoHaven.UI
 		{
 		}
 		
-		protected virtual bool OnKeyDown(KeyEvent e)
+		protected virtual void OnKeyDown(KeyEvent e)
 		{
-			return false;
 		}
 
-		protected virtual bool OnKeyUp(KeyEvent e)
+		protected virtual void OnKeyUp(KeyEvent e)
 		{
-			return false;
 		}
 
-		protected virtual bool OnKeyPress(KeyPressEvent e)
+		protected virtual void OnKeyPress(KeyPressEvent e)
 		{
-			return false;
 		}
 		
 		protected virtual void OnMouseMove(MouseMoveEvent e)
 		{
 		}
 
-		protected virtual bool OnMouseWheel(MouseWheelEvent e)
+		protected virtual void OnMouseWheel(MouseWheelEvent e)
 		{
-			return false;
 		}
 		
 		protected virtual void OnDraw(DrawingContext dc)

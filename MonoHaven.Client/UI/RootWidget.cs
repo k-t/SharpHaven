@@ -12,16 +12,14 @@ namespace MonoHaven.UI
 		public event Action<KeyEvent> UnhandledKeyDown;
 		public event Action<KeyEvent> UnhandledKeyUp;
 
-		protected override bool OnKeyDown(KeyEvent e)
+		protected override void OnKeyDown(KeyEvent e)
 		{
 			UnhandledKeyDown.Raise(e);
-			return true;
 		}
 
-		protected override bool OnKeyUp(KeyEvent e)
+		protected override void OnKeyUp(KeyEvent e)
 		{
 			UnhandledKeyUp.Raise(e);
-			return true;
 		}
 	}
 }

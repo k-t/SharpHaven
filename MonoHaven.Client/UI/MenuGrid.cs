@@ -71,6 +71,7 @@ namespace MonoHaven.UI
 					Host.GrabMouse(this);
 				}
 			}
+			e.Handled = true;
 		}
 
 		protected override void OnMouseButtonUp(MouseButtonEvent e)
@@ -88,6 +89,7 @@ namespace MonoHaven.UI
 				pressed = null;
 				Host.ReleaseMouse();
 			}
+			e.Handled = true;
 		}
 
 		private void UpdateCells()

@@ -90,6 +90,7 @@ namespace MonoHaven.UI
 				return;
 			Host.GrabMouse(this);
 			isPressed = true;
+			e.Handled = true;
 		}
 
 		protected override void OnMouseButtonUp(MouseButtonEvent e)
@@ -104,6 +105,8 @@ namespace MonoHaven.UI
 			var p = MapFromScreen(e.Position);
 			if (Rectangle.FromLTRB(0, 0, Width, Height).Contains(p))
 				Clicked.Raise();
+
+			e.Handled = true;
 		}
 	}
 }

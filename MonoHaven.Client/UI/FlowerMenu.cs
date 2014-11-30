@@ -36,6 +36,7 @@ namespace MonoHaven.UI
 		{
 			Selected.Raise(-1);
 			Host.ReleaseMouse();
+			e.Handled = true;
 		}
 
 		private class Petal : Widget

@@ -85,6 +85,7 @@ namespace MonoHaven.UI
 				dragging = true;
 				Host.GrabMouse(this);
 			}
+			e.Handled = true;
 		}
 
 		protected override void OnMouseButtonUp(MouseButtonEvent e)
@@ -94,6 +95,7 @@ namespace MonoHaven.UI
 				dragging = false;
 				Host.ReleaseMouse();
 			}
+			e.Handled = true;
 		}
 
 		protected override void OnMouseMove(MouseMoveEvent e)

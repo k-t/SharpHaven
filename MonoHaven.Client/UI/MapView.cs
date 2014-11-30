@@ -88,8 +88,9 @@ namespace MonoHaven.UI
 			gstate.Scene.Draw(g, Width / 2 - cameraOffset.X, Height / 2 - cameraOffset.Y);
 		}
 
-		protected override bool OnKeyDown(KeyEvent e)
+		protected override void OnKeyDown(KeyEvent e)
 		{
+			e.Handled = true;
 			switch (e.Key)
 			{
 				case Key.Up:
@@ -105,9 +106,10 @@ namespace MonoHaven.UI
 					cameraOffset.X += 50;
 					break;
 				default:
-					return base.OnKeyDown(e);
+					e.Handled = false;
+					base.OnKeyDown(e);
+					break;
 			}
-			return true;
 		}
 
 		protected override void OnMouseButtonDown(MouseButtonEvent e)
@@ -125,6 +127,7 @@ namespace MonoHaven.UI
 				var args = new MapClickEventArgs(e.Button, mapPoint, e.Position, gob);
 				MapClicked.Raise(args);
 			}
+			e.Handled = true;
 		}
 
 		protected override void OnMouseButtonUp(MouseButtonEvent e)
@@ -134,6 +137,7 @@ namespace MonoHaven.UI
 				Host.ReleaseMouse();
 				dragging = false;
 			}
+			e.Handled = true;
 		}
 
 		protected override void OnMouseMove(MouseMoveEvent e)

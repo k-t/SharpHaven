@@ -59,10 +59,10 @@ namespace MonoHaven.UI
 			btnScrollDown.Visible = btnScrollUp.Visible = items.Count > listHeight;
 		}
 
-		protected override bool OnMouseWheel(MouseWheelEvent e)
+		protected override void OnMouseWheel(MouseWheelEvent e)
 		{
 			Scroll(-e.Delta);
-			return true;
+			e.Handled = true;
 		}
 
 		private void Scroll(int amount)

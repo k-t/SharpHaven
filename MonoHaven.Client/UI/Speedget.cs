@@ -78,13 +78,14 @@ namespace MonoHaven.UI
 					break;
 				}
 			}
+			e.Handled = true;
 		}
 
-		protected override bool OnMouseWheel(MouseWheelEvent e)
+		protected override void OnMouseWheel(MouseWheelEvent e)
 		{
 			int speed = MathHelper.Clamp(CurrentSpeed + e.Delta, 0, MaxSpeed);
 			SpeedSelected.Raise(speed);
-			return true;
+			e.Handled = true;
 		}
 	}
 }
