@@ -58,7 +58,7 @@ namespace MonoHaven.UI
 			if (item != null)
 			{
 				items[i] = new ItemWidget(this, item);
-				items[i].Move(slotPositions[i].X + 21, slotPositions[i].Y + 21);
+				items[i].Move(slotPositions[i].X, slotPositions[i].Y);
 			}
 		}
 
