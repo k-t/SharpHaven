@@ -49,9 +49,7 @@ namespace MonoHaven.UI
 				int x = player.Position.X.Div(Map.GridWidth * Map.TileWidth);
 				int y = player.Position.Y.Div(Map.GridHeight * Map.TileHeight);
 
-				for (int i = -5; i < 5; i++)
-					for (int j = -5; j < 5; j++)
-						gstate.Map.Request(x + i, y + j);
+				gstate.Map.Request(x, y);
 			}
 		}
 
