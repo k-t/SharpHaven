@@ -1,7 +1,8 @@
 ﻿using MonoHaven.Resources;
+using MonoHaven.Resources.Serialization.Binary;
 using NUnit.Framework;
 
-namespace MonoHaven.Tests.Resources.Layers
+namespace MonoHaven.Tests.Resources.Serialization.Binary
 {
 	[TestFixture]
 	public class FontDataTests

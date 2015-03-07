@@ -41,18 +41,18 @@
   <ItemGroup>
     <Compile Include="FragmentBufferTests.cs" />
     <Compile Include="MessageTests.cs" />
-    <Compile Include="Resources\Layers\ActionDataTests.cs" />
-    <Compile Include="Resources\Layers\AnimDataTests.cs" />
-    <Compile Include="Resources\Layers\FontDataTests.cs" />
-    <Compile Include="Resources\Layers\ImageDataTests.cs" />
-    <Compile Include="Resources\Layers\NegDataTests.cs" />
-    <Compile Include="Resources\Layers\NinepatchDataTests.cs" />
-    <Compile Include="Resources\Layers\TextDataTests.cs" />
-    <Compile Include="Resources\Layers\TileDataTests.cs" />
-    <Compile Include="Resources\Layers\TilesetDataTests.cs" />
-    <Compile Include="Resources\Layers\TooltipDataTests.cs" />
-    <Compile Include="Resources\ResourceSerializerTests.cs" />
-    <Compile Include="Resources\SerializerHelper.cs" />
+    <Compile Include="Resources\Serialization\Binary\ActionDataTests.cs" />
+    <Compile Include="Resources\Serialization\Binary\AnimDataTests.cs" />
+    <Compile Include="Resources\Serialization\Binary\FontDataTests.cs" />
+    <Compile Include="Resources\Serialization\Binary\ImageDataTests.cs" />
+    <Compile Include="Resources\Serialization\Binary\NegDataTests.cs" />
+    <Compile Include="Resources\Serialization\Binary\NinepatchDataTests.cs" />
+    <Compile Include="Resources\Serialization\Binary\TextDataTests.cs" />
+    <Compile Include="Resources\Serialization\Binary\TileDataTests.cs" />
+    <Compile Include="Resources\Serialization\Binary\TilesetDataTests.cs" />
+    <Compile Include="Resources\Serialization\Binary\TooltipDataTests.cs" />
+    <Compile Include="Resources\Serialization\Binary\BinaryResourceSerializerTests.cs" />
+    <Compile Include="Resources\Serialization\Binary\SerializerHelper.cs" />
     <Compile Include="TreeNodeTests.cs" />
     <Compile Include="Resources\FolderSourceTests.cs" />
   </ItemGroup>

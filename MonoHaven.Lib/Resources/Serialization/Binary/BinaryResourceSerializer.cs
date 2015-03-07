@@ -2,19 +2,19 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 
-namespace MonoHaven.Resources
+namespace MonoHaven.Resources.Serialization.Binary
 {
-	public class ResourceSerializer
+	public class BinaryResourceSerializer
 	{
 		private const string Signature = "Haven Resource 1";
 
-		private readonly Dictionary<string, IDataLayerSerializer> deserializers;
-		private readonly Dictionary<Type, IDataLayerSerializer> serializers;
+		private readonly Dictionary<string, IBinaryDataLayerSerializer> deserializers;
+		private readonly Dictionary<Type, IBinaryDataLayerSerializer> serializers;
 
-		public ResourceSerializer()
+		public BinaryResourceSerializer()
 		{
-			deserializers = new Dictionary<string, IDataLayerSerializer>();
-			serializers = new Dictionary<Type, IDataLayerSerializer>();
+			deserializers = new Dictionary<string, IBinaryDataLayerSerializer>();
+			serializers = new Dictionary<Type, IBinaryDataLayerSerializer>();
 			// register default serializers
 			Register(new ActionDataSerializer());
 			Register(new AnimDataSerializer());
@@ -28,7 +28,7 @@ namespace MonoHaven.Resources
 			Register(new NinepatchDataSerializer());
 		}
 
-		public void Register(IDataLayerSerializer serializer)
+		public void Register(IBinaryDataLayerSerializer serializer)
 		{
 			deserializers[serializer.LayerName] = serializer;
 			serializers[serializer.LayerType] = serializer;
@@ -93,15 +93,15 @@ namespace MonoHaven.Resources
 			return serializer.Deserialize(reader, size);
 		}
 
-		private IDataLayerSerializer GetSerializer(string layerName)
+		private IBinaryDataLayerSerializer GetSerializer(string layerName)
 		{
-			IDataLayerSerializer serializer;
+			IBinaryDataLayerSerializer serializer;
 			return deserializers.TryGetValue(layerName, out serializer) ? serializer : null;
 		}
 
-		private IDataLayerSerializer GetSerializer(Type layerType)
+		private IBinaryDataLayerSerializer GetSerializer(Type layerType)
 		{
-			IDataLayerSerializer serializer;
+			IBinaryDataLayerSerializer serializer;
 			return serializers.TryGetValue(layerType, out serializer) ? serializer : null;
 		}
 	}

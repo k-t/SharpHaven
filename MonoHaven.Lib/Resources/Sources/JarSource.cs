@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.IO;
 using ICSharpCode.SharpZipLib.Zip;
+using MonoHaven.Resources.Serialization.Binary;
 
 namespace MonoHaven.Resources
 {
@@ -25,7 +26,7 @@ namespace MonoHaven.Resources
 
 		public Resource Get(string resourceName)
 		{
-			var serializer = new ResourceSerializer();
+			var serializer = new BinaryResourceSerializer();
 			var entryName = GetEntryName(resourceName);
 			var entry = _zip.GetEntry(entryName);
 			if (entry == null)

@@ -3,12 +3,13 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using MonoHaven.Resources;
+using MonoHaven.Resources.Serialization.Binary;
 using NUnit.Framework;
 
-namespace MonoHaven.Tests.Resources
+namespace MonoHaven.Tests.Resources.Serialization.Binary
 {
 	[TestFixture]
-	public class ResourceSerializerTests
+	public class BinaryResourceSerializerTests
 	{
 		[Test]
 		public void SerializationWorks()
@@ -38,7 +39,7 @@ namespace MonoHaven.Tests.Resources
 			Resource output;
 			using (var ms = new MemoryStream())
 			{
-				var serializer = new ResourceSerializer();
+				var serializer = new BinaryResourceSerializer();
 				serializer.Serialize(ms, input);
 				ms.Position = 0;
 				output = serializer.Deserialize(ms);

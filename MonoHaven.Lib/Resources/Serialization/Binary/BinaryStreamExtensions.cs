@@ -3,7 +3,7 @@ using System.Drawing;
 using System.IO;
 using System.Text;
 
-namespace MonoHaven.Resources
+namespace MonoHaven.Resources.Serialization.Binary
 {
 	public static class BinaryStreamExtensions
 	{

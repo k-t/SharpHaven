@@ -53,6 +53,16 @@
   <ItemGroup>
     <Compile Include="Delayed.cs" />
     <Compile Include="FragmentBuffer.cs" />
+    <Compile Include="Resources\Serialization\Binary\NegDataSerializer.cs" />
+    <Compile Include="Resources\Serialization\Binary\NinepatchDataSerializer.cs" />
+    <Compile Include="Resources\Serialization\Binary\TextDataSerializer.cs" />
+    <Compile Include="Resources\Serialization\Binary\TileDataSerializer.cs" />
+    <Compile Include="Resources\Serialization\Binary\TilesetDataSerializer.cs" />
+    <Compile Include="Resources\Serialization\Binary\TooltipDataSerializer.cs" />
+    <Compile Include="Resources\Serialization\Binary\AnimDataSerializer.cs" />
+    <Compile Include="Resources\Serialization\Binary\FontDataSerializer.cs" />
+    <Compile Include="Resources\Serialization\Binary\ImageDataSerializer.cs" />
+    <Compile Include="Resources\Serialization\Binary\ActionDataSerializer.cs" />
     <Compile Include="Resources\Layers\FontData.cs" />
     <Compile Include="Resources\Layers\NinepatchData.cs" />
     <Compile Include="Resources\Layers\TooltipData.cs" />
@@ -61,7 +71,7 @@
     <Compile Include="Resources\Layers\AnimData.cs" />
     <Compile Include="Resources\Layers\NegData.cs" />
     <Compile Include="Resources\Layers\TextData.cs" />
-    <Compile Include="Resources\BinaryStreamExtensions.cs" />
+    <Compile Include="Resources\Serialization\Binary\BinaryStreamExtensions.cs" />
     <Compile Include="ValueTreeNode.cs" />
     <Compile Include="TreeNode.cs" />
     <Compile Include="EventHelper.cs" />
@@ -76,12 +86,12 @@
     <Compile Include="Network\MessageSender.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resources\IEnumerableResourceSource.cs" />
-    <Compile Include="Resources\IDataLayerSerializer.cs" />
+    <Compile Include="Resources\Serialization\Binary\IBinaryDataLayerSerializer.cs" />
     <Compile Include="Resources\IResourceSource.cs" />
     <Compile Include="Resources\Layers\TileData.cs" />
     <Compile Include="Resources\Layers\TilesetData.cs" />
     <Compile Include="Resources\Resource.cs" />
-    <Compile Include="Resources\ResourceSerializer.cs" />
+    <Compile Include="Resources\Serialization\Binary\BinaryResourceSerializer.cs" />
     <Compile Include="Resources\Sources\FolderSource.cs" />
     <Compile Include="Resources\Sources\JarSource.cs" />
     <Compile Include="Resources\Layers\ImageData.cs" />

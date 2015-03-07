@@ -1,12 +1,13 @@
 ﻿using System.IO;
 using MonoHaven.Resources;
+using MonoHaven.Resources.Serialization.Binary;
 using NUnit.Framework;
 
-namespace MonoHaven.Tests.Resources
+namespace MonoHaven.Tests.Resources.Serialization.Binary
 {
-	public static class SerializerHelper
+	public static class BinarySerializerHelper
 	{
-		public static object Reserialize(this IDataLayerSerializer serializer, object input)
+		public static object Reserialize(this IBinaryDataLayerSerializer serializer, object input)
 		{
 			object output;
 			using (var ms = new MemoryStream())

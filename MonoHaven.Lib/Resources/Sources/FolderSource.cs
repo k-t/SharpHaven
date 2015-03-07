@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using MonoHaven.Resources.Serialization.Binary;
 
 namespace MonoHaven.Resources
 {
@@ -37,7 +38,7 @@ namespace MonoHaven.Resources
 
 		public Resource Get(string resName)
 		{
-			var serializer = new ResourceSerializer();
+			var serializer = new BinaryResourceSerializer();
 			var fileName = ToFileName(resName);
 			using (var fileStream = new FileStream(fileName, FileMode.Open, FileAccess.Read))
 				return serializer.Deserialize(fileStream);

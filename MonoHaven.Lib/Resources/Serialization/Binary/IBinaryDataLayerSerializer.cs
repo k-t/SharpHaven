@@ -1,9 +1,9 @@
 using System;
 using System.IO;
 
-namespace MonoHaven.Resources
+namespace MonoHaven.Resources.Serialization.Binary
 {
-	public interface IDataLayerSerializer
+	public interface IBinaryDataLayerSerializer
 	{
 		string LayerName { get; }
 		Type LayerType { get; }
