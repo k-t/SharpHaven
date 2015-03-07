@@ -4,7 +4,7 @@ using System.IO;
 
 namespace MonoHaven.Resources.Serialization.Binary
 {
-	public class BinaryResourceSerializer
+	public class BinaryResourceSerializer : IResourceSerializer
 	{
 		private const string Signature = "Haven Resource 1";
 
@@ -34,9 +34,9 @@ namespace MonoHaven.Resources.Serialization.Binary
 			serializers[serializer.LayerType] = serializer;
 		}
 
-		public Resource Deserialize(Stream stream)
+		public Resource Deserialize(Stream inputStream)
 		{
-			var reader = new BinaryReader(stream);
+			var reader = new BinaryReader(inputStream);
 
 			var sig = new String(reader.ReadChars(Signature.Length));
 			if (sig != Signature)
@@ -54,9 +54,9 @@ namespace MonoHaven.Resources.Serialization.Binary
 			return new Resource(version, layers);
 		}
 
-		public void Serialize(Stream stream, Resource res)
+		public void Serialize(Resource res, Stream outputStream)
 		{
-			var writer = new BinaryWriter(stream);
+			var writer = new BinaryWriter(outputStream);
 			writer.Write(Signature.ToCharArray());
 			writer.Write((ushort)res.Version);
 			foreach (var layer in res.GetLayers())
@@ -72,7 +72,7 @@ namespace MonoHaven.Resources.Serialization.Binary
 				{
 					serializer.Serialize(bw, layer);
 					writer.Write((int)ms.Length);
-					ms.WriteTo(stream);
+					ms.WriteTo(outputStream);
 				}
 			}
 		}

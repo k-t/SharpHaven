@@ -40,7 +40,7 @@ namespace MonoHaven.Tests.Resources.Serialization.Binary
 			using (var ms = new MemoryStream())
 			{
 				var serializer = new BinaryResourceSerializer();
-				serializer.Serialize(ms, input);
+				serializer.Serialize(input, ms);
 				ms.Position = 0;
 				output = serializer.Deserialize(ms);
 			}
