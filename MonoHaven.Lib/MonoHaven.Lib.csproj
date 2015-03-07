@@ -49,10 +49,14 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
+    <Reference Include="YamlDotNet">
+      <HintPath>..\packages\YamlDotNet.3.5.1\lib\net35\YamlDotNet.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Delayed.cs" />
     <Compile Include="FragmentBuffer.cs" />
+    <Compile Include="Resources\IResourceSerializer.cs" />
     <Compile Include="Resources\Serialization\Binary\NegDataSerializer.cs" />
     <Compile Include="Resources\Serialization\Binary\NinepatchDataSerializer.cs" />
     <Compile Include="Resources\Serialization\Binary\TextDataSerializer.cs" />
@@ -72,6 +76,11 @@
     <Compile Include="Resources\Layers\NegData.cs" />
     <Compile Include="Resources\Layers\TextData.cs" />
     <Compile Include="Resources\Serialization\Binary\BinaryStreamExtensions.cs" />
+    <Compile Include="Resources\Serialization\Yaml\NinepatchDataConverter.cs" />
+    <Compile Include="Resources\Serialization\Yaml\FontDataConverter.cs" />
+    <Compile Include="Resources\Serialization\Yaml\ImageDataConverter.cs" />
+    <Compile Include="Resources\Serialization\Yaml\YamlResource.cs" />
+    <Compile Include="Resources\Serialization\Yaml\YamlResourceSerializer.cs" />
     <Compile Include="ValueTreeNode.cs" />
     <Compile Include="TreeNode.cs" />
     <Compile Include="EventHelper.cs" />
@@ -119,6 +128,7 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
