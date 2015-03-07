@@ -25,6 +25,13 @@ namespace MonoHaven.Resources.Serialization.Yaml
 
 		public Resource Deserialize(Stream inputStream)
 		{
+			var fs = inputStream as FileStream;
+			if (fs == null)
+				throw new NotSupportedException();
+
+			// TODO: implement some kind of path resolver instead
+			Environment.CurrentDirectory = Path.GetDirectoryName(fs.Name);
+
 			using (var reader = new StreamReader(inputStream))
 			{
 				var res = deserializer.Deserialize<YamlResource>(reader);

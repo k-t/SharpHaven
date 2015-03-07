@@ -1,61 +1,73 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using MonoHaven.Resources.Serialization.Binary;
+using MonoHaven.Resources.Serialization.Yaml;
 
 namespace MonoHaven.Resources
 {
 	public class FolderSource : IEnumerableResourceSource
 	{
-		private const string FileExt = "res";
-
-		private readonly string _path;
+		private readonly string basePath;
+		private readonly Dictionary<string, IResourceSerializer> serializers;
 
 		public FolderSource(string path)
 		{
 			if (!Directory.Exists(path))
 				throw new ArgumentException("Specified path doesn't refer to an existing folder");
 
-			_path = Path.GetFullPath(path);
-
+			basePath = Path.GetFullPath(path);
 			// add directory separator to handle relative paths correctly
 			if (!path.EndsWith(Path.DirectorySeparatorChar.ToString()))
-				_path += Path.DirectorySeparatorChar;
+				basePath += Path.DirectorySeparatorChar;
+
+			serializers = new Dictionary<string, IResourceSerializer>();
+			serializers[".res"] = new BinaryResourceSerializer();
+			serializers[".yaml"] = new YamlResourceSerializer();
 		}
 
 		public string Description
 		{
-			get { return string.Format("[Folder]{0}", _path); }
+			get { return string.Format("[Folder]{0}", basePath); }
 		}
 
 		public IEnumerable<string> EnumerateAll()
 		{
-			return Directory
-				.EnumerateFiles(_path, "*." + FileExt, SearchOption.AllDirectories)
-				.Select(fileName => ToResourceName(fileName));
+			foreach (var fileName in Directory.GetFiles(basePath, "*.*", SearchOption.AllDirectories))
+			{
+				var ext = Path.GetExtension(fileName);
+				if (!string.IsNullOrEmpty(ext) && serializers.ContainsKey(ext))
+					yield return ToResourceName(fileName);
+			}
 		}
 
 		public Resource Get(string resName)
 		{
-			var serializer = new BinaryResourceSerializer();
-			var fileName = ToFileName(resName);
-			using (var fileStream = new FileStream(fileName, FileMode.Open, FileAccess.Read))
-				return serializer.Deserialize(fileStream);
+			foreach (var extension in serializers.Keys)
+			{
+				var fileName = ToFileName(resName, extension);
+				if (File.Exists(fileName))
+				{
+					var serializer = serializers[extension];
+					using (var fileStream = new FileStream(fileName, FileMode.Open, FileAccess.Read))
+						return serializer.Deserialize(fileStream);
+				}
+			}
+			return null;
 		}
 
 		public void Dispose()
 		{
 		}
 
-		private string ToFileName(string resName)
+		private string ToFileName(string resName, string extension)
 		{
-			return Path.Combine(_path, resName) + "." + FileExt;
+			return Path.Combine(basePath, resName) + extension;
 		}
 
 		private string ToResourceName(string fileName)
 		{
-			var baseUri = new Uri(_path);
+			var baseUri = new Uri(basePath);
 			var objectName = Path.GetFileNameWithoutExtension(fileName);
 			var objectPath = Path.GetDirectoryName(fileName);
 			var objectUri = new Uri(Path.Combine(objectPath, objectName));
