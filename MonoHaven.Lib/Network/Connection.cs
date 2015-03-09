@@ -107,7 +107,7 @@ namespace MonoHaven.Network
 
 		public void SendMessage(Message message)
 		{
-			sender.QueueMessage(message);
+			sender.SendMessage(message);
 		}
 
 		public void RequestMapData(int x, int y)
@@ -207,7 +207,7 @@ namespace MonoHaven.Network
 						break;
 					MessageReceived.Raise(msg);
 				}
-				SendAck((ushort)(rseq - 1));
+				sender.SendAck((ushort)(rseq - 1));
 			}
 			else if (seq > rseq)
 				waiting[seq] = msg;
@@ -238,12 +238,6 @@ namespace MonoHaven.Network
 			}
 			else
 				MapDataReceived.Raise(msg);
-		}
-
-		private void SendAck(ushort seq)
-		{
-			// FIXME: it sending ack for each received message
-			socket.SendMessage(new Message(MSG_ACK).Uint16(seq));
 		}
 
 		private void OnTaskFinished(object sender, EventArgs args)
