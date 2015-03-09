@@ -180,6 +180,7 @@ namespace MonoHaven.Network
 					}
 					break;
 				case MSG_ACK:
+					sender.ReceiveAck(msg.ReadUint16());
 					break;
 				case MSG_MAPDATA:
 					HandleMapData(msg);

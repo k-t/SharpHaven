@@ -16,8 +16,8 @@ namespace MonoHaven.Network
 
 		private readonly object thisLock = new object();
 		private readonly GameSocket socket;
-		private readonly List<Message> pending;
-		private ushort seq;
+		private readonly List<PendingMessage> pending;
+		private ushort pendingSeq;
 		private ushort ackSeq;
 		private DateTime? ackTime;
 
@@ -25,7 +25,7 @@ namespace MonoHaven.Network
 			: base("Message Sender")
 		{
 			this.socket = socket;
-			this.pending = new List<Message>();
+			this.pending = new List<PendingMessage>();
 		}
 
 		protected override void OnStart()
@@ -52,18 +52,37 @@ namespace MonoHaven.Network
 
 				lock (pending)
 				{
-					foreach (var message in pending)
+					foreach (var msg in pending)
 					{
-						var rmsg = new Message(MSG_REL)
-							.Uint16(seq)
-							.Byte(message.Type)
-							.Bytes(message.GetAllBytes());
-						socket.SendMessage(rmsg);
-						seq++;
-						beat = false;
+						int txtime;
+
+						if (msg.RetryCount == 0)
+							txtime = 0;
+						else if (msg.RetryCount == 1)
+							txtime = 80;
+						else if (msg.RetryCount < 4)
+							txtime = 200;
+						else if (msg.RetryCount < 10)
+							txtime = 620;
+						else
+							txtime = 2000;
+
+						if ((now - msg.Last).TotalMilliseconds > txtime)
+						{
+							msg.Last = now;
+							msg.RetryCount++;
+							var rmsg = new Message(MSG_REL)
+								.Uint16(msg.Seq)
+								.Byte(msg.Message.Type)
+								.Bytes(msg.Message.GetAllBytes());
+							socket.SendMessage(rmsg);
+							beat = false;
+
+							Console.WriteLine("Sent {0}", msg.Seq);
+						}
 					}
-					pending.Clear();
 				}
+				
 				lock (thisLock)
 				{
 					if (ackTime.HasValue && ((now - ackTime.Value).TotalMilliseconds >= AckThreshold))
@@ -88,7 +107,10 @@ namespace MonoHaven.Network
 		public void SendMessage(Message message)
 		{
 			lock (pending)
-				pending.Add(message);
+			{
+				pending.Add(new PendingMessage(pendingSeq, message));
+				pendingSeq++;
+			}
 			lock (thisLock)
 				Monitor.PulseAll(thisLock);
 		}
@@ -102,6 +124,28 @@ namespace MonoHaven.Network
 					ackTime = DateTime.Now;
 				Monitor.PulseAll(thisLock);
 			}
+		}
+
+		public void ReceiveAck(ushort seq)
+		{
+			lock (pending)
+				pending.RemoveAll(x => x.Seq <= seq);
+		}
+
+		private class PendingMessage
+		{
+			public PendingMessage(ushort seq, Message message)
+			{
+				Message = message;
+				Seq = seq;
+				Last = DateTime.Now;
+				RetryCount = 0;
+			}
+
+			public Message Message { get; private set; }
+			public ushort Seq { get; private set; }
+			public DateTime Last { get; set; }
+			public int RetryCount { get; set; }
 		}
 	}
 }
