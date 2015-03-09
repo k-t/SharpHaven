@@ -8,6 +8,16 @@ namespace MonoHaven.Network
 {
 	public class Message : IDisposable
 	{
+		public const int MSG_SESS = 0;
+		public const int MSG_REL = 1;
+		public const int MSG_ACK = 2;
+		public const int MSG_BEAT = 3;
+		public const int MSG_MAPREQ = 4;
+		public const int MSG_MAPDATA = 5;
+		public const int MSG_OBJDATA = 6;
+		public const int MSG_OBJACK = 7;
+		public const int MSG_CLOSE = 8;
+
 		public const byte T_END = 0;
 		public const byte T_INT = 1;
 		public const byte T_STR = 2;

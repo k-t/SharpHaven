@@ -9,11 +9,6 @@ namespace MonoHaven.Network
 		private const int KeepAliveTimeout = 5000;
 		private const int AckThreshold = 30;
 
-		// TODO: remove duplication
-		private const int MSG_REL = 1;
-		private const int MSG_ACK = 2;
-		private const int MSG_BEAT = 3;
-
 		private readonly object thisLock = new object();
 		private readonly GameSocket socket;
 		private readonly List<PendingMessage> pending;
@@ -71,14 +66,12 @@ namespace MonoHaven.Network
 						{
 							msg.Last = now;
 							msg.RetryCount++;
-							var rmsg = new Message(MSG_REL)
+							var rmsg = new Message(Message.MSG_REL)
 								.Uint16(msg.Seq)
 								.Byte(msg.Message.Type)
 								.Bytes(msg.Message.GetAllBytes());
 							socket.SendMessage(rmsg);
 							beat = false;
-
-							Console.WriteLine("Sent {0}", msg.Seq);
 						}
 					}
 				}
@@ -87,7 +80,7 @@ namespace MonoHaven.Network
 				{
 					if (ackTime.HasValue && ((now - ackTime.Value).TotalMilliseconds >= AckThreshold))
 					{
-						socket.SendMessage(new Message(MSG_ACK).Uint16(ackSeq));
+						socket.SendMessage(new Message(Message.MSG_ACK).Uint16(ackSeq));
 						ackTime = null;
 						beat = false;
 					}
@@ -97,7 +90,7 @@ namespace MonoHaven.Network
 				{
 					if ((now - last).TotalMilliseconds > KeepAliveTimeout)
 					{
-						socket.SendMessage(new Message(MSG_BEAT));
+						socket.SendMessage(new Message(Message.MSG_BEAT));
 						last = now;
 					}
 				}

@@ -10,17 +10,7 @@ namespace MonoHaven.Network
 		#region Constants
 
 		private const int ReceiveTimeout = 1000; // milliseconds
-
 		private const int ProtocolVersion = 2;
-
-		private const int MSG_SESS = 0;
-		private const int MSG_REL = 1;
-		private const int MSG_ACK = 2;
-		private const int MSG_MAPREQ = 4;
-		private const int MSG_MAPDATA = 5;
-		private const int MSG_OBJDATA = 6;
-		private const int MSG_OBJACK = 7;
-		private const int MSG_CLOSE = 8;
 
 		#endregion
 
@@ -97,7 +87,7 @@ namespace MonoHaven.Network
 				sender.Finished -= OnTaskFinished;
 				sender.Stop();
 
-				socket.SendMessage(new Message(MSG_CLOSE));
+				socket.SendMessage(new Message(Message.MSG_CLOSE));
 				socket.Close();
 
 				state = ConnectionState.Closed;
@@ -112,21 +102,21 @@ namespace MonoHaven.Network
 
 		public void RequestMapData(int x, int y)
 		{
-			var msg = new Message(MSG_MAPREQ).Coord(x, y);
+			var msg = new Message(Message.MSG_MAPREQ).Coord(x, y);
 			socket.SendMessage(msg);
 		}
 
 		public void SendObjectAck(int id, int frame)
 		{
 			// FIXME: make it smarter
-			socket.SendMessage(new Message(MSG_OBJACK).Int32(id).Int32(frame));
+			socket.SendMessage(new Message(Message.MSG_OBJACK).Int32(id).Int32(frame));
 		}
 
 		private void Connect()
 		{
 			socket.Connect();
 
-			var hello = new Message(MSG_SESS)
+			var hello = new Message(Message.MSG_SESS)
 				.Uint16(1)
 				.String("Haven")
 				.Uint16(ProtocolVersion)
@@ -142,12 +132,12 @@ namespace MonoHaven.Network
 				if (!socket.Receive(out reply))
 					throw new ConnectionException(ConnectionError.ConnectionError);
 
-				if (reply.MessageType == MSG_SESS)
+				if (reply.MessageType == Message.MSG_SESS)
 				{
 					error = (ConnectionError)reply.ReadByte();
 					break;
 				}
-				if (reply.MessageType == MSG_CLOSE)
+				if (reply.MessageType == Message.MSG_CLOSE)
 				{
 					error = ConnectionError.ConnectionError;
 					break;
@@ -161,7 +151,7 @@ namespace MonoHaven.Network
 		{
 			switch (msg.MessageType)
 			{
-				case MSG_REL:
+				case Message.MSG_REL:
 					var seq = msg.ReadUint16();
 					while (!msg.IsEom)
 					{
@@ -179,17 +169,17 @@ namespace MonoHaven.Network
 						seq++;
 					}
 					break;
-				case MSG_ACK:
+				case Message.MSG_ACK:
 					sender.ReceiveAck(msg.ReadUint16());
 					break;
-				case MSG_MAPDATA:
+				case Message.MSG_MAPDATA:
 					HandleMapData(msg);
 					break;
-				case MSG_OBJDATA:
+				case Message.MSG_OBJDATA:
 					while (msg.Position < msg.Length)
 						ObjDataReceived.Raise(msg);
 					break;
-				case MSG_CLOSE:
+				case Message.MSG_CLOSE:
 					log.Info("Server dropped connection");
 					Close();
 					return;
