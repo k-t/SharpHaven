@@ -214,6 +214,7 @@ namespace MonoHaven.Network
 					{
 						var changeset = GobChangeset.ReadFrom(msg);
 						listeners.ForEach(x => x.UpdateGob(changeset));
+						SendObjectAck(changeset.GobId, changeset.Frame);
 					}
 					break;
 				case Message.MSG_CLOSE:
