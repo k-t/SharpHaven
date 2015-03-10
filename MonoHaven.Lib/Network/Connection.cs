@@ -45,7 +45,7 @@ namespace MonoHaven.Network
 		public event Action Closed;
 		public event Action<MessageReader> MessageReceived;
 		public event Action<MessageReader> MapDataReceived;
-		public event Action<MessageReader> ObjDataReceived;
+		public event Action<MessageReader> GobDataReceived;
 
 		public void Dispose()
 		{
@@ -177,7 +177,7 @@ namespace MonoHaven.Network
 					break;
 				case Message.MSG_OBJDATA:
 					while (msg.Position < msg.Length)
-						ObjDataReceived.Raise(msg);
+						GobDataReceived.Raise(msg);
 					break;
 				case Message.MSG_CLOSE:
 					log.Info("Server dropped connection");

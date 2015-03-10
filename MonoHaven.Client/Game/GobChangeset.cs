@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using MonoHaven.Game.Messages;
 using MonoHaven.Graphics.Sprites;
 
 namespace MonoHaven.Game
 {
-	public class GobChangeset
+	public class GobChangeset : IGobDeltaVisitor
 	{
 		private readonly GameSession session;
 		private readonly int id;
@@ -42,27 +43,22 @@ namespace MonoHaven.Game
 			}
 		}
 
-		public void Remove()
+		private void AddChange(Func<Gob, bool> change)
 		{
-			AddChange(o => false);
+			changeset.Add(change);
 		}
 
-		public void MoveStart(Point orig, Point dest, int time)
-		{
-		}
+		#region IGobDeltaVisitor implementation
 
-		public void MoveAdjust(int time)
-		{
-		}
-
-		public void MoveStop()
+		public void Visit(GobDelta.AdjustMovement delta)
 		{
 		}
 
-		public void SetAvatar(IEnumerable<int> layers)
+		public void Visit(GobDelta.Avatar delta)
 		{
-			AddChange(o => {
-				var sprites = layers.Select(x => session.GetSprite(x));
+			AddChange(o =>
+			{
+				var sprites = delta.ResourceIds.Select(x => session.GetSprite(x));
 				var sprite = new LayeredSprite(sprites);
 				var delayed = new Delayed<ISprite>(sprite);
 				o.SetAvatar(delayed);
@@ -70,27 +66,41 @@ namespace MonoHaven.Game
 			});
 		}
 
-		public void SetBuddy(string name, byte group, byte type)
+		public void Visit(GobDelta.Buddy delta)
 		{
 		}
-		
-		public void SetDrawOffset(Point offset)
+
+		public void Visit(GobDelta.Clear delta)
 		{
-			AddChange(o => {
-				o.DrawOffset = offset;
+			AddChange(o => false);
+		}
+
+		public void Visit(GobDelta.DrawOffset delta)
+		{
+			AddChange(o =>
+			{
+				o.DrawOffset = delta.Value;
 				return true;
 			});
 		}
 
-		public void SetHealth(byte hp)
+		public void Visit(GobDelta.Follow delta)
 		{
 		}
 
-		public void SetLayers(int baseResId, IEnumerable<int> layers)
+		public void Visit(GobDelta.Health delta)
+		{
+		}
+
+		public void Visit(GobDelta.Homing delta)
+		{
+		}
+
+		public void Visit(GobDelta.Layers delta)
 		{
 			AddChange(o =>
 			{
-				var sprites = layers.Select(x => session.GetSprite(x));
+				var sprites = delta.ResourceIds.Select(x => session.GetSprite(x));
 				var sprite = new LayeredSprite(sprites);
 				var delayed = new Delayed<ISprite>(sprite);
 				o.SetSprite(delayed);
@@ -98,58 +108,41 @@ namespace MonoHaven.Game
 			});
 		}
 
-		public void SetLight(Point offset, int size, byte intensity)
+		public void Visit(GobDelta.Light delta)
 		{
 		}
 
-		public void SetOverlay(int overlayId, bool prs, int resId, byte[] spriteData)
+		public void Visit(GobDelta.Overlay delta)
 		{
 		}
 
-		public void SetPosition(Point position)
+		public void Visit(GobDelta.Position delta)
 		{
-			AddChange(o => {
-				o.Position = position;
+			AddChange(o =>
+			{
+				o.Position = delta.Value;
 				return true;
 			});
 		}
 
-		public void SetResource(int resId, byte[] data)
+		public void Visit(GobDelta.Resource delta)
 		{
-			AddChange(o => {
-				var res = session.GetSprite(resId, data);
+			AddChange(o =>
+			{
+				var res = session.GetSprite(delta.Id, delta.SpriteData);
 				o.SetSprite(res);
 				return true;
 			});
 		}
 
-		public void SetSpeech(Point offset, string text)
+		public void Visit(GobDelta.Speech delta)
 		{
 		}
 
-		public void SetFollow(int oid, int szo, Point offset)
+		public void Visit(GobDelta.StartMovement delta)
 		{
 		}
 
-		public void ResetFollow()
-		{
-		}
-
-		public void SetHoming(int oid, Point target, int velocity)
-		{
-		}
-
-		public void SetHoming(Point target, int velocity)
-		{
-		}
-
-		public void ResetHoming()
-		{
-		}
-
-		private void AddChange(Func<Gob, bool> change)
-		{
-			changeset.Add(change);
-		}
+		#endregion
 	}
 }

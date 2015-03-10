@@ -28,24 +28,6 @@ namespace MonoHaven.Game
 		private const int RMSG_TILES = 11;
 		private const int RMSG_BUFF = 12;
 
-		private const int OD_REM = 0;
-		private const int OD_MOVE = 1;
-		private const int OD_RES = 2;
-		private const int OD_LINBEG = 3;
-		private const int OD_LINSTEP = 4;
-		private const int OD_SPEECH = 5;
-		private const int OD_LAYERS = 6;
-		private const int OD_DRAWOFF = 7;
-		private const int OD_LUMIN = 8;
-		private const int OD_AVATAR = 9;
-		private const int OD_FOLLOW = 10;
-		private const int OD_HOMING = 11;
-		private const int OD_OVERLAY = 12;
-		/* private const int OD_AUTH = 13; -- Removed */
-		private const int OD_HEALTH = 14;
-		private const int OD_BUDDY = 15;
-		private const int OD_END = 255;
-
 		private const int GMSG_TIME = 0;
 		private const int GMSG_ASTRO = 1;
 		private const int GMSG_LIGHT = 2;
@@ -64,7 +46,7 @@ namespace MonoHaven.Game
 			connection = new Connection(connSettings);
 			connection.MessageReceived += OnMessageReceived;
 			connection.MapDataReceived += OnMapDataReceived;
-			connection.ObjDataReceived += OnObjDataReceived;
+			connection.GobDataReceived += OnGobDataReceived;
 			connection.Closed += OnConnectionClosed;
 
 			state = new GameState(this);
@@ -254,173 +236,17 @@ namespace MonoHaven.Game
 			App.QueueOnMainThread(() => MapDataAvailable.Raise(mapData));
 		}
 
-		private void OnObjDataReceived(MessageReader msg)
+		private void OnGobDataReceived(MessageReader msg)
 		{
-			var replace = (msg.ReadByte() & 1) != 0;
-			var id = msg.ReadInt32();
-			var frame = msg.ReadInt32();
-			var delta = new GobChangeset(this, id, frame, replace);
-			var end = false;
-			while (!end)
+			var gobData = GobData.ReadFrom(msg);
+			App.QueueOnMainThread(() =>
 			{
-				int type = msg.ReadByte();
-				switch (type)
-				{
-					case OD_REM:
-						delta.Remove();
-						break;
-					case OD_MOVE:
-					{
-						var pos = msg.ReadCoord();
-						delta.SetPosition(pos);
-						break;
-					}
-					case OD_RES:
-					{
-						int resId = msg.ReadUint16();
-						byte[] spriteData;
-						if ((resId & 0x8000) != 0)
-						{
-							resId &= ~0x8000;
-							var len = msg.ReadByte();
-							spriteData = msg.ReadBytes(len);
-						}
-						else
-						{
-							spriteData = new byte[0];
-						}
-						delta.SetResource(resId, spriteData);
-						break;
-					}
-					case OD_LINBEG:
-					{
-						var orig = msg.ReadCoord();
-						var dest = msg.ReadCoord();
-						var time = msg.ReadInt32();
-						delta.MoveStart(orig, dest, time);
-						break;
-					}
-					case OD_LINSTEP:
-					{
-						var time = msg.ReadInt32();
-						delta.MoveAdjust(time);
-						break;
-					}
-					case OD_SPEECH:
-					{
-						var offset = msg.ReadCoord();
-						var text = msg.ReadString();
-						delta.SetSpeech(offset, text);
-						break;
-					}
-					case OD_LAYERS:
-					case OD_AVATAR:
-					{
-						int baseResId = -1;
-						if (type == OD_LAYERS)
-							baseResId = msg.ReadUint16();
-						var layers = new List<int>();
-						while (true)
-						{
-							int layer = msg.ReadUint16();
-							if (layer == 65535)
-								break;
-							layers.Add(layer);
-						}
-						if (type == OD_LAYERS)
-							delta.SetLayers(baseResId, layers);
-						else
-							delta.SetAvatar(layers);
-						break;
-					}
-					case OD_DRAWOFF:
-					{
-						var offset = msg.ReadCoord();
-						delta.SetDrawOffset(offset);
-						break;
-					}
-					case OD_LUMIN:
-					{
-						var offset = msg.ReadCoord();
-						var size = msg.ReadUint16();
-						var intensity = msg.ReadByte();
-						delta.SetLight(offset, size, intensity);
-						break;
-					}
-					case OD_FOLLOW:
-					{
-						int oid = msg.ReadInt32();
-						if (oid != -1)
-						{
-							var szo = msg.ReadByte();
-							var offset = msg.ReadCoord();
-							delta.SetFollow(oid, szo, offset);
-						}
-						else
-							delta.ResetFollow();
-						break;
-					}
-					case OD_HOMING:
-					{
-						int oid = msg.ReadInt32();
-						if (oid == -1)
-							delta.ResetHoming();
-						else
-						{
-							var target = msg.ReadCoord();
-							var velocity = msg.ReadUint16();
-							if (oid == -2)
-								delta.SetHoming(target, velocity);
-							else
-								delta.SetHoming(oid, target, velocity);
-						}
-						break;
-					}
-					case OD_OVERLAY:
-					{
-						int overlayId = msg.ReadInt32();
-						var prs = (overlayId & 1) != 0;
-						overlayId >>= 1;
-						int resId = msg.ReadUint16();
-						byte[] spriteData = null;
-						if (resId != 65535)
-						{
-							if ((resId & 0x8000) != 0)
-							{
-								resId &= ~0x8000;
-								var len = msg.ReadByte();
-								spriteData = msg.ReadBytes(len);
-							}
-							else
-								spriteData = new byte[0];
-						}
-						delta.SetOverlay(overlayId, prs, resId, spriteData);
-						break;
-					}
-					case OD_HEALTH:
-					{
-						var hp = msg.ReadByte();
-						delta.SetHealth(hp);
-						break;
-					}
-					case OD_BUDDY:
-					{
-						var name = msg.ReadString();
-						var group = msg.ReadByte();
-						var btype = msg.ReadByte();
-						delta.SetBuddy(name, group, btype);
-						break;
-					}
-					case OD_END:
-						end = true;
-						break;
-					default:
-						// TODO: MessageException
-						throw new Exception("Unknown objdelta type: " + type);
-				}
-			}
-			App.QueueOnMainThread(delta.Apply);
-			connection.SendObjectAck(id, frame);
+				var changeset = new GobChangeset(this, gobData.GobId, gobData.Frame, gobData.ReplaceFlag);
+				foreach (var delta in gobData.Deltas)
+					delta.Visit(changeset);
+				changeset.Apply();
+			});
+			connection.SendObjectAck(gobData.GobId, gobData.Frame);
 		}
 
 		private static double Defix(int i)
