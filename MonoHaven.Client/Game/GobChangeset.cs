@@ -6,7 +6,7 @@ using MonoHaven.Graphics.Sprites;
 
 namespace MonoHaven.Game
 {
-	public class GobDelta
+	public class GobChangeset
 	{
 		private readonly GameSession session;
 		private readonly int id;
@@ -14,7 +14,7 @@ namespace MonoHaven.Game
 		private readonly bool replace;
 		private readonly List<Func<Gob, bool>> changeset;
 
-		public GobDelta(GameSession session, int id, int frame, bool replace)
+		public GobChangeset(GameSession session, int id, int frame, bool replace)
 		{
 			this.session = session;
 			this.id = id;

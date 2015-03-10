@@ -259,7 +259,7 @@ namespace MonoHaven.Game
 			var replace = (msg.ReadByte() & 1) != 0;
 			var id = msg.ReadInt32();
 			var frame = msg.ReadInt32();
-			var delta = new GobDelta(this, id, frame, replace);
+			var delta = new GobChangeset(this, id, frame, replace);
 			var end = false;
 			while (!end)
 			{
