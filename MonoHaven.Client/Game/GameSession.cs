@@ -1,39 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Threading;
-using MonoHaven.Game.Messages;
 using MonoHaven.Graphics;
 using MonoHaven.Graphics.Sprites;
 using MonoHaven.Network;
+using MonoHaven.Network.Messages;
 using MonoHaven.Resources;
 using NLog;
 
 namespace MonoHaven.Game
 {
-	public class GameSession
+	public class GameSession : IConnectionListener
 	{
-		#region Constants
-
-		private const int RMSG_NEWWDG = 0;
-		private const int RMSG_WDGMSG = 1;
-		private const int RMSG_DSTWDG = 2;
-		private const int RMSG_MAPIV = 3;
-		private const int RMSG_GLOBLOB = 4;
-		private const int RMSG_PAGINAE = 5;
-		private const int RMSG_RESID = 6;
-		private const int RMSG_PARTY = 7;
-		private const int RMSG_SFX = 8;
-		private const int RMSG_CATTR = 9;
-		private const int RMSG_MUSIC = 10;
-		private const int RMSG_TILES = 11;
-		private const int RMSG_BUFF = 12;
-
-		private const int GMSG_TIME = 0;
-		private const int GMSG_ASTRO = 1;
-		private const int GMSG_LIGHT = 2;
-
-		#endregion
-
 		private static readonly Logger log = LogManager.GetCurrentClassLogger();
 
 		private readonly Connection connection;
@@ -44,10 +23,7 @@ namespace MonoHaven.Game
 		public GameSession(ConnectionSettings connSettings)
 		{
 			connection = new Connection(connSettings);
-			connection.MessageReceived += OnMessageReceived;
-			connection.MapDataReceived += OnMapDataReceived;
-			connection.GobDataReceived += OnGobDataReceived;
-			connection.Closed += OnConnectionClosed;
+			connection.AddListener(this);
 
 			state = new GameState(this);
 			screen = new GameScreen(this);
@@ -75,181 +51,10 @@ namespace MonoHaven.Game
 		{
 			lock (this)
 			{
-				connection.Closed -= OnConnectionClosed;
+				connection.RemoveListener(this);
 				connection.Close();
 			}
 			Finished.Raise();
-		}
-
-		private void OnConnectionClosed()
-		{
-			Finish();
-		}
-
-		private void OnMessageReceived(MessageReader messageReader)
-		{
-			switch (messageReader.MessageType)
-			{
-				case RMSG_NEWWDG:
-					App.QueueOnMainThread(() => {
-						var msg = WidgetCreateMessage.ReadFrom(messageReader);
-						WidgetCreated.Raise(msg);
-					});
-					break;
-				case RMSG_WDGMSG:
-					App.QueueOnMainThread(() => {
-						var msg = Messages.WidgetMessage.ReadFrom(messageReader);
-						WidgetMessage.Raise(msg);
-					});
-					break;
-				case RMSG_DSTWDG:
-					App.QueueOnMainThread(() => {
-						var msg = WidgetDestroyMessage.ReadFrom(messageReader);
-						WidgetDestroyed.Raise(msg);
-					});
-					break;
-				case RMSG_MAPIV:
-					log.Info("RMSG_MAPIV");
-					break;
-				case RMSG_GLOBLOB:
-					App.QueueOnMainThread(() => {
-						while (!messageReader.IsEom)
-						{
-							switch (messageReader.ReadByte())
-							{
-								case GMSG_TIME:
-									var time = messageReader.ReadInt32();
-									break;
-								case GMSG_ASTRO:
-									int dt = messageReader.ReadInt32();
-									int mp = messageReader.ReadInt32();
-									int yt = messageReader.ReadInt32();
-									double dtf = Defix(dt);
-									double mpf = Defix(mp);
-									double ytf = Defix(yt);
-									state.Time = new GameTime(dtf, mpf);
-									break;
-								case GMSG_LIGHT:
-									var amblight = messageReader.ReadColor();
-									break;
-							}
-						}
-					});
-					break;
-				case RMSG_PAGINAE:
-					App.QueueOnMainThread(() =>
-					{
-						while (!messageReader.IsEom)
-						{
-							var act = (char)messageReader.ReadByte();
-							if (act == '+')
-							{
-								var name = messageReader.ReadString();
-								var ver = messageReader.ReadUint16();
-								state.Actions.Add(name);
-							}
-							else if (act == '-')
-							{
-								var name = messageReader.ReadString();
-								var ver = messageReader.ReadUint16();
-								state.Actions.Remove(name);
-							}
-						}
-					});
-					break;
-				case RMSG_RESID:
-					App.QueueOnMainThread(() =>
-					{
-						var id = messageReader.ReadUint16();
-						var name = messageReader.ReadString();
-						var ver = messageReader.ReadUint16();
-						BindResource(id, name, ver);
-					});
-					break;
-				case RMSG_PARTY:
-					log.Info("RMSG_PARTY");
-					break;
-				case RMSG_SFX:
-					log.Info("RMSG_SFX");
-					break;
-				case RMSG_CATTR:
-					App.QueueOnMainThread(() =>
-					{
-						while (!messageReader.IsEom)
-						{
-							var name = messageReader.ReadString();
-							var baseValue = messageReader.ReadInt32();
-							var compValue = messageReader.ReadInt32();
-							State.SetAttr(name, baseValue, compValue);
-						}
-					});
-					break;
-				case RMSG_MUSIC:
-					log.Info("RMSG_MUSIC");
-					break;
-				case RMSG_TILES:
-					App.QueueOnMainThread(() =>
-					{
-						while (!messageReader.IsEom)
-						{
-							var msg = TilesetBinding.ReadFrom(messageReader);
-							TilesetBound.Raise(msg);
-						}
-					});
-					break;
-				case RMSG_BUFF:
-					App.QueueOnMainThread(() =>
-					{
-						var message = messageReader.ReadString();
-						switch (message)
-						{
-							case "clear":
-								State.ClearBuffs();
-								break;
-							case "rm":
-								int id = messageReader.ReadInt32();
-								State.RemoveBuff(id);
-								break;
-							case "set":
-								State.AddBuff(new Buff {
-									Id = messageReader.ReadInt32(),
-									Image = GetImage(messageReader.ReadUint16()),
-									Tooltip = messageReader.ReadString(),
-									AMeter = messageReader.ReadInt32(),
-									NMeter = messageReader.ReadInt32(),
-									CMeter = messageReader.ReadInt32(),
-									CTicks = messageReader.ReadInt32(),
-									Major = messageReader.ReadByte() != 0
-								});
-								break;
-						}
-					});
-					break;
-				default:
-					throw new Exception("Unknown rmsg type: " + messageReader.MessageType);
-			}
-		}
-
-		private void OnMapDataReceived(MessageReader msg)
-		{
-			var mapData = MapData.ReadFrom(msg);
-			App.QueueOnMainThread(() => MapDataAvailable.Raise(mapData));
-		}
-
-		private void OnGobDataReceived(MessageReader msg)
-		{
-			var gobData = GobChangeset.ReadFrom(msg);
-			App.QueueOnMainThread(() =>
-			{
-				var updater = new GobUpdater(this);
-				updater.ApplyChanges(gobData);
-			});
-			connection.SendObjectAck(gobData.GobId, gobData.Frame);
-		}
-
-		private static double Defix(int i)
-		{
-			return i / 1e9;
 		}
 
 		#region Resource Management
@@ -285,27 +90,17 @@ namespace MonoHaven.Game
 			});
 		}
 
-		private void BindResource(int id, string name, int version)
-		{
-			resources[id] = name;
-		}
-
 		#endregion
 
 		#region Widget Management
 
-		public event Action<WidgetCreateMessage> WidgetCreated;
-		public event Action<WidgetDestroyMessage> WidgetDestroyed;
-		public event Action<WidgetMessage> WidgetMessage;
+		public event Action<CreateWidgetArgs> WidgetCreated;
+		public event Action<ushort> WidgetDestroyed;
+		public event Action<UpdateWidgetArgs> WidgetMessage;
 
 		public void SendMessage(ushort widgetId, string name, object[] args)
 		{
-			var message = new Message(RMSG_WDGMSG)
-				.Uint16(widgetId)
-				.String(name);
-			if (args != null)
-				message.List(args);
-			connection.SendMessage(message);
+			connection.SendMessage(widgetId, name, args);
 		}
 
 		#endregion
@@ -319,6 +114,129 @@ namespace MonoHaven.Game
 		{
 			// TODO: Queue on sender thread?
 			ThreadPool.QueueUserWorkItem(o => connection.RequestMapData(x, y));
+		}
+
+		#endregion
+
+		#region IConnectionListener implementation
+
+		void IConnectionListener.CreateWidget(CreateWidgetArgs args)
+		{
+			App.QueueOnMainThread(() => WidgetCreated.Raise(args));
+		}
+
+		void IConnectionListener.UpdateWidget(UpdateWidgetArgs args)
+		{
+			App.QueueOnMainThread(() => WidgetMessage.Raise(args));
+		}
+
+		void IConnectionListener.DestroyWidget(ushort widgetId)
+		{
+			App.QueueOnMainThread(() => WidgetDestroyed.Raise(widgetId));
+		}
+
+		void IConnectionListener.BindResource(ResourceBinding binding)
+		{
+			App.QueueOnMainThread(() => resources[binding.Id] = binding.Name);
+		}
+
+		void IConnectionListener.BindTilesets(IEnumerable<TilesetBinding> bindings)
+		{
+			App.QueueOnMainThread(() =>
+			{
+				foreach (var binding in bindings)
+					TilesetBound.Raise(binding);
+			});
+		}
+
+		void IConnectionListener.InvalidateMap()
+		{
+			log.Info("InvalidateMap");
+		}
+
+		void IConnectionListener.UpdateCharAttributes(IEnumerable<CharAttribute> attributes)
+		{
+			App.QueueOnMainThread(() =>
+			{
+				foreach (var attribute in attributes)
+					State.SetAttr(attribute);
+			});
+		}
+
+		void IConnectionListener.UpdateTime(int time)
+		{
+			log.Info("UpdateTime");
+		}
+
+		void IConnectionListener.UpdateAmbientLight(Color color)
+		{
+			log.Info("UpdateAmbientLight");
+		}
+
+		void IConnectionListener.UpdateAstronomy(Astonomy astonomy)
+		{
+			App.QueueOnMainThread(() => state.Astronomy = astonomy);
+		}
+
+		void IConnectionListener.UpdateActions(IEnumerable<ActionDelta> actions)
+		{
+			App.QueueOnMainThread(() =>
+			{
+				foreach (var action in actions)
+					if (action.RemoveFlag)
+						State.Actions.Remove(action.Name);
+					else
+						State.Actions.Add(action.Name);
+			});
+		}
+
+		void IConnectionListener.UpdateParty()
+		{
+			log.Info("UpdateParty");
+		}
+
+		void IConnectionListener.UpdateGob(GobChangeset changeset)
+		{
+			App.QueueOnMainThread(() =>
+			{
+				var updater = new GobUpdater(this);
+				updater.ApplyChanges(changeset);
+			});
+		}
+
+		void IConnectionListener.UpdateMap(MapData mapData)
+		{
+			App.QueueOnMainThread(() => MapDataAvailable.Raise(mapData));
+		}
+
+		void IConnectionListener.PlaySound()
+		{
+			log.Info("PlaySound");
+		}
+
+		void IConnectionListener.PlayMusic()
+		{
+			log.Info("PlayMusic");
+		}
+
+		void IConnectionListener.Exit()
+		{
+			App.QueueOnMainThread(Finish);
+		}
+
+		void IConnectionListener.AddBuff(BuffData buffData)
+		{
+			App.QueueOnMainThread(() => State.AddBuff(buffData));
+		}
+
+		void IConnectionListener.RemoveBuff(int buffId)
+		{
+			App.QueueOnMainThread(() => State.RemoveBuff(buffId));
+		}
+
+		void IConnectionListener.ClearBuffs()
+		{
+			App.QueueOnMainThread(() => State.ClearBuffs());
 		}
 
 		#endregion

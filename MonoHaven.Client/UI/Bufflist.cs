@@ -55,10 +55,13 @@ namespace MonoHaven.UI
 					dc.Draw(frame, x, y);
 				}
 
+				// TODO: draw buffs
+				/*
 				if (buff.Image.Value != null)
 				{
 					dc.Draw(buff.Image.Value, x + imgoff.X, y + imgoff.Y);
 				}
+				*/
 
 				if (++i >= 5)
 					break;

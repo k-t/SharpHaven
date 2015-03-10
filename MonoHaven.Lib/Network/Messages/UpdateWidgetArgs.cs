@@ -1,10 +1,8 @@
-﻿using MonoHaven.Network;
-
-namespace MonoHaven.Game.Messages
+﻿namespace MonoHaven.Network.Messages
 {
-	public class WidgetMessage
+	public class UpdateWidgetArgs
 	{
-		public WidgetMessage(ushort id, string name, object[] args)
+		public UpdateWidgetArgs(ushort id, string name, object[] args)
 		{
 			Id = id;
 			Name = name;
@@ -29,9 +27,9 @@ namespace MonoHaven.Game.Messages
 			private set;
 		}
 
-		public static WidgetMessage ReadFrom(MessageReader reader)
+		public static UpdateWidgetArgs ReadFrom(MessageReader reader)
 		{
-			return new WidgetMessage(
+			return new UpdateWidgetArgs(
 				id: reader.ReadUint16(),
 				name: reader.ReadString(),
 				args: reader.ReadList()

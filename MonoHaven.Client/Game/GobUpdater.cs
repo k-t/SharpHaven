@@ -1,6 +1,6 @@
 ﻿using System.Linq;
-using MonoHaven.Game.Messages;
 using MonoHaven.Graphics.Sprites;
+using MonoHaven.Network.Messages;
 using MonoHaven.Utils;
 
 namespace MonoHaven.Game

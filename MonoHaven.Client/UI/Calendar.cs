@@ -41,18 +41,18 @@ namespace MonoHaven.UI
 
 		protected override void OnDraw(DrawingContext dc)
 		{
-			var time = gstate.Time;
-			var mp = (int)(time.MoonPhase * moons.Length);
+			var astro = gstate.Astronomy;
+			var mp = (int)(astro.MoonPhase * moons.Length);
 			var moon = moons[mp];
 
-			var mc = MathUtils.PolarToCartesian((time.DayTime + 0.25) * 2 * Math.PI, hbr);
-			var sc = MathUtils.PolarToCartesian((time.DayTime + 0.75) * 2 * Math.PI, hbr);
+			var mc = MathUtils.PolarToCartesian((astro.DayTime + 0.25) * 2 * Math.PI, hbr);
+			var sc = MathUtils.PolarToCartesian((astro.DayTime + 0.75) * 2 * Math.PI, hbr);
 			
 			dc.Draw(background, 0, 0);
-			dc.Draw(time.IsNight ? nightSky : daySky, 0, 0);
+			dc.Draw(astro.IsNight ? nightSky : daySky, 0, 0);
 			dc.Draw(moon, mc.X + (Width - moon.Width) / 2, mc.Y + (Height - moon.Height) / 2);
 			dc.Draw(sun, sc.X + (Width - sun.Width) / 2, sc.Y + (Height - sun.Height) / 2);
-			dc.Draw(time.IsNight ? nightScape : dayScape, 0, 0);
+			dc.Draw(astro.IsNight ? nightScape : dayScape, 0, 0);
 		}
 	}
 }

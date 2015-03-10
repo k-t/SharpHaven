@@ -1,6 +1,6 @@
 ﻿using System;
 using C5;
-using MonoHaven.Game.Messages;
+using MonoHaven.Network.Messages;
 using MonoHaven.UI;
 using MonoHaven.UI.Remote;
 using NLog;
@@ -75,7 +75,7 @@ namespace MonoHaven.Game
 				chatWindow.Move(5, Window.Height - chatWindow.Height - 5);
 		}
 
-		private void OnWidgetCreated(WidgetCreateMessage message)
+		private void OnWidgetCreated(CreateWidgetArgs message)
 		{
 			var parent = GetWidget(message.ParentId);
 			if (parent == null)
@@ -90,7 +90,7 @@ namespace MonoHaven.Game
 			Bind(message.Id, swidget);
 		}
 
-		private void OnWidgetMessage(WidgetMessage message)
+		private void OnWidgetMessage(UpdateWidgetArgs message)
 		{
 			var widget = GetWidget(message.Id);
 			if (widget != null)
@@ -100,10 +100,10 @@ namespace MonoHaven.Game
 					message.Id, message.Name);
 		}
 
-		private void OnWidgetDestroyed(WidgetDestroyMessage message)
+		private void OnWidgetDestroyed(ushort id)
 		{
 			ServerWidget widget;
-			if (serverWidgets.Remove(message.Id, out widget))
+			if (serverWidgets.Remove(id, out widget))
 			{
 				widget.Remove();
 				widget.Dispose();
@@ -116,7 +116,7 @@ namespace MonoHaven.Game
 				HandleDestroyedWidget(widget.Widget);
 				return;
 			}
-			log.Warn("Try to remove non-existent widget {0}", message.Id);
+			log.Warn("Try to remove non-existent widget {0}", id);
 		}
 
 		private void OnSessionFinished()

@@ -2,9 +2,8 @@
 using System.Drawing;
 using System.IO;
 using ICSharpCode.SharpZipLib.Zip.Compression;
-using MonoHaven.Network;
 
-namespace MonoHaven.Game.Messages
+namespace MonoHaven.Network.Messages
 {
 	public class MapData
 	{
@@ -38,7 +37,7 @@ namespace MonoHaven.Game.Messages
 			var msg = new MapData(
 				grid: reader.ReadCoord(),
 				minimapName: reader.ReadString(),
-				tiles: new byte[Map.GridWidth * Map.GridHeight]
+				tiles: new byte[100 * 100]
 			);
 
 			var pfl = new byte[256];

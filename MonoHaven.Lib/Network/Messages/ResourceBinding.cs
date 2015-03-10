@@ -1,17 +1,15 @@
-﻿using MonoHaven.Network;
-
-namespace MonoHaven.Game.Messages
+﻿namespace MonoHaven.Network.Messages
 {
-	public class TilesetBinding
+	public class ResourceBinding
 	{
-		public TilesetBinding(byte id, string name, ushort version)
+		public ResourceBinding(ushort id, string name, ushort version)
 		{
 			Id = id;
 			Name = name;
 			Version = version;
 		}
 
-		public byte Id
+		public ushort Id
 		{
 			get;
 			private set;
@@ -29,10 +27,10 @@ namespace MonoHaven.Game.Messages
 			private set;
 		}
 
-		public static TilesetBinding ReadFrom(MessageReader reader)
+		public static ResourceBinding ReadFrom(MessageReader reader)
 		{
-			return new TilesetBinding(
-				id: reader.ReadByte(),
+			return new ResourceBinding(
+				id: reader.ReadUint16(),
 				name: reader.ReadString(),
 				version: reader.ReadUint16()
 			);

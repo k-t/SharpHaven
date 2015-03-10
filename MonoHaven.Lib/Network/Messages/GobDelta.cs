@@ -1,6 +1,6 @@
 ﻿using System.Drawing;
 
-namespace MonoHaven.Game.Messages
+namespace MonoHaven.Network.Messages
 {
 	public abstract class GobDelta
 	{

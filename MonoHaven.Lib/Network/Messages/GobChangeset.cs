@@ -1,8 +1,7 @@
 ﻿using System;
-using MonoHaven.Network;
 using System.Collections.Generic;
 
-namespace MonoHaven.Game.Messages
+namespace MonoHaven.Network.Messages
 {
 	public class GobChangeset
 	{

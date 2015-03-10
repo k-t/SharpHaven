@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using MonoHaven.Network.Messages;
 
 namespace MonoHaven.Game
 {
@@ -6,7 +7,7 @@ namespace MonoHaven.Game
 	{
 		private readonly GameActionTree actions;
 		private readonly Dictionary<string, CharAttribute> attributes;
-		private readonly Dictionary<int, Buff> buffs;
+		private readonly Dictionary<int, BuffData> buffs;
 		private readonly Map map;
 		private readonly GobCache objects;
 		private readonly GameScene scene;
@@ -15,7 +16,7 @@ namespace MonoHaven.Game
 		{
 			actions = new GameActionTree();
 			attributes = new Dictionary<string, CharAttribute>();
-			buffs = new Dictionary<int, Buff>();
+			buffs = new Dictionary<int, BuffData>();
 			map = new Map(session);
 			objects = new GobCache();
 			scene = new GameScene(this);
@@ -41,7 +42,7 @@ namespace MonoHaven.Game
 			get { return scene; }
 		}
 
-		public GameTime Time
+		public Astonomy Astronomy
 		{
 			get;
 			set;
@@ -53,19 +54,16 @@ namespace MonoHaven.Game
 			return attributes.TryGetValue(name, out attr) ? attr : null;
 		}
 
-		public void SetAttr(string name, int baseValue, int compValue)
+		public void SetAttr(CharAttribute attr)
 		{
-			CharAttribute attr;
-			if (attributes.TryGetValue(name, out attr))
-				attr.Update(baseValue, compValue);
+			CharAttribute old;
+			if (attributes.TryGetValue(attr.Name, out old))
+				old.Update(attr.BaseValue, attr.ComputedValue);
 			else
-			{
-				attr = new CharAttribute(name, baseValue, compValue);
-				attributes[name] = attr;
-			}
+				attributes[attr.Name] = attr;
 		}
 
-		public void AddBuff(Buff buff)
+		public void AddBuff(BuffData buff)
 		{
 			buffs[buff.Id] = buff;
 		}
@@ -75,7 +73,7 @@ namespace MonoHaven.Game
 			buffs.Clear();
 		}
 
-		public IEnumerable<Buff> GetBuffs()
+		public IEnumerable<BuffData> GetBuffs()
 		{
 			return buffs.Values;
 		}

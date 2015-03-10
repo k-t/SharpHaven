@@ -1,11 +1,10 @@
 ﻿using System.Drawing;
-using MonoHaven.Network;
 
-namespace MonoHaven.Game.Messages
+namespace MonoHaven.Network.Messages
 {
-	public class WidgetCreateMessage
+	public class CreateWidgetArgs
 	{
-		public WidgetCreateMessage(
+		public CreateWidgetArgs(
 			ushort id,
 			ushort parentId,
 			string type,
@@ -49,9 +48,9 @@ namespace MonoHaven.Game.Messages
 			private set;
 		}
 
-		public static WidgetCreateMessage ReadFrom(MessageReader reader)
+		public static CreateWidgetArgs ReadFrom(MessageReader reader)
 		{
-			return new WidgetCreateMessage(
+			return new CreateWidgetArgs(
 				id: reader.ReadUint16(),
 				type: reader.ReadString(),
 				location: reader.ReadCoord(),

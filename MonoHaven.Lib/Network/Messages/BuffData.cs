@@ -1,11 +1,9 @@
-﻿using MonoHaven.Graphics;
-
-namespace MonoHaven.Game
+﻿namespace MonoHaven.Network.Messages
 {
-	public class Buff
+	public class BuffData
 	{
 		public int Id { get; set; }
-		public Delayed<Drawable> Image { get; set; }
+		public int ImageResId { get; set; }
 		public string Tooltip { get; set; }
 		public int AMeter { get; set; }
 		public int NMeter { get; set; }

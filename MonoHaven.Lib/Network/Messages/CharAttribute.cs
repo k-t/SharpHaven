@@ -1,4 +1,4 @@
-﻿namespace MonoHaven.Game
+﻿namespace MonoHaven.Network.Messages
 {
 	public class CharAttribute
 	{
