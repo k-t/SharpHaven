@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace MonoHaven.Game.Messages
 {
-	public class GobData
+	public class GobChangeset
 	{
 		private const int OD_REM = 0;
 		private const int OD_MOVE = 1;
@@ -49,9 +49,9 @@ namespace MonoHaven.Game.Messages
 			get { return deltas; }
 		}
 
-		public static GobData ReadFrom(MessageReader msg)
+		public static GobChangeset ReadFrom(MessageReader msg)
 		{
-			var data = new GobData();
+			var data = new GobChangeset();
 
 			data.ReplaceFlag = (msg.ReadByte() & 1) != 0;
 			data.GobId = msg.ReadInt32();

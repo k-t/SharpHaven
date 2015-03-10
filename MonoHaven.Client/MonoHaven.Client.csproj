@@ -78,8 +78,8 @@
     <Compile Include="Game\GameTime.cs" />
     <Compile Include="Game\Gob.cs" />
     <Compile Include="Game\GobCache.cs" />
-    <Compile Include="Game\GobChangeset.cs" />
-    <Compile Include="Game\Messages\GobData.cs" />
+    <Compile Include="Game\GobUpdater.cs" />
+    <Compile Include="Game\Messages\GobChangeset.cs" />
     <Compile Include="Game\Messages\GobDelta.cs" />
     <Compile Include="Game\Messages\IGobDeltaVisitor.cs" />
     <Compile Include="Game\Messages\MapData.cs" />

@@ -238,13 +238,11 @@ namespace MonoHaven.Game
 
 		private void OnGobDataReceived(MessageReader msg)
 		{
-			var gobData = GobData.ReadFrom(msg);
+			var gobData = GobChangeset.ReadFrom(msg);
 			App.QueueOnMainThread(() =>
 			{
-				var changeset = new GobChangeset(this, gobData.GobId, gobData.Frame, gobData.ReplaceFlag);
-				foreach (var delta in gobData.Deltas)
-					delta.Visit(changeset);
-				changeset.Apply();
+				var updater = new GobUpdater(this);
+				updater.ApplyChanges(gobData);
 			});
 			connection.SendObjectAck(gobData.GobId, gobData.Frame);
 		}
