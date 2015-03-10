@@ -16,7 +16,9 @@ namespace MonoHaven.Utils
 
 		public void Match(object x)
 		{
-			cases[x.GetType()](x);
+			Action<object> action;
+			if (cases.TryGetValue(x.GetType(), out action))
+				action(x);
 		}
 	}
 }
