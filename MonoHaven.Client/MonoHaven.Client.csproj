@@ -194,7 +194,7 @@
     <Compile Include="UI\Window.cs" />
     <Compile Include="Utils\BitArrayExtensions.cs" />
     <Compile Include="Utils\MathUtils.cs" />
-    <Compile Include="Utils\PatternMatcher.cs" />
+    <Compile Include="Utils\TypeMatcher.cs" />
     <Compile Include="Utils\PointComparer.cs" />
     <Compile Include="Game\GameScreen.cs" />
     <Compile Include="Resources\ResourceManager.cs" />
