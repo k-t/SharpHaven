@@ -363,7 +363,7 @@ namespace MonoHaven.Game
 					case OD_HOMING:
 					{
 						int oid = msg.ReadInt32();
-						if (oid != -1)
+						if (oid == -1)
 							delta.ResetHoming();
 						else
 						{
