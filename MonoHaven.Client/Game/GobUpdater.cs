@@ -1,18 +1,36 @@
 ﻿using System.Linq;
 using MonoHaven.Game.Messages;
 using MonoHaven.Graphics.Sprites;
+using MonoHaven.Utils;
 
 namespace MonoHaven.Game
 {
-	public class GobUpdater : IGobDeltaVisitor
+	public class GobUpdater
 	{
 		private readonly GameSession session;
 		private GobChangeset changeset;
 		private Gob gob;
+		private TypeMatcher deltaMatcher;
 
 		public GobUpdater(GameSession session)
 		{
 			this.session = session;
+			this.deltaMatcher = new TypeMatcher()
+				.Case<GobDelta.AdjustMovement>(Apply)
+				.Case<GobDelta.Avatar>(Apply)
+				.Case<GobDelta.Buddy>(Apply)
+				.Case<GobDelta.Clear>(Apply)
+				.Case<GobDelta.DrawOffset>(Apply)
+				.Case<GobDelta.Follow>(Apply)
+				.Case<GobDelta.Health>(Apply)
+				.Case<GobDelta.Homing>(Apply)
+				.Case<GobDelta.Layers>(Apply)
+				.Case<GobDelta.Light>(Apply)
+				.Case<GobDelta.Overlay>(Apply)
+				.Case<GobDelta.Position>(Apply)
+				.Case<GobDelta.Resource>(Apply)
+				.Case<GobDelta.Speech>(Apply)
+				.Case<GobDelta.StartMovement>(Apply);
 		}
 
 		public void ApplyChanges(GobChangeset changeset)
@@ -28,17 +46,15 @@ namespace MonoHaven.Game
 			{
 				if (this.gob == null)
 					this.gob = objectCache.Get(changeset.GobId, changeset.Frame);
-				delta.Visit(this);
+				deltaMatcher.Match(delta);
 			}
 		}
 
-		#region IGobDeltaVisitor implementation
-
-		void IGobDeltaVisitor.Visit(GobDelta.AdjustMovement delta)
+		private void Apply(GobDelta.AdjustMovement delta)
 		{
 		}
 
-		void IGobDeltaVisitor.Visit(GobDelta.Avatar delta)
+		private void Apply(GobDelta.Avatar delta)
 		{
 			var sprites = delta.ResourceIds.Select(x => session.GetSprite(x));
 			var sprite = new LayeredSprite(sprites);
@@ -46,34 +62,34 @@ namespace MonoHaven.Game
 			gob.SetAvatar(delayed);
 		}
 
-		void IGobDeltaVisitor.Visit(GobDelta.Buddy delta)
+		private void Apply(GobDelta.Buddy delta)
 		{
 		}
 
-		void IGobDeltaVisitor.Visit(GobDelta.Clear delta)
+		private void Apply(GobDelta.Clear delta)
 		{
 			session.State.Objects.Remove(changeset.GobId, changeset.Frame);
 			gob = null;
 		}
 
-		void IGobDeltaVisitor.Visit(GobDelta.DrawOffset delta)
+		private void Apply(GobDelta.DrawOffset delta)
 		{
 			gob.DrawOffset = delta.Value;
 		}
 
-		void IGobDeltaVisitor.Visit(GobDelta.Follow delta)
+		private void Apply(GobDelta.Follow delta)
 		{
 		}
 
-		void IGobDeltaVisitor.Visit(GobDelta.Health delta)
+		private void Apply(GobDelta.Health delta)
 		{
 		}
 
-		void IGobDeltaVisitor.Visit(GobDelta.Homing delta)
+		private void Apply(GobDelta.Homing delta)
 		{
 		}
 
-		void IGobDeltaVisitor.Visit(GobDelta.Layers delta)
+		private void Apply(GobDelta.Layers delta)
 		{
 			var sprites = delta.ResourceIds.Select(x => session.GetSprite(x));
 			var sprite = new LayeredSprite(sprites);
@@ -81,33 +97,31 @@ namespace MonoHaven.Game
 			gob.SetSprite(delayed);
 		}
 
-		void IGobDeltaVisitor.Visit(GobDelta.Light delta)
+		private void Apply(GobDelta.Light delta)
 		{
 		}
 
-		void IGobDeltaVisitor.Visit(GobDelta.Overlay delta)
+		private void Apply(GobDelta.Overlay delta)
 		{
 		}
 
-		void IGobDeltaVisitor.Visit(GobDelta.Position delta)
+		private void Apply(GobDelta.Position delta)
 		{
 			gob.Position = delta.Value;
 		}
 
-		void IGobDeltaVisitor.Visit(GobDelta.Resource delta)
+		private void Apply(GobDelta.Resource delta)
 		{
 			var res = session.GetSprite(delta.Id, delta.SpriteData);
 			gob.SetSprite(res);
 		}
 
-		void IGobDeltaVisitor.Visit(GobDelta.Speech delta)
+		private void Apply(GobDelta.Speech delta)
 		{
 		}
 
-		void IGobDeltaVisitor.Visit(GobDelta.StartMovement delta)
+		private void Apply(GobDelta.StartMovement delta)
 		{
 		}
-
-		#endregion
 	}
 }
