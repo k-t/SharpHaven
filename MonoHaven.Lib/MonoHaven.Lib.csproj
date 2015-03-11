@@ -54,8 +54,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Delayed.cs" />
-    <Compile Include="FragmentBuffer.cs" />
+    <Compile Include="Utils\Delayed.cs" />
+    <Compile Include="Utils\FragmentBuffer.cs" />
     <Compile Include="Network\IConnectionListener.cs" />
     <Compile Include="Messages\ActionMessage.cs" />
     <Compile Include="Messages\AstronomyMessage.cs" />
@@ -93,15 +93,15 @@
     <Compile Include="Resources\Serialization\Yaml\ImageDataConverter.cs" />
     <Compile Include="Resources\Serialization\Yaml\YamlResource.cs" />
     <Compile Include="Resources\Serialization\Yaml\YamlResourceSerializer.cs" />
-    <Compile Include="ValueTreeNode.cs" />
-    <Compile Include="TreeNode.cs" />
+    <Compile Include="Utils\ValueTreeNode.cs" />
+    <Compile Include="Utils\TreeNode.cs" />
     <Compile Include="EventHelper.cs" />
     <Compile Include="Network\ConnectionError.cs" />
     <Compile Include="Network\ConnectionSettings.cs" />
     <Compile Include="Network\ConnectionException.cs" />
     <Compile Include="Network\ConnectionState.cs" />
     <Compile Include="Network\Connection.cs" />
-    <Compile Include="BackgroundTask.cs" />
+    <Compile Include="Utils\BackgroundTask.cs" />
     <Compile Include="Network\GameSocket.cs" />
     <Compile Include="Network\MessageReceiver.cs" />
     <Compile Include="Network\MessageSender.cs" />
@@ -122,7 +122,7 @@
     <Compile Include="Network\AuthException.cs" />
     <Compile Include="Network\Message.cs" />
     <Compile Include="Network\MessageReader.cs" />
-    <Compile Include="WeightList.cs" />
+    <Compile Include="Utils\WeightList.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ProjectExtensions>

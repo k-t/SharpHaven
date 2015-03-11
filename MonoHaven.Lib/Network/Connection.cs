@@ -5,6 +5,7 @@ using System.Net.Sockets;
 using C5;
 using ICSharpCode.SharpZipLib.Zip.Compression;
 using MonoHaven.Messages;
+using MonoHaven.Utils;
 using NLog;
 
 namespace MonoHaven.Network

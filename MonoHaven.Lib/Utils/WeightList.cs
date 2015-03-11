@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using C5;
 
-namespace MonoHaven
+namespace MonoHaven.Utils
 {
 	public class WeightList<T>
 	{

@@ -3,6 +3,7 @@ using System.Drawing;
 using MonoHaven.Game;
 using MonoHaven.Graphics;
 using MonoHaven.Graphics.Sprites;
+using MonoHaven.Utils;
 
 namespace MonoHaven.UI
 {

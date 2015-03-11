@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace MonoHaven
+namespace MonoHaven.Utils
 {
 	public class FragmentBuffer
 	{

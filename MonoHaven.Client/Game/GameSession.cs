@@ -7,6 +7,7 @@ using MonoHaven.Graphics.Sprites;
 using MonoHaven.Messages;
 using MonoHaven.Network;
 using MonoHaven.Resources;
+using MonoHaven.Utils;
 using NLog;
 
 namespace MonoHaven.Game

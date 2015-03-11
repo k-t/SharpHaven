@@ -1,5 +1,6 @@
 ﻿using System.Drawing;
 using MonoHaven.Graphics.Sprites;
+using MonoHaven.Utils;
 
 namespace MonoHaven.Game
 {

@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using MonoHaven.Utils;
+using NUnit.Framework;
 
 namespace MonoHaven.Tests
 {

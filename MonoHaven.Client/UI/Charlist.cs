@@ -4,6 +4,7 @@ using System.Drawing;
 using MonoHaven.Graphics;
 using MonoHaven.Graphics.Sprites;
 using MonoHaven.Input;
+using MonoHaven.Utils;
 using OpenTK;
 
 namespace MonoHaven.UI
