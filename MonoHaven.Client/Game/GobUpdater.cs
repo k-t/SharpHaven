@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 using MonoHaven.Graphics.Sprites;
-using MonoHaven.Network.Messages;
+using MonoHaven.Messages;
 using MonoHaven.Utils;
 
 namespace MonoHaven.Game
@@ -8,7 +8,7 @@ namespace MonoHaven.Game
 	public class GobUpdater
 	{
 		private readonly GameSession session;
-		private GobChangeset changeset;
+		private UpdateGobMessage message;
 		private Gob gob;
 		private TypeMatcher deltaMatcher;
 
@@ -33,19 +33,19 @@ namespace MonoHaven.Game
 				.Case<GobDelta.StartMovement>(Apply);
 		}
 
-		public void ApplyChanges(GobChangeset changeset)
+		public void ApplyChanges(UpdateGobMessage message)
 		{
-			this.changeset = changeset;
+			this.message = message;
 			this.gob = null;
 
 			var objectCache = session.State.Objects;
-			if (changeset.ReplaceFlag)
-				objectCache.Remove(changeset.GobId, changeset.Frame - 1);
+			if (message.ReplaceFlag)
+				objectCache.Remove(message.GobId, message.Frame - 1);
 			
-			foreach (var delta in changeset.Deltas)
+			foreach (var delta in message.Deltas)
 			{
 				if (this.gob == null)
-					this.gob = objectCache.Get(changeset.GobId, changeset.Frame);
+					this.gob = objectCache.Get(message.GobId, message.Frame);
 				deltaMatcher.Match(delta);
 			}
 		}
@@ -68,7 +68,7 @@ namespace MonoHaven.Game
 
 		private void Apply(GobDelta.Clear delta)
 		{
-			session.State.Objects.Remove(changeset.GobId, changeset.Frame);
+			session.State.Objects.Remove(message.GobId, message.Frame);
 			gob = null;
 		}
 

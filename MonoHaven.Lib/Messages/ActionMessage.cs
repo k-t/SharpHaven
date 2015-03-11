@@ -1,6 +1,6 @@
-﻿namespace MonoHaven.Network.Messages
+﻿namespace MonoHaven.Messages
 {
-	public class ActionDelta
+	public class ActionMessage
 	{
 		public bool RemoveFlag { get; set; }
 		public string Name { get; set; }

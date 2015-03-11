@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Net.Sockets;
 using C5;
-using MonoHaven.Network.Messages;
+using ICSharpCode.SharpZipLib.Zip.Compression;
+using MonoHaven.Messages;
 using NLog;
 
 namespace MonoHaven.Network
@@ -31,6 +33,24 @@ namespace MonoHaven.Network
 		private const int GMSG_TIME = 0;
 		private const int GMSG_ASTRO = 1;
 		private const int GMSG_LIGHT = 2;
+
+		private const int OD_REM = 0;
+		private const int OD_MOVE = 1;
+		private const int OD_RES = 2;
+		private const int OD_LINBEG = 3;
+		private const int OD_LINSTEP = 4;
+		private const int OD_SPEECH = 5;
+		private const int OD_LAYERS = 6;
+		private const int OD_DRAWOFF = 7;
+		private const int OD_LUMIN = 8;
+		private const int OD_AVATAR = 9;
+		private const int OD_FOLLOW = 10;
+		private const int OD_HOMING = 11;
+		private const int OD_OVERLAY = 12;
+		/* private const int OD_AUTH = 13; -- Removed */
+		private const int OD_HEALTH = 14;
+		private const int OD_BUDDY = 15;
+		private const int OD_END = 255;
 
 		#endregion
 
@@ -211,11 +231,7 @@ namespace MonoHaven.Network
 					break;
 				case Message.MSG_OBJDATA:
 					while (msg.Position < msg.Length)
-					{
-						var changeset = GobChangeset.ReadFrom(msg);
-						listeners.ForEach(x => x.UpdateGob(changeset));
-						SendObjectAck(changeset.GobId, changeset.Frame);
-					}
+						HandleObjData(msg);
 					break;
 				case Message.MSG_CLOSE:
 					log.Info("Server dropped connection");
@@ -248,13 +264,13 @@ namespace MonoHaven.Network
 			{
 				case RMSG_NEWWDG:
 				{
-					var args = CreateWidgetArgs.ReadFrom(msg);
+					var args = WidgetCreateMessage.ReadFrom(msg);
 					listeners.ForEach(x => x.CreateWidget(args));
 					break;
 				}
 				case RMSG_WDGMSG:
 				{
-					var args = UpdateWidgetArgs.ReadFrom(msg);
+					var args = WidgetUpdateMessage.ReadFrom(msg);
 					listeners.ForEach(x => x.UpdateWidget(args));
 					break;
 				}
@@ -278,10 +294,10 @@ namespace MonoHaven.Network
 								int dt = msg.ReadInt32();
 								int mp = msg.ReadInt32();
 								int yt = msg.ReadInt32();
-								double dtf = Defix(dt);
-								double mpf = Defix(mp);
-								double ytf = Defix(yt);
-								var astronomy = new Astonomy(dtf, mpf);
+								var astronomy = new AstronomyMessage {
+									DayTime = Defix(dt),
+									MoonPhase = Defix(mp)
+								};
 								listeners.ForEach(x => x.UpdateAstronomy(astronomy));
 								break;
 							case GMSG_LIGHT:
@@ -293,10 +309,10 @@ namespace MonoHaven.Network
 					break;
 				}
 				case RMSG_PAGINAE:
-					var actions = new List<ActionDelta>();
+					var actions = new List<ActionMessage>();
 					while (!msg.IsEom)
 					{
-						actions.Add(new ActionDelta
+						actions.Add(new ActionMessage
 						{
 							RemoveFlag = msg.ReadByte() == '-',
 							Name = msg.ReadString(),
@@ -307,8 +323,12 @@ namespace MonoHaven.Network
 					break;
 				case RMSG_RESID:
 				{
-					var binding = ResourceBinding.ReadFrom(msg);
-					listeners.ForEach(x => x.BindResource(binding));
+					var message = new BindResourceMessage {
+						Id = msg.ReadUint16(),
+						Name = msg.ReadString(),
+						Version = msg.ReadUint16()
+					};
+					listeners.ForEach(x => x.BindResource(message));
 					break;
 				}
 				case RMSG_PARTY:
@@ -318,13 +338,15 @@ namespace MonoHaven.Network
 					listeners.ForEach(x => x.PlaySound());
 					break;
 				case RMSG_CATTR:
-					var attributes = new List<CharAttribute>();
+					var attributes = new List<CharAttributeMessage>();
 					while (!msg.IsEom)
 					{
-						var name = msg.ReadString();
-						var baseValue = msg.ReadInt32();
-						var compValue = msg.ReadInt32();
-						attributes.Add(new CharAttribute(name, baseValue, compValue));
+						var attribute = new CharAttributeMessage {
+							Name = msg.ReadString(),
+							BaseValue = msg.ReadInt32(),
+							CompValue = msg.ReadInt32()
+						};
+						attributes.Add(attribute);
 					}
 					listeners.ForEach(x => x.UpdateCharAttributes(attributes));
 					break;
@@ -332,10 +354,17 @@ namespace MonoHaven.Network
 					listeners.ForEach(x => x.PlayMusic());
 					break;
 				case RMSG_TILES:
-					var bindings = new List<TilesetBinding>();
+					var messages = new List<BindTilesetMessage>();
 					while (!msg.IsEom)
-						bindings.Add(TilesetBinding.ReadFrom(msg));
-					listeners.ForEach(x => x.BindTilesets(bindings));
+					{
+						var message = new BindTilesetMessage {
+							Id = msg.ReadByte(),
+							Name = msg.ReadString(),
+							Version = msg.ReadUint16()
+						};
+						messages.Add(message);
+					}
+					listeners.ForEach(x => x.BindTilesets(messages));
 					break;
 				case RMSG_BUFF:
 				{
@@ -351,7 +380,7 @@ namespace MonoHaven.Network
 							break;
 						case "set":
 							listeners.ForEach(x => x.AddBuff(
-								new BuffData
+								new BuffAddMessage
 								{
 									Id = msg.ReadInt32(),
 									ImageResId = msg.ReadUint16(),
@@ -390,7 +419,7 @@ namespace MonoHaven.Network
 				if (fragbuf.IsComplete)
 				{
 					mapFrags.Remove(packetId);
-					var mapData = MapData.ReadFrom(new MessageReader(0, fragbuf.Content));
+					var mapData = GetMapData(new MessageReader(0, fragbuf.Content));
 					listeners.ForEach(x => x.UpdateMap(mapData));
 				}
 			}
@@ -402,9 +431,226 @@ namespace MonoHaven.Network
 			}
 			else
 			{
-				var mapData = MapData.ReadFrom(msg);
+				var mapData = GetMapData(msg);
 				listeners.ForEach(x => x.UpdateMap(mapData));
 			}
+		}
+
+		public static UpdateMapMessage GetMapData(MessageReader reader)
+		{
+			var msg = new UpdateMapMessage {
+				Grid = reader.ReadCoord(),
+				MinimapName = reader.ReadString(),
+				Tiles = new byte[100 * 100]
+			};
+
+			var pfl = new byte[256];
+			while (true)
+			{
+				int pidx = reader.ReadByte();
+				if (pidx == 255)
+					break;
+				pfl[pidx] = reader.ReadByte();
+			}
+
+			var blob = Unpack(reader.Buffer, reader.Position, reader.Length - reader.Position);
+			Array.Copy(blob, msg.Tiles, msg.Tiles.Length);
+
+			// TODO: handle overlays
+
+			return msg;
+		}
+
+		private static byte[] Unpack(byte[] input, int offset, int length)
+		{
+			var buf = new byte[4096];
+			var inflater = new Inflater();
+			using (var output = new MemoryStream())
+			{
+				inflater.SetInput(input, offset, length);
+				int n;
+				while ((n = inflater.Inflate(buf)) != 0)
+					output.Write(buf, 0, n);
+
+				if (!inflater.IsFinished)
+					throw new Exception("Got unterminated map blob");
+
+				return output.ToArray();
+			}
+		}
+
+		private void HandleObjData(MessageReader msg)
+		{
+			var gobData = new UpdateGobMessage();
+			gobData.ReplaceFlag = (msg.ReadByte() & 1) != 0;
+			gobData.GobId = msg.ReadInt32();
+			gobData.Frame = msg.ReadInt32();
+			while (true)
+			{
+				GobDelta delta;
+				int type = msg.ReadByte();
+				switch (type)
+				{
+					case OD_REM:
+						delta = new GobDelta.Clear();
+						break;
+					case OD_MOVE:
+						{
+							var pos = msg.ReadCoord();
+							delta = new GobDelta.Position { Value = pos };
+							break;
+						}
+					case OD_RES:
+						{
+							int resId = msg.ReadUint16();
+							byte[] spriteData;
+							if ((resId & 0x8000) != 0)
+							{
+								resId &= ~0x8000;
+								var len = msg.ReadByte();
+								spriteData = msg.ReadBytes(len);
+							}
+							else
+							{
+								spriteData = new byte[0];
+							}
+							delta = new GobDelta.Resource { Id = resId, SpriteData = spriteData };
+							break;
+						}
+					case OD_LINBEG:
+						delta = new GobDelta.StartMovement
+						{
+							Origin = msg.ReadCoord(),
+							Destination = msg.ReadCoord(),
+							Time = msg.ReadInt32()
+						};
+						break;
+					case OD_LINSTEP:
+						delta = new GobDelta.AdjustMovement { Time = msg.ReadInt32() };
+						break;
+					case OD_SPEECH:
+						delta = new GobDelta.Speech
+						{
+							Offset = msg.ReadCoord(),
+							Text = msg.ReadString()
+						};
+						break;
+					case OD_LAYERS:
+					case OD_AVATAR:
+						{
+							int baseResId = -1;
+							if (type == OD_LAYERS)
+								baseResId = msg.ReadUint16();
+							var layers = new List<int>();
+							while (true)
+							{
+								int layer = msg.ReadUint16();
+								if (layer == 65535)
+									break;
+								layers.Add(layer);
+							}
+							if (type == OD_LAYERS)
+								delta = new GobDelta.Layers
+								{
+									BaseResourceId = baseResId,
+									ResourceIds = layers.ToArray()
+								};
+							else
+								delta = new GobDelta.Avatar { ResourceIds = layers.ToArray() };
+							break;
+						}
+					case OD_DRAWOFF:
+						delta = new GobDelta.DrawOffset { Value = msg.ReadCoord() };
+						break;
+					case OD_LUMIN:
+						delta = new GobDelta.Light
+						{
+							Offset = msg.ReadCoord(),
+							Size = msg.ReadUint16(),
+							Intensity = msg.ReadByte()
+						};
+						break;
+					case OD_FOLLOW:
+						{
+							int oid = msg.ReadInt32();
+							if (oid != -1)
+							{
+								delta = new GobDelta.Follow
+								{
+									GobId = oid,
+									Szo = msg.ReadByte(),
+									Offset = msg.ReadCoord()
+								};
+							}
+							else
+								delta = new GobDelta.Follow { GobId = oid };
+							break;
+						}
+					case OD_HOMING:
+						{
+							int oid = msg.ReadInt32();
+							if (oid == -1)
+								delta = new GobDelta.Homing { GobId = oid };
+							else
+								delta = new GobDelta.Homing
+								{
+									GobId = oid,
+									Target = msg.ReadCoord(),
+									Velocity = msg.ReadUint16()
+								};
+							break;
+						}
+					case OD_OVERLAY:
+						{
+							int overlayId = msg.ReadInt32();
+							var prs = (overlayId & 1) != 0;
+							overlayId >>= 1;
+							int resId = msg.ReadUint16();
+							byte[] spriteData = null;
+							if (resId != 65535)
+							{
+								if ((resId & 0x8000) != 0)
+								{
+									resId &= ~0x8000;
+									var len = msg.ReadByte();
+									spriteData = msg.ReadBytes(len);
+								}
+								else
+									spriteData = new byte[0];
+							}
+							delta = new GobDelta.Overlay
+							{
+								Id = overlayId,
+								Prs = prs,
+								ResourceId = resId,
+								SpriteData = spriteData
+							};
+							break;
+						}
+					case OD_HEALTH:
+						delta = new GobDelta.Health { Value = msg.ReadByte() };
+						break;
+					case OD_BUDDY:
+						delta = new GobDelta.Buddy
+						{
+							Name = msg.ReadString(),
+							Group = msg.ReadByte(),
+							Type = msg.ReadByte()
+						};
+						break;
+					case OD_END:
+						delta = null;
+						break;
+					default:
+						// TODO: MessageException
+						throw new Exception("Unknown objdelta type: " + type);
+				}
+				if (delta == null)
+					break;
+				gobData.Deltas.Add(delta);
+			}
+			listeners.ForEach(x => x.UpdateGob(gobData));
+			SendObjectAck(gobData.GobId, gobData.Frame);
 		}
 
 		private void OnTaskFinished(object sender, EventArgs args)

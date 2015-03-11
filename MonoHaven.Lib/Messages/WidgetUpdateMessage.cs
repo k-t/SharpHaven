@@ -1,8 +1,10 @@
-﻿namespace MonoHaven.Network.Messages
+﻿using MonoHaven.Network;
+
+namespace MonoHaven.Messages
 {
-	public class UpdateWidgetArgs
+	public class WidgetUpdateMessage
 	{
-		public UpdateWidgetArgs(ushort id, string name, object[] args)
+		public WidgetUpdateMessage(ushort id, string name, object[] args)
 		{
 			Id = id;
 			Name = name;
@@ -27,9 +29,9 @@
 			private set;
 		}
 
-		public static UpdateWidgetArgs ReadFrom(MessageReader reader)
+		public static WidgetUpdateMessage ReadFrom(MessageReader reader)
 		{
-			return new UpdateWidgetArgs(
+			return new WidgetUpdateMessage(
 				id: reader.ReadUint16(),
 				name: reader.ReadString(),
 				args: reader.ReadList()

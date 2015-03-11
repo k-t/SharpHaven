@@ -1,6 +1,6 @@
 ﻿using System;
 using C5;
-using MonoHaven.Network.Messages;
+using MonoHaven.Messages;
 using MonoHaven.UI;
 using MonoHaven.UI.Remote;
 using NLog;
@@ -75,7 +75,7 @@ namespace MonoHaven.Game
 				chatWindow.Move(5, Window.Height - chatWindow.Height - 5);
 		}
 
-		private void OnWidgetCreated(CreateWidgetArgs message)
+		private void OnWidgetCreated(WidgetCreateMessage message)
 		{
 			var parent = GetWidget(message.ParentId);
 			if (parent == null)
@@ -90,7 +90,7 @@ namespace MonoHaven.Game
 			Bind(message.Id, swidget);
 		}
 
-		private void OnWidgetMessage(UpdateWidgetArgs message)
+		private void OnWidgetMessage(WidgetUpdateMessage message)
 		{
 			var widget = GetWidget(message.Id);
 			if (widget != null)

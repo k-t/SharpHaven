@@ -1,11 +1,11 @@
-﻿namespace MonoHaven.Network.Messages
+﻿namespace MonoHaven.Game
 {
-	public struct Astonomy
+	public class GameTime
 	{
 		private readonly double dayTime;
 		private readonly double moonPhase;
 
-		public Astonomy(double dayTime, double moonPhase)
+		public GameTime(double dayTime, double moonPhase)
 		{
 			this.dayTime = dayTime;
 			this.moonPhase = moonPhase;

@@ -70,9 +70,11 @@
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="Cursors.cs" />
     <Compile Include="FrameCounter.cs" />
+    <Compile Include="Game\CharAttribute.cs" />
     <Compile Include="Game\GameAction.cs" />
     <Compile Include="Game\GameActionTree.cs" />
     <Compile Include="Game\GameScene.cs" />
+    <Compile Include="Game\GameTime.cs" />
     <Compile Include="Game\Gob.cs" />
     <Compile Include="Game\GobCache.cs" />
     <Compile Include="Game\GobUpdater.cs" />

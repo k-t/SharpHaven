@@ -4,8 +4,8 @@ using System.Drawing;
 using System.Threading;
 using MonoHaven.Graphics;
 using MonoHaven.Graphics.Sprites;
+using MonoHaven.Messages;
 using MonoHaven.Network;
-using MonoHaven.Network.Messages;
 using MonoHaven.Resources;
 using NLog;
 
@@ -94,9 +94,9 @@ namespace MonoHaven.Game
 
 		#region Widget Management
 
-		public event Action<CreateWidgetArgs> WidgetCreated;
+		public event Action<WidgetCreateMessage> WidgetCreated;
 		public event Action<ushort> WidgetDestroyed;
-		public event Action<UpdateWidgetArgs> WidgetMessage;
+		public event Action<WidgetUpdateMessage> WidgetMessage;
 
 		public void SendMessage(ushort widgetId, string name, object[] args)
 		{
@@ -107,8 +107,8 @@ namespace MonoHaven.Game
 
 		#region Map Data Management
 
-		public event Action<MapData> MapDataAvailable;
-		public event Action<TilesetBinding> TilesetBound;
+		public event Action<UpdateMapMessage> MapDataAvailable;
+		public event Action<BindTilesetMessage> TilesetBound;
 
 		public void RequestData(int x, int y)
 		{
@@ -120,14 +120,14 @@ namespace MonoHaven.Game
 
 		#region IConnectionListener implementation
 
-		void IConnectionListener.CreateWidget(CreateWidgetArgs args)
+		void IConnectionListener.CreateWidget(WidgetCreateMessage message)
 		{
-			App.QueueOnMainThread(() => WidgetCreated.Raise(args));
+			App.QueueOnMainThread(() => WidgetCreated.Raise(message));
 		}
 
-		void IConnectionListener.UpdateWidget(UpdateWidgetArgs args)
+		void IConnectionListener.UpdateWidget(WidgetUpdateMessage message)
 		{
-			App.QueueOnMainThread(() => WidgetMessage.Raise(args));
+			App.QueueOnMainThread(() => WidgetMessage.Raise(message));
 		}
 
 		void IConnectionListener.DestroyWidget(ushort widgetId)
@@ -135,12 +135,12 @@ namespace MonoHaven.Game
 			App.QueueOnMainThread(() => WidgetDestroyed.Raise(widgetId));
 		}
 
-		void IConnectionListener.BindResource(ResourceBinding binding)
+		void IConnectionListener.BindResource(BindResourceMessage message)
 		{
-			App.QueueOnMainThread(() => resources[binding.Id] = binding.Name);
+			App.QueueOnMainThread(() => resources[message.Id] = message.Name);
 		}
 
-		void IConnectionListener.BindTilesets(IEnumerable<TilesetBinding> bindings)
+		void IConnectionListener.BindTilesets(IEnumerable<BindTilesetMessage> bindings)
 		{
 			App.QueueOnMainThread(() =>
 			{
@@ -154,12 +154,12 @@ namespace MonoHaven.Game
 			log.Info("InvalidateMap");
 		}
 
-		void IConnectionListener.UpdateCharAttributes(IEnumerable<CharAttribute> attributes)
+		void IConnectionListener.UpdateCharAttributes(IEnumerable<CharAttributeMessage> attributes)
 		{
 			App.QueueOnMainThread(() =>
 			{
-				foreach (var attribute in attributes)
-					State.SetAttr(attribute);
+				foreach (var attr in attributes)
+					State.SetAttr(attr.Name, attr.BaseValue, attr.CompValue);
 			});
 		}
 
@@ -173,12 +173,12 @@ namespace MonoHaven.Game
 			log.Info("UpdateAmbientLight");
 		}
 
-		void IConnectionListener.UpdateAstronomy(Astonomy astonomy)
+		void IConnectionListener.UpdateAstronomy(AstronomyMessage astonomy)
 		{
-			App.QueueOnMainThread(() => state.Astronomy = astonomy);
+			App.QueueOnMainThread(() => state.Time = new GameTime(astonomy.DayTime, astonomy.MoonPhase));
 		}
 
-		void IConnectionListener.UpdateActions(IEnumerable<ActionDelta> actions)
+		void IConnectionListener.UpdateActions(IEnumerable<ActionMessage> actions)
 		{
 			App.QueueOnMainThread(() =>
 			{
@@ -195,18 +195,18 @@ namespace MonoHaven.Game
 			log.Info("UpdateParty");
 		}
 
-		void IConnectionListener.UpdateGob(GobChangeset changeset)
+		void IConnectionListener.UpdateGob(UpdateGobMessage message)
 		{
 			App.QueueOnMainThread(() =>
 			{
 				var updater = new GobUpdater(this);
-				updater.ApplyChanges(changeset);
+				updater.ApplyChanges(message);
 			});
 		}
 
-		void IConnectionListener.UpdateMap(MapData mapData)
+		void IConnectionListener.UpdateMap(UpdateMapMessage updateMapMessage)
 		{
-			App.QueueOnMainThread(() => MapDataAvailable.Raise(mapData));
+			App.QueueOnMainThread(() => MapDataAvailable.Raise(updateMapMessage));
 		}
 
 		void IConnectionListener.PlaySound()
@@ -224,9 +224,9 @@ namespace MonoHaven.Game
 			App.QueueOnMainThread(Finish);
 		}
 
-		void IConnectionListener.AddBuff(BuffData buffData)
+		void IConnectionListener.AddBuff(BuffAddMessage message)
 		{
-			App.QueueOnMainThread(() => State.AddBuff(buffData));
+			App.QueueOnMainThread(() => State.AddBuff(message));
 		}
 
 		void IConnectionListener.RemoveBuff(int buffId)

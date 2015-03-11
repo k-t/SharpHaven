@@ -41,7 +41,7 @@ namespace MonoHaven.UI
 
 		protected override void OnDraw(DrawingContext dc)
 		{
-			var astro = gstate.Astronomy;
+			var astro = gstate.Time;
 			var mp = (int)(astro.MoonPhase * moons.Length);
 			var moon = moons[mp];
 

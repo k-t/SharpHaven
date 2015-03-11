@@ -1,6 +1,6 @@
-﻿namespace MonoHaven.Network.Messages
+﻿namespace MonoHaven.Messages
 {
-	public class BuffData
+	public class BuffAddMessage
 	{
 		public int Id { get; set; }
 		public int ImageResId { get; set; }

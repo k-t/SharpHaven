@@ -1,30 +1,30 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
-using MonoHaven.Network.Messages;
+using MonoHaven.Messages;
 
 namespace MonoHaven.Network
 {
 	public interface IConnectionListener
 	{
-		void CreateWidget(CreateWidgetArgs args);
-		void UpdateWidget(UpdateWidgetArgs args);
+		void CreateWidget(WidgetCreateMessage message);
+		void UpdateWidget(WidgetUpdateMessage message);
 		void DestroyWidget(ushort widgetId);
 
-		void BindResource(ResourceBinding binding);
-		void BindTilesets(IEnumerable<TilesetBinding> bindings);
+		void BindResource(BindResourceMessage message);
+		void BindTilesets(IEnumerable<BindTilesetMessage> bindings);
 
 		void InvalidateMap();
 
-		void UpdateCharAttributes(IEnumerable<CharAttribute> attributes);
+		void UpdateCharAttributes(IEnumerable<CharAttributeMessage> attributes);
 		void UpdateTime(int time);
 		void UpdateAmbientLight(Color color);
-		void UpdateAstronomy(Astonomy astronomy);
-		void UpdateActions(IEnumerable<ActionDelta> actions);
+		void UpdateAstronomy(AstronomyMessage astronomy);
+		void UpdateActions(IEnumerable<ActionMessage> actions);
 		void UpdateParty();
-		void UpdateGob(GobChangeset changeset);
-		void UpdateMap(MapData mapData);
+		void UpdateGob(UpdateGobMessage message);
+		void UpdateMap(UpdateMapMessage updateMapMessage);
 
-		void AddBuff(BuffData buffData);
+		void AddBuff(BuffAddMessage message);
 		void RemoveBuff(int buffId);
 		void ClearBuffs();
 

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using C5;
 using MonoHaven.Graphics.Sprites;
-using MonoHaven.Network.Messages;
+using MonoHaven.Messages;
 using MonoHaven.Utils;
 
 namespace MonoHaven.Game
@@ -66,13 +66,13 @@ namespace MonoHaven.Game
 			return grids.Find(ref gc, out grid) ? grid : null;
 		}
 
-		private void AddGrid(MapData data)
+		private void AddGrid(UpdateMapMessage message)
 		{
-			var gp = data.Grid;
-			var tiles = new MapTile[data.Tiles.Length];
-			for (int i = 0; i < data.Tiles.Length; i++)
+			var gp = message.Grid;
+			var tiles = new MapTile[message.Tiles.Length];
+			for (int i = 0; i < message.Tiles.Length; i++)
 			{
-				var tile = data.Tiles[i];
+				var tile = message.Tiles[i];
 				var tileset = tilesets[tile];
 				if (tileset == null)
 					throw new Exception(string.Format("Unknown tileset ({0})", tile));
@@ -101,10 +101,10 @@ namespace MonoHaven.Game
 				}
 		}
 
-		private void BindTileset(TilesetBinding binding)
+		private void BindTileset(BindTilesetMessage message)
 		{
-			var tileset = App.Resources.GetTileset(binding.Name);
-			tilesets[binding.Id] = tileset;
+			var tileset = App.Resources.GetTileset(message.Name);
+			tilesets[message.Id] = tileset;
 		}
 
 		private static Point GetAbsoluteTileCoord(Point gp, int tileIndex)
