@@ -30,8 +30,6 @@ namespace MonoHaven.Game
 			resources = new Dictionary<int, string>();
 		}
 
-		public event Action Finished;
-
 		public GameScreen Screen
 		{
 			get { return screen; }
@@ -54,7 +52,7 @@ namespace MonoHaven.Game
 				connection.RemoveListener(this);
 				connection.Close();
 			}
-			Finished.Raise();
+			screen.Close();
 		}
 
 		#region Resource Management
@@ -94,10 +92,6 @@ namespace MonoHaven.Game
 
 		#region Widget Management
 
-		public event Action<WidgetCreateMessage> WidgetCreated;
-		public event Action<ushort> WidgetDestroyed;
-		public event Action<WidgetUpdateMessage> WidgetMessage;
-
 		public void SendMessage(ushort widgetId, string name, object[] args)
 		{
 			connection.SendMessage(widgetId, name, args);
@@ -106,9 +100,6 @@ namespace MonoHaven.Game
 		#endregion
 
 		#region Map Data Management
-
-		public event Action<UpdateMapMessage> MapDataAvailable;
-		public event Action<BindTilesetMessage> TilesetBound;
 
 		public void RequestData(int x, int y)
 		{
@@ -122,17 +113,17 @@ namespace MonoHaven.Game
 
 		void IConnectionListener.CreateWidget(WidgetCreateMessage message)
 		{
-			App.QueueOnMainThread(() => WidgetCreated.Raise(message));
+			App.QueueOnMainThread(() => screen.CreateWidget(message));
 		}
 
 		void IConnectionListener.UpdateWidget(WidgetUpdateMessage message)
 		{
-			App.QueueOnMainThread(() => WidgetMessage.Raise(message));
+			App.QueueOnMainThread(() => screen.UpdateWidget(message));
 		}
 
 		void IConnectionListener.DestroyWidget(ushort widgetId)
 		{
-			App.QueueOnMainThread(() => WidgetDestroyed.Raise(widgetId));
+			App.QueueOnMainThread(() => screen.DestroyWidget(widgetId));
 		}
 
 		void IConnectionListener.BindResource(BindResourceMessage message)
@@ -145,7 +136,7 @@ namespace MonoHaven.Game
 			App.QueueOnMainThread(() =>
 			{
 				foreach (var binding in bindings)
-					TilesetBound.Raise(binding);
+					State.Map.BindTileset(binding);
 			});
 		}
 
@@ -206,7 +197,7 @@ namespace MonoHaven.Game
 
 		void IConnectionListener.UpdateMap(UpdateMapMessage updateMapMessage)
 		{
-			App.QueueOnMainThread(() => MapDataAvailable.Raise(updateMapMessage));
+			App.QueueOnMainThread(() => State.Map.AddGrid(updateMapMessage));
 		}
 
 		void IConnectionListener.PlaySound()

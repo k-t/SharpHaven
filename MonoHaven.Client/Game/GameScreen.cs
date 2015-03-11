@@ -25,11 +25,6 @@ namespace MonoHaven.Game
 		public GameScreen(GameSession session)
 		{
 			this.session = session;
-			this.session.WidgetCreated += OnWidgetCreated;
-			this.session.WidgetDestroyed += OnWidgetDestroyed;
-			this.session.WidgetMessage += OnWidgetMessage;
-			this.session.Finished += OnSessionFinished;
-
 			factory = new ServerWidgetFactory();
 			serverWidgets = new TreeDictionary<ushort, ServerWidget>();
 			serverWidgets[0] = new ServerRootWidget(0, session, RootWidget);
@@ -40,6 +35,55 @@ namespace MonoHaven.Game
 		public void Bind(ushort id, ServerWidget widget)
 		{
 			serverWidgets[id] = widget;
+		}
+
+		public void CreateWidget(WidgetCreateMessage message)
+		{
+			var parent = GetWidget(message.ParentId);
+			if (parent == null)
+				throw new Exception(string.Format(
+					"Non-existent parent widget {0} for {1}",
+					message.ParentId,
+					message.Id));
+
+			var swidget = factory.Create(message.Type, message.Id, parent, message.Args);
+			swidget.Widget.Move(message.Location);
+			HandleCreatedWidget(swidget.Widget);
+			Bind(message.Id, swidget);
+		}
+
+		public void UpdateWidget(WidgetUpdateMessage message)
+		{
+			var widget = GetWidget(message.Id);
+			if (widget != null)
+				widget.ReceiveMessage(message.Name, message.Args);
+			else
+				log.Warn("UI message {1} to non-existent widget {0}",
+					message.Id, message.Name);
+		}
+
+		public void DestroyWidget(ushort id)
+		{
+			ServerWidget widget;
+			if (serverWidgets.Remove(id, out widget))
+			{
+				widget.Remove();
+				widget.Dispose();
+				foreach (var child in widget.Descendants)
+				{
+					serverWidgets.Remove(child.Id);
+					child.Dispose();
+					HandleDestroyedWidget(widget.Widget);
+				}
+				HandleDestroyedWidget(widget.Widget);
+				return;
+			}
+			log.Warn("Try to remove non-existent widget {0}", id);
+		}
+
+		public void Close()
+		{
+			App.QueueOnMainThread(() => Exited.Raise());
 		}
 
 		protected override void OnClose()
@@ -73,55 +117,6 @@ namespace MonoHaven.Game
 
 			if (chatWindow != null)
 				chatWindow.Move(5, Window.Height - chatWindow.Height - 5);
-		}
-
-		private void OnWidgetCreated(WidgetCreateMessage message)
-		{
-			var parent = GetWidget(message.ParentId);
-			if (parent == null)
-				throw new Exception(string.Format(
-					"Non-existent parent widget {0} for {1}",
-					message.ParentId,
-					message.Id));
-
-			var swidget = factory.Create(message.Type, message.Id, parent, message.Args);
-			swidget.Widget.Move(message.Location);
-			HandleCreatedWidget(swidget.Widget);
-			Bind(message.Id, swidget);
-		}
-
-		private void OnWidgetMessage(WidgetUpdateMessage message)
-		{
-			var widget = GetWidget(message.Id);
-			if (widget != null)
-				widget.ReceiveMessage(message.Name, message.Args);
-			else
-				log.Warn("UI message {1} to non-existent widget {0}",
-					message.Id, message.Name);
-		}
-
-		private void OnWidgetDestroyed(ushort id)
-		{
-			ServerWidget widget;
-			if (serverWidgets.Remove(id, out widget))
-			{
-				widget.Remove();
-				widget.Dispose();
-				foreach (var child in widget.Descendants)
-				{
-					serverWidgets.Remove(child.Id);
-					child.Dispose();
-					HandleDestroyedWidget(widget.Widget);
-				}
-				HandleDestroyedWidget(widget.Widget);
-				return;
-			}
-			log.Warn("Try to remove non-existent widget {0}", id);
-		}
-
-		private void OnSessionFinished()
-		{
-			App.QueueOnMainThread(() => Exited.Raise());
 		}
 
 		private ServerWidget GetWidget(ushort id)

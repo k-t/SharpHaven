@@ -23,12 +23,9 @@ namespace MonoHaven.Game
 
 		public Map(GameSession session)
 		{
+			this.session = session;
 			grids = new TreeDictionary<Point, MapGrid>(new PointComparer());
 			random = new C5Random(RandomUtils.GetSeed());
-
-			this.session = session;
-			this.session.TilesetBound += BindTileset;
-			this.session.MapDataAvailable += AddGrid;
 		}
 
 		public IEnumerable<Tuple<Point, ISprite>> FlavorObjects
@@ -66,7 +63,7 @@ namespace MonoHaven.Game
 			return grids.Find(ref gc, out grid) ? grid : null;
 		}
 
-		private void AddGrid(UpdateMapMessage message)
+		public void AddGrid(UpdateMapMessage message)
 		{
 			var gp = message.Grid;
 			var tiles = new MapTile[message.Tiles.Length];
@@ -101,7 +98,7 @@ namespace MonoHaven.Game
 				}
 		}
 
-		private void BindTileset(BindTilesetMessage message)
+		public void BindTileset(BindTilesetMessage message)
 		{
 			var tileset = App.Resources.GetTileset(message.Name);
 			tilesets[message.Id] = tileset;
