@@ -162,7 +162,8 @@ namespace MonoHaven.Game
 					chatWindow.Resize(300, 200);
 					chatWindow.Move(5, Window.Height - chatWindow.Height - 5);
 				}
-				chatWindow.AddTab((Chat)widget);
+				var chatWidget = (Chat)widget;
+				chatWindow.AddTab(chatWidget.Title, chatWidget);
 			}
 		}
 

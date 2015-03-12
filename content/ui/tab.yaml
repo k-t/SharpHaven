@@ -1,0 +1,9 @@
+version: 1
+layers:
+  - !image
+    file: tab.png
+  - !ninepatch
+    top: 1
+    bottom: 0
+    left: 1
+    right: 1
