@@ -1,4 +1,6 @@
-﻿namespace MonoHaven.UI
+﻿using MonoHaven.UI.Widgets;
+
+namespace MonoHaven.UI
 {
 	public interface IWidgetHost
 	{

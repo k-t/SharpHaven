@@ -6,7 +6,7 @@ using MonoHaven.Input;
 using MonoHaven.Utils;
 using OpenTK.Input;
 
-namespace MonoHaven.UI
+namespace MonoHaven.UI.Widgets
 {
 	public class MapView : Widget
 	{

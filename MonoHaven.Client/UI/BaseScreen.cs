@@ -1,6 +1,7 @@
 ﻿using System;
 using MonoHaven.Graphics;
 using MonoHaven.Input;
+using MonoHaven.UI.Widgets;
 using OpenTK;
 
 namespace MonoHaven.UI

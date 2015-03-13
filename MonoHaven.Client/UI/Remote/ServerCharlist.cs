@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using MonoHaven.Graphics.Sprites;
+using MonoHaven.UI.Widgets;
 using MonoHaven.Utils;
 
 namespace MonoHaven.UI.Remote

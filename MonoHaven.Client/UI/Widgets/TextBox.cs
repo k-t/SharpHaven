@@ -7,7 +7,7 @@ using MonoHaven.Utils;
 using OpenTK;
 using OpenTK.Input;
 
-namespace MonoHaven.UI
+namespace MonoHaven.UI.Widgets
 {
 	public class TextBox : Widget
 	{

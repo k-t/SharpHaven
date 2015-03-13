@@ -7,7 +7,7 @@ using MonoHaven.Input;
 using MonoHaven.Utils;
 using OpenTK;
 
-namespace MonoHaven.UI
+namespace MonoHaven.UI.Widgets
 {
 	public class Charlist : Widget
 	{

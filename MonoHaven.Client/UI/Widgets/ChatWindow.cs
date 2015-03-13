@@ -1,4 +1,4 @@
-﻿namespace MonoHaven.UI
+﻿namespace MonoHaven.UI.Widgets
 {
 	public class ChatWindow : TabWidget
 	{

@@ -6,7 +6,7 @@ using MonoHaven.Graphics;
 using MonoHaven.Input;
 using OpenTK.Input;
 
-namespace MonoHaven.UI
+namespace MonoHaven.UI.Widgets
 {
 	public class MenuGrid : Widget
 	{

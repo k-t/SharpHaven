@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace MonoHaven.UI
+namespace MonoHaven.UI.Widgets
 {
 	public class CharWindow : Window
 	{

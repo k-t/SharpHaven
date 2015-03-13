@@ -1,5 +1,6 @@
 ﻿using System;
 using MonoHaven.Game;
+using MonoHaven.UI.Widgets;
 using MonoHaven.Utils;
 using NLog;
 

@@ -2,7 +2,7 @@
 using MonoHaven.Game;
 using MonoHaven.Graphics;
 
-namespace MonoHaven.UI
+namespace MonoHaven.UI.Widgets
 {
 	public class Bufflist : Widget
 	{

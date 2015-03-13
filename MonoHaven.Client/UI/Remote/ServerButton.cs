@@ -1,4 +1,6 @@
-﻿namespace MonoHaven.UI.Remote
+﻿using MonoHaven.UI.Widgets;
+
+namespace MonoHaven.UI.Remote
 {
 	public class ServerButton : ServerWidget
 	{

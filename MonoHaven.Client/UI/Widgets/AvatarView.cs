@@ -5,7 +5,7 @@ using MonoHaven.Graphics;
 using MonoHaven.Graphics.Sprites;
 using MonoHaven.Utils;
 
-namespace MonoHaven.UI
+namespace MonoHaven.UI.Widgets
 {
 	public class AvatarView : Widget
 	{

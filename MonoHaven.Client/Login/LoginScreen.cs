@@ -5,8 +5,9 @@ using MonoHaven.Game;
 using MonoHaven.Graphics;
 using MonoHaven.Input;
 using MonoHaven.UI;
+using MonoHaven.UI.Widgets;
 using OpenTK.Input;
-using Image = MonoHaven.UI.Image;
+using Image = MonoHaven.UI.Widgets.Image;
 
 namespace MonoHaven.Login
 {

@@ -3,6 +3,7 @@ using C5;
 using MonoHaven.Messages;
 using MonoHaven.UI;
 using MonoHaven.UI.Remote;
+using MonoHaven.UI.Widgets;
 using NLog;
 
 namespace MonoHaven.Game

@@ -4,7 +4,7 @@ using System.Drawing;
 using MonoHaven.Graphics;
 using MonoHaven.Input;
 
-namespace MonoHaven.UI
+namespace MonoHaven.UI.Widgets
 {
 	public class FlowerMenu : Widget
 	{

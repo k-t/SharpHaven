@@ -3,7 +3,7 @@ using MonoHaven.Game;
 using MonoHaven.Graphics;
 using MonoHaven.Utils;
 
-namespace MonoHaven.UI
+namespace MonoHaven.UI.Widgets
 {
 	public class Equipory : Window
 	{

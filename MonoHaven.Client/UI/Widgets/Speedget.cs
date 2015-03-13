@@ -4,7 +4,7 @@ using MonoHaven.Graphics;
 using MonoHaven.Input;
 using OpenTK;
 
-namespace MonoHaven.UI
+namespace MonoHaven.UI.Widgets
 {
 	public class Speedget : Widget
 	{

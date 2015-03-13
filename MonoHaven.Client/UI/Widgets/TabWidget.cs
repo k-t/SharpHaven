@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using MonoHaven.Graphics;
 
-namespace MonoHaven.UI
+namespace MonoHaven.UI.Widgets
 {
 	public class TabWidget : Widget
 	{

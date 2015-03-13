@@ -1,4 +1,5 @@
 ﻿using System.Drawing;
+using MonoHaven.UI.Widgets;
 
 namespace MonoHaven.UI.Remote
 {

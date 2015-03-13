@@ -2,7 +2,7 @@
 using System.Linq;
 using MonoHaven.Graphics;
 
-namespace MonoHaven.UI
+namespace MonoHaven.UI.Widgets
 {
 	public class HudMenu : Widget
 	{
