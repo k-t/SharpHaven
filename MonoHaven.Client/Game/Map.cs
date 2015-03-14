@@ -53,7 +53,10 @@ namespace MonoHaven.Game
 		public void Request(int gx, int gy)
 		{
 			if (!grids.Contains(new Point(gx, gy)))
+			{
+				grids[new Point(gx, gy)] = null; // prevent continious requests
 				session.RequestData(gx, gy);
+			}
 		}
 
 		private MapGrid GetGrid(int tx, int ty)
@@ -110,6 +113,13 @@ namespace MonoHaven.Game
 				gp.X * GridWidth + tileIndex % GridWidth,
 				gp.Y * GridHeight + tileIndex / GridHeight
 			);
+		}
+
+		public static Point WorldToGrid(Point worldCoord)
+		{
+			return new Point(
+				worldCoord.X.Div(TileWidth).Div(GridWidth),
+				worldCoord.Y.Div(TileHeight).Div(GridHeight));
 		}
 	}
 }

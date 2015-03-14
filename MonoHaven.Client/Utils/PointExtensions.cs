@@ -9,6 +9,11 @@ namespace MonoHaven.Utils
 			return new Point(a.X + b.X, a.Y + b.Y);
 		}
 
+		public static Point Add(this Point a, int value)
+		{
+			return new Point(a.X + value, a.Y + value);
+		}
+
 		public static Point Sub(this Point a, Point b)
 		{
 			return new Point(a.X - b.X, a.Y - b.Y);

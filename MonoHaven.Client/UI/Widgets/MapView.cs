@@ -45,11 +45,11 @@ namespace MonoHaven.UI.Widgets
 			if (playerId != -1)
 			{
 				var player = gstate.Objects.Get(playerId);
-
-				int x = player.Position.X.Div(Map.GridWidth * Map.TileWidth);
-				int y = player.Position.Y.Div(Map.GridHeight * Map.TileHeight);
-
-				gstate.Map.Request(x, y);
+				var ul = Map.WorldToGrid(player.Position.Add(-500));
+				var br = Map.WorldToGrid(player.Position.Add(500));
+				for (int y = ul.Y; y <= br.Y; y++)
+					for (int x = ul.X; x <= br.X; x++)
+						gstate.Map.Request(x, y);
 			}
 		}
 
