@@ -7,7 +7,7 @@ namespace MonoHaven.UI.Remote
 		public static ServerWidget Create(ushort id, ServerWidget parent, object[] args)
 		{
 			var studyId = args.Length > 0 ? (int)args[0] : -1;
-			var widget = new CharWindow(parent.Widget);
+			var widget = new CharWindow(parent.Widget, parent.Session.State);
 			var serverWidget = new ServerCharWindow(id, parent, widget);
 
 			// HACK: study widget is not created through a server message
@@ -21,9 +21,19 @@ namespace MonoHaven.UI.Remote
 			return serverWidget;
 		}
 
+		private readonly CharWindow widget;
+
 		public ServerCharWindow(ushort id, ServerWidget parent, CharWindow widget)
 			: base(id, parent, widget)
 		{
+			this.widget = widget;
+			this.widget.AttributesBought += args => SendMessage("sattr", args);
+		}
+
+		public override void ReceiveMessage(string message, object[] args)
+		{
+			if (message == "exp")
+				widget.SetExp((int)args[0]);
 		}
 	}
 }

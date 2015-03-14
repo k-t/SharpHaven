@@ -140,7 +140,7 @@
     <Compile Include="UI\Widgets\Button.cs" />
     <Compile Include="UI\Widgets\Calendar.cs" />
     <Compile Include="UI\Widgets\Charlist.cs" />
-    <Compile Include="UI\Widgets\CharWindow.cs" />
+    <Compile Include="UI\Widgets\Char\CharWindow.cs" />
     <Compile Include="UI\Widgets\Chat.cs" />
     <Compile Include="UI\Widgets\ChatWindow.cs" />
     <Compile Include="UI\Widgets\Equipory.cs" />

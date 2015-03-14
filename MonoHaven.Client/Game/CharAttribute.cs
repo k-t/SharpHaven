@@ -1,4 +1,6 @@
-﻿namespace MonoHaven.Game
+﻿using System;
+
+namespace MonoHaven.Game
 {
 	public class CharAttribute
 	{
@@ -12,6 +14,8 @@
 			this.baseValue = baseValue;
 			this.compValue = compValue;
 		}
+
+		public event Action Changed;
 
 		public string Name
 		{
@@ -32,6 +36,9 @@
 		{
 			this.baseValue = baseValue;
 			this.compValue = compValue;
+			Changed.Raise();
 		}
+
+
 	}
 }
