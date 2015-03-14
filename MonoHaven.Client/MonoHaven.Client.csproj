@@ -131,6 +131,9 @@
     <Compile Include="Login\LoginResult.cs" />
     <Compile Include="MainScreen.cs" />
     <Compile Include="Game\Tileset.cs" />
+    <Compile Include="UI\Layouts\GridLayout.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="UI\Widgets\AvatarView.cs" />
     <Compile Include="UI\Widgets\BuddyList.cs" />
     <Compile Include="UI\Widgets\Bufflist.cs" />
@@ -152,6 +155,7 @@
     <Compile Include="UI\Widgets\MapClickEventArgs.cs" />
     <Compile Include="UI\Widgets\MenuGrid.cs" />
     <Compile Include="UI\Widgets\Meter.cs" />
+    <Compile Include="UI\Padding.cs" />
     <Compile Include="UI\Remote\ServerAvatarView.cs" />
     <Compile Include="UI\Remote\ServerBuddyList.cs" />
     <Compile Include="UI\Remote\ServerBufflist.cs" />

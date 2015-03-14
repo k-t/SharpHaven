@@ -1,12 +1,16 @@
 ﻿using System.Collections.Generic;
+using MonoHaven.UI.Layouts;
 
 namespace MonoHaven.UI.Widgets
 {
 	public class CharWindow : Window
 	{
-		private readonly Container cntAttr;
-		private readonly Container cntStudy;
+		private Container cntAttr;
+		private Container cntStudy;
 		private readonly List<Container> tabs;
+
+		private GridLayout baseLayout;
+		private GridLayout skillLayout;
 
 		public CharWindow(Widget parent) : base(parent, "Character Sheet")
 		{
@@ -14,40 +18,7 @@ namespace MonoHaven.UI.Widgets
 
 			tabs = new List<Container>();
 
-			cntAttr = new Container(this);
-			cntAttr.Resize(400, 300);
-			tabs.Add(cntAttr);
-
-			var lblBase = new Label(cntAttr, Fonts.LabelText);
-			lblBase.Move(10, 10);
-			lblBase.Text = "Base Attributes:";
-
-			var y = 25;
-			AddBase(y += 15, "str", "Strength");
-			AddBase(y += 15, "agil", "Agility");
-			AddBase(y += 15, "intel", "Intelligence");
-			AddBase(y += 15, "cons", "Constitution");
-			AddBase(y += 15, "perc", "Perception");
-			AddBase(y += 15, "csm", "Charisma");
-			AddBase(y += 15, "dxt", "Dexterity");
-			AddBase(y += 15, "psy", "Psyche");
-
-			var lblSkill = new Label(cntAttr, Fonts.LabelText);
-			lblSkill.Move(210, 10);
-			lblSkill.Text = "Skill Values:";
-
-			y = 25;
-			AddSkill(y += 15, "unarmed", "Unarmed Combat");
-			AddSkill(y += 15, "melee", "Melee Combat");
-			AddSkill(y += 15, "ranged", "Marksmanship");
-			AddSkill(y += 15, "explore", "Exploration");
-			AddSkill(y += 15, "stealth", "Stealth");
-			AddSkill(y += 15, "sewing", "Sewing");
-			AddSkill(y += 15, "smithing", "Smithing");
-			AddSkill(y += 15, "carpentry", "Carpentry");
-			AddSkill(y += 15, "cooking", "Cooking");
-			AddSkill(y += 15, "farming", "Farming");
-			AddSkill(y += 15, "survive", "Survival");
+			InitAttributesTab();
 
 			var cntSkill = new Container(this);
 			cntSkill.Resize(400, 275);
@@ -76,26 +47,6 @@ namespace MonoHaven.UI.Widgets
 			get { return cntStudy; }
 		}
 
-		private void AddBase(int y, string name, string title)
-		{
-			var image = new Image(cntAttr);
-			image.Move(10, y);
-			image.Drawable = App.Resources.GetImage("gfx/hud/charsh/" + name);
-			var label = new Label(cntAttr, Fonts.LabelText);
-			label.Move(30, y);
-			label.Text = title + ":";
-		}
-
-		private void AddSkill(int y, string name, string title)
-		{
-			var image = new Image(cntAttr);
-			image.Move(210, y);
-			image.Drawable = App.Resources.GetImage("gfx/hud/charsh/" + name);
-			var label = new Label(cntAttr, Fonts.LabelText);
-			label.Move(230, y);
-			label.Text = title + ":";
-		}
-
 		private void AddTabButton(int x, string image, string pressedImage, Container tab)
 		{
 			var button = new ImageButton(this);
@@ -111,5 +62,77 @@ namespace MonoHaven.UI.Widgets
 			foreach (var t in tabs)
 				t.Visible = (t == tab);
 		}
+
+		#region Attributes Tab
+
+		private void InitAttributesTab()
+		{
+			cntAttr = new Container(this);
+			cntAttr.Resize(400, 300);
+			tabs.Add(cntAttr);
+
+			var lblBase = new Label(cntAttr, Fonts.LabelText);
+			lblBase.Move(10, 10);
+			lblBase.Text = "Base Attributes:";
+
+			baseLayout = new GridLayout();
+			baseLayout.SetColumnWidth(0, 20);
+			AddBase("str", "Strength");
+			AddBase("agil", "Agility");
+			AddBase("intel", "Intelligence");
+			AddBase("cons", "Constitution");
+			AddBase("perc", "Perception");
+			AddBase("csm", "Charisma");
+			AddBase("dxt", "Dexterity");
+			AddBase("psy", "Psyche");
+			baseLayout.UpdateGeometry(10, 40, 0, 0);
+
+			var lblSkill = new Label(cntAttr, Fonts.LabelText);
+			lblSkill.Move(210, 10);
+			lblSkill.Text = "Skill Values:";
+
+			skillLayout = new GridLayout();
+			skillLayout.SetColumnWidth(0, 20);
+			AddSkill("unarmed", "Unarmed Combat");
+			AddSkill("melee", "Melee Combat");
+			AddSkill("ranged", "Marksmanship");
+			AddSkill("explore", "Exploration");
+			AddSkill("stealth", "Stealth");
+			AddSkill("sewing", "Sewing");
+			AddSkill("smithing", "Smithing");
+			AddSkill("carpentry", "Carpentry");
+			AddSkill("cooking", "Cooking");
+			AddSkill("farming", "Farming");
+			AddSkill("survive", "Survival");
+			skillLayout.UpdateGeometry(210, 40, 0, 0);
+		}
+
+		private void AddBase(string name, string title)
+		{
+			int row = baseLayout.RowCount;
+
+			var image = new Image(cntAttr);
+			image.Drawable = App.Resources.GetImage("gfx/hud/charsh/" + name);
+			baseLayout.AddWidget(image, row, 0);
+
+			var label = new Label(cntAttr, Fonts.LabelText);
+			label.Text = title + ":";
+			baseLayout.AddWidget(label, row, 1);
+		}
+
+		private void AddSkill(string name, string title)
+		{
+			int row = skillLayout.RowCount;
+
+			var image = new Image(cntAttr);
+			image.Drawable = App.Resources.GetImage("gfx/hud/charsh/" + name);
+			skillLayout.AddWidget(image, row, 0);
+
+			var label = new Label(cntAttr, Fonts.LabelText);
+			label.Text = title + ":";
+			skillLayout.AddWidget(label, row, 1);
+		}
+
+		#endregion
 	}
 }
