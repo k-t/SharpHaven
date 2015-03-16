@@ -336,8 +336,15 @@ namespace MonoHaven.Network
 					listeners.ForEach(x => x.UpdateParty());
 					break;
 				case RMSG_SFX:
-					listeners.ForEach(x => x.PlaySound());
+				{
+					var message = new PlaySoundMessage {
+						ResourceId = msg.ReadUint16(),
+						Volume = msg.ReadUint16()/256.0,
+						Speed = msg.ReadUint16()/256.0
+					};
+					listeners.ForEach(x => x.PlaySound(message));
 					break;
+				}
 				case RMSG_CATTR:
 					var attributes = new List<CharAttributeMessage>();
 					while (!msg.IsEom)

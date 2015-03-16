@@ -54,6 +54,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Messages\PlaySoundMessage.cs" />
+    <Compile Include="Resources\Layers\AudioData.cs" />
+    <Compile Include="Resources\Serialization\Binary\AudioDataSerializer.cs" />
     <Compile Include="Utils\Delayed.cs" />
     <Compile Include="Utils\FragmentBuffer.cs" />
     <Compile Include="Network\IConnectionListener.cs" />

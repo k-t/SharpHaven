@@ -13,6 +13,7 @@ namespace MonoHaven
 	{
 		private static readonly Logger log = LogManager.GetCurrentClassLogger();
 
+		private static Audio audio;
 		private static Config config;
 		private static ResourceManager resourceManager;
 		private static MainWindow window;
@@ -28,6 +29,7 @@ namespace MonoHaven
 			config = new Config();
 			resourceManager = new ResourceManager();
 
+			using (audio = new Audio())
 			using (var iconImage = Resources.GetBitmap("custom/ui/icon"))
 			using (var icon = Icon.FromHandle(iconImage.GetHicon()))
 			using (var gameWindow = new MainWindow(800, 600))
@@ -36,6 +38,11 @@ namespace MonoHaven
 				gameWindow.Icon = icon;
 				gameWindow.Run(30, 60);
 			}
+		}
+
+		public static Audio Audio
+		{
+			get { return audio; }
 		}
 
 		public static Config Config

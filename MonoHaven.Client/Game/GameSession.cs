@@ -201,9 +201,10 @@ namespace MonoHaven.Game
 			App.QueueOnMainThread(() => State.Map.AddGrid(updateMapMessage));
 		}
 
-		void IConnectionListener.PlaySound()
+		void IConnectionListener.PlaySound(PlaySoundMessage message)
 		{
-			log.Info("PlaySound");
+			var res = GetResource(message.ResourceId);
+			App.Audio.Play(res);
 		}
 
 		void IConnectionListener.PlayMusic()

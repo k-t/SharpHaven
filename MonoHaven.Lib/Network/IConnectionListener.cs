@@ -28,7 +28,7 @@ namespace MonoHaven.Network
 		void RemoveBuff(int buffId);
 		void ClearBuffs();
 
-		void PlaySound();
+		void PlaySound(PlaySoundMessage message);
 		void PlayMusic();
 
 		void Exit();
