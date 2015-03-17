@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Drawing;
+using System.Linq;
 using MonoHaven.Game;
 using MonoHaven.Graphics;
 using MonoHaven.UI.Layouts;
@@ -10,8 +10,8 @@ namespace MonoHaven.UI.Widgets
 {
 	public class CharWindow : Window
 	{
-		private static readonly Color DebuffColor = Color.FromArgb(255, 128, 128);
-		private static readonly Color BuffColor = Color.FromArgb(128, 255, 128);
+		public static readonly Color DebuffColor = Color.FromArgb(255, 128, 128);
+		public static readonly Color BuffColor = Color.FromArgb(128, 255, 128);
 
 		private static readonly Drawable MinusUp;
 		private static readonly Drawable MinusDown;
@@ -28,15 +28,19 @@ namespace MonoHaven.UI.Widgets
 
 		private readonly GameState gstate;
 		private int exp;
-		private List<SkillAttributeView> skills;
+		private List<AttributeBinding> attrBindings;
 
-		private Container cntAttr;
-		private Container cntStudy;
-		private Label lblExpValue;
-		private Label lblCostValue;
 		private readonly List<Container> tabs;
-		private GridLayout baseLayout;
-		private GridLayout skillLayout;
+		private Container tabAttr;
+		private Container tabStudy;
+		private Container tabSkills;
+		private Container tabBeliefs;
+		private Label lblExpValue;
+		private Label lblExpModValue;
+		private Label lblCostValue;
+
+		private readonly GridLayout baseLayout;
+		private readonly GridLayout skillLayout;
 
 		public CharWindow(Widget parent, GameState gstate) : base(parent, "Character Sheet")
 		{
@@ -44,29 +48,30 @@ namespace MonoHaven.UI.Widgets
 
 			this.gstate = gstate;
 			this.tabs = new List<Container>();
-			this.skills = new List<SkillAttributeView>();
+			this.attrBindings = new List<AttributeBinding>();
+			
+			skillLayout = new GridLayout();
+			skillLayout.SetColumnWidth(0, 20);
+			skillLayout.SetColumnWidth(1, 90);
+			skillLayout.SetColumnWidth(2, 30);
+			skillLayout.SetColumnWidth(3, 15);
+
+			baseLayout = new GridLayout();
+			baseLayout.SetColumnWidth(0, 20);
+			baseLayout.SetColumnWidth(1, 70);
 
 			InitAttributesTab();
-
-			var cntSkill = new Container(this);
-			cntSkill.Resize(400, 275);
-			tabs.Add(cntSkill);
-
-			var cntBelief = new Container(this);
-			cntBelief.Resize(400, 275);
-			tabs.Add(cntBelief);
-
-			cntStudy = new Container(this);
-			cntStudy.Resize(400, 275);
-			tabs.Add(cntStudy);
+			InitSkillsTab();
+			InitBeliefsTab();
+			InitStudyTab();
 
 			int bx = 10;
-			AddTabButton(bx, "gfx/hud/charsh/attribup", "gfx/hud/charsh/attribdown", cntAttr);
-			AddTabButton(bx += 70, "gfx/hud/charsh/ideasup", "gfx/hud/charsh/ideasdown", cntStudy);
-			AddTabButton(bx += 70, "gfx/hud/charsh/skillsup", "gfx/hud/charsh/skillsdown", cntSkill);
-			AddTabButton(bx += 70, "gfx/hud/charsh/worshipup", "gfx/hud/charsh/worshipdown", cntBelief);
+			AddTabButton(bx, "gfx/hud/charsh/attribup", "gfx/hud/charsh/attribdown", tabAttr);
+			AddTabButton(bx += 70, "gfx/hud/charsh/ideasup", "gfx/hud/charsh/ideasdown", tabStudy);
+			AddTabButton(bx += 70, "gfx/hud/charsh/skillsup", "gfx/hud/charsh/skillsdown", tabSkills);
+			AddTabButton(bx += 70, "gfx/hud/charsh/worshipup", "gfx/hud/charsh/worshipdown", tabBeliefs);
 
-			SetTab(cntAttr);
+			SetTab(tabAttr);
 			Pack();
 		}
 
@@ -74,7 +79,7 @@ namespace MonoHaven.UI.Widgets
 
 		public Widget Study
 		{
-			get { return cntStudy; }
+			get { return tabStudy; }
 		}
 
 		public void SetExp(int value)
@@ -99,38 +104,38 @@ namespace MonoHaven.UI.Widgets
 				t.Visible = (t == tab);
 		}
 
-		#region Attributes Tab
+		#region Attributes
 
 		private void InitAttributesTab()
 		{
-			cntAttr = new Container(this);
-			cntAttr.Resize(400, 300);
-			tabs.Add(cntAttr);
+			tabAttr = new Container(this);
+			tabAttr.Resize(400, 300);
+			tabs.Add(tabAttr);
 
 			// LP
-			var lblCost = new Label(cntAttr, Fonts.LabelText);
+			var lblCost = new Label(tabAttr, Fonts.LabelText);
 			lblCost.Text = "Cost:";
-
-			lblCostValue = new Label(cntAttr, Fonts.LabelText);
+			lblCostValue = new Label(tabAttr, Fonts.LabelText);
 			lblCostValue.Text = "0";
 
-			var lblExp = new Label(cntAttr, Fonts.LabelText);
+			var lblExp = new Label(tabAttr, Fonts.LabelText);
 			lblExp.Text = "Learning Points:";
-
-			lblExpValue = new Label(cntAttr, Fonts.LabelText);
+			lblExpValue = new Label(tabAttr, Fonts.LabelText);
 			lblExpValue.Text = "0";
 
-			var lblExpMod = new Label(cntAttr, Fonts.LabelText);
+			var lblExpMod = new Label(tabAttr, Fonts.LabelText);
 			lblExpMod.Text = "Learning Ability:";
+			lblExpModValue = new Label(tabAttr, Fonts.LabelText);
 
-			var lblExpModValue = new Label(cntAttr, Fonts.LabelText);
-			var expModView = new ExpView(gstate.GetAttr("expmod"), lblExpModValue);
+			var expMod = gstate.GetAttr("expmod");
+			attrBindings.Add(new ExpModBinding(expMod, lblExpModValue));
 
-			var btnBuy = new Button(cntAttr, 75);
+			var btnBuy = new Button(tabAttr, 75);
 			btnBuy.Text = "Buy";
 			btnBuy.Clicked += BuySkills;
 
 			var lpLayout = new GridLayout();
+			lpLayout.SetColumnWidth(0, 90);
 			lpLayout.AddWidget(lblCost, 0, 0);
 			lpLayout.AddWidget(lblCostValue, 0, 1);
 			lpLayout.AddWidget(lblExp, 1, 0);
@@ -138,17 +143,12 @@ namespace MonoHaven.UI.Widgets
 			lpLayout.AddWidget(lblExpMod, 2, 0);
 			lpLayout.AddWidget(lblExpModValue, 2, 1);
 			lpLayout.AddWidget(btnBuy, 3, 0);
-			lpLayout.SetColumnWidth(0, 90);
 			lpLayout.UpdateGeometry(210, 220, 0, 0);
 
 			// Base Attributes
-			var lblBase = new Label(cntAttr, Fonts.LabelText);
+			var lblBase = new Label(tabAttr, Fonts.LabelText);
 			lblBase.Move(10, 10);
 			lblBase.Text = "Base Attributes:";
-
-			baseLayout = new GridLayout();
-			baseLayout.SetColumnWidth(0, 20);
-			baseLayout.SetColumnWidth(1, 70);
 			AddBase("str", "Strength");
 			AddBase("agil", "Agility");
 			AddBase("intel", "Intelligence");
@@ -160,15 +160,9 @@ namespace MonoHaven.UI.Widgets
 			baseLayout.UpdateGeometry(10, 40, 0, 0);
 
 			// Skills
-			var lblSkill = new Label(cntAttr, Fonts.LabelText);
+			var lblSkill = new Label(tabAttr, Fonts.LabelText);
 			lblSkill.Move(210, 10);
 			lblSkill.Text = "Skill Values:";
-
-			skillLayout = new GridLayout();
-			skillLayout.SetColumnWidth(0, 20);
-			skillLayout.SetColumnWidth(1, 90);
-			skillLayout.SetColumnWidth(2, 30);
-			skillLayout.SetColumnWidth(3, 15);
 			AddSkill("unarmed", "Unarmed Combat");
 			AddSkill("melee", "Melee Combat");
 			AddSkill("ranged", "Marksmanship");
@@ -185,46 +179,45 @@ namespace MonoHaven.UI.Widgets
 
 		private void AddBase(string name, string title)
 		{
-			var attr = gstate.GetAttr(name);
-
-			var image = new Image(cntAttr);
+			var image = new Image(tabAttr);
 			image.Drawable = App.Resources.GetImage("gfx/hud/charsh/" + name);
 
-			var lblName = new Label(cntAttr, Fonts.LabelText);
+			var lblName = new Label(tabAttr, Fonts.LabelText);
 			lblName.Text = title + ":";
 
-			var lblValue = new Label(cntAttr, Fonts.LabelText);
-			lblValue.Text = attr.ComputedValue.ToString();
-			lblValue.TextColor = GetAttributeColor(attr);
+			var lblValue = new Label(tabAttr, Fonts.LabelText);
 
 			int row = baseLayout.RowCount;
 			baseLayout.AddWidget(image, row, 0);
 			baseLayout.AddWidget(lblName, row, 1);
 			baseLayout.AddWidget(lblValue, row, 2);
+
+			var attr = gstate.GetAttr(name);
+			attrBindings.Add(new BaseAttributeBinding(attr, lblValue));
 		}
 
 		private void AddSkill(string name, string title)
 		{
 			var attr = gstate.GetAttr(name);
 
-			var image = new Image(cntAttr);
+			var image = new Image(tabAttr);
 			image.Drawable = App.Resources.GetImage("gfx/hud/charsh/" + name);
 			
-			var lblName = new Label(cntAttr, Fonts.LabelText);
+			var lblName = new Label(tabAttr, Fonts.LabelText);
 			lblName.Text = title + ":";
 			
-			var lblValue = new Label(cntAttr, Fonts.LabelText);
-			var skill = new SkillAttributeView(attr, lblValue);
+			var lblValue = new Label(tabAttr, Fonts.LabelText);
+			var skill = new SkillAttributeBinding(attr, lblValue);
 			skill.CostChanged += UpdateCost;
-			skills.Add(skill);
-			
-			var btnMinus = new ImageButton(cntAttr);
+			attrBindings.Add(skill);
+
+			var btnMinus = new ImageButton(tabAttr);
 			btnMinus.Image = MinusUp;
 			btnMinus.PressedImage = MinusDown;
 			btnMinus.Clicked += () => skill.Add(-1);
 			btnMinus.MouseWheel += arg => skill.Add(Math.Sign(arg.Delta));
 
-			var btnPlus = new ImageButton(cntAttr);
+			var btnPlus = new ImageButton(tabAttr);
 			btnPlus.Image = PlusUp;
 			btnPlus.PressedImage = PlusDown;
 			btnPlus.Clicked += () => skill.Add(1);
@@ -241,7 +234,7 @@ namespace MonoHaven.UI.Widgets
 		private void UpdateCost()
 		{
 			int cost = 0;
-			foreach (var skill in skills)
+			foreach (var skill in attrBindings.OfType<SkillAttributeBinding>())
 				cost += skill.Cost;
 
 			lblCostValue.Text = cost.ToString();
@@ -251,152 +244,47 @@ namespace MonoHaven.UI.Widgets
 		private void BuySkills()
 		{
 			var args = new List<object>();
-			foreach (var skill in skills)
+			foreach (var skill in attrBindings.OfType<SkillAttributeBinding>())
 			{
-				args.Add(skill.Name);
-				args.Add(skill.CurrentBaseValue);
+				args.Add(skill.AttributeName);
+				args.Add(skill.BaseValue);
 			}
 			AttributesBought.Raise(args.ToArray());
 		}
 
 		#endregion
 
-		private Color GetAttributeColor(CharAttribute attr)
+		#region Study
+
+		private void InitStudyTab()
 		{
-			if (attr.ComputedValue > attr.BaseValue)
-				return BuffColor;
-			if (attr.ComputedValue < attr.BaseValue)
-				return DebuffColor;
-			return Color.White;
+			tabStudy = new Container(this);
+			tabStudy.Resize(400, 275);
+			tabs.Add(tabStudy);
 		}
 
-		private abstract class CharAttributeView
+		#endregion
+
+		#region Skills
+
+		private void InitSkillsTab()
 		{
-			protected readonly CharAttribute attribute;
-			private readonly Label label;
-
-			protected CharAttributeView(CharAttribute attribute, Label label)
-			{
-				this.label = label;
-				this.attribute = attribute;
-				this.attribute.Changed += OnAttributeChange;
-				UpdateLabel();
-			}
-
-			protected abstract string DisplayValue { get; }
-			protected abstract Color DisplayColor { get; }
-
-			protected virtual void OnAttributeChange()
-			{
-				UpdateLabel();
-			}
-
-			protected void UpdateLabel()
-			{
-				label.Text = DisplayValue;
-				label.TextColor = DisplayColor;
-			}
+			tabSkills = new Container(this);
+			tabSkills.Resize(400, 275);
+			tabs.Add(tabSkills);
 		}
 
-		private class ExpView : CharAttributeView
+		#endregion
+
+		#region Beliefs
+
+		private void InitBeliefsTab()
 		{
-			public ExpView(CharAttribute attribute, Label label)
-				: base(attribute, label)
-			{
-			}
-
-			protected override string DisplayValue
-			{
-				get { return string.Format("{0}%", attribute.ComputedValue); }
-			}
-
-			protected override Color DisplayColor
-			{
-				get
-				{
-					if (attribute.ComputedValue > 100)
-						return BuffColor;
-					if (attribute.ComputedValue < 100)
-						return DebuffColor;
-					return Color.White;
-				}
-			}
+			tabBeliefs = new Container(this);
+			tabBeliefs.Resize(400, 275);
+			tabs.Add(tabBeliefs);
 		}
 
-		private class SkillAttributeView : CharAttributeView
-		{
-			private int baseValue;
-			private int compValue;
-			private int cost;
-
-			public SkillAttributeView(CharAttribute attribute, Label label)
-				: base(attribute, label)
-			{
-				baseValue = attribute.BaseValue;
-				compValue = attribute.ComputedValue;
-				UpdateLabel();
-			}
-
-			public event Action CostChanged;
-
-			protected override string DisplayValue
-			{
-				get { return compValue.ToString(); }
-			}
-
-			protected override Color DisplayColor
-			{
-				get
-				{
-					if (baseValue > attribute.BaseValue)
-						return Color.FromArgb(128, 128, 255);
-					if (attribute.ComputedValue > attribute.BaseValue)
-						return BuffColor;
-					if (attribute.ComputedValue < attribute.BaseValue)
-						return DebuffColor;
-					return Color.White;
-				}
-			}
-
-			public string Name
-			{
-				get { return attribute.Name; }
-			}
-
-			public int CurrentBaseValue
-			{
-				get { return baseValue; }
-			}
-
-			public int Cost
-			{
-				get { return cost; }
-			}
-
-			public void Add(int value)
-			{
-				if (baseValue + value < attribute.BaseValue)
-					return;
-				
-				baseValue += value;
-				compValue += value;
-				UpdateLabel();
-
-				if (value > 0)
-					cost += baseValue * 100;
-				else
-					cost -= (baseValue - value) * 100;
-				CostChanged.Raise();
-			}
-
-			protected override void OnAttributeChange()
-			{
-				baseValue = attribute.BaseValue;
-				compValue = attribute.ComputedValue;
-				cost = 0;
-				base.OnAttributeChange();
-				CostChanged.Raise();
-			}
-		}
+		#endregion
 	}
 }
