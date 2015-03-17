@@ -94,6 +94,13 @@ namespace MonoHaven.UI.Widgets
 			lblExpValue.Text = value.ToString();
 		}
 
+		protected override void OnDispose()
+		{
+			base.OnDispose();
+			foreach (var binding in attrBindings)
+				binding.Dispose();
+		}
+
 		private void AddTabButton(int x, string image, string pressedImage, Container tab)
 		{
 			var button = new ImageButton(this);
