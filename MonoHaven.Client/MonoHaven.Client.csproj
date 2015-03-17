@@ -151,6 +151,7 @@
     <Compile Include="UI\Widgets\Char\BaseAttributeBinding.cs" />
     <Compile Include="UI\Widgets\Char\CharWindow.cs" />
     <Compile Include="UI\Widgets\Char\ExpModBinding.cs" />
+    <Compile Include="UI\Widgets\Char\FoodMeter.cs" />
     <Compile Include="UI\Widgets\Char\SkillAttributeBinding.cs" />
     <Compile Include="UI\Widgets\Chat.cs" />
     <Compile Include="UI\Widgets\ChatWindow.cs" />

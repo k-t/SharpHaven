@@ -34,6 +34,8 @@ namespace MonoHaven.UI.Remote
 		{
 			if (message == "exp")
 				widget.SetExp((int)args[0]);
+			else if (message == "food")
+				widget.FoodMeter.Update(args);
 		}
 	}
 }

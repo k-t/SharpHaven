@@ -38,6 +38,7 @@ namespace MonoHaven.UI.Widgets
 		private Label lblExpValue;
 		private Label lblExpModValue;
 		private Label lblCostValue;
+		private FoodMeter foodMeter;
 
 		private readonly GridLayout baseLayout;
 		private readonly GridLayout skillLayout;
@@ -80,6 +81,11 @@ namespace MonoHaven.UI.Widgets
 		public Widget Study
 		{
 			get { return tabStudy; }
+		}
+
+		public FoodMeter FoodMeter
+		{
+			get { return foodMeter; }
 		}
 
 		public void SetExp(int value)
@@ -175,6 +181,10 @@ namespace MonoHaven.UI.Widgets
 			AddSkill("farming", "Farming");
 			AddSkill("survive", "Survival");
 			skillLayout.UpdateGeometry(210, 40, 0, 0);
+
+			// Food
+			foodMeter = new FoodMeter(tabAttr);
+			foodMeter.Move(10, 180);
 		}
 
 		private void AddBase(string name, string title)

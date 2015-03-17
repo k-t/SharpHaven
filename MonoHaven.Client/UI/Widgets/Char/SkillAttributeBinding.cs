@@ -4,7 +4,7 @@ using System;
 
 namespace MonoHaven.UI.Widgets
 {
-	internal class SkillAttributeBinding : AttributeBinding
+	public class SkillAttributeBinding : AttributeBinding
 	{
 		private readonly Label label;
 		private int baseValue;
