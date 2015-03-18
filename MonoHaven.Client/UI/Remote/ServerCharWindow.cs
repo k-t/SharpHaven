@@ -39,6 +39,8 @@ namespace MonoHaven.UI.Remote
 				widget.FoodMeter.Update(args);
 			else if (message == "btime")
 				widget.BeliefTimer.Time = (int)args[0];
+			else if (message == "studynum")
+				widget.SetAttention((int)args[0]);
 		}
 
 		private void OnAttributesChanged(object[] args)

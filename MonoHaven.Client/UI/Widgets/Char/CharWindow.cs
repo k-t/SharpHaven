@@ -39,6 +39,7 @@ namespace MonoHaven.UI.Widgets
 		private Label lblExpValue;
 		private Label lblExpModValue;
 		private Label lblCostValue;
+		private Label lblAttentionValue;
 		private FoodMeter foodMeter;
 		private BeliefTimer beliefTimer;
 		private readonly List<BeliefWidget> beliefWidgets;
@@ -99,6 +100,11 @@ namespace MonoHaven.UI.Widgets
 		public FoodMeter FoodMeter
 		{
 			get { return foodMeter; }
+		}
+
+		public void SetAttention(int value)
+		{
+			lblAttentionValue.Text = value.ToString();
 		}
 
 		public void SetExp(int value)
@@ -291,6 +297,23 @@ namespace MonoHaven.UI.Widgets
 			tabStudy = new Container(this);
 			tabStudy.Resize(400, 275);
 			tabs.Add(tabStudy);
+
+			var lblAttention = new Label(tabStudy, Fonts.LabelText);
+			lblAttention.Text = "Used attention:";
+			lblAttention.Move(138, 210);
+
+			lblAttentionValue = new Label(tabStudy, Fonts.LabelText);
+			lblAttentionValue.Move(240, 210);
+
+			var lblLimit = new Label(tabStudy, Fonts.LabelText);
+			lblLimit.Text = "Attention limit:";
+			lblLimit.Move(138, 225);
+
+			var lblLimitValue = new Label(tabStudy, Fonts.LabelText);
+			lblLimitValue.Move(240, 225);
+
+			var intelAttr = gstate.GetAttr("intel");
+			attrBindings.Add(new BaseAttributeBinding(intelAttr, lblLimitValue));
 		}
 
 		#endregion
