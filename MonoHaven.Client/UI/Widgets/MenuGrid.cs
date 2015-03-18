@@ -46,6 +46,16 @@ namespace MonoHaven.UI.Widgets
 			Resize(cellWidth * ColumnCount, cellHeight * RowCount);
 		}
 
+		public event Action<GameAction> ActionSelected;
+
+		public void SetCurrentAction(string resName)
+		{
+			current = string.IsNullOrEmpty(resName)
+				? actionTree.Root
+				: actionTree.Get(resName) ?? actionTree.Root;
+			UpdateCells();
+		}
+
 		protected override void OnDraw(DrawingContext dc)
 		{
 			for (int i = 0; i < RowCount; i++)
@@ -84,6 +94,8 @@ namespace MonoHaven.UI.Widgets
 						current = current.Parent;
 					else if (pressed.Action.HasChildren)
 						current = pressed.Action;
+					else
+						ActionSelected.Raise(pressed.Action);
 					UpdateCells();
 				}
 				pressed = null;

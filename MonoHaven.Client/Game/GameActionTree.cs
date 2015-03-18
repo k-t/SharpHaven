@@ -31,6 +31,12 @@ namespace MonoHaven.Game
 			Changed.Raise();
 		}
 
+		public GameAction Get(string resName)
+		{
+			GameAction act;
+			return actions.Find(ref resName, out act) ? act : null;
+		}
+
 		public void Remove(string resName)
 		{
 			if (actions.Remove(resName))
