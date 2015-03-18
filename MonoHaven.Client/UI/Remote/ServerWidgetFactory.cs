@@ -40,6 +40,7 @@ namespace MonoHaven.UI.Remote
 			methods["chr"] = ServerCharWindow.Create;
 			methods["vm"] = ServerVMeter.Create;
 			methods["prog"] = ServerProgress.Create;
+			methods["isbox"] = ServerISBox.Create;
 		}
 
 		public ServerWidget Create(

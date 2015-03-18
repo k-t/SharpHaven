@@ -142,6 +142,7 @@
     <Compile Include="UI\Layouts\GridLayout.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="UI\Remote\ServerISBox.cs" />
     <Compile Include="UI\Remote\ServerProgress.cs" />
     <Compile Include="UI\Remote\ServerVMeter.cs" />
     <Compile Include="UI\Widgets\AvatarView.cs" />
@@ -168,6 +169,7 @@
     <Compile Include="UI\Widgets\HudMenu.cs" />
     <Compile Include="UI\Widgets\InventoryWidget.cs" />
     <Compile Include="UI\IScreen.cs" />
+    <Compile Include="UI\Widgets\ISBox.cs" />
     <Compile Include="UI\Widgets\ItemWidget.cs" />
     <Compile Include="UI\IWidgetHost.cs" />
     <Compile Include="UI\Widgets\Label.cs" />
