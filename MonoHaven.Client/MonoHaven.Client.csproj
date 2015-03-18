@@ -149,6 +149,10 @@
     <Compile Include="UI\Widgets\Charlist.cs" />
     <Compile Include="UI\Widgets\Char\AttributeBinding.cs" />
     <Compile Include="UI\Widgets\Char\BaseAttributeBinding.cs" />
+    <Compile Include="UI\Widgets\Char\BeliefBinding.cs" />
+    <Compile Include="UI\Widgets\Char\BeliefChangeEventArgs.cs" />
+    <Compile Include="UI\Widgets\Char\BeliefTimer.cs" />
+    <Compile Include="UI\Widgets\Char\BeliefWidget.cs" />
     <Compile Include="UI\Widgets\Char\CharWindow.cs" />
     <Compile Include="UI\Widgets\Char\ExpModBinding.cs" />
     <Compile Include="UI\Widgets\Char\FoodMeter.cs" />
@@ -203,6 +207,7 @@
     <Compile Include="UI\Widgets\Window.cs" />
     <Compile Include="Utils\BitArrayExtensions.cs" />
     <Compile Include="Utils\MathUtils.cs" />
+    <Compile Include="Utils\StringUtils.cs" />
     <Compile Include="Utils\TypeMatcher.cs" />
     <Compile Include="Utils\PointComparer.cs" />
     <Compile Include="Game\GameScreen.cs" />

@@ -5,6 +5,7 @@ using System.Linq;
 using MonoHaven.Game;
 using MonoHaven.Graphics;
 using MonoHaven.UI.Layouts;
+using MonoHaven.Utils;
 
 namespace MonoHaven.UI.Widgets
 {
@@ -39,9 +40,12 @@ namespace MonoHaven.UI.Widgets
 		private Label lblExpModValue;
 		private Label lblCostValue;
 		private FoodMeter foodMeter;
+		private BeliefTimer beliefTimer;
+		private readonly List<BeliefWidget> beliefWidgets;
 
 		private readonly GridLayout baseLayout;
 		private readonly GridLayout skillLayout;
+		private readonly GridLayout beliefLayout;
 
 		public CharWindow(Widget parent, GameState gstate) : base(parent, "Character Sheet")
 		{
@@ -50,6 +54,7 @@ namespace MonoHaven.UI.Widgets
 			this.gstate = gstate;
 			this.tabs = new List<Container>();
 			this.attrBindings = new List<AttributeBinding>();
+			this.beliefWidgets = new List<BeliefWidget>();
 			
 			skillLayout = new GridLayout();
 			skillLayout.SetColumnWidth(0, 20);
@@ -60,6 +65,8 @@ namespace MonoHaven.UI.Widgets
 			baseLayout = new GridLayout();
 			baseLayout.SetColumnWidth(0, 20);
 			baseLayout.SetColumnWidth(1, 70);
+
+			beliefLayout = new GridLayout();
 
 			InitAttributesTab();
 			InitSkillsTab();
@@ -76,11 +83,17 @@ namespace MonoHaven.UI.Widgets
 			Pack();
 		}
 
-		public event Action<object[]> AttributesBought;
+		public event Action<object[]> AttributesChanged;
+		public event Action<BeliefChangeEventArgs> BeliefChanged;
 
 		public Widget Study
 		{
 			get { return tabStudy; }
+		}
+
+		public BeliefTimer BeliefTimer
+		{
+			get { return beliefTimer; }
 		}
 
 		public FoodMeter FoodMeter
@@ -266,7 +279,7 @@ namespace MonoHaven.UI.Widgets
 				args.Add(skill.AttributeName);
 				args.Add(skill.BaseValue);
 			}
-			AttributesBought.Raise(args.ToArray());
+			AttributesChanged.Raise(args.ToArray());
 		}
 
 		#endregion
@@ -300,6 +313,49 @@ namespace MonoHaven.UI.Widgets
 			tabBeliefs = new Container(this);
 			tabBeliefs.Resize(400, 275);
 			tabs.Add(tabBeliefs);
+
+			beliefTimer = new BeliefTimer(tabBeliefs);
+			beliefTimer.Move(10, 10);
+			beliefTimer.TimeChanged += HandleBeliefTimeChange;
+
+			AddBelief("life", "death", "life", false);
+			AddBelief("night", "night", "day", true);
+			AddBelief("civil", "barbarism", "civilization", false);
+			AddBelief("nature", "nature", "industry", true);
+			AddBelief("martial", "martial", "peaceful", true);
+			AddBelief("change", "tradition", "change", false);
+
+			beliefLayout.UpdateGeometry(18, 50, 0, 0);
+		}
+
+		private void AddBelief(string name, string left, string right, bool inv)
+		{
+			var widget = new BeliefWidget(tabBeliefs, left, right);
+			widget.SliderMoved += (delta) => HandleBeliefChange(name, delta, inv);
+			beliefWidgets.Add(widget);
+
+			var label = new Label(tabBeliefs, Fonts.LabelText);
+			label.TextAlign = TextAlign.Center;
+			label.Text = string.Format("{0} / {1}", left.ToTitleCase(), right.ToTitleCase());
+			label.Resize(widget.Width, label.Height);
+
+			var attr = gstate.GetAttr(name);
+			attrBindings.Add(new BeliefBinding(attr, widget, inv));
+
+			int row = beliefLayout.RowCount;
+			beliefLayout.AddWidget(label, row, 0);
+			beliefLayout.AddWidget(widget, row + 1, 0);
+		}
+
+		private void HandleBeliefTimeChange()
+		{
+			foreach (var widget in beliefWidgets)
+				widget.Enabled = !(beliefTimer.Time > 0);
+		}
+
+		private void HandleBeliefChange(string name, int delta, bool inv)
+		{
+			BeliefChanged.Raise(new BeliefChangeEventArgs(name, delta, inv));
 		}
 
 		#endregion

@@ -27,7 +27,8 @@ namespace MonoHaven.UI.Remote
 			: base(id, parent, widget)
 		{
 			this.widget = widget;
-			this.widget.AttributesBought += args => SendMessage("sattr", args);
+			this.widget.AttributesChanged += OnAttributesChanged;
+			this.widget.BeliefChanged += OnBeliefChanged;
 		}
 
 		public override void ReceiveMessage(string message, object[] args)
@@ -36,6 +37,18 @@ namespace MonoHaven.UI.Remote
 				widget.SetExp((int)args[0]);
 			else if (message == "food")
 				widget.FoodMeter.Update(args);
+			else if (message == "btime")
+				widget.BeliefTimer.Time = (int)args[0];
+		}
+
+		private void OnAttributesChanged(object[] args)
+		{
+			SendMessage("sattr", args);
+		}
+
+		private void OnBeliefChanged(BeliefChangeEventArgs args)
+		{
+			SendMessage("believe", args.Name, args.Delta);
 		}
 	}
 }
