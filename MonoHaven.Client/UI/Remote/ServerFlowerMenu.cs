@@ -25,6 +25,8 @@ namespace MonoHaven.UI.Remote
 		{
 			if (message == "cancel")
 				widget.Remove();
+			else if (message == "act")
+				widget.Remove();
 			else
 				base.ReceiveMessage(message, args);
 		}
