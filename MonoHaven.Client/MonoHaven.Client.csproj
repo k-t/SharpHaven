@@ -76,6 +76,7 @@
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="Audio.cs" />
     <Compile Include="Cursors.cs" />
+    <Compile Include="FontFaces.cs" />
     <Compile Include="FrameCounter.cs" />
     <Compile Include="Game\CharAttribute.cs" />
     <Compile Include="Game\GameAction.cs" />
