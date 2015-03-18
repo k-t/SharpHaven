@@ -38,6 +38,8 @@ namespace MonoHaven.UI.Remote
 			methods["epry"] = ServerEquipory.Create;
 			methods["buddy"] = ServerBuddyList.Create;
 			methods["chr"] = ServerCharWindow.Create;
+			methods["vm"] = ServerVMeter.Create;
+			methods["prog"] = ServerProgress.Create;
 		}
 
 		public ServerWidget Create(

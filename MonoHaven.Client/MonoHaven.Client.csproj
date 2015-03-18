@@ -141,6 +141,8 @@
     <Compile Include="UI\Layouts\GridLayout.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="UI\Remote\ServerProgress.cs" />
+    <Compile Include="UI\Remote\ServerVMeter.cs" />
     <Compile Include="UI\Widgets\AvatarView.cs" />
     <Compile Include="UI\Widgets\BuddyList.cs" />
     <Compile Include="UI\Widgets\Bufflist.cs" />
@@ -200,10 +202,12 @@
     <Compile Include="UI\Remote\ServerWidget.cs" />
     <Compile Include="UI\Remote\ServerWidgetFactory.cs" />
     <Compile Include="UI\Remote\ServerWindow.cs" />
+    <Compile Include="UI\Widgets\Progress.cs" />
     <Compile Include="UI\Widgets\RootWidget.cs" />
     <Compile Include="UI\Widgets\Container.cs" />
     <Compile Include="UI\Widgets\Speedget.cs" />
     <Compile Include="UI\Widgets\TabWidget.cs" />
+    <Compile Include="UI\Widgets\VMeter.cs" />
     <Compile Include="UI\Widgets\Window.cs" />
     <Compile Include="Utils\BitArrayExtensions.cs" />
     <Compile Include="Utils\MathUtils.cs" />

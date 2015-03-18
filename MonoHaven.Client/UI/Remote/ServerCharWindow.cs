@@ -41,6 +41,8 @@ namespace MonoHaven.UI.Remote
 				widget.BeliefTimer.Time = (int)args[0];
 			else if (message == "studynum")
 				widget.SetAttention((int)args[0]);
+			else
+				base.ReceiveMessage(message, args);
 		}
 
 		private void OnAttributesChanged(object[] args)
