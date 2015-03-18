@@ -14,9 +14,20 @@ namespace MonoHaven.UI.Remote
 			return new ServerImage(id, parent, widget);
 		}
 
+		private readonly Image widget;
+
 		public ServerImage(ushort id, ServerWidget parent, Image widget)
 			: base(id, parent, widget)
 		{
+			this.widget = widget;
+		}
+
+		public override void ReceiveMessage(string message, object[] args)
+		{
+			if (message == "ch")
+				widget.Drawable = App.Resources.GetImage((string)args[0]);
+			else
+				base.ReceiveMessage(message, args);
 		}
 	}
 }
