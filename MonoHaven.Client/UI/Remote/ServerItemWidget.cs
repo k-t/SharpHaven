@@ -17,12 +17,31 @@ namespace MonoHaven.UI.Remote
 
 			var image = parent.Session.GetImage(resId);
 			var widget = new ItemWidget(parent.Widget, image);
+			widget.Tooltip = !string.IsNullOrEmpty(tooltip)
+				? new Tooltip(tooltip)
+				: null;
 			return new ServerItemWidget(id, parent, widget);
 		}
+
+		private readonly ItemWidget widget;
 
 		public ServerItemWidget(ushort id, ServerWidget parent, ItemWidget widget)
 			: base(id, parent, widget)
 		{
+			this.widget = widget;
+		}
+
+		public override void ReceiveMessage(string message, object[] args)
+		{
+			if (message == "tt")
+			{
+				var text = args.Length > 0 ? (string)args[0] : null;
+				widget.Tooltip = !string.IsNullOrEmpty(text)
+					? new Tooltip(text)
+					: null;
+			}
+			else
+				base.ReceiveMessage(message, args);
 		}
 	}
 }
