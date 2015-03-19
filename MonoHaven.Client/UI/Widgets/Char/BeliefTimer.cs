@@ -29,6 +29,7 @@ namespace MonoHaven.UI.Widgets
 			set
 			{
 				time = value;
+				Tooltip = GetTooltip();
 				TimeChanged.Raise();
 			}
 		}
@@ -37,6 +38,15 @@ namespace MonoHaven.UI.Widgets
 		{
 			var image = Time > 0 ? offImage : onImage;
 			dc.Draw(image, 0, 0);
+		}
+
+		private Tooltip GetTooltip()
+		{
+			if (Time == 0)
+				return null;
+			if (Time < 3600)
+				return new Tooltip("Less than one hour left");
+			return new Tooltip(string.Format("{0} hours left", ((Time - 1) / 3600) + 1));
 		}
 	}
 }

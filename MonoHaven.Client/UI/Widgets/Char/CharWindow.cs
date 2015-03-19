@@ -75,10 +75,10 @@ namespace MonoHaven.UI.Widgets
 			InitStudyTab();
 
 			int bx = 10;
-			AddTabButton(bx, "gfx/hud/charsh/attribup", "gfx/hud/charsh/attribdown", tabAttr);
-			AddTabButton(bx += 70, "gfx/hud/charsh/ideasup", "gfx/hud/charsh/ideasdown", tabStudy);
-			AddTabButton(bx += 70, "gfx/hud/charsh/skillsup", "gfx/hud/charsh/skillsdown", tabSkills);
-			AddTabButton(bx += 70, "gfx/hud/charsh/worshipup", "gfx/hud/charsh/worshipdown", tabBeliefs);
+			AddTabButton(bx, "Attributes", "gfx/hud/charsh/attribup", "gfx/hud/charsh/attribdown", tabAttr);
+			AddTabButton(bx += 70, "Study", "gfx/hud/charsh/ideasup", "gfx/hud/charsh/ideasdown", tabStudy);
+			AddTabButton(bx += 70, "Skills", "gfx/hud/charsh/skillsup", "gfx/hud/charsh/skillsdown", tabSkills);
+			AddTabButton(bx += 70, "Personal Beliefs", "gfx/hud/charsh/worshipup", "gfx/hud/charsh/worshipdown", tabBeliefs);
 
 			SetTab(tabAttr);
 			Pack();
@@ -120,9 +120,10 @@ namespace MonoHaven.UI.Widgets
 				binding.Dispose();
 		}
 
-		private void AddTabButton(int x, string image, string pressedImage, Container tab)
+		private void AddTabButton(int x, string tooltip, string image, string pressedImage, Container tab)
 		{
 			var button = new ImageButton(this);
+			button.Tooltip = new Tooltip(tooltip);
 			button.Move(x, 310);
 			button.Image = App.Resources.GetImage(image);
 			button.PressedImage = App.Resources.GetImage(pressedImage);
@@ -222,6 +223,7 @@ namespace MonoHaven.UI.Widgets
 			lblName.Text = title + ":";
 
 			var lblValue = new Label(tabAttr, Fonts.LabelText);
+			lblValue.AutoSize = true;
 
 			int row = baseLayout.RowCount;
 			baseLayout.AddWidget(image, row, 0);
@@ -243,6 +245,7 @@ namespace MonoHaven.UI.Widgets
 			lblName.Text = title + ":";
 			
 			var lblValue = new Label(tabAttr, Fonts.LabelText);
+			lblValue.AutoSize = true;
 			var skill = new SkillAttributeBinding(attr, lblValue);
 			skill.CostChanged += UpdateCost;
 			attrBindings.Add(skill);

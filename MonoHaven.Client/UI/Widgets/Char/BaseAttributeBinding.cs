@@ -23,6 +23,7 @@ namespace MonoHaven.UI.Widgets
 		{
 			label.Text = string.Format("{0}", attribute.ComputedValue);
 			label.TextColor = GetDisplayColor();
+			label.Tooltip = GetTooltip();
 		}
 
 		private Color GetDisplayColor()
@@ -32,6 +33,19 @@ namespace MonoHaven.UI.Widgets
 			if (attribute.ComputedValue < attribute.BaseValue)
 				return CharWindow.DebuffColor;
 			return Color.White;
+		}
+
+		private Tooltip GetTooltip()
+		{
+			if (attribute.ComputedValue < attribute.BaseValue)
+				return new Tooltip(string.Format("{0} - {1}",
+					attribute.BaseValue,
+					attribute.BaseValue - attribute.ComputedValue));
+			if (attribute.ComputedValue > attribute.BaseValue)
+				return new Tooltip(string.Format("{0} + {1}",
+					attribute.BaseValue,
+					attribute.ComputedValue - attribute.BaseValue));
+			return null;
 		}
 	}
 }

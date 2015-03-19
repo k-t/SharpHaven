@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using MonoHaven.Graphics;
 using System.Drawing;
+using System.Linq;
 
 namespace MonoHaven.UI.Widgets
 {
@@ -34,6 +35,8 @@ namespace MonoHaven.UI.Widgets
 				var color = (Color)args[i + 2];
 				els.Add(new El(id, amount, color));
 			}
+
+			UpdateTooltip();
 		}
 
 		protected override void OnDraw(DrawingContext dc)
@@ -53,6 +56,19 @@ namespace MonoHaven.UI.Widgets
 			dc.SetColor(255, 255, 255, 128);
 			dc.Draw(background, 0, 0);
 			dc.ResetColor();
+		}
+
+		private void UpdateTooltip()
+		{
+			if (els.Count == 0)
+				Tooltip = new Tooltip(string.Format("0 of {0:0.0}", cap / 10.0));
+			else
+			{
+				var parts = els.Select(el => string.Format("{0:0.0} {1}", el.Amount / 10.0, el.Id));
+				var sum = els.Sum(el => el.Amount);
+				Tooltip = new Tooltip(string.Format("({0}) = {1:0.0} of {2:0.0}",
+					string.Join(" + ", parts), sum / 10.0, cap / 10.0));
+			}
 		}
 
 		private class El
