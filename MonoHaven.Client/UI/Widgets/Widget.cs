@@ -142,6 +142,12 @@ namespace MonoHaven.UI.Widgets
 			}
 		}
 
+		public Tooltip Tooltip
+		{
+			get;
+			set;
+		}
+
 		#endregion
 
 		#region Public Methods

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using MonoHaven.Graphics;
 using MonoHaven.Input;
 using MonoHaven.UI.Widgets;
@@ -9,13 +10,29 @@ namespace MonoHaven.UI
 	public abstract class BaseScreen : IDisposable, IScreen, IWidgetHost
 	{
 		private readonly RootWidget rootWidget;
+		private Point mousePosition;
 		private Widget mouseFocus;
 		private Widget keyboardFocus;
 		private Widget hoveredWidget;
+		private Tooltip tooltip;
 
 		protected BaseScreen()
 		{
 			rootWidget = new RootWidget(this);
+		}
+
+		private Tooltip Tooltip
+		{
+			get { return tooltip; }
+			set
+			{
+				if (tooltip != value)
+				{
+					if (tooltip != null)
+						tooltip.Dispose();
+					tooltip = value;
+				}
+			}
 		}
 
 		public virtual void Dispose()
@@ -53,9 +70,18 @@ namespace MonoHaven.UI
 				var cursor = hoveredWidget.Cursor ?? Cursors.Default;
 				if (Window.Cursor != cursor)
 					Window.Cursor = cursor;
+				Tooltip = hoveredWidget.Tooltip;
+			}
+			else
+			{
+				Window.Cursor = Cursors.Default;
+				Tooltip = null;
 			}
 
 			rootWidget.Draw(dc);
+
+			if (tooltip != null)
+				tooltip.Draw(dc, mousePosition.X, mousePosition.Y);
 		}
 
 		protected virtual void OnUpdate(int dt)
@@ -74,8 +100,7 @@ namespace MonoHaven.UI
 			if (hoveredWidget == widget) return;
 			if (hoveredWidget != null) hoveredWidget.IsHovered = false;
 			hoveredWidget = widget;
-			if (hoveredWidget != null)
-				hoveredWidget.IsHovered = true;
+			if (hoveredWidget != null) hoveredWidget.IsHovered = true;
 		}
 
 		#region IScreen Implementation
@@ -125,6 +150,8 @@ namespace MonoHaven.UI
 
 		void IScreen.MouseMove(MouseMoveEvent e)
 		{
+			mousePosition = e.Position;
+
 			if (mouseFocus != null)
 				// don't hover widgets mouse is grabbed
 				mouseFocus.HandleMouseMove(e);

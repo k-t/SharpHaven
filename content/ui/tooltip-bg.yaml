@@ -1,0 +1,9 @@
+version: 1
+layers:
+  - !image
+    file: tooltip-bg.png
+  - !ninepatch
+    top: 1
+    bottom: 1
+    left: 1
+    right: 1

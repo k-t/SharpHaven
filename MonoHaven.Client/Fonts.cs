@@ -9,6 +9,7 @@ namespace MonoHaven
 		public static readonly SpriteFont LabelText;
 		public static readonly SpriteFont Text;
 		public static readonly SpriteFont Heading;
+		public static readonly SpriteFont Tooltip;
 
 		static Fonts()
 		{
@@ -16,6 +17,7 @@ namespace MonoHaven
 			LabelText = Create(FontFaces.Sans, 11);
 			Text = Create(FontFaces.Serif, 12);
 			Heading = Create(FontFaces.Serif, 18);
+			Tooltip = LabelText;
 		}
 
 		public static SpriteFont Create(Face fontFace, uint pixelSize)
