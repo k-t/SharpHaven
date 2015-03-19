@@ -38,6 +38,11 @@ namespace MonoHaven.UI.Remote
 					metrics.Add(new Metric((Color)args[i], (int)args[i + 1]));
 				widget.SetMetrics(metrics);
 			}
+			else if (message == "tt")
+			{
+				var text = (string)args[0];
+				widget.Tooltip = new Tooltip(text);
+			}
 			else
 				base.ReceiveMessage(message, args);
 		}
