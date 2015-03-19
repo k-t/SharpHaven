@@ -45,9 +45,15 @@ namespace MonoHaven.UI.Remote
 		public virtual void ReceiveMessage(string message, object[] args)
 		{
 			// TODO: handle common widget commands (focus, tab, etc).
-
-			log.Warn("Unhandled message {0}({1}) for {2}",
-				message, string.Join(",", args), GetType());
+			if (message == "curs")
+			{
+				widget.Cursor = args.Length > 0
+					? App.Resources.GetCursor((string)args[0])
+					: null;
+			}
+			else
+				log.Warn("Unhandled message {0}({1}) for {2}",
+					message, string.Join(",", args), GetType());
 		}
 
 		protected void SendMessage(string message)

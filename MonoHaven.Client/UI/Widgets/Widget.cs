@@ -16,6 +16,7 @@ namespace MonoHaven.UI.Widgets
 		private bool isDisposed;
 		private bool isFocused;
 		private bool isHovered;
+		private MouseCursor cursor;
 
 		protected Widget(IWidgetHost host)
 		{
@@ -90,7 +91,8 @@ namespace MonoHaven.UI.Widgets
 
 		public virtual MouseCursor Cursor
 		{
-			get { return Cursors.Default; }
+			get { return cursor ?? (Parent != null ? Parent.Cursor : null); }
+			set { cursor = value; }
 		}
 
 		public Rectangle Bounds

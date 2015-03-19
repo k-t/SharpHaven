@@ -48,6 +48,13 @@ namespace MonoHaven.UI
 
 		protected virtual void OnDraw(DrawingContext dc)
 		{
+			if (hoveredWidget != null)
+			{
+				var cursor = hoveredWidget.Cursor ?? Cursors.Default;
+				if (Window.Cursor != cursor)
+					Window.Cursor = cursor;
+			}
+
 			rootWidget.Draw(dc);
 		}
 
@@ -68,10 +75,7 @@ namespace MonoHaven.UI
 			if (hoveredWidget != null) hoveredWidget.IsHovered = false;
 			hoveredWidget = widget;
 			if (hoveredWidget != null)
-			{
-				Window.Cursor = hoveredWidget.Cursor;
 				hoveredWidget.IsHovered = true;
-			}
 		}
 
 		#region IScreen Implementation
