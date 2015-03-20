@@ -1,4 +1,6 @@
-﻿using MonoHaven.UI.Widgets;
+﻿using System.Collections.Generic;
+using MonoHaven.Game;
+using MonoHaven.UI.Widgets;
 
 namespace MonoHaven.UI.Remote
 {
@@ -29,20 +31,35 @@ namespace MonoHaven.UI.Remote
 			this.widget = widget;
 			this.widget.AttributesChanged += OnAttributesChanged;
 			this.widget.BeliefChanged += OnBeliefChanged;
+			this.widget.SkillLearned += OnSkillLearned;
 		}
 
 		public override void ReceiveMessage(string message, object[] args)
 		{
-			if (message == "exp")
-				widget.SetExp((int)args[0]);
-			else if (message == "food")
-				widget.FoodMeter.Update(args);
-			else if (message == "btime")
-				widget.BeliefTimer.Time = (int)args[0];
-			else if (message == "studynum")
-				widget.SetAttention((int)args[0]);
-			else
-				base.ReceiveMessage(message, args);
+			switch (message)
+			{
+				case "exp":
+					widget.SetExp((int)args[0]);
+					break;
+				case "food":
+					widget.FoodMeter.Update(args);
+					break;
+				case "btime":
+					widget.BeliefTimer.Time = (int)args[0];
+					break;
+				case "studynum":
+					widget.SetAttention((int)args[0]);
+					break;
+				case "nsk":
+					widget.AvailableSkills.Bind(GetSkills(args, true));
+					break;
+				case "psk":
+					widget.CurrentSkills.Bind(GetSkills(args, false));
+					break;
+				default:
+					base.ReceiveMessage(message, args);
+					break;
+			}
 		}
 
 		private void OnAttributesChanged(object[] args)
@@ -53,6 +70,25 @@ namespace MonoHaven.UI.Remote
 		private void OnBeliefChanged(BeliefChangeEventArgs args)
 		{
 			SendMessage("believe", args.Name, args.Delta);
+		}
+
+		private void OnSkillLearned(Skill skill)
+		{
+			SendMessage("buy", skill.Id);
+		}
+
+		private IEnumerable<Skill> GetSkills(object[] args, bool withCost)
+		{
+			var skills = new List<Skill>();
+			int step = withCost ? 2 : 1;
+			for (int i = 0; i < args.Length; i += step)
+			{
+				var skill = App.Resources.GetSkill("gfx/hud/skills/" + (string)args[i]);
+				if (withCost)
+					skill.Cost = (int)args[i + 1];
+				skills.Add(skill);
+			}
+			return skills;
 		}
 	}
 }

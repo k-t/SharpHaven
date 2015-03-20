@@ -43,6 +43,9 @@ namespace MonoHaven.UI.Widgets
 		private FoodMeter foodMeter;
 		private BeliefTimer beliefTimer;
 		private readonly List<BeliefWidget> beliefWidgets;
+		private SkillList lstAvailableSkills;
+		private SkillList lstCurrentSkills;
+		private Label lblSkillCost;
 
 		private readonly GridLayout baseLayout;
 		private readonly GridLayout skillLayout;
@@ -86,6 +89,7 @@ namespace MonoHaven.UI.Widgets
 
 		public event Action<object[]> AttributesChanged;
 		public event Action<BeliefChangeEventArgs> BeliefChanged;
+		public event Action<Skill> SkillLearned;
 
 		public Widget Study
 		{
@@ -102,6 +106,16 @@ namespace MonoHaven.UI.Widgets
 			get { return foodMeter; }
 		}
 
+		public SkillList AvailableSkills
+		{
+			get { return lstAvailableSkills; }
+		}
+
+		public SkillList CurrentSkills
+		{
+			get { return lstCurrentSkills; }
+		}
+
 		public void SetAttention(int value)
 		{
 			lblAttentionValue.Text = value.ToString();
@@ -111,6 +125,7 @@ namespace MonoHaven.UI.Widgets
 		{
 			exp = value;
 			lblExpValue.Text = value.ToString();
+			lstAvailableSkills.MaxCost = exp;
 		}
 
 		protected override void OnDispose()
@@ -328,6 +343,60 @@ namespace MonoHaven.UI.Widgets
 			tabSkills = new Container(this);
 			tabSkills.Resize(400, 275);
 			tabs.Add(tabSkills);
+
+			lblSkillCost = new Label(tabSkills, Fonts.LabelText);
+			lblSkillCost.Move(300, 130);
+			lblSkillCost.Text = "Cost: N/A";
+
+			var skillInfo = new SkillInfo(tabSkills);
+			skillInfo.Move(10, 10);
+			skillInfo.Resize(180, 260);
+
+			var lblAvailableSkills = new Label(tabSkills, Fonts.LabelText);
+			lblAvailableSkills.Move(210, 10);
+			lblAvailableSkills.Text = "Available Skills:";
+
+			lstAvailableSkills = new SkillList(tabSkills);
+			lstAvailableSkills.Move(210, 25);
+			lstAvailableSkills.Resize(180, 100);
+			lstAvailableSkills.SelectedIndexChanged += OnAvailableSkillsIndexChanged;
+
+			var lblCurrentSkills = new Label(tabSkills, Fonts.LabelText);
+			lblCurrentSkills.Move(210, 155);
+			lblCurrentSkills.Text = "Current Skills:";
+
+			lstCurrentSkills = new SkillList(tabSkills);
+			lstCurrentSkills.Move(210, 170);
+			lstCurrentSkills.Resize(180, 100);
+			lstCurrentSkills.SelectedIndexChanged += OnCurrentSkillsIndexChanged;
+
+			var btnLearn = new Button(tabSkills, 75);
+			btnLearn.Move(210, 130);
+			btnLearn.Text = "Learn";
+			btnLearn.Clicked += LearnSkill;
+		}
+
+		private void LearnSkill()
+		{
+			if (lstAvailableSkills.SelectedItem != null)
+				SkillLearned.Raise(lstAvailableSkills.SelectedItem);
+		}
+
+		private void OnAvailableSkillsIndexChanged()
+		{
+			if (lstAvailableSkills.SelectedItem != null)
+			{
+				lstCurrentSkills.SelectedIndex = -1;
+				lblSkillCost.Text = string.Format("Cost: {0}", lstAvailableSkills.SelectedItem.Cost);
+			}
+			else
+				lblSkillCost.Text = "Cost: N/A";
+		}
+
+		private void OnCurrentSkillsIndexChanged()
+		{
+			if (lstCurrentSkills.SelectedItem != null)
+				lstAvailableSkills.SelectedIndex = -1;
 		}
 
 		#endregion

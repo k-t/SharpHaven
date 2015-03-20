@@ -88,6 +88,7 @@
     <Compile Include="Game\GobUpdater.cs" />
     <Compile Include="Game\GameSession.cs" />
     <Compile Include="Game\Metric.cs" />
+    <Compile Include="Game\Skill.cs" />
     <Compile Include="Graphics\Pixmap.cs" />
     <Compile Include="Graphics\Sprites\AnimFrame.cs" />
     <Compile Include="Graphics\Sprites\AnimSprite.cs" />
@@ -163,6 +164,8 @@
     <Compile Include="UI\Widgets\Char\ExpModBinding.cs" />
     <Compile Include="UI\Widgets\Char\FoodMeter.cs" />
     <Compile Include="UI\Widgets\Char\SkillAttributeBinding.cs" />
+    <Compile Include="UI\Widgets\Char\SkillInfo.cs" />
+    <Compile Include="UI\Widgets\Char\SkillList.cs" />
     <Compile Include="UI\Widgets\Chat.cs" />
     <Compile Include="UI\Widgets\ChatWindow.cs" />
     <Compile Include="UI\Widgets\Equipory.cs" />

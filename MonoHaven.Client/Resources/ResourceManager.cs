@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
+using System.Linq;
 using MonoHaven.Game;
 using MonoHaven.Graphics;
 using MonoHaven.Graphics.Sprites;
@@ -19,6 +20,7 @@ namespace MonoHaven.Resources
 		private readonly Lazy<TextureAtlas> tileAtlas;
 		private readonly Dictionary<string, Tileset> tilesetCache;
 		private readonly Dictionary<string, SpriteFactory> spriteCache;
+		private readonly Dictionary<string, Skill> skillCache;
 
 		static ResourceManager()
 		{
@@ -30,6 +32,7 @@ namespace MonoHaven.Resources
 			tileAtlas = new Lazy<TextureAtlas>(() => new TextureAtlas(2048, 2048));
 			tilesetCache = new Dictionary<string, Tileset>();
 			spriteCache = new Dictionary<string, SpriteFactory>();
+			skillCache = new Dictionary<string, Skill>();
 		}
 
 		public Resource Get(string resName)
@@ -87,10 +90,57 @@ namespace MonoHaven.Resources
 		public Drawable GetImage(string resName, bool generateHitmask = false)
 		{
 			var res = Get(resName);
-
-			var imageData = Get(resName).GetLayer<ImageData>();
-			if (imageData == null)
+			var img = GetImage(res, true);
+			if (img == null)
 				throw new ResourceException(string.Format("Couldn't find image layer in the resource '{0}'", resName));
+			return img;
+		}
+
+		public ISprite GetSprite(string resName, byte[] state = null)
+		{
+			SpriteFactory spriteFactory;
+			if (!spriteCache.TryGetValue(resName, out spriteFactory))
+			{
+				var res = Get(resName);
+				spriteFactory = CreateSpriteFactory(res);
+				spriteCache[resName] = spriteFactory;
+			}
+			return spriteFactory.Create(state);
+		}
+
+		public Skill GetSkill(string resName)
+		{
+			Skill skill;
+			if (!skillCache.TryGetValue(resName, out skill))
+			{
+				var res = Get(resName);
+				var image = GetImage(res);
+
+				string tooltip = null;
+				var tooltipData = res.GetLayer<TooltipData>();
+				if (tooltipData != null)
+					tooltip = tooltipData.Text;
+
+				string id = resName.Split('/').Last();
+				skill = new Skill(id, image, tooltip);
+				skillCache[resName] = skill;
+			}
+			return skill;
+		}
+
+		private SpriteFactory CreateSpriteFactory(Resource res)
+		{
+			var anim = res.GetLayer<AnimData>();
+			return (anim != null)
+				? new AnimSpriteFactory(res)
+				: new StaticSpriteFactory(res) as SpriteFactory;
+		}
+
+		private Drawable GetImage(Resource res, bool generateHitmask = false)
+		{
+			var imageData = res.GetLayer<ImageData>();
+			if (imageData == null)
+				return null;
 
 			using (var ms = new MemoryStream(imageData.Data))
 			using (var bitmap = new Bitmap(ms))
@@ -106,26 +156,6 @@ namespace MonoHaven.Resources
 				}
 				return new Picture(tex, generateHitmask ? GenerateHitmask(bitmap) : null);
 			}
-		}
-
-		public ISprite GetSprite(string resName, byte[] state = null)
-		{
-			SpriteFactory spriteFactory;
-			if (!spriteCache.TryGetValue(resName, out spriteFactory))
-			{
-				var res = Get(resName);
-				spriteFactory = CreateSpriteFactory(res);
-				spriteCache[resName] = spriteFactory;
-			}
-			return spriteFactory.Create(state);
-		}
-
-		private SpriteFactory CreateSpriteFactory(Resource res)
-		{
-			var anim = res.GetLayer<AnimData>();
-			return (anim != null)
-				? new AnimSpriteFactory(res)
-				: new StaticSpriteFactory(res) as SpriteFactory;
 		}
 
 		private BitArray GenerateHitmask(Bitmap bitmap)
