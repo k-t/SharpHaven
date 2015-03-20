@@ -11,6 +11,8 @@ namespace MonoHaven.UI.Widgets
 {
 	public class SkillList : Widget
 	{
+		private const int ItemHeight = 20;
+
 		private readonly Scrollbar scrollbar;
 		private readonly List<Skill> items;
 		private readonly List<TextBlock> itemLabels;
@@ -61,7 +63,7 @@ namespace MonoHaven.UI.Widgets
 
 		private int DisplayItemCount
 		{
-			get { return Height / 20; }
+			get { return Height / ItemHeight; }
 		}
 
 		public void Bind(IEnumerable<Skill> skills)
@@ -89,7 +91,7 @@ namespace MonoHaven.UI.Widgets
 				if (scrollIndex == SelectedIndex)
 				{
 					dc.SetColor(255, 255, 0, 128);
-					dc.DrawRectangle(0, i * 20, Width, 20);
+					dc.DrawRectangle(0, i * ItemHeight, Width, ItemHeight);
 					dc.ResetColor();
 				}
 				
@@ -98,8 +100,8 @@ namespace MonoHaven.UI.Widgets
 
 				if (skill.Cost > MaxCost)
 					dc.SetColor(255, 128, 128, 255);
-				dc.Draw(skill.Image, 0, i * 20, 20, 20);
-				dc.Draw(label, 25, i * 20 + (20 - label.Font.Height) / 2);
+				dc.Draw(skill.Image, 0, i * ItemHeight, ItemHeight, ItemHeight);
+				dc.Draw(label, ItemHeight + 2, i * ItemHeight + (ItemHeight - label.Font.Height) / 2);
 				dc.ResetColor();
 			}
 		}
@@ -109,7 +111,7 @@ namespace MonoHaven.UI.Widgets
 			if (e.Button == MouseButton.Left)
 			{
 				var p = MapFromScreen(e.Position);
-				int index = (p.Y / 20) + scrollbar.Value;
+				int index = (p.Y / ItemHeight) + scrollbar.Value;
 				if (index >= items.Count)
 					index = -1;
 				SelectedIndex = index;
