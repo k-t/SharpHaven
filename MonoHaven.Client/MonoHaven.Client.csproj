@@ -178,6 +178,8 @@
     <Compile Include="UI\Widgets\ItemWidget.cs" />
     <Compile Include="UI\IWidgetHost.cs" />
     <Compile Include="UI\Widgets\Label.cs" />
+    <Compile Include="UI\Widgets\ListBox.cs" />
+    <Compile Include="UI\Widgets\ListBoxItem.cs" />
     <Compile Include="UI\Widgets\MapClickEventArgs.cs" />
     <Compile Include="UI\Widgets\MenuGrid.cs" />
     <Compile Include="UI\Widgets\Meter.cs" />

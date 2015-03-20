@@ -359,7 +359,7 @@ namespace MonoHaven.UI.Widgets
 			lstAvailableSkills = new SkillList(tabSkills);
 			lstAvailableSkills.Move(210, 25);
 			lstAvailableSkills.Resize(180, 100);
-			lstAvailableSkills.SelectedIndexChanged += OnAvailableSkillsIndexChanged;
+			lstAvailableSkills.SelectedItemChanged += OnSelectedAvailableSkillChange;
 
 			var lblCurrentSkills = new Label(tabSkills, Fonts.LabelText);
 			lblCurrentSkills.Move(210, 155);
@@ -368,7 +368,7 @@ namespace MonoHaven.UI.Widgets
 			lstCurrentSkills = new SkillList(tabSkills);
 			lstCurrentSkills.Move(210, 170);
 			lstCurrentSkills.Resize(180, 100);
-			lstCurrentSkills.SelectedIndexChanged += OnCurrentSkillsIndexChanged;
+			lstCurrentSkills.SelectedItemChanged += OnSelectedCurrentSkillChange;
 
 			var btnLearn = new Button(tabSkills, 75);
 			btnLearn.Move(210, 130);
@@ -382,21 +382,21 @@ namespace MonoHaven.UI.Widgets
 				SkillLearned.Raise(lstAvailableSkills.SelectedItem);
 		}
 
-		private void OnAvailableSkillsIndexChanged()
+		private void OnSelectedAvailableSkillChange()
 		{
 			if (lstAvailableSkills.SelectedItem != null)
 			{
-				lstCurrentSkills.SelectedIndex = -1;
+				lstCurrentSkills.SelectedItem = null;
 				lblSkillCost.Text = string.Format("Cost: {0}", lstAvailableSkills.SelectedItem.Cost);
 			}
 			else
 				lblSkillCost.Text = "Cost: N/A";
 		}
 
-		private void OnCurrentSkillsIndexChanged()
+		private void OnSelectedCurrentSkillChange()
 		{
 			if (lstCurrentSkills.SelectedItem != null)
-				lstAvailableSkills.SelectedIndex = -1;
+				lstAvailableSkills.SelectedItem = null;
 		}
 
 		#endregion
