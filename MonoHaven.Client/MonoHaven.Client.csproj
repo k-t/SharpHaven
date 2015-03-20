@@ -145,6 +145,7 @@
     <Compile Include="UI\Remote\ServerISBox.cs" />
     <Compile Include="UI\Remote\ServerProgress.cs" />
     <Compile Include="UI\Remote\ServerVMeter.cs" />
+    <Compile Include="UI\Scrollbar.cs" />
     <Compile Include="UI\Tooltip.cs" />
     <Compile Include="UI\Widgets\AvatarView.cs" />
     <Compile Include="UI\Widgets\BuddyList.cs" />
