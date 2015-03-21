@@ -1,8 +1,11 @@
 ﻿using MonoHaven.Graphics;
+using System;
+using MonoHaven.Input;
+using OpenTK.Input;
 
 namespace MonoHaven.UI.Widgets
 {
-	public class ISBox : Widget
+	public class ISBox : Widget, IDropTarget
 	{
 		private static readonly Drawable background;
 
@@ -16,8 +19,7 @@ namespace MonoHaven.UI.Widgets
 		private int built;
 		private readonly Label label;
 
-		public ISBox(Widget parent)
-			: base(parent)
+		public ISBox(Widget parent) : base(parent)
 		{
 			Resize(background.Size);
 
@@ -25,6 +27,12 @@ namespace MonoHaven.UI.Widgets
 			label.Move(40, (Height - label.Height) / 2);
 			UpdateLabel();
 		}
+
+		public event Action Click;
+		public event Action Transfer;
+		public event Action<TransferEventArgs> Transfer2;
+		public event Action ItemDrop;
+		public event Action ItemInteract;
 
 		public Drawable Image
 		{
@@ -69,9 +77,42 @@ namespace MonoHaven.UI.Widgets
 				dc.Draw(Image, 6, (Height - Image.Height) / 2);
 		}
 
+		protected override void OnMouseButtonDown(MouseButtonEvent e)
+		{
+			if (e.Button == MouseButton.Left)
+			{
+				if (e.Modifiers.HasFlag(Input.KeyModifiers.Shift))
+					Transfer.Raise();
+				else
+					Click.Raise();
+				e.Handled = true;
+			}
+		}
+
+		protected override void OnMouseWheel(MouseWheelEvent e)
+		{
+			Transfer2.Raise(new TransferEventArgs(Math.Sign(-e.Delta), e.Modifiers));
+		}
+
 		private void UpdateLabel()
 		{
 			label.Text = string.Format("{0}/{1}/{2}", Remaining, Available, Built);
 		}
+
+		#region IDropTarget
+
+		bool IDropTarget.Drop(System.Drawing.Point p, System.Drawing.Point ul)
+		{
+			ItemDrop.Raise();
+			return true;
+		}
+
+		bool IDropTarget.ItemInteract(System.Drawing.Point p, System.Drawing.Point ul)
+		{
+			ItemInteract.Raise();
+			return true;
+		}
+
+		#endregion
 	}
 }

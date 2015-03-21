@@ -6,6 +6,7 @@ namespace MonoHaven.UI.Remote
 	{
 		public static ServerWidget Create(ushort id, ServerWidget parent, object[] args)
 		{
+			// TODO: get tooltip
 			var image = App.Resources.GetImage((string)args[0]);
 			int remaining = (int)args[1];
 			int available = (int)args[2];
@@ -25,6 +26,11 @@ namespace MonoHaven.UI.Remote
 			: base(id, parent, widget)
 		{
 			this.widget = widget;
+			this.widget.ItemDrop += () => SendMessage("drop");
+			this.widget.ItemInteract += () => SendMessage("iact");
+			this.widget.Click += () => SendMessage("click");
+			this.widget.Transfer += () => SendMessage("xfer");
+			this.widget.Transfer2 += (args) => SendMessage("xfer2", args.Delta, (int)args.Modifiers);
 		}
 
 		public override void ReceiveMessage(string message, object[] args)
