@@ -16,6 +16,10 @@ namespace MonoHaven.UI.Remote
 			: base(id, parent, widget)
 		{
 			this.widget = widget;
+			this.widget.Drop += (slot) => SendMessage("drop", slot);
+			this.widget.ItemTake += (slot, p) => SendMessage("take", slot, p);
+			this.widget.ItemTransfer += (slot, p) => SendMessage("transfer", slot, p);
+			this.widget.ItemInteract += (slot, p) => SendMessage("iact", slot, p);
 		}
 
 		public override void ReceiveMessage(string message, object[] args)
