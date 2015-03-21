@@ -31,6 +31,7 @@ namespace MonoHaven.UI.Remote
 			this.widget = widget;
 			this.widget.Take += (p) => SendMessage("take", p);
 			this.widget.Transfer += (p) => SendMessage("transfer", p);
+			this.widget.Drop += (p) => SendMessage("drop", p);
 			this.widget.Interact += (p) => SendMessage("iact", p);
 		}
 

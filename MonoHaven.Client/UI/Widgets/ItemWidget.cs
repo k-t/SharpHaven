@@ -65,13 +65,12 @@ namespace MonoHaven.UI.Widgets
 				switch (e.Button)
 				{
 					case MouseButton.Left:
-						Take.Raise(p);
-						/*
-						else if (ui.modctrl)
-							wdgmsg("drop", c);
+						if (e.Modifiers.HasFlag(Input.KeyModifiers.Shift))
+							Transfer.Raise(p);
+						else if (e.Modifiers.HasFlag(Input.KeyModifiers.Control))
+							Drop.Raise(p);
 						else
-							wdgmsg("take", c);
-						*/
+							Take.Raise(p);
 						e.Handled = true;
 						break;
 					case MouseButton.Right:

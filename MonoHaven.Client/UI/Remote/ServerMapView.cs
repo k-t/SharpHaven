@@ -40,10 +40,11 @@ namespace MonoHaven.UI.Remote
 		{
 			var button = ServerInput.ToServerButton(args.Button);
 			if (args.Gob != null)
-				SendMessage("click", args.ScreenPoint, args.MapPoint, button, 0,
-					args.Gob.Id, args.Gob.Position);
+				SendMessage("click", args.ScreenPoint, args.MapPoint, button,
+					(int)args.Modifiers, args.Gob.Id, args.Gob.Position);
 			else
-				SendMessage("click", args.ScreenPoint, args.MapPoint, button, 0);
+				SendMessage("click", args.ScreenPoint, args.MapPoint, button,
+					(int)args.Modifiers);
 		}
 	}
 }

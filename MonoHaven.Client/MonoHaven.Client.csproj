@@ -129,6 +129,7 @@
     <Compile Include="Graphics\VertexBuffer.cs" />
     <Compile Include="Input\InputEvent.cs" />
     <Compile Include="Input\KeyEvent.cs" />
+    <Compile Include="Input\KeyModifiers.cs" />
     <Compile Include="Input\KeyPressEvent.cs" />
     <Compile Include="Input\MouseButtonEvent.cs" />
     <Compile Include="Input\MouseEvent.cs" />

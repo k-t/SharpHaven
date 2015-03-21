@@ -122,7 +122,7 @@ namespace MonoHaven.UI.Widgets
 			else
 			{
 				var mapPoint = GameScene.ScreenToWorld(screenPoint);
-				var args = new MapClickEventArgs(e.Button, mapPoint, e.Position, gob);
+				var args = new MapClickEventArgs(e.Button, e.Modifiers, mapPoint, e.Position, gob);
 				MapClicked.Raise(args);
 			}
 			e.Handled = true;

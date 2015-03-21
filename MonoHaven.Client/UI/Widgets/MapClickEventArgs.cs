@@ -2,18 +2,21 @@
 using System.Drawing;
 using MonoHaven.Game;
 using OpenTK.Input;
+using KeyModifiers = MonoHaven.Input.KeyModifiers;
 
 namespace MonoHaven.UI.Widgets
 {
 	public class MapClickEventArgs : EventArgs
 	{
 		private readonly MouseButton button;
+		private readonly KeyModifiers mods;
 		private readonly Point mapPoint;
 		private readonly Point screenPoint;
 		private readonly Gob gob;
 
 		public MapClickEventArgs(
 			MouseButton button,
+			KeyModifiers mods,
 			Point mapPoint,
 			Point screenPoint,
 			Gob gob)
@@ -22,6 +25,7 @@ namespace MonoHaven.UI.Widgets
 			this.mapPoint = mapPoint;
 			this.screenPoint = screenPoint;
 			this.gob = gob;
+			this.mods = mods;
 		}
 
 		public MouseButton Button
@@ -42,6 +46,11 @@ namespace MonoHaven.UI.Widgets
 		public Point ScreenPoint
 		{
 			get { return screenPoint; }
+		}
+
+		public KeyModifiers Modifiers
+		{
+			get { return mods; }
 		}
 	}
 }
