@@ -138,7 +138,7 @@ namespace MonoHaven
 			currentScreen.MouseButtonUp(InputConverter.Map(e));
 		}
 
-		private void HandleMouseMove(object sedner, MouseMoveEventArgs e)
+		private void HandleMouseMove(object sender, MouseMoveEventArgs e)
 		{
 			currentScreen.MouseMove(InputConverter.Map(e));
 		}
