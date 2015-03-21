@@ -6,7 +6,7 @@ namespace MonoHaven.UI.Remote
 {
 	public class ServerCharWindow : ServerWindow
 	{
-		public static ServerWidget Create(ushort id, ServerWidget parent, object[] args)
+		public static new ServerWidget Create(ushort id, ServerWidget parent, object[] args)
 		{
 			var studyId = args.Length > 0 ? (int)args[0] : -1;
 			var widget = new CharWindow(parent.Widget, parent.Session.State);

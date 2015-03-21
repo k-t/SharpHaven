@@ -5,7 +5,7 @@ namespace MonoHaven.UI.Remote
 {
 	public class ServerBuddyList : ServerWindow
 	{
-		public static ServerWidget Create(ushort id, ServerWidget parent, object[] args)
+		public static new ServerWidget Create(ushort id, ServerWidget parent, object[] args)
 		{
 			var widget = new BuddyWindow(parent.Widget);
 			return new ServerBuddyList(id, parent, widget);
