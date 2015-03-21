@@ -14,19 +14,22 @@ namespace MonoHaven.UI.Widgets
 		private static readonly Color HighlightColor = Color.FromArgb(128, 255, 255, 0);
 
 		private readonly List<ListBoxItem> items;
-		private readonly List<TextBlock> itemLabels;
 		private readonly Scrollbar scrollbar;
 		private int selectedIndex;
 
 		public ListBox(Widget parent) : base(parent)
 		{
 			items = new List<ListBoxItem>();
-			itemLabels = new List<TextBlock>();
 			scrollbar = new Scrollbar(this);
 			selectedIndex = -1;
 		}
 
 		public event Action SelectedIndexChanged;
+
+		public ICollection<ListBoxItem> Items
+		{
+			get { return items; }
+		}
 
 		private int DisplayItemCount
 		{
@@ -46,22 +49,53 @@ namespace MonoHaven.UI.Widgets
 			}
 		}
 
-		public void Add(ListBoxItem item)
+		public ListBoxItem SelectedItem
+		{
+			get { return selectedIndex != -1 ? items[selectedIndex] : null; }
+			set
+			{
+				if (value != null)
+				{
+					int index = items.IndexOf(value);
+					if (index != -1)
+						selectedIndex = index;
+				}
+				else
+					selectedIndex = -1;
+			}
+		}
+
+		public void AddItem(ListBoxItem item)
 		{
 			items.Add(item);
 			Update();
 		}
 
-		public void AddRange(IEnumerable<ListBoxItem> collection)
+		public void AddItemRange(IEnumerable<ListBoxItem> collection)
 		{
 			items.AddRange(collection);
 			Update();
 		}
 
-		public void Clear()
+		public void RemoveItem(ListBoxItem item)
 		{
+			if (items.Remove(item))
+				Update();
+		}
+
+		public void ClearItems()
+		{
+			foreach (var item in items)
+				item.Dispose();
 			items.Clear();
 			Update();
+		}
+
+		public void Sort(Comparison<ListBoxItem> comparison)
+		{
+			var selectedItem = SelectedItem;
+			items.Sort(comparison);
+			SelectedItem = selectedItem;
 		}
 
 		protected override void OnDraw(DrawingContext dc)
@@ -85,11 +119,7 @@ namespace MonoHaven.UI.Widgets
 					dc.ResetColor();
 				}
 
-				var item = items[scrollIndex];
-				dc.Draw(item.Image, 0, y, ItemHeight, ItemHeight);
-				
-				var label = itemLabels[scrollIndex];
-				dc.Draw(label, ItemHeight + 2, y + (ItemHeight - label.Font.Height) / 2);
+				items[scrollIndex].Draw(dc, 0, y, ItemHeight);
 			}
 		}
 
@@ -117,31 +147,16 @@ namespace MonoHaven.UI.Widgets
 			scrollbar.Resize(scrollbar.Width, Height);
 		}
 
+		protected override void OnDispose()
+		{
+			foreach (var item in items)
+				item.Dispose();
+		}
+
 		private void Update()
 		{
 			SelectedIndex = MathHelper.Clamp(SelectedIndex, -1, items.Count - 1);
-			UpdateLabels();
-			UpdateScrollbar();
-		}
 
-		private void UpdateLabels()
-		{
-			// dispose old labels
-			foreach (var label in itemLabels)
-				label.Dispose();
-			itemLabels.Clear();
-
-			foreach (var item in items)
-			{
-				var label = new TextBlock(Fonts.LabelText);
-				label.TextColor = item.TextColor;
-				label.Append(item.Text);
-				itemLabels.Add(label);
-			}
-		}
-
-		private void UpdateScrollbar()
-		{
 			scrollbar.Value = 0;
 			scrollbar.Max = items.Count - DisplayItemCount;
 		}

@@ -148,8 +148,16 @@
     <Compile Include="UI\Remote\ServerVMeter.cs" />
     <Compile Include="UI\Scrollbar.cs" />
     <Compile Include="UI\Tooltip.cs" />
+    <Compile Include="UI\Widgets\Avatar.cs" />
     <Compile Include="UI\Widgets\AvatarView.cs" />
-    <Compile Include="UI\Widgets\BuddyList.cs" />
+    <Compile Include="UI\Widgets\Buddy\Buddy.cs" />
+    <Compile Include="UI\Widgets\Buddy\BuddyActions.cs" />
+    <Compile Include="UI\Widgets\Buddy\BuddyComparers.cs" />
+    <Compile Include="UI\Widgets\Buddy\BuddyGroup.cs" />
+    <Compile Include="UI\Widgets\Buddy\BuddyInfo.cs" />
+    <Compile Include="UI\Widgets\Buddy\BuddyList.cs" />
+    <Compile Include="UI\Widgets\Buddy\BuddyWindow.cs" />
+    <Compile Include="UI\Widgets\Buddy\GroupSelector.cs" />
     <Compile Include="UI\Widgets\Bufflist.cs" />
     <Compile Include="UI\Widgets\Button.cs" />
     <Compile Include="UI\Widgets\Calendar.cs" />

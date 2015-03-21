@@ -61,8 +61,8 @@ namespace MonoHaven.UI.Widgets
 
 		private void UpdateListBox()
 		{
-			listBox.Clear();
-			listBox.AddRange(skills.Select(x => new ListBoxItem(x.Image, x.Tooltip, GetSkillLabelColor(x))));
+			listBox.ClearItems();
+			listBox.AddItemRange(skills.Select(x => new ListBoxItem(x.Image, x.Tooltip, GetSkillLabelColor(x))));
 		}
 
 		private Color GetSkillLabelColor(Skill item)

@@ -33,11 +33,10 @@ namespace MonoHaven.UI.Widgets
 
 		public Button(Widget parent, int width) : base(parent)
 		{
-			Resize(width, ButtonHeight);
 			textBlock = new TextBlock(Fonts.Text);
 			textBlock.TextColor = Color.Yellow;
 			textBlock.TextAlign = TextAlign.Center;
-			textBlock.SetWidth(width);
+			Resize(width, ButtonHeight);
 		}
 
 		public event Action Clicked;
@@ -107,6 +106,11 @@ namespace MonoHaven.UI.Widgets
 				Clicked.Raise();
 
 			e.Handled = true;
+		}
+
+		protected override void OnSizeChanged()
+		{
+			textBlock.SetWidth(Width);
 		}
 	}
 }

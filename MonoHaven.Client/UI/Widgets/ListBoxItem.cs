@@ -1,39 +1,69 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
 using MonoHaven.Graphics;
 
 namespace MonoHaven.UI.Widgets
 {
-	public class ListBoxItem
+	public class ListBoxItem : IDisposable
 	{
-		private readonly Drawable image;
-		private readonly string text;
-		private readonly Color textColor;
+		private readonly TextBlock label;
+		private string labelText;
 
-		public ListBoxItem(Drawable image, string text)
-			: this(image, text, Color.White)
+		public ListBoxItem(Drawable image, string labelText)
+			: this(image, labelText, Color.White)
 		{
 		}
 
-		public ListBoxItem(Drawable image, string text, Color textColor)
+		public ListBoxItem(Drawable image, string labelText, Color textColor)
 		{
-			this.image = image;
-			this.text = text;
-			this.textColor = textColor;
+			this.Image = image;
+			this.labelText = labelText;
+
+			label = new TextBlock(Fonts.LabelText);
+			label.TextColor = textColor;
+			label.Append(labelText);
 		}
 
 		public Drawable Image
 		{
-			get { return image; }
+			get;
+			set;
 		}
 
 		public string Text
 		{
-			get { return text; }
+			get { return labelText; }
+			set
+			{
+				labelText = value;
+				label.Clear();
+				label.Append(value);
+			}
 		}
 
 		public Color TextColor
 		{
-			get { return textColor; }
+			get { return label.TextColor; }
+			set { label.TextColor = value; }
+		}
+
+		public object Tag
+		{
+			get;
+			set;
+		}
+
+		public void Draw(DrawingContext dc, int x, int y, int itemHeight)
+		{
+			if (Image != null)
+				dc.Draw(Image, x, y, itemHeight, itemHeight);
+			dc.Draw(label, x + itemHeight + 2, y + (itemHeight - label.Font.Height) / 2);
+		}
+
+		public void Dispose()
+		{
+			if (label != null)
+				label.Dispose();
 		}
 	}
 }

@@ -8,7 +8,8 @@ namespace MonoHaven.UI.Remote
 		public static ServerWidget Create(ushort id, ServerWidget parent, object[] args)
 		{
 			int gobId = (int)args[0];
-			var widget = new AvatarView(parent.Widget, gobId, parent.Session.State.Objects);
+			var widget = new AvatarView(parent.Widget);
+			widget.Avatar = new Avatar(gobId, parent.Session.State.Objects);
 			return new ServerAvatarView(id, parent, widget);
 		}
 
@@ -16,7 +17,8 @@ namespace MonoHaven.UI.Remote
 		{
 			var session = parent.Session;
 			var layers = args.Select(x => session.GetSprite((int)x));
-			var widget = new AvatarView(parent.Widget, layers);
+			var widget = new AvatarView(parent.Widget);
+			widget.Avatar = new Avatar(layers);
 			return new ServerAvatarView(id, parent, widget);
 		}
 

@@ -108,7 +108,8 @@ namespace MonoHaven.UI.Widgets
 				btnPlay.Move(Width - 105, Height - 24);
 				btnPlay.Clicked += () => Selected.Raise();
 
-				avatar = new AvatarView(this, layers);
+				avatar = new AvatarView(this);
+				avatar.Avatar = new Avatar(layers);
 				var padding = (Height - avatar.Height) / 2;
 				avatar.Move(padding, padding);
 			}

@@ -51,10 +51,10 @@ namespace MonoHaven.UI.Remote
 					widget.SetAttention((int)args[0]);
 					break;
 				case "nsk":
-					widget.AvailableSkills.Bind(GetSkills(args, true));
+					widget.AvailableSkills.SetSkills(GetSkills(args, true));
 					break;
 				case "psk":
-					widget.CurrentSkills.Bind(GetSkills(args, false));
+					widget.CurrentSkills.SetSkills(GetSkills(args, false));
 					break;
 				default:
 					base.ReceiveMessage(message, args);
