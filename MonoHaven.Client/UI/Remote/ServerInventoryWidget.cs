@@ -17,6 +17,7 @@ namespace MonoHaven.UI.Remote
 			: base(id, parent, widget)
 		{
 			widget.Drop += (p) => SendMessage("drop", p);
+			widget.Transfer += (args) => SendMessage("xfer", args.Delta, (int)args.Modifiers);
 		}
 	}
 }

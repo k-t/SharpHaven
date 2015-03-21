@@ -182,6 +182,7 @@
     <Compile Include="UI\Widgets\Hud.cs" />
     <Compile Include="UI\Widgets\HudMenu.cs" />
     <Compile Include="UI\Widgets\IDropTarget.cs" />
+    <Compile Include="UI\Widgets\InventoryTransferEventArgs.cs" />
     <Compile Include="UI\Widgets\InventoryWidget.cs" />
     <Compile Include="UI\IScreen.cs" />
     <Compile Include="UI\Widgets\ISBox.cs" />
