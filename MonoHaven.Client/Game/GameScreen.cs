@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using C5;
 using MonoHaven.Messages;
 using MonoHaven.UI;
@@ -48,7 +49,8 @@ namespace MonoHaven.Game
 					message.Id));
 
 			var swidget = factory.Create(message.Type, message.Id, parent, message.Args);
-			swidget.Widget.Move(message.Location);
+			if (message.Location != Point.Empty)
+				swidget.Widget.Move(message.Location);
 			HandleCreatedWidget(swidget.Widget);
 			Bind(message.Id, swidget);
 		}
@@ -170,6 +172,9 @@ namespace MonoHaven.Game
 
 		private void HandleDestroyedWidget(Widget widget)
 		{
+			if (mouseFocus == widget)
+				((IWidgetHost)this).ReleaseMouse();
+
 			if (widget == mapView) mapView = null;
 			if (widget == charlistContainer) charlistContainer = null;
 			if (widget == calendar) calendar = null;

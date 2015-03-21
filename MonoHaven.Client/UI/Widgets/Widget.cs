@@ -152,6 +152,22 @@ namespace MonoHaven.UI.Widgets
 
 		#region Public Methods
 
+		public IEnumerable<Widget> GetChildrenAt(Point p)
+		{
+			var result = new List<Widget>();
+			p = new Point(p.X - X - Margin, p.Y - Y - Margin);
+			foreach (var widget in ReversedChildren)
+			{
+				if (widget.Visible)
+				{
+					result.AddRange(widget.GetChildrenAt(p));
+					if (widget.CheckHit(p.X, p.Y))
+						result.Add(widget);
+				}
+			}
+			return result;
+		}
+
 		public Widget GetChildAt(Point p)
 		{
 			p = new Point(p.X - X - Margin, p.Y - Y - Margin);
@@ -263,12 +279,12 @@ namespace MonoHaven.UI.Widgets
 
 		#region Protected Methods
 
-		protected Point MapFromScreen(Point p)
+		public Point MapFromScreen(Point p)
 		{
 			return MapFromScreen(p.X, p.Y);
 		}
 
-		protected Point MapFromScreen(int x, int y)
+		public Point MapFromScreen(int x, int y)
 		{
 			for (var widget = this; widget != null; widget = widget.Parent)
 			{

@@ -11,12 +11,12 @@ namespace MonoHaven.UI.Remote
 
 			var resId = (int)args[0];
 			var q = (int)args[1];
-			var off = (int)args[2] != 0 ? (Point)args[i++] : Point.Empty;
+			var dragOffset = (int)args[2] != 0 ? (Point?)args[i++] : null;
 			var tooltip = args.Length > i ? (string)args[i++] : string.Empty;
 			var num = args.Length > i ? (int)args[i] : -1;
 
 			var image = parent.Session.GetImage(resId);
-			var widget = new ItemWidget(parent.Widget, image);
+			var widget = new ItemWidget(parent.Widget, image, dragOffset);
 			widget.Tooltip = !string.IsNullOrEmpty(tooltip)
 				? new Tooltip(tooltip)
 				: null;
@@ -29,6 +29,9 @@ namespace MonoHaven.UI.Remote
 			: base(id, parent, widget)
 		{
 			this.widget = widget;
+			this.widget.Take += (p) => SendMessage("take", p);
+			this.widget.Transfer += (p) => SendMessage("transfer", p);
+			this.widget.Interact += (p) => SendMessage("iact", p);
 		}
 
 		public override void ReceiveMessage(string message, object[] args)

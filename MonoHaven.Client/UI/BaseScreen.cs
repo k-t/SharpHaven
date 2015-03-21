@@ -11,8 +11,8 @@ namespace MonoHaven.UI
 	{
 		private readonly RootWidget rootWidget;
 		private Point mousePosition;
-		private Widget mouseFocus;
-		private Widget keyboardFocus;
+		protected Widget mouseFocus;
+		protected Widget keyboardFocus;
 		private Widget hoveredWidget;
 		private Tooltip tooltip;
 
@@ -191,6 +191,11 @@ namespace MonoHaven.UI
 		#endregion
 
 		#region IWidgetHost Implementation
+
+		Point IWidgetHost.MousePosition
+		{
+			get { return mousePosition; }
+		}
 
 		void IWidgetHost.RequestKeyboardFocus(Widget widget)
 		{

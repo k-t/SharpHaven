@@ -16,6 +16,7 @@ namespace MonoHaven.UI.Remote
 		public ServerInventoryWidget(ushort id, ServerWidget parent, InventoryWidget widget)
 			: base(id, parent, widget)
 		{
+			widget.Drop += (p) => SendMessage("drop", p);
 		}
 	}
 }

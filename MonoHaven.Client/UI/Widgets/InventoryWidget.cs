@@ -1,9 +1,11 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
 using MonoHaven.Graphics;
+using MonoHaven.Utils;
 
 namespace MonoHaven.UI.Widgets
 {
-	public class InventoryWidget : Widget
+	public class InventoryWidget : Widget, IDropTarget
 	{
 		private static readonly Drawable tile;
 
@@ -17,6 +19,8 @@ namespace MonoHaven.UI.Widgets
 		public InventoryWidget(Widget parent) : base(parent)
 		{
 		}
+
+		public event Action<Point> Drop;
 
 		protected override void OnDraw(DrawingContext dc)
 		{
@@ -37,5 +41,21 @@ namespace MonoHaven.UI.Widgets
 		{
 			SetInventorySize(size.X, size.Y);
 		}
+
+		#region IDropTarget
+
+		bool IDropTarget.Drop(Point p, Point ul)
+		{
+			var dropPoint = MapFromScreen(ul).Add(15);
+			Drop.Raise(new Point(dropPoint.X / tile.Width, dropPoint.Y / tile.Height));
+			return true;
+		}
+
+		bool IDropTarget.ItemInteract(Point p, Point ul)
+		{
+			return false;
+		}
+
+		#endregion
 	}
 }
