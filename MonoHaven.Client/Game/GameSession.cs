@@ -176,9 +176,9 @@ namespace MonoHaven.Game
 			{
 				foreach (var action in actions)
 					if (action.RemoveFlag)
-						State.Actions.Remove(action.Name);
+						State.Actions.Remove(action.Resource.Name);
 					else
-						State.Actions.Add(action.Name);
+						State.Actions.Add(action.Resource.Name);
 			});
 		}
 

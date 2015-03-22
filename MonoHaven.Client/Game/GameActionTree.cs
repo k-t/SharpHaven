@@ -1,66 +1,87 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using C5;
+using MonoHaven.Utils;
 
 namespace MonoHaven.Game
 {
+	using GameActionNode = ValueTreeNode<GameAction>;
+
 	public class GameActionTree
 	{
-		private readonly GameAction root;
-		private readonly HashDictionary<string, GameAction> actions;
+		private readonly GameActionNode root;
+		private readonly HashDictionary<string, GameActionNode> nodes;
 
 		public GameActionTree()
 		{
-			root = new GameAction();
-			actions = new HashDictionary<string, GameAction>();
+			root = new GameActionNode(new GameAction());
+			nodes = new HashDictionary<string, GameActionNode>();
 		}
 
 		public event Action Changed;
 
 		public GameAction Root
 		{
-			get { return root; }
+			get { return root.Value; }
+		}
+
+		public GameAction GetByName(string resName)
+		{
+			GameActionNode node;
+			return nodes.Find(ref resName, out node) ? node.Value : null;
+		}
+
+		public bool HasChildren(GameAction action)
+		{
+			return action != Root
+				? nodes.Values.First(x => x.Value == action).HasChildren
+				: root.HasChildren;
+		}
+
+		public IEnumerable<GameAction> GetChildren(GameAction action)
+		{
+			return action != Root
+				? nodes.Values.First(x => x.Value == action).Children.Select(x => x.Value)
+				: root.Children.Select(x => x.Value);
 		}
 
 		public void Add(string resName)
 		{
-			if (actions.Contains(resName))
-				return;
-			actions.Add(resName, Load(resName));
-			Changed.Raise();
-		}
-
-		public GameAction Get(string resName)
-		{
-			GameAction act;
-			return actions.Find(ref resName, out act) ? act : null;
+			if (!nodes.Contains(resName))
+			{
+				nodes.Add(resName, Load(resName));
+				Changed.Raise();
+			}
 		}
 
 		public void Remove(string resName)
 		{
-			if (actions.Remove(resName))
+			if (nodes.Remove(resName))
 				Changed.Raise();
 		}
 
-		private GameAction GetOrAdd(string resName)
+		private GameActionNode Load(string resName)
+		{
+			var action = App.Resources.Get<GameAction>(resName);
+			var node = new GameActionNode(action);
+			var parent = GetOrLoad(action.Parent.Name) ?? root;
+			parent.AddChild(node);
+			return node;
+		}
+
+		private GameActionNode GetOrLoad(string resName)
 		{
 			if (string.IsNullOrEmpty(resName))
 				return null;
-			GameAction act;
-			if (!actions.Find(ref resName, out act))
-			{
-				act = Load(resName);
-				actions[resName] = act;
-			}
-			return act;
-		}
 
-		private GameAction Load(string resName)
-		{
-			var info = App.Resources.Get<GameActionInfo>(resName);
-			var act = new GameAction(info);
-			var parent = GetOrAdd(info.Parent.Name) ?? root;
-			parent.AddChild(act);
-			return act;
+			GameActionNode node;
+			if (!nodes.Find(ref resName, out node))
+			{
+				node = Load(resName);
+				nodes[resName] = node;
+			}
+			return node;
 		}
 	}
 }

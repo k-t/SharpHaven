@@ -30,7 +30,7 @@ namespace MonoHaven.Resources
 			RegisterType(typeof(Face), new FontFaceFactory());
 			RegisterType(typeof(Tileset), new TilesetFactory());
 			RegisterType(typeof(SpritePrototype), new SpritePrototypeFactory());
-			RegisterType(typeof(GameActionInfo), new GameActionInfoFactory());
+			RegisterType(typeof(GameAction), new GameActionFactory());
 		}
 
 		public T Get<T>(string resName) where T : class

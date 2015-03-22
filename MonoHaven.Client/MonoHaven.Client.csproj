@@ -79,7 +79,6 @@
     <Compile Include="FontFaces.cs" />
     <Compile Include="FrameCounter.cs" />
     <Compile Include="Game\CharAttribute.cs" />
-    <Compile Include="Game\GameAction.cs" />
     <Compile Include="Game\GameActionTree.cs" />
     <Compile Include="Game\GameScene.cs" />
     <Compile Include="Game\GameTime.cs" />
@@ -141,8 +140,8 @@
     <Compile Include="Login\LoginResult.cs" />
     <Compile Include="MainScreen.cs" />
     <Compile Include="Game\Tileset.cs" />
-    <Compile Include="Game\GameActionInfo.cs" />
-    <Compile Include="Resources\Factories\GameActionInfoFactory.cs" />
+    <Compile Include="Game\GameAction.cs" />
+    <Compile Include="Resources\Factories\GameActionFactory.cs" />
     <Compile Include="Resources\Factories\BitmapFactory.cs" />
     <Compile Include="Resources\Factories\FontFaceFactory.cs" />
     <Compile Include="Resources\Factories\MouseCursorFactory.cs" />

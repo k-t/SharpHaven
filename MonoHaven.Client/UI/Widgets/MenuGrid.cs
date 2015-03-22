@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using MonoHaven.Game;
@@ -29,6 +30,7 @@ namespace MonoHaven.UI.Widgets
 		}
 
 		private readonly GameActionTree actionTree;
+		private readonly GameActionComparer actionComparer;
 		private readonly GridButton[,] buttons;
 		private readonly GridButton back;
 		private readonly GridButton next;
@@ -39,6 +41,7 @@ namespace MonoHaven.UI.Widgets
 		{
 			this.actionTree = actionTree;
 			this.actionTree.Changed += UpdateCells;
+			this.actionComparer = new GameActionComparer(actionTree);
 			this.current = actionTree.Root;
 			this.buttons = new GridButton[RowCount, ColumnCount];
 			this.back = new GridButton(backImage);
@@ -52,7 +55,7 @@ namespace MonoHaven.UI.Widgets
 		{
 			current = string.IsNullOrEmpty(resName)
 				? actionTree.Root
-				: actionTree.Get(resName) ?? actionTree.Root;
+				: actionTree.GetByName(resName) ?? actionTree.Root;
 			UpdateCells();
 		}
 
@@ -91,8 +94,8 @@ namespace MonoHaven.UI.Widgets
 				if (pressed != null)
 				{
 					if (pressed == back)
-						current = current.Parent;
-					else if (pressed.Action.HasChildren)
+						current = actionTree.GetByName(current.Parent.Name);
+					else if (actionTree.HasChildren(pressed.Action))
 						current = pressed.Action;
 					else
 						ActionSelected.Raise(pressed.Action);
@@ -106,8 +109,8 @@ namespace MonoHaven.UI.Widgets
 
 		private void UpdateCells()
 		{
-			var children = current.Children.ToArray();
-			Array.Sort(children);
+			var children = actionTree.GetChildren(current).ToArray();
+			Array.Sort(children, actionComparer);
 			for (int i = 0; i < RowCount; i++)
 				for (int j = 0; j < ColumnCount; j++)
 					if (i * ColumnCount + j < children.Length)
@@ -115,7 +118,7 @@ namespace MonoHaven.UI.Widgets
 					else
 						buttons[i, j] = null;
 
-			if (current.Parent != null)
+			if (!string.IsNullOrEmpty(current.Parent.Name))
 				buttons[RowCount - 1, ColumnCount - 1] = back;
 		}
 
@@ -158,6 +161,26 @@ namespace MonoHaven.UI.Widgets
 					dc.DrawRectangle(x, y, cellWidth, cellHeight);
 					dc.ResetColor();
 				}
+			}
+		}
+
+		private class GameActionComparer : IComparer<GameAction>
+		{
+			private readonly GameActionTree tree;
+
+			public GameActionComparer(GameActionTree tree)
+			{
+				this.tree = tree;
+			}
+
+			public int Compare(GameAction x, GameAction y)
+			{
+				if (x == y) return 0;
+				if (x == null) return -1;
+				if (y == null) return 1;
+				if (tree.HasChildren(y) != tree.HasChildren(x))
+					return tree.HasChildren(y) ? 1 : -1;
+				return string.CompareOrdinal(x.Name, y.Name);
 			}
 		}
 	}

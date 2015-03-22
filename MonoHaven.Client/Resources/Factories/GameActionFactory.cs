@@ -3,13 +3,13 @@ using MonoHaven.Graphics;
 
 namespace MonoHaven.Resources
 {
-	public class GameActionInfoFactory : IObjectFactory<GameActionInfo>
+	public class GameActionFactory : IObjectFactory<GameAction>
 	{
-		public GameActionInfo Create(string resName, Resource res)
+		public GameAction Create(string resName, Resource res)
 		{
 			var data = res.GetLayer<ActionData>();
 			var image = TextureSlice.FromBitmap(res.GetLayer<ImageData>().Data);
-			return new GameActionInfo(
+			return new GameAction(
 				data.Name,
 				data.Parent,
 				data.Name,

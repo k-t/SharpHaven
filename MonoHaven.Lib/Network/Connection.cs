@@ -5,6 +5,7 @@ using System.Net.Sockets;
 using C5;
 using ICSharpCode.SharpZipLib.Zip.Compression;
 using MonoHaven.Messages;
+using MonoHaven.Resources;
 using MonoHaven.Utils;
 using NLog;
 
@@ -316,8 +317,7 @@ namespace MonoHaven.Network
 						actions.Add(new ActionMessage
 						{
 							RemoveFlag = msg.ReadByte() == '-',
-							Name = msg.ReadString(),
-							Version = msg.ReadUint16()
+							Resource = new ResourceRef(msg.ReadString(), msg.ReadUint16())
 						});
 					}
 					listeners.ForEach(x => x.UpdateActions(actions));

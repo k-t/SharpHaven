@@ -1,48 +1,57 @@
-﻿using System;
-using MonoHaven.Graphics;
-using MonoHaven.Utils;
+﻿using MonoHaven.Graphics;
+using MonoHaven.Resources;
 
 namespace MonoHaven.Game
 {
-	public class GameAction : TreeNode<GameAction>, IComparable<GameAction>
+	public class GameAction
 	{
-		private readonly GameActionInfo info;
+		private readonly string name;
+		private readonly ResourceRef parent;
+		private readonly string tooltip;
+		private readonly Drawable image;
+		private readonly string[] verbs;
 
 		public GameAction()
 		{
 		}
 
-		public GameAction(GameActionInfo info)
+		public GameAction(
+			string name,
+			ResourceRef parent,
+			string tooltip,
+			Drawable image,
+			string[] verbs)
 		{
-			this.info = info;
+			this.name = name;
+			this.tooltip = tooltip;
+			this.image = image;
+			this.verbs = verbs;
+			this.parent = parent;
 		}
 
 		public string Name
 		{
-			get { return info.Name; }
+			get { return name; }
+		}
+
+		public ResourceRef Parent
+		{
+			get { return parent; }
 		}
 
 		public string Tooltip
 		{
-			get { return info.Tooltip; }
+			get { return tooltip; }
 		}
 
 		public Drawable Image
 		{
-			get { return info.Image; }
-		}
-		
-		public string[] Verbs
-		{
-			get { return info.Verbs; }
+			get { return image; }
 		}
 
-		public int CompareTo(GameAction other)
+		public string[] Verbs
 		{
-			if (other == null) return 1;
-			if (other.HasChildren != HasChildren)
-				return other.HasChildren ? 1 : -1;
-			return string.CompareOrdinal(Name, other.Name);
+			get { return verbs; }
 		}
 	}
 }

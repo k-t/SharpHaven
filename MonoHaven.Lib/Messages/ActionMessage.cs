@@ -1,9 +1,10 @@
-﻿namespace MonoHaven.Messages
+﻿using MonoHaven.Resources;
+
+namespace MonoHaven.Messages
 {
 	public class ActionMessage
 	{
 		public bool RemoveFlag { get; set; }
-		public string Name { get; set; }
-		public ushort Version { get; set; }
+		public ResourceRef Resource { get; set; }
 	}
 }
