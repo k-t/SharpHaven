@@ -5,6 +5,7 @@ using MonoHaven.Graphics;
 using MonoHaven.UI.Layouts;
 using MonoHaven.Utils;
 using System;
+using MonoHaven.Game;
 using MonoHaven.Input;
 using OpenTK.Input;
 
@@ -66,11 +67,12 @@ namespace MonoHaven.UI.Widgets
 			}
 		}
 
-		public void AddInput(Delayed<Drawable> image, int count)
+		public void AddInput(Item item)
 		{
 			var inv = new InventoryWidget(this);
 			inv.SetInventorySize(1, 1);
-			var item = new ItemWidget(inv, image, null);
+			var itemWidget = new ItemWidget(inv, null);
+			itemWidget.Item = item;
 
 			int column = inputLayout.ColumnCount;
 			inputLayout.AddWidget(inv, 0, column);
@@ -80,11 +82,12 @@ namespace MonoHaven.UI.Widgets
 			inputs.Add(inv);
 		}
 
-		public void AddOutput(Delayed<Drawable> image, int count)
+		public void AddOutput(Item item)
 		{
 			var inv = new InventoryWidget(this);
 			inv.SetInventorySize(1, 1);
-			var item = new ItemWidget(inv, image, null);
+			var itemWidget = new ItemWidget(inv, null);
+			itemWidget.Item = item;
 
 			int column = outputLayout.ColumnCount;
 			outputLayout.AddWidget(inv, 0, column);

@@ -1,4 +1,5 @@
-﻿using MonoHaven.Graphics;
+﻿using MonoHaven.Game;
+using MonoHaven.Graphics;
 using MonoHaven.UI.Widgets;
 
 namespace MonoHaven.UI.Remote
@@ -40,10 +41,16 @@ namespace MonoHaven.UI.Remote
 						var tooltip = (j < args.Length && args[j] is string)
 							? (string)args[j++]
 							: null;
-						widget.SetItem(i, Session.Get<Drawable>(resId), tooltip);
+
+						var itemMold = Session.Get<ItemMold>(resId);
+						var item = new Item(itemMold);
+						item.Quality = q;
+						item.Tooltip = tooltip;
+
+						widget.SetItem(i, item);
 					}
 					else
-						widget.SetItem(i, null, null);
+						widget.SetItem(i, null);
 					i++;
 				}
 			}
@@ -52,8 +59,13 @@ namespace MonoHaven.UI.Remote
 				var i = (int)args[0];
 				var resId = (int)args[1];
 				var q = (int)args[2];
+
+				var itemMold = Session.Get<ItemMold>(resId);
+				var item = new Item(itemMold);
+				item.Quality = q;
+
 				// TODO: tooltip must be preserved
-				widget.SetItem(i, Session.Get<Drawable>(resId), null);
+				widget.SetItem(i, item);
 			}
 			else
 				base.ReceiveMessage(message, args);

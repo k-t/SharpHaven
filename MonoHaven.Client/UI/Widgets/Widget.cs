@@ -142,7 +142,7 @@ namespace MonoHaven.UI.Widgets
 			}
 		}
 
-		public Tooltip Tooltip
+		public virtual Tooltip Tooltip
 		{
 			get;
 			set;

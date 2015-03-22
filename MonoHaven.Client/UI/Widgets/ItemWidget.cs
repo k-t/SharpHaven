@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Drawing;
+using MonoHaven.Game;
 using MonoHaven.Graphics;
 using MonoHaven.Input;
 using MonoHaven.Utils;
@@ -17,14 +18,13 @@ namespace MonoHaven.UI.Widgets
 			missing = App.Resources.Get<Drawable>("gfx/invobjs/missing");
 		}
 
-		private readonly Delayed<Drawable> image;
+		private Item item;
 		private bool isSizeFixed;
 		private Point? dragOffset;
 
-		public ItemWidget(Widget parent, Delayed<Drawable> image, Point? dragOffset)
+		public ItemWidget(Widget parent, Point? dragOffset)
 			: base(parent)
 		{
-			this.image = image;
 			this.dragOffset = dragOffset;
 
 			if (dragOffset.HasValue)
@@ -39,22 +39,37 @@ namespace MonoHaven.UI.Widgets
 		public event Action<Point> Take;
 		public event Action<Point> Interact;
 
+		public Item Item
+		{
+			get { return item; }
+			set
+			{
+				item = value;
+				isSizeFixed = false;
+			}
+		}
+
+		public override Tooltip Tooltip
+		{
+			get
+			{
+				if (base.Tooltip == null && !string.IsNullOrEmpty(item.Tooltip))
+					base.Tooltip = new Tooltip(item.Tooltip);
+				return base.Tooltip;
+			}
+			set { }
+		}
+
 		protected override void OnDraw(DrawingContext dc)
 		{
-			if (image.Value == null)
+			if (item == null || item.Image == null)
 				dc.Draw(missing, 0, 0, defaultSize.X, defaultSize.Y);
 			else
 			{
 				if (!isSizeFixed)
 					FixSize();
-				dc.Draw(image.Value, 0, 0);
+				dc.Draw(item.Image, 0, 0);
 			}
-		}
-
-		protected override void OnDispose()
-		{
-			if (image.Value != null)
-				image.Value.Dispose();
 		}
 
 		protected override void OnMouseButtonDown(MouseButtonEvent e)
@@ -124,7 +139,7 @@ namespace MonoHaven.UI.Widgets
 
 		private void FixSize()
 		{
-			Resize(image.Value.Size);
+			Resize(item.Image.Size);
 			isSizeFixed = true;
 		}
 	}

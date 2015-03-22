@@ -1,4 +1,5 @@
-﻿using MonoHaven.Graphics;
+﻿using MonoHaven.Game;
+using MonoHaven.Graphics;
 using MonoHaven.UI.Widgets;
 
 namespace MonoHaven.UI.Remote
@@ -32,19 +33,25 @@ namespace MonoHaven.UI.Remote
 				int i;
 				for (i = 0; (int)args[i] >= 0; i += 2)
 				{
-					var image = Session.Get<Drawable>((int)args[i]);
+					var resId = (int)args[i];
 					var count = (int)args[i + 1];
-					widget.AddInput(image, count);
+					widget.AddInput(MakeItem(resId, count));
 				}
 				for (i++; (i < args.Length) && ((int)args[i] >= 0); i += 2)
 				{
-					var image = Session.Get<Drawable>((int)args[i]);
+					var resId = (int)args[i];
 					var count = (int)args[i + 1];
-					widget.AddOutput(image, count);
+					widget.AddOutput(MakeItem(resId, count));
 				}
 			}
 			else
 				base.ReceiveMessage(message, args);
+		}
+
+		private Item MakeItem(int resId, int count)
+		{
+			var mold = Session.Get<ItemMold>(resId);
+			return new Item(mold) { Num = count };
 		}
 	}
 }

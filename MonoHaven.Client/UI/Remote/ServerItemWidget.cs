@@ -1,5 +1,5 @@
 ﻿using System.Drawing;
-using MonoHaven.Graphics;
+using MonoHaven.Game;
 using MonoHaven.UI.Widgets;
 
 namespace MonoHaven.UI.Remote
@@ -13,14 +13,18 @@ namespace MonoHaven.UI.Remote
 			var resId = (int)args[0];
 			var q = (int)args[1];
 			var dragOffset = (int)args[2] != 0 ? (Point?)args[i++] : null;
-			var tooltip = args.Length > i ? (string)args[i++] : string.Empty;
+			var tooltip = args.Length > i ? (string)args[i++] : null;
 			var num = args.Length > i ? (int)args[i] : -1;
 
-			var image = parent.Session.Get<Drawable>(resId);
-			var widget = new ItemWidget(parent.Widget, image, dragOffset);
-			widget.Tooltip = !string.IsNullOrEmpty(tooltip)
-				? new Tooltip(tooltip)
-				: null;
+			var itemMold = parent.Session.Get<ItemMold>(resId);
+			var item = new Item(itemMold);
+			item.Quality = q;
+			item.Num = num;
+			if (!string.IsNullOrEmpty(tooltip))
+				item.Tooltip = tooltip;
+
+			var widget = new ItemWidget(parent.Widget, dragOffset);
+			widget.Item = item;
 			return new ServerItemWidget(id, parent, widget);
 		}
 

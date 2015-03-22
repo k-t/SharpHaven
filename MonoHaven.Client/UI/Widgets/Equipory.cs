@@ -59,7 +59,7 @@ namespace MonoHaven.UI.Widgets
 		public event Action<int, Point> ItemInteract;
 		public event Action<int> Drop;
 
-		public void SetItem(int i, Delayed<Drawable> item, string tooltip)
+		public void SetItem(int i, Item item)
 		{
 			Action<Point> itemTakeHandler = (p) => ItemTake.Raise(i, p);
 			Action<Point> itemTransferHandler = (p) => ItemTransfer.Raise(i, p);
@@ -76,9 +76,9 @@ namespace MonoHaven.UI.Widgets
 
 			if (item != null)
 			{
-				items[i] = new ItemWidget(this, item, null);
+				items[i] = new ItemWidget(this, null);
+				items[i].Item = item;
 				items[i].Move(slotPositions[i].X, slotPositions[i].Y);
-				items[i].Tooltip = !string.IsNullOrEmpty(tooltip) ? new Tooltip(tooltip) : null;
 
 				items[i].Take += itemTakeHandler;
 				items[i].Transfer += itemTransferHandler;

@@ -86,6 +86,8 @@
     <Compile Include="Game\GobCache.cs" />
     <Compile Include="Game\GobUpdater.cs" />
     <Compile Include="Game\GameSession.cs" />
+    <Compile Include="Game\Item.cs" />
+    <Compile Include="Game\ItemMold.cs" />
     <Compile Include="Game\Metric.cs" />
     <Compile Include="Graphics\Pixmap.cs" />
     <Compile Include="Graphics\Sprites\AnimFrame.cs" />
@@ -143,6 +145,7 @@
     <Compile Include="Resources\Factories\GameActionFactory.cs" />
     <Compile Include="Resources\Factories\BitmapFactory.cs" />
     <Compile Include="Resources\Factories\FontFaceFactory.cs" />
+    <Compile Include="Resources\Factories\ItemMoldFactory.cs" />
     <Compile Include="Resources\Factories\MouseCursorFactory.cs" />
     <Compile Include="Resources\Factories\DrawableFactory.cs" />
     <Compile Include="Resources\Factories\SpritePrototypeFactory.cs" />

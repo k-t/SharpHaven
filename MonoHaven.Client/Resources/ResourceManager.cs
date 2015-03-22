@@ -31,6 +31,7 @@ namespace MonoHaven.Resources
 			RegisterType(typeof(Tileset), new TilesetFactory());
 			RegisterType(typeof(SpritePrototype), new SpritePrototypeFactory());
 			RegisterType(typeof(GameAction), new GameActionFactory());
+			RegisterType(typeof(ItemMold), new ItemMoldFactory(drawableFactory));
 		}
 
 		public T Get<T>(string resName) where T : class
