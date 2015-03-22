@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Threading;
-using MonoHaven.Graphics;
 using MonoHaven.Graphics.Sprites;
 using MonoHaven.Messages;
 using MonoHaven.Network;

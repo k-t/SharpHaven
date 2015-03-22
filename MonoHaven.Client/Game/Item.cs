@@ -5,9 +5,8 @@ namespace MonoHaven.Game
 {
 	public class Item
 	{
-		private Delayed<ItemMold> mold;
-		private Drawable image;
-		private string tooltip;
+		private Delayed<Drawable> image;
+		private Delayed<string> tooltip;
 
 		public Item()
 		{
@@ -15,37 +14,22 @@ namespace MonoHaven.Game
 			Quality = -1;
 		}
 
-		public Item(ItemMold mold) : this()
-		{
-			Image = mold.Image;
-			Tooltip = mold.Tooltip;
-		}
-
 		public Item(Delayed<ItemMold> mold) : this()
 		{
-			this.mold = mold;
+			image = mold.Select(x => x.Image);
+			tooltip = mold.Select(x => x.Tooltip);
 		}
 
 		public Drawable Image
 		{
-			get
-			{
-				if (image != null) return image;
-				if (mold != null && mold.Value != null) return mold.Value.Image;
-				return null;
-			}
-			set { image = value; }
+			get { return image != null ? image.Value : null; }
+			set { image = new Delayed<Drawable>(value); }
 		}
 
 		public string Tooltip
 		{
-			get
-			{
-				if (tooltip != null) return tooltip;
-				if (mold != null && mold.Value != null) return mold.Value.Tooltip;
-				return null;
-			}
-			set { tooltip = value; }
+			get { return tooltip != null ? tooltip.Value : null; }
+			set { tooltip = new Delayed<string>(value); }
 		}
 
 		public int Num

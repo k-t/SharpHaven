@@ -33,4 +33,20 @@ namespace MonoHaven.Utils
 			}
 		}
 	}
+
+	public static class DelayedExtensions
+	{
+		public static Delayed<U> Select<T, U>(this Delayed<T> delayed, Func<T, U> selector)
+		{
+			return new Delayed<U>((out U value) => {
+				if (delayed.Value != null)
+				{
+					value = selector(delayed.Value);
+					return true;
+				}
+				value = default(U);
+				return false;
+			});
+		}
+	}
 }
