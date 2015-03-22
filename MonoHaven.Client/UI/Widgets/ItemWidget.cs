@@ -8,7 +8,7 @@ using OpenTK.Input;
 
 namespace MonoHaven.UI.Widgets
 {
-	public class ItemWidget : Widget
+	public class ItemWidget : Widget, IDropTarget
 	{
 		private static readonly Drawable missing;
 		private static readonly Point defaultSize = new Point(30, 30);
@@ -40,7 +40,8 @@ namespace MonoHaven.UI.Widgets
 		public event Action<Point> Transfer;
 		public event Action<Point> Drop;
 		public event Action<Point> Take;
-		public event Action<Point> Interact;
+		public event Action<Point> Act;
+		public event Action<Input.KeyModifiers> Interact;
 
 		public Item Item
 		{
@@ -99,7 +100,7 @@ namespace MonoHaven.UI.Widgets
 						e.Handled = true;
 						break;
 					case MouseButton.Right:
-						Interact.Raise(p);
+						Act.Raise(p);
 						e.Handled = true;
 						break;
 				}
@@ -109,11 +110,11 @@ namespace MonoHaven.UI.Widgets
 				switch (e.Button)
 				{
 					case MouseButton.Left:
-						DropOn(Parent, e.Position);
+						DropOn(Parent, e.Position, e.Modifiers);
 						e.Handled = true;
 						break;
 					case MouseButton.Right:
-						InteractWith(Parent, e.Position);
+						InteractWith(Parent, e.Position, e.Modifiers);
 						e.Handled = true;
 						break;
 				}
@@ -126,23 +127,24 @@ namespace MonoHaven.UI.Widgets
 				Move(e.Position.Sub(dragOffset.Value));
 		}
 
-		private void DropOn(Widget widget, Point p)
+		private void DropOn(Widget widget, Point p, Input.KeyModifiers mods)
 		{
 			foreach (var child in widget.GetChildrenAt(p))
 			{
+				if (child == this) continue;
 				var dropTarget = child as IDropTarget;
-				if (dropTarget != null && dropTarget.Drop(p, p.Sub(dragOffset.Value)))
+				if (dropTarget != null && dropTarget.Drop(p, p.Sub(dragOffset.Value), mods))
 					break;
 			}
 		}
 
-		private void InteractWith(Widget widget, Point p)
+		private void InteractWith(Widget widget, Point p, Input.KeyModifiers mods)
 		{
-			var wp = widget.MapFromScreen(p);
-			foreach (var child in GetChildrenAt(wp))
+			foreach (var child in widget.GetChildrenAt(p))
 			{
+				if (child == this) continue;
 				var dropTarget = child as IDropTarget;
-				if (dropTarget != null && dropTarget.ItemInteract(p, p.Sub(dragOffset.Value)))
+				if (dropTarget != null && dropTarget.ItemInteract(p, p.Sub(dragOffset.Value), mods))
 					break;
 			}
 		}
@@ -171,5 +173,20 @@ namespace MonoHaven.UI.Widgets
 			if (item != null && item.Num >= 0)
 				numLabel.Append(item.Num.ToString());
 		}
+
+		#region IDropTarget
+
+		bool IDropTarget.Drop(Point p, Point ul, Input.KeyModifiers mods)
+		{
+			return false;
+		}
+
+		bool IDropTarget.ItemInteract(Point p, Point ul, Input.KeyModifiers mods)
+		{
+			Interact.Raise(mods);
+			return true;
+		}
+
+		#endregion
 	}
 }

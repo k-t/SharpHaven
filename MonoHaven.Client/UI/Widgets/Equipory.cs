@@ -2,7 +2,6 @@
 using System.Drawing;
 using MonoHaven.Game;
 using MonoHaven.Graphics;
-using MonoHaven.Utils;
 
 namespace MonoHaven.UI.Widgets
 {
@@ -56,19 +55,22 @@ namespace MonoHaven.UI.Widgets
 
 		public event Action<int, Point> ItemTransfer;
 		public event Action<int, Point> ItemTake;
-		public event Action<int, Point> ItemInteract;
+		public event Action<int, Point> ItemAct;
+		public event Action<int> ItemInteract;
 		public event Action<int> Drop;
 
 		public void SetItem(int i, Item item)
 		{
 			Action<Point> itemTakeHandler = (p) => ItemTake.Raise(i, p);
 			Action<Point> itemTransferHandler = (p) => ItemTransfer.Raise(i, p);
-			Action<Point> itemInteractHandler = (p) => ItemInteract.Raise(i, p);
+			Action<Point> itemActHandler = (p) => ItemAct.Raise(i, p);
+			Action<Input.KeyModifiers> itemInteractHandler = (mods) => ItemInteract.Raise(i);
 
 			if (items[i] != null)
 			{
 				items[i].Take -= itemTakeHandler;
 				items[i].Transfer -= itemTransferHandler;
+				items[i].Act -= itemActHandler;
 				items[i].Interact -= itemInteractHandler;
 				items[i].Remove();
 				items[i].Dispose();
@@ -82,6 +84,7 @@ namespace MonoHaven.UI.Widgets
 
 				items[i].Take += itemTakeHandler;
 				items[i].Transfer += itemTransferHandler;
+				items[i].Act += itemActHandler;
 				items[i].Interact += itemInteractHandler;
 			}
 		}
@@ -110,13 +113,13 @@ namespace MonoHaven.UI.Widgets
 
 		#region IDropTarget
 
-		bool IDropTarget.Drop(Point p, Point ul)
+		bool IDropTarget.Drop(Point p, Point ul, Input.KeyModifiers mods)
 		{
 			Drop.Raise(-1);
 			return true;
 		}
 
-		bool IDropTarget.ItemInteract(Point p, Point ul)
+		bool IDropTarget.ItemInteract(Point p, Point ul, Input.KeyModifiers mods)
 		{
 			return false;
 		}

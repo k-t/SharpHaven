@@ -51,14 +51,14 @@ namespace MonoHaven.UI.Widgets
 
 		#region IDropTarget
 
-		bool IDropTarget.Drop(Point p, Point ul)
+		bool IDropTarget.Drop(Point p, Point ul, Input.KeyModifiers mods)
 		{
 			var dropPoint = MapFromScreen(ul).Add(15);
 			Drop.Raise(new Point(dropPoint.X / tile.Width, dropPoint.Y / tile.Height));
 			return true;
 		}
 
-		bool IDropTarget.ItemInteract(Point p, Point ul)
+		bool IDropTarget.ItemInteract(Point p, Point ul, Input.KeyModifiers mods)
 		{
 			return false;
 		}

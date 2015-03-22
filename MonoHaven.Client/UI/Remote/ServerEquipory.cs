@@ -20,7 +20,8 @@ namespace MonoHaven.UI.Remote
 			this.widget.Drop += (slot) => SendMessage("drop", slot);
 			this.widget.ItemTake += (slot, p) => SendMessage("take", slot, p);
 			this.widget.ItemTransfer += (slot, p) => SendMessage("transfer", slot, p);
-			this.widget.ItemInteract += (slot, p) => SendMessage("iact", slot, p);
+			this.widget.ItemAct += (slot, p) => SendMessage("iact", slot, p);
+			this.widget.ItemInteract += (slot) => SendMessage("itemact", slot);
 		}
 
 		public override void ReceiveMessage(string message, object[] args)

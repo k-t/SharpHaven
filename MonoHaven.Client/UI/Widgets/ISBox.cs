@@ -2,6 +2,7 @@
 using System;
 using MonoHaven.Input;
 using OpenTK.Input;
+using System.Drawing;
 
 namespace MonoHaven.UI.Widgets
 {
@@ -101,13 +102,13 @@ namespace MonoHaven.UI.Widgets
 
 		#region IDropTarget
 
-		bool IDropTarget.Drop(System.Drawing.Point p, System.Drawing.Point ul)
+		bool IDropTarget.Drop(Point p, Point ul, Input.KeyModifiers mods)
 		{
 			ItemDrop.Raise();
 			return true;
 		}
 
-		bool IDropTarget.ItemInteract(System.Drawing.Point p, System.Drawing.Point ul)
+		bool IDropTarget.ItemInteract(Point p, Point ul, Input.KeyModifiers mods)
 		{
 			ItemInteract.Raise();
 			return true;
