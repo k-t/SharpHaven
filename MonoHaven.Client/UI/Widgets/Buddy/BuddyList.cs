@@ -12,8 +12,8 @@ namespace MonoHaven.UI.Widgets
 
 		static BuddyList()
 		{
-			online = App.Resources.GetImage("gfx/hud/online");
-			offline = App.Resources.GetImage("gfx/hud/offline");
+			online = App.Resources.Get<Drawable>("gfx/hud/online");
+			offline = App.Resources.Get<Drawable>("gfx/hud/offline");
 		}
 
 		private readonly ListBox listBox;

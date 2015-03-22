@@ -30,7 +30,7 @@ namespace MonoHaven
 			resourceManager = new ResourceManager();
 
 			using (audio = new Audio())
-			using (var iconImage = Resources.GetBitmap("custom/ui/icon"))
+			using (var iconImage = Resources.Get<Bitmap>("custom/ui/icon"))
 			using (var icon = Icon.FromHandle(iconImage.GetHicon()))
 			using (var gameWindow = new MainWindow(800, 600))
 			{

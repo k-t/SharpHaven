@@ -103,7 +103,7 @@ namespace MonoHaven.Game
 
 		public void BindTileset(BindTilesetMessage message)
 		{
-			var tileset = App.Resources.GetTileset(message.Name);
+			var tileset = App.Resources.Get<Tileset>(message.Name);
 			tilesets[message.Id] = tileset;
 		}
 

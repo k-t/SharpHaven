@@ -1,4 +1,5 @@
-﻿using MonoHaven.UI.Widgets;
+﻿using MonoHaven.Graphics;
+using MonoHaven.UI.Widgets;
 
 namespace MonoHaven.UI.Remote
 {
@@ -7,7 +8,7 @@ namespace MonoHaven.UI.Remote
 		public static ServerWidget Create(ushort id, ServerWidget parent, object[] args)
 		{
 			// TODO: get tooltip
-			var image = App.Resources.GetImage((string)args[0]);
+			var image = App.Resources.Get<Drawable>((string)args[0]);
 			int remaining = (int)args[1];
 			int available = (int)args[2];
 			int built = (int)args[3];

@@ -17,8 +17,8 @@ namespace MonoHaven.UI.Widgets
 
 		static Bufflist()
 		{
-			frame = App.Resources.GetImage("gfx/hud/buffs/frame");
-			cframe = App.Resources.GetImage("gfx/hud/buffs/cframe");
+			frame = App.Resources.Get<Drawable>("gfx/hud/buffs/frame");
+			cframe = App.Resources.Get<Drawable>("gfx/hud/buffs/cframe");
 		}
 
 		private GameState gstate;

@@ -1,4 +1,5 @@
-﻿using MonoHaven.UI.Widgets;
+﻿using MonoHaven.Graphics;
+using MonoHaven.UI.Widgets;
 
 namespace MonoHaven.UI.Remote
 {
@@ -39,7 +40,7 @@ namespace MonoHaven.UI.Remote
 						var tooltip = (j < args.Length && args[j] is string)
 							? (string)args[j++]
 							: null;
-						widget.SetItem(i, Session.GetImage(resId), tooltip);
+						widget.SetItem(i, Session.Get<Drawable>(resId), tooltip);
 					}
 					else
 						widget.SetItem(i, null, null);
@@ -52,7 +53,7 @@ namespace MonoHaven.UI.Remote
 				var resId = (int)args[1];
 				var q = (int)args[2];
 				// TODO: tooltip must be preserved
-				widget.SetItem(i, Session.GetImage(resId), null);
+				widget.SetItem(i, Session.Get<Drawable>(resId), null);
 			}
 			else
 				base.ReceiveMessage(message, args);

@@ -4,11 +4,11 @@ using MonoHaven.Resources;
 
 namespace MonoHaven.Graphics.Sprites
 {
-	public abstract class SpriteFactory : IDisposable
+	public abstract class SpritePrototype : IDisposable
 	{
 		private readonly SpriteSheet parts;
 
-		protected SpriteFactory(Resource res)
+		protected SpritePrototype(Resource res)
 		{
 			var neg = res.GetLayer<NegData>();
 			var center = neg != null ? neg.Center : Point.Empty;
@@ -20,7 +20,7 @@ namespace MonoHaven.Graphics.Sprites
 			get { return parts; }
 		}
 
-		public abstract ISprite Create(byte[] state);
+		public abstract ISprite CreateInstance(byte[] state);
 
 		public virtual void Dispose()
 		{

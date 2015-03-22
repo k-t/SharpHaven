@@ -3,6 +3,7 @@ using MonoHaven.Game;
 using MonoHaven.UI.Widgets;
 using MonoHaven.Utils;
 using NLog;
+using OpenTK;
 
 namespace MonoHaven.UI.Remote
 {
@@ -48,7 +49,7 @@ namespace MonoHaven.UI.Remote
 			if (message == "curs")
 			{
 				widget.Cursor = args.Length > 0
-					? App.Resources.GetCursor((string)args[0])
+					? App.Resources.Get<MouseCursor>((string)args[0])
 					: null;
 			}
 			else

@@ -21,7 +21,7 @@ namespace MonoHaven.UI.Widgets
 			{
 				for (int j = 0; j < images.GetLength(1); j++)
 				{
-					var image = App.Resources.GetImage("gfx/hud/meter/rmeter/" + names[i] + "-" + vars[j]);
+					var image = App.Resources.Get<Drawable>("gfx/hud/meter/rmeter/" + names[i] + "-" + vars[j]);
 					images[i, j] = image;
 				}
 				w += images[i, 0].Width;

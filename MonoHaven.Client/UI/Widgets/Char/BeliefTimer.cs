@@ -10,8 +10,8 @@ namespace MonoHaven.UI.Widgets
 
 		static BeliefTimer()
 		{
-			onImage = App.Resources.GetImage("gfx/hud/charsh/shield");
-			offImage = App.Resources.GetImage("gfx/hud/charsh/shieldgray");
+			onImage = App.Resources.Get<Drawable>("gfx/hud/charsh/shield");
+			offImage = App.Resources.Get<Drawable>("gfx/hud/charsh/shieldgray");
 		}
 
 		private int time;

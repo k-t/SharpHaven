@@ -68,9 +68,9 @@ namespace MonoHaven.Game
 			return GetResource(id, n => App.Resources.GetSprite(n, spriteState));
 		}
 
-		public Delayed<Drawable> GetImage(int id)
+		public Delayed<T> Get<T>(int id) where T : class 
 		{
-			return GetResource(id, n => App.Resources.GetImage(n));
+			return GetResource(id, n => App.Resources.Get<T>(n));
 		}
 
 		private Delayed<T> GetResource<T>(int id, Func<string, T> getter)

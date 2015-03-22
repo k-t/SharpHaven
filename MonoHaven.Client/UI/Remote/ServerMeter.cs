@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
 using MonoHaven.Game;
+using MonoHaven.Graphics;
 using MonoHaven.UI.Widgets;
 
 namespace MonoHaven.UI.Remote
@@ -16,7 +17,7 @@ namespace MonoHaven.UI.Remote
 				metrics.Add(new Metric((Color)args[i], (int)args[i + 1]));
 			
 			var widget = new Meter(parent.Widget);
-			widget.Background = App.Resources.GetImage(resName);
+			widget.Background = App.Resources.Get<Drawable>(resName);
 			widget.SetMetrics(metrics);
 			return new ServerMeter(id, parent, widget);
 		}

@@ -6,16 +6,16 @@ using MonoHaven.Utils;
 
 namespace MonoHaven.Graphics.Sprites
 {
-	public class AnimSpriteFactory : SpriteFactory
+	public class AnimSpritePrototype : SpritePrototype
 	{
 		private AnimFrame[] frames;
 
-		public AnimSpriteFactory(Resource res) : base(res)
+		public AnimSpritePrototype(Resource res) : base(res)
 		{
 			Init(res);
 		}
 
-		public override ISprite Create(byte[] state)
+		public override ISprite CreateInstance(byte[] state)
 		{
 			var flags = state != null
 				? new BitArray(state)

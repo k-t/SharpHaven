@@ -11,7 +11,7 @@ namespace MonoHaven.UI.Widgets
 
 		static FoodMeter()
 		{
-			background = App.Resources.GetImage("gfx/hud/charsh/foodm");
+			background = App.Resources.Get<Drawable>("gfx/hud/charsh/foodm");
 		}
 
 		private int cap;

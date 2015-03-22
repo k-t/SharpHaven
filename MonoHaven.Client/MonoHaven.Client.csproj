@@ -92,14 +92,14 @@
     <Compile Include="Graphics\Pixmap.cs" />
     <Compile Include="Graphics\Sprites\AnimFrame.cs" />
     <Compile Include="Graphics\Sprites\AnimSprite.cs" />
-    <Compile Include="Graphics\Sprites\AnimSpriteFactory.cs" />
-    <Compile Include="Graphics\Sprites\SpriteFactory.cs" />
+    <Compile Include="Graphics\Sprites\AnimSpritePrototype.cs" />
+    <Compile Include="Graphics\Sprites\SpritePrototype.cs" />
     <Compile Include="Graphics\Sprites\StaticSprite.cs" />
     <Compile Include="Graphics\Sprites\ISprite.cs" />
     <Compile Include="Graphics\Sprites\LayeredSprite.cs" />
     <Compile Include="Graphics\Picture.cs" />
     <Compile Include="Graphics\Sprites\SpriteSheet.cs" />
-    <Compile Include="Graphics\Sprites\StaticSpriteFactory.cs" />
+    <Compile Include="Graphics\Sprites\StaticSpritePrototype.cs" />
     <Compile Include="Graphics\TextAlign.cs" />
     <Compile Include="Graphics\Glyph.cs" />
     <Compile Include="Graphics\Shader.cs" />
@@ -141,6 +141,16 @@
     <Compile Include="Login\LoginResult.cs" />
     <Compile Include="MainScreen.cs" />
     <Compile Include="Game\Tileset.cs" />
+    <Compile Include="Resources\Factories\BitmapFactory.cs" />
+    <Compile Include="Resources\Factories\FontFaceFactory.cs" />
+    <Compile Include="Resources\Factories\MouseCursorFactory.cs" />
+    <Compile Include="Resources\Factories\DrawableFactory.cs" />
+    <Compile Include="Resources\Factories\SpritePrototypeFactory.cs" />
+    <Compile Include="Resources\Factories\TilesetFactory.cs" />
+    <Compile Include="Resources\IObjectFactory.cs" />
+    <Compile Include="Resources\ResourceObjectCache.cs" />
+    <Compile Include="Game\SkillInfo.cs" />
+    <Compile Include="Resources\Factories\SkillInfoFactory.cs" />
     <Compile Include="UI\Layouts\GridLayout.cs">
       <SubType>Code</SubType>
     </Compile>

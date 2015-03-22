@@ -21,9 +21,9 @@ namespace MonoHaven.UI.Widgets
 
 		static MenuGrid()
 		{
-			backImage = App.Resources.GetImage("gfx/hud/sc-back");
-			nextImage = App.Resources.GetImage("gfx/hud/sc-next");
-			cellImage = App.Resources.GetImage("gfx/hud/invsq");
+			backImage = App.Resources.Get<Drawable>("gfx/hud/sc-back");
+			nextImage = App.Resources.Get<Drawable>("gfx/hud/sc-next");
+			cellImage = App.Resources.Get<Drawable>("gfx/hud/invsq");
 			cellWidth = cellImage.Width - 1;
 			cellHeight = cellImage.Height - 1;
 		}

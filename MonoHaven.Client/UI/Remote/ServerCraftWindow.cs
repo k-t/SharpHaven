@@ -1,4 +1,5 @@
-﻿using MonoHaven.UI.Widgets;
+﻿using MonoHaven.Graphics;
+using MonoHaven.UI.Widgets;
 
 namespace MonoHaven.UI.Remote
 {
@@ -31,13 +32,13 @@ namespace MonoHaven.UI.Remote
 				int i;
 				for (i = 0; (int)args[i] >= 0; i += 2)
 				{
-					var image = Session.GetImage((int)args[i]);
+					var image = Session.Get<Drawable>((int)args[i]);
 					var count = (int)args[i + 1];
 					widget.AddInput(image, count);
 				}
 				for (i++; (i < args.Length) && ((int)args[i] >= 0); i += 2)
 				{
-					var image = Session.GetImage((int)args[i]);
+					var image = Session.Get<Drawable>((int)args[i]);
 					var count = (int)args[i + 1];
 					widget.AddOutput(image, count);
 				}

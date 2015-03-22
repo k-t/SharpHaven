@@ -10,7 +10,7 @@ namespace MonoHaven.UI
 
 		static Tooltip()
 		{
-			background = App.Resources.GetImage("custom/ui/tooltip-bg");
+			background = App.Resources.Get<Drawable>("custom/ui/tooltip-bg");
 		}
 
 		private readonly TextBlock textBlock;

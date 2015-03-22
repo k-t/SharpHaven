@@ -14,7 +14,7 @@ namespace MonoHaven.UI.Widgets
 
 		static ItemWidget()
 		{
-			missing = App.Resources.GetImage("gfx/invobjs/missing");
+			missing = App.Resources.Get<Drawable>("gfx/invobjs/missing");
 		}
 
 		private readonly Delayed<Drawable> image;

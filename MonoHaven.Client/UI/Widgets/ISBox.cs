@@ -11,7 +11,7 @@ namespace MonoHaven.UI.Widgets
 
 		static ISBox()
 		{
-			background = App.Resources.GetImage("gfx/hud/bosq");
+			background = App.Resources.Get<Drawable>("gfx/hud/bosq");
 		}
 
 		private int remaining;

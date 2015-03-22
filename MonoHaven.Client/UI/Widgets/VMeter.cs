@@ -10,8 +10,8 @@ namespace MonoHaven.UI.Widgets
 
 		static VMeter()
 		{
-			background = App.Resources.GetImage("gfx/hud/vm-frame");
-			foreground = App.Resources.GetImage("gfx/hud/vm-tex");
+			background = App.Resources.Get<Drawable>("gfx/hud/vm-frame");
+			foreground = App.Resources.Get<Drawable>("gfx/hud/vm-tex");
 		}
 
 		public VMeter(Widget parent) : base(parent)

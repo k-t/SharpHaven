@@ -14,8 +14,8 @@ namespace MonoHaven.UI.Widgets
 
 		static FlowerMenu()
 		{
-			back = App.Resources.GetImage("gfx/hud/bgtex");
-			box = App.Resources.GetImage("custom/ui/wbox");
+			back = App.Resources.Get<Drawable>("gfx/hud/bgtex");
+			box = App.Resources.Get<Drawable>("custom/ui/wbox");
 		}
 
 		private readonly int optionCount;

@@ -25,9 +25,9 @@ namespace MonoHaven.UI.Widgets
 		
 		static Charlist()
 		{
-			background = App.Resources.GetImage("gfx/hud/avakort");
-			scrollUp = App.Resources.GetImage("gfx/hud/slen/sau");
-			scrollDown = App.Resources.GetImage("gfx/hud/slen/sad");
+			background = App.Resources.Get<Drawable>("gfx/hud/avakort");
+			scrollUp = App.Resources.Get<Drawable>("gfx/hud/slen/sau");
+			scrollDown = App.Resources.Get<Drawable>("gfx/hud/slen/sad");
 		}
 
 		public Charlist(Widget parent, int listHeight) : base(parent)

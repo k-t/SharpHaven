@@ -1,4 +1,5 @@
-﻿using MonoHaven.UI.Widgets;
+﻿using MonoHaven.Graphics;
+using MonoHaven.UI.Widgets;
 
 namespace MonoHaven.UI.Remote
 {
@@ -10,8 +11,8 @@ namespace MonoHaven.UI.Remote
 			var pressedImage = args.Length > 1 ? (string)args[1] : defaultImage;
 
 			var widget = new ImageButton(parent.Widget);
-			widget.Image = App.Resources.GetImage(defaultImage, true);
-			widget.PressedImage = App.Resources.GetImage(pressedImage);
+			widget.Image = App.Resources.Get<Drawable>(defaultImage);
+			widget.PressedImage = App.Resources.Get<Drawable>(pressedImage);
 			widget.Resize(widget.Image.Size);
 
 			return new ServerImageButton(id, parent, widget);

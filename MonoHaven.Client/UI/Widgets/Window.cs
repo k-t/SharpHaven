@@ -21,12 +21,12 @@ namespace MonoHaven.UI.Widgets
 
 		static Window()
 		{
-			background = App.Resources.GetImage("gfx/hud/bgtex");
-			closeButton = App.Resources.GetImage("gfx/hud/cbtn");
-			closeButtonPressed = App.Resources.GetImage("gfx/hud/cbtnd");
-			closeButtonHovered = App.Resources.GetImage("gfx/hud/cbtnh");
-			box = App.Resources.GetImage("custom/ui/wbox");
-			cap = App.Resources.GetImage("custom/ui/wcap");
+			background = App.Resources.Get<Drawable>("gfx/hud/bgtex");
+			closeButton = App.Resources.Get<Drawable>("gfx/hud/cbtn");
+			closeButtonPressed = App.Resources.Get<Drawable>("gfx/hud/cbtnd");
+			closeButtonHovered = App.Resources.Get<Drawable>("gfx/hud/cbtnh");
+			box = App.Resources.Get<Drawable>("custom/ui/wbox");
+			cap = App.Resources.Get<Drawable>("custom/ui/wcap");
 		}
 
 		public Window(Widget parent, string caption) : base(parent)

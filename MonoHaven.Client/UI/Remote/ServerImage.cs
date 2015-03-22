@@ -1,4 +1,5 @@
-﻿using MonoHaven.UI.Widgets;
+﻿using MonoHaven.Graphics;
+using MonoHaven.UI.Widgets;
 
 namespace MonoHaven.UI.Remote
 {
@@ -9,7 +10,7 @@ namespace MonoHaven.UI.Remote
 			var resName = (string)args[0];
 
 			var widget = new Image(parent.Widget);
-			widget.Drawable = App.Resources.GetImage(resName);
+			widget.Drawable = App.Resources.Get<Drawable>(resName);
 			widget.Resize(widget.Drawable.Size);
 			return new ServerImage(id, parent, widget);
 		}
@@ -25,7 +26,7 @@ namespace MonoHaven.UI.Remote
 		public override void ReceiveMessage(string message, object[] args)
 		{
 			if (message == "ch")
-				widget.Drawable = App.Resources.GetImage((string)args[0]);
+				widget.Drawable = App.Resources.Get<Drawable>((string)args[0]);
 			else
 				base.ReceiveMessage(message, args);
 		}

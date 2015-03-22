@@ -1,4 +1,5 @@
 ﻿using System.Drawing;
+using MonoHaven.Graphics;
 using MonoHaven.UI.Widgets;
 
 namespace MonoHaven.UI.Remote
@@ -15,7 +16,7 @@ namespace MonoHaven.UI.Remote
 			var tooltip = args.Length > i ? (string)args[i++] : string.Empty;
 			var num = args.Length > i ? (int)args[i] : -1;
 
-			var image = parent.Session.GetImage(resId);
+			var image = parent.Session.Get<Drawable>(resId);
 			var widget = new ItemWidget(parent.Widget, image, dragOffset);
 			widget.Tooltip = !string.IsNullOrEmpty(tooltip)
 				? new Tooltip(tooltip)

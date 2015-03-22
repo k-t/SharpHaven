@@ -12,8 +12,8 @@ namespace MonoHaven.UI.Widgets
 		
 		static TabWidget()
 		{
-			box = App.Resources.GetImage("custom/ui/wbox2");
-			tabImage = App.Resources.GetImage("custom/ui/tab");
+			box = App.Resources.Get<Drawable>("custom/ui/wbox2");
+			tabImage = App.Resources.Get<Drawable>("custom/ui/tab");
 		}
 
 		private readonly List<Tab> tabs;

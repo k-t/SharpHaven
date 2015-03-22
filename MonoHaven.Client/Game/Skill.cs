@@ -1,46 +1,37 @@
-﻿using System;
-using MonoHaven.Graphics;
+﻿using MonoHaven.Graphics;
+using MonoHaven.Resources;
 
 namespace MonoHaven.Game
 {
-	public class Skill : IDisposable
+	public class Skill
 	{
-		private readonly string id;
-		private readonly Drawable image;
-		private readonly string tooltip;
+		private readonly SkillInfo info;
+		private readonly int? cost;
 
-		public Skill(string id, Drawable image, string tooltip)
+		public Skill(SkillInfo info, int? cost = null)
 		{
-			this.id = id;
-			this.image = image;
-			this.tooltip = tooltip;
+			this.info = info;
+			this.cost = cost;
 		}
 
 		public string Id
 		{
-			get { return id; }
+			get { return info.Id; }
 		}
 
 		public Drawable Image
 		{
-			get { return image; }
+			get { return info.Image; }
 		}
 
 		public string Tooltip
 		{
-			get { return tooltip; }
+			get { return info.Tooltip; }
 		}
 
-		public int Cost
+		public int? Cost
 		{
-			get;
-			set;
-		}
-
-		public void Dispose()
-		{
-			if (image != null)
-				image.Dispose();
+			get { return cost; }
 		}
 	}
 }

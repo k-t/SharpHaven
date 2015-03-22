@@ -43,18 +43,18 @@ namespace MonoHaven.Login
 		private void InitWidgets()
 		{
 			var background = new Image(RootWidget);
-			background.Drawable = App.Resources.GetImage("gfx/loginscr");
+			background.Drawable = App.Resources.Get<Drawable>("gfx/loginscr");
 			background.Move(0, 0);
 			background.Resize(background.Drawable.Size);
 
 			var logo = new Image(RootWidget);
-			logo.Drawable = App.Resources.GetImage("gfx/logo");
+			logo.Drawable = App.Resources.Get<Drawable>("gfx/logo");
 			logo.Move(420 - logo.Drawable.Width / 2, 215 - logo.Drawable.Height / 2);
 			logo.Resize(logo.Size);
 
 			btnLogin = new ImageButton(RootWidget);
-			btnLogin.Image = App.Resources.GetImage("gfx/hud/buttons/loginu");
-			btnLogin.PressedImage = App.Resources.GetImage("gfx/hud/buttons/logind");
+			btnLogin.Image = App.Resources.Get<Drawable>("gfx/hud/buttons/loginu");
+			btnLogin.PressedImage = App.Resources.Get<Drawable>("gfx/hud/buttons/logind");
 			btnLogin.Clicked += Login;
 			btnLogin.Move(373, 460);
 			btnLogin.Resize(btnLogin.Image.Size);

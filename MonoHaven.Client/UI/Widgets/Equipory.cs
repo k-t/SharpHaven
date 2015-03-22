@@ -31,7 +31,7 @@ namespace MonoHaven.UI.Widgets
 
 		static Equipory()
 		{
-			background = App.Resources.GetImage("gfx/hud/equip/bg");
+			background = App.Resources.Get<Drawable>("gfx/hud/equip/bg");
 		}
 
 		private readonly GobCache gobCache;

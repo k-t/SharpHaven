@@ -21,10 +21,10 @@ namespace MonoHaven.UI.Widgets
 
 		static CharWindow()
 		{
-			MinusUp = App.Resources.GetImage("gfx/hud/charsh/minusup");
-			MinusDown = App.Resources.GetImage("gfx/hud/charsh/minusdown");
-			PlusUp = App.Resources.GetImage("gfx/hud/charsh/plusup");
-			PlusDown = App.Resources.GetImage("gfx/hud/charsh/plusdown");
+			MinusUp = App.Resources.Get<Drawable>("gfx/hud/charsh/minusup");
+			MinusDown = App.Resources.Get<Drawable>("gfx/hud/charsh/minusdown");
+			PlusUp = App.Resources.Get<Drawable>("gfx/hud/charsh/plusup");
+			PlusDown = App.Resources.Get<Drawable>("gfx/hud/charsh/plusdown");
 		}
 
 		private readonly GameState gstate;
@@ -140,8 +140,8 @@ namespace MonoHaven.UI.Widgets
 			var button = new ImageButton(this);
 			button.Tooltip = new Tooltip(tooltip);
 			button.Move(x, 310);
-			button.Image = App.Resources.GetImage(image);
-			button.PressedImage = App.Resources.GetImage(pressedImage);
+			button.Image = App.Resources.Get<Drawable>(image);
+			button.PressedImage = App.Resources.Get<Drawable>(pressedImage);
 			button.Resize(button.Image.Size);
 			button.Clicked += () => SetTab(tab);
 		}
@@ -232,7 +232,7 @@ namespace MonoHaven.UI.Widgets
 		private void AddBase(string name, string title)
 		{
 			var image = new Image(tabAttr);
-			image.Drawable = App.Resources.GetImage("gfx/hud/charsh/" + name);
+			image.Drawable = App.Resources.Get<Drawable>("gfx/hud/charsh/" + name);
 
 			var lblName = new Label(tabAttr, Fonts.LabelText);
 			lblName.Text = title + ":";
@@ -254,7 +254,7 @@ namespace MonoHaven.UI.Widgets
 			var attr = gstate.GetAttr(name);
 
 			var image = new Image(tabAttr);
-			image.Drawable = App.Resources.GetImage("gfx/hud/charsh/" + name);
+			image.Drawable = App.Resources.Get<Drawable>("gfx/hud/charsh/" + name);
 			
 			var lblName = new Label(tabAttr, Fonts.LabelText);
 			lblName.Text = title + ":";

@@ -12,9 +12,9 @@ namespace MonoHaven.UI.Widgets
 
 		static AvatarView()
 		{
-			missing = App.Resources.GetImage("gfx/hud/equip/missing");
-			background = App.Resources.GetImage("gfx/hud/equip/bg");
-			box = App.Resources.GetImage("custom/ui/wbox");
+			missing = App.Resources.Get<Drawable>("gfx/hud/equip/missing");
+			background = App.Resources.Get<Drawable>("gfx/hud/equip/bg");
+			box = App.Resources.Get<Drawable>("custom/ui/wbox");
 		}
 
 		public AvatarView(Widget parent) : base(parent)

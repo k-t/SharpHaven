@@ -14,8 +14,8 @@ namespace MonoHaven.UI
 
 		static Scrollbar()
 		{
-			schain = App.Resources.GetImage("gfx/hud/schain");
-			sflarp = App.Resources.GetImage("gfx/hud/sflarp");
+			schain = App.Resources.Get<Drawable>("gfx/hud/schain");
+			sflarp = App.Resources.Get<Drawable>("gfx/hud/sflarp");
 		}
 
 		private int value;

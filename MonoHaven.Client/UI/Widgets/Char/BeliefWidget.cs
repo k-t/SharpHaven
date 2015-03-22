@@ -16,14 +16,14 @@ namespace MonoHaven.UI.Widgets
 
 		static BeliefWidget()
 		{
-			slider = App.Resources.GetImage("gfx/hud/charsh/bslider");
-			flarp = App.Resources.GetImage("gfx/hud/sflarp");
-			lbu = App.Resources.GetImage("gfx/hud/charsh/leftup");
-			lbd = App.Resources.GetImage("gfx/hud/charsh/leftdown");
-			lbg = App.Resources.GetImage("gfx/hud/charsh/leftgrey");
-			rbu = App.Resources.GetImage("gfx/hud/charsh/rightup");
-			rbd = App.Resources.GetImage("gfx/hud/charsh/rightdown");
-			rbg = App.Resources.GetImage("gfx/hud/charsh/rightgrey");
+			slider = App.Resources.Get<Drawable>("gfx/hud/charsh/bslider");
+			flarp = App.Resources.Get<Drawable>("gfx/hud/sflarp");
+			lbu = App.Resources.Get<Drawable>("gfx/hud/charsh/leftup");
+			lbd = App.Resources.Get<Drawable>("gfx/hud/charsh/leftdown");
+			lbg = App.Resources.Get<Drawable>("gfx/hud/charsh/leftgrey");
+			rbu = App.Resources.Get<Drawable>("gfx/hud/charsh/rightup");
+			rbd = App.Resources.Get<Drawable>("gfx/hud/charsh/rightdown");
+			rbg = App.Resources.Get<Drawable>("gfx/hud/charsh/rightgrey");
 		}
 
 		private readonly ImageButton btnLeft;
@@ -36,7 +36,7 @@ namespace MonoHaven.UI.Widgets
 			Resize(140, 20);
 
 			var imgLeft = new Image(this);
-			imgLeft.Drawable = App.Resources.GetImage("gfx/hud/charsh/" + left);
+			imgLeft.Drawable = App.Resources.Get<Drawable>("gfx/hud/charsh/" + left);
 
 			var imgSlider = new Image(this);
 			imgSlider.Drawable = slider;
@@ -44,7 +44,7 @@ namespace MonoHaven.UI.Widgets
 
 			var imgRight = new Image(this);
 			imgRight.Move(128, 0);
-			imgRight.Drawable = App.Resources.GetImage("gfx/hud/charsh/" + right);
+			imgRight.Drawable = App.Resources.Get<Drawable>("gfx/hud/charsh/" + right);
 		
 			imgFlarper = new Image(this);
 			imgFlarper.Move(0, 2);

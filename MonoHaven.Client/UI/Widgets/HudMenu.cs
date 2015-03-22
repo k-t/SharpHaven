@@ -11,7 +11,7 @@ namespace MonoHaven.UI.Widgets
 
 		static HudMenu()
 		{
-			background = App.Resources.GetImage("gfx/hud/slen/mcircle");
+			background = App.Resources.Get<Drawable>("gfx/hud/slen/mcircle");
 			buttonImages = new[] {
 				"gfx/hud/slen/hbu", "gfx/hud/slen/hbd",
 				"gfx/hud/slen/invu", "gfx/hud/slen/invd",
@@ -19,7 +19,7 @@ namespace MonoHaven.UI.Widgets
 				"gfx/hud/slen/chru", "gfx/hud/slen/chrd",
 				"gfx/hud/slen/budu", "gfx/hud/slen/budd",
 				"gfx/hud/slen/optu", "gfx/hud/slen/optd" }
-				.Select(x => App.Resources.GetImage(x, true))
+				.Select(x => App.Resources.Get<Drawable>(x))
 				.ToArray();
 		}
 

@@ -12,7 +12,7 @@ namespace MonoHaven.UI.Widgets
 
 		static InventoryWidget()
 		{
-			tile = App.Resources.GetImage("gfx/hud/invsq");
+			tile = App.Resources.Get<Drawable>("gfx/hud/invsq");
 		}
 
 		private Point inventorySize;
