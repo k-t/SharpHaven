@@ -19,14 +19,17 @@ namespace MonoHaven.UI.Widgets
 		}
 
 		private Item item;
+		private readonly TextBlock numLabel;
 		private bool isSizeFixed;
 		private Point? dragOffset;
 
 		public ItemWidget(Widget parent, Point? dragOffset)
 			: base(parent)
 		{
-			this.dragOffset = dragOffset;
+			numLabel = new TextBlock(Fonts.Text);
+			numLabel.TextColor = Color.White;
 
+			this.dragOffset = dragOffset;
 			if (dragOffset.HasValue)
 			{
 				Host.GrabMouse(this);
@@ -46,6 +49,7 @@ namespace MonoHaven.UI.Widgets
 			{
 				item = value;
 				isSizeFixed = false;
+				UpdateLabels();
 			}
 		}
 
@@ -60,6 +64,11 @@ namespace MonoHaven.UI.Widgets
 			set { }
 		}
 
+		protected override void OnDispose()
+		{
+			numLabel.Dispose();
+		}
+
 		protected override void OnDraw(DrawingContext dc)
 		{
 			if (item == null || item.Image == null)
@@ -69,6 +78,7 @@ namespace MonoHaven.UI.Widgets
 				if (!isSizeFixed)
 					FixSize();
 				dc.Draw(item.Image, 0, 0);
+				dc.Draw(numLabel, 1, 1);
 			}
 		}
 
@@ -141,6 +151,13 @@ namespace MonoHaven.UI.Widgets
 		{
 			Resize(item.Image.Size);
 			isSizeFixed = true;
+		}
+
+		private void UpdateLabels()
+		{
+			numLabel.Clear();
+			if (item != null && item.Num >= 0)
+				numLabel.Append(item.Num.ToString());
 		}
 	}
 }

@@ -11,15 +11,17 @@ namespace MonoHaven.Game
 
 		public Item()
 		{
+			Num = -1;
+			Quality = -1;
 		}
 
-		public Item(ItemMold mold)
+		public Item(ItemMold mold) : this()
 		{
 			Image = mold.Image;
 			Tooltip = mold.Tooltip;
 		}
 
-		public Item(Delayed<ItemMold> mold)
+		public Item(Delayed<ItemMold> mold) : this()
 		{
 			this.mold = mold;
 		}
