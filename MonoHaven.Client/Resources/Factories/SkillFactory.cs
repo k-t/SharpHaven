@@ -4,16 +4,16 @@ using MonoHaven.Graphics;
 
 namespace MonoHaven.Resources
 {
-	public class SkillInfoFactory : IObjectFactory<SkillInfo>
+	public class SkillFactory : IObjectFactory<Skill>
 	{
 		private readonly IObjectFactory<Drawable> imageFactory;
 
-		public SkillInfoFactory(IObjectFactory<Drawable> imageFactory)
+		public SkillFactory(IObjectFactory<Drawable> imageFactory)
 		{
 			this.imageFactory = imageFactory;
 		}
 
-		public SkillInfo Create(string resName, Resource res)
+		public Skill Create(string resName, Resource res)
 		{
 			var image = imageFactory.Create(resName, res);
 
@@ -24,7 +24,7 @@ namespace MonoHaven.Resources
 
 			string id = resName.Split('/').Last();
 			
-			var skill = new SkillInfo(id, image, tooltip);
+			var skill = new Skill(id, image, tooltip);
 			return skill;
 		}
 	}

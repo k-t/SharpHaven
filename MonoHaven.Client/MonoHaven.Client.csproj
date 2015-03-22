@@ -87,7 +87,6 @@
     <Compile Include="Game\GobUpdater.cs" />
     <Compile Include="Game\GameSession.cs" />
     <Compile Include="Game\Metric.cs" />
-    <Compile Include="Game\Skill.cs" />
     <Compile Include="Graphics\Pixmap.cs" />
     <Compile Include="Graphics\Sprites\AnimFrame.cs" />
     <Compile Include="Graphics\Sprites\AnimSprite.cs" />
@@ -150,8 +149,8 @@
     <Compile Include="Resources\Factories\TilesetFactory.cs" />
     <Compile Include="Resources\IObjectFactory.cs" />
     <Compile Include="Resources\ResourceObjectCache.cs" />
-    <Compile Include="Game\SkillInfo.cs" />
-    <Compile Include="Resources\Factories\SkillInfoFactory.cs" />
+    <Compile Include="Game\Skill.cs" />
+    <Compile Include="Resources\Factories\SkillFactory.cs" />
     <Compile Include="UI\Layouts\GridLayout.cs">
       <SubType>Code</SubType>
     </Compile>

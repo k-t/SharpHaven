@@ -24,7 +24,7 @@ namespace MonoHaven.Resources
 			var drawableFactory = new DrawableFactory();
 
 			RegisterType(typeof(Drawable), drawableFactory);
-			RegisterType(typeof(SkillInfo), new SkillInfoFactory(drawableFactory));
+			RegisterType(typeof(Skill), new SkillFactory(drawableFactory));
 			RegisterType(typeof(Bitmap), new BitmapFactory());
 			RegisterType(typeof(MouseCursor), new MouseCursorFactory());
 			RegisterType(typeof(Face), new FontFaceFactory());

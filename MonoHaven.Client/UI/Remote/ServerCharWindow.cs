@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using MonoHaven.Game;
 using MonoHaven.UI.Widgets;
-using SkillInfo = MonoHaven.Game.SkillInfo;
 
 namespace MonoHaven.UI.Remote
 {
@@ -84,9 +83,10 @@ namespace MonoHaven.UI.Remote
 			int step = withCost ? 2 : 1;
 			for (int i = 0; i < args.Length; i += step)
 			{
-				var info = App.Resources.Get<SkillInfo>("gfx/hud/skills/" + (string)args[i]);
-				var skill = withCost ? new Skill(info, (int)args[i + 1]) : new Skill(info);
-				skills.Add(skill);
+				var name = (string)args[i];
+				var sk = App.Resources.Get<Skill>("gfx/hud/skills/" + name);
+				sk.Cost = withCost ? (int?)args[i+1] : null;
+				skills.Add(sk);
 			}
 			return skills;
 		}
