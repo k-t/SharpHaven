@@ -208,6 +208,7 @@ namespace MonoHaven.UI.Widgets
 		public Widget Move(int x, int y)
 		{
 			bounds.Location = new Point(x, y);
+			OnPositionChanged();
 			return this;
 		}
 
@@ -347,6 +348,10 @@ namespace MonoHaven.UI.Widgets
 		}
 
 		protected virtual void OnHoverChanged()
+		{
+		}
+
+		protected virtual void OnPositionChanged()
 		{
 		}
 

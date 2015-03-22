@@ -70,6 +70,13 @@ namespace MonoHaven.UI.Widgets
 			}
 		}
 
+		protected override void OnPositionChanged()
+		{
+			// TODO: fix potential stack overflow
+			if (Position.X == -1 && Position.Y == -1)
+				Move(Host.MousePosition);
+		}
+
 		private void Select(int num)
 		{
 			Selected.Raise(num);
