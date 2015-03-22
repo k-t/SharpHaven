@@ -19,7 +19,7 @@ namespace MonoHaven.UI.Remote
 				var study = new ServerContainer((ushort)studyId, serverWidget, widget.Study);
 				parent.Session.Screen.Bind(study.Id, study);
 			}
-				
+
 			return serverWidget;
 		}
 

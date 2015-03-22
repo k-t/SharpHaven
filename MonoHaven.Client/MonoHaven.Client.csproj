@@ -144,6 +144,7 @@
     <Compile Include="UI\Layouts\GridLayout.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="UI\Remote\ServerCraftWindow.cs" />
     <Compile Include="UI\Remote\ServerISBox.cs" />
     <Compile Include="UI\Remote\ServerProgress.cs" />
     <Compile Include="UI\Remote\ServerVMeter.cs" />
@@ -177,6 +178,7 @@
     <Compile Include="UI\Widgets\Char\SkillList.cs" />
     <Compile Include="UI\Widgets\Chat.cs" />
     <Compile Include="UI\Widgets\ChatWindow.cs" />
+    <Compile Include="UI\Widgets\CraftWindow.cs" />
     <Compile Include="UI\Widgets\Equipory.cs" />
     <Compile Include="UI\Widgets\FlowerMenu.cs" />
     <Compile Include="UI\Widgets\Hud.cs" />
