@@ -57,8 +57,8 @@ namespace MonoHaven.UI.Widgets
 		{
 			get
 			{
-				if (base.Tooltip == null && !string.IsNullOrEmpty(item.Tooltip))
-					base.Tooltip = new Tooltip(item.Tooltip);
+				if (base.Tooltip == null)
+					base.Tooltip = GetTooltip();
 				return base.Tooltip;
 			}
 			set { }
@@ -147,6 +147,18 @@ namespace MonoHaven.UI.Widgets
 			}
 		}
 
+		private Tooltip GetTooltip()
+		{
+			if (item == null || item.Tooltip == null)
+				return null;
+
+			var text = item.Tooltip;
+			if (item.Quality > 0)
+				text += ", quality " + item.Quality;
+
+			return new Tooltip(text);
+		}
+		
 		private void FixSize()
 		{
 			Resize(item.Image.Size);
