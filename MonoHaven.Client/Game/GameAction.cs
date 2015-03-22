@@ -6,45 +6,35 @@ namespace MonoHaven.Game
 {
 	public class GameAction : TreeNode<GameAction>, IComparable<GameAction>
 	{
-		private readonly string name;
-		private readonly string tooltip;
-		private readonly Drawable image;
-		private readonly string[] verbs;
+		private readonly GameActionInfo info;
 
 		public GameAction()
 		{
 		}
 
-		public GameAction(
-			string name,
-			string tooltip,
-			Drawable image,
-			string[] verbs)
+		public GameAction(GameActionInfo info)
 		{
-			this.name = name;
-			this.tooltip = tooltip;
-			this.image = image;
-			this.verbs = verbs;
+			this.info = info;
 		}
 
 		public string Name
 		{
-			get { return name; }
+			get { return info.Name; }
 		}
 
 		public string Tooltip
 		{
-			get { return tooltip; }
+			get { return info.Tooltip; }
 		}
 
 		public Drawable Image
 		{
-			get { return image; }
+			get { return info.Image; }
 		}
 		
 		public string[] Verbs
 		{
-			get { return verbs; }
+			get { return info.Verbs; }
 		}
 
 		public int CompareTo(GameAction other)

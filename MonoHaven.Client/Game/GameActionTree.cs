@@ -1,7 +1,5 @@
 ﻿using System;
 using C5;
-using MonoHaven.Graphics;
-using MonoHaven.Resources;
 
 namespace MonoHaven.Game
 {
@@ -58,15 +56,10 @@ namespace MonoHaven.Game
 
 		private GameAction Load(string resName)
 		{
-			var res = App.Resources.Get(resName);
-			var data = res.GetLayer<ActionData>();
-			// FIXME: that should be moved to resource manager!
-			var image = TextureSlice.FromBitmap(res.GetLayer<ImageData>().Data);
-			var act = new GameAction(data.Name, data.Name, new Picture(image, null), data.Verbs);
-
-			var parent = GetOrAdd(data.Parent.Name) ?? root;
+			var info = App.Resources.Get<GameActionInfo>(resName);
+			var act = new GameAction(info);
+			var parent = GetOrAdd(info.Parent.Name) ?? root;
 			parent.AddChild(act);
-
 			return act;
 		}
 	}

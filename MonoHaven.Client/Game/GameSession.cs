@@ -60,7 +60,7 @@ namespace MonoHaven.Game
 
 		public Delayed<Resource> GetResource(int id)
 		{
-			return GetResource(id, App.Resources.Get);
+			return GetResource(id, App.Resources.Load);
 		}
 
 		public Delayed<ISprite> GetSprite(int id, byte[] spriteState = null)

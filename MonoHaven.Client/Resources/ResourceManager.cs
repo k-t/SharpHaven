@@ -30,6 +30,7 @@ namespace MonoHaven.Resources
 			RegisterType(typeof(Face), new FontFaceFactory());
 			RegisterType(typeof(Tileset), new TilesetFactory());
 			RegisterType(typeof(SpritePrototype), new SpritePrototypeFactory());
+			RegisterType(typeof(GameActionInfo), new GameActionInfoFactory());
 		}
 
 		public T Get<T>(string resName) where T : class
@@ -38,7 +39,7 @@ namespace MonoHaven.Resources
 			var obj = cache.Get(resName) as T;
 			if (obj == null)
 			{
-				var res = Get(resName);
+				var res = Load(resName);
 				var factory = objectFactories[typeof(T)];
 				obj = (T)factory.Create(resName, res);
 				cache.Add(resName, obj);
@@ -46,15 +47,15 @@ namespace MonoHaven.Resources
 			return obj;
 		}
 
-		public Resource Get(string resName)
-		{
-			return defaultSource.Get(resName);
-		}
-
 		public ISprite GetSprite(string resName, byte[] state = null)
 		{
 			var prototype = Get<SpritePrototype>(resName);
 			return prototype.CreateInstance(state);
+		}
+
+		public Resource Load(string resName)
+		{
+			return defaultSource.Get(resName);
 		}
 
 		private void RegisterType(Type type, IObjectFactory<object> factory)
