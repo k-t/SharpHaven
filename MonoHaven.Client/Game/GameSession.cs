@@ -75,17 +75,19 @@ namespace MonoHaven.Game
 		private Delayed<T> GetResource<T>(int id, Func<string, T> getter)
 			where T : class
 		{
-			return new Delayed<T>((out T res) =>
-			{
-				string resName;
-				if (resources.TryGetValue(id, out resName))
+			string resName;
+			return resources.TryGetValue(id, out resName)
+				? new Delayed<T>(getter(resName))
+				: new Delayed<T>((out T res) => 
 				{
-					res = getter(resName);
-					return true;
-				}
-				res = null;
-				return false;
-			});
+					if (resources.TryGetValue(id, out resName))
+					{
+						res = getter(resName);
+						return true;
+					}
+					res = null;
+					return false;
+				});
 		}
 
 		#endregion
