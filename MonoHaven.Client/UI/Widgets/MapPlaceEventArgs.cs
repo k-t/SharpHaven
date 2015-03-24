@@ -7,9 +7,9 @@ namespace MonoHaven.UI.Widgets
 	{
 		private readonly Point point;
 		private readonly MouseButton button;
-		private readonly Input.KeyModifiers mods;
+		private readonly KeyModifiers mods;
 
-		public MapPlaceEventArgs(Point point, MouseButton button, Input.KeyModifiers mods)
+		public MapPlaceEventArgs(Point point, MouseButton button, KeyModifiers mods)
 		{
 			this.point = point;
 			this.button = button;
@@ -26,7 +26,7 @@ namespace MonoHaven.UI.Widgets
 			get { return button; }
 		}
 
-		public Input.KeyModifiers Modifiers
+		public KeyModifiers Modifiers
 		{
 			get { return mods; }
 		}

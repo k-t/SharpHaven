@@ -31,7 +31,7 @@ namespace MonoHaven.UI.Remote
 			this.widget.ItemInteract += () => SendMessage("iact");
 			this.widget.Click += () => SendMessage("click");
 			this.widget.Transfer += () => SendMessage("xfer");
-			this.widget.Transfer2 += (args) => SendMessage("xfer2", args.Delta, (int)args.Modifiers);
+			this.widget.Transfer2 += OnTransfer2;
 		}
 
 		public override void ReceiveMessage(string message, object[] args)
@@ -44,6 +44,12 @@ namespace MonoHaven.UI.Remote
 			}
 			else
 				base.ReceiveMessage(message, args);
+		}
+
+		private void OnTransfer2(TransferEventArgs e)
+		{
+			int mods = ServerInput.ToServerModifiers(e.Modifiers);
+			SendMessage("xfer2", e.Delta, mods);
 		}
 	}
 }

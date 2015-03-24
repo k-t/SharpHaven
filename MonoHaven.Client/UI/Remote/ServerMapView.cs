@@ -1,6 +1,7 @@
 ﻿using System.Drawing;
 using MonoHaven.Input;
 using MonoHaven.UI.Widgets;
+using OpenTK.Input;
 
 namespace MonoHaven.UI.Remote
 {
@@ -51,32 +52,32 @@ namespace MonoHaven.UI.Remote
 		private void OnMapClicked(MapClickEventArgs e)
 		{
 			var button = ServerInput.ToServerButton(e.Button);
+			var mods = ServerInput.ToServerModifiers(e.Modifiers);
 			if (e.Gob != null)
-				SendMessage("click", e.ScreenPoint, e.MapPoint, button,
-					(int)e.Modifiers, e.Gob.Id, e.Gob.Position);
+				SendMessage("click", e.ScreenPoint, e.MapPoint, button, mods, e.Gob.Id, e.Gob.Position);
 			else
-				SendMessage("click", e.ScreenPoint, e.MapPoint, button,
-					(int)e.Modifiers);
+				SendMessage("click", e.ScreenPoint, e.MapPoint, button, mods);
 		}
 
 		private void OnPlaced(MapPlaceEventArgs e)
 		{
 			var button = ServerInput.ToServerButton(e.Button);
-			SendMessage("place", e.Point, button, (int)e.Modifiers);
+			var mods = ServerInput.ToServerModifiers(e.Modifiers);
+			SendMessage("place", e.Point, button, mods);
 		}
 
-		private void OnItemDrop(Input.KeyModifiers mods)
+		private void OnItemDrop(KeyModifiers mods)
 		{
-			SendMessage("drop", (int)mods);
+			SendMessage("drop", ServerInput.ToServerModifiers(mods));
 		}
 
 		private void OnItemInteract(MapClickEventArgs e)
 		{
+			var mods = ServerInput.ToServerModifiers(e.Modifiers);
 			if (e.Gob != null)
-				SendMessage("itemact", e.ScreenPoint, e.MapPoint, (int)e.Modifiers,
-					e.Gob.Id, e.Gob.Position);
+				SendMessage("itemact", e.ScreenPoint, e.MapPoint, mods, e.Gob.Id, e.Gob.Position);
 			else
-				SendMessage("itemact", e.ScreenPoint, e.MapPoint, (int)e.Modifiers);
+				SendMessage("itemact", e.ScreenPoint, e.MapPoint, mods);
 		}
 	}
 }

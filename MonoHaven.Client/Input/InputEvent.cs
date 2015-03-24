@@ -24,7 +24,7 @@ namespace MonoHaven.Input
 
 		private static KeyModifiers GetCurrentKeyModifiers()
 		{
-			var mods = KeyModifiers.None;
+			var mods = (KeyModifiers)0;
 			var keyboardState = Keyboard.GetState();
 
 			if (keyboardState.IsKeyDown(Key.LShift) ||

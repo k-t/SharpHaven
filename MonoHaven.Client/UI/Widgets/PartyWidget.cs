@@ -3,7 +3,6 @@ using System.Linq;
 using MonoHaven.Game;
 using System;
 using OpenTK.Input;
-using KeyModifiers = MonoHaven.Input.KeyModifiers;
 
 namespace MonoHaven.UI.Widgets
 {

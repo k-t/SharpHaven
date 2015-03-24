@@ -41,7 +41,7 @@ namespace MonoHaven.UI.Widgets
 		public event Action<Point> Drop;
 		public event Action<Point> Take;
 		public event Action<Point> Act;
-		public event Action<Input.KeyModifiers> Interact;
+		public event Action<KeyModifiers> Interact;
 
 		public Item Item
 		{
@@ -93,9 +93,9 @@ namespace MonoHaven.UI.Widgets
 				switch (e.Button)
 				{
 					case MouseButton.Left:
-						if (e.Modifiers.HasFlag(Input.KeyModifiers.Shift))
+						if (e.Modifiers.HasShift())
 							Transfer.Raise(p);
-						else if (e.Modifiers.HasFlag(Input.KeyModifiers.Control))
+						else if (e.Modifiers.HasControl())
 							Drop.Raise(p);
 						else
 							Take.Raise(p);
@@ -129,7 +129,7 @@ namespace MonoHaven.UI.Widgets
 				Move(e.Position.Sub(dragOffset.Value));
 		}
 
-		private void DropOn(Widget widget, Point p, Input.KeyModifiers mods)
+		private void DropOn(Widget widget, Point p, KeyModifiers mods)
 		{
 			foreach (var child in widget.GetChildrenAt(p))
 			{
@@ -140,7 +140,7 @@ namespace MonoHaven.UI.Widgets
 			}
 		}
 
-		private void InteractWith(Widget widget, Point p, Input.KeyModifiers mods)
+		private void InteractWith(Widget widget, Point p, KeyModifiers mods)
 		{
 			foreach (var child in widget.GetChildrenAt(p))
 			{
@@ -178,12 +178,12 @@ namespace MonoHaven.UI.Widgets
 
 		#region IDropTarget
 
-		bool IDropTarget.Drop(Point p, Point ul, Input.KeyModifiers mods)
+		bool IDropTarget.Drop(Point p, Point ul, KeyModifiers mods)
 		{
 			return false;
 		}
 
-		bool IDropTarget.ItemInteract(Point p, Point ul, Input.KeyModifiers mods)
+		bool IDropTarget.ItemInteract(Point p, Point ul, KeyModifiers mods)
 		{
 			Interact.Raise(mods);
 			return true;

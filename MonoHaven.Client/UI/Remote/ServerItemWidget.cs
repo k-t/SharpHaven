@@ -38,7 +38,7 @@ namespace MonoHaven.UI.Remote
 			this.widget.Transfer += (p) => SendMessage("transfer", p);
 			this.widget.Drop += (p) => SendMessage("drop", p);
 			this.widget.Act += (p) => SendMessage("iact", p);
-			this.widget.Interact += (mods) => SendMessage("itemact", (int)mods);
+			this.widget.Interact += (mods) => SendMessage("itemact", ServerInput.ToServerModifiers(mods));
 		}
 
 		public override void ReceiveMessage(string message, object[] args)

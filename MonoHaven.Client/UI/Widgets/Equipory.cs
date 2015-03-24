@@ -2,6 +2,7 @@
 using System.Drawing;
 using MonoHaven.Game;
 using MonoHaven.Graphics;
+using OpenTK.Input;
 
 namespace MonoHaven.UI.Widgets
 {
@@ -64,7 +65,7 @@ namespace MonoHaven.UI.Widgets
 			Action<Point> itemTakeHandler = (p) => ItemTake.Raise(i, p);
 			Action<Point> itemTransferHandler = (p) => ItemTransfer.Raise(i, p);
 			Action<Point> itemActHandler = (p) => ItemAct.Raise(i, p);
-			Action<Input.KeyModifiers> itemInteractHandler = (mods) => ItemInteract.Raise(i);
+			Action<KeyModifiers> itemInteractHandler = (mods) => ItemInteract.Raise(i);
 
 			if (items[i] != null)
 			{
@@ -113,13 +114,13 @@ namespace MonoHaven.UI.Widgets
 
 		#region IDropTarget
 
-		bool IDropTarget.Drop(Point p, Point ul, Input.KeyModifiers mods)
+		bool IDropTarget.Drop(Point p, Point ul, KeyModifiers mods)
 		{
 			Drop.Raise(-1);
 			return true;
 		}
 
-		bool IDropTarget.ItemInteract(Point p, Point ul, Input.KeyModifiers mods)
+		bool IDropTarget.ItemInteract(Point p, Point ul, KeyModifiers mods)
 		{
 			return false;
 		}

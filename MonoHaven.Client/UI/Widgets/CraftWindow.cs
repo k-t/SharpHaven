@@ -119,7 +119,7 @@ namespace MonoHaven.UI.Widgets
 		{
 			if (e.Key == Key.Enter)
 			{
-				if (e.Modifiers.HasFlag(Input.KeyModifiers.Control))
+				if (e.Modifiers.HasControl())
 					CraftAll.Raise();
 				else
 					Craft.Raise();

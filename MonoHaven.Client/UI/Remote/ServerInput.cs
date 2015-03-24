@@ -1,4 +1,5 @@
 ﻿using OpenTK.Input;
+using MonoHaven.Utils;
 
 namespace MonoHaven.UI.Remote
 {
@@ -17,6 +18,15 @@ namespace MonoHaven.UI.Remote
 				default:
 					return 0;
 			}
+		}
+
+		public static int ToServerModifiers(KeyModifiers mods)
+		{
+			int result = 0;
+			if (mods.HasShift()) result |= 1;
+			if (mods.HasControl()) result |= 2;
+			if (mods.HasAlt()) result |= 4;
+			return result;
 		}
 	}
 }

@@ -3,6 +3,7 @@ using System.Drawing;
 using MonoHaven.Graphics;
 using MonoHaven.Input;
 using MonoHaven.Utils;
+using OpenTK.Input;
 
 namespace MonoHaven.UI.Widgets
 {
@@ -51,14 +52,14 @@ namespace MonoHaven.UI.Widgets
 
 		#region IDropTarget
 
-		bool IDropTarget.Drop(Point p, Point ul, Input.KeyModifiers mods)
+		bool IDropTarget.Drop(Point p, Point ul, KeyModifiers mods)
 		{
 			var dropPoint = MapFromScreen(ul).Add(15);
 			Drop.Raise(new Point(dropPoint.X / tile.Width, dropPoint.Y / tile.Height));
 			return true;
 		}
 
-		bool IDropTarget.ItemInteract(Point p, Point ul, Input.KeyModifiers mods)
+		bool IDropTarget.ItemInteract(Point p, Point ul, KeyModifiers mods)
 		{
 			return false;
 		}

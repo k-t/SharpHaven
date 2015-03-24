@@ -3,6 +3,7 @@ using System;
 using MonoHaven.Input;
 using OpenTK.Input;
 using System.Drawing;
+using MonoHaven.Utils;
 
 namespace MonoHaven.UI.Widgets
 {
@@ -82,7 +83,7 @@ namespace MonoHaven.UI.Widgets
 		{
 			if (e.Button == MouseButton.Left)
 			{
-				if (e.Modifiers.HasFlag(Input.KeyModifiers.Shift))
+				if (e.Modifiers.HasShift())
 					Transfer.Raise();
 				else
 					Click.Raise();
@@ -102,13 +103,13 @@ namespace MonoHaven.UI.Widgets
 
 		#region IDropTarget
 
-		bool IDropTarget.Drop(Point p, Point ul, Input.KeyModifiers mods)
+		bool IDropTarget.Drop(Point p, Point ul, KeyModifiers mods)
 		{
 			ItemDrop.Raise();
 			return true;
 		}
 
-		bool IDropTarget.ItemInteract(Point p, Point ul, Input.KeyModifiers mods)
+		bool IDropTarget.ItemInteract(Point p, Point ul, KeyModifiers mods)
 		{
 			ItemInteract.Raise();
 			return true;

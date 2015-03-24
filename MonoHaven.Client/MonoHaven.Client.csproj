@@ -132,7 +132,6 @@
     <Compile Include="Graphics\VertexBuffer.cs" />
     <Compile Include="Input\InputEvent.cs" />
     <Compile Include="Input\KeyEvent.cs" />
-    <Compile Include="Input\KeyModifiers.cs" />
     <Compile Include="Input\KeyPressEvent.cs" />
     <Compile Include="Input\MouseButtonEvent.cs" />
     <Compile Include="Input\MouseEvent.cs" />
@@ -253,6 +252,7 @@
     <Compile Include="UI\Widgets\VMeter.cs" />
     <Compile Include="UI\Widgets\Window.cs" />
     <Compile Include="Utils\BitArrayExtensions.cs" />
+    <Compile Include="Utils\KeyModifiersExtensions.cs" />
     <Compile Include="Utils\MathUtils.cs" />
     <Compile Include="Utils\StringUtils.cs" />
     <Compile Include="Utils\TypeMatcher.cs" />

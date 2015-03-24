@@ -28,7 +28,7 @@ namespace MonoHaven.UI.Widgets
 		}
 
 		public event Action<MapClickEventArgs> MapClicked;
-		public event Action<Input.KeyModifiers> ItemDrop;
+		public event Action<KeyModifiers> ItemDrop;
 		public event Action<MapClickEventArgs> ItemInteract;
 		public event Action<MapPlaceEventArgs> Placed;
 
@@ -190,14 +190,14 @@ namespace MonoHaven.UI.Widgets
 
 		#region IDropTarget
 
-		bool IDropTarget.Drop(Point p, Point ul, Input.KeyModifiers mods)
+		bool IDropTarget.Drop(Point p, Point ul, KeyModifiers mods)
 		{
 			ItemDrop.Raise(mods);
 			return true;
 			
 		}
 
-		bool IDropTarget.ItemInteract(Point p, Point ul, Input.KeyModifiers mods)
+		bool IDropTarget.ItemInteract(Point p, Point ul, KeyModifiers mods)
 		{
 			var screenPoint = ToAbsolute(p);
 			var gob = gstate.Scene.GetObjectAt(screenPoint);
