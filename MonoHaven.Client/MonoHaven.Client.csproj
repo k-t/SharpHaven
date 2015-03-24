@@ -88,7 +88,10 @@
     <Compile Include="Game\GameSession.cs" />
     <Compile Include="Game\Item.cs" />
     <Compile Include="Game\ItemMold.cs" />
+    <Compile Include="Game\KinInfo.cs" />
     <Compile Include="Game\Metric.cs" />
+    <Compile Include="Game\Party.cs" />
+    <Compile Include="Game\PartyMember.cs" />
     <Compile Include="Graphics\Pixmap.cs" />
     <Compile Include="Graphics\Sprites\AnimFrame.cs" />
     <Compile Include="Graphics\Sprites\AnimSprite.cs" />
@@ -197,6 +200,8 @@
     <Compile Include="UI\Widgets\Hud.cs" />
     <Compile Include="UI\Widgets\HudMenu.cs" />
     <Compile Include="UI\Widgets\IDropTarget.cs" />
+    <Compile Include="UI\Widgets\PartyMemberClickEventArgs.cs" />
+    <Compile Include="UI\Widgets\PartyWidget.cs" />
     <Compile Include="UI\Widgets\TransferEventArgs.cs" />
     <Compile Include="UI\Widgets\InventoryWidget.cs" />
     <Compile Include="UI\IScreen.cs" />
@@ -231,7 +236,7 @@
     <Compile Include="UI\Remote\ServerLabel.cs" />
     <Compile Include="UI\Remote\ServerMapView.cs" />
     <Compile Include="UI\Remote\ServerMenuGrid.cs" />
-    <Compile Include="UI\Remote\ServerPartyView.cs" />
+    <Compile Include="UI\Remote\ServerPartyWidget.cs" />
     <Compile Include="UI\Remote\ServerRootWidget.cs" />
     <Compile Include="UI\Remote\ServerSpeedget.cs" />
     <Compile Include="UI\Remote\ServerTextBox.cs" />

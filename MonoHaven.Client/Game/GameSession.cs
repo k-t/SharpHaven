@@ -183,9 +183,30 @@ namespace MonoHaven.Game
 			});
 		}
 
-		void IConnectionListener.UpdateParty()
+		void IConnectionListener.SetPartyLeader(int leaderId)
 		{
-			log.Info("UpdateParty");
+			App.QueueOnMainThread(() =>
+			{
+				State.Party.LeaderId = leaderId;
+			});
+		}
+
+		void IConnectionListener.UpdatePartyList(List<int> memberIds)
+		{
+			App.QueueOnMainThread(() => State.Party.Update(memberIds));
+		}
+
+		void IConnectionListener.UpdatePartyMember(int memberId, Color color, Point? location)
+		{
+			App.QueueOnMainThread(() =>
+			{
+				var member = State.Party.GetMember(memberId);
+				if (member != null)
+				{
+					member.Color = color;
+					member.Location = location;
+				}
+			});
 		}
 
 		void IConnectionListener.UpdateGob(UpdateGobMessage message)

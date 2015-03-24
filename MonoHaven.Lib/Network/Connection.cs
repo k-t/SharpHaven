@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Net.Sockets;
 using C5;
@@ -53,6 +54,10 @@ namespace MonoHaven.Network
 		private const int OD_HEALTH = 14;
 		private const int OD_BUDDY = 15;
 		private const int OD_END = 255;
+
+		private const int PD_LIST = 0;
+		private const int PD_LEADER = 1;
+		private const int PD_MEMBER = 2;
 
 		#endregion
 
@@ -333,7 +338,37 @@ namespace MonoHaven.Network
 					break;
 				}
 				case RMSG_PARTY:
-					listeners.ForEach(x => x.UpdateParty());
+					while (!msg.IsEom)
+					{
+						int type = msg.ReadByte();
+						switch (type)
+						{
+							case PD_LIST:
+								var ids = new List<int>();
+								while(true)
+								{
+									int id = msg.ReadInt32();
+									if(id < 0)
+										break;
+									ids.Add(id);
+									listeners.ForEach(x => x.UpdatePartyList(ids));
+								}
+								break;
+							case PD_LEADER:
+								var leaderId = msg.ReadInt32();
+								listeners.ForEach(x => x.SetPartyLeader(leaderId));
+								break;
+							case PD_MEMBER:
+								var memberId = msg.ReadInt32();
+								var visible = msg.ReadByte() == 1;
+								Point? location = null;
+								if (visible)
+									location = msg.ReadCoord();
+								var color = msg.ReadColor();
+								listeners.ForEach(x => x.UpdatePartyMember(memberId, color, location));
+								break;
+						}
+					}
 					break;
 				case RMSG_SFX:
 				{

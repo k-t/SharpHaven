@@ -30,7 +30,7 @@ namespace MonoHaven.UI.Remote
 			methods["speedget"] = ServerSpeedget.Create;
 			methods["buffs"] = ServerBufflist.Create;
 			methods["scm"] = ServerMenuGrid.Create;
-			methods["pv"] = ServerPartyView.Create;
+			methods["pv"] = ServerPartyWidget.Create;
 			methods["text"] = ServerTextBox.Create;
 			methods["inv"] = ServerInventoryWidget.Create;
 			methods["item"] = ServerItemWidget.Create;

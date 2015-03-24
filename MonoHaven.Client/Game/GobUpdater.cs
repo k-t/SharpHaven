@@ -64,6 +64,10 @@ namespace MonoHaven.Game
 
 		private void Apply(GobDelta.Buddy delta)
 		{
+			if (string.IsNullOrEmpty(delta.Name) && delta.Group == 0 && delta.Type == 0)
+				gob.KinInfo = null;
+			else
+				gob.KinInfo = new KinInfo(delta.Name, delta.Group, delta.Type);
 		}
 
 		private void Apply(GobDelta.Clear delta)

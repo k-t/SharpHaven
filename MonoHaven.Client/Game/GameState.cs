@@ -11,6 +11,7 @@ namespace MonoHaven.Game
 		private readonly Map map;
 		private readonly GobCache objects;
 		private readonly GameScene scene;
+		private readonly Party party;
 
 		public GameState(GameSession session)
 		{
@@ -20,6 +21,7 @@ namespace MonoHaven.Game
 			map = new Map(session);
 			objects = new GobCache();
 			scene = new GameScene(this);
+			party = new Party();
 		}
 		
 		public Map Map
@@ -46,6 +48,11 @@ namespace MonoHaven.Game
 		{
 			get;
 			set;
+		}
+
+		public Party Party
+		{
+			get { return party; }
 		}
 
 		public CharAttribute GetAttr(string name)

@@ -1,5 +1,8 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
 using MonoHaven.Graphics;
+using MonoHaven.Input;
+using OpenTK.Input;
 
 namespace MonoHaven.UI.Widgets
 {
@@ -20,6 +23,15 @@ namespace MonoHaven.UI.Widgets
 		public AvatarView(Widget parent) : base(parent)
 		{
 			Resize(defaultSize.X + 10, defaultSize.Y + 10);
+			BorderColor = Color.White;
+		}
+
+		public event Action<AvatarView, MouseButton> Click;
+
+		public Color BorderColor
+		{
+			get;
+			set;
 		}
 
 		public Avatar Avatar
@@ -39,10 +51,17 @@ namespace MonoHaven.UI.Widgets
 				dc.Draw(image, -(background.Width - Width) / 2, -20 + 5);
 			}
 			else
-				dc.Draw(missing, 5, 5);
+				dc.Draw(missing, 5, 5, Width - 10, Height - 10);
 
 			dc.ResetClip();
+			dc.SetColor(BorderColor);
 			dc.Draw(box, 0, 0, Width, Height);
+			dc.ResetColor();
+		}
+
+		protected override void OnMouseButtonDown(MouseButtonEvent e)
+		{
+			Click.Raise(this, e.Button);
 		}
 	}
 }

@@ -20,13 +20,16 @@ namespace MonoHaven.Network
 		void UpdateAmbientLight(Color color);
 		void UpdateAstronomy(AstronomyMessage astronomy);
 		void UpdateActions(IEnumerable<ActionMessage> actions);
-		void UpdateParty();
 		void UpdateGob(UpdateGobMessage message);
 		void UpdateMap(UpdateMapMessage updateMapMessage);
 
 		void AddBuff(BuffAddMessage message);
 		void RemoveBuff(int buffId);
 		void ClearBuffs();
+
+		void SetPartyLeader(int leaderId);
+		void UpdatePartyList(List<int> memberIds);
+		void UpdatePartyMember(int memberId, Color color, Point? location);
 
 		void PlaySound(PlaySoundMessage message);
 		void PlayMusic();

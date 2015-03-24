@@ -32,6 +32,12 @@ namespace MonoHaven.Game
 			set;
 		}
 
+		public KinInfo KinInfo
+		{
+			get;
+			set;
+		}
+
 		public ISprite Sprite
 		{
 			get { return sprite != null ? sprite.Value : null; }
