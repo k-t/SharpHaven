@@ -72,6 +72,7 @@ namespace MonoHaven.UI.Widgets
 			var inv = new InventoryWidget(this);
 			inv.SetInventorySize(1, 1);
 			var itemWidget = new ItemWidget(inv, null);
+			itemWidget.Move(1, 1);
 			itemWidget.Item = item;
 
 			int column = inputLayout.ColumnCount;
