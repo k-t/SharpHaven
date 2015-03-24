@@ -8,7 +8,7 @@ using OpenTK.Input;
 
 namespace MonoHaven.UI.Widgets
 {
-	public class MapView : Widget
+	public class MapView : Widget, IDropTarget
 	{
 		private readonly GameState gstate;
 
@@ -26,6 +26,8 @@ namespace MonoHaven.UI.Widgets
 		}
 
 		public event Action<MapClickEventArgs> MapClicked;
+		public event Action<Input.KeyModifiers> ItemDrop;
+		public event Action<MapClickEventArgs> ItemInteract;
 
 		public Point WorldPoint
 		{
@@ -166,5 +168,26 @@ namespace MonoHaven.UI.Widgets
 				rel.X - Width / 2 + cameraOffset.X,
 				rel.Y - Height / 2 + cameraOffset.Y);
 		}
+
+		#region IDropTarget
+
+		bool IDropTarget.Drop(Point p, Point ul, Input.KeyModifiers mods)
+		{
+			ItemDrop.Raise(mods);
+			return true;
+			
+		}
+
+		bool IDropTarget.ItemInteract(Point p, Point ul, Input.KeyModifiers mods)
+		{
+			var screenPoint = ToAbsolute(p);
+			var gob = gstate.Scene.GetObjectAt(screenPoint);
+			var mapPoint = GameScene.ScreenToWorld(screenPoint);
+			var args = new MapClickEventArgs(MouseButton.Right, mods, mapPoint, screenPoint, gob);
+			ItemInteract.Raise(args);
+			return true;
+		}
+
+		#endregion
 	}
 }

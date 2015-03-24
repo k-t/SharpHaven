@@ -23,7 +23,8 @@ namespace MonoHaven.UI.Remote
 		{
 			this.widget = widget;
 			this.widget.MapClicked += OnMapClicked;
-
+			this.widget.ItemDrop += OnItemDrop;
+			this.widget.ItemInteract += OnItemInteract;
 		}
 
 		public override void ReceiveMessage(string message, object[] args)
@@ -36,15 +37,29 @@ namespace MonoHaven.UI.Remote
 			base.ReceiveMessage(message, args);
 		}
 
-		private void OnMapClicked(MapClickEventArgs args)
+		private void OnMapClicked(MapClickEventArgs e)
 		{
-			var button = ServerInput.ToServerButton(args.Button);
-			if (args.Gob != null)
-				SendMessage("click", args.ScreenPoint, args.MapPoint, button,
-					(int)args.Modifiers, args.Gob.Id, args.Gob.Position);
+			var button = ServerInput.ToServerButton(e.Button);
+			if (e.Gob != null)
+				SendMessage("click", e.ScreenPoint, e.MapPoint, button,
+					(int)e.Modifiers, e.Gob.Id, e.Gob.Position);
 			else
-				SendMessage("click", args.ScreenPoint, args.MapPoint, button,
-					(int)args.Modifiers);
+				SendMessage("click", e.ScreenPoint, e.MapPoint, button,
+					(int)e.Modifiers);
+		}
+
+		private void OnItemDrop(Input.KeyModifiers mods)
+		{
+			SendMessage("drop", (int)mods);
+		}
+
+		private void OnItemInteract(MapClickEventArgs e)
+		{
+			if (e.Gob != null)
+				SendMessage("itemact", e.ScreenPoint, e.MapPoint, (int)e.Modifiers,
+					e.Gob.Id, e.Gob.Position);
+			else
+				SendMessage("itemact", e.ScreenPoint, e.MapPoint, (int)e.Modifiers);
 		}
 	}
 }
