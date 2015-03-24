@@ -50,6 +50,14 @@ namespace MonoHaven.UI.Remote
 					? new Tooltip(text)
 					: null;
 			}
+			else if (message == "chres")
+			{
+				int resId = (int)args[0];
+				int q = (int)args[1];
+				var item = new Item(Session.Get<ItemMold>(resId));
+				item.Quality = q;
+				widget.Item = item;
+			}
 			else
 				base.ReceiveMessage(message, args);
 		}
