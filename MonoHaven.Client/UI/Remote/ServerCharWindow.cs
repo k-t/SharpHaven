@@ -32,6 +32,7 @@ namespace MonoHaven.UI.Remote
 			this.widget.AttributesChanged += OnAttributesChanged;
 			this.widget.BeliefChanged += OnBeliefChanged;
 			this.widget.SkillLearned += OnSkillLearned;
+			this.widget.Worship.Forfeit += () => SendMessage("forfeit", 0);
 		}
 
 		public override void ReceiveMessage(string message, object[] args)
@@ -56,6 +57,28 @@ namespace MonoHaven.UI.Remote
 				case "psk":
 					widget.CurrentSkills.SetSkills(GetSkills(args, false));
 					break;
+				case "numen":
+				{
+					int ent = (int)args[0];
+					int numen = (int)args[1];
+					if (ent == 0)
+						widget.Worship.SetNumenCount(numen);
+					break;
+				}
+				case "wish":
+				{
+					int ent = (int)args[0];
+					int wish = (int)args[1];
+					int resid = (int)args[2];
+					int amount = (int)args[3];
+					if (ent == 0)
+					{
+						var item = new Item(Session.Get<ItemMold>(resid));
+						item.Amount = amount;
+						widget.Worship.SetWish(wish, item);
+					}
+					break;
+				}
 				default:
 					base.ReceiveMessage(message, args);
 					break;

@@ -170,8 +170,8 @@ namespace MonoHaven.UI.Widgets
 		private void UpdateLabels()
 		{
 			numLabel.Clear();
-			if (item != null && item.Num >= 0)
-				numLabel.Append(item.Num.ToString());
+			if (item != null && item.Amount >= 0)
+				numLabel.Append(item.Amount.ToString());
 		}
 
 		#region IDropTarget

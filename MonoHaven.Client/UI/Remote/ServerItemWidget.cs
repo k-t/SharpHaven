@@ -19,7 +19,7 @@ namespace MonoHaven.UI.Remote
 			var itemMold = parent.Session.Get<ItemMold>(resId);
 			var item = new Item(itemMold);
 			item.Quality = q;
-			item.Num = num;
+			item.Amount = num;
 			if (!string.IsNullOrEmpty(tooltip))
 				item.Tooltip = tooltip;
 

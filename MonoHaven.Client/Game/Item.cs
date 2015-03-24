@@ -10,7 +10,7 @@ namespace MonoHaven.Game
 
 		public Item()
 		{
-			Num = -1;
+			Amount = -1;
 			Quality = -1;
 		}
 
@@ -32,7 +32,7 @@ namespace MonoHaven.Game
 			set { tooltip = new Delayed<string>(value); }
 		}
 
-		public int Num
+		public int Amount
 		{
 			get;
 			set;

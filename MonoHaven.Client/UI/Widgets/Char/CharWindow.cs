@@ -46,6 +46,7 @@ namespace MonoHaven.UI.Widgets
 		private SkillList lstAvailableSkills;
 		private SkillList lstCurrentSkills;
 		private Label lblSkillCost;
+		private Worship worship;
 
 		private readonly GridLayout baseLayout;
 		private readonly GridLayout skillLayout;
@@ -114,6 +115,11 @@ namespace MonoHaven.UI.Widgets
 		public SkillList CurrentSkills
 		{
 			get { return lstCurrentSkills; }
+		}
+
+		public Worship Worship
+		{
+			get { return worship; }
 		}
 
 		public void SetAttention(int value)
@@ -421,6 +427,10 @@ namespace MonoHaven.UI.Widgets
 			AddBelief("change", "tradition", "change", false);
 
 			beliefLayout.UpdateGeometry(18, 50, 0, 0);
+
+			worship = new Worship(tabBeliefs);
+			worship.Title = "The Ancestors";
+			worship.Move(255, 40);
 		}
 
 		private void AddBelief(string name, string left, string right, bool inv)

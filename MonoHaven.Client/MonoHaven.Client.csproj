@@ -192,6 +192,7 @@
     <Compile Include="UI\Widgets\Char\SkillAttributeBinding.cs" />
     <Compile Include="UI\Widgets\Char\SkillInfo.cs" />
     <Compile Include="UI\Widgets\Char\SkillList.cs" />
+    <Compile Include="UI\Widgets\Char\Worship.cs" />
     <Compile Include="UI\Widgets\Chat.cs" />
     <Compile Include="UI\Widgets\ChatWindow.cs" />
     <Compile Include="UI\Widgets\CraftWindow.cs" />

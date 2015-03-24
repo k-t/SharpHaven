@@ -51,7 +51,7 @@ namespace MonoHaven.UI.Remote
 		private Item MakeItem(int resId, int count)
 		{
 			var mold = Session.Get<ItemMold>(resId);
-			return new Item(mold) { Num = count };
+			return new Item(mold) { Amount = count };
 		}
 	}
 }
