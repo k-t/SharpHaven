@@ -50,6 +50,8 @@ namespace MonoHaven.UI.Widgets
 			{
 				item = value;
 				isSizeFixed = false;
+				// HACK:
+				base.Tooltip = null;
 				UpdateLabels();
 			}
 		}
