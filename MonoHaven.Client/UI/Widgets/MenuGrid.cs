@@ -94,7 +94,7 @@ namespace MonoHaven.UI.Widgets
 				if (pressed != null)
 				{
 					if (pressed == back)
-						current = actionTree.GetByName(current.Parent.Name);
+						current = actionTree.GetByName(current.Parent.Name) ?? actionTree.Root;
 					else if (actionTree.HasChildren(pressed.Action))
 						current = pressed.Action;
 					else
@@ -118,7 +118,7 @@ namespace MonoHaven.UI.Widgets
 					else
 						buttons[i, j] = null;
 
-			if (!string.IsNullOrEmpty(current.Parent.Name))
+			if (!string.IsNullOrEmpty(current.Name))
 				buttons[RowCount - 1, ColumnCount - 1] = back;
 		}
 
