@@ -21,7 +21,7 @@ namespace MonoHaven.UI.Widgets
 			cframe = App.Resources.Get<Drawable>("gfx/hud/buffs/cframe");
 		}
 
-		private GameState gstate;
+		private readonly GameState gstate;
 
 		public Bufflist(Widget parent, GameState gstate) : base(parent)
 		{

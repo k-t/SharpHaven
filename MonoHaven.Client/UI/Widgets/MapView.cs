@@ -2,6 +2,7 @@
 using System.Drawing;
 using MonoHaven.Game;
 using MonoHaven.Graphics;
+using MonoHaven.Graphics.Sprites;
 using MonoHaven.Input;
 using MonoHaven.Utils;
 using OpenTK.Input;
@@ -15,6 +16,7 @@ namespace MonoHaven.UI.Widgets
 		private int playerId;
 		private Point cameraOffset;
 		private bool dragging;
+		private bool placing;
 
 		public MapView(Widget parent, GameState gstate, Point worldPoint, int playerId)
 			: base(parent)
@@ -28,11 +30,22 @@ namespace MonoHaven.UI.Widgets
 		public event Action<MapClickEventArgs> MapClicked;
 		public event Action<Input.KeyModifiers> ItemDrop;
 		public event Action<MapClickEventArgs> ItemInteract;
+		public event Action<MapPlaceEventArgs> Placed;
 
 		public Point WorldPoint
 		{
 			get;
 			set;
+		}
+
+		public void Place(ISprite sprite, bool snapToTile, int? radius)
+		{
+			placing = true;
+		}
+
+		public void Unplace()
+		{
+			placing = false;
 		}
 
 		protected override void OnDraw(DrawingContext dc)
@@ -120,6 +133,12 @@ namespace MonoHaven.UI.Widgets
 			{
 				Host.GrabMouse(this);
 				dragging = true;
+			}
+			else if (placing)
+			{
+				var mapPoint = GameScene.ScreenToWorld(screenPoint);
+				Placed.Raise(new MapPlaceEventArgs(mapPoint, e.Button, e.Modifiers));
+				placing = false;
 			}
 			else
 			{

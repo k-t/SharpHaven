@@ -1,4 +1,5 @@
 ﻿using System.Drawing;
+using MonoHaven.Input;
 using MonoHaven.UI.Widgets;
 
 namespace MonoHaven.UI.Remote
@@ -23,6 +24,7 @@ namespace MonoHaven.UI.Remote
 		{
 			this.widget = widget;
 			this.widget.MapClicked += OnMapClicked;
+			this.widget.Placed += OnPlaced;
 			this.widget.ItemDrop += OnItemDrop;
 			this.widget.ItemInteract += OnItemInteract;
 		}
@@ -30,11 +32,20 @@ namespace MonoHaven.UI.Remote
 		public override void ReceiveMessage(string message, object[] args)
 		{
 			if (message == "move")
-			{
 				widget.WorldPoint = (Point)args[0];
-				return;
+			else if (message == "place")
+			{
+				var resName = (string)args[0];
+				var resVersion = (int)args[1];
+				var snapToTile = (int)args[2] != 0;
+				var radius = args.Length > 3 ? (int?)args[3] : null;
+				var sprite = App.Resources.GetSprite(resName);
+				widget.Place(sprite, snapToTile, radius);
 			}
-			base.ReceiveMessage(message, args);
+			else if (message == "unplace")
+				widget.Unplace();
+			else
+				base.ReceiveMessage(message, args);
 		}
 
 		private void OnMapClicked(MapClickEventArgs e)
@@ -46,6 +57,12 @@ namespace MonoHaven.UI.Remote
 			else
 				SendMessage("click", e.ScreenPoint, e.MapPoint, button,
 					(int)e.Modifiers);
+		}
+
+		private void OnPlaced(MapPlaceEventArgs e)
+		{
+			var button = ServerInput.ToServerButton(e.Button);
+			SendMessage("place", e.Point, button, (int)e.Modifiers);
 		}
 
 		private void OnItemDrop(Input.KeyModifiers mods)
