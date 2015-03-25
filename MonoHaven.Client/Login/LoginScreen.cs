@@ -18,27 +18,28 @@ namespace MonoHaven.Login
 
 		private LoginService loginService;
 
-		private Container grLogin;
+		private Container cntPassword;
 		private TextBox tbUserName;
 		private TextBox tbPassword;
-		private Label lbErrorMessage;
+		private Label lblErrorMessage;
+
+		private Container cntToken;
+		private Label lblUserName;
+		private Button btnForget;
+
 		private Label lbProgress;
 		private ImageButton btnLogin;
 
 		public LoginScreen()
 		{
-			InitAuthClient();
+			loginService = new LoginService();
+			
 			InitWidgets();
 
 			RootWidget.KeyDown += OnKeyDown;
 		}
 
 		public event Action<GameSession> LoginCompleted;
-
-		private void InitAuthClient()
-		{
-			loginService = new LoginService();
-		}
 
 		private void InitWidgets()
 		{
@@ -59,33 +60,46 @@ namespace MonoHaven.Login
 			btnLogin.Move(373, 460);
 			btnLogin.Resize(btnLogin.Image.Size);
 
-			grLogin = new Container(RootWidget);
-			grLogin.Move(345, 310).Resize(150, 100);
+			cntPassword = new Container(RootWidget);
+			cntPassword.Move(345, 310).Resize(150, 100);
 
-			var lbUserName = new Label(grLogin);
+			var lbUserName = new Label(cntPassword);
 			lbUserName.Text = "User Name";
 			lbUserName.TextColor = Color.White;
 			lbUserName.Move(0, 0).Resize(150, 20);
 
-			tbUserName = new TextBox(grLogin);
+			tbUserName = new TextBox(cntPassword);
 			tbUserName.Text = "ken_tower";
 			tbUserName.Move(0, 20).Resize(150, 23);
 
-			var lbPassword = new Label(grLogin);
+			var lbPassword = new Label(cntPassword);
 			lbPassword.Text = "Password";
 			lbPassword.TextColor = Color.White;
 			lbPassword.Move(0, 60).Resize(150, 20);
 
-			tbPassword = new TextBox(grLogin);
+			tbPassword = new TextBox(cntPassword);
 			tbPassword.Text = "pwd";
 			tbPassword.PasswordChar = '*';
 			tbPassword.Move(0, 80).Resize(150, 23);
 
-			lbErrorMessage = new Label(RootWidget);
-			lbErrorMessage.TextColor = Color.Red;
-			lbErrorMessage.TextAlign = TextAlign.Center;
-			lbErrorMessage.Visible = false;
-			lbErrorMessage.Move(0, 500).Resize(840, 20);
+			cntToken = new Container(RootWidget);
+			cntToken.Move(295, 310).Resize(250, 100);
+
+			lblUserName = new Label(cntToken);
+			lblUserName.Resize(cntToken.Width, cntToken.Height);
+			lblUserName.TextAlign = TextAlign.Center;
+			lblUserName.Text = string.Format("Identity is saved for {0}", App.Config.UserName);
+
+			btnForget = new Button(cntToken, 100);
+			btnForget.Text = "Forget me";
+			btnForget.Move(75, 23);
+			btnForget.Clicked += ForgetToken;
+
+			lblErrorMessage = new Label(RootWidget);
+			lblErrorMessage.TextColor = Color.Red;
+			lblErrorMessage.TextAlign = TextAlign.Center;
+			lblErrorMessage.Visible = false;
+			lblErrorMessage.Move(0, 500).Resize(840, 20);
 
 			lbProgress = new Label(RootWidget);
 			lbProgress.TextColor = Color.White;
@@ -93,7 +107,27 @@ namespace MonoHaven.Login
 			lbProgress.Visible = false;
 			lbProgress.Move(0, 350).Resize(840, 20);
 
-			SetKeyboardFocus(tbUserName);
+			UpdateWidgets();
+		}
+
+		private void UpdateWidgets()
+		{
+			if (App.Config.AuthToken != null)
+			{
+				cntPassword.Visible = false;
+				cntToken.Visible = true;
+			}
+			else
+			{
+				cntPassword.Visible = true;
+				cntToken.Visible = false;
+				tbUserName.Text = App.Config.UserName;
+
+				if (string.IsNullOrEmpty(tbUserName.Text))
+					SetKeyboardFocus(tbUserName);
+				else
+					SetKeyboardFocus(tbPassword);
+			}
 		}
 
 		protected override void OnResize(int newWidth, int newHeight)
@@ -122,13 +156,15 @@ namespace MonoHaven.Login
 		private async void Login()
 		{
 			btnLogin.Visible = false;
-			grLogin.Visible = false;
-			lbErrorMessage.Visible = false;
+			cntPassword.Visible = false;
+			cntToken.Visible = false;
+			lblErrorMessage.Visible = false;
 			lbProgress.Text = "";
 			lbProgress.Visible = true;
 
-			var authResult = await loginService.LoginAsync(
-				tbUserName.Text, tbPassword.Text, ChangeProgress);
+			var authResult = (App.Config.AuthToken != null)
+				? await loginService.LoginAsync(App.Config.UserName, App.Config.AuthToken, ChangeProgress)
+				: await loginService.LoginAsync(tbUserName.Text, tbPassword.Text, ChangeProgress);
 
 			if (authResult.IsSuccessful)
 			{
@@ -137,17 +173,23 @@ namespace MonoHaven.Login
 			else
 			{
 				lbProgress.Visible = false;
-				grLogin.Visible = true;
 				btnLogin.Visible = true;
+				UpdateWidgets();
 
-				lbErrorMessage.Visible = true;
-				lbErrorMessage.Text = authResult.Error;
+				lblErrorMessage.Visible = true;
+				lblErrorMessage.Text = authResult.Error;
 			}
 		}
 
 		private void ChangeProgress(string status)
 		{
 			lbProgress.Text = status;
+		}
+
+		private void ForgetToken()
+		{
+			App.Config.AuthToken = null;
+			UpdateWidgets();
 		}
 	}
 }

@@ -17,7 +17,6 @@ namespace MonoHaven.Network
 		private readonly string host;
 		private readonly int port;
 		private SslStream ctx;
-		private byte[] token;
 
 		public AuthClient(string host, int port)
 		{
@@ -51,11 +50,9 @@ namespace MonoHaven.Network
 				throw new AuthException("Unhandled reply " + reply.MessageType + " when binding username");
 		}
 
-		public bool TryPassword(string password, out byte[] cookie)
+		public bool TryToken(byte[] token, out byte[] cookie)
 		{
-			byte[] phash = Digest(password);
-			var msg = new Message(CMD_PASSWD).Bytes(phash);
-			Send(msg);
+			Send(new Message(CMD_USETOKEN).Bytes(token));
 			var reply = GetReply();
 			if (reply.MessageType != 0)
 			{
@@ -64,6 +61,27 @@ namespace MonoHaven.Network
 			}
 			cookie = reply.GetBytes();
 			return true;
+		}
+
+		public bool TryPassword(string password, out byte[] cookie)
+		{
+			byte[] phash = Digest(password);
+			Send(new Message(CMD_PASSWD).Bytes(phash));
+			var reply = GetReply();
+			if (reply.MessageType != 0)
+			{
+				cookie = null;
+				return false;
+			}
+			cookie = reply.GetBytes();
+			return true;
+		}
+
+		public byte[] GetToken()
+		{
+			Send(new Message(CMD_GETTOKEN));
+			var reply = GetReply();
+			return reply.MessageType == 0 ? reply.Buffer : null;
 		}
 
 		private byte[] Digest(string password)

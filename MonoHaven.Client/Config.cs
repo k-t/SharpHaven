@@ -17,11 +17,11 @@ namespace MonoHaven
 			var configSource = new IniConfigSource();
 			configSource.AutoSave = true;
 
-			havenConfig = configSource.AddConfig("haven");
-
 			CreateOrLoadIniConfig(configSource);
 			var commandLineConfigSource = LoadCommandLineConfig();
 			configSource.Merge(commandLineConfigSource);
+
+			havenConfig = configSource.Configs["haven"];
 		}
 
 		public string AuthHost
@@ -34,6 +34,27 @@ namespace MonoHaven
 			get { return DefaultAuthPort; }
 		}
 
+		public byte[] AuthToken
+		{
+			get
+			{
+				var encoded = havenConfig.Get("authtoken", "");
+				return string.IsNullOrEmpty(encoded)
+					? null
+					: Convert.FromBase64String(encoded);
+			}
+			set
+			{
+				var decoded = value != null ? Convert.ToBase64String(value) : "";
+				havenConfig.Set("authtoken", decoded);
+			}
+		}
+
+		public string UserName
+		{
+			get { return havenConfig.Get("username", ""); }
+			set { havenConfig.Set("username", value); }
+		}
 
 		public string GameHost
 		{
