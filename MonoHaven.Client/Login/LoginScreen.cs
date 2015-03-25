@@ -37,7 +37,7 @@ namespace MonoHaven.Login
 
 		private void InitAuthClient()
 		{
-			loginService = new LoginService(App.Config.LoginSettings);
+			loginService = new LoginService();
 		}
 
 		private void InitWidgets()

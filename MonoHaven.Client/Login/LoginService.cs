@@ -10,14 +10,7 @@ namespace MonoHaven.Login
 	public class LoginService
 	{
 		private static readonly Logger Log = LogManager.GetCurrentClassLogger();
-
-		private readonly LoginSettings settings;
-
-		public LoginService(LoginSettings settings)
-		{
-			this.settings = settings;
-		}
-
+		
 		public async Task<LoginResult> LoginAsync(
 			string userName,
 			string password,
@@ -59,7 +52,7 @@ namespace MonoHaven.Login
 		private byte[] Authenticate(string userName, string password)
 		{
 			byte[] cookie;
-			using (var authClient = new AuthClient(settings.AuthHost, settings.AuthPort))
+			using (var authClient = new AuthClient(App.Config.AuthHost, App.Config.AuthPort))
 			{
 				authClient.Connect();
 				authClient.BindUser(userName);
@@ -71,8 +64,8 @@ namespace MonoHaven.Login
 		{
 			var connSettings = new ConnectionSettings
 			{
-				Host = settings.GameHost,
-				Port = settings.GamePort,
+				Host = App.Config.GameHost,
+				Port = App.Config.GamePort,
 				UserName = userName,
 				Cookie = cookie
 			};
