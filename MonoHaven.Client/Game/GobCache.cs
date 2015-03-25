@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using C5;
 
 namespace MonoHaven.Game
@@ -6,10 +7,12 @@ namespace MonoHaven.Game
 	public class GobCache : IEnumerable<Gob>
 	{
 		private readonly TreeDictionary<int, Gob> objects;
+		private readonly List<Gob> localObjects;
 
 		public GobCache()
 		{
 			objects = new TreeDictionary<int, Gob>();
+			localObjects = new List<Gob>();
 		}
 
 		public Gob Get(int id)
@@ -21,6 +24,16 @@ namespace MonoHaven.Game
 				objects[id] = gob;
 			}
 			return gob;
+		}
+
+		public void AddLocal(Gob gob)
+		{
+			localObjects.Add(gob);
+		}
+
+		public void RemoveLocal(Gob gob)
+		{
+			localObjects.Remove(gob);
 		}
 
 		public Gob Get(int id, int frame)
@@ -35,7 +48,7 @@ namespace MonoHaven.Game
 
 		public IEnumerator<Gob> GetEnumerator()
 		{
-			return objects.Values.GetEnumerator();
+			return objects.Values.Union(localObjects).GetEnumerator();
 		}
 
 		System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()

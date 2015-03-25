@@ -16,7 +16,8 @@ namespace MonoHaven.UI.Widgets
 		private int playerId;
 		private Point cameraOffset;
 		private bool dragging;
-		private bool placing;
+		private Gob placeGob;
+		private bool placeOnTile;
 
 		public MapView(Widget parent, GameState gstate, Point worldPoint, int playerId)
 			: base(parent)
@@ -40,12 +41,21 @@ namespace MonoHaven.UI.Widgets
 
 		public void Place(ISprite sprite, bool snapToTile, int? radius)
 		{
-			placing = true;
+			placeOnTile = snapToTile;
+			placeGob = new Gob(-1);
+			placeGob.SetSprite(new Delayed<ISprite>(sprite));
+
+			var sc = ToAbsolute(Host.MousePosition);
+			var mc = GameScene.ScreenToWorld(sc);
+			placeGob.Position = placeOnTile ? Tilify(mc) : mc;
+
+			gstate.Objects.AddLocal(placeGob);
 		}
 
 		public void Unplace()
 		{
-			placing = false;
+			gstate.Objects.RemoveLocal(placeGob);
+			placeGob = null;
 		}
 
 		protected override void OnDraw(DrawingContext dc)
@@ -136,10 +146,11 @@ namespace MonoHaven.UI.Widgets
 				Host.GrabMouse(this);
 				dragging = true;
 			}
-			else if (placing)
+			else if (placeGob != null)
 			{
-				Placed.Raise(new MapPlaceEventArgs(e, mc));
-				placing = false;
+				Placed.Raise(new MapPlaceEventArgs(e, placeGob.Position));
+				gstate.Objects.RemoveLocal(placeGob);
+				placeGob = null;
 			}
 			else
 			{
@@ -165,6 +176,13 @@ namespace MonoHaven.UI.Widgets
 				cameraOffset.X -= e.DeltaX;
 				cameraOffset.Y -= e.DeltaY;
 			}
+			if (placeGob != null)
+			{
+				var sc = ToAbsolute(e.Position);
+				var mc = GameScene.ScreenToWorld(sc);
+				var snap = placeOnTile ^ e.Modifiers.HasShift();
+				placeGob.Position = snap ? Tilify(mc) : mc;
+			}
 		}
 
 		/// <summary>
@@ -187,13 +205,19 @@ namespace MonoHaven.UI.Widgets
 				rel.Y - Height / 2 + cameraOffset.Y);
 		}
 
+		private static Point Tilify(Point p)
+		{
+			return new Point(
+				p.X.Div(Map.TileWidth) * Map.TileWidth + Map.TileWidth.Div(2),
+				p.Y.Div(Map.TileHeight) * Map.TileHeight + Map.TileHeight.Div(2));
+		}
+
 		#region IDropTarget
 
 		bool IDropTarget.Drop(Point p, Point ul, KeyModifiers mods)
 		{
 			ItemDrop.Raise(mods);
 			return true;
-			
 		}
 
 		bool IDropTarget.ItemInteract(Point p, Point ul, KeyModifiers mods)
