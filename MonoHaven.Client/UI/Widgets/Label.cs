@@ -32,7 +32,7 @@ namespace MonoHaven.UI.Widgets
 			get { return text; }
 			set
 			{
-				text = value;
+				text = value ?? "";
 				textBlock.Clear();
 				textBlock.Append(text);
 				if (AutoSize)

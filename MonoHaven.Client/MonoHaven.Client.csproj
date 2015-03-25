@@ -139,7 +139,7 @@
     <Compile Include="Input\MouseMoveEvent.cs" />
     <Compile Include="Input\MouseWheelEvent.cs" />
     <Compile Include="Input\InputConverter.cs" />
-    <Compile Include="Login\LoginService.cs" />
+    <Compile Include="Login\Login.cs" />
     <Compile Include="Login\LoginSettings.cs" />
     <Compile Include="Login\LoginResult.cs" />
     <Compile Include="MainScreen.cs" />

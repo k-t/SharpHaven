@@ -16,7 +16,7 @@ namespace MonoHaven.Login
 		private const int MinWidth = 800;
 		private const int MinHeight = 600;
 
-		private LoginService loginService;
+		private Login login;
 
 		private Container cntPassword;
 		private TextBox tbUserName;
@@ -32,10 +32,9 @@ namespace MonoHaven.Login
 
 		public LoginScreen()
 		{
-			loginService = new LoginService();
-			
+			login = new Login();
 			InitWidgets();
-
+			GotoInitialPage();
 			RootWidget.KeyDown += OnKeyDown;
 		}
 
@@ -106,28 +105,6 @@ namespace MonoHaven.Login
 			lbProgress.TextAlign = TextAlign.Center;
 			lbProgress.Visible = false;
 			lbProgress.Move(0, 350).Resize(840, 20);
-
-			UpdateWidgets();
-		}
-
-		private void UpdateWidgets()
-		{
-			if (App.Config.AuthToken != null)
-			{
-				cntPassword.Visible = false;
-				cntToken.Visible = true;
-			}
-			else
-			{
-				cntPassword.Visible = true;
-				cntToken.Visible = false;
-				tbUserName.Text = App.Config.UserName;
-
-				if (string.IsNullOrEmpty(tbUserName.Text))
-					SetKeyboardFocus(tbUserName);
-				else
-					SetKeyboardFocus(tbPassword);
-			}
 		}
 
 		protected override void OnResize(int newWidth, int newHeight)
@@ -155,41 +132,63 @@ namespace MonoHaven.Login
 
 		private async void Login()
 		{
-			btnLogin.Visible = false;
-			cntPassword.Visible = false;
-			cntToken.Visible = false;
-			lblErrorMessage.Visible = false;
-			lbProgress.Text = "";
-			lbProgress.Visible = true;
+			GotoProgressPage();
 
-			var authResult = (App.Config.AuthToken != null)
-				? await loginService.LoginAsync(App.Config.UserName, App.Config.AuthToken, ChangeProgress)
-				: await loginService.LoginAsync(tbUserName.Text, tbPassword.Text, ChangeProgress);
+			if (!login.HasToken)
+			{
+				login.UserName = tbUserName.Text;
+				login.Password = tbPassword.Text;
+			}
 
+			var authResult = await login.LoginAsync(UpdateProgress);
 			if (authResult.IsSuccessful)
 			{
 				LoginCompleted.Raise(authResult.Session);
+				GotoInitialPage();
 			}
 			else
-			{
-				lbProgress.Visible = false;
-				btnLogin.Visible = true;
-				UpdateWidgets();
-
-				lblErrorMessage.Visible = true;
-				lblErrorMessage.Text = authResult.Error;
-			}
+				GotoInitialPage(authResult.Error);
 		}
 
-		private void ChangeProgress(string status)
+		private void GotoInitialPage(string errorMessage = null)
+		{
+			lbProgress.Visible = false;
+			
+			cntPassword.Visible = !login.HasToken;
+			cntToken.Visible = login.HasToken;
+			btnLogin.Visible = true;
+
+			lblErrorMessage.Visible = !string.IsNullOrEmpty(errorMessage);
+			lblErrorMessage.Text = errorMessage;
+
+			tbUserName.Text = App.Config.UserName;
+			if (string.IsNullOrEmpty(tbUserName.Text))
+				SetKeyboardFocus(tbUserName);
+			else
+				SetKeyboardFocus(tbPassword);
+		}
+
+		private void GotoProgressPage()
+		{
+			lbProgress.Text = "";
+			lbProgress.Visible = true;
+
+			cntPassword.Visible = false;
+			cntToken.Visible = false;
+			btnLogin.Visible = false;
+			
+			lblErrorMessage.Visible = false;
+		}
+
+		private void UpdateProgress(string status)
 		{
 			lbProgress.Text = status;
 		}
 
 		private void ForgetToken()
 		{
-			App.Config.AuthToken = null;
-			UpdateWidgets();
+			login.ForgetToken();
+			GotoInitialPage();
 		}
 	}
 }

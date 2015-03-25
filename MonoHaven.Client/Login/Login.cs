@@ -7,45 +7,64 @@ using NLog;
 
 namespace MonoHaven.Login
 {
-	public class LoginService
+	public class Login
 	{
 		private static readonly Logger Log = LogManager.GetCurrentClassLogger();
 
-		public Task<LoginResult> LoginAsync(
-			string userName,
-			byte[] token,
-			Action<string> reportStatus)
+		public string UserName
 		{
-			return LoginAsync(userName, () => Authenticate(userName, token), reportStatus);
+			get { return App.Config.UserName; }
+			set { App.Config.UserName = value; }
 		}
 
-		public Task<LoginResult> LoginAsync(
-			string userName,
-			string password,
-			Action<string> reportStatus)
+		public string Password
 		{
-			return LoginAsync(userName, () => Authenticate(userName, password), reportStatus);
+			get;
+			set;
+		}
+
+		public bool HasToken
+		{
+			get { return Token != null; }
+		}
+
+		private byte[] Token
+		{
+			get { return App.Config.AuthToken; }
+			set { App.Config.AuthToken = value; }
+		}
+
+		public void ForgetToken()
+		{
+			Token = null;
+		}
+
+		public Task<LoginResult> LoginAsync(Action<string> reportStatus)
+		{
+			var authenticate = (Token != null)
+				? new Func<AuthResult>(() => Authenticate(UserName, Token))
+				: new Func<AuthResult>(() => Authenticate(UserName, Password));
+			return LoginAsync(authenticate, reportStatus);
 		}
 
 		private async Task<LoginResult> LoginAsync(
-			string userName,
-			Func<AuthResult> authFunc,
+			Func<AuthResult> authenticate,
 			Action<string> reportStatus)
 		{
 			try
 			{
 				reportStatus("Authenticating...");
 
-				var result = await RunAsync(authFunc);
+				var result = await RunAsync(authenticate);
 				if (result.Cookie == null)
 					return new LoginResult(result.Error);
 
 				reportStatus("Connecting...");
 
-				var session = CreateSession(userName, result.Cookie);
+				var session = CreateSession(UserName, result.Cookie);
 				await RunAsync(session.Start);
 
-				Log.Info("{0} logged in successfully", userName);
+				Log.Info("{0} logged in successfully", UserName);
 				return new LoginResult(session);
 			}
 			catch (AuthException ex)
@@ -74,8 +93,8 @@ namespace MonoHaven.Login
 				authClient.BindUser(userName);
 				if (authClient.TryPassword(password, out cookie))
 				{
-					App.Config.UserName = userName;
-					App.Config.AuthToken = authClient.GetToken();
+					UserName = userName;
+					Token = authClient.GetToken();
 					return new AuthResult(cookie);
 				}
 				return new AuthResult("Username or password incorrect");
@@ -91,7 +110,7 @@ namespace MonoHaven.Login
 				authClient.BindUser(userName);
 				if (authClient.TryToken(token, out cookie))
 					return new AuthResult(cookie);
-				App.Config.AuthToken = null;
+				ForgetToken();
 				return new AuthResult("Invalid save");
 			}
 		}
