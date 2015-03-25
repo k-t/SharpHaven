@@ -46,6 +46,12 @@ namespace MonoHaven.UI.Widgets
 			set { textBlock.TextAlign = value; }
 		}
 
+		public Color BackColor
+		{
+			get { return textBlock.BackgroundColor; }
+			set { textBlock.BackgroundColor = value; }
+		}
+
 		public Color TextColor
 		{
 			get { return textBlock.TextColor; }

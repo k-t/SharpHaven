@@ -10,10 +10,21 @@ namespace MonoHaven.UI.Remote
 			return new ServerHud(id, parent, widget);
 		}
 
+		private readonly Hud widget;
+
 		public ServerHud(ushort id, ServerWidget parent, Hud widget)
 			: base(id, parent, widget)
 		{
-			widget.Menu.ButtonClicked += OnMenuButtonClick;
+			this.widget = widget;
+			this.widget.Menu.ButtonClicked += OnMenuButtonClick;
+		}
+
+		public override void ReceiveMessage(string message, object[] args)
+		{
+			if (message == "err")
+				widget.ShowError((string)args[0]);
+			else
+				base.ReceiveMessage(message, args);
 		}
 
 		private void OnMenuButtonClick(HudMenu.Button button)
