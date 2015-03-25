@@ -3,7 +3,7 @@
 	public class BuffAddMessage
 	{
 		public int Id { get; set; }
-		public int ImageResId { get; set; }
+		public int ResId { get; set; }
 		public string Tooltip { get; set; }
 		public int AMeter { get; set; }
 		public int NMeter { get; set; }

@@ -426,7 +426,7 @@ namespace MonoHaven.Network
 								new BuffAddMessage
 								{
 									Id = msg.ReadInt32(),
-									ImageResId = msg.ReadUint16(),
+									ResId = msg.ReadUint16(),
 									Tooltip = msg.ReadString(),
 									AMeter = msg.ReadInt32(),
 									NMeter = msg.ReadInt32(),

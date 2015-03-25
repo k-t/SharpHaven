@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using MonoHaven.Messages;
 
 namespace MonoHaven.Game
@@ -7,7 +8,7 @@ namespace MonoHaven.Game
 	{
 		private readonly GameActionTree actions;
 		private readonly Dictionary<string, CharAttribute> attributes;
-		private readonly Dictionary<int, BuffAddMessage> buffs;
+		private readonly Dictionary<int, Buff> buffs;
 		private readonly Map map;
 		private readonly GobCache objects;
 		private readonly GameScene scene;
@@ -17,12 +18,14 @@ namespace MonoHaven.Game
 		{
 			actions = new GameActionTree();
 			attributes = new Dictionary<string, CharAttribute>();
-			buffs = new Dictionary<int, BuffAddMessage>();
+			buffs = new Dictionary<int, Buff>();
 			map = new Map(session);
 			objects = new GobCache();
 			scene = new GameScene(this);
 			party = new Party();
 		}
+
+		public event Action BuffUpdated;
 		
 		public Map Map
 		{
@@ -55,6 +58,11 @@ namespace MonoHaven.Game
 			get { return party; }
 		}
 
+		public IEnumerable<Buff> Buffs
+		{
+			get { return buffs.Values; }
+		}
+
 		public CharAttribute GetAttr(string name)
 		{
 			CharAttribute attr;
@@ -73,24 +81,22 @@ namespace MonoHaven.Game
 			}
 		}
 
-		public void AddBuff(BuffAddMessage buff)
+		public void UpdateBuff(Buff buff)
 		{
 			buffs[buff.Id] = buff;
-		}
-
-		public void ClearBuffs()
-		{
-			buffs.Clear();
-		}
-
-		public IEnumerable<BuffAddMessage> GetBuffs()
-		{
-			return buffs.Values;
+			BuffUpdated.Raise();
 		}
 
 		public void RemoveBuff(int id)
 		{
 			buffs.Remove(id);
+			BuffUpdated.Raise();
+		}
+
+		public void ClearBuffs()
+		{
+			buffs.Clear();
+			BuffUpdated.Raise();
 		}
 	}
 }

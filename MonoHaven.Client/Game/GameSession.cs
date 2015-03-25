@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Threading;
+using MonoHaven.Graphics;
 using MonoHaven.Graphics.Sprites;
 using MonoHaven.Messages;
 using MonoHaven.Network;
@@ -241,7 +242,15 @@ namespace MonoHaven.Game
 
 		void IConnectionListener.AddBuff(BuffAddMessage message)
 		{
-			App.QueueOnMainThread(() => State.AddBuff(message));
+			App.QueueOnMainThread(() =>
+			{
+				var buff = new Buff(message.Id, Get<BuffMold>(message.ResId));
+				buff.Amount = message.AMeter;
+				buff.IsMajor = message.Major;
+				if (!string.IsNullOrEmpty(message.Tooltip))
+					buff.Tooltip = message.Tooltip;
+				State.UpdateBuff(buff);
+			});
 		}
 
 		void IConnectionListener.RemoveBuff(int buffId)

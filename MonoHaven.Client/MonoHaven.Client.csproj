@@ -78,6 +78,8 @@
     <Compile Include="Cursors.cs" />
     <Compile Include="FontFaces.cs" />
     <Compile Include="FrameCounter.cs" />
+    <Compile Include="Game\Buff.cs" />
+    <Compile Include="Game\BuffMold.cs" />
     <Compile Include="Game\CharAttribute.cs" />
     <Compile Include="Game\GameActionTree.cs" />
     <Compile Include="Game\GameScene.cs" />
@@ -144,6 +146,7 @@
     <Compile Include="MainScreen.cs" />
     <Compile Include="Game\Tileset.cs" />
     <Compile Include="Game\GameAction.cs" />
+    <Compile Include="Resources\Factories\BuffMoldFactory.cs" />
     <Compile Include="Resources\Factories\GameActionFactory.cs" />
     <Compile Include="Resources\Factories\BitmapFactory.cs" />
     <Compile Include="Resources\Factories\FontFaceFactory.cs" />

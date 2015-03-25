@@ -12,8 +12,7 @@ namespace MonoHaven.UI.Widgets
 	public class MapView : Widget, IDropTarget
 	{
 		private readonly GameState gstate;
-
-		private int playerId;
+		private readonly int playerId;
 		private Point cameraOffset;
 		private bool dragging;
 		private Gob placeGob;
