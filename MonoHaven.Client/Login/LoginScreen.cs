@@ -87,7 +87,7 @@ namespace MonoHaven.Login
 			lblUserName = new Label(cntToken);
 			lblUserName.Resize(cntToken.Width, cntToken.Height);
 			lblUserName.TextAlign = TextAlign.Center;
-			lblUserName.Text = string.Format("Identity is saved for {0}", App.Config.UserName);
+			lblUserName.Text = string.Format("Identity is saved for {0}", login.UserName);
 
 			btnForget = new Button(cntToken, 100);
 			btnForget.Text = "Forget me";
@@ -161,7 +161,7 @@ namespace MonoHaven.Login
 			lblErrorMessage.Visible = !string.IsNullOrEmpty(errorMessage);
 			lblErrorMessage.Text = errorMessage;
 
-			tbUserName.Text = App.Config.UserName;
+			tbUserName.Text = login.UserName;
 			if (string.IsNullOrEmpty(tbUserName.Text))
 				SetKeyboardFocus(tbUserName);
 			else
