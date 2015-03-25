@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Drawing;
 using MonoHaven.Game;
+using MonoHaven.Input;
 using OpenTK.Input;
 
 namespace MonoHaven.UI.Widgets
@@ -9,20 +10,25 @@ namespace MonoHaven.UI.Widgets
 	{
 		private readonly MouseButton button;
 		private readonly KeyModifiers mods;
-		private readonly Point mapPoint;
-		private readonly Point screenPoint;
+		private readonly Point mapCoord;
+		private readonly Point screenCoord;
 		private readonly Gob gob;
+
+		public MapClickEventArgs(MouseButtonEvent e, Point mapCoord, Point screenCoord, Gob gob)
+			: this(e.Button, e.Modifiers, mapCoord, screenCoord, gob)
+		{
+		}
 
 		public MapClickEventArgs(
 			MouseButton button,
 			KeyModifiers mods,
-			Point mapPoint,
-			Point screenPoint,
+			Point mapCoord,
+			Point screenCoord,
 			Gob gob)
 		{
 			this.button = button;
-			this.mapPoint = mapPoint;
-			this.screenPoint = screenPoint;
+			this.mapCoord = mapCoord;
+			this.screenCoord = screenCoord;
 			this.gob = gob;
 			this.mods = mods;
 		}
@@ -37,14 +43,14 @@ namespace MonoHaven.UI.Widgets
 			get { return gob; }
 		}
 
-		public Point MapPoint
+		public Point MapCoord
 		{
-			get { return mapPoint; }
+			get { return mapCoord; }
 		}
 
-		public Point ScreenPoint
+		public Point ScreenCoord
 		{
-			get { return screenPoint; }
+			get { return screenCoord; }
 		}
 
 		public KeyModifiers Modifiers

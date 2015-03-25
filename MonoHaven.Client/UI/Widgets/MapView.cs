@@ -127,8 +127,10 @@ namespace MonoHaven.UI.Widgets
 
 		protected override void OnMouseButtonDown(MouseButtonEvent e)
 		{
-			var screenPoint = ToAbsolute(e.Position);
-			var gob = gstate.Scene.GetObjectAt(screenPoint);
+			var sc = ToAbsolute(e.Position);
+			var mc = GameScene.ScreenToWorld(sc);
+			var gob = gstate.Scene.GetObjectAt(sc);
+
 			if (e.Button == MouseButton.Middle)
 			{
 				Host.GrabMouse(this);
@@ -136,15 +138,12 @@ namespace MonoHaven.UI.Widgets
 			}
 			else if (placing)
 			{
-				var mapPoint = GameScene.ScreenToWorld(screenPoint);
-				Placed.Raise(new MapPlaceEventArgs(mapPoint, e.Button, e.Modifiers));
+				Placed.Raise(new MapPlaceEventArgs(e, mc));
 				placing = false;
 			}
 			else
 			{
-				var mapPoint = GameScene.ScreenToWorld(screenPoint);
-				var args = new MapClickEventArgs(e.Button, e.Modifiers, mapPoint, e.Position, gob);
-				MapClicked.Raise(args);
+				MapClicked.Raise(new MapClickEventArgs(e, mc, e.Position, gob));
 			}
 			e.Handled = true;
 		}
@@ -199,11 +198,10 @@ namespace MonoHaven.UI.Widgets
 
 		bool IDropTarget.ItemInteract(Point p, Point ul, KeyModifiers mods)
 		{
-			var screenPoint = ToAbsolute(p);
-			var gob = gstate.Scene.GetObjectAt(screenPoint);
-			var mapPoint = GameScene.ScreenToWorld(screenPoint);
-			var args = new MapClickEventArgs(MouseButton.Right, mods, mapPoint, screenPoint, gob);
-			ItemInteract.Raise(args);
+			var sc = ToAbsolute(p);
+			var mc = GameScene.ScreenToWorld(sc);
+			var gob = gstate.Scene.GetObjectAt(sc);
+			ItemInteract.Raise(new MapClickEventArgs(0, mods, mc, sc, gob));
 			return true;
 		}
 

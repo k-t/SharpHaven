@@ -54,16 +54,16 @@ namespace MonoHaven.UI.Remote
 			var button = ServerInput.ToServerButton(e.Button);
 			var mods = ServerInput.ToServerModifiers(e.Modifiers);
 			if (e.Gob != null)
-				SendMessage("click", e.ScreenPoint, e.MapPoint, button, mods, e.Gob.Id, e.Gob.Position);
+				SendMessage("click", e.ScreenCoord, e.MapCoord, button, mods, e.Gob.Id, e.Gob.Position);
 			else
-				SendMessage("click", e.ScreenPoint, e.MapPoint, button, mods);
+				SendMessage("click", e.ScreenCoord, e.MapCoord, button, mods);
 		}
 
 		private void OnPlaced(MapPlaceEventArgs e)
 		{
 			var button = ServerInput.ToServerButton(e.Button);
 			var mods = ServerInput.ToServerModifiers(e.Modifiers);
-			SendMessage("place", e.Point, button, mods);
+			SendMessage("place", e.MapCoord, button, mods);
 		}
 
 		private void OnItemDrop(KeyModifiers mods)
@@ -75,9 +75,9 @@ namespace MonoHaven.UI.Remote
 		{
 			var mods = ServerInput.ToServerModifiers(e.Modifiers);
 			if (e.Gob != null)
-				SendMessage("itemact", e.ScreenPoint, e.MapPoint, mods, e.Gob.Id, e.Gob.Position);
+				SendMessage("itemact", e.ScreenCoord, e.MapCoord, mods, e.Gob.Id, e.Gob.Position);
 			else
-				SendMessage("itemact", e.ScreenPoint, e.MapPoint, mods);
+				SendMessage("itemact", e.ScreenCoord, e.MapCoord, mods);
 		}
 	}
 }

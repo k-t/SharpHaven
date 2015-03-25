@@ -1,24 +1,30 @@
 ﻿using System.Drawing;
+using MonoHaven.Input;
 using OpenTK.Input;
 
 namespace MonoHaven.UI.Widgets
 {
 	public class MapPlaceEventArgs
 	{
-		private readonly Point point;
+		private readonly Point mapCoord;
 		private readonly MouseButton button;
 		private readonly KeyModifiers mods;
 
-		public MapPlaceEventArgs(Point point, MouseButton button, KeyModifiers mods)
+		public MapPlaceEventArgs(MouseButtonEvent e, Point mapCoord)
+			: this(e.Button, e.Modifiers, mapCoord)
 		{
-			this.point = point;
+		}
+
+		public MapPlaceEventArgs(MouseButton button, KeyModifiers mods, Point mapCoord)
+		{
+			this.mapCoord = mapCoord;
 			this.button = button;
 			this.mods = mods;
 		}
 
-		public Point Point
+		public Point MapCoord
 		{
-			get { return point; }
+			get { return mapCoord; }
 		}
 
 		public MouseButton Button
