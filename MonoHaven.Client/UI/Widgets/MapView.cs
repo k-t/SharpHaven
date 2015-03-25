@@ -11,11 +11,19 @@ namespace MonoHaven.UI.Widgets
 {
 	public class MapView : Widget, IDropTarget
 	{
+		private static readonly Drawable circle;
+
+		static MapView()
+		{
+			circle = App.Resources.Get<Drawable>("custom/ui/circle");
+		}
+
 		private readonly GameState gstate;
 		private readonly int playerId;
 		private Point cameraOffset;
 		private bool dragging;
 		private Gob placeGob;
+		private int placeRadius;
 		private bool placeOnTile;
 
 		public MapView(Widget parent, GameState gstate, Point worldPoint, int playerId)
@@ -41,6 +49,7 @@ namespace MonoHaven.UI.Widgets
 		public void Place(ISprite sprite, bool snapToTile, int? radius)
 		{
 			placeOnTile = snapToTile;
+			placeRadius = radius ?? -1;
 			placeGob = new Gob(-1);
 			placeGob.SetSprite(new Delayed<ISprite>(sprite));
 
@@ -62,6 +71,16 @@ namespace MonoHaven.UI.Widgets
 			RequestMaps();
 			DrawTiles(dc);
 			DrawScene(dc);
+
+			if (placeGob != null && placeRadius > 0)
+			{
+				var p = ToRelative(GameScene.WorldToScreen(placeGob.Position));
+				int w = (int)(placeRadius * 4 * Math.Sqrt(0.5)) * 2;
+				int h = (int)(placeRadius * 2 * Math.Sqrt(0.5)) * 2;
+				dc.SetColor(0, 255, 0, 32);
+				dc.Draw(circle, p.X - (w / 2), p.Y - (h / 2), w, h);
+				dc.ResetColor();
+			}
 		}
 
 		private void RequestMaps()
