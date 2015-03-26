@@ -18,10 +18,10 @@ namespace MonoHaven
 			configSource.AutoSave = true;
 
 			CreateOrLoadIniConfig(configSource);
+			havenConfig = configSource.Configs["haven"] ?? configSource.AddConfig("haven");
+
 			var commandLineConfigSource = LoadCommandLineConfig();
 			configSource.Merge(commandLineConfigSource);
-
-			havenConfig = configSource.Configs["haven"];
 		}
 
 		public string AuthHost
