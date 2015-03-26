@@ -109,9 +109,9 @@ namespace MonoHaven.UI.Widgets
 			label.Text = string.Format("{0} {1}", Balance, Intensity);
 		}
 
-		private void OnAvatarClick(AvatarView sender, MouseButton button)
+		private void OnAvatarClick(AvatarView sender, MouseButtonEvent e)
 		{
-			Click.Raise(new CombatRelationClickEventArgs(button, this));
+			Click.Raise(new CombatRelationClickEventArgs(e.Button, this));
 		}
 
 		private void OnButtonClick(MouseButtonEvent e)

@@ -2,6 +2,7 @@
 using System.Linq;
 using MonoHaven.Game;
 using System;
+using MonoHaven.Input;
 using OpenTK.Input;
 
 namespace MonoHaven.UI.Widgets
@@ -115,13 +116,11 @@ namespace MonoHaven.UI.Widgets
 			Visible = avatars.Count > 0;
 		}
 
-		private void OnAvatarClick(AvatarView avatar, MouseButton button)
+		private void OnAvatarClick(AvatarView sender, MouseButtonEvent e)
 		{
-			var pair = avatars.FirstOrDefault(x => x.Value == avatar);
+			var pair = avatars.FirstOrDefault(x => x.Value == sender);
 			if (pair.Value != null)
-			{
-				PartyMemberClicked.Raise(new PartyMemberClickEventArgs(pair.Key, button));
-			}
+				PartyMemberClicked.Raise(new PartyMemberClickEventArgs(pair.Key, e.Button));
 		}
 	}
 }

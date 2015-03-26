@@ -163,9 +163,9 @@ namespace MonoHaven.UI.Widgets
 			window.Initiative = current.Initiative;
 		}
 
-		private void OnCurrentAvatarClick(AvatarView sender, MouseButton button)
+		private void OnCurrentAvatarClick(AvatarView sender, MouseButtonEvent e)
 		{
-			Click.Raise(new CombatRelationClickEventArgs(button, current));
+			Click.Raise(new CombatRelationClickEventArgs(e.Button, current));
 		}
 
 		private void OnCurrentGiveButtonClick(MouseButtonEvent e)

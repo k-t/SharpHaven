@@ -26,8 +26,7 @@ namespace MonoHaven.UI.Widgets
 			BorderColor = Color.White;
 		}
 
-		// TODO: change to MouseButtonEvent
-		public event Action<AvatarView, MouseButton> Click;
+		public event Action<AvatarView, MouseButtonEvent> Click;
 
 		public Color BorderColor
 		{
@@ -62,7 +61,7 @@ namespace MonoHaven.UI.Widgets
 
 		protected override void OnMouseButtonDown(MouseButtonEvent e)
 		{
-			Click.Raise(this, e.Button);
+			Click.Raise(this, e);
 		}
 	}
 }
