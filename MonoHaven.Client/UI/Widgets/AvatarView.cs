@@ -26,6 +26,7 @@ namespace MonoHaven.UI.Widgets
 			BorderColor = Color.White;
 		}
 
+		// TODO: change to MouseButtonEvent
 		public event Action<AvatarView, MouseButton> Click;
 
 		public Color BorderColor

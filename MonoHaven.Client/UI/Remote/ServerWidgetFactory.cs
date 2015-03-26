@@ -42,6 +42,8 @@ namespace MonoHaven.UI.Remote
 			methods["prog"] = ServerProgress.Create;
 			methods["isbox"] = ServerISBox.Create;
 			methods["make"] = ServerCraftWindow.Create;
+			methods["frv"] = ServerCombatView.Create;
+			methods["give"] = ServerGiveButton.Create;
 		}
 
 		public ServerWidget Create(

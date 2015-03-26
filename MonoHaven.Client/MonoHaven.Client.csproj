@@ -161,7 +161,9 @@
     <Compile Include="UI\Layouts\GridLayout.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="UI\Remote\ServerCombatView.cs" />
     <Compile Include="UI\Remote\ServerCraftWindow.cs" />
+    <Compile Include="UI\Remote\ServerGiveButton.cs" />
     <Compile Include="UI\Remote\ServerISBox.cs" />
     <Compile Include="UI\Remote\ServerProgress.cs" />
     <Compile Include="UI\Remote\ServerVMeter.cs" />
@@ -196,6 +198,12 @@
     <Compile Include="UI\Widgets\Char\Worship.cs" />
     <Compile Include="UI\Widgets\Chat.cs" />
     <Compile Include="UI\Widgets\ChatWindow.cs" />
+    <Compile Include="UI\Widgets\Combat\CombatMeter.cs" />
+    <Compile Include="UI\Widgets\Combat\CombatRelation.cs" />
+    <Compile Include="UI\Widgets\Combat\CombatRelationClickEventArgs.cs" />
+    <Compile Include="UI\Widgets\Combat\CombatView.cs" />
+    <Compile Include="UI\Widgets\Combat\CombatWindow.cs" />
+    <Compile Include="UI\Widgets\Combat\GiveButton.cs" />
     <Compile Include="UI\Widgets\CraftWindow.cs" />
     <Compile Include="UI\Widgets\Equipory.cs" />
     <Compile Include="UI\Widgets\FlowerMenu.cs" />

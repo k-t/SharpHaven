@@ -9,6 +9,10 @@ namespace MonoHaven.Utils
 		private T value;
 		private Promise<T> promise;
 
+		public Delayed()
+		{
+		}
+
 		public Delayed(T value)
 		{
 			this.value = value;
