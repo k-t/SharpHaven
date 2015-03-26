@@ -119,7 +119,12 @@ namespace MonoHaven.Login
 			switch (args.Key)
 			{
 				case Key.Enter:
-					Login();
+					if (string.IsNullOrEmpty(tbUserName.Text))
+						SetKeyboardFocus(tbUserName);
+					else if (tbUserName.IsFocused || string.IsNullOrEmpty(tbPassword.Text))
+						SetKeyboardFocus(tbPassword);
+					else
+						Login();
 					break;
 				case Key.Tab:
 					if (tbPassword.IsFocused)
