@@ -211,6 +211,7 @@
     <Compile Include="UI\Widgets\Hud.cs" />
     <Compile Include="UI\Widgets\HudMenu.cs" />
     <Compile Include="UI\Widgets\IDropTarget.cs" />
+    <Compile Include="UI\Widgets\Minimap.cs" />
     <Compile Include="UI\Widgets\PartyMemberClickEventArgs.cs" />
     <Compile Include="UI\Widgets\PartyWidget.cs" />
     <Compile Include="UI\Widgets\MapPlaceEventArgs.cs" />
@@ -265,6 +266,7 @@
     <Compile Include="Utils\BitArrayExtensions.cs" />
     <Compile Include="Utils\KeyModifiersExtensions.cs" />
     <Compile Include="Utils\MathUtils.cs" />
+    <Compile Include="Utils\MinimapProvider.cs" />
     <Compile Include="Utils\StringUtils.cs" />
     <Compile Include="Utils\TypeMatcher.cs" />
     <Compile Include="Utils\PointComparer.cs" />

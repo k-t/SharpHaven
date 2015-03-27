@@ -9,6 +9,7 @@ namespace MonoHaven
 		private const string DefaultHost = "moltke.seatribe.se";
 		private const int DefaultGamePort = 1870;
 		private const int DefaultAuthPort = 1871;
+		private const string DefaultMapUrl = "http://www.havenandhearth.com/mm/";
 
 		private readonly IConfig havenConfig;
 
@@ -64,6 +65,11 @@ namespace MonoHaven
 		public int GamePort
 		{
 			get { return DefaultGamePort; }
+		}
+
+		public string MapUrl
+		{
+			get { return havenConfig.Get("mapurl", DefaultMapUrl); }
 		}
 
 		private static void CreateOrLoadIniConfig(IniConfigSource config)

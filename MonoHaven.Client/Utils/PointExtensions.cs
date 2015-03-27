@@ -28,5 +28,15 @@ namespace MonoHaven.Utils
 		{
 			return new Point(a.X - x, a.Y - y);
 		}
+
+		public static Point Mul(this Point a, Point b)
+		{
+			return Mul(a, b.X, b.Y);
+		}
+
+		public static Point Mul(this Point a, int x, int y)
+		{
+			return new Point(a.X * x, a.Y * y);
+		}
 	}
 }

@@ -82,7 +82,6 @@ namespace MonoHaven.Graphics
 				return false;
 			}
 			return base.CheckHit(x, y);
-			
 		}
 	}
 }

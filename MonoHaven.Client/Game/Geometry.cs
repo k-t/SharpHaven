@@ -87,6 +87,20 @@ namespace MonoHaven.Game
 
 		#endregion
 
+		#region MapToTile
+
+		public static Point MapToTile(int mx, int my)
+		{
+			return new Point(mx.Div(TileWidth), my.Div(TileHeight));
+		}
+
+		public static Point MapToTile(Point mc)
+		{
+			return MapToTile(mc.X, mc.Y);
+		}
+
+		#endregion
+
 		#region MapToGrid
 
 		public static Point MapToGrid(int mx, int my)

@@ -30,7 +30,7 @@ namespace MonoHaven.Game
 
 		public MapTile GetTile(int tx, int ty)
 		{
-			var grid = GetGrid(tx, ty);
+			var grid = GetGrid(Geometry.TileToGrid(tx, ty));
 			if (grid == null)
 				return null;
 
@@ -54,9 +54,13 @@ namespace MonoHaven.Game
 			}
 		}
 
-		private MapGrid GetGrid(int tx, int ty)
+		public MapGrid GetGrid(int gx, int gy)
 		{
-			var gc = Geometry.TileToGrid(tx, ty);
+			return GetGrid(new Point(gx, gy));
+		}
+
+		public MapGrid GetGrid(Point gc)
+		{
 			MapGrid grid;
 			return grids.Find(ref gc, out grid) ? grid : null;
 		}
@@ -73,7 +77,7 @@ namespace MonoHaven.Game
 					throw new Exception(string.Format("Unknown tileset ({0})", tile));
 				tiles[i] = new MapTile(this, GetAbsoluteTileCoord(gp, i), tile, tileset.GroundTiles.PickRandom(random));
 			}
-			var grid = new MapGrid(gp, tiles);
+			var grid = new MapGrid(gp, message.MinimapName, tiles);
 			grids[gp] = grid;
 
 			// generate flavor

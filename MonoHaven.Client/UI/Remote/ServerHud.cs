@@ -6,7 +6,7 @@ namespace MonoHaven.UI.Remote
 	{
 		public static ServerWidget Create(ushort id, ServerWidget parent, object[] args)
 		{
-			var widget = new Hud(parent.Widget);
+			var widget = new Hud(parent.Widget, parent.Session.State);
 			return new ServerHud(id, parent, widget);
 		}
 
