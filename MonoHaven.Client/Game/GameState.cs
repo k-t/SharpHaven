@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 
 namespace MonoHaven.Game
 {
@@ -29,6 +30,12 @@ namespace MonoHaven.Game
 		public Map Map
 		{
 			get { return map; }
+		}
+
+		public Point WorldPosition
+		{
+			get;
+			set;
 		}
 
 		public GameActionTree Actions

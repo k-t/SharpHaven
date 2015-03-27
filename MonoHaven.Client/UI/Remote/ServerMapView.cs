@@ -32,7 +32,7 @@ namespace MonoHaven.UI.Remote
 		public override void ReceiveMessage(string message, object[] args)
 		{
 			if (message == "move")
-				widget.WorldPoint = (Point)args[0];
+				Session.State.WorldPosition = (Point)args[0];
 			else if (message == "place")
 			{
 				var resName = (string)args[0];
