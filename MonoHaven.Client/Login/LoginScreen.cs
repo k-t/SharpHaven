@@ -77,7 +77,6 @@ namespace MonoHaven.Login
 			lbPassword.Move(0, 60).Resize(150, 20);
 
 			tbPassword = new TextBox(cntPassword);
-			tbPassword.Text = "pwd";
 			tbPassword.PasswordChar = '*';
 			tbPassword.Move(0, 80).Resize(150, 23);
 
