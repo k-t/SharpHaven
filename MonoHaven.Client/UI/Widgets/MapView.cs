@@ -133,16 +133,16 @@ namespace MonoHaven.UI.Widgets
 			switch (e.Key)
 			{
 				case Key.Up:
-					CameraOffset = CameraOffset.Add(0, -50);
+					MoveCamera(0, -50);
 					break;
 				case Key.Down:
-					CameraOffset = CameraOffset.Add(0, 50);
+					MoveCamera(0, 50);
 					break;
 				case Key.Left:
-					CameraOffset = CameraOffset.Add(-50, 0);
+					MoveCamera(-50, 0);
 					break;
 				case Key.Right:
-					CameraOffset = CameraOffset.Add(50, 0);
+					MoveCamera(50, 0);
 					break;
 				case Key.Home:
 				case Key.Keypad7:
@@ -207,6 +207,11 @@ namespace MonoHaven.UI.Widgets
 				var snap = placeOnTile ^ e.Modifiers.HasShift();
 				placeGob.Position = snap ? Geometry.Tilify(mc) : mc;
 			}
+		}
+
+		private void MoveCamera(int deltaX, int deltaY)
+		{
+			CameraOffset = CameraOffset.Add(deltaX, deltaY);
 		}
 
 		/// <summary>
