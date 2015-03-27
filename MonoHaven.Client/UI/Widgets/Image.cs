@@ -1,4 +1,6 @@
+using System;
 using MonoHaven.Graphics;
+using MonoHaven.Input;
 
 namespace MonoHaven.UI.Widgets
 {
@@ -7,6 +9,8 @@ namespace MonoHaven.UI.Widgets
 		public Image(Widget parent) : base(parent)
 		{
 		}
+
+		public event Action<MouseButtonEvent> Click;
 
 		public Drawable Drawable
 		{
@@ -18,8 +22,12 @@ namespace MonoHaven.UI.Widgets
 		{
 			if (Drawable == null)
 				return;
-
 			dc.Draw(Drawable, 0, 0);
+		}
+
+		protected override void OnMouseButtonDown(MouseButtonEvent e)
+		{
+			Click.Raise(e);
 		}
 	}
 }
