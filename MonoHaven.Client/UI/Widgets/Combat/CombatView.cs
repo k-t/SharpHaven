@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using MonoHaven.Input;
-using OpenTK.Input;
 
 namespace MonoHaven.UI.Widgets
 {

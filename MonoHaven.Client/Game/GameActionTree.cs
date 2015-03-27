@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using C5;
-using MonoHaven.Utils;
 
 namespace MonoHaven.Game
 {
-	using GameActionNode = ValueTreeNode<GameAction>;
+	using GameActionNode = Utils.ValueTreeNode<GameAction>;
 
 	public class GameActionTree
 	{

@@ -1,5 +1,5 @@
-using NUnit.Framework;
 using MonoHaven.Network;
+using NUnit.Framework;
 
 namespace MonoHaven.Tests
 {

@@ -1,6 +1,6 @@
-﻿using MonoHaven.Graphics;
+﻿using System;
+using MonoHaven.Graphics;
 using MonoHaven.Input;
-using System;
 
 namespace MonoHaven.UI.Widgets
 {

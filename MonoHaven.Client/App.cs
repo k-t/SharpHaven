@@ -2,10 +2,10 @@ using System;
 using System.Drawing;
 using System.Threading;
 using System.Windows.Threading;
+using MonoHaven.Resources;
 using NLog;
 using OpenTK;
 using OpenTK.Graphics;
-using MonoHaven.Resources;
 
 namespace MonoHaven
 {

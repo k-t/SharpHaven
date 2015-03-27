@@ -1,5 +1,5 @@
-﻿using OpenTK.Input;
-using MonoHaven.Utils;
+﻿using MonoHaven.Utils;
+using OpenTK.Input;
 
 namespace MonoHaven.UI.Remote
 {

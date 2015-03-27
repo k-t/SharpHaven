@@ -1,6 +1,6 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
 using MonoHaven.Game;
-using System;
 
 namespace MonoHaven.UI.Widgets
 {

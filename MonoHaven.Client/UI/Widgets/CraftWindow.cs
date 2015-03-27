@@ -1,12 +1,10 @@
-﻿using System.Collections.Generic;
-using System.Drawing;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
-using MonoHaven.Graphics;
-using MonoHaven.UI.Layouts;
-using MonoHaven.Utils;
-using System;
 using MonoHaven.Game;
 using MonoHaven.Input;
+using MonoHaven.UI.Layouts;
+using MonoHaven.Utils;
 using OpenTK.Input;
 
 namespace MonoHaven.UI.Widgets

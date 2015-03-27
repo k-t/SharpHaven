@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using MonoHaven.Graphics;
 using System.Drawing;
 using System.Linq;
+using MonoHaven.Graphics;
 
 namespace MonoHaven.UI.Widgets
 {

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using MonoHaven.Messages;
 
 namespace MonoHaven.Game
 {

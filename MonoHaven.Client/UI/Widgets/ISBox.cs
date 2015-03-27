@@ -1,9 +1,9 @@
-﻿using MonoHaven.Graphics;
-using System;
-using MonoHaven.Input;
-using OpenTK.Input;
+﻿using System;
 using System.Drawing;
+using MonoHaven.Graphics;
+using MonoHaven.Input;
 using MonoHaven.Utils;
+using OpenTK.Input;
 
 namespace MonoHaven.UI.Widgets
 {

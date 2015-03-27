@@ -1,5 +1,5 @@
-﻿using MonoHaven.Graphics;
-using System;
+﻿using System;
+using MonoHaven.Graphics;
 
 namespace MonoHaven.UI.Widgets
 {
