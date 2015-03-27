@@ -17,7 +17,7 @@ namespace MonoHaven.UI.Widgets
 
 		private bool dragging;
 		private readonly ImageButton btnClose;
-		private readonly TextBlock tblCaption;
+		private readonly TextBlock titleBlock;
 
 		static Window()
 		{
@@ -29,7 +29,11 @@ namespace MonoHaven.UI.Widgets
 			cap = App.Resources.Get<Drawable>("custom/ui/wcap");
 		}
 
-		public Window(Widget parent, string caption) : base(parent)
+		public Window(Widget parent) : this(parent, null)
+		{
+		}
+
+		public Window(Widget parent, string title) : base(parent)
 		{
 			btnClose = new ImageButton(this);
 			btnClose.Resize(closeButton.Size);
@@ -38,9 +42,12 @@ namespace MonoHaven.UI.Widgets
 			btnClose.HoveredImage = closeButtonHovered;
 			btnClose.Click += () => Closed.Raise();
 
-			tblCaption = new TextBlock(Fonts.Text);
-			tblCaption.TextColor = Color.Yellow;
-			tblCaption.Append(caption);
+			if (!string.IsNullOrEmpty(title))
+			{
+				titleBlock = new TextBlock(Fonts.Text);
+				titleBlock.TextColor = Color.Yellow;
+				titleBlock.Append(title);
+			}
 
 			Margin = 20;
 		}
@@ -63,7 +70,8 @@ namespace MonoHaven.UI.Widgets
 
 		protected override void OnDispose()
 		{
-			tblCaption.Dispose();
+			if (titleBlock != null)
+				titleBlock.Dispose();
 		}
 
 		protected override void OnDraw(DrawingContext dc)
@@ -71,9 +79,12 @@ namespace MonoHaven.UI.Widgets
 			dc.Draw(background, 0, 0, Width, Height);
 			dc.Draw(box, 0, 0, Width, Height);
 
-			int hw = 48 + tblCaption.TextWidth;
-			dc.Draw(cap, (Width - hw) / 2, -7, hw, 21);
-			dc.Draw(tblCaption, (Width - tblCaption.TextWidth) / 2, -5);
+			if (titleBlock != null)
+			{
+				int hw = 48 + titleBlock.TextWidth;
+				dc.Draw(cap, (Width - hw) / 2, -7, hw, 21);
+				dc.Draw(titleBlock, (Width - titleBlock.TextWidth) / 2, -5);
+			}
 		}
 
 		protected override void OnMouseButtonDown(MouseButtonEvent e)
