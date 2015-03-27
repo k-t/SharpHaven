@@ -21,6 +21,8 @@ namespace MonoHaven.UI.Widgets
 		private readonly GameState gstate;
 		private readonly int playerId;
 		private bool dragging;
+		private Point dragPosition;
+		private Point dragCameraOffset;
 		private Gob placeGob;
 		private int placeRadius;
 		private bool placeOnTile;
@@ -174,6 +176,8 @@ namespace MonoHaven.UI.Widgets
 			{
 				Host.GrabMouse(this);
 				dragging = true;
+				dragPosition = e.Position;
+				dragCameraOffset = CameraOffset;
 			}
 			else if (placeGob != null)
 			{
@@ -202,7 +206,7 @@ namespace MonoHaven.UI.Widgets
 		{
 			if (dragging)
 			{
-				CameraOffset = CameraOffset.Add(-e.DeltaX, -e.DeltaY);
+				CameraOffset = dragCameraOffset.Add(dragPosition.Sub(e.Position));
 			}
 			if (placeGob != null)
 			{
