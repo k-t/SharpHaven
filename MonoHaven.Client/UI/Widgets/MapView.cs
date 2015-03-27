@@ -29,6 +29,8 @@ namespace MonoHaven.UI.Widgets
 		public MapView(Widget parent, GameState gstate, Point worldPoint, int playerId)
 			: base(parent)
 		{
+			IsFocusable = true;
+
 			this.gstate = gstate;
 			this.playerId = playerId;
 			this.WorldPoint = worldPoint;
@@ -150,6 +152,14 @@ namespace MonoHaven.UI.Widgets
 					break;
 				case Key.Right:
 					screenBox.X += 50;
+					break;
+				case Key.Home:
+				case Key.Keypad7:
+					if (playerId != -1)
+					{
+						var player = gstate.Objects.Get(playerId);
+						CameraOffset = Geometry.MapToScreen(player.Position);
+					}
 					break;
 				default:
 					e.Handled = false;
