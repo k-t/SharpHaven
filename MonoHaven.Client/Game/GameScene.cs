@@ -19,10 +19,13 @@ namespace MonoHaven.Game
 			this.spriteList = new List<ObjectPart>();
 		}
 
-		public Gob GetObjectAt(Point sc)
+		public Gob GetObjectAt(Point sc, Rectangle sbox)
 		{
+			int x = sc.X - sbox.Width / 2 + sbox.X;
+			int y = sc.Y - sbox.Height / 2 + sbox.Y;
+
 			for (int i = spriteList.Count - 1; i >= 0; i--)
-				if (spriteList[i].Sprite.CheckHit(sc.X - spriteList[i].X, sc.Y - spriteList[i].Y))
+				if (spriteList[i].Sprite.CheckHit(x - spriteList[i].X, y - spriteList[i].Y))
 					return spriteList[i].Gob;
 			return null;
 		}
@@ -35,7 +38,7 @@ namespace MonoHaven.Game
 				var sprite = gob.Sprite;
 				if (sprite == null)
 					continue;
-				var p = WorldToScreen(gob.Position);
+				var p = Geometry.MapToScreen(gob.Position);
 				spriteList.AddRange(sprite.Parts.Select(part => new ObjectPart(p, part, gob)));
 			}
 			spriteList.Sort(CompareParts);
@@ -50,51 +53,6 @@ namespace MonoHaven.Game
 			if (a.Y != b.Y)
 				return a.Y - b.Y;
 			return a.Sprite.SubZ - b.Sprite.SubZ;
-		}
-
-		public static Point ScreenToWorld(int sx, int sy)
-		{
-			return new Point((sx / 2 + sy) / 2, (sy - sx / 2) / 2);
-		}
-
-		public static Point ScreenToWorld(Point screen)
-		{
-			return ScreenToWorld(screen.X, screen.Y);
-		}
-
-		public static Point WorldToScreen(int wx, int wy)
-		{
-			return new Point((wx - wy) * 2, (wx + wy));
-		}
-
-		public static Point WorldToScreen(Point world)
-		{
-			return WorldToScreen(world.X, world.Y);
-		}
-
-		public static Point ScreenToTile(int sx, int sy)
-		{
-			// convert to world coordinate first
-			int wx = (sx / 2 + sy) / 2;
-			int wy = (sy - sx / 2) / 2;
-			return new Point(wx / Map.TileWidth, wy / Map.TileHeight);
-		}
-		
-		public static Point ScreenToTile(Point screen)
-		{
-			return ScreenToTile(screen.X, screen.Y);
-		}
-
-		public static Point TileToScreen(int tx, int ty)
-		{
-			return new Point(
-				(tx - ty) * Map.TileWidth * 2,
-				(tx + ty) * Map.TileHeight);
-		}
-
-		public static Point TileToScreen(Point tile)
-		{
-			return TileToScreen(tile.X, tile.Y);
 		}
 
 		private struct ObjectPart

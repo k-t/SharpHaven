@@ -83,6 +83,7 @@
     <Compile Include="Game\GameActionTree.cs" />
     <Compile Include="Game\GameScene.cs" />
     <Compile Include="Game\GameTime.cs" />
+    <Compile Include="Game\Geometry.cs" />
     <Compile Include="Game\Gob.cs" />
     <Compile Include="Game\GobCache.cs" />
     <Compile Include="Game\GobUpdater.cs" />

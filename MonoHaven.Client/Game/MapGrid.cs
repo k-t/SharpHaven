@@ -20,7 +20,7 @@ namespace MonoHaven.Game
 
 		public MapTile this[int x, int y]
 		{
-			get { return tiles[x + y * Map.GridHeight]; }
+			get { return tiles[x + y * Geometry.GridHeight]; }
 		}
 	}
 }

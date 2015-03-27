@@ -20,7 +20,7 @@ namespace MonoHaven.UI.Widgets
 
 		private readonly GameState gstate;
 		private readonly int playerId;
-		private Point cameraOffset;
+		private Rectangle screenBox;
 		private bool dragging;
 		private Gob placeGob;
 		private int placeRadius;
@@ -32,13 +32,19 @@ namespace MonoHaven.UI.Widgets
 			this.gstate = gstate;
 			this.playerId = playerId;
 			this.WorldPoint = worldPoint;
-			this.cameraOffset = ToRelative(GameScene.WorldToScreen(worldPoint));
+			this.CameraOffset = Geometry.MapToScreen(worldPoint);
 		}
 
 		public event Action<MapClickEventArgs> MapClick;
 		public event Action<KeyModifiers> ItemDrop;
 		public event Action<MapClickEventArgs> ItemInteract;
 		public event Action<MapPlaceEventArgs> Placed;
+
+		private Point CameraOffset
+		{
+			get { return screenBox.Location; }
+			set { screenBox.Location = value; }
+		}
 
 		public Point WorldPoint
 		{
@@ -53,9 +59,8 @@ namespace MonoHaven.UI.Widgets
 			placeGob = new Gob(-1);
 			placeGob.SetSprite(new Delayed<ISprite>(sprite));
 
-			var sc = ToAbsolute(Host.MousePosition);
-			var mc = GameScene.ScreenToWorld(sc);
-			placeGob.Position = placeOnTile ? Tilify(mc) : mc;
+			var mc = Geometry.ScreenToMap(Host.MousePosition, screenBox);
+			placeGob.Position = placeOnTile ? Geometry.Tilify(mc) : mc;
 
 			gstate.Objects.AddLocal(placeGob);
 		}
@@ -74,7 +79,7 @@ namespace MonoHaven.UI.Widgets
 
 			if (placeGob != null && placeRadius > 0)
 			{
-				var p = ToRelative(GameScene.WorldToScreen(placeGob.Position));
+				var p = Geometry.MapToScreen(placeGob.Position, screenBox);
 				int w = (int)(placeRadius * 4 * Math.Sqrt(0.5)) * 2;
 				int h = (int)(placeRadius * 2 * Math.Sqrt(0.5)) * 2;
 				dc.SetColor(0, 255, 0, 32);
@@ -88,8 +93,8 @@ namespace MonoHaven.UI.Widgets
 			if (playerId != -1)
 			{
 				var player = gstate.Objects.Get(playerId);
-				var ul = Map.WorldToGrid(player.Position.Add(-500));
-				var br = Map.WorldToGrid(player.Position.Add(500));
+				var ul = Geometry.MapToGrid(player.Position.Add(-500));
+				var br = Geometry.MapToGrid(player.Position.Add(500));
 				for (int y = ul.Y; y <= br.Y; y++)
 					for (int x = ul.X; x <= br.X; x++)
 						gstate.Map.Request(x, y);
@@ -99,7 +104,7 @@ namespace MonoHaven.UI.Widgets
 		private void DrawTiles(DrawingContext g)
 		{
 			// get tile in the center
-			var center = GameScene.ScreenToTile(cameraOffset);
+			var center = Geometry.ScreenToTile(CameraOffset);
 			// how much tiles fit onto screen vertically and horizontally
 			var h = Width / (GameScene.ScreenTileWidth * 2);
 			var v = Height / (GameScene.ScreenTileHeight * 2);
@@ -111,8 +116,8 @@ namespace MonoHaven.UI.Widgets
 						int tx = center.X + x + y;
 						int ty = center.Y + y - x - i;
 
-						var p = ToRelative(GameScene.TileToScreen(tx, ty));
-						p.X -= Map.TileWidth * 2;
+						var p = Geometry.TileToScreen(tx, ty, screenBox);
+						p.X -= Geometry.TileWidth * 2;
 
 						var tile = gstate.Map.GetTile(tx, ty);
 						if (tile != null)
@@ -126,7 +131,7 @@ namespace MonoHaven.UI.Widgets
 
 		private void DrawScene(DrawingContext g)
 		{
-			gstate.Scene.Draw(g, Width / 2 - cameraOffset.X, Height / 2 - cameraOffset.Y);
+			gstate.Scene.Draw(g, Width / 2 - screenBox.X, Height / 2 - screenBox.Y);
 		}
 
 		protected override void OnKeyDown(KeyEvent e)
@@ -135,16 +140,16 @@ namespace MonoHaven.UI.Widgets
 			switch (e.Key)
 			{
 				case Key.Up:
-					cameraOffset.Y -= 50;
+					screenBox.Y -= 50;
 					break;
 				case Key.Down:
-					cameraOffset.Y += 50;
+					screenBox.Y += 50;
 					break;
 				case Key.Left:
-					cameraOffset.X -= 50;
+					screenBox.X -= 50;
 					break;
 				case Key.Right:
-					cameraOffset.X += 50;
+					screenBox.X += 50;
 					break;
 				default:
 					e.Handled = false;
@@ -155,9 +160,8 @@ namespace MonoHaven.UI.Widgets
 
 		protected override void OnMouseButtonDown(MouseButtonEvent e)
 		{
-			var sc = ToAbsolute(e.Position);
-			var mc = GameScene.ScreenToWorld(sc);
-			var gob = gstate.Scene.GetObjectAt(sc);
+			var mc = Geometry.ScreenToMap(e.Position, screenBox);
+			var gob = gstate.Scene.GetObjectAt(e.Position, screenBox);
 
 			if (e.Button == MouseButton.Middle)
 			{
@@ -191,43 +195,20 @@ namespace MonoHaven.UI.Widgets
 		{
 			if (dragging)
 			{
-				cameraOffset.X -= e.DeltaX;
-				cameraOffset.Y -= e.DeltaY;
+				screenBox.X -= e.DeltaX;
+				screenBox.Y -= e.DeltaY;
 			}
 			if (placeGob != null)
 			{
-				var sc = ToAbsolute(e.Position);
-				var mc = GameScene.ScreenToWorld(sc);
+				var mc = Geometry.ScreenToMap(e.Position, screenBox);
 				var snap = placeOnTile ^ e.Modifiers.HasShift();
-				placeGob.Position = snap ? Tilify(mc) : mc;
+				placeGob.Position = snap ? Geometry.Tilify(mc) : mc;
 			}
 		}
 
-		/// <summary>
-		/// Converts absolute screen coordinate to a relative to the current viewport.
-		/// </summary>
-		private Point ToRelative(Point abs)
+		protected override void OnSizeChanged()
 		{
-			return new Point(
-				abs.X + Width / 2 - cameraOffset.X,
-				abs.Y + Height / 2 - cameraOffset.Y);
-		}
-
-		/// <summary>
-		/// Converts relative screen coordinate to absolute.
-		/// </summary>
-		private Point ToAbsolute(Point rel)
-		{
-			return new Point(
-				rel.X - Width / 2 + cameraOffset.X,
-				rel.Y - Height / 2 + cameraOffset.Y);
-		}
-
-		private static Point Tilify(Point p)
-		{
-			return new Point(
-				p.X.Div(Map.TileWidth) * Map.TileWidth + Map.TileWidth.Div(2),
-				p.Y.Div(Map.TileHeight) * Map.TileHeight + Map.TileHeight.Div(2));
+			screenBox.Size = new Size(Width, Height);
 		}
 
 		#region IDropTarget
@@ -240,10 +221,9 @@ namespace MonoHaven.UI.Widgets
 
 		bool IDropTarget.ItemInteract(Point p, Point ul, KeyModifiers mods)
 		{
-			var sc = ToAbsolute(p);
-			var mc = GameScene.ScreenToWorld(sc);
-			var gob = gstate.Scene.GetObjectAt(sc);
-			ItemInteract.Raise(new MapClickEventArgs(0, mods, mc, sc, gob));
+			var mc = Geometry.ScreenToMap(p, screenBox);
+			var gob = gstate.Scene.GetObjectAt(p, screenBox);
+			ItemInteract.Raise(new MapClickEventArgs(0, mods, mc, p, gob));
 			return true;
 		}
 
