@@ -149,7 +149,7 @@ namespace MonoHaven.UI.Widgets
 			button.Image = App.Resources.Get<Drawable>(image);
 			button.PressedImage = App.Resources.Get<Drawable>(pressedImage);
 			button.Resize(button.Image.Size);
-			button.Clicked += () => SetTab(tab);
+			button.Click += () => SetTab(tab);
 		}
 
 		private void SetTab(Container tab)
@@ -186,7 +186,7 @@ namespace MonoHaven.UI.Widgets
 
 			var btnBuy = new Button(tabAttr, 75);
 			btnBuy.Text = "Buy";
-			btnBuy.Clicked += BuySkills;
+			btnBuy.Click += BuySkills;
 
 			var lpLayout = new GridLayout();
 			lpLayout.SetColumnWidth(0, 90);
@@ -274,13 +274,13 @@ namespace MonoHaven.UI.Widgets
 			var btnMinus = new ImageButton(tabAttr);
 			btnMinus.Image = MinusUp;
 			btnMinus.PressedImage = MinusDown;
-			btnMinus.Clicked += () => skill.Add(-1);
+			btnMinus.Click += () => skill.Add(-1);
 			btnMinus.MouseWheel += arg => skill.Add(Math.Sign(arg.Delta));
 
 			var btnPlus = new ImageButton(tabAttr);
 			btnPlus.Image = PlusUp;
 			btnPlus.PressedImage = PlusDown;
-			btnPlus.Clicked += () => skill.Add(1);
+			btnPlus.Click += () => skill.Add(1);
 			btnPlus.MouseWheel += arg => skill.Add(Math.Sign(arg.Delta));
 
 			int row = skillLayout.RowCount;
@@ -379,7 +379,7 @@ namespace MonoHaven.UI.Widgets
 			var btnLearn = new Button(tabSkills, 75);
 			btnLearn.Move(210, 130);
 			btnLearn.Text = "Learn";
-			btnLearn.Clicked += LearnSkill;
+			btnLearn.Click += LearnSkill;
 		}
 
 		private void LearnSkill()

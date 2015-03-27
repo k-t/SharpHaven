@@ -16,7 +16,7 @@ namespace MonoHaven.UI.Remote
 			: base(id, parent, widget)
 		{
 			this.widget = widget;
-			this.widget.Menu.ButtonClicked += OnMenuButtonClick;
+			this.widget.Menu.ButtonClick += OnMenuButtonClick;
 		}
 
 		public override void ReceiveMessage(string message, object[] args)

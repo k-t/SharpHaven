@@ -21,13 +21,13 @@ namespace MonoHaven.UI.Widgets
 
 			btnLeave = new Button(this, 84);
 			btnLeave.Text = "Leave party";
-			btnLeave.Clicked += () => Leave.Raise();
+			btnLeave.Click += () => Leave.Raise();
 
 			Update();
 		}
 
 		public event Action Leave;
-		public event Action<PartyMemberClickEventArgs> PartyMemberClicked;
+		public event Action<PartyMemberClickEventArgs> PartyMemberClick;
 
 		public int PlayerId
 		{
@@ -119,7 +119,7 @@ namespace MonoHaven.UI.Widgets
 		{
 			var pair = avatars.FirstOrDefault(x => x.Value == sender);
 			if (pair.Value != null)
-				PartyMemberClicked.Raise(new PartyMemberClickEventArgs(pair.Key, e.Button));
+				PartyMemberClick.Raise(new PartyMemberClickEventArgs(pair.Key, e.Button));
 		}
 	}
 }

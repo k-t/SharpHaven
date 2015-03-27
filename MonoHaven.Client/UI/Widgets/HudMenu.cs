@@ -36,11 +36,11 @@ namespace MonoHaven.UI.Widgets
 				};
 				buttonWidget.Resize(buttonImages[i * 2].Size);
 				var button = (Button)i;
-				buttonWidget.Clicked += () => ButtonClicked.Raise(button);
+				buttonWidget.Click += () => ButtonClick.Raise(button);
 			}
 		}
 
-		public event Action<Button> ButtonClicked;
+		public event Action<Button> ButtonClick;
 
 		protected override void OnDraw(DrawingContext dc)
 		{

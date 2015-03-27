@@ -35,7 +35,7 @@ namespace MonoHaven.UI.Widgets
 			this.cameraOffset = ToRelative(GameScene.WorldToScreen(worldPoint));
 		}
 
-		public event Action<MapClickEventArgs> MapClicked;
+		public event Action<MapClickEventArgs> MapClick;
 		public event Action<KeyModifiers> ItemDrop;
 		public event Action<MapClickEventArgs> ItemInteract;
 		public event Action<MapPlaceEventArgs> Placed;
@@ -172,7 +172,7 @@ namespace MonoHaven.UI.Widgets
 			}
 			else
 			{
-				MapClicked.Raise(new MapClickEventArgs(e, mc, e.Position, gob));
+				MapClick.Raise(new MapClickEventArgs(e, mc, e.Position, gob));
 			}
 			e.Handled = true;
 		}

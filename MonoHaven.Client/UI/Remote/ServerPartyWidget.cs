@@ -16,10 +16,10 @@ namespace MonoHaven.UI.Remote
 		{
 			widget.Party = Session.State.Party;
 			widget.Leave += () => SendMessage("leave");
-			widget.PartyMemberClicked += OnPartyMemberClicked;
+			widget.PartyMemberClick += OnPartyMemberClick;
 		}
 
-		private void OnPartyMemberClicked(PartyMemberClickEventArgs e)
+		private void OnPartyMemberClick(PartyMemberClickEventArgs e)
 		{
 			var button = ServerInput.ToServerButton(e.Button);
 			SendMessage("click", e.MemberId, button);

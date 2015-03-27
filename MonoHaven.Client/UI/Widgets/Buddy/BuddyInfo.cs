@@ -30,26 +30,26 @@ namespace MonoHaven.UI.Widgets
 			btnChat = new Button(this, 20);
 			btnChat.Move(10, 165);
 			btnChat.Text = "Private chat";
-			btnChat.Clicked += () => Chat.Raise();
+			btnChat.Click += () => Chat.Raise();
 
 			btnRemove = new Button(this, 20);
 			btnRemove.Move(10, 188);
-			btnRemove.Clicked += () => RemoveBuddy.Raise();
+			btnRemove.Click += () => RemoveBuddy.Raise();
 
 			btnInvite = new Button(this, 20);
 			btnInvite.Move(10, 211);
 			btnInvite.Text = "Invite to party";
-			btnInvite.Clicked += () => Invite.Raise();
+			btnInvite.Click += () => Invite.Raise();
 
 			btnDescribe = new Button(this, 20);
 			btnDescribe.Move(10, 234);
 			btnDescribe.Text = "Describe to...";
-			btnDescribe.Clicked += () => Describe.Raise();
+			btnDescribe.Click += () => Describe.Raise();
 
 			btnExile = new Button(this, 20);
 			btnExile.Move(10, 257);
 			btnExile.Text = "Exile";
-			btnExile.Clicked += () => Exile.Raise();
+			btnExile.Click += () => Exile.Raise();
 
 			lblLastSeen = new Label(this, Fonts.LabelText);
 			lblLastSeen.AutoSize = true;

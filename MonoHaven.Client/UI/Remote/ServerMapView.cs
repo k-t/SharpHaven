@@ -23,7 +23,7 @@ namespace MonoHaven.UI.Remote
 			: base(id, parent, widget)
 		{
 			this.widget = widget;
-			this.widget.MapClicked += OnMapClicked;
+			this.widget.MapClick += OnMapClick;
 			this.widget.Placed += OnPlaced;
 			this.widget.ItemDrop += OnItemDrop;
 			this.widget.ItemInteract += OnItemInteract;
@@ -48,7 +48,7 @@ namespace MonoHaven.UI.Remote
 				base.ReceiveMessage(message, args);
 		}
 
-		private void OnMapClicked(MapClickEventArgs e)
+		private void OnMapClick(MapClickEventArgs e)
 		{
 			var button = ServerInput.ToServerButton(e.Button);
 			var mods = ServerInput.ToServerModifiers(e.Modifiers);

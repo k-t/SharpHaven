@@ -52,11 +52,11 @@ namespace MonoHaven.UI.Widgets
 
 			btnLeft = new ImageButton(this);
 			btnLeft.Move(16, 0);
-			btnLeft.Clicked += () => SliderMoved.Raise(-1);
+			btnLeft.Click += () => SliderMoved.Raise(-1);
 
 			btnRight = new ImageButton(this);
 			btnRight.Move(112, 0);
-			btnRight.Clicked += () => SliderMoved.Raise(1);
+			btnRight.Click += () => SliderMoved.Raise(1);
 
 			UpdateButtons();
 		}

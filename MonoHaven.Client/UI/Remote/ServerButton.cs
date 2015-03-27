@@ -17,7 +17,7 @@ namespace MonoHaven.UI.Remote
 		public ServerButton(ushort id, ServerWidget parent, Button widget)
 			: base(id, parent, widget)
 		{
-			widget.Clicked += () => SendMessage("activate");
+			widget.Click += () => SendMessage("activate");
 		}
 	}
 }

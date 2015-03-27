@@ -21,7 +21,7 @@ namespace MonoHaven.UI.Remote
 		public ServerImageButton(ushort id, ServerWidget parent, ImageButton widget)
 			: base(id, parent, widget)
 		{
-			widget.Clicked += () => SendMessage("activate");
+			widget.Click += () => SendMessage("activate");
 		}
 	}
 }

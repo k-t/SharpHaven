@@ -36,12 +36,12 @@ namespace MonoHaven.UI.Widgets
 			var btnCraft = new Button(this, 60);
 			btnCraft.Move(290, 71);
 			btnCraft.Text = "Craft";
-			btnCraft.Clicked += () => Craft.Raise();
+			btnCraft.Click += () => Craft.Raise();
 
 			var btnCraftAll = new Button(this, 60);
 			btnCraftAll.Move(360, 71);
 			btnCraftAll.Text = "Craft All";
-			btnCraftAll.Clicked += () => CraftAll.Raise();
+			btnCraftAll.Click += () => CraftAll.Raise();
 
 			lblName = new Label(this, Fonts.Heading);
 			lblName.AutoSize = true;

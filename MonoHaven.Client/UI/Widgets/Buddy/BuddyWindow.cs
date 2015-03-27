@@ -28,17 +28,17 @@ namespace MonoHaven.UI.Widgets
 			var btnStatus = new Button(this, 120);
 			btnStatus.Text = "Sort by status";
 			btnStatus.Move(5, 290);
-			btnStatus.Clicked += () => buddyList.SetSort(BuddyComparison.ByStatus);
+			btnStatus.Click += () => buddyList.SetSort(BuddyComparison.ByStatus);
 
 			var btnGroup = new Button(this, 120);
 			btnGroup.Text = "Sort by group";
 			btnGroup.Move(140, 290);
-			btnGroup.Clicked += () => buddyList.SetSort(BuddyComparison.ByGroup);
+			btnGroup.Click += () => buddyList.SetSort(BuddyComparison.ByGroup);
 
 			var btnAlpha = new Button(this, 120);
 			btnAlpha.Text = "Sort alphabetically";
 			btnAlpha.Move(275, 290);
-			btnAlpha.Clicked += () => buddyList.SetSort(BuddyComparison.Alphabetical);
+			btnAlpha.Click += () => buddyList.SetSort(BuddyComparison.Alphabetical);
 
 			var lblSecret = new Label(this, Fonts.LabelText);
 			lblSecret.Move(0, 310);
@@ -61,22 +61,22 @@ namespace MonoHaven.UI.Widgets
 			var btnSetSecret = new Button(this, 50);
 			btnSetSecret.Text = "Set";
 			btnSetSecret.Move(0, 350);
-			btnSetSecret.Clicked += OnSetSecretButtonClick;
+			btnSetSecret.Click += OnSetSecretButtonClick;
 
 			var btnClearSecret = new Button(this, 50);
 			btnClearSecret.Text = "Clear";
 			btnClearSecret.Move(60, 350);
-			btnClearSecret.Clicked += OnClearSecretButtonClick;
+			btnClearSecret.Click += OnClearSecretButtonClick;
 
 			var btnRandomSecret = new Button(this, 50);
 			btnRandomSecret.Text = "Random";
 			btnRandomSecret.Move(120, 350);
-			btnRandomSecret.Clicked += OnRandomSecretButtonClick;
+			btnRandomSecret.Click += OnRandomSecretButtonClick;
 
 			var btnAddKin = new Button(this, 50);
 			btnAddKin.Text = "Add kin";
 			btnAddKin.Move(200, 350);
-			btnAddKin.Clicked += () => AddKin.Raise(tbKinSecret.Text);
+			btnAddKin.Click += () => AddKin.Raise(tbKinSecret.Text);
 
 			// clear text box when kin is added
 			AddKin += _ => tbKinSecret.Text = "";

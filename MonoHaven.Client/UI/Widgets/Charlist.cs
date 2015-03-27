@@ -40,13 +40,13 @@ namespace MonoHaven.UI.Widgets
 			btnScrollUp = new Button(this, 100);
 			btnScrollUp.Image = scrollUp;
 			btnScrollUp.Visible = false;
-			btnScrollUp.Clicked += () => Scroll(-1);
+			btnScrollUp.Click += () => Scroll(-1);
 
 			btnScrollDown = new Button(this, 100);
 			btnScrollDown.Image = scrollDown;
 			btnScrollDown.Move(0, Height - 19);
 			btnScrollDown.Visible = false;
-			btnScrollDown.Clicked += () => Scroll(1);
+			btnScrollDown.Click += () => Scroll(1);
 		}
 
 		public event Action<string> CharacterSelected;
@@ -106,7 +106,7 @@ namespace MonoHaven.UI.Widgets
 				btnPlay = new Button(this, 100);
 				btnPlay.Text = "Play";
 				btnPlay.Move(Width - 105, Height - 24);
-				btnPlay.Clicked += () => Selected.Raise();
+				btnPlay.Click += () => Selected.Raise();
 
 				avatar = new AvatarView(this);
 				avatar.Avatar = new Avatar(layers);

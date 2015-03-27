@@ -14,7 +14,7 @@ namespace MonoHaven.UI.Widgets
 			IsFocusable = true;
 		}
 
-		public event Action Clicked;
+		public event Action Click;
 
 		public Drawable Image
 		{
@@ -69,7 +69,7 @@ namespace MonoHaven.UI.Widgets
 			// button released outside of borders?
 			var p = MapFromScreen(e.Position);
 			if (CheckHit(p.X + X, p.Y + Y))
-				Clicked.Raise();
+				Click.Raise();
 
 			e.Handled = true;
 		}

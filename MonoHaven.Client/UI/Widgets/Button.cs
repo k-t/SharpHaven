@@ -39,7 +39,7 @@ namespace MonoHaven.UI.Widgets
 			Resize(width, ButtonHeight);
 		}
 
-		public event Action Clicked;
+		public event Action Click;
 
 		public Drawable Image
 		{
@@ -103,7 +103,7 @@ namespace MonoHaven.UI.Widgets
 			// button released outside of borders?
 			var p = MapFromScreen(e.Position);
 			if (Rectangle.FromLTRB(0, 0, Width, Height).Contains(p))
-				Clicked.Raise();
+				Click.Raise();
 
 			e.Handled = true;
 		}

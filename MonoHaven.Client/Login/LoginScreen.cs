@@ -55,7 +55,7 @@ namespace MonoHaven.Login
 			btnLogin = new ImageButton(RootWidget);
 			btnLogin.Image = App.Resources.Get<Drawable>("gfx/hud/buttons/loginu");
 			btnLogin.PressedImage = App.Resources.Get<Drawable>("gfx/hud/buttons/logind");
-			btnLogin.Clicked += Login;
+			btnLogin.Click += Login;
 			btnLogin.Move(373, 460);
 			btnLogin.Resize(btnLogin.Image.Size);
 
@@ -91,7 +91,7 @@ namespace MonoHaven.Login
 			btnForget = new Button(cntToken, 100);
 			btnForget.Text = "Forget me";
 			btnForget.Move(75, 23);
-			btnForget.Clicked += ForgetToken;
+			btnForget.Click += ForgetToken;
 
 			lblErrorMessage = new Label(RootWidget);
 			lblErrorMessage.TextColor = Color.Red;

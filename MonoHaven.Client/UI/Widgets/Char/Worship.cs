@@ -37,7 +37,7 @@ namespace MonoHaven.UI.Widgets
 			var btnForfeit = new Button(this, 80);
 			btnForfeit.Text = "Forfeit";
 			btnForfeit.Move(10, 160);
-			btnForfeit.Clicked += () => Forfeit.Raise();
+			btnForfeit.Click += () => Forfeit.Raise();
 
 			lblNumen = new Label(this, Fonts.LabelText);
 			lblNumen.Text = "0";
