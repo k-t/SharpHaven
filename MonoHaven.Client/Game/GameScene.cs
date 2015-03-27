@@ -19,13 +19,10 @@ namespace MonoHaven.Game
 			this.spriteList = new List<ObjectPart>();
 		}
 
-		public Gob GetObjectAt(Point sc, Rectangle sbox)
+		public Gob GetObjectAt(Point sc)
 		{
-			int x = sc.X - sbox.Width / 2 + sbox.X;
-			int y = sc.Y - sbox.Height / 2 + sbox.Y;
-
 			for (int i = spriteList.Count - 1; i >= 0; i--)
-				if (spriteList[i].Sprite.CheckHit(x - spriteList[i].X, y - spriteList[i].Y))
+				if (spriteList[i].Sprite.CheckHit(sc.X - spriteList[i].X, sc.Y - spriteList[i].Y))
 					return spriteList[i].Gob;
 			return null;
 		}

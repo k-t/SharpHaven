@@ -38,19 +38,6 @@ namespace MonoHaven.Game
 			return ScreenToMap(sc.X, sc.Y);
 		}
 
-		public static Point ScreenToMap(int sx, int sy, Rectangle sbox)
-		{
-			var abs = new Point(
-				sx - sbox.Width / 2 + sbox.X,
-				sy - sbox.Height /2 + sbox.Y);
-			return ScreenToMap(abs);
-		}
-
-		public static Point ScreenToMap(Point sc, Rectangle sbox)
-		{
-			return ScreenToMap(sc.X, sc.Y, sbox);
-		}
-
 		#endregion
 
 		#region MapToScreen
@@ -63,19 +50,6 @@ namespace MonoHaven.Game
 		public static Point MapToScreen(Point mc)
 		{
 			return MapToScreen(mc.X, mc.Y);
-		}
-
-		public static Point MapToScreen(int mx, int my, Rectangle sbox)
-		{
-			var abs = MapToScreen(mx, my);
-			return new Point(
-				abs.X + sbox.Width / 2 - sbox.X,
-				abs.Y + sbox.Height / 2 - sbox.Y);
-		}
-
-		public static Point MapToScreen(Point mc, Rectangle sbox)
-		{
-			return MapToScreen(mc.X, mc.Y, sbox);
 		}
 
 		#endregion
@@ -102,26 +76,11 @@ namespace MonoHaven.Game
 		public static Point TileToScreen(int tx, int ty)
 		{
 			return new Point(
-				(tx - ty) * TileWidth * 2,
+				(tx - ty - 1) * TileWidth * 2,
 				(tx + ty) * TileHeight);
 		}
 
 		public static Point TileToScreen(Point tile)
-		{
-			return TileToScreen(tile.X, tile.Y);
-		}
-
-		public static Point TileToScreen(int tx, int ty, Rectangle sbox)
-		{
-			var abs = new Point(
-				(tx - ty) * TileWidth * 2,
-				(tx + ty) * TileHeight);
-			return new Point(
-				abs.X + sbox.Width / 2 - sbox.X,
-				abs.Y + sbox.Height / 2 - sbox.Y);
-		}
-
-		public static Point TileToScreen(Point tile, Rectangle sbox)
 		{
 			return TileToScreen(tile.X, tile.Y);
 		}

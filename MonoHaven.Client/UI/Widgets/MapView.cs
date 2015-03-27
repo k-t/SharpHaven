@@ -48,11 +48,6 @@ namespace MonoHaven.UI.Widgets
 			set { gstate.WorldPosition = Geometry.ScreenToMap(value); }
 		}
 
-		private Rectangle ScreenBox
-		{
-			get { return new Rectangle(CameraOffset, Size); }
-		}
-
 		public void Place(ISprite sprite, bool snapToTile, int? radius)
 		{
 			placeOnTile = snapToTile;
@@ -60,7 +55,7 @@ namespace MonoHaven.UI.Widgets
 			placeGob = new Gob(-1);
 			placeGob.SetSprite(new Delayed<ISprite>(sprite));
 
-			var mc = Geometry.ScreenToMap(Host.MousePosition, ScreenBox);
+			var mc = Geometry.ScreenToMap(ToAbsolute(Host.MousePosition));
 			placeGob.Position = placeOnTile ? Geometry.Tilify(mc) : mc;
 
 			gstate.Objects.AddLocal(placeGob);
@@ -80,7 +75,7 @@ namespace MonoHaven.UI.Widgets
 
 			if (placeGob != null && placeRadius > 0)
 			{
-				var p = Geometry.MapToScreen(placeGob.Position, ScreenBox);
+				var p = ToRelative(Geometry.MapToScreen(placeGob.Position));
 				int w = (int)(placeRadius * 4 * Math.Sqrt(0.5)) * 2;
 				int h = (int)(placeRadius * 2 * Math.Sqrt(0.5)) * 2;
 				dc.SetColor(0, 255, 0, 32);
@@ -116,16 +111,13 @@ namespace MonoHaven.UI.Widgets
 					{
 						int tx = center.X + x + y;
 						int ty = center.Y + y - x - i;
-
-						var p = Geometry.TileToScreen(tx, ty, ScreenBox);
-						p.X -= Geometry.TileWidth * 2;
-
+						var sc = ToRelative(Geometry.TileToScreen(tx, ty));
 						var tile = gstate.Map.GetTile(tx, ty);
 						if (tile != null)
 						{
-							g.Draw(tile.Texture, p.X, p.Y);
+							g.Draw(tile.Texture, sc.X, sc.Y);
 							foreach (var trans in tile.Transitions)
-								g.Draw(trans, p.X, p.Y);
+								g.Draw(trans, sc.X, sc.Y);
 						}
 					}
 		}
@@ -169,8 +161,9 @@ namespace MonoHaven.UI.Widgets
 
 		protected override void OnMouseButtonDown(MouseButtonEvent e)
 		{
-			var mc = Geometry.ScreenToMap(e.Position, ScreenBox);
-			var gob = gstate.Scene.GetObjectAt(e.Position, ScreenBox);
+			var sc = ToAbsolute(e.Position);
+			var mc = Geometry.ScreenToMap(sc);
+			var gob = gstate.Scene.GetObjectAt(sc);
 
 			if (e.Button == MouseButton.Middle)
 			{
@@ -210,10 +203,30 @@ namespace MonoHaven.UI.Widgets
 			}
 			if (placeGob != null)
 			{
-				var mc = Geometry.ScreenToMap(e.Position, ScreenBox);
+				var mc = Geometry.ScreenToMap(ToAbsolute(e.Position));
 				var snap = placeOnTile ^ e.Modifiers.HasShift();
 				placeGob.Position = snap ? Geometry.Tilify(mc) : mc;
 			}
+		}
+
+		/// <summary>
+		/// Converts absolute screen coordinate to a relative to the current viewport.
+		/// </summary>
+		private Point ToRelative(Point abs)
+		{
+			return new Point(
+				abs.X + Width / 2 - CameraOffset.X,
+				abs.Y + Height / 2 - CameraOffset.Y);
+		}
+
+		/// <summary>
+		/// Converts relative screen coordinate to absolute.
+		/// </summary>
+		private Point ToAbsolute(Point rel)
+		{
+			return new Point(
+				rel.X - Width / 2 + CameraOffset.X,
+				rel.Y - Height / 2 + CameraOffset.Y);
 		}
 
 		#region IDropTarget
@@ -226,8 +239,9 @@ namespace MonoHaven.UI.Widgets
 
 		bool IDropTarget.ItemInteract(Point p, Point ul, KeyModifiers mods)
 		{
-			var mc = Geometry.ScreenToMap(p, ScreenBox);
-			var gob = gstate.Scene.GetObjectAt(p, ScreenBox);
+			var sc = ToAbsolute(p);
+			var mc = Geometry.ScreenToMap(sc);
+			var gob = gstate.Scene.GetObjectAt(sc);
 			ItemInteract.Raise(new MapClickEventArgs(0, mods, mc, p, gob));
 			return true;
 		}
