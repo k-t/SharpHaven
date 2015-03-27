@@ -13,11 +13,22 @@ namespace MonoHaven.UI.Remote
 			return new ServerInventoryWidget(id, parent, widget);
 		}
 
+		private readonly InventoryWidget widget;
+
 		public ServerInventoryWidget(ushort id, ServerWidget parent, InventoryWidget widget)
 			: base(id, parent, widget)
 		{
-			widget.Drop += (p) => SendMessage("drop", p);
-			widget.Transfer += OnTransfer;
+			this.widget = widget;
+			this.widget.Drop += (p) => SendMessage("drop", p);
+			this.widget.Transfer += OnTransfer;
+		}
+
+		public override void ReceiveMessage(string message, object[] args)
+		{
+			if (message == "sz")
+				widget.SetInventorySize((Point)args[0]);
+			else
+				base.ReceiveMessage(message, args);
 		}
 
 		private void OnTransfer(TransferEventArgs e)
