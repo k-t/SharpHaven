@@ -109,7 +109,7 @@ namespace MonoHaven.Graphics
 			// draw text
 			batch.SetColor(TextColor);
 			foreach (var glyph in glyphs)
-				glyph.Draw(batch, x, y, glyph.Width, glyph.Height);
+				glyph.Draw(batch, x, y);
 			batch.SetColor(Color.White);
 		}
 
@@ -137,7 +137,7 @@ namespace MonoHaven.Graphics
 			else // index == 0
 				gx = 0;
 
-			// update glyphs positions
+			// update glyph positions
 			for (int i = startIndex; i < glyphs.Count; i++)
 			{
 				glyphs[i].SetPosition(gx, 0);

@@ -2,7 +2,7 @@
 
 namespace MonoHaven.Graphics
 {
-	public class TextBlockGlyph : Drawable
+	public class TextBlockGlyph
 	{
 		private readonly Glyph glyph;
 		private readonly int ascent;
@@ -14,7 +14,6 @@ namespace MonoHaven.Graphics
 			ascent = font.Ascent;
 			box.Width = (int)glyph.Advance;
 			box.Height = font.Height;
-			size = box.Size;
 		}
 
 		public Rectangle Box
@@ -22,7 +21,17 @@ namespace MonoHaven.Graphics
 			get { return box; }
 		}
 
-		public override void Draw(SpriteBatch batch, int x, int y, int w, int h)
+		public int Width
+		{
+			get { return box.Width; }
+		}
+
+		public int Height
+		{
+			get { return box.Height; }
+		}
+
+		public void Draw(SpriteBatch batch, int x, int y)
 		{
 			if (glyph.Image == null)
 				return;
