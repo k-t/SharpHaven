@@ -1,4 +1,5 @@
-﻿using MonoHaven.UI.Widgets;
+﻿using System.Drawing;
+using MonoHaven.UI.Widgets;
 
 namespace MonoHaven.UI.Remote
 {
@@ -13,9 +14,29 @@ namespace MonoHaven.UI.Remote
 			return new ServerChat(id, parent, widget);
 		}
 
+		private readonly Chat widget;
+
 		public ServerChat(ushort id, ServerWidget parent, Chat widget)
 			: base(id, parent, widget)
 		{
+			this.widget = widget;
+		}
+
+		public override void ReceiveMessage(string message, object[] args)
+		{
+			if (message == "log")
+			{
+				var text = (string)args[0];
+				var color = args.Length > 1 ? (Color?)args[1] : null;
+				var alert = args.Length > 2 ? (Color?)args[2] : null;
+				widget.AddMessage(text, color);
+			}
+			// TODO:
+			//else if (message == "focusme")
+			//{
+			//}
+			else
+				base.ReceiveMessage(message, args);
 		}
 	}
 }
