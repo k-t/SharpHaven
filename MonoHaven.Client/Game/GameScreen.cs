@@ -165,8 +165,7 @@ namespace MonoHaven.Game
 					chatWindow.Resize(300, 200);
 					chatWindow.Move(5, Window.Height - chatWindow.Height - 5);
 				}
-				var chatWidget = (Chat)widget;
-				chatWindow.AddTab(chatWidget.Title, chatWidget);
+				chatWindow.AddChat((Chat)widget);
 			}
 		}
 
@@ -180,6 +179,12 @@ namespace MonoHaven.Game
 			if (widget == calendar) calendar = null;
 			if (widget == menuGrid) menuGrid = null;
 			if (widget == hudMenu) hudMenu = null;
+
+			if (widget is Chat)
+			{
+				if (chatWindow != null)
+					chatWindow.RemoveChat((Chat)widget);
+			}
 		}
 	}
 }

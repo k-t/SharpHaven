@@ -1,96 +1,93 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
+﻿using System.Collections.Generic;
+using System.Linq;
 using MonoHaven.Graphics;
 
 namespace MonoHaven.UI.Widgets
 {
 	public class TabWidget : Widget
 	{
-		private static readonly Drawable box;
-		private static readonly Drawable tabImage;
+		private static readonly Drawable background;
 		
 		static TabWidget()
 		{
-			box = App.Resources.Get<Drawable>("custom/ui/wbox2");
-			tabImage = App.Resources.Get<Drawable>("custom/ui/tab");
+			background = App.Resources.Get<Drawable>("custom/ui/wbox2");
 		}
 
-		private readonly List<Tab> tabs;
-		private int tabPosition = 15;
+		private readonly TabBar bar;
+		private readonly List<Widget> tabs;
+		private Widget currentTab;
 
 		public TabWidget(Widget parent) : base(parent)
 		{
-			tabs = new List<Tab>();
+			tabs = new List<Widget>();
+			bar = new TabBar(this);
+			bar.Click += OnBarClick;
 		}
 
-		public void AddTab(string text, Widget widget)
+		public Widget CurrentTab
 		{
-			AddChild(widget);
-			tabs.Add(new Tab(text, widget));
-			widget.Move(15, tabPosition);
-			tabPosition += 15;
+			get { return currentTab; }
+			set
+			{
+				var index = tabs.IndexOf(value);
+				if (index != -1)
+				{
+					currentTab = value;
+					bar.SetActiveButton(index);
+
+					foreach (var tab in tabs)
+						tab.Visible = (tab == currentTab);
+				}
+			}
+		}
+
+		public Widget AddTab(string text)
+		{
+			var tab = new Container(this);
+			tab.Move(0, bar.Height);
+			tab.Resize(Width, Height - bar.Height);
+			tab.Visible = false;
+
+			bar.AddButton(text);
+			tabs.Add(tab);
+
+			// set current tab
+			if (tabs.Count == 1)
+				CurrentTab = tabs[0];
+
+			return tab;
+		}
+
+		public void RemoveTab(Widget tab)
+		{
+			int index = tabs.IndexOf(tab);
+			if (index != -1)
+			{
+				if (tab == CurrentTab)
+					CurrentTab = tabs.FirstOrDefault();
+
+				tabs.RemoveAt(index);
+				bar.RemoveButton(index);
+
+				tab.Remove();
+				tab.Dispose();
+			}
+		}
+
+		private void OnBarClick(int i)
+		{
+			CurrentTab = tabs[i];
 		}
 
 		protected override void OnDraw(DrawingContext dc)
 		{
-			int x = 0;
-			int tabHeight = 0;
-			foreach (var tab in tabs)
-			{
-				tab.Draw(dc, x, 0);
-				x += tab.Width - 1;
-				tabHeight = Math.Max(tabHeight, tab.Height);
-			}
-			dc.Draw(box, 0, tabHeight, Width, Height - tabHeight);
+			dc.Draw(background, 0, bar.Height, Width, Height - bar.Height);
 		}
 
-		protected override void OnDispose()
+		protected override void OnSizeChanged()
 		{
 			foreach (var tab in tabs)
-				tab.Text.Dispose();
-		}
-
-		private class Tab
-		{
-			private const int TextPadding = 2;
-
-			private readonly TextBlock text;
-
-			public Tab(string text, Widget widget)
-			{
-				this.text = new TextBlock(Fonts.Default);
-				this.text.TextColor = Color.White;
-				this.text.Append(text);
-				Widget = widget;
-			}
-
-			public int Width
-			{
-				get { return text.TextWidth + TextPadding * 2; }
-			}
-
-			public int Height
-			{
-				get { return text.Font.Height + TextPadding * 2; }
-			}
-
-			public TextBlock Text
-			{
-				get { return text; }
-			}
-
-			public Widget Widget
-			{
-				get;
-				set;
-			}
-
-			public void Draw(DrawingContext dc, int x, int y)
-			{
-				dc.Draw(tabImage, x, y, Width, Height);
-				dc.Draw(text, x + TextPadding, y + TextPadding, Text.TextWidth, text.Font.Height);
-			}
+				tab.Resize(Width, Height - bar.Height);
 		}
 	}
 }

@@ -215,6 +215,7 @@
     <Compile Include="UI\Widgets\PartyMemberClickEventArgs.cs" />
     <Compile Include="UI\Widgets\PartyWidget.cs" />
     <Compile Include="UI\Widgets\MapPlaceEventArgs.cs" />
+    <Compile Include="UI\Widgets\TabBar.cs" />
     <Compile Include="UI\Widgets\TransferEventArgs.cs" />
     <Compile Include="UI\Widgets\InventoryWidget.cs" />
     <Compile Include="UI\IScreen.cs" />
