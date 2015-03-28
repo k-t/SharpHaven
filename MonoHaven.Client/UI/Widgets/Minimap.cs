@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Concurrent;
-using System.Drawing;
 using System.Threading.Tasks;
 using MonoHaven.Game;
 using MonoHaven.Graphics;
@@ -103,15 +102,13 @@ namespace MonoHaven.UI.Widgets
 		{
 			try
 			{
-				var stream = provider.Get(grid.MinimapName);
+				var bytes = provider.Get(grid.MinimapName);
+				// texture needs to be loaded on the main thread
 				App.QueueOnMainThread(() =>
 				{
-					using (var bitmap = new Bitmap(stream))
-					{
-						var tex = TextureSlice.FromBitmap(bitmap);
-						var image = new Picture(tex, null);
-						cache[grid.MinimapName] = image;
-					}
+					var tex = TextureSlice.FromBitmap(bytes);
+					var image = new Picture(tex, null);
+					cache[grid.MinimapName] = image;
 				});
 			}
 			catch (Exception ex)

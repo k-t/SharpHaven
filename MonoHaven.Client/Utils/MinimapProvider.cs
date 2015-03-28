@@ -12,14 +12,13 @@ namespace MonoHaven.Utils
 			this.baseUrl = baseUrl;
 		}
 
-		public Stream Get(string name)
+		public byte[] Get(string name)
 		{
 			using (var client = new WebClient())
 			{
 				client.BaseAddress = baseUrl;
 				client.Headers["User-Agent"] = "Haven/1.0";
-				byte[] data = client.DownloadData(name + ".png");
-				return new MemoryStream(data);
+				return client.DownloadData(name + ".png");
 			}
 		}
 	}
