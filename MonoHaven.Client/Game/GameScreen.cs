@@ -11,7 +11,7 @@ namespace MonoHaven.Game
 {
 	public class GameScreen : BaseScreen
 	{
-		private static readonly NLog.Logger log = LogManager.GetCurrentClassLogger();
+		private static readonly NLog.Logger Log = LogManager.GetCurrentClassLogger();
 
 		private readonly GameSession session;
 		private readonly ServerWidgetFactory factory;
@@ -61,7 +61,7 @@ namespace MonoHaven.Game
 			if (widget != null)
 				widget.ReceiveMessage(message.Name, message.Args);
 			else
-				log.Warn("UI message {1} to non-existent widget {0}",
+				Log.Warn("UI message {1} to non-existent widget {0}",
 					message.Id, message.Name);
 		}
 
@@ -81,7 +81,7 @@ namespace MonoHaven.Game
 				HandleDestroyedWidget(widget.Widget);
 				return;
 			}
-			log.Warn("Try to remove non-existent widget {0}", id);
+			Log.Warn("Attempt to remove non-existent widget {0}", id);
 		}
 
 		public void Close()

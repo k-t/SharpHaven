@@ -9,7 +9,7 @@ namespace MonoHaven.UI.Remote
 {
 	public abstract class ServerWidget : TreeNode<ServerWidget>, IDisposable
 	{
-		private readonly static Logger log = LogManager.GetCurrentClassLogger();
+		private readonly static Logger Log = LogManager.GetCurrentClassLogger();
 
 		private readonly ushort id;
 		private readonly GameSession session;
@@ -53,7 +53,7 @@ namespace MonoHaven.UI.Remote
 					: null;
 			}
 			else
-				log.Warn("Unhandled message {0}({1}) for {2}",
+				Log.Warn("Unhandled message {0}({1}) for {2}",
 					message, string.Join(",", args), GetType());
 		}
 

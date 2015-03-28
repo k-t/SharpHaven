@@ -6,7 +6,7 @@ namespace MonoHaven.Utils
 {
 	public abstract class BackgroundTask
 	{
-		private static readonly Logger log = LogManager.GetCurrentClassLogger();
+		private static readonly Logger Log = LogManager.GetCurrentClassLogger();
 
 		private readonly CancellationTokenSource tokenSource;
 		private readonly CancellationToken token;
@@ -44,19 +44,19 @@ namespace MonoHaven.Utils
 
 		private void Start()
 		{
-			log.Info("Task started");
+			Log.Info("Task started");
 			try
 			{
 				OnStart();
 			}
 			catch (Exception ex)
 			{
-				log.Error("Unhandled exception within task", ex);
+				Log.Error("Unhandled exception within task", ex);
 			}
 			finally
 			{
 				Finished.Raise(this, EventArgs.Empty);
-				log.Info("Task stopped");
+				Log.Info("Task stopped");
 			}
 		}
 	}

@@ -13,7 +13,7 @@ namespace MonoHaven.Game
 {
 	public class GameSession : IConnectionListener
 	{
-		private static readonly Logger log = LogManager.GetCurrentClassLogger();
+		private static readonly Logger Log = LogManager.GetCurrentClassLogger();
 
 		private readonly Connection connection;
 		private readonly GameState state;
@@ -144,7 +144,7 @@ namespace MonoHaven.Game
 
 		void IConnectionListener.InvalidateMap()
 		{
-			log.Info("InvalidateMap");
+			Log.Info("InvalidateMap");
 		}
 
 		void IConnectionListener.UpdateCharAttributes(IEnumerable<CharAttributeMessage> attributes)
@@ -158,12 +158,12 @@ namespace MonoHaven.Game
 
 		void IConnectionListener.UpdateTime(int time)
 		{
-			log.Info("UpdateTime");
+			Log.Info("UpdateTime");
 		}
 
 		void IConnectionListener.UpdateAmbientLight(Color color)
 		{
-			log.Info("UpdateAmbientLight");
+			Log.Info("UpdateAmbientLight");
 		}
 
 		void IConnectionListener.UpdateAstronomy(AstronomyMessage astonomy)
@@ -231,7 +231,7 @@ namespace MonoHaven.Game
 
 		void IConnectionListener.PlayMusic()
 		{
-			log.Info("PlayMusic");
+			Log.Info("PlayMusic");
 		}
 
 		void IConnectionListener.Exit()

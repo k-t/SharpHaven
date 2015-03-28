@@ -61,7 +61,7 @@ namespace MonoHaven.Network
 
 		#endregion
 
-		private static readonly NLog.Logger log = LogManager.GetCurrentClassLogger();
+		private static readonly NLog.Logger Log = LogManager.GetCurrentClassLogger();
 
 		private readonly ConnectionSettings settings;
 		private readonly GameSocket socket;
@@ -241,7 +241,7 @@ namespace MonoHaven.Network
 						HandleObjData(msg);
 					break;
 				case Message.MSG_CLOSE:
-					log.Info("Server dropped connection");
+					Log.Info("Server dropped connection");
 					Close();
 					return;
 			}

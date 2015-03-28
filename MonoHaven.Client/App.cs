@@ -11,7 +11,7 @@ namespace MonoHaven
 {
 	public static class App
 	{
-		private static readonly Logger log = LogManager.GetCurrentClassLogger();
+		private static readonly Logger Log = LogManager.GetCurrentClassLogger();
 
 		private static Audio audio;
 		private static Config config;
@@ -20,7 +20,7 @@ namespace MonoHaven
 
 		public static void Main(string[] args)
 		{
-			log.Info("Client started");
+			Log.Info("Client started");
 
 			AppDomain.CurrentDomain.UnhandledException += OnUnhandledException;
 			SetSynchronizationContext();
@@ -73,7 +73,7 @@ namespace MonoHaven
 
 		private static void OnUnhandledException(object sender, UnhandledExceptionEventArgs e)
 		{
-			log.Fatal((Exception)e.ExceptionObject);
+			Log.Fatal((Exception)e.ExceptionObject);
 			// flush log before the termination (otherwise it can be empty)
 			LogManager.Flush();
 		}
