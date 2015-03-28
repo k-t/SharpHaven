@@ -17,7 +17,7 @@ namespace MonoHaven.UI.Widgets
 		private static readonly Drawable dt;
 		private static readonly Drawable ut;
 
-		private readonly TextBlock textBlock;
+		private readonly TextLine textLine;
 		private string text;
 		private bool isPressed;
 
@@ -33,9 +33,9 @@ namespace MonoHaven.UI.Widgets
 
 		public Button(Widget parent, int width) : base(parent)
 		{
-			textBlock = new TextBlock(Fonts.Text);
-			textBlock.TextColor = Color.Yellow;
-			textBlock.TextAlign = TextAlign.Center;
+			textLine = new TextLine(Fonts.Text);
+			textLine.TextColor = Color.Yellow;
+			textLine.TextAlign = TextAlign.Center;
 			Resize(width, ButtonHeight);
 		}
 
@@ -53,14 +53,14 @@ namespace MonoHaven.UI.Widgets
 			set
 			{
 				text = value;
-				textBlock.Clear();
-				textBlock.Append(value);
+				textLine.Clear();
+				textLine.Append(value);
 			}
 		}
 
 		protected override void OnDispose()
 		{
-			textBlock.Dispose();
+			textLine.Dispose();
 		}
 
 		protected override void OnDraw(DrawingContext dc)
@@ -80,7 +80,7 @@ namespace MonoHaven.UI.Widgets
 					(Height - Image.Height) / 2 + offset);
 				dc.Draw(Image, p);
 			}
-			dc.Draw(textBlock, offset, offset + 2);
+			dc.Draw(textLine, offset, offset + 2);
 		}
 
 		protected override void OnMouseButtonDown(MouseButtonEvent e)
@@ -110,7 +110,7 @@ namespace MonoHaven.UI.Widgets
 
 		protected override void OnSizeChanged()
 		{
-			textBlock.SetWidth(Width);
+			textLine.SetWidth(Width);
 		}
 	}
 }

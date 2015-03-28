@@ -17,7 +17,7 @@ namespace MonoHaven.UI.Widgets
 
 		private bool dragging;
 		private readonly ImageButton btnClose;
-		private readonly TextBlock titleBlock;
+		private readonly TextLine titleLine;
 
 		static Window()
 		{
@@ -44,9 +44,9 @@ namespace MonoHaven.UI.Widgets
 
 			if (!string.IsNullOrEmpty(title))
 			{
-				titleBlock = new TextBlock(Fonts.Text);
-				titleBlock.TextColor = Color.Yellow;
-				titleBlock.Append(title);
+				titleLine = new TextLine(Fonts.Text);
+				titleLine.TextColor = Color.Yellow;
+				titleLine.Append(title);
 			}
 
 			Margin = 20;
@@ -70,8 +70,8 @@ namespace MonoHaven.UI.Widgets
 
 		protected override void OnDispose()
 		{
-			if (titleBlock != null)
-				titleBlock.Dispose();
+			if (titleLine != null)
+				titleLine.Dispose();
 		}
 
 		protected override void OnDraw(DrawingContext dc)
@@ -79,11 +79,11 @@ namespace MonoHaven.UI.Widgets
 			dc.Draw(background, 0, 0, Width, Height);
 			dc.Draw(box, 0, 0, Width, Height);
 
-			if (titleBlock != null)
+			if (titleLine != null)
 			{
-				int hw = 48 + titleBlock.TextWidth;
+				int hw = 48 + titleLine.TextWidth;
 				dc.Draw(cap, (Width - hw) / 2, -7, hw, 21);
-				dc.Draw(titleBlock, (Width - titleBlock.TextWidth) / 2, -5);
+				dc.Draw(titleLine, (Width - titleLine.TextWidth) / 2, -5);
 			}
 		}
 

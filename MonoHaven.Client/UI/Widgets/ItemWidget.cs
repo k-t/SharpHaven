@@ -19,14 +19,14 @@ namespace MonoHaven.UI.Widgets
 		}
 
 		private Item item;
-		private readonly TextBlock numLabel;
+		private readonly TextLine numLabel;
 		private bool isSizeFixed;
 		private Point? dragOffset;
 
 		public ItemWidget(Widget parent, Point? dragOffset)
 			: base(parent)
 		{
-			numLabel = new TextBlock(Fonts.Text);
+			numLabel = new TextLine(Fonts.Text);
 			numLabel.TextColor = Color.White;
 
 			this.dragOffset = dragOffset;

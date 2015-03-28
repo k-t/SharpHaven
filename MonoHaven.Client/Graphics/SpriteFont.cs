@@ -50,27 +50,21 @@ namespace MonoHaven.Graphics
 			Glyph glyph;
 			if (!glyphs.TryGetValue(c, out glyph))
 			{
-				glyph = LoadGlyph(c);
+				glyph = GenerateGlyph(c);
 				glyphs[c] = glyph;
 			}
 			return glyph;
 		}
 
-		private Glyph LoadGlyph(char c)
+		private Glyph GenerateGlyph(char c)
 		{
-			EnsureSize();
+			LoadGlyph(c);
 
-			var index = face.GetCharIndex(c);
-			face.LoadGlyph(index, LoadFlags.Default, LoadTarget.Normal);
-			
 			var sz = new Size(face.Glyph.Metrics.Width >> 6, face.Glyph.Metrics.Height >> 6);
 			if (sz == Size.Empty)
-			{
 				return new Glyph { Advance = face.Glyph.Advance.X / 64f };
-			}
 
 			face.Glyph.RenderGlyph(RenderMode.Normal);
-
 			using (var bitmap = face.Glyph.Bitmap)
 			{
 				var bufferData = bitmap.BufferData;
@@ -90,6 +84,13 @@ namespace MonoHaven.Graphics
 					Image = atlas.Add(image)
 				};
 			}
+		}
+
+		private void LoadGlyph(char c)
+		{
+			EnsureSize();
+			var index = face.GetCharIndex(c);
+			face.LoadGlyph(index, LoadFlags.Default, LoadTarget.Normal);
 		}
 
 		private void EnsureSize()

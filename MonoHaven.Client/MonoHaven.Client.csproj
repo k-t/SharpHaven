@@ -127,7 +127,7 @@
     <Compile Include="Graphics\NinePatch.cs" />
     <Compile Include="Graphics\SpriteBatch.cs" />
     <Compile Include="Graphics\SpriteFont.cs" />
-    <Compile Include="Graphics\TextBlock.cs" />
+    <Compile Include="Graphics\TextLine.cs" />
     <Compile Include="Graphics\TextBlockGlyph.cs" />
     <Compile Include="Graphics\TextureAtlas.cs" />
     <Compile Include="Graphics\TextureSlice.cs" />

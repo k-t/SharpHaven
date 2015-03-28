@@ -13,31 +13,31 @@ namespace MonoHaven.UI
 			background = App.Resources.Get<Drawable>("custom/ui/tooltip-bg");
 		}
 
-		private readonly TextBlock textBlock;
+		private readonly TextLine textLine;
 
 		public Tooltip(string text)
 		{
-			textBlock = new TextBlock(Fonts.Tooltip);
-			textBlock.TextColor = Color.White;
-			textBlock.Append(text);
+			textLine = new TextLine(Fonts.Tooltip);
+			textLine.TextColor = Color.White;
+			textLine.Append(text);
 		}
 
 		public void Draw(DrawingContext dc, int x, int y)
 		{
-			int w = textBlock.TextWidth;
-			int h = textBlock.Font.Height;
+			int w = textLine.TextWidth;
+			int h = textLine.Font.Height;
 			
 			x = Math.Max(x - w, 0);
 			y = Math.Max(y - h, 0);
 
 			dc.Draw(background, x - 3, y - 3, w + 6, h + 6);
-			dc.Draw(textBlock, x, y);
+			dc.Draw(textLine, x, y);
 		}
 
 		public void Dispose()
 		{
-			if (textBlock != null)
-				textBlock.Dispose();
+			if (textLine != null)
+				textLine.Dispose();
 		}
 	}
 }

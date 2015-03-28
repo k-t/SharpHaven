@@ -7,13 +7,13 @@ namespace MonoHaven.UI.Widgets
 	{
 		private readonly SpriteFont font;
 		private string text;
-		private readonly TextBlock textBlock;
+		private readonly TextLine textLine;
 
 		public Label(Widget parent, SpriteFont font) : base(parent)
 		{
 			this.font = font;
-			this.textBlock = new TextBlock(font);
-			this.textBlock.TextColor = Color.White;
+			this.textLine = new TextLine(font);
+			this.textLine.TextColor = Color.White;
 			Resize(0, font.Height);
 		}
 
@@ -33,34 +33,34 @@ namespace MonoHaven.UI.Widgets
 			set
 			{
 				text = value ?? "";
-				textBlock.Clear();
-				textBlock.Append(text);
+				textLine.Clear();
+				textLine.Append(text);
 				if (AutoSize)
-					Resize(textBlock.TextWidth, font.Height);
+					Resize(textLine.TextWidth, font.Height);
 			}
 		}
 
 		public TextAlign TextAlign
 		{
-			get { return textBlock.TextAlign; }
-			set { textBlock.TextAlign = value; }
+			get { return textLine.TextAlign; }
+			set { textLine.TextAlign = value; }
 		}
 
 		public Color BackColor
 		{
-			get { return textBlock.BackgroundColor; }
-			set { textBlock.BackgroundColor = value; }
+			get { return textLine.BackgroundColor; }
+			set { textLine.BackgroundColor = value; }
 		}
 
 		public Color TextColor
 		{
-			get { return textBlock.TextColor; }
-			set { textBlock.TextColor = value; }
+			get { return textLine.TextColor; }
+			set { textLine.TextColor = value; }
 		}
 
 		protected override void OnDraw(DrawingContext dc)
 		{
-			dc.Draw(textBlock, 0, 0, Width, Height);
+			dc.Draw(textLine, 0, 0, Width, Height);
 		}
 	}
 }

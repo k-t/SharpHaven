@@ -6,7 +6,7 @@ namespace MonoHaven.UI.Widgets
 {
 	public class ListBoxItem : IDisposable
 	{
-		private readonly TextBlock label;
+		private readonly TextLine label;
 		private string labelText;
 
 		public ListBoxItem(Drawable image, string labelText)
@@ -19,7 +19,7 @@ namespace MonoHaven.UI.Widgets
 			this.Image = image;
 			this.labelText = labelText;
 
-			label = new TextBlock(Fonts.LabelText);
+			label = new TextLine(Fonts.LabelText);
 			label.TextColor = textColor;
 			label.Append(labelText);
 		}

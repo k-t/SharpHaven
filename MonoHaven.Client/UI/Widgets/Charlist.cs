@@ -90,7 +90,7 @@ namespace MonoHaven.UI.Widgets
 
 		private class ListItem : Widget
 		{
-			private readonly TextBlock nameTextBlock;
+			private readonly TextLine nameTextLine;
 			private readonly AvatarView avatar;
 			private readonly Button btnPlay;
 
@@ -99,9 +99,9 @@ namespace MonoHaven.UI.Widgets
 			{
 				Resize(background.Size);
 				
-				nameTextBlock = new TextBlock(Fonts.Heading);
-				nameTextBlock.TextColor = Color.White;
-				nameTextBlock.Append(charName);
+				nameTextLine = new TextLine(Fonts.Heading);
+				nameTextLine.TextColor = Color.White;
+				nameTextLine.Append(charName);
 
 				btnPlay = new Button(this, 100);
 				btnPlay.Text = "Play";
@@ -119,12 +119,12 @@ namespace MonoHaven.UI.Widgets
 			protected override void OnDraw(DrawingContext dc)
 			{
 				dc.Draw(background, 0, 0);
-				dc.Draw(nameTextBlock, avatar.Bounds.Right + 5, avatar.Y);
+				dc.Draw(nameTextLine, avatar.Bounds.Right + 5, avatar.Y);
 			}
 
 			protected override void OnDispose()
 			{
-				nameTextBlock.Dispose();
+				nameTextLine.Dispose();
 			}
 		}
 	}

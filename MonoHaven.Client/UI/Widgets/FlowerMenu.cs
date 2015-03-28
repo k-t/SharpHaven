@@ -85,19 +85,19 @@ namespace MonoHaven.UI.Widgets
 
 		private class Petal : Widget
 		{
-			private readonly TextBlock textBlock;
+			private readonly TextLine textLine;
 			private readonly int num;
 
 			public Petal(Widget parent, string text, int num)
 				: base(parent)
 			{
 				this.num = num;
-				this.textBlock = new TextBlock(Fonts.Default);
-				this.textBlock.TextColor = Color.Yellow;
-				this.textBlock.Append(text);
+				this.textLine = new TextLine(Fonts.Default);
+				this.textLine.TextColor = Color.Yellow;
+				this.textLine.Append(text);
 
 				// TODO: text block size should be used here
-				Resize(textBlock.TextWidth + 14, Fonts.Default.Height + 8);
+				Resize(textLine.TextWidth + 14, Fonts.Default.Height + 8);
 			}
 
 			public int Num
@@ -109,12 +109,12 @@ namespace MonoHaven.UI.Widgets
 			{
 				dc.Draw(back, 0, 0, Width, Height);
 				dc.Draw(box, 0, 0, Width, Height);
-				dc.Draw(textBlock, 6, 4);
+				dc.Draw(textLine, 6, 4);
 			}
 
 			protected override void OnDispose()
 			{
-				textBlock.Dispose();
+				textLine.Dispose();
 			}
 		}
 	}

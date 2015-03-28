@@ -5,13 +5,13 @@ using System.Linq;
 
 namespace MonoHaven.Graphics
 {
-	public class TextBlock : Drawable
+	public class TextLine : Drawable
 	{
 		private readonly SpriteFont font;
 		private readonly List<TextBlockGlyph> glyphs;
 		private int textWidth;
 
-		public TextBlock(SpriteFont font)
+		public TextLine(SpriteFont font)
 		{
 			this.font = font;
 			this.glyphs = new List<TextBlockGlyph>();

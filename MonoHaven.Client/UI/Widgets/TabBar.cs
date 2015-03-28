@@ -86,11 +86,11 @@ namespace MonoHaven.UI.Widgets
 			private Color backColor;
 			private bool isActive;
 			private string text;
-			private TextBlock label;
+			private TextLine label;
 
 			public TabButton(Widget parent) : base(parent)
 			{
-				label = new TextBlock(Fonts.Default);
+				label = new TextLine(Fonts.Default);
 				UpdateColors();
 			}
 

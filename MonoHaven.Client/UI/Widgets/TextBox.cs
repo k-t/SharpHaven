@@ -15,7 +15,7 @@ namespace MonoHaven.UI.Widgets
 		private const int CursorBlinkRate = 500;
 
 		private readonly StringBuilder text;
-		private readonly TextBlock textBlock;
+		private readonly TextLine textLine;
 
 		private int caretIndex;
 		private int caretPosition;
@@ -25,8 +25,8 @@ namespace MonoHaven.UI.Widgets
 		public TextBox(Widget parent) : base(parent)
 		{
 			text = new StringBuilder();
-			textBlock = new TextBlock(Fonts.Default);
-			textBlock.TextColor = Color.Black;
+			textLine = new TextLine(Fonts.Default);
+			textLine.TextColor = Color.Black;
 			IsFocusable = true;
 		}
 
@@ -51,11 +51,11 @@ namespace MonoHaven.UI.Widgets
 
 				passwordChar = value;
 
-				textBlock.Clear();
+				textLine.Clear();
 				if (passwordChar.HasValue)
-					textBlock.Insert(0, new string(passwordChar.Value, text.Length));
+					textLine.Insert(0, new string(passwordChar.Value, text.Length));
 				else
-					textBlock.Insert(0, Text);
+					textLine.Insert(0, Text);
 			}
 		}
 
@@ -64,7 +64,7 @@ namespace MonoHaven.UI.Widgets
 			get { return caretIndex; }
 			set
 			{
-				caretIndex = MathHelper.Clamp(value, 0, textBlock.Length);
+				caretIndex = MathHelper.Clamp(value, 0, textLine.Length);
 				UpdateCaretPosition();
 			}
 		}
@@ -75,12 +75,12 @@ namespace MonoHaven.UI.Widgets
 			dc.SetColor(Color.White);
 			dc.DrawRectangle(0, 0, Width, Height);
 			dc.ResetColor();
-			dc.Draw(textBlock, TextPadding - caretOffset, TextPadding, Width, Height);
+			dc.Draw(textLine, TextPadding - caretOffset, TextPadding, Width, Height);
 			// draw cursor
 			if (IsFocused && DateTime.Now.Millisecond > CursorBlinkRate)
 			{
 				dc.SetColor(Color.Black);
-				dc.DrawRectangle(caretPosition, TextPadding, 1, textBlock.Font.Height);
+				dc.DrawRectangle(caretPosition, TextPadding, 1, textLine.Font.Height);
 				dc.ResetColor();
 			}
 			dc.ResetClip();
@@ -129,7 +129,7 @@ namespace MonoHaven.UI.Widgets
 			if (e.Button == MouseButton.Left)
 			{
 				var p = MapFromScreen(e.Position).Sub(TextPadding - caretOffset, TextPadding);
-				var index = textBlock.PointToIndex(p.X , p.Y);
+				var index = textLine.PointToIndex(p.X , p.Y);
 				if (index != -1)
 					CaretIndex = index;
 			}
@@ -144,25 +144,25 @@ namespace MonoHaven.UI.Widgets
 
 		protected override void OnDispose()
 		{
-			textBlock.Dispose();
+			textLine.Dispose();
 		}
 
 		private void ClearText()
 		{
 			text.Clear();
-			textBlock.Clear();
+			textLine.Clear();
 		}
 
 		private void InsertText(int index, char value)
 		{
 			text.Insert(index, value);
-			textBlock.Insert(index, passwordChar ?? value);
+			textLine.Insert(index, passwordChar ?? value);
 		}
 
 		private void InsertText(int index, string value)
 		{
 			text.Insert(index, value);
-			textBlock.Insert(index, passwordChar.HasValue
+			textLine.Insert(index, passwordChar.HasValue
 				? new string(passwordChar.Value, text.Length)
 				: value);
 		}
@@ -170,14 +170,14 @@ namespace MonoHaven.UI.Widgets
 		private void RemoveText(int index, int length)
 		{
 			text.Remove(index, length);
-			textBlock.Remove(index, length);
+			textLine.Remove(index, length);
 		}
 
 		private int GetGlyphPosition(int glyphIndex)
 		{
-			int position = glyphIndex < textBlock.Length
-				? textBlock.Glyphs[glyphIndex].Box.X
-				: textBlock.TextWidth;
+			int position = glyphIndex < textLine.Length
+				? textLine.Glyphs[glyphIndex].Box.X
+				: textLine.TextWidth;
 			return position + TextPadding;
 		}
 
