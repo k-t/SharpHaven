@@ -1,10 +1,13 @@
 ﻿using System;
 using MonoHaven.Utils;
+using NLog;
 
 namespace MonoHaven.Network
 {
 	internal class MessageReceiver : BackgroundTask
 	{
+		private static readonly Logger Log = LogManager.GetCurrentClassLogger();
+
 		private readonly Action<MessageReader> messageHandler;
 		private readonly GameSocket socket;
 
@@ -18,10 +21,20 @@ namespace MonoHaven.Network
 		protected override void OnStart()
 		{
 			MessageReader message;
-			while (!IsCancelled)
+			try
 			{
-				if (socket.Receive(out message))
-					messageHandler(message);
+				while (!IsCancelled)
+				{
+					if (socket.Receive(out message))
+						messageHandler(message);
+				}
+			}
+			catch (ObjectDisposedException)
+			{
+				// to prevent this exception:
+				// a. code that stops tasks needs to be written more carefully
+				// b. socket poll method needs to support cancellation
+				Log.Info("Socket was disposed while polling");
 			}
 		}
 	}

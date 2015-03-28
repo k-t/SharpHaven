@@ -20,7 +20,7 @@ namespace MonoHaven.Network
 
 		public void Dispose()
 		{
-			Close();
+			socket.Dispose();
 		}
 
 		public void Connect()
