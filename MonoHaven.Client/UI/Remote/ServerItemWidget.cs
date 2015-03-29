@@ -58,6 +58,8 @@ namespace MonoHaven.UI.Remote
 				item.Quality = q;
 				widget.Item = item;
 			}
+			else if (message == "meter")
+				widget.Item.Meter = (int)args[0];
 			else
 				base.ReceiveMessage(message, args);
 		}

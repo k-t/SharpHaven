@@ -12,6 +12,7 @@ namespace MonoHaven.Game
 		{
 			Amount = -1;
 			Quality = -1;
+			Meter = -1;
 		}
 
 		public Item(Delayed<ItemMold> mold) : this()
@@ -39,6 +40,12 @@ namespace MonoHaven.Game
 		}
 
 		public int Quality
+		{
+			get;
+			set;
+		}
+
+		public int Meter
 		{
 			get;
 			set;

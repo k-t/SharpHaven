@@ -83,6 +83,17 @@ namespace MonoHaven.UI.Widgets
 					FixSize();
 				dc.Draw(item.Image, 0, 0);
 				dc.Draw(numLabel, 1, 1);
+
+				if (item.Meter > 0)
+				{
+					double a = (item.Meter) / 100.0;
+					var r = (byte)((1 - a) * 255);
+					var g = (byte)(a * 255);
+					var b = (byte)0;
+					dc.SetColor(r, g, b, 255);
+					dc.DrawRectangle(Width - 5, (int)((1 - a) * Height), 5, (int)(a * Height));
+					dc.ResetColor();
+				}
 			}
 		}
 
