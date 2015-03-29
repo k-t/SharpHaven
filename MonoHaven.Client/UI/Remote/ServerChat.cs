@@ -1,4 +1,5 @@
 ﻿using System.Drawing;
+using System.Windows.Interop;
 using MonoHaven.UI.Widgets;
 
 namespace MonoHaven.UI.Remote
@@ -20,6 +21,7 @@ namespace MonoHaven.UI.Remote
 			: base(id, parent, widget)
 		{
 			this.widget = widget;
+			this.widget.MessageOut += (msg) => SendMessage("msg", msg);
 		}
 
 		public override void ReceiveMessage(string message, object[] args)
@@ -28,7 +30,7 @@ namespace MonoHaven.UI.Remote
 			{
 				var text = (string)args[0];
 				var color = args.Length > 1 ? (Color?)args[1] : null;
-				var alert = args.Length > 2 ? (Color?)args[2] : null;
+				var alert = args.Length > 2 ? (int?)args[2] : null;
 				widget.AddMessage(text, color);
 			}
 			// TODO:
