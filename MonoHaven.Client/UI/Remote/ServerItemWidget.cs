@@ -60,6 +60,11 @@ namespace MonoHaven.UI.Remote
 			}
 			else if (message == "meter")
 				widget.Item.Meter = (int)args[0];
+			else if (message == "num")
+				widget.Item.Amount = (int)args[0];
+			// TODO:
+			//else if (message == "color")
+			//	widget.OverlayColor = (Color)args[0];
 			else
 				base.ReceiveMessage(message, args);
 		}

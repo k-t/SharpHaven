@@ -20,15 +20,16 @@ namespace MonoHaven.UI.Widgets
 		}
 
 		private Item item;
-		private readonly TextLine numLabel;
+		private readonly TextLine lblAmount;
 		private bool isSizeFixed;
 		private Point? dragOffset;
+		private Tooltip tooltip;
 
 		public ItemWidget(Widget parent, Point? dragOffset)
 			: base(parent)
 		{
-			numLabel = new TextLine(Fonts.Text);
-			numLabel.TextColor = Color.White;
+			lblAmount = new TextLine(Fonts.Text);
+			lblAmount.TextColor = Color.White;
 
 			this.dragOffset = dragOffset;
 			if (dragOffset.HasValue)
@@ -49,11 +50,14 @@ namespace MonoHaven.UI.Widgets
 			get { return item; }
 			set
 			{
+				if (item != null)
+					item.Changed -= OnItemChanged;
+
 				item = value;
-				isSizeFixed = false;
-				// HACK:
-				base.Tooltip = null;
-				UpdateLabels();
+				OnItemChanged();
+
+				if (item != null)
+					item.Changed += OnItemChanged;
 			}
 		}
 
@@ -61,16 +65,17 @@ namespace MonoHaven.UI.Widgets
 		{
 			get
 			{
-				if (base.Tooltip == null)
-					base.Tooltip = GetTooltip();
-				return base.Tooltip;
+				// HACK:
+				if (tooltip == null)
+					UpdateTooltip();
+				return tooltip;
 			}
 			set { }
 		}
 
 		protected override void OnDispose()
 		{
-			numLabel.Dispose();
+			lblAmount.Dispose();
 		}
 
 		protected override void OnDraw(DrawingContext dc)
@@ -82,7 +87,7 @@ namespace MonoHaven.UI.Widgets
 				if (!isSizeFixed)
 					FixSize();
 				dc.Draw(item.Image, 0, 0);
-				dc.Draw(numLabel, 1, 1);
+				dc.Draw(lblAmount, 1, 1);
 
 				if (item.Meter > 0)
 				{
@@ -163,16 +168,11 @@ namespace MonoHaven.UI.Widgets
 			}
 		}
 
-		private Tooltip GetTooltip()
+		private void OnItemChanged()
 		{
-			if (item == null || item.Tooltip == null)
-				return null;
-
-			var text = item.Tooltip;
-			if (item.Quality > 0)
-				text += ", quality " + item.Quality;
-
-			return new Tooltip(text);
+			isSizeFixed = false;
+			UpdateTooltip();
+			UpdateAmountLabel();
 		}
 		
 		private void FixSize()
@@ -181,11 +181,24 @@ namespace MonoHaven.UI.Widgets
 			isSizeFixed = true;
 		}
 
-		private void UpdateLabels()
+		private void UpdateTooltip()
 		{
-			numLabel.Clear();
+			if (item != null && !string.IsNullOrEmpty(item.Tooltip))
+			{
+				var text = item.Tooltip;
+				if (item.Quality > 0)
+					text += ", quality " + item.Quality;
+				tooltip = new Tooltip(text);
+			}
+			else
+				tooltip = null;
+		}
+
+		private void UpdateAmountLabel()
+		{
+			lblAmount.Clear();
 			if (item != null && item.Amount >= 0)
-				numLabel.Append(item.Amount.ToString());
+				lblAmount.Append(item.Amount.ToString());
 		}
 
 		#region IDropTarget

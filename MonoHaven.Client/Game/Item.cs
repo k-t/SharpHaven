@@ -1,5 +1,6 @@
 ﻿using MonoHaven.Graphics;
 using MonoHaven.Utils;
+using System;
 
 namespace MonoHaven.Game
 {
@@ -7,6 +8,9 @@ namespace MonoHaven.Game
 	{
 		private Delayed<Drawable> image;
 		private Delayed<string> tooltip;
+		private int amount;
+		private int meter;
+		private int quality;
 
 		public Item()
 		{
@@ -14,6 +18,8 @@ namespace MonoHaven.Game
 			Quality = -1;
 			Meter = -1;
 		}
+
+		public event Action Changed;
 
 		public Item(Delayed<ItemMold> mold) : this()
 		{
@@ -30,25 +36,41 @@ namespace MonoHaven.Game
 		public string Tooltip
 		{
 			get { return tooltip != null ? tooltip.Value : null; }
-			set { tooltip = new Delayed<string>(value); }
+			set
+			{
+				tooltip = new Delayed<string>(value);
+				Changed.Raise();
+			}
 		}
 
 		public int Amount
 		{
-			get;
-			set;
+			get { return amount; }
+			set
+			{
+				amount = value;
+				Changed.Raise();
+			}
 		}
 
 		public int Quality
 		{
-			get;
-			set;
+			get { return quality; }
+			set
+			{
+				quality = value;
+				Changed.Raise();
+			}
 		}
 
 		public int Meter
 		{
-			get;
-			set;
+			get { return meter; }
+			set
+			{
+				meter = value;
+				Changed.Raise();
+			}
 		}
 	}
 }
