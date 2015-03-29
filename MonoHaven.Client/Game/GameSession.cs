@@ -144,7 +144,17 @@ namespace MonoHaven.Game
 
 		void IConnectionListener.InvalidateMap()
 		{
-			Log.Info("InvalidateMap");
+			App.QueueOnMainThread(() => State.Map.InvalidateAll());
+		}
+
+		void IConnectionListener.InvalidateMap(Point gc)
+		{
+			App.QueueOnMainThread(() => State.Map.Invalidate(gc));
+		}
+
+		void IConnectionListener.InvalidateMap(Point ul, Point br)
+		{
+			App.QueueOnMainThread(() => State.Map.InvalidateRange(ul, br));
 		}
 
 		void IConnectionListener.UpdateCharAttributes(IEnumerable<CharAttributeMessage> attributes)

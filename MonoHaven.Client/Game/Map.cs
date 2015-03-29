@@ -106,6 +106,22 @@ namespace MonoHaven.Game
 			tilesets[message.Id] = tileset;
 		}
 
+		public void Invalidate(Point gc)
+		{
+			grids.Remove(gc);
+		}
+
+		public void InvalidateRange(Point ul, Point br)
+		{
+			// TODO:
+		}
+
+		public void InvalidateAll()
+		{
+			grids.Clear();
+			flavorObjects.Clear();
+		}
+
 		private static Point GetAbsoluteTileCoord(Point gp, int tileIndex)
 		{
 			return new Point(

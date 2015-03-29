@@ -14,6 +14,8 @@ namespace MonoHaven.Network
 		void BindTilesets(IEnumerable<BindTilesetMessage> bindings);
 
 		void InvalidateMap();
+		void InvalidateMap(Point gc);
+		void InvalidateMap(Point ul, Point br);
 
 		void UpdateCharAttributes(IEnumerable<CharAttributeMessage> attributes);
 		void UpdateTime(int time);

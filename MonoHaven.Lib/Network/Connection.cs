@@ -286,8 +286,24 @@ namespace MonoHaven.Network
 					listeners.ForEach(x => x.DestroyWidget(widgetId));
 					break;
 				case RMSG_MAPIV:
-					listeners.ForEach(x => x.InvalidateMap());
+				{
+					int type = msg.ReadByte();
+					switch (type)
+					{
+						case 0:
+							listeners.ForEach(x => x.InvalidateMap(msg.ReadCoord()));
+							break;
+						case 1:
+							var ul = msg.ReadCoord();
+							var br = msg.ReadCoord();
+							listeners.ForEach(x => x.InvalidateMap(ul, br));
+							break;
+						case 2:
+							listeners.ForEach(x => x.InvalidateMap());
+							break;
+					}
 					break;
+				}
 				case RMSG_GLOBLOB:
 				{
 					while (!msg.IsEom)
