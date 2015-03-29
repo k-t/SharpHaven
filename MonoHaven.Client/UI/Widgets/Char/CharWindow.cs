@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Linq;
 using MonoHaven.Game;
 using MonoHaven.Graphics;
+using MonoHaven.Graphics.Text;
 using MonoHaven.UI.Layouts;
 using MonoHaven.Utils;
 

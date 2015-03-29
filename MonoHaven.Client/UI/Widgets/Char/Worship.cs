@@ -1,6 +1,7 @@
 ﻿using System;
 using MonoHaven.Game;
 using MonoHaven.Graphics;
+using MonoHaven.Graphics.Text;
 
 namespace MonoHaven.UI.Widgets
 {

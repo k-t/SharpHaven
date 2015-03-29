@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Threading.Tasks;
 using MonoHaven.Game;
 using MonoHaven.Graphics;
+using MonoHaven.Graphics.Text;
 using MonoHaven.Input;
 using MonoHaven.UI;
 using MonoHaven.UI.Widgets;

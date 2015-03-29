@@ -3,23 +3,23 @@ using System.Collections.ObjectModel;
 using System.Drawing;
 using System.Linq;
 
-namespace MonoHaven.Graphics
+namespace MonoHaven.Graphics.Text
 {
 	public class TextLine : Drawable
 	{
 		private readonly SpriteFont font;
-		private readonly List<TextBlockGlyph> glyphs;
+		private readonly List<TextGlyph> glyphs;
 		private int textWidth;
 
 		public TextLine(SpriteFont font)
 		{
 			this.font = font;
-			this.glyphs = new List<TextBlockGlyph>();
+			this.glyphs = new List<TextGlyph>();
 			
 			BackgroundColor = Color.Transparent;
 		}
 
-		public ReadOnlyCollection<TextBlockGlyph> Glyphs
+		public ReadOnlyCollection<TextGlyph> Glyphs
 		{
 			get { return glyphs.AsReadOnly(); }
 		}
@@ -158,9 +158,9 @@ namespace MonoHaven.Graphics
 			}
 		}
 
-		private TextBlockGlyph ConvertToGlyph(char c)
+		private TextGlyph ConvertToGlyph(char c)
 		{
-			return new TextBlockGlyph(font, c);
+			return new TextGlyph(font, c);
 		}
 	}
 }

@@ -1,14 +1,14 @@
 ﻿using System.Drawing;
 
-namespace MonoHaven.Graphics
+namespace MonoHaven.Graphics.Text
 {
-	public class TextBlockGlyph
+	public class TextGlyph
 	{
 		private readonly Glyph glyph;
 		private readonly int ascent;
 		private Rectangle box;
 
-		public TextBlockGlyph(SpriteFont font, char c)
+		public TextGlyph(SpriteFont font, char c)
 		{
 			glyph = font.GetGlyph(c);
 			ascent = font.Ascent;
