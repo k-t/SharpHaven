@@ -172,13 +172,13 @@ namespace MonoHaven.UI
 
 		void IScreen.KeyDown(KeyEvent e)
 		{
-			var widget = keyboardFocus;
+			var widget = keyboardFocus ?? rootWidget;
 			if (widget != null) widget.HandleKeyDown(e);
 		}
 
 		void IScreen.KeyUp(KeyEvent e)
 		{
-			var widget = keyboardFocus;
+			var widget = keyboardFocus ?? rootWidget;
 			if (widget != null) widget.HandleKeyUp(e);
 		}
 

@@ -34,13 +34,13 @@ namespace MonoHaven
 		private void OnLoginCompleted(GameSession session)
 		{
 			gameScreen = session.Screen;
-			gameScreen.Exited += OnGameExited;
+			gameScreen.Exit += OnGameExited;
 			ChangeScreen(gameScreen);
 		}
 
 		private void OnGameExited()
 		{
-			gameScreen.Exited -= OnGameExited;
+			gameScreen.Exit -= OnGameExited;
 
 			ChangeScreen(loginScreen);
 

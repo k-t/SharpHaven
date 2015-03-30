@@ -64,6 +64,11 @@ namespace MonoHaven
 		{
 			window.QueueUpdate(action);
 		}
+		
+		public static void Exit()
+		{
+			window.Close();
+		}
 
 		private static void SetSynchronizationContext()
 		{

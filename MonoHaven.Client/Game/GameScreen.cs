@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Drawing;
 using C5;
+using MonoHaven.Input;
 using MonoHaven.Messages;
 using MonoHaven.UI;
 using MonoHaven.UI.Remote;
 using MonoHaven.UI.Widgets;
 using NLog;
+using OpenTK.Input;
 
 namespace MonoHaven.Game
 {
@@ -23,6 +25,7 @@ namespace MonoHaven.Game
 		private MenuGrid menuGrid;
 		private HudMenu hudMenu;
 		private ChatWindow chatWindow;
+		private EscapeWindow escapeWindow;
 
 		public GameScreen(GameSession session)
 		{
@@ -30,9 +33,17 @@ namespace MonoHaven.Game
 			factory = new ServerWidgetFactory();
 			serverWidgets = new TreeDictionary<ushort, ServerWidget>();
 			serverWidgets[0] = new ServerRootWidget(0, session, RootWidget);
+
+			escapeWindow = new EscapeWindow(RootWidget);
+			escapeWindow.Visible = false;
+			escapeWindow.Closed += () => escapeWindow.Visible = false;
+			escapeWindow.Logout += () => session.Finish();
+			escapeWindow.Exit += () => App.Exit();
+
+			RootWidget.KeyDown += OnKeyDown;
 		}
 
-		public Action Exited;
+		public Action Exit;
 
 		public void Bind(ushort id, ServerWidget widget)
 		{
@@ -86,7 +97,7 @@ namespace MonoHaven.Game
 
 		public void Close()
 		{
-			App.QueueOnMainThread(() => Exited.Raise());
+			App.QueueOnMainThread(() => Exit.Raise());
 		}
 
 		protected override void OnClose()
@@ -120,6 +131,22 @@ namespace MonoHaven.Game
 
 			if (chatWindow != null)
 				chatWindow.Move(5, Window.Height - chatWindow.Height - 5);
+
+			escapeWindow.Move((Window.Width - 100) / 2, (Window.Height - 100) / 2);
+		}
+
+		private void OnKeyDown(KeyEvent e)
+		{
+			if (e.Key == Key.Escape)
+			{
+				escapeWindow.Visible = !escapeWindow.Visible;
+
+				// bring to front
+				escapeWindow.Remove();
+				RootWidget.AddChild(escapeWindow);
+
+				e.Handled = true;
+			}
 		}
 
 		private ServerWidget GetWidget(ushort id)
@@ -171,8 +198,8 @@ namespace MonoHaven.Game
 
 		private void HandleDestroyedWidget(Widget widget)
 		{
-			if (mouseFocus == widget)
-				((IWidgetHost)this).ReleaseMouse();
+			if (mouseFocus == widget) mouseFocus = null;
+			if (keyboardFocus == widget) keyboardFocus = null;
 
 			if (widget == mapView) mapView = null;
 			if (widget == charlistContainer) charlistContainer = null;

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Net.Sockets;
+using System.Threading;
 using C5;
 using ICSharpCode.SharpZipLib.Zip.Compression;
 using MonoHaven.Messages;
@@ -144,6 +145,8 @@ namespace MonoHaven.Network
 				sender.Stop();
 
 				socket.SendMessage(new Message(Message.MSG_CLOSE));
+				// HACK: otherwise close message may not be sent
+				Thread.Sleep(TimeSpan.FromMilliseconds(5));
 				socket.Close();
 
 				state = ConnectionState.Closed;

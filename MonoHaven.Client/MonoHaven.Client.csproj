@@ -209,6 +209,7 @@
     <Compile Include="UI\Widgets\Combat\GiveButton.cs" />
     <Compile Include="UI\Widgets\CraftWindow.cs" />
     <Compile Include="UI\Widgets\Equipory.cs" />
+    <Compile Include="UI\Widgets\EscapeWindow.cs" />
     <Compile Include="UI\Widgets\FlowerMenu.cs" />
     <Compile Include="UI\Widgets\Hud.cs" />
     <Compile Include="UI\Widgets\HudMenu.cs" />

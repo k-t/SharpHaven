@@ -30,7 +30,7 @@ namespace MonoHaven.Network
 
 		public void Close()
 		{
-			socket.Close();
+			socket.Dispose();
 		}
 
 		public bool Receive(out MessageReader message)
