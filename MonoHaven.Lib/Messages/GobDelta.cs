@@ -23,12 +23,12 @@ namespace MonoHaven.Messages
 		{
 			public Point Origin { get; set; }
 			public Point Destination { get; set; }
-			public int Time { get; set; }
+			public int TotalSteps { get; set; }
 		}
 
 		public class AdjustMovement : GobDelta
 		{
-			public int Time { get; set; }
+			public int Step { get; set; }
 		}
 
 		public class Speech : GobDelta

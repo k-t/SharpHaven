@@ -10,6 +10,8 @@ namespace MonoHaven.Game
 		private Delayed<ISprite> sprite;
 		private Delayed<ISprite> avatar;
 		private GobSpeech speech;
+		private Point position;
+		private GobMovement movement;
 		
 		public Gob(int id)
 		{
@@ -23,8 +25,8 @@ namespace MonoHaven.Game
 
 		public Point Position
 		{
-			get;
-			set;
+			get { return (movement != null) ? movement.Position : position; }
+			set { position = value; }
 		}
 
 		public Point DrawOffset
@@ -70,10 +72,31 @@ namespace MonoHaven.Game
 			avatar = value;
 		}
 
+		public void StartMovement(Point origin, Point destination, int totalSteps)
+		{
+			movement = new GobMovement(origin, destination, totalSteps);
+		}
+
+		public void AdjustMovement(int step)
+		{
+			if (movement == null)
+				return;
+
+			if (step < 0 || step >= movement.TotalSteps)
+				movement = null;
+			else
+				movement.Adjust(step);
+		}
+
 		public void Tick(int dt)
 		{
 			if (Sprite != null)
 				Sprite.Tick(dt);
+
+			if (movement != null)
+				movement.Tick(dt);
 		}
+
+		
 	}
 }

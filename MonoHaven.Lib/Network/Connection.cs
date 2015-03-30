@@ -581,11 +581,11 @@ namespace MonoHaven.Network
 						{
 							Origin = msg.ReadCoord(),
 							Destination = msg.ReadCoord(),
-							Time = msg.ReadInt32()
+							TotalSteps = msg.ReadInt32()
 						};
 						break;
 					case OD_LINSTEP:
-						delta = new GobDelta.AdjustMovement { Time = msg.ReadInt32() };
+						delta = new GobDelta.AdjustMovement { Step = msg.ReadInt32() };
 						break;
 					case OD_SPEECH:
 						delta = new GobDelta.Speech

@@ -50,10 +50,6 @@ namespace MonoHaven.Game
 			}
 		}
 
-		private void Apply(GobDelta.AdjustMovement delta)
-		{
-		}
-
 		private void Apply(GobDelta.Avatar delta)
 		{
 			var sprites = delta.ResourceIds.Select(x => session.GetSprite(x));
@@ -129,6 +125,12 @@ namespace MonoHaven.Game
 
 		private void Apply(GobDelta.StartMovement delta)
 		{
+			gob.StartMovement(delta.Origin, delta.Destination, delta.TotalSteps);
+		}
+
+		private void Apply(GobDelta.AdjustMovement delta)
+		{
+			gob.AdjustMovement(delta.Step);
 		}
 	}
 }

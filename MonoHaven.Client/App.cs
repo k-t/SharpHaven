@@ -36,7 +36,7 @@ namespace MonoHaven
 			{
 				window = gameWindow;
 				gameWindow.Icon = icon;
-				gameWindow.Run(30, 60);
+				gameWindow.Run(60, 60);
 			}
 		}
 
