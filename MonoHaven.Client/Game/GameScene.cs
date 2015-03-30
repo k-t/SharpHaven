@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using MonoHaven.Graphics;
+using MonoHaven.Graphics.Sprites;
 
 namespace MonoHaven.Game
 {
@@ -38,8 +39,13 @@ namespace MonoHaven.Game
 				var sprite = gob.Sprite;
 				if (sprite == null)
 					continue;
+
+				ISpriteEffect effect = null;
+				if (gob.Health != null)
+					effect = gob.Health.Effect;
+
 				var p = Geometry.MapToScreen(gob.Position);
-				spriteList.AddRange(sprite.Parts.Select(part => new ObjectPart(p, part, gob)));
+				spriteList.AddRange(sprite.Parts.Select(part => new ObjectPart(p, part, gob, effect)));
 
 				if (gob.Speech != null)
 					speeches.Add(Tuple.Create(p, gob.Speech));
@@ -47,7 +53,11 @@ namespace MonoHaven.Game
 
 			spriteList.Sort(CompareParts);
 			foreach (var part in spriteList)
+			{
+				if (part.Effect != null) part.Effect.Apply(dc);
 				dc.Draw(part.Sprite, x + part.X, y + part.Y);
+				if (part.Effect != null) part.Effect.Unapply(dc);
+			}
 
 			foreach (var speech in speeches)
 				speech.Item2.Draw(dc, x + speech.Item1.X, y + speech.Item1.Y);
@@ -68,13 +78,15 @@ namespace MonoHaven.Game
 			public readonly int Y;
 			public readonly Gob Gob;
 			public readonly Picture Sprite;
+			public readonly ISpriteEffect Effect;
 
-			public ObjectPart(Point position, Picture sprite, Gob gob)
+			public ObjectPart(Point position, Picture sprite, Gob gob, ISpriteEffect effect)
 			{
 				X = position.X;
 				Y = position.Y;
 				Sprite = sprite;
 				Gob = gob;
+				Effect = effect;
 			}
 		}
 	}

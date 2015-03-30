@@ -52,6 +52,12 @@ namespace MonoHaven.Game
 			}
 		}
 
+		public GobHealth Health
+		{
+			get;
+			set;
+		}
+
 		public ISprite Sprite
 		{
 			get { return sprite != null ? sprite.Value : null; }

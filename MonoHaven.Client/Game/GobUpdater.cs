@@ -83,6 +83,7 @@ namespace MonoHaven.Game
 
 		private void Apply(GobDelta.Health delta)
 		{
+			gob.Health = new GobHealth(delta.Value);
 		}
 
 		private void Apply(GobDelta.Homing delta)
