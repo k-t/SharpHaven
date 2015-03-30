@@ -32,7 +32,7 @@ namespace MonoHaven
 			using (audio = new Audio())
 			using (var iconImage = Resources.Get<Bitmap>("custom/ui/icon"))
 			using (var icon = Icon.FromHandle(iconImage.GetHicon()))
-			using (var gameWindow = new MainWindow(800, 600))
+			using (var gameWindow = new MainWindow(1024, 768))
 			{
 				window = gameWindow;
 				gameWindow.Icon = icon;
