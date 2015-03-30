@@ -13,14 +13,12 @@ namespace MonoHaven.Game
 		private readonly GameSession session;
 		private readonly Tileset[] tilesets = new Tileset[256];
 		private readonly TreeDictionary<Point, MapGrid> grids;
-		private readonly C5Random random;
 		private readonly List<Tuple<Point, ISprite>> flavorObjects = new List<Tuple<Point, ISprite>>();
 
 		public Map(GameSession session)
 		{
 			this.session = session;
 			grids = new TreeDictionary<Point, MapGrid>(new PointComparer());
-			random = new C5Random(RandomUtils.GetSeed());
 		}
 
 		public IEnumerable<Tuple<Point, ISprite>> FlavorObjects
@@ -67,6 +65,7 @@ namespace MonoHaven.Game
 
 		public void AddGrid(UpdateMapMessage message)
 		{
+			var random = new C5Random(RandomUtils.GetSeed(message.Grid));
 			var gp = message.Grid;
 			var tiles = new MapTile[message.Tiles.Length];
 			for (int i = 0; i < message.Tiles.Length; i++)
@@ -108,7 +107,7 @@ namespace MonoHaven.Game
 
 		public void Invalidate(Point gc)
 		{
-			grids.Remove(gc);
+			session.RequestData(gc.X, gc.Y);
 		}
 
 		public void InvalidateRange(Point ul, Point br)

@@ -44,7 +44,7 @@ namespace MonoHaven.Game
 
 		private Drawable[] GenerateTransitions()
 		{
-			var rng = new C5Random(RandomUtils.GetSeed());
+			var rng = new C5Random(RandomUtils.GetSeed(coord));
 			var tr = new int[3, 3];
 			for (int y = -1; y <= 1; y++)
 			{

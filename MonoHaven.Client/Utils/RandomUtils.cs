@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using System.Security.Cryptography;
 
 namespace MonoHaven.Utils
@@ -13,6 +14,11 @@ namespace MonoHaven.Utils
 				rng.GetBytes(cryptoResult);
 				return BitConverter.ToInt32(cryptoResult, 0);
 			}
+		}
+
+		public static long GetSeed(Point p)
+		{
+			return p.X ^ p.Y;
 		}
 	}
 }
