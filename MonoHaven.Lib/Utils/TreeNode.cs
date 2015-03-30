@@ -119,8 +119,12 @@ namespace MonoHaven.Utils
 				if (parent.lastChild == this)
 					parent.lastChild = prev;
 			}
-			if (next != null) next.prev = prev;
-			if (prev != null) prev.next = next;
+			if (next != null)
+				next.prev = prev;
+			if (prev != null)
+				prev.next = next;
+			prev = null;
+			next = null;
 			parent = null;
 		}
 	}
