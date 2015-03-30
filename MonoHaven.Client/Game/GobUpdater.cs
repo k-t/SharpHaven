@@ -122,6 +122,9 @@ namespace MonoHaven.Game
 
 		private void Apply(GobDelta.Speech delta)
 		{
+			gob.Speech = string.IsNullOrEmpty(delta.Text)
+				? null
+				: new GobSpeech(delta.Text, delta.Offset);
 		}
 
 		private void Apply(GobDelta.StartMovement delta)

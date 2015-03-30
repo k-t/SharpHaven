@@ -9,6 +9,7 @@ namespace MonoHaven.Game
 		private readonly int id;
 		private Delayed<ISprite> sprite;
 		private Delayed<ISprite> avatar;
+		private GobSpeech speech;
 		
 		public Gob(int id)
 		{
@@ -36,6 +37,17 @@ namespace MonoHaven.Game
 		{
 			get;
 			set;
+		}
+
+		public GobSpeech Speech
+		{
+			get { return speech; }
+			set
+			{
+				if (speech != null)
+					speech.Dispose();
+				speech = value;
+			}
 		}
 
 		public ISprite Sprite

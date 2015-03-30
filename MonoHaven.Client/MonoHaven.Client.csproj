@@ -86,6 +86,7 @@
     <Compile Include="Game\Geometry.cs" />
     <Compile Include="Game\Gob.cs" />
     <Compile Include="Game\GobCache.cs" />
+    <Compile Include="Game\GobSpeech.cs" />
     <Compile Include="Game\GobUpdater.cs" />
     <Compile Include="Game\GameSession.cs" />
     <Compile Include="Game\Item.cs" />

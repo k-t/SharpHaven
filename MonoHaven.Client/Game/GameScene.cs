@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using MonoHaven.Graphics;
@@ -29,6 +30,8 @@ namespace MonoHaven.Game
 
 		public void Draw(DrawingContext dc, int x, int y)
 		{
+			var speeches = new List<Tuple<Point, GobSpeech>>();
+
 			spriteList.Clear();
 			foreach (var gob in state.Objects)
 			{
@@ -37,10 +40,17 @@ namespace MonoHaven.Game
 					continue;
 				var p = Geometry.MapToScreen(gob.Position);
 				spriteList.AddRange(sprite.Parts.Select(part => new ObjectPart(p, part, gob)));
+
+				if (gob.Speech != null)
+					speeches.Add(Tuple.Create(p, gob.Speech));
 			}
+
 			spriteList.Sort(CompareParts);
 			foreach (var part in spriteList)
 				dc.Draw(part.Sprite, x + part.X, y + part.Y);
+
+			foreach (var speech in speeches)
+				speech.Item2.Draw(dc, x + speech.Item1.X, y + speech.Item1.Y);
 		}
 
 		private int CompareParts(ObjectPart a, ObjectPart b)
