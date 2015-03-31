@@ -1,4 +1,0 @@
-version: 1
-layers:
-  - !font
-    file: SourceSerifPro-Regular.ttf

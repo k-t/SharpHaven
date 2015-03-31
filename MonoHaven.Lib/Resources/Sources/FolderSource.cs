@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using MonoHaven.Resources.Serialization.Binary;
+using MonoHaven.Resources.Serialization.Ini;
 using MonoHaven.Resources.Serialization.Yaml;
 
 namespace MonoHaven.Resources
@@ -24,6 +25,7 @@ namespace MonoHaven.Resources
 			serializers = new Dictionary<string, IResourceSerializer>();
 			serializers[".res"] = new BinaryResourceSerializer();
 			serializers[".yaml"] = new YamlResourceSerializer();
+			serializers[".ini"] = new IniResourceSerializer();
 		}
 
 		public string Description

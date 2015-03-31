@@ -1,4 +1,0 @@
-version: 1
-layers:
-  - !image
-    file: ol-right.png

@@ -39,6 +39,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\SharpZipLib.0.86.0\lib\20\ICSharpCode.SharpZipLib.dll</HintPath>
     </Reference>
+    <Reference Include="INIFileParser">
+      <HintPath>..\packages\ini-parser.2.1.1\lib\INIFileParser.dll</HintPath>
+    </Reference>
     <Reference Include="MiscUtil, Version=1.0.0.0, Culture=neutral, PublicKeyToken=d3c42c4bfacf7596, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\JonSkeet.MiscUtil.0.1\lib\net35-Client\MiscUtil.dll</HintPath>
@@ -57,6 +60,12 @@
     <Compile Include="Messages\PlaySoundMessage.cs" />
     <Compile Include="Resources\Layers\AudioData.cs" />
     <Compile Include="Resources\Serialization\Binary\AudioDataSerializer.cs" />
+    <Compile Include="Resources\Serialization\Ini\FontDataParser.cs" />
+    <Compile Include="Resources\Serialization\Ini\IIniDataLayerParser.cs" />
+    <Compile Include="Resources\Serialization\Ini\ImageDataParser.cs" />
+    <Compile Include="Resources\Serialization\Ini\IniResourceSerializer.cs" />
+    <Compile Include="Resources\Serialization\Ini\KeyDataCollectionExtensions.cs" />
+    <Compile Include="Resources\Serialization\Ini\NinepatchDataParser.cs" />
     <Compile Include="Utils\Delayed.cs" />
     <Compile Include="Utils\FragmentBuffer.cs" />
     <Compile Include="Network\IConnectionListener.cs" />
@@ -141,6 +150,7 @@
     </MonoDevelop>
   </ProjectExtensions>
   <ItemGroup>
+    <None Include="LICENSE" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup />

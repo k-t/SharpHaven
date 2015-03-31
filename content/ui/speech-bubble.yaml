@@ -1,9 +1,0 @@
-version: 1
-layers:
-  - !image
-    file: speech-bubble.png
-  - !ninepatch
-    top: 4
-    bottom: 9
-    left: 12
-    right: 4
