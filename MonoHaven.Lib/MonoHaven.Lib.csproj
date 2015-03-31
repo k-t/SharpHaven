@@ -52,9 +52,6 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
-    <Reference Include="YamlDotNet">
-      <HintPath>..\packages\YamlDotNet.3.5.1\lib\net35\YamlDotNet.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Messages\PlaySoundMessage.cs" />
@@ -100,11 +97,6 @@
     <Compile Include="Resources\Layers\NegData.cs" />
     <Compile Include="Resources\Layers\TextData.cs" />
     <Compile Include="Resources\Serialization\Binary\BinaryStreamExtensions.cs" />
-    <Compile Include="Resources\Serialization\Yaml\NinepatchDataConverter.cs" />
-    <Compile Include="Resources\Serialization\Yaml\FontDataConverter.cs" />
-    <Compile Include="Resources\Serialization\Yaml\ImageDataConverter.cs" />
-    <Compile Include="Resources\Serialization\Yaml\YamlResource.cs" />
-    <Compile Include="Resources\Serialization\Yaml\YamlResourceSerializer.cs" />
     <Compile Include="Utils\ValueTreeNode.cs" />
     <Compile Include="Utils\TreeNode.cs" />
     <Compile Include="EventHelper.cs" />
