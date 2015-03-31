@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 using MonoHaven.Game;
 using MonoHaven.Graphics;
 using MonoHaven.Graphics.Sprites;
@@ -12,11 +14,11 @@ namespace MonoHaven.UI.Widgets
 	public class MapView : Widget, IDropTarget
 	{
 		private static readonly Drawable circle;
-
-		static MapView()
-		{
-			circle = App.Resources.Get<Drawable>("custom/ui/circle");
-		}
+		private static readonly Drawable ol;
+		private static readonly Drawable olTop;
+		private static readonly Drawable olBottom;
+		private static readonly Drawable olLeft;
+		private static readonly Drawable olRight;
 
 		private readonly GameState gstate;
 		private readonly int playerId;
@@ -26,6 +28,16 @@ namespace MonoHaven.UI.Widgets
 		private Gob placeGob;
 		private int placeRadius;
 		private bool placeOnTile;
+
+		static MapView()
+		{
+			circle = App.Resources.Get<Drawable>("custom/ui/circle");
+			ol = App.Resources.Get<Drawable>("custom/gfx/ol");
+			olTop = App.Resources.Get<Drawable>("custom/gfx/ol-top");
+			olBottom = App.Resources.Get<Drawable>("custom/gfx/ol-bottom");
+			olLeft = App.Resources.Get<Drawable>("custom/gfx/ol-left");
+			olRight = App.Resources.Get<Drawable>("custom/gfx/ol-right");
+		}
 
 		public MapView(Widget parent, GameState gstate, Point mc, int playerId)
 			: base(parent)
@@ -104,6 +116,7 @@ namespace MonoHaven.UI.Widgets
 			// how much tiles fit onto screen vertically and horizontally
 			var h = Width / (GameScene.ScreenTileWidth * 2);
 			var v = Height / (GameScene.ScreenTileHeight * 2);
+
 			// draw all tiles around the center one
 			for (int x = -(h + 4); x <= h + 2; x++)
 				for (int y = -(v + 3); y <= v + 2; y++)
@@ -118,8 +131,27 @@ namespace MonoHaven.UI.Widgets
 							g.Draw(tile.Texture, sc.X, sc.Y);
 							foreach (var trans in tile.Transitions)
 								g.Draw(trans, sc.X, sc.Y);
+							foreach (var overlay in tile.Overlays)
+							{
+								g.SetColor(overlay);
+								g.Draw(ol, sc.X, sc.Y);
+								if (!HasOverlay(gstate.Map.GetTile(tx, ty - 1), overlay))
+									g.Draw(olTop, sc.X, sc.Y);
+								if (!HasOverlay(gstate.Map.GetTile(tx, ty + 1), overlay))
+									g.Draw(olBottom, sc.X, sc.Y);
+								if (!HasOverlay(gstate.Map.GetTile(tx - 1, ty), overlay))
+									g.Draw(olLeft, sc.X, sc.Y);
+								if (!HasOverlay(gstate.Map.GetTile(tx + 1, ty), overlay))
+									g.Draw(olRight, sc.X, sc.Y);
+								g.ResetColor();
+							}
 						}
 					}
+		}
+
+		private bool HasOverlay(MapTile tile, Color overlay)
+		{
+			return tile == null || tile.Overlays.Contains(overlay);
 		}
 
 		private void DrawScene(DrawingContext g)

@@ -503,7 +503,8 @@ namespace MonoHaven.Network
 			var msg = new UpdateMapMessage {
 				Grid = reader.ReadCoord(),
 				MinimapName = reader.ReadString(),
-				Tiles = new byte[100 * 100]
+				Tiles = new byte[100 * 100],
+				Overlays = new int[100 * 100]
 			};
 
 			var pfl = new byte[256];
@@ -518,7 +519,33 @@ namespace MonoHaven.Network
 			var blob = Unpack(reader.Buffer, reader.Position, reader.Length - reader.Position);
 			Array.Copy(blob, msg.Tiles, msg.Tiles.Length);
 
-			// TODO: handle overlays
+			reader = new MessageReader(0, blob);
+			reader.Position += msg.Tiles.Length;
+			while (true)
+			{
+				int pidx = reader.ReadByte();
+				if (pidx == 255)
+					break;
+				int fl = pfl[pidx];
+				int type = reader.ReadByte();
+				var c1 = new Point(reader.ReadByte(), reader.ReadByte());
+				var c2 = new Point(reader.ReadByte(), reader.ReadByte());
+
+				int ol;
+				if (type == 0)
+					ol = ((fl & 1) == 1) ? 2 : 1;
+				else if (type == 1)
+					ol = ((fl & 1) == 1) ? 8 : 4;
+				else
+				{
+					Log.Warn("Unknown plot type " + type);
+					continue;
+				}
+
+				for (int y = c1.Y; y <= c2.Y; y++)
+					for (int x = c1.X; x <= c2.X; x++)
+						msg.Overlays[y * 100 + x] |= ol;
+			}
 
 			return msg;
 		}

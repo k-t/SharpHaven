@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 using C5;
 using MonoHaven.Graphics;
 using MonoHaven.Utils;
@@ -8,23 +9,47 @@ namespace MonoHaven.Game
 {
 	public class MapTile
 	{
+		private static readonly Color[] OverlayColors;
+
 		private readonly Map map;
 		private readonly Point coord;
 		private readonly byte type;
+		private readonly int overlay;
+		private readonly Color[] overlays;
 		private readonly Drawable texture;
 		private Drawable[] transitions;
 
-		public MapTile(Map map, Point coord, byte type, Drawable texture)
+		static MapTile()
+		{
+			OverlayColors = new Color[31];
+			OverlayColors[0] = Color.FromArgb(255, 0, 128);
+			OverlayColors[1] = Color.FromArgb(0, 0, 255);
+			OverlayColors[2] = Color.FromArgb(255, 0, 0);
+			OverlayColors[3] = Color.FromArgb(128, 0, 255);
+			OverlayColors[16] = Color.FromArgb(0, 255, 0);
+			OverlayColors[17] = Color.FromArgb(255, 255, 0);
+		}
+
+		public MapTile(Map map, Point coord, byte type, int overlay, Drawable texture)
 		{
 			this.map = map;
 			this.coord = coord;
 			this.type = type;
 			this.texture = texture;
+			this.overlay = overlay;
+			this.overlays = OverlayColors
+				.Where((c, i) => c != Color.Empty && (overlay & (1 << i)) != 0)
+				.ToArray();
 		}
 
 		public byte Type
 		{
 			get { return type; }
+		}
+
+		public Color[] Overlays
+		{
+			get { return overlays; }
 		}
 
 		public Drawable Texture

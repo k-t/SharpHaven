@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using C5;
+using MonoHaven.Graphics;
 using MonoHaven.Graphics.Sprites;
 using MonoHaven.Messages;
 using MonoHaven.Utils;
@@ -66,22 +67,23 @@ namespace MonoHaven.Game
 		public void AddGrid(UpdateMapMessage message)
 		{
 			var random = new C5Random(RandomUtils.GetSeed(message.Grid));
-			var gp = message.Grid;
+			var gc = message.Grid;
 			var tiles = new MapTile[message.Tiles.Length];
 			for (int i = 0; i < message.Tiles.Length; i++)
 			{
 				var tile = message.Tiles[i];
+				var overlay = message.Overlays[i];
 				var tileset = tilesets[tile];
 				if (tileset == null)
 					throw new Exception(string.Format("Unknown tileset ({0})", tile));
-				tiles[i] = new MapTile(this, GetAbsoluteTileCoord(gp, i), tile, tileset.GroundTiles.PickRandom(random));
+				tiles[i] = new MapTile(this, GetAbsoluteTileCoord(gc, i), tile, overlay, tileset.GroundTiles.PickRandom(random));
 			}
-			var grid = new MapGrid(gp, message.MinimapName, tiles);
-			grids[gp] = grid;
+			var grid = new MapGrid(gc, message.MinimapName, tiles);
+			grids[gc] = grid;
 
 			// generate flavor
-			int ox = gp.X * Geometry.GridWidth;
-			int oy = gp.Y * Geometry.GridHeight;
+			int ox = gc.X * Geometry.GridWidth;
+			int oy = gc.Y * Geometry.GridHeight;
 			for (int y = 0; y < Geometry.GridHeight; y++)
 				for (int x = 0; x < Geometry.GridWidth; x++)
 				{
@@ -121,11 +123,11 @@ namespace MonoHaven.Game
 			flavorObjects.Clear();
 		}
 
-		private static Point GetAbsoluteTileCoord(Point gp, int tileIndex)
+		private static Point GetAbsoluteTileCoord(Point gc, int tileIndex)
 		{
 			return new Point(
-				gp.X * Geometry.GridWidth + tileIndex % Geometry.GridWidth,
-				gp.Y * Geometry.GridHeight + tileIndex / Geometry.GridHeight
+				gc.X * Geometry.GridWidth + tileIndex % Geometry.GridWidth,
+				gc.Y * Geometry.GridHeight + tileIndex / Geometry.GridHeight
 			);
 		}
 	}
