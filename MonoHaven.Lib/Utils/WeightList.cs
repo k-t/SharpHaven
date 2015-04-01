@@ -14,11 +14,6 @@ namespace MonoHaven.Utils
 			get { return items.Count; }
 		}
 
-		public T this[int index]
-		{
-			get { return items[index]; }
-		}
-
 		public void Add(T item, int weight)
 		{
 			items.Add(item);
@@ -45,6 +40,11 @@ namespace MonoHaven.Utils
 		public T PickRandom(C5Random rng)
 		{
 			return Pick(rng.Next(totalWeight));
+		}
+
+		public List<T> ToList()
+		{
+			return new List<T>(items);
 		}
 	}
 }

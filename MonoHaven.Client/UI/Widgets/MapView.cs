@@ -32,11 +32,12 @@ namespace MonoHaven.UI.Widgets
 		static MapView()
 		{
 			var tileset = App.Resources.Get<Tileset>("custom/gfx/tiles/ol/ol");
-			ol = tileset.GroundTiles[0];
-			olTop = tileset.GroundTiles[1];
-			olBottom = tileset.GroundTiles[2];
-			olLeft = tileset.GroundTiles[3];
-			olRight = tileset.GroundTiles[4];
+			var tiles = tileset.GroundTiles.ToList();
+			ol = tiles[0];
+			olTop = tiles[1];
+			olBottom = tiles[2];
+			olLeft = tiles[3];
+			olRight = tiles[4];
 
 			circle = App.Resources.Get<Drawable>("custom/ui/circle");
 		}
