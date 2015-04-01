@@ -26,6 +26,17 @@ namespace MonoHaven.Game
 		{
 			get { return flavorObjects; }
 		}
+		
+		public MapGrid GetGrid(int gx, int gy)
+		{
+			return GetGrid(new Point(gx, gy));
+		}
+
+		public MapGrid GetGrid(Point gc)
+		{
+			MapGrid grid;
+			return grids.Find(ref gc, out grid) ? grid : null;
+		}
 
 		public MapTile GetTile(int tx, int ty)
 		{
@@ -51,17 +62,6 @@ namespace MonoHaven.Game
 				grids[new Point(gx, gy)] = null; // prevent continious requests
 				session.RequestData(gx, gy);
 			}
-		}
-
-		public MapGrid GetGrid(int gx, int gy)
-		{
-			return GetGrid(new Point(gx, gy));
-		}
-
-		public MapGrid GetGrid(Point gc)
-		{
-			MapGrid grid;
-			return grids.Find(ref gc, out grid) ? grid : null;
 		}
 
 		public void AddGrid(UpdateMapMessage message)
