@@ -6,7 +6,7 @@ namespace MonoHaven.Resources.Serialization.Ini
 {
 	internal class ImageDataParser : IIniDataLayerParser
 	{
-		public string LayerName
+		public string SectionName
 		{
 			get { return "image"; }
 		}

@@ -63,6 +63,8 @@
     <Compile Include="Resources\Serialization\Ini\IniResourceSerializer.cs" />
     <Compile Include="Resources\Serialization\Ini\KeyDataCollectionExtensions.cs" />
     <Compile Include="Resources\Serialization\Ini\NinepatchDataParser.cs" />
+    <Compile Include="Resources\Serialization\Ini\TileDataParser.cs" />
+    <Compile Include="Resources\Serialization\Ini\TilesetDataParser.cs" />
     <Compile Include="Utils\Delayed.cs" />
     <Compile Include="Utils\FragmentBuffer.cs" />
     <Compile Include="Network\IConnectionListener.cs" />

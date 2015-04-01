@@ -18,17 +18,22 @@ namespace MonoHaven.Resources.Serialization.Ini
 		public IniResourceSerializer()
 		{
 			iniParser = new StreamIniDataParser();
+			iniParser.Parser.Configuration.AllowDuplicateKeys = true;
+			iniParser.Parser.Configuration.OverrideDuplicateKeys = false;
+
 			parsers = new Dictionary<string, IIniDataLayerParser>();
 			writers = new Dictionary<Type, IIniDataLayerParser>();
 
 			Register(new FontDataParser());
 			Register(new ImageDataParser());
 			Register(new NinepatchDataParser());
+			Register(new TileDataParser());
+			Register(new TilesetDataParser());
 		}
 
 		public void Register(IIniDataLayerParser parser)
 		{
-			parsers[parser.LayerName] = parser;
+			parsers[parser.SectionName] = parser;
 			writers[parser.LayerType] = parser;
 		}
 
@@ -56,10 +61,11 @@ namespace MonoHaven.Resources.Serialization.Ini
 
 		private object ReadLayer(SectionData section)
 		{
+			var layerName = section.SectionName.Split('_')[0];
 			IIniDataLayerParser parser;
-			return parsers.TryGetValue(section.SectionName, out parser)
+			return parsers.TryGetValue(layerName, out parser)
 				? parser.ReadData(section.Keys)
-				: new UnknownDataLayer(section.SectionName);
+				: new UnknownDataLayer(layerName);
 		}
 
 		public void Serialize(Resource res, Stream outputStream)

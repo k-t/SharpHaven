@@ -4,21 +4,26 @@ using IniParser.Model;
 
 namespace MonoHaven.Resources.Serialization.Ini
 {
-	internal class FontDataParser : IIniDataLayerParser
+	public class TileDataParser : IIniDataLayerParser
 	{
 		public string SectionName
 		{
-			get { return "font"; }
+			get { return "tile"; }
 		}
 
 		public Type LayerType
 		{
-			get { return typeof(FontData); }
+			get { return typeof(TileData); }
 		}
 
 		public object ReadData(KeyDataCollection keyData)
 		{
-			return new FontData { Data = File.ReadAllBytes(keyData["file"]) };
+			var data = new TileData();
+			data.Type = keyData.GetChar("type");
+			data.Id = keyData.GetByte("id");
+			data.Weight = keyData.GetUInt16("weight", 0);
+			data.ImageData = File.ReadAllBytes(keyData["image"]);
+			return data;
 		}
 
 		public KeyDataCollection GetData(object obj)

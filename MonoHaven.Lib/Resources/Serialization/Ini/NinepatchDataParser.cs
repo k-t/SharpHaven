@@ -5,7 +5,7 @@ namespace MonoHaven.Resources.Serialization.Ini
 {
 	internal class NinepatchDataParser : IIniDataLayerParser
 	{
-		public string LayerName
+		public string SectionName
 		{
 			get { return "ninepatch"; }
 		}

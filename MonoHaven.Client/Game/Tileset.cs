@@ -32,10 +32,13 @@ namespace MonoHaven.Game
 				}
 			}
 
-			foreach (var flavor in data.FlavorObjects)
+			if (data.FlavorObjects != null)
 			{
-				var sprite = App.Resources.GetSprite(flavor.ResName);
-				flavorObjects.Add(sprite, flavor.Weight);
+				foreach (var flavor in data.FlavorObjects)
+				{
+					var sprite = App.Resources.GetSprite(flavor.ResName);
+					flavorObjects.Add(sprite, flavor.Weight);
+				}
 			}
 		}
 
