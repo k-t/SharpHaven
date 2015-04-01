@@ -16,6 +16,12 @@ namespace MonoHaven.UI.Widgets
 
 		public event Action Click;
 
+		public bool ImageHitTest
+		{
+			get;
+			set;
+		}
+
 		public Drawable Image
 		{
 			get;
@@ -51,7 +57,9 @@ namespace MonoHaven.UI.Widgets
 
 		protected override bool CheckHit(int x, int y)
 		{
-			return Image != null && Image.CheckHit(x - X, y - Y);
+			if (ImageHitTest)
+				return Image != null && Image.CheckHit(x - X, y - Y);
+			return base.CheckHit(x, y);
 		}
 
 		protected override void OnMouseButtonDown(MouseButtonEvent e)
