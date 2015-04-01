@@ -31,12 +31,14 @@ namespace MonoHaven.UI.Widgets
 
 		static MapView()
 		{
+			var tileset = App.Resources.Get<Tileset>("custom/gfx/tiles/ol/ol");
+			ol = tileset.GroundTiles[0];
+			olTop = tileset.GroundTiles[1];
+			olBottom = tileset.GroundTiles[2];
+			olLeft = tileset.GroundTiles[3];
+			olRight = tileset.GroundTiles[4];
+
 			circle = App.Resources.Get<Drawable>("custom/ui/circle");
-			ol = App.Resources.Get<Drawable>("custom/gfx/ol");
-			olTop = App.Resources.Get<Drawable>("custom/gfx/ol-top");
-			olBottom = App.Resources.Get<Drawable>("custom/gfx/ol-bottom");
-			olLeft = App.Resources.Get<Drawable>("custom/gfx/ol-left");
-			olRight = App.Resources.Get<Drawable>("custom/gfx/ol-right");
 		}
 
 		public MapView(Widget parent, GameState gstate, Point mc, int playerId)

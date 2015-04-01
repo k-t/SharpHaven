@@ -14,6 +14,11 @@ namespace MonoHaven.Utils
 			get { return items.Count; }
 		}
 
+		public T this[int index]
+		{
+			get { return items[index]; }
+		}
+
 		public void Add(T item, int weight)
 		{
 			items.Add(item);
