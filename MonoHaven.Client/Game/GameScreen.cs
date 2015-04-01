@@ -125,9 +125,12 @@ namespace MonoHaven.Game
 
 			if (menuGrid != null)
 				menuGrid.Move(Window.Width - menuGrid.Width - 5, Window.Height - menuGrid.Height -5);
-		
+
 			if (hudMenu != null)
-				hudMenu.Move((Window.Width - hudMenu.Width) / 2, Window.Height - hudMenu.Height + 1);
+			{
+				int y = menuGrid != null ? menuGrid.Height : 0;
+				hudMenu.Move(Window.Width - hudMenu.Width - 5, Window.Height - y - hudMenu.Height + 1);
+			}
 
 			if (chatWindow != null)
 				chatWindow.Move(5, Window.Height - chatWindow.Height - 5);
@@ -182,7 +185,7 @@ namespace MonoHaven.Game
 			if (widget is Hud)
 			{
 				hudMenu = ((Hud)widget).Menu;
-				hudMenu.Move((Window.Width - hudMenu.Width) / 2, Window.Height - hudMenu.Height + 1);
+				hudMenu.Move(Window.Width - 288, Window.Height - hudMenu.Height - 5);
 			}
 			if (widget is Chat)
 			{
