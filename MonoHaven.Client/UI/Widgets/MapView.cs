@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using C5;
 using MonoHaven.Game;
 using MonoHaven.Graphics;
 using MonoHaven.Graphics.Sprites;
@@ -152,16 +151,12 @@ namespace MonoHaven.UI.Widgets
 				{
 					int dx = border.Item1.X;
 					int dy = border.Item1.Y;
-					if (!HasOverlay(gstate.Map.GetTile(tx + dx, ty + dy), color))
+					var btile = gstate.Map.GetTile(tx + dx, ty + dy);
+					if (btile != null && !btile.Overlays.Contains(color))
 						g.Draw(border.Item2, sc.X, sc.Y);
 				}
 				g.ResetColor();
 			}
-		}
-
-		private bool HasOverlay(MapTile tile, Color color)
-		{
-			return tile == null || tile.Overlays.Contains(color);
 		}
 
 		private void DrawScene(DrawingContext g)
