@@ -7,13 +7,14 @@ namespace MonoHaven.UI.Widgets
 	public class HudMenu : Widget
 	{
 		private static readonly Drawable background;
-		private static readonly Drawable[] buttonImages;
+		private static readonly Drawable[] images;
+		private static readonly string[] tooltips;
 		private static readonly int buttonCount;
 
 		static HudMenu()
 		{
 			background = App.Resources.Get<Drawable>("gfx/hud/invsq");
-			buttonImages = new[] {
+			images = new[] {
 				"custom/gfx/hud/slen/invu", "custom/gfx/hud/slen/invd",
 				"custom/gfx/hud/slen/equu", "custom/gfx/hud/slen/equd",
 				"custom/gfx/hud/slen/chru", "custom/gfx/hud/slen/chrd",
@@ -21,7 +22,14 @@ namespace MonoHaven.UI.Widgets
 				"custom/gfx/hud/slen/optu", "custom/gfx/hud/slen/optd" }
 				.Select(x => App.Resources.Get<Drawable>(x))
 				.ToArray();
-			buttonCount = buttonImages.Length / 2;
+			tooltips = new[] {
+				"Inventory",
+				"Equipment",
+				"Character",
+				"Kin",
+				"Options"
+			};
+			buttonCount = images.Length / 2;
 		}
 
 		public HudMenu(Widget parent) : base(parent)
@@ -33,11 +41,12 @@ namespace MonoHaven.UI.Widgets
 			{
 				var btn = new ImageButton(this)
 				{
-					Image = buttonImages[i * 2],
-					PressedImage = buttonImages[i * 2 + 1]
+					Image = images[i * 2],
+					PressedImage = images[i * 2 + 1]
 				};
-				btn.Resize(buttonImages[i * 2].Size);
+				btn.Resize(images[i * 2].Size);
 				btn.Move(x + 1, 1);
+				btn.Tooltip = new Tooltip(tooltips[i]);
 				x += background.Width - 1;
 
 				var button = (Button)i;
