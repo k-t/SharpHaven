@@ -696,6 +696,7 @@ namespace MonoHaven.Network
 							overlayId >>= 1;
 							int resId = msg.ReadUint16();
 							byte[] spriteData = null;
+
 							if (resId != 65535)
 							{
 								if ((resId & 0x8000) != 0)
@@ -707,10 +708,13 @@ namespace MonoHaven.Network
 								else
 									spriteData = new byte[0];
 							}
+							else
+								resId = -1;
+
 							delta = new GobDelta.Overlay
 							{
 								Id = overlayId,
-								Prs = prs,
+								IsPersistent = prs,
 								ResourceId = resId,
 								SpriteData = spriteData
 							};

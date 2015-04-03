@@ -16,8 +16,9 @@ namespace MonoHaven.Graphics.Sprites
 			get { return parts; }
 		}
 
-		public void Tick(int dt)
+		public bool Tick(int dt)
 		{
+			return false;
 		}
 	}
 }

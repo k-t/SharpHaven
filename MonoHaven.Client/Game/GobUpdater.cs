@@ -104,6 +104,14 @@ namespace MonoHaven.Game
 
 		private void Apply(GobDelta.Overlay delta)
 		{
+			if (delta.ResourceId != -1)
+			{
+				var sprite = session.GetSprite(delta.ResourceId, delta.SpriteData);
+				var overlay = new GobOverlay(delta.Id, sprite, delta.IsPersistent);
+				gob.Overlays.Add(overlay);
+			}
+			else
+				gob.Overlays.Remove(delta.Id);
 		}
 
 		private void Apply(GobDelta.Position delta)

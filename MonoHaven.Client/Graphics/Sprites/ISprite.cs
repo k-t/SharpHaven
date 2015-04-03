@@ -5,6 +5,6 @@ namespace MonoHaven.Graphics.Sprites
 	public interface ISprite
 	{
 		IEnumerable<Picture> Parts { get; }
-		void Tick(int dt);
+		bool Tick(int dt);
 	}
 }

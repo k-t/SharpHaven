@@ -77,7 +77,7 @@ namespace MonoHaven.Messages
 		public class Overlay : GobDelta
 		{
 			public int Id { get; set; }
-			public bool Prs { get; set; } // TODO: Rename
+			public bool IsPersistent { get; set; }
 			public int ResourceId { get; set; }
 			public byte[] SpriteData { get; set; }
 		}

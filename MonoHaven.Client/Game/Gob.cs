@@ -1,4 +1,5 @@
 ﻿using System.Drawing;
+using System.Linq;
 using MonoHaven.Graphics.Sprites;
 using MonoHaven.Utils;
 
@@ -7,6 +8,7 @@ namespace MonoHaven.Game
 	public class Gob
 	{
 		private readonly int id;
+		private readonly GobOverlayCollection overlays;
 		private Delayed<ISprite> sprite;
 		private Delayed<ISprite> avatar;
 		private GobSpeech speech;
@@ -16,6 +18,7 @@ namespace MonoHaven.Game
 		public Gob(int id)
 		{
 			this.id = id;
+			this.overlays = new GobOverlayCollection();
 		}
 
 		public int Id
@@ -68,6 +71,11 @@ namespace MonoHaven.Game
 			get { return avatar != null ? avatar.Value : null; }
 		}
 
+		public GobOverlayCollection Overlays
+		{
+			get { return overlays; }
+		}
+
 		public void SetSprite(Delayed<ISprite> value)
 		{
 			sprite = value;
@@ -101,6 +109,16 @@ namespace MonoHaven.Game
 
 			if (movement != null)
 				movement.Tick(dt);
+
+			foreach (var overlay in overlays.ToList())
+			{
+				if (overlay.Sprite.Value != null)
+				{
+					var done = overlay.Sprite.Value.Tick(dt);
+					if (done)
+						overlays.Remove(overlay);
+				}
+			}
 		}
 
 		

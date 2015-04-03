@@ -26,15 +26,20 @@ namespace MonoHaven.Graphics.Sprites
 			get { return parts.Concat(frames[frameIndex].Parts); }
 		}
 
-		public void Tick(int dt)
+		public bool Tick(int dt)
 		{
+			bool done = false;
 			elapsed += dt;
 			while (elapsed > frames[frameIndex].Duration)
 			{
 				elapsed -= frames[frameIndex].Duration;
 				if (++frameIndex >= frames.Length)
+				{
 					frameIndex = 0;
+					done = true;
+				}
 			}
+			return done;
 		}
 	}
 }

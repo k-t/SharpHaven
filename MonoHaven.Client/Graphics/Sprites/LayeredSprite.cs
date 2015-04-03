@@ -24,11 +24,12 @@ namespace MonoHaven.Graphics.Sprites
 			}
 		}
 
-		public void Tick(int dt)
+		public bool Tick(int dt)
 		{
 			foreach (var sprite in sprites)
 				if (sprite.Value != null)
 					sprite.Value.Tick(dt);
+			return false;
 		}
 	}
 }

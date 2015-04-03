@@ -45,7 +45,12 @@ namespace MonoHaven.Game
 					effect = gob.Health.Effect;
 
 				var p = Geometry.MapToScreen(gob.Position);
+				
 				spriteList.AddRange(sprite.Parts.Select(part => new ObjectPart(p, part, gob, effect)));
+
+				foreach (var overlay in gob.Overlays)
+					if (overlay.Sprite.Value != null)
+						spriteList.AddRange(overlay.Sprite.Value.Parts.Select(part => new ObjectPart(p, part, gob, null)));
 
 				if (gob.Speech != null)
 					speeches.Add(Tuple.Create(p, gob.Speech));

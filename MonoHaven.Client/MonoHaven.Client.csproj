@@ -88,6 +88,8 @@
     <Compile Include="Game\GobCache.cs" />
     <Compile Include="Game\GobHealth.cs" />
     <Compile Include="Game\GobMovement.cs" />
+    <Compile Include="Game\GobOverlay.cs" />
+    <Compile Include="Game\GobOverlayCollection.cs" />
     <Compile Include="Game\GobSpeech.cs" />
     <Compile Include="Game\GobUpdater.cs" />
     <Compile Include="Game\GameSession.cs" />
