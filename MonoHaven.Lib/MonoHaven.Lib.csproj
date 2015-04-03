@@ -56,7 +56,11 @@
   <ItemGroup>
     <Compile Include="Messages\PlaySoundMessage.cs" />
     <Compile Include="Resources\Layers\AudioData.cs" />
+    <Compile Include="Resources\Layers\CodeData.cs" />
     <Compile Include="Resources\Serialization\Binary\AudioDataSerializer.cs" />
+    <Compile Include="Resources\Serialization\Binary\CodeDataSerializer.cs" />
+    <Compile Include="Resources\Layers\CodeEntry.cs" />
+    <Compile Include="Resources\Serialization\Binary\CodeEntryDataSerializer.cs" />
     <Compile Include="Resources\Serialization\Ini\FontDataParser.cs" />
     <Compile Include="Resources\Serialization\Ini\IIniDataLayerParser.cs" />
     <Compile Include="Resources\Serialization\Ini\ImageDataParser.cs" />

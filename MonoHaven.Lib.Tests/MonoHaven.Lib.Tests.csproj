@@ -43,6 +43,8 @@
     <Compile Include="MessageTests.cs" />
     <Compile Include="Resources\Serialization\Binary\ActionDataTests.cs" />
     <Compile Include="Resources\Serialization\Binary\AnimDataTests.cs" />
+    <Compile Include="Resources\Serialization\Binary\CodeDataTests.cs" />
+    <Compile Include="Resources\Serialization\Binary\CodeEntryDataSerializerTests.cs" />
     <Compile Include="Resources\Serialization\Binary\FontDataTests.cs" />
     <Compile Include="Resources\Serialization\Binary\ImageDataTests.cs" />
     <Compile Include="Resources\Serialization\Binary\NegDataTests.cs" />

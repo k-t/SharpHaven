@@ -27,6 +27,8 @@ namespace MonoHaven.Resources.Serialization.Binary
 			Register(new FontDataSerializer());
 			Register(new NinepatchDataSerializer());
 			Register(new AudioDataSerializer());
+			Register(new CodeDataSerializer());
+			Register(new CodeEntryDataSerializer());
 		}
 
 		public void Register(IBinaryDataLayerSerializer serializer)
