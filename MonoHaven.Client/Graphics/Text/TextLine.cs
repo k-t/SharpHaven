@@ -62,6 +62,11 @@ namespace MonoHaven.Graphics.Text
 			Insert(Length, str);
 		}
 
+		public void AppendFormat(string format, params object[] args)
+		{
+			Append(string.Format(format, args));
+		}
+
 		public void Append(char c)
 		{
 			Insert(Length, c);

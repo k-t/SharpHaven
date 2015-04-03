@@ -16,7 +16,7 @@ namespace MonoHaven.UI.Widgets
 		static FlowerMenu()
 		{
 			back = App.Resources.Get<Drawable>("gfx/hud/bgtex");
-			box = App.Resources.Get<Drawable>("custom/ui/wbox");
+			box = App.Resources.Get<Drawable>("custom/gfx/hud/invsq");
 		}
 
 		private readonly int optionCount;
@@ -24,11 +24,20 @@ namespace MonoHaven.UI.Widgets
 		public FlowerMenu(Widget parent, IEnumerable<string> options) : base(parent)
 		{
 			int n = 0;
+			int y = 0;
+			int menuWidth = 0;
+
 			foreach (var option in options)
 			{
-				var petal = new Petal(this, option, n++);
-				petal.Move(0, (n - 1) * 25);
+				var item = new MenuItem(this, option, n++);
+				item.Move(0, y);
+				y += item.Height - 1;
+				menuWidth = Math.Max(menuWidth, item.Width);
 			}
+			// make same width
+			foreach (var widget in Children)
+				widget.Resize(menuWidth, widget.Height);
+
 			optionCount = n;
 
 			IsFocusable = true;
@@ -43,7 +52,7 @@ namespace MonoHaven.UI.Widgets
 			int num = -1;
 			if (e.Button == MouseButton.Left)
 			{
-				var petal = GetChildAt(e.Position) as Petal;
+				var petal = GetChildAt(e.Position) as MenuItem;
 				if (petal != null)
 					num = petal.Num;
 			}
@@ -84,21 +93,28 @@ namespace MonoHaven.UI.Widgets
 			Host.ReleaseMouse();
 		}
 
-		private class Petal : Widget
+		private class MenuItem : Widget
 		{
-			private readonly TextLine textLine;
+			private readonly TextLine text;
+			private readonly TextLine numText;
 			private readonly int num;
 
-			public Petal(Widget parent, string text, int num)
+			public MenuItem(Widget parent, string text, int num)
 				: base(parent)
 			{
 				this.num = num;
-				this.textLine = new TextLine(Fonts.Default);
-				this.textLine.TextColor = Color.Yellow;
-				this.textLine.Append(text);
 
-				// TODO: text block size should be used here
-				Resize(textLine.TextWidth + 14, Fonts.Default.Height + 8);
+				this.text = new TextLine(Fonts.Default);
+				this.text.Append(text);
+				this.text.TextColor = Color.White;
+
+				this.numText = new TextLine(Fonts.Default);
+				this.numText.AppendFormat("{0}", num + 1);
+				this.numText.TextColor = Color.Yellow;
+				this.numText.TextAlign = TextAlign.Right;
+
+				int width = Math.Max(40, this.text.TextWidth + this.numText.TextWidth + 15);
+				Resize(width, Fonts.Default.Height + 4);
 			}
 
 			public int Num
@@ -110,12 +126,14 @@ namespace MonoHaven.UI.Widgets
 			{
 				dc.Draw(back, 0, 0, Width, Height);
 				dc.Draw(box, 0, 0, Width, Height);
-				dc.Draw(textLine, 6, 4);
+				dc.Draw(text, 4, 2, Width - 8, Height - 4);
+				dc.Draw(numText, 4, 2, Width - 8, Height - 4);
 			}
 
 			protected override void OnDispose()
 			{
-				textLine.Dispose();
+				text.Dispose();
+				numText.Dispose();
 			}
 		}
 	}
