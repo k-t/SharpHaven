@@ -7,6 +7,7 @@ namespace MonoHaven.UI.Widgets
 {
 	public class Hud : Widget
 	{
+		private readonly Belt belt;
 		private readonly HudMenu menu;
 		private readonly Label lblError;
 		private DateTime errorTime;
@@ -14,6 +15,7 @@ namespace MonoHaven.UI.Widgets
 		public Hud(Widget parent, GameState gstate) : base(parent)
 		{
 			menu = new HudMenu(parent);
+			belt = new Belt(parent);
 
 			lblError = new Label(this, Fonts.Default);
 			lblError.TextColor = Color.FromArgb(192, 0, 0);
@@ -25,6 +27,11 @@ namespace MonoHaven.UI.Widgets
 		public HudMenu Menu
 		{
 			get { return menu; }
+		}
+
+		public Belt Belt
+		{
+			get { return belt; }
 		}
 
 		public void ShowError(string error)

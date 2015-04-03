@@ -1,4 +1,5 @@
-﻿using MonoHaven.UI.Widgets;
+﻿using MonoHaven.Graphics;
+using MonoHaven.UI.Widgets;
 
 namespace MonoHaven.UI.Remote
 {
@@ -17,12 +18,19 @@ namespace MonoHaven.UI.Remote
 		{
 			this.widget = widget;
 			this.widget.Menu.ButtonClick += OnMenuButtonClick;
+			this.widget.Belt.Activate += (slot) => SendMessage("belt", slot, 1, 0);
 		}
 
 		public override void ReceiveMessage(string message, object[] args)
 		{
 			if (message == "err")
 				widget.ShowError((string)args[0]);
+			else if (message == "setbelt")
+			{
+				var slot = (int)args[0];
+				var action = args.Length > 1 ? Session.Get<Drawable>((int)args[1]) : null;
+				widget.Belt.SetSlot(slot, action);
+			}
 			else
 				base.ReceiveMessage(message, args);
 		}
