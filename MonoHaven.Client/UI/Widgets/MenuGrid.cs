@@ -20,6 +20,14 @@ namespace MonoHaven.UI.Widgets
 		private static readonly int cellWidth;
 		private static readonly int cellHeight;
 
+		private GameActionTree actionTree;
+		private GameActionComparer actionComparer;
+		private readonly GridButton[,] buttons;
+		private readonly GridButton back;
+		private readonly GridButton next;
+		private GameAction current;
+		private GridButton pressed;
+
 		static MenuGrid()
 		{
 			backImage = App.Resources.Get<Drawable>("gfx/hud/sc-back");
@@ -29,33 +37,45 @@ namespace MonoHaven.UI.Widgets
 			cellHeight = cellImage.Height - 1;
 		}
 
-		private readonly GameActionTree actionTree;
-		private readonly GameActionComparer actionComparer;
-		private readonly GridButton[,] buttons;
-		private readonly GridButton back;
-		private readonly GridButton next;
-		private GameAction current;
-		private GridButton pressed;
-
-		public MenuGrid(Widget parent, GameActionTree actionTree) : base(parent)
+		public MenuGrid(Widget parent) : base(parent)
 		{
-			this.actionTree = actionTree;
-			this.actionTree.Changed += UpdateCells;
-			this.actionComparer = new GameActionComparer(actionTree);
-			this.current = actionTree.Root;
-			this.buttons = new GridButton[RowCount, ColumnCount];
-			this.back = new GridButton(backImage);
-			this.next = new GridButton(nextImage);
+			buttons = new GridButton[RowCount, ColumnCount];
+			back = new GridButton(backImage);
+			next = new GridButton(nextImage);
 			Resize(cellWidth * ColumnCount, cellHeight * RowCount);
 		}
 
 		public event Action<GameAction> ActionSelected;
 
+		public GameActionTree Actions
+		{
+			get { return actionTree; }
+			set
+			{
+				if (actionTree != null)
+					actionTree.Changed -= UpdateCells;
+
+				actionTree = value;
+
+				if (actionTree != null)
+				{
+					actionTree.Changed += UpdateCells;
+					actionComparer = new GameActionComparer(actionTree);
+					current = actionTree.Root;
+				}
+				UpdateCells();
+			}
+		}
+
 		public void SetCurrentAction(string resName)
 		{
+			if (Actions == null)
+				throw new InvalidOperationException();
+
 			current = string.IsNullOrEmpty(resName)
-				? actionTree.Root
-				: actionTree.GetByName(resName) ?? actionTree.Root;
+				? Actions.Root
+				: Actions.GetByName(resName) ?? actionTree.Root;
+
 			UpdateCells();
 		}
 
@@ -109,7 +129,14 @@ namespace MonoHaven.UI.Widgets
 
 		private void UpdateCells()
 		{
-			var children = actionTree.GetChildren(current).ToArray();
+			if (Actions == null)
+			{
+				// clear all buttons
+				buttons.Initialize();
+				return;
+			}
+
+			var children = Actions.GetChildren(current).ToArray();
 			Array.Sort(children, actionComparer);
 			for (int i = 0; i < RowCount; i++)
 				for (int j = 0; j < ColumnCount; j++)

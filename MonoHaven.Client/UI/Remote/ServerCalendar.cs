@@ -4,7 +4,7 @@ namespace MonoHaven.UI.Remote
 {
 	public class ServerCalendar : ServerWidget
 	{
-		private Widget widget;
+		private Calendar widget;
 
 		public ServerCalendar(ushort id, ServerWidget parent) : base(id, parent)
 		{
@@ -22,7 +22,15 @@ namespace MonoHaven.UI.Remote
 
 		protected override void OnInit(object[] args)
 		{
-			widget = new Calendar(Parent.Widget, Parent.Session.State);
+			widget = Session.State.Screen.Calendar;
+			widget.Visible = true;
+			widget.State = Session.State;
+		}
+
+		protected override void OnDestroy()
+		{
+			widget.Visible = false;
+			widget.State = null;
 		}
 	}
 }

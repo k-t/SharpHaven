@@ -1,4 +1,6 @@
 ﻿using System.Drawing;
+using Microsoft.Win32;
+using MonoHaven.Game;
 using MonoHaven.UI.Widgets;
 using OpenTK.Input;
 
@@ -27,17 +29,26 @@ namespace MonoHaven.UI.Remote
 
 		protected override void OnInit(object[] args)
 		{
-			var size = (Point)args[0];
+			//var size = (Point)args[0];
 			var worldpos = (Point)args[1];
 			var playerId = args.Length > 2 ? (int)args[2] : -1;
 
-			widget = new MapView(Parent.Widget, Parent.Session.State, worldpos, playerId);
-			widget.Resize(size.X, size.Y);
+			Session.State.WorldPosition = worldpos;
 
+			widget = Session.State.Screen.MapView;
+			widget.Visible = true;
+			widget.PlayerId = playerId;
+			widget.State = Session.State;
 			widget.MapClick += OnMapClick;
 			widget.Placed += OnPlaced;
 			widget.ItemDrop += OnItemDrop;
 			widget.ItemInteract += OnItemInteract;
+		}
+
+		protected override void OnDestroy()
+		{
+			widget.Visible = false;
+			widget.State = null;
 		}
 
 		private void SetWorldPosition(object[] args)

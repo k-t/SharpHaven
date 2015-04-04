@@ -133,8 +133,6 @@ namespace MonoHaven.Game
 					widget.Widget.Move(message.Location);
 
 				widgets.Add(widget);
-
-				state.Screen.HandleCreatedWidget(widget.Widget);
 			});
 		}
 
@@ -153,14 +151,7 @@ namespace MonoHaven.Game
 
 		void IConnectionListener.DestroyWidget(ushort widgetId)
 		{
-			App.QueueOnMainThread(() =>
-			{
-				var widget = widgets.Get(widgetId);
-				if (widget != null)
-					state.Screen.HandleDestroyedWidget(widget.Widget);
-
-				widgets.Remove(widgetId);
-			});
+			App.QueueOnMainThread(() => widgets.Remove(widgetId));
 		}
 
 		void IConnectionListener.BindResource(BindResourceMessage message)

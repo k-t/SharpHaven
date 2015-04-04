@@ -25,8 +25,16 @@ namespace MonoHaven.UI.Remote
 
 		protected override void OnInit(object[] args)
 		{
-			widget = new MenuGrid(Parent.Widget, Parent.Session.State.Actions);
+			widget = Session.State.Screen.MenuGrid;
+			widget.Actions = Session.State.Actions;
+			widget.Visible = true;
 			widget.ActionSelected += HandleActionSelected;
+		}
+
+		protected override void OnDestroy()
+		{
+			widget.Visible = false;
+			widget.Actions = null;
 		}
 
 		private void Goto(object[] args)

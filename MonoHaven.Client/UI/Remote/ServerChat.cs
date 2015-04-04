@@ -30,6 +30,14 @@ namespace MonoHaven.UI.Remote
 
 			widget = new Chat(Parent.Widget, title, closable);
 			widget.MessageOut += (msg) => SendMessage("msg", msg);
+
+			Session.State.Screen.Chat.Visible = true;
+			Session.State.Screen.Chat.AddChat(widget);
+		}
+
+		protected override void OnDestroy()
+		{
+			Session.State.Screen.Chat.RemoveChat(widget);
 		}
 
 		private void Log(object[] args)

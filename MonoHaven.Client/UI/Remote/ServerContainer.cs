@@ -32,8 +32,14 @@ namespace MonoHaven.UI.Remote
 		{
 			var size = (Point)args[0];
 
-			widget = new Container(Parent.Widget);
+			widget = Session.State.Screen.Container;
 			widget.Resize(size.X, size.Y);
+			widget.Visible = true;
+		}
+
+		protected override void OnDestroy()
+		{
+			widget.Visible = false;
 		}
 	}
 }

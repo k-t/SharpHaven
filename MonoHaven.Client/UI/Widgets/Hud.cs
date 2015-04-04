@@ -14,8 +14,11 @@ namespace MonoHaven.UI.Widgets
 
 		public Hud(Widget parent, GameState gstate) : base(parent)
 		{
-			menu = new HudMenu(parent);
-			belt = new Belt(parent);
+			menu = gstate.Screen.HudMenu;
+			menu.Visible = true;
+
+			belt = gstate.Screen.Belt;
+			belt.Visible = true;
 
 			lblError = new Label(this, Fonts.Default);
 			lblError.TextColor = Color.FromArgb(192, 0, 0);
@@ -46,6 +49,12 @@ namespace MonoHaven.UI.Widgets
 		{
 			if (errorTime < DateTime.Now)
 				lblError.Visible = false;
+		}
+
+		protected override void OnDispose()
+		{
+			menu.Visible = false;
+			belt.Visible = false;
 		}
 
 		private void InitMinimap(GameState gstate)

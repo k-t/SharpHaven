@@ -31,17 +31,23 @@ namespace MonoHaven.UI.Widgets
 				moons[i] = App.Resources.Get<Drawable>(string.Format("gfx/hud/calendar/m{0:D2}", i));
 		}
 
-		private readonly GameState gstate;
-
-		public Calendar(Widget parent, GameState gstate) : base(parent)
+		public Calendar(Widget parent) : base(parent)
 		{
-			this.gstate = gstate;
 			Resize(background.Size);
+		}
+
+		public GameState State
+		{
+			get;
+			set;
 		}
 
 		protected override void OnDraw(DrawingContext dc)
 		{
-			var astro = gstate.Time;
+			if (State == null)
+				return;
+
+			var astro = State.Time;
 			var mp = (int)(astro.MoonPhase * moons.Length);
 			var moon = moons[mp];
 

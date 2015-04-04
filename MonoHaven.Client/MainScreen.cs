@@ -37,6 +37,7 @@ namespace MonoHaven
 			this.session = session;
 			gameScreen = session.State.Screen;
 			gameScreen.Closed += OnGameExited;
+
 			ChangeScreen(gameScreen);
 		}
 
