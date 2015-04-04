@@ -367,7 +367,7 @@ namespace MonoHaven.Network
 								while(true)
 								{
 									int id = msg.ReadInt32();
-									if(id < 0)
+									if(id == -1)
 										break;
 									ids.Add(id);
 									listeners.ForEach(x => x.UpdatePartyList(ids));
