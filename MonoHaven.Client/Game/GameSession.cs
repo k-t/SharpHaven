@@ -6,6 +6,7 @@ using MonoHaven.Graphics.Sprites;
 using MonoHaven.Messages;
 using MonoHaven.Network;
 using MonoHaven.Resources;
+using MonoHaven.UI.Remote;
 using MonoHaven.Utils;
 using NLog;
 
@@ -17,27 +18,32 @@ namespace MonoHaven.Game
 
 		private readonly Connection connection;
 		private readonly GameState state;
-		private readonly GameScreen screen;
 		private readonly Dictionary<int, string> resources;
+
+		private readonly ServerWidgetFactory widgetFactory;
+		private readonly ServerWidgetCollection widgets;
 
 		public GameSession(ConnectionSettings connSettings)
 		{
+			state = new GameState(this);
+			resources = new Dictionary<int, string>();
+			widgetFactory = new ServerWidgetFactory();
+
 			connection = new Connection(connSettings);
 			connection.AddListener(this);
 
-			state = new GameState(this);
-			screen = new GameScreen(this);
-			resources = new Dictionary<int, string>();
-		}
-
-		public GameScreen Screen
-		{
-			get { return screen; }
+			widgets = new ServerWidgetCollection(this);
+			widgets.Add(new ServerRootWidget(0, this, state.Screen.Root));
 		}
 
 		public GameState State
 		{
 			get { return state; }
+		}
+
+		public ServerWidgetCollection Widgets
+		{
+			get { return widgets; }
 		}
 
 		public void Start()
@@ -52,7 +58,12 @@ namespace MonoHaven.Game
 				connection.RemoveListener(this);
 				connection.Close();
 			}
-			screen.Close();
+			App.QueueOnMainThread(() => state.Screen.Close());
+		}
+
+		public void SendMessage(ushort widgetId, string name, object[] args)
+		{
+			connection.SendMessage(widgetId, name, args);
 		}
 
 		#region Resource Management
@@ -92,15 +103,6 @@ namespace MonoHaven.Game
 
 		#endregion
 
-		#region Widget Management
-
-		public void SendMessage(ushort widgetId, string name, object[] args)
-		{
-			connection.SendMessage(widgetId, name, args);
-		}
-
-		#endregion
-
 		#region Map Data Management
 
 		public void RequestData(int x, int y)
@@ -115,17 +117,50 @@ namespace MonoHaven.Game
 
 		void IConnectionListener.CreateWidget(WidgetCreateMessage message)
 		{
-			App.QueueOnMainThread(() => screen.CreateWidget(message));
+			App.QueueOnMainThread(() =>
+			{
+				var parent = widgets.Get(message.ParentId);
+				if (parent == null)
+					throw new Exception(string.Format(
+						"Non-existent parent widget {0} for {1}",
+						message.ParentId,
+						message.Id));
+
+				// TODO: refactor
+				var widget = widgetFactory.Create(message.Type, message.Id, parent);
+				widget.Init(message.Args);
+				if (widget.Widget != null && message.Location != Point.Empty)
+					widget.Widget.Move(message.Location);
+
+				widgets.Add(widget);
+
+				state.Screen.HandleCreatedWidget(widget.Widget);
+			});
 		}
 
 		void IConnectionListener.UpdateWidget(WidgetUpdateMessage message)
 		{
-			App.QueueOnMainThread(() => screen.UpdateWidget(message));
+			App.QueueOnMainThread(() =>
+			{
+				var widget = widgets.Get(message.Id);
+				if (widget != null)
+					widget.HandleMessage(message.Name, message.Args);
+				else
+					Log.Warn("UI message {1} to non-existent widget {0}",
+						message.Id, message.Name);
+			});
 		}
 
 		void IConnectionListener.DestroyWidget(ushort widgetId)
 		{
-			App.QueueOnMainThread(() => screen.DestroyWidget(widgetId));
+			App.QueueOnMainThread(() =>
+			{
+				var widget = widgets.Get(widgetId);
+				if (widget != null)
+					state.Screen.HandleDestroyedWidget(widget.Widget);
+
+				widgets.Remove(widgetId);
+			});
 		}
 
 		void IConnectionListener.BindResource(BindResourceMessage message)

@@ -1,24 +1,13 @@
 ﻿using System;
-using System.Drawing;
-using C5;
 using MonoHaven.Input;
-using MonoHaven.Messages;
 using MonoHaven.UI;
-using MonoHaven.UI.Remote;
 using MonoHaven.UI.Widgets;
-using NLog;
 using OpenTK.Input;
 
 namespace MonoHaven.Game
 {
 	public class GameScreen : BaseScreen
 	{
-		private static readonly NLog.Logger Log = LogManager.GetCurrentClassLogger();
-
-		private readonly GameSession session;
-		private readonly ServerWidgetFactory factory;
-		private readonly IDictionary<ushort, ServerWidget> serverWidgets;
-
 		private Container charlistContainer;
 		private MapView mapView;
 		private Calendar calendar;
@@ -28,90 +17,32 @@ namespace MonoHaven.Game
 		private ChatWindow chatWindow;
 		private EscapeWindow escapeWindow;
 
-		public GameScreen(GameSession session)
+		public GameScreen()
 		{
-			this.session = session;
-			factory = new ServerWidgetFactory();
-			serverWidgets = new TreeDictionary<ushort, ServerWidget>();
-			serverWidgets[0] = new ServerRootWidget(0, session, RootWidget);
-
 			escapeWindow = new EscapeWindow(RootWidget);
 			escapeWindow.Visible = false;
 			escapeWindow.Closed += () => escapeWindow.Visible = false;
-			escapeWindow.Logout += () => session.Finish();
-			escapeWindow.Exit += () => App.Exit();
+			escapeWindow.Logout += Close;
+			escapeWindow.Exit += App.Exit;
 
 			RootWidget.KeyDown += OnKeyDown;
 		}
 
-		public Action Exit;
+		public Action Closed;
 
-		public void Bind(ushort id, ServerWidget widget)
+		public Widget Root
 		{
-			serverWidgets[id] = widget;
-		}
-
-		public void CreateWidget(WidgetCreateMessage message)
-		{
-			var parent = GetWidget(message.ParentId);
-			if (parent == null)
-				throw new Exception(string.Format(
-					"Non-existent parent widget {0} for {1}",
-					message.ParentId,
-					message.Id));
-
-			// TODO: refactor
-			var swidget = factory.Create(message.Type, message.Id, parent);
-			swidget.Init(message.Args);
-			if (swidget.Widget != null && message.Location != Point.Empty)
-				swidget.Widget.Move(message.Location);
-
-			HandleCreatedWidget(swidget.Widget);
-			Bind(message.Id, swidget);
-		}
-
-		public void UpdateWidget(WidgetUpdateMessage message)
-		{
-			var widget = GetWidget(message.Id);
-			if (widget != null)
-				widget.HandleMessage(message.Name, message.Args);
-			else
-				Log.Warn("UI message {1} to non-existent widget {0}",
-					message.Id, message.Name);
-		}
-
-		public void DestroyWidget(ushort id)
-		{
-			ServerWidget widget;
-			if (serverWidgets.Remove(id, out widget))
-			{
-				widget.Remove();
-				widget.Dispose();
-				foreach (var child in widget.Descendants)
-				{
-					serverWidgets.Remove(child.Id);
-					child.Dispose();
-					HandleDestroyedWidget(widget.Widget);
-				}
-				HandleDestroyedWidget(widget.Widget);
-				return;
-			}
-			Log.Warn("Attempt to remove non-existent widget {0}", id);
+			get { return RootWidget; }
 		}
 
 		public void Close()
 		{
-			App.QueueOnMainThread(() => Exit.Raise());
+			Closed.Raise();
 		}
 
 		protected override void OnClose()
 		{
-			session.Finish();
-		}
-
-		protected override void OnUpdate(int dt)
-		{
-			session.State.Objects.Tick(dt);
+			Closed.Raise();
 		}
 
 		protected override void OnResize(int newWidth, int newHeight)
@@ -156,13 +87,7 @@ namespace MonoHaven.Game
 			}
 		}
 
-		private ServerWidget GetWidget(ushort id)
-		{
-			ServerWidget widget;
-			return serverWidgets.Find(ref id, out widget) ? widget : null;
-		}
-
-		private void HandleCreatedWidget(Widget widget)
+		public void HandleCreatedWidget(Widget widget)
 		{
 			if (widget is MapView)
 			{
@@ -206,7 +131,7 @@ namespace MonoHaven.Game
 			}
 		}
 
-		private void HandleDestroyedWidget(Widget widget)
+		public void HandleDestroyedWidget(Widget widget)
 		{
 			if (mouseFocus == widget) mouseFocus = null;
 			if (keyboardFocus == widget) keyboardFocus = null;

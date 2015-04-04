@@ -177,6 +177,7 @@
     <Compile Include="UI\Remote\ServerLayeredAvatarView.cs" />
     <Compile Include="UI\Remote\ServerProgress.cs" />
     <Compile Include="UI\Remote\ServerVMeter.cs" />
+    <Compile Include="UI\Remote\ServerWidgetCollection.cs" />
     <Compile Include="UI\Scrollbar.cs" />
     <Compile Include="UI\Tooltip.cs" />
     <Compile Include="UI\Widgets\Avatar.cs" />

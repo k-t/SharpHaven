@@ -47,7 +47,7 @@ namespace MonoHaven.UI.Remote
 			if (studyId != -1)
 			{
 				var study = new ServerContainer((ushort)studyId, this, widget.Study);
-				Parent.Session.Screen.Bind(study.Id, study);
+				Parent.Session.Widgets.Add(study);
 			}
 		}
 

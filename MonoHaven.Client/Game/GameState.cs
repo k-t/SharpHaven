@@ -13,6 +13,7 @@ namespace MonoHaven.Game
 		private readonly GobCache objects;
 		private readonly GameScene scene;
 		private readonly Party party;
+		private readonly GameScreen screen;
 
 		public GameState(GameSession session)
 		{
@@ -23,6 +24,7 @@ namespace MonoHaven.Game
 			objects = new GobCache();
 			scene = new GameScene(this);
 			party = new Party();
+			screen = new GameScreen();
 		}
 
 		public event Action BuffUpdated;
@@ -51,6 +53,11 @@ namespace MonoHaven.Game
 		public GameScene Scene
 		{
 			get { return scene; }
+		}
+
+		public GameScreen Screen
+		{
+			get { return screen; }
 		}
 
 		public GameTime Time

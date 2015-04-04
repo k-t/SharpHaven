@@ -12,6 +12,7 @@ namespace MonoHaven
 		private readonly LoginScreen loginScreen;
 		private GameScreen gameScreen;
 		private IScreen current;
+		private GameSession session;
 
 		public MainScreen()
 		{
@@ -33,20 +34,23 @@ namespace MonoHaven
 
 		private void OnLoginCompleted(GameSession session)
 		{
-			gameScreen = session.Screen;
-			gameScreen.Exit += OnGameExited;
+			this.session = session;
+			gameScreen = session.State.Screen;
+			gameScreen.Closed += OnGameScreenClosed;
 			ChangeScreen(gameScreen);
 		}
 
-		private void OnGameExited()
+		private void OnGameScreenClosed()
 		{
-			gameScreen.Exit -= OnGameExited;
+			gameScreen.Closed -= OnGameScreenClosed;
+			session.Finish();
 
 			ChangeScreen(loginScreen);
 
 			gameScreen.Dispose();
 			// ensure that the instance is not lingering
 			gameScreen = null;
+			session = null;
 		}
 
 		#region IScreen Implementation
@@ -74,6 +78,9 @@ namespace MonoHaven
 		void IScreen.Update(int dt)
 		{
 			current.Update(dt);
+
+			if (session != null)
+				session.State.Objects.Tick(dt);
 		}
 
 		void IScreen.MouseButtonDown(MouseButtonEvent e)
