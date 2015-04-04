@@ -6,82 +6,80 @@ namespace MonoHaven.UI.Remote
 {
 	public class ServerCharWindow : ServerWindow
 	{
-		public static new ServerWidget Create(ushort id, ServerWidget parent, object[] args)
+		private CharWindow widget;
+
+		public ServerCharWindow(ushort id, ServerWidget parent)
+			: base(id, parent)
+		{
+			SetHandler("btime", args => widget.BeliefTimer.Time = (int)args[0]);
+			SetHandler("exp", args => widget.SetExp((int)args[0]));
+			SetHandler("food", args => widget.FoodMeter.Update(args));
+			SetHandler("studynum", args => widget.SetAttention((int)args[0]));
+			SetHandler("nsk", SetAvailableSkills);
+			SetHandler("psk", SetCurrentSkills);
+			SetHandler("numen", SetNumen);
+			SetHandler("wish", SetWish);
+		}
+
+		public override Widget Widget
+		{
+			get { return widget; }
+		}
+
+		public static new ServerWidget Create(ushort id, ServerWidget parent)
+		{
+			return new ServerCharWindow(id, parent);
+		}
+
+		protected override void OnInit(object[] args)
 		{
 			var studyId = args.Length > 0 ? (int)args[0] : -1;
-			var widget = new CharWindow(parent.Widget, parent.Session.State);
-			var serverWidget = new ServerCharWindow(id, parent, widget);
+
+			widget = new CharWindow(Parent.Widget, Parent.Session.State);
+			widget.AttributesChanged += OnAttributesChanged;
+			widget.BeliefChanged += OnBeliefChanged;
+			widget.SkillLearned += OnSkillLearned;
+			widget.Worship.Forfeit += () => SendMessage("forfeit", 0);
+			widget.Closed += () => SendMessage("close");
 
 			// HACK: study widget is not created through a server message
 			//       but passed in the arguments to the char window
 			if (studyId != -1)
 			{
-				var study = new ServerContainer((ushort)studyId, serverWidget, widget.Study);
-				parent.Session.Screen.Bind(study.Id, study);
+				var study = new ServerContainer((ushort)studyId, this, widget.Study);
+				Parent.Session.Screen.Bind(study.Id, study);
 			}
-
-			return serverWidget;
 		}
 
-		private readonly CharWindow widget;
-
-		public ServerCharWindow(ushort id, ServerWidget parent, CharWindow widget)
-			: base(id, parent, widget)
+		private void SetAvailableSkills(object[] args)
 		{
-			this.widget = widget;
-			this.widget.AttributesChanged += OnAttributesChanged;
-			this.widget.BeliefChanged += OnBeliefChanged;
-			this.widget.SkillLearned += OnSkillLearned;
-			this.widget.Worship.Forfeit += () => SendMessage("forfeit", 0);
+			widget.AvailableSkills.SetSkills(GetSkills(args, true));
 		}
 
-		public override void ReceiveMessage(string message, object[] args)
+		private void SetCurrentSkills(object[] args)
 		{
-			switch (message)
+			widget.CurrentSkills.SetSkills(GetSkills(args, false));
+		}
+
+		private void SetNumen(object[] args)
+		{
+			int ent = (int)args[0];
+			int numen = (int)args[1];
+			if (ent == 0)
+				widget.Worship.SetNumenCount(numen);
+		}
+
+		private void SetWish(object[] args)
+		{
+			int ent = (int)args[0];
+			int wish = (int)args[1];
+			int resid = (int)args[2];
+			int amount = (int)args[3];
+			if (ent == 0)
 			{
-				case "exp":
-					widget.SetExp((int)args[0]);
-					break;
-				case "food":
-					widget.FoodMeter.Update(args);
-					break;
-				case "btime":
-					widget.BeliefTimer.Time = (int)args[0];
-					break;
-				case "studynum":
-					widget.SetAttention((int)args[0]);
-					break;
-				case "nsk":
-					widget.AvailableSkills.SetSkills(GetSkills(args, true));
-					break;
-				case "psk":
-					widget.CurrentSkills.SetSkills(GetSkills(args, false));
-					break;
-				case "numen":
-				{
-					int ent = (int)args[0];
-					int numen = (int)args[1];
-					if (ent == 0)
-						widget.Worship.SetNumenCount(numen);
-					break;
-				}
-				case "wish":
-				{
-					int ent = (int)args[0];
-					int wish = (int)args[1];
-					int resid = (int)args[2];
-					int amount = (int)args[3];
-					if (ent == 0)
-					{
-						var item = new Item(Session.Get<ItemMold>(resid));
-						item.Amount = amount;
-						widget.Worship.SetWish(wish, item);
-					}
-					break;
-				}
-				default:
-					base.ReceiveMessage(message, args);
-					break;
+				var item = new Item(Session.Get<ItemMold>(resid));
+				item.Amount = amount;
+				widget.Worship.SetWish(wish, item);
 			}
 		}
 

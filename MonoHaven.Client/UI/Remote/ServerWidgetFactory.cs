@@ -5,7 +5,7 @@ namespace MonoHaven.UI.Remote
 {
 	public class ServerWidgetFactory
 	{
-		private delegate ServerWidget FactoryMethod(ushort id, ServerWidget parent, object[] args);
+		private delegate ServerWidget FactoryMethod(ushort id, ServerWidget parent);
 
 		private readonly Dictionary<string, FactoryMethod> methods;
 
@@ -17,8 +17,8 @@ namespace MonoHaven.UI.Remote
 			methods["charlist"] = ServerCharlist.Create;
 			methods["ibtn"] = ServerImageButton.Create;
 			methods["wnd"] = ServerWindow.Create;
-			methods["av"] = ServerAvatarView.Create;
-			methods["av2"] = ServerAvatarView.CreateFromLayers;
+			methods["av"] = ServerGobAvatarView.Create;
+			methods["av2"] = ServerLayeredAvatarView.Create;
 			methods["lbl"] = ServerLabel.Create;
 			methods["btn"] = ServerButton.Create;
 			methods["mapview"] = ServerMapView.Create;
@@ -49,12 +49,11 @@ namespace MonoHaven.UI.Remote
 		public ServerWidget Create(
 			string widgetType,
 			ushort id,
-			ServerWidget parent,
-			object[] args)
+			ServerWidget parent)
 		{
 			FactoryMethod method;
 			if (methods.TryGetValue(widgetType, out method))
-				return method(id, parent, args);
+				return method(id, parent);
 			throw new ArgumentException("Unknown widget type " + widgetType);
 		}
 	}

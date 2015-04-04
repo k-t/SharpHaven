@@ -4,18 +4,26 @@ namespace MonoHaven.UI.Remote
 {
 	public class ServerGiveButton : ServerWidget
 	{
-		public static ServerWidget Create(ushort id, ServerWidget parent, object[] args)
+		private GiveButton widget;
+
+		public ServerGiveButton(ushort id, ServerWidget parent)
+			: base(id, parent)
 		{
-			var widget = new GiveButton(parent.Widget);
-			return new ServerGiveButton(id, parent, widget);
 		}
 
-		private readonly GiveButton widget;
-
-		public ServerGiveButton(ushort id, ServerWidget parent, GiveButton widget)
-			: base(id, parent, widget)
+		public override Widget Widget
 		{
-			this.widget = widget;
+			get { return widget; }
+		}
+
+		public static ServerWidget Create(ushort id, ServerWidget parent)
+		{
+			return new ServerGiveButton(id, parent);
+		}
+
+		protected override void OnInit(object[] args)
+		{
+			widget = new GiveButton(Parent.Widget);
 		}
 	}
 }

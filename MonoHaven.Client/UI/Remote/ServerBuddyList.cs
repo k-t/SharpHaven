@@ -5,139 +5,139 @@ namespace MonoHaven.UI.Remote
 {
 	public class ServerBuddyList : ServerWindow
 	{
-		public static new ServerWidget Create(ushort id, ServerWidget parent, object[] args)
+		private BuddyWindow widget;
+
+		public ServerBuddyList(ushort id, ServerWidget parent) : base(id, parent)
 		{
-			var widget = new BuddyWindow(parent.Widget);
-			return new ServerBuddyList(id, parent, widget);
+			SetHandler("add", Add);
+			SetHandler("rm", Remove);
+			SetHandler("sel", Select);
+			SetHandler("chst", SetStatus);
+			SetHandler("chnm", SetName);
+			SetHandler("chgrp", SetGroup);
+			SetHandler("i-set", SetInfo);
+			SetHandler("i-act", args => widget.BuddyInfo.SetActions((BuddyActions)args[0]));
+			SetHandler("i-ava", SetAvatar);
+			SetHandler("i-atime", args => widget.BuddyInfo.SetLastSeenTime((int)args[0]));
+			SetHandler("i-clear", args => widget.BuddyInfo.Clear());
+			SetHandler("pwd", args => widget.Secret = (string)args[0]);
+
 		}
 
-		private readonly BuddyWindow widget;
-
-		public ServerBuddyList(ushort id, ServerWidget parent, BuddyWindow widget)
-			: base(id, parent, widget)
+		public override Widget Widget
 		{
-			this.widget = widget;
-
-			this.widget.AddKin += AddKin;
-			this.widget.ChangeSecret += ChangeSecret;
-			this.widget.BuddyList.SelectedItemChanged += SelectBuddy;
-
-			this.widget.BuddyInfo.RemoveBuddy += () => SendAction("rm");
-			this.widget.BuddyInfo.Chat += () => SendAction("chat");
-			this.widget.BuddyInfo.Describe += () => SendAction("desc");
-			this.widget.BuddyInfo.Exile += () => SendAction("exile");
-			this.widget.BuddyInfo.Invite += () => SendAction("inv");
-			this.widget.BuddyInfo.ChangeName += ChangeBuddyName;
-			this.widget.BuddyInfo.ChangeGroup += ChangeBuddyGroup;
+			get { return widget; }
 		}
 
-		public override void ReceiveMessage(string message, object[] args)
+		public static new ServerWidget Create(ushort id, ServerWidget parent)
 		{
-			switch (message)
+			return new ServerBuddyList(id, parent);
+		}
+
+		protected override void OnInit(object[] args)
+		{
+			widget = new BuddyWindow(Parent.Widget);
+
+			widget.AddKin += OnAddKin;
+			widget.ChangeSecret += OnChangeSecret;
+			widget.BuddyList.SelectedItemChanged += OnSelectBuddy;
+
+			widget.BuddyInfo.RemoveBuddy += () => SendAction("rm");
+			widget.BuddyInfo.Chat += () => SendAction("chat");
+			widget.BuddyInfo.Describe += () => SendAction("desc");
+			widget.BuddyInfo.Exile += () => SendAction("exile");
+			widget.BuddyInfo.Invite += () => SendAction("inv");
+			widget.BuddyInfo.ChangeName += OnBuddyNameChange;
+			widget.BuddyInfo.ChangeGroup += OnBuddyGroupChange;
+			widget.Closed += () => SendMessage("close");
+		}
+
+		private void Add(object[] args)
+		{
+			var buddy = new Buddy
 			{
-				case "add":
-				{
-					var buddy = new Buddy {
-						Id = (int)args[0],
-						Name = (string)args[1],
-						OnlineStatus = (int)args[2],
-						Group = (int)args[3]
-					};
-					widget.BuddyList.Add(buddy);
-					break;
-				}
-				case "rm":
-				{
-					int buddyId = (int)args[0];
-					widget.BuddyList.Remove(buddyId);
-					if (widget.BuddyInfo.BuddyId == buddyId)
-						widget.BuddyInfo.Clear();
-					break;
-				}
-				case "sel":
-				{
-					int id = (int)args[0];
-					widget.BuddyList.SelectItem(id);
-					break;
-				}
-				case "pwd":
-					widget.Secret = (string)args[0];
-					break;
-				case "chst":
-				{
-					int id = (int)args[0];
-					int status = (int)args[1];
-					widget.BuddyList.SetStatus(id, status);
-					break;
-				}
-				case "chnm":
-				{
-					int id = (int)args[0];
-					var name = (string)args[1];
-					widget.BuddyList.SetName(id, name);
-					break;
-				}
-				case "chgrp":
-				{
-					int id = (int)args[0];
-					int group = (int)args[1];
-					widget.BuddyList.SetGroup(id, group);
-					break;
-				}
-				case "i-set":
-				{
-					widget.BuddyInfo.BuddyId = (int)args[0];
-					widget.BuddyInfo.Name = (string)args[1];
-					widget.BuddyInfo.Group = (int)args[2];
-					break;
-				}
-				case "i-act":
-					widget.BuddyInfo.SetActions((BuddyActions)args[0]);
-					break;
-				case "i-atime":
-					widget.BuddyInfo.SetLastSeenTime((int)args[0]);
-					break;
-				case "i-ava":
-				{
-					var layers = args.Select(x => Session.GetSprite((int)x));
-					var avatar = layers.Any() ? new Avatar(layers) : null;
-					widget.BuddyInfo.SetAvatar(avatar);
-					break;
-				}
-				case "i-clear":
-					widget.BuddyInfo.Clear();
-					break;
-				default:
-					base.ReceiveMessage(message, args);
-					break;
-			}
+				Id = (int)args[0],
+				Name = (string)args[1],
+				OnlineStatus = (int)args[2],
+				Group = (int)args[3]
+			};
+			widget.BuddyList.Add(buddy);
 		}
 
-		private void AddKin(string secret)
+		private void Remove(object[] args)
+		{
+			int buddyId = (int)args[0];
+			widget.BuddyList.Remove(buddyId);
+			if (widget.BuddyInfo.BuddyId == buddyId)
+				widget.BuddyInfo.Clear();
+		}
+
+		private void Select(object[] args)
+		{
+			int id = (int)args[0];
+			widget.BuddyList.SelectItem(id);
+		}
+
+		private void SetStatus(object[] args)
+		{
+			int id = (int)args[0];
+			int status = (int)args[1];
+			widget.BuddyList.SetStatus(id, status);
+		}
+
+		private void SetName(object[] args)
+		{
+			int id = (int)args[0];
+			var name = (string)args[1];
+			widget.BuddyList.SetName(id, name);
+		}
+
+		private void SetGroup(object[] args)
+		{
+			int id = (int)args[0];
+			int group = (int)args[1];
+			widget.BuddyList.SetGroup(id, group);
+		}
+
+		private void SetInfo(object[] args)
+		{
+			widget.BuddyInfo.BuddyId = (int)args[0];
+			widget.BuddyInfo.Name = (string)args[1];
+			widget.BuddyInfo.Group = (int)args[2];
+		}
+
+		private void SetAvatar(object[] args)
+		{
+			var layers = args.Select(x => Session.GetSprite((int)x));
+			var avatar = layers.Any() ? new Avatar(layers) : null;
+			widget.BuddyInfo.SetAvatar(avatar);
+		}
+
+		private void OnAddKin(string secret)
 		{
 			SendMessage("bypwd", secret);
 		}
 
-		private void ChangeSecret()
+		private void OnChangeSecret()
 		{
 			SendMessage("pwd", widget.Secret);
 		}
 
-		private void ChangeBuddyName()
+		private void OnBuddyNameChange()
 		{
 			var buddyInfo = widget.BuddyInfo;
 			if (buddyInfo.BuddyId.HasValue)
 				SendMessage("nick", buddyInfo.BuddyId.Value, buddyInfo.Name);
 		}
 
-		private void ChangeBuddyGroup(int group)
+		private void OnBuddyGroupChange(int group)
 		{
 			var buddyInfo = widget.BuddyInfo;
 			if (buddyInfo.BuddyId.HasValue)
 				SendMessage("grp", buddyInfo.BuddyId.Value, group);
 		}
 
-		private void SelectBuddy()
+		private void OnSelectBuddy()
 		{
 			var buddy = widget.BuddyList.SelectedItem;
 			if (buddy != null)

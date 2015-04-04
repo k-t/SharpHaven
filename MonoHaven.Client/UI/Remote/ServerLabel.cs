@@ -4,20 +4,30 @@ namespace MonoHaven.UI.Remote
 {
 	public class ServerLabel : ServerWidget
 	{
-		public static ServerWidget Create(ushort id, ServerWidget parent, object[] args)
+		private Label widget;
+
+		public ServerLabel(ushort id, ServerWidget parent) : base(id, parent)
+		{
+		}
+
+		public override Widget Widget
+		{
+			get { return widget; }
+		}
+
+		public static ServerWidget Create(ushort id, ServerWidget parent)
+		{
+			return new ServerLabel(id, parent);
+		}
+
+		protected override void OnInit(object[] args)
 		{
 			var text = (string)args[0];
 			var width = args.Length > 1 ? (int?)args[1] : null;
 
-			var widget = new Label(parent.Widget, Fonts.Text);
+			widget = new Label(Parent.Widget, Fonts.Text);
 			widget.AutoSize = true;
 			widget.Text = text;
-			return new ServerLabel(id, parent, widget);
-		}
-
-		public ServerLabel(ushort id, ServerWidget parent, Label widget)
-			: base(id, parent, widget)
-		{
 		}
 	}
 }

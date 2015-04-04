@@ -8,44 +8,49 @@ namespace MonoHaven.UI.Remote
 {
 	public class ServerMeter : ServerWidget
 	{
-		public static ServerWidget Create(ushort id, ServerWidget parent, object[] args)
+		private Meter widget;
+
+		public ServerMeter(ushort id, ServerWidget parent) : base(id, parent)
+		{
+			SetHandler("set", Set);
+			SetHandler("tt", SetTooltip);
+		}
+
+		public override Widget Widget
+		{
+			get { return widget; }
+		}
+
+		public static ServerWidget Create(ushort id, ServerWidget parent)
+		{
+			return new ServerMeter(id, parent);
+		}
+
+		protected override void OnInit(object[] args)
 		{
 			var metrics = new List<Metric>();
 
 			var resName = (string)args[0];
 			for (int i = 1; i < args.Length; i += 2)
 				metrics.Add(new Metric((Color)args[i], (int)args[i + 1]));
-			
-			var widget = new Meter(parent.Widget);
+
+			widget = new Meter(Parent.Widget);
 			widget.Background = App.Resources.Get<Drawable>(resName);
 			widget.SetMetrics(metrics);
-			return new ServerMeter(id, parent, widget);
 		}
 
-		private readonly Meter widget;
-
-		public ServerMeter(ushort id, ServerWidget parent, Meter widget)
-			: base(id, parent, widget)
+		private void Set(object[] args)
 		{
-			this.widget = widget;
+			var metrics = new List<Metric>();
+			for (int i = 0; i < args.Length; i += 2)
+				metrics.Add(new Metric((Color)args[i], (int)args[i + 1]));
+			widget.SetMetrics(metrics);
 		}
 
-		public override void ReceiveMessage(string message, object[] args)
+		private void SetTooltip(object[] args)
 		{
-			if (message == "set")
-			{
-				var metrics = new List<Metric>();
-				for (int i = 0; i < args.Length; i += 2)
-					metrics.Add(new Metric((Color)args[i], (int)args[i + 1]));
-				widget.SetMetrics(metrics);
-			}
-			else if (message == "tt")
-			{
-				var text = (string)args[0];
-				widget.Tooltip = new Tooltip(text);
-			}
-			else
-				base.ReceiveMessage(message, args);
+			var text = (string)args[0];
+			widget.Tooltip = new Tooltip(text);
 		}
 	}
 }

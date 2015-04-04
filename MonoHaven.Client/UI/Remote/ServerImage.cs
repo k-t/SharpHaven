@@ -6,33 +6,40 @@ namespace MonoHaven.UI.Remote
 {
 	public class ServerImage : ServerWidget
 	{
-		public static ServerWidget Create(ushort id, ServerWidget parent, object[] args)
+		private Image widget;
+
+		public ServerImage(ushort id, ServerWidget parent) : base(id, parent)
+		{
+			SetHandler("ch", SetImage);
+		}
+
+		public override Widget Widget
+		{
+			get { return widget; }
+		}
+
+		public static ServerWidget Create(ushort id, ServerWidget parent)
+		{
+			return new ServerImage(id, parent);
+		}
+
+		protected override void OnInit(object[] args)
 		{
 			var resName = (string)args[0];
 			var handleClick = args.Length > 2 && (int)args[2] != 0;
 
-			var widget = new Image(parent.Widget);
+			widget = new Image(Parent.Widget);
 			widget.Drawable = App.Resources.Get<Drawable>(resName);
 			widget.Resize(widget.Drawable.Size);
-			return new ServerImage(id, parent, widget, handleClick);
-		}
 
-		private readonly Image widget;
-
-		public ServerImage(ushort id, ServerWidget parent, Image widget, bool handleClick)
-			: base(id, parent, widget)
-		{
-			this.widget = widget;
 			if (handleClick)
-				this.widget.Click += OnClick;
+				widget.Click += OnClick;
+			
 		}
 
-		public override void ReceiveMessage(string message, object[] args)
+		private void SetImage(object[] args)
 		{
-			if (message == "ch")
-				widget.Drawable = App.Resources.Get<Drawable>((string)args[0]);
-			else
-				base.ReceiveMessage(message, args);
+			widget.Drawable = App.Resources.Get<Drawable>((string)args[0]);
 		}
 
 		private void OnClick(MouseButtonEvent e)

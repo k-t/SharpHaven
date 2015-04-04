@@ -4,16 +4,26 @@ namespace MonoHaven.UI.Remote
 {
 	public class ServerPartyWidget : ServerWidget
 	{
-		public static ServerWidget Create(ushort id, ServerWidget parent, object[] args)
+		private PartyWidget widget;
+
+		public ServerPartyWidget(ushort id, ServerWidget parent) : base(id, parent)
 		{
-			var widget = new PartyWidget(parent.Widget, parent.Session.State.Objects);
-			widget.PlayerId = (int)args[0];
-			return new ServerPartyWidget(id, parent, widget);
 		}
 
-		public ServerPartyWidget(ushort id, ServerWidget parent, PartyWidget widget)
-			: base(id, parent, widget)
+		public override Widget Widget
 		{
+			get { return widget; }
+		}
+
+		public static ServerWidget Create(ushort id, ServerWidget parent)
+		{
+			return new ServerPartyWidget(id, parent);
+		}
+
+		protected override void OnInit(object[] args)
+		{
+			widget = new PartyWidget(Parent.Widget, Session.State.Objects);
+			widget.PlayerId = (int)args[0];
 			widget.Party = Session.State.Party;
 			widget.Leave += () => SendMessage("leave");
 			widget.PartyMemberClick += OnPartyMemberClick;

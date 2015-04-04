@@ -4,34 +4,43 @@ namespace MonoHaven.UI.Remote
 {
 	public class ServerSpeedget : ServerWidget
 	{
-		public static ServerWidget Create(ushort id, ServerWidget parent, object[] args)
+		private Speedget widget;
+
+		public ServerSpeedget(ushort id, ServerWidget parent) : base(id, parent)
+		{
+			SetHandler("cur", SetCurrent);
+			SetHandler("max", SetMax);
+		}
+		
+		public override Widget Widget
+		{
+			get { return widget; }
+		}
+
+		public static ServerWidget Create(ushort id, ServerWidget parent)
+		{
+			return new ServerSpeedget(id, parent);
+		}
+
+		protected override void OnInit(object[] args)
 		{
 			var cur = (int)args[0];
 			var max = (int)args[1];
 
-			var widget = new Speedget(parent.Widget);
+			widget = new Speedget(Parent.Widget);
 			widget.CurrentSpeed = cur;
 			widget.MaxSpeed = max;
-			return new ServerSpeedget(id, parent, widget);
+			widget.SpeedSelected += value => SendMessage("set", value);
 		}
 
-		private readonly Speedget widget;
-
-		public ServerSpeedget(ushort id, ServerWidget parent, Speedget widget)
-			: base(id, parent, widget)
+		private void SetCurrent(object[] args)
 		{
-			this.widget = widget;
-			this.widget.SpeedSelected += value => SendMessage("set", value);
+			widget.CurrentSpeed = (int)args[0];
 		}
 
-		public override void ReceiveMessage(string message, object[] args)
+		private void SetMax(object[] args)
 		{
-			if (message == "cur")
-				widget.CurrentSpeed = (int)args[0];
-			else if (message == "max")
-				widget.MaxSpeed = (int)args[0];
-			else
-				base.ReceiveMessage(message, args);
+			widget.MaxSpeed = (int)args[0];
 		}
 	}
 }

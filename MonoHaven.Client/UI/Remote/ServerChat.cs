@@ -1,44 +1,43 @@
 ﻿using System.Drawing;
-using System.Windows.Interop;
 using MonoHaven.UI.Widgets;
 
 namespace MonoHaven.UI.Remote
 {
 	public class ServerChat : ServerWidget
 	{
-		public static ServerWidget Create(ushort id, ServerWidget parent, object[] args)
+		private Chat widget;
+
+		public ServerChat(ushort id, ServerWidget parent) : base(id, parent)
+		{
+			SetHandler("log", Log);
+			// TODO: SetHandler("focusme", ...)
+		}
+
+		public override Widget Widget
+		{
+			get { return widget; }
+		}
+
+		public static ServerWidget Create(ushort id, ServerWidget parent)
+		{
+			return new ServerChat(id, parent);
+		}
+
+		protected override void OnInit(object[] args)
 		{
 			var title = (string)args[0];
 			var closable = (args.Length > 1) && ((int)args[1]) != 0;
 
-			var widget = new Chat(parent.Widget, title, closable);
-			return new ServerChat(id, parent, widget);
+			widget = new Chat(Parent.Widget, title, closable);
+			widget.MessageOut += (msg) => SendMessage("msg", msg);
 		}
 
-		private readonly Chat widget;
-
-		public ServerChat(ushort id, ServerWidget parent, Chat widget)
-			: base(id, parent, widget)
+		private void Log(object[] args)
 		{
-			this.widget = widget;
-			this.widget.MessageOut += (msg) => SendMessage("msg", msg);
-		}
-
-		public override void ReceiveMessage(string message, object[] args)
-		{
-			if (message == "log")
-			{
-				var text = (string)args[0];
-				var color = args.Length > 1 ? (Color?)args[1] : null;
-				var alert = args.Length > 2 ? (int?)args[2] : null;
-				widget.AddMessage(text, color);
-			}
-			// TODO:
-			//else if (message == "focusme")
-			//{
-			//}
-			else
-				base.ReceiveMessage(message, args);
+			var text = (string)args[0];
+			var color = args.Length > 1 ? (Color?)args[1] : null;
+			var alert = args.Length > 2 ? (int?)args[2] : null;
+			widget.AddMessage(text, color);
 		}
 	}
 }

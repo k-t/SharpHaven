@@ -5,34 +5,37 @@ namespace MonoHaven.UI.Remote
 {
 	public class ServerHud : ServerWidget
 	{
-		public static ServerWidget Create(ushort id, ServerWidget parent, object[] args)
+		private Hud widget;
+
+		public ServerHud(ushort id, ServerWidget parent)
+			: base(id, parent)
 		{
-			var widget = new Hud(parent.Widget, parent.Session.State);
-			return new ServerHud(id, parent, widget);
+			SetHandler("err", args => widget.ShowError((string)args[0]));
+			SetHandler("setbelt", SetBelt);
 		}
 
-		private readonly Hud widget;
-
-		public ServerHud(ushort id, ServerWidget parent, Hud widget)
-			: base(id, parent, widget)
+		public override Widget Widget
 		{
-			this.widget = widget;
-			this.widget.Menu.ButtonClick += OnMenuButtonClick;
-			this.widget.Belt.Activate += (slot) => SendMessage("belt", slot, 1, 0);
+			get { return widget; }
 		}
 
-		public override void ReceiveMessage(string message, object[] args)
+		public static ServerWidget Create(ushort id, ServerWidget parent)
 		{
-			if (message == "err")
-				widget.ShowError((string)args[0]);
-			else if (message == "setbelt")
-			{
-				var slot = (int)args[0];
-				var action = args.Length > 1 ? Session.Get<Drawable>((int)args[1]) : null;
-				widget.Belt.SetSlot(slot, action);
-			}
-			else
-				base.ReceiveMessage(message, args);
+			return new ServerHud(id, parent);
+		}
+
+		protected override void OnInit(object[] args)
+		{
+			widget = new Hud(Parent.Widget, Parent.Session.State);
+			widget.Menu.ButtonClick += OnMenuButtonClick;
+			widget.Belt.Activate += (slot) => SendMessage("belt", slot, 1, 0);
+		}
+
+		private void SetBelt(object[] args)
+		{
+			var slot = (int)args[0];
+			var action = args.Length > 1 ? Session.Get<Drawable>((int)args[1]) : null;
+			widget.Belt.SetSlot(slot, action);
 		}
 
 		private void OnMenuButtonClick(HudMenu.Button button)

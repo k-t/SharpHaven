@@ -93,7 +93,7 @@ namespace MonoHaven.UI.Widgets
 		public event Action<BeliefChangeEventArgs> BeliefChanged;
 		public event Action<Skill> SkillLearned;
 
-		public Widget Study
+		public Container Study
 		{
 			get { return tabStudy; }
 		}

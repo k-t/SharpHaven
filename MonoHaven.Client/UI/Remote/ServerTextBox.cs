@@ -7,24 +7,49 @@ namespace MonoHaven.UI.Remote
 {
 	public class ServerTextBox : ServerWidget
 	{
-		public static ServerWidget Create(ushort id, ServerWidget parent, object[] args)
+		private TextBox widget;
+
+		public ServerTextBox(ushort id, ServerWidget parent) : base(id, parent)
+		{
+			SetHandler("settext", SetText);
+			SetHandler("get", Get);
+			SetHandler("pw", SetPasswordChar);
+		}
+
+		public override Widget Widget
+		{
+			get { return widget; }
+		}
+
+		public static ServerWidget Create(ushort id, ServerWidget parent)
+		{
+			return new ServerTextBox(id, parent);
+		}
+
+		protected override void OnInit(object[] args)
 		{
 			var size = (Point)args[0];
 			var text = (string)args[1];
 
-			var widget = new TextBox(parent.Widget);
+			widget = new TextBox(Parent.Widget);
 			widget.Resize(size.X, size.Y);
 			widget.Text = text;
-			return new ServerTextBox(id, parent, widget);
+			widget.KeyDown += HandleKeyDown;
 		}
 
-		private readonly TextBox widget;
-
-		public ServerTextBox(ushort id, ServerWidget parent, TextBox widget)
-			: base(id, parent, widget)
+		private void SetPasswordChar(object[] args)
 		{
-			this.widget = widget;
-			this.widget.KeyDown += HandleKeyDown;
+			widget.PasswordChar = (int)args[0] == 1 ? '*' : (char?)null;
+		}
+
+		private void Get(object[] args)
+		{
+			SendMessage("text", widget.Text);
+		}
+
+		private void SetText(object[] args)
+		{
+			widget.Text = (string)args[0];
 		}
 
 		private void HandleKeyDown(KeyEvent e)
@@ -36,18 +61,6 @@ namespace MonoHaven.UI.Remote
 					e.Handled = true;
 					break;
 			}
-		}
-
-		public override void ReceiveMessage(string message, object[] args)
-		{
-			if (message == "settext")
-				widget.Text = (string)args[0];
-			else if (message == "get")
-				SendMessage("text", widget.Text);
-			else if (message == "pw")
-				widget.PasswordChar = (int)args[0] == 1 ? '*' : (char?)null;
-			else
-				base.ReceiveMessage(message, args);
 		}
 	}
 }

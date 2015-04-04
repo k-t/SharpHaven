@@ -60,9 +60,12 @@ namespace MonoHaven.Game
 					message.ParentId,
 					message.Id));
 
-			var swidget = factory.Create(message.Type, message.Id, parent, message.Args);
-			if (message.Location != Point.Empty)
+			// TODO: refactor
+			var swidget = factory.Create(message.Type, message.Id, parent);
+			swidget.Init(message.Args);
+			if (swidget.Widget != null && message.Location != Point.Empty)
 				swidget.Widget.Move(message.Location);
+
 			HandleCreatedWidget(swidget.Widget);
 			Bind(message.Id, swidget);
 		}
@@ -71,7 +74,7 @@ namespace MonoHaven.Game
 		{
 			var widget = GetWidget(message.Id);
 			if (widget != null)
-				widget.ReceiveMessage(message.Name, message.Args);
+				widget.HandleMessage(message.Name, message.Args);
 			else
 				Log.Warn("UI message {1} to non-existent widget {0}",
 					message.Id, message.Name);

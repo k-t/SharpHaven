@@ -6,46 +6,58 @@ namespace MonoHaven.UI.Remote
 {
 	public class ServerMapView : ServerWidget
 	{
-		public static ServerWidget Create(ushort id, ServerWidget parent, object[] args)
+		private MapView widget;
+
+		public ServerMapView(ushort id, ServerWidget parent) : base(id, parent)
+		{
+			SetHandler("move", SetWorldPosition);
+			SetHandler("place", Place);
+			SetHandler("unplace", Unplace);
+		}
+
+		public override Widget Widget
+		{
+			get { return widget; }
+		}
+
+		public static ServerWidget Create(ushort id, ServerWidget parent)
+		{
+			return new ServerMapView(id, parent);
+		}
+
+		protected override void OnInit(object[] args)
 		{
 			var size = (Point)args[0];
 			var worldpos = (Point)args[1];
 			var playerId = args.Length > 2 ? (int)args[2] : -1;
 
-			var widget = new MapView(parent.Widget, parent.Session.State, worldpos, playerId);
+			widget = new MapView(Parent.Widget, Parent.Session.State, worldpos, playerId);
 			widget.Resize(size.X, size.Y);
-			return new ServerMapView(id, parent, widget);
+
+			widget.MapClick += OnMapClick;
+			widget.Placed += OnPlaced;
+			widget.ItemDrop += OnItemDrop;
+			widget.ItemInteract += OnItemInteract;
 		}
 
-		private readonly MapView widget;
-
-		public ServerMapView(ushort id, ServerWidget parent, MapView widget)
-			: base(id, parent, widget)
+		private void SetWorldPosition(object[] args)
 		{
-			this.widget = widget;
-			this.widget.MapClick += OnMapClick;
-			this.widget.Placed += OnPlaced;
-			this.widget.ItemDrop += OnItemDrop;
-			this.widget.ItemInteract += OnItemInteract;
+			Session.State.WorldPosition = (Point)args[0];
 		}
 
-		public override void ReceiveMessage(string message, object[] args)
+		private void Place(object[] args)
 		{
-			if (message == "move")
-				Session.State.WorldPosition = (Point)args[0];
-			else if (message == "place")
-			{
-				var resName = (string)args[0];
-				var resVersion = (int)args[1];
-				var snapToTile = (int)args[2] != 0;
-				var radius = args.Length > 3 ? (int?)args[3] : null;
-				var sprite = App.Resources.GetSprite(resName);
-				widget.Place(sprite, snapToTile, radius);
-			}
-			else if (message == "unplace")
-				widget.Unplace();
-			else
-				base.ReceiveMessage(message, args);
+			var resName = (string)args[0];
+			var resVersion = (int)args[1];
+			var snapToTile = (int)args[2] != 0;
+			var radius = args.Length > 3 ? (int?)args[3] : null;
+			var sprite = App.Resources.GetSprite(resName);
+			widget.Place(sprite, snapToTile, radius);
+		}
+
+		private void Unplace(object[] args)
+		{
+			widget.Unplace();
 		}
 
 		private void OnMapClick(MapClickEventArgs e)

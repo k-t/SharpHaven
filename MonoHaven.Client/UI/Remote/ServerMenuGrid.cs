@@ -6,30 +6,33 @@ namespace MonoHaven.UI.Remote
 {
 	public class ServerMenuGrid : ServerWidget
 	{
-		public static ServerWidget Create(ushort id, ServerWidget parent, object[] args)
+		private MenuGrid widget;
+
+		public ServerMenuGrid(ushort id, ServerWidget parent) : base(id, parent)
 		{
-			var widget = new MenuGrid(parent.Widget, parent.Session.State.Actions);
-			return new ServerMenuGrid(id, parent, widget);
+			SetHandler("goto", Goto);
 		}
 
-		private readonly MenuGrid widget;
-
-		public ServerMenuGrid(ushort id, ServerWidget parent, MenuGrid widget)
-			: base(id, parent, widget)
+		public override Widget Widget
 		{
-			this.widget = widget;
-			this.widget.ActionSelected += HandleActionSelected;
+			get { return widget; }
 		}
 
-		public override void ReceiveMessage(string message, object[] args)
+		public static ServerWidget Create(ushort id, ServerWidget parent)
 		{
-			if (message == "goto")
-			{
-				var resName = (string)args[0];
-				widget.SetCurrentAction(resName);
-			}
-			else
-				base.ReceiveMessage(message, args);
+			return new ServerMenuGrid(id, parent);
+		}
+
+		protected override void OnInit(object[] args)
+		{
+			widget = new MenuGrid(Parent.Widget, Parent.Session.State.Actions);
+			widget.ActionSelected += HandleActionSelected;
+		}
+
+		private void Goto(object[] args)
+		{
+			var resName = (string)args[0];
+			widget.SetCurrentAction(resName);
 		}
 
 		private void HandleActionSelected(GameAction action)

@@ -5,22 +5,32 @@ namespace MonoHaven.UI.Remote
 {
 	public class ServerImageButton : ServerWidget
 	{
-		public static ServerWidget Create(ushort id, ServerWidget parent, object[] args)
+		private ImageButton widget;
+
+		public ServerImageButton(ushort id, ServerWidget parent)
+			: base(id, parent)
+		{
+		}
+
+		public override Widget Widget
+		{
+			get { return widget; }
+		}
+
+		public static ServerWidget Create(ushort id, ServerWidget parent)
+		{
+			return new ServerImageButton(id, parent);
+		}
+
+		protected override void OnInit(object[] args)
 		{
 			var defaultImage = args.Length > 0 ? (string)args[0] : null;
 			var pressedImage = args.Length > 1 ? (string)args[1] : defaultImage;
 
-			var widget = new ImageButton(parent.Widget);
+			widget = new ImageButton(Parent.Widget);
 			widget.Image = App.Resources.Get<Drawable>(defaultImage);
 			widget.PressedImage = App.Resources.Get<Drawable>(pressedImage);
 			widget.Resize(widget.Image.Size);
-
-			return new ServerImageButton(id, parent, widget);
-		}
-
-		public ServerImageButton(ushort id, ServerWidget parent, ImageButton widget)
-			: base(id, parent, widget)
-		{
 			widget.Click += () => SendMessage("activate");
 		}
 	}

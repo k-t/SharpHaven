@@ -5,17 +5,35 @@ namespace MonoHaven.UI.Remote
 {
 	public class ServerContainer : ServerWidget
 	{
-		public static ServerWidget Create(ushort id, ServerWidget parent, object[] args)
+		private Container widget;
+
+		public ServerContainer(ushort id, ServerWidget parent)
+			: base(id, parent)
 		{
-			var size = (Point)args[0];
-			var widget = new Container(parent.Widget);
-			widget.Resize(size.X, size.Y);
-			return new ServerContainer(id, parent, widget);
 		}
 
-		public ServerContainer(ushort id, ServerWidget parent, Widget widget)
-			: base(id, parent, widget)
+		public ServerContainer(ushort id, ServerWidget parent, Container widget)
+			: base(id, parent)
 		{
+			this.widget = widget;
+		}
+
+		public override Widget Widget
+		{
+			get { return widget; }
+		}
+
+		public static ServerWidget Create(ushort id, ServerWidget parent)
+		{
+			return new ServerContainer(id, parent);
+		}
+
+		protected override void OnInit(object[] args)
+		{
+			var size = (Point)args[0];
+
+			widget = new Container(Parent.Widget);
+			widget.Resize(size.X, size.Y);
 		}
 	}
 }

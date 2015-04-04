@@ -4,15 +4,25 @@ namespace MonoHaven.UI.Remote
 {
 	public class ServerBufflist : ServerWidget
 	{
-		public static ServerWidget Create(ushort id, ServerWidget parent, object[] args)
+		private Bufflist widget;
+
+		public ServerBufflist(ushort id, ServerWidget parent) : base(id, parent)
 		{
-			var widget = new Bufflist(parent.Widget, parent.Session.State);
-			return new ServerBufflist(id, parent, widget);
 		}
 
-		public ServerBufflist(ushort id, ServerWidget parent, Bufflist widget)
-			: base(id, parent, widget)
+		public override Widget Widget
 		{
+			get { return widget; }
+		}
+
+		public static ServerWidget Create(ushort id, ServerWidget parent)
+		{
+			return new ServerBufflist(id, parent);
+		}
+
+		protected override void OnInit(object[] args)
+		{
+			widget = new Bufflist(Parent.Widget, Parent.Session.State);
 		}
 	}
 }

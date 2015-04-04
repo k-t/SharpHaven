@@ -5,31 +5,37 @@ namespace MonoHaven.UI.Remote
 {
 	public class ServerWindow : ServerWidget
 	{
-		public static ServerWidget Create(ushort id, ServerWidget parent, object[] args)
+		public static ServerWidget Create(ushort id, ServerWidget parent)
+		{
+			return new ServerWindow(id, parent);
+		}
+
+		private Window widget;
+
+		public ServerWindow(ushort id, ServerWidget parent)
+			: base(id, parent)
+		{
+			SetHandler("pack", Pack);
+		}
+
+		public override Widget Widget
+		{
+			get { return widget; }
+		}
+
+		protected override void OnInit(object[] args)
 		{
 			var size = (Point)args[0];
 			var caption = args.Length > 1 ? (string)args[1] : "";
 
-			var window = new Window(parent.Widget, caption);
-			window.Resize(size.X, size.Y);
-			return new ServerWindow(id, parent, window);
+			widget = new Window(Parent.Widget, caption);
+			widget.Resize(size.X, size.Y);
+			widget.Closed += () => SendMessage("close");
 		}
 
-		private readonly Window widget;
-
-		public ServerWindow(ushort id, ServerWidget parent, Window widget)
-			: base(id, parent, widget)
+		private void Pack(object[] args)
 		{
-			this.widget = widget;
-			this.widget.Closed += () => SendMessage("close");
-		}
-
-		public override void ReceiveMessage(string message, object[] args)
-		{
-			if (message == "pack")
-				widget.Pack();
-			else
-				base.ReceiveMessage(message, args);
+			widget.Pack();
 		}
 	}
 }

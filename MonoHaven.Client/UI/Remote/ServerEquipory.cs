@@ -5,70 +5,76 @@ namespace MonoHaven.UI.Remote
 {
 	public class ServerEquipory : ServerWindow
 	{
-		public static new ServerWidget Create(ushort id, ServerWidget parent, object[] args)
+		private Equipory widget;
+
+		public ServerEquipory(ushort id, ServerWidget parent)
+			: base(id, parent)
 		{
-			var widget = new Equipory(parent.Widget, parent.Session.State.Objects);
-			return new ServerEquipory(id, parent, widget);
+			SetHandler("ava", args => widget.SetGob((int)args[0]));
+			SetHandler("set", Set);
+			SetHandler("setres", SetResource);
 		}
 
-		private readonly Equipory widget;
-
-		public ServerEquipory(ushort id, ServerWidget parent, Equipory widget)
-			: base(id, parent, widget)
+		public override Widget Widget
 		{
-			this.widget = widget;
-			this.widget.Drop += (slot) => SendMessage("drop", slot);
-			this.widget.ItemTake += (slot, p) => SendMessage("take", slot, p);
-			this.widget.ItemTransfer += (slot, p) => SendMessage("transfer", slot, p);
-			this.widget.ItemAct += (slot, p) => SendMessage("iact", slot, p);
-			this.widget.ItemInteract += (slot) => SendMessage("itemact", slot);
+			get { return widget; }
 		}
 
-		public override void ReceiveMessage(string message, object[] args)
+		public static new ServerWidget Create(ushort id, ServerWidget parent)
 		{
-			if (message == "ava")
-				widget.SetGob((int)args[0]);
-			else if (message == "set")
+			return new ServerEquipory(id, parent);
+		}
+
+		protected override void OnInit(object[] args)
+		{
+			widget = new Equipory(Parent.Widget, Parent.Session.State.Objects);
+			widget.Drop += (slot) => SendMessage("drop", slot);
+			widget.ItemTake += (slot, p) => SendMessage("take", slot, p);
+			widget.ItemTransfer += (slot, p) => SendMessage("transfer", slot, p);
+			widget.ItemAct += (slot, p) => SendMessage("iact", slot, p);
+			widget.ItemInteract += (slot) => SendMessage("itemact", slot);
+			widget.Closed += () => SendMessage("close");
+		}
+
+		private void Set(object[] args)
+		{
+			int i = 0;
+			int j = 0;
+			while (j < args.Length)
 			{
-				int i = 0;
-				int j = 0;
-				while (j < args.Length)
+				var resId = (int)args[j++];
+				if (resId >= 0)
 				{
-					var resId = (int)args[j++];
-					if (resId >= 0)
-					{
-						var q = (int)args[j++];
-						var tooltip = (j < args.Length && args[j] is string)
-							? (string)args[j++]
-							: null;
+					var q = (int)args[j++];
+					var tooltip = (j < args.Length && args[j] is string)
+						? (string)args[j++]
+						: null;
 
-						var itemMold = Session.Get<ItemMold>(resId);
-						var item = new Item(itemMold);
-						item.Quality = q;
-						if (!string.IsNullOrEmpty(tooltip))
-							item.Tooltip = tooltip;
+					var itemMold = Session.Get<ItemMold>(resId);
+					var item = new Item(itemMold);
+					item.Quality = q;
+					if (!string.IsNullOrEmpty(tooltip))
+						item.Tooltip = tooltip;
 
-						widget.SetItem(i, item);
-					}
-					else
-						widget.SetItem(i, null);
-					i++;
+					widget.SetItem(i, item);
 				}
+				else
+					widget.SetItem(i, null);
+				i++;
 			}
-			else if (message == "setres")
-			{
-				var i = (int)args[0];
-				var resId = (int)args[1];
-				var q = (int)args[2];
+		}
 
-				var item = new Item(Session.Get<ItemMold>(resId));
-				item.Quality = q;
+		private void SetResource(object[] args)
+		{
+			var i = (int)args[0];
+			var resId = (int)args[1];
+			var q = (int)args[2];
 
-				// TODO: tooltip must be preserved
-				widget.SetItem(i, item);
-			}
-			else
-				base.ReceiveMessage(message, args);
+			var item = new Item(Session.Get<ItemMold>(resId));
+			item.Quality = q;
+
+			// TODO: tooltip must be preserved
+			widget.SetItem(i, item);
 		}
 	}
 }

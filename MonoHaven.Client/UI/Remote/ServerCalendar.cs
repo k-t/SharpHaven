@@ -4,15 +4,25 @@ namespace MonoHaven.UI.Remote
 {
 	public class ServerCalendar : ServerWidget
 	{
-		public static ServerWidget Create(ushort id, ServerWidget parent, object[] args)
+		private Widget widget;
+
+		public ServerCalendar(ushort id, ServerWidget parent) : base(id, parent)
 		{
-			var widget = new Calendar(parent.Widget, parent.Session.State);
-			return new ServerCalendar(id, parent, widget);
 		}
 
-		public ServerCalendar(ushort id, ServerWidget parent, Widget widget)
-			: base(id, parent, widget)
+		public override Widget Widget
 		{
+			get { return widget; }
+		}
+
+		public static ServerWidget Create(ushort id, ServerWidget parent)
+		{
+			return new ServerCalendar(id, parent);
+		}
+
+		protected override void OnInit(object[] args)
+		{
+			widget = new Calendar(Parent.Widget, Parent.Session.State);
 		}
 	}
 }

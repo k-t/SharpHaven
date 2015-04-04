@@ -174,6 +174,7 @@
     <Compile Include="UI\Remote\ServerCraftWindow.cs" />
     <Compile Include="UI\Remote\ServerGiveButton.cs" />
     <Compile Include="UI\Remote\ServerISBox.cs" />
+    <Compile Include="UI\Remote\ServerLayeredAvatarView.cs" />
     <Compile Include="UI\Remote\ServerProgress.cs" />
     <Compile Include="UI\Remote\ServerVMeter.cs" />
     <Compile Include="UI\Scrollbar.cs" />
@@ -239,7 +240,7 @@
     <Compile Include="UI\Widgets\MenuGrid.cs" />
     <Compile Include="UI\Widgets\Meter.cs" />
     <Compile Include="UI\Padding.cs" />
-    <Compile Include="UI\Remote\ServerAvatarView.cs" />
+    <Compile Include="UI\Remote\ServerGobAvatarView.cs" />
     <Compile Include="UI\Remote\ServerBuddyList.cs" />
     <Compile Include="UI\Remote\ServerBufflist.cs" />
     <Compile Include="UI\Remote\ServerButton.cs" />

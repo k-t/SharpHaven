@@ -5,30 +5,36 @@ namespace MonoHaven.UI.Remote
 {
 	public class ServerInventoryWidget : ServerWidget
 	{
-		public static ServerWidget Create(ushort id, ServerWidget parent, object[] args)
+		private InventoryWidget widget;
+
+		public ServerInventoryWidget(ushort id, ServerWidget parent) : base(id, parent)
+		{
+			SetHandler("sz", SetSize);
+		}
+
+		public override Widget Widget
+		{
+			get { return widget; }
+		}
+
+		public static ServerWidget Create(ushort id, ServerWidget parent)
+		{
+			return new ServerInventoryWidget(id, parent);
+		}
+
+		protected override void OnInit(object[] args)
 		{
 			var size = (Point)args[0];
-			var widget = new InventoryWidget(parent.Widget);
+
+			widget = new InventoryWidget(Parent.Widget);
 			widget.SetInventorySize(size);
-			return new ServerInventoryWidget(id, parent, widget);
+			widget.Drop += (p) => SendMessage("drop", p);
+			widget.Transfer += OnTransfer;
 		}
 
-		private readonly InventoryWidget widget;
-
-		public ServerInventoryWidget(ushort id, ServerWidget parent, InventoryWidget widget)
-			: base(id, parent, widget)
+		private void SetSize(object[] args)
 		{
-			this.widget = widget;
-			this.widget.Drop += (p) => SendMessage("drop", p);
-			this.widget.Transfer += OnTransfer;
-		}
-
-		public override void ReceiveMessage(string message, object[] args)
-		{
-			if (message == "sz")
-				widget.SetInventorySize((Point)args[0]);
-			else
-				base.ReceiveMessage(message, args);
+			widget.SetInventorySize((Point)args[0]);
 		}
 
 		private void OnTransfer(TransferEventArgs e)

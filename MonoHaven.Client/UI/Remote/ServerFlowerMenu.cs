@@ -5,30 +5,31 @@ namespace MonoHaven.UI.Remote
 {
 	public class ServerFlowerMenu : ServerWidget
 	{
-		public static ServerWidget Create(ushort id, ServerWidget parent, object[] args)
+		private FlowerMenu widget;
+
+		public ServerFlowerMenu(ushort id, ServerWidget parent)
+			: base(id, parent)
+		{
+			SetHandler("act", _ => widget.Remove());
+			SetHandler("cancel", _ => widget.Remove());
+		}
+
+		public override Widget Widget
+		{
+			get { return widget; }
+		}
+
+		public static ServerWidget Create(ushort id, ServerWidget parent)
+		{
+			return new ServerFlowerMenu(id, parent);
+		}
+
+		protected override void OnInit(object[] args)
 		{
 			var options = args.OfType<string>();
-			var widget = new FlowerMenu(parent.Widget, options);
-			return new ServerFlowerMenu(id, parent, widget);
-		}
-
-		private readonly FlowerMenu widget;
-
-		public ServerFlowerMenu(ushort id, ServerWidget parent, FlowerMenu widget)
-			: base(id, parent, widget)
-		{
-			this.widget = widget;
-			this.widget.Selected += n => SendMessage("cl", n);
-		}
-
-		public override void ReceiveMessage(string message, object[] args)
-		{
-			if (message == "cancel")
-				widget.Remove();
-			else if (message == "act")
-				widget.Remove();
-			else
-				base.ReceiveMessage(message, args);
+			
+			widget = new FlowerMenu(Parent.Widget, options);
+			widget.Selected += n => SendMessage("cl", n);
 		}
 	}
 }
