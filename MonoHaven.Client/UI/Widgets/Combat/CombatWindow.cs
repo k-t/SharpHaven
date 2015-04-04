@@ -15,6 +15,7 @@ namespace MonoHaven.UI.Widgets
 			iptex = App.Resources.Get<Drawable>("gfx/hud/combat/ip");
 		}
 
+		private CombatRelation relation;
 		private Delayed<GameAction> move = new Delayed<GameAction>();
 		private Delayed<GameAction> attack = new Delayed<GameAction>();
 		private Delayed<GameAction> maneuver = new Delayed<GameAction>();
@@ -84,10 +85,20 @@ namespace MonoHaven.UI.Widgets
 			}
 		}
 
-		public int Initiative
+		public CombatRelation Relation
 		{
-			get { return int.Parse(lblInitiative.Text); }
-			set { lblInitiative.Text = value.ToString(); }
+			get { return relation; }
+			set
+			{
+				if (relation != null)
+					relation.Changed -= OnRelationChanged;
+
+				relation = value;
+				OnRelationChanged();
+
+				if (relation != null)
+					relation.Changed += OnRelationChanged;
+			}
 		}
 
 		protected override void OnDraw(DrawingContext dc)
@@ -140,6 +151,13 @@ namespace MonoHaven.UI.Widgets
 				lblCurrentManeuver.Text = Maneuver.Value.Name;
 			else
 				lblCurrentManeuver.Text = "";
+		}
+
+		private void OnRelationChanged()
+		{
+			lblInitiative.Text = (Relation != null)
+				? Relation.Initiative.ToString()
+				: "";
 		}
 	}
 }

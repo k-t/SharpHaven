@@ -24,6 +24,7 @@ namespace MonoHaven.UI.Widgets
 		}
 
 		private readonly Label lblIntensity;
+		private CombatRelation relation;
 
 		public CombatMeter(Widget parent) : base(parent)
 		{
@@ -47,16 +48,20 @@ namespace MonoHaven.UI.Widgets
 			set;
 		}
 
-		public int Intensity
-		{
-			get { return int.Parse(lblIntensity.Text); }
-			set { lblIntensity.Text = value.ToString(); }
-		}
-
 		public CombatRelation Relation
 		{
-			get;
-			set;
+			get { return relation; }
+			set
+			{
+				if (relation != null)
+					relation.Changed -= OnRelationChanged;
+
+				relation = value;
+				OnRelationChanged();
+
+				if (relation != null)
+					relation.Changed += OnRelationChanged;
+			}
 		}
 
 		protected override void OnDraw(DrawingContext dc)
@@ -91,6 +96,13 @@ namespace MonoHaven.UI.Widgets
 				dc.DrawRectangle(80, 71, Relation.Defense / 200, 5);
 			}
 			dc.ResetColor();
+		}
+
+		private void OnRelationChanged()
+		{
+			lblIntensity.Text = (Relation != null)
+				? Relation.Intensity.ToString()
+				: "";
 		}
 	}
 }

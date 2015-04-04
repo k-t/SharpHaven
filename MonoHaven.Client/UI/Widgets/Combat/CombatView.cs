@@ -11,51 +11,26 @@ namespace MonoHaven.UI.Widgets
 		private readonly LinkedList<CombatRelation> relations;
 		private readonly AvatarView avatar;
 		private readonly GiveButton btnGive;
-		private readonly CombatMeter meter;
-		private readonly CombatWindow window;
 
 		public CombatView(Widget parent) : base(parent)
 		{
 			relations = new LinkedList<CombatRelation>();
 
-			meter = new CombatMeter(Parent);
-			meter.Move(333, 10);
-
-			window = new CombatWindow(Parent);
-			window.Move(100, 100);
-
-			avatar = new AvatarView(Parent);
-			avatar.Move(700, 10);
+			avatar = new AvatarView(this);
 			avatar.Click += OnCurrentAvatarClick;
+			avatar.Move(-avatar.Width, 0);
 
-			btnGive = new GiveButton(Parent);
-			btnGive.Move(665, 10);
+			btnGive = new GiveButton(this);
+			btnGive.Move(-avatar.Width - btnGive.Width - 5, 0);
 			btnGive.Click += OnCurrentGiveButtonClick;
 		}
 
 		public event Action<CombatRelationClickEventArgs> Give;
 		public event Action<CombatRelationClickEventArgs> Click;
 
-		public CombatMeter Meter
+		public CombatRelation Current
 		{
-			get { return meter; }
-		}
-
-		public CombatWindow Window
-		{
-			get { return window; }
-		}
-
-		public int Offense
-		{
-			get { return meter.Offense; }
-			set { meter.Offense = value; }
-		}
-
-		public int Defense
-		{
-			get { return meter.Defense; }
-			set { meter.Defense = value; }
+			get { return current; }
 		}
 
 		public void AddRelation(CombatRelation rel)
@@ -84,9 +59,6 @@ namespace MonoHaven.UI.Widgets
 			rel.Remove();
 			rel.Dispose();
 			UpdateLayout();
-
-			if (meter.Relation == rel)
-				meter.Relation = null;
 		}
 
 		public void SetCurrentRelation(int id)
@@ -109,23 +81,11 @@ namespace MonoHaven.UI.Widgets
 				btnGive.Remove();
 				btnGive.Dispose();
 			}
-
-			if (meter != null)
-			{
-				meter.Remove();
-				meter.Dispose();
-			}
-
-			if (window != null)
-			{
-				window.Remove();
-				window.Dispose();
-			}
 		}
 
 		private void UpdateLayout()
 		{
-			int y = 0;
+			int y = avatar.Height + 5;
 			foreach (var rel in relations)
 			{
 				if (rel != current)
@@ -145,7 +105,6 @@ namespace MonoHaven.UI.Widgets
 				current.Changed -= OnRelationChanged;
 
 			current = rel;
-			meter.Relation = rel;
 			UpdateLayout();
 
 			if (current != null)
@@ -158,8 +117,6 @@ namespace MonoHaven.UI.Widgets
 		private void OnRelationChanged()
 		{
 			btnGive.State = current.GiveState;
-			meter.Intensity = current.Intensity;
-			window.Initiative = current.Initiative;
 		}
 
 		private void OnCurrentAvatarClick(AvatarView sender, MouseButtonEvent e)

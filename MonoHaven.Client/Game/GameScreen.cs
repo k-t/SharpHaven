@@ -3,7 +3,6 @@ using MonoHaven.Input;
 using MonoHaven.UI;
 using MonoHaven.UI.Widgets;
 using OpenTK.Input;
-using System.Drawing;
 
 namespace MonoHaven.Game
 {
@@ -17,6 +16,9 @@ namespace MonoHaven.Game
 		private readonly Belt belt;
 		private readonly ChatWindow chatWindow;
 		private readonly EscapeWindow escapeWindow;
+		private readonly CombatMeter combatMeter;
+		private readonly CombatView combatView;
+		private readonly CombatWindow combatWindow;
 
 		public GameScreen()
 		{
@@ -50,6 +52,16 @@ namespace MonoHaven.Game
 			chatWindow.Resize(300, 200);
 			chatWindow.Visible = false;
 
+			combatMeter = new CombatMeter(Root);
+			combatMeter.Visible = false;
+
+			combatView = new CombatView(Root);
+			combatView.Visible = false;
+
+			combatWindow = new CombatWindow(Root);
+			combatWindow.Move(100, 100);
+			combatWindow.Visible = false;
+
 			RootWidget.KeyDown += OnKeyDown;
 		}
 
@@ -63,6 +75,21 @@ namespace MonoHaven.Game
 		public Container Container
 		{
 			get { return container; }
+		}
+
+		public CombatMeter CombatMeter
+		{
+			get { return combatMeter; }
+		}
+
+		public CombatView CombatView
+		{
+			get { return combatView; }
+		}
+
+		public CombatWindow CombatWindow
+		{
+			get { return combatWindow; }
 		}
 
 		public Belt Belt
@@ -115,6 +142,8 @@ namespace MonoHaven.Game
 			menuGrid.Move(newWidth - menuGrid.Width - 5, newHeight - menuGrid.Height - 5);
 			hudMenu.Move((newWidth - hudMenu.Width) / 2, newHeight - hudMenu.Height - 5);
 			escapeWindow.Move((newWidth - 100) / 2, (newHeight - 100) / 2);
+			combatMeter.Move((newWidth - calendar.Width) / 2, calendar.Y);
+			combatView.Move((newWidth - combatView.Width - 10), 10);
 		}
 
 		private void OnKeyDown(KeyEvent e)

@@ -8,7 +8,9 @@ namespace MonoHaven.UI.Remote
 {
 	public class ServerCombatView : ServerWidget
 	{
-		private CombatView widget;
+		private CombatView view;
+		private CombatMeter meter;
+		private CombatWindow window;
 
 		public ServerCombatView(ushort id, ServerWidget parent) : base(id, parent)
 		{
@@ -35,15 +37,30 @@ namespace MonoHaven.UI.Remote
 
 		protected override void OnInit(Point position, object[] args)
 		{
-			widget = new CombatView(Parent.Widget);
-			widget.Move(position);
-			widget.Click += OnClick;
-			widget.Give += OnGive;
+			view = Session.State.Screen.CombatView;
+			view.Visible = true;
+			view.Click += OnClick;
+			view.Give += OnGive;
+
+			meter = Session.State.Screen.CombatMeter;
+			meter.Visible = true;
+
+			window = Session.State.Screen.CombatWindow;
+			window.Visible = true;
+		}
+
+		protected override void OnDestroy()
+		{
+			view.Click -= OnClick;
+			view.Give -= OnGive;
+			view.Visible = false;
+			meter.Visible = false;
+			window.Visible = false;
 		}
 
 		private void New(object[] args)
 		{
-			var rel = new CombatRelation(widget, (int)args[0]);
+			var rel = new CombatRelation(view, (int)args[0]);
 			rel.Balance = (int)args[1];
 			rel.Intensity = (int)args[2];
 			rel.GiveState = (int)args[3];
@@ -51,12 +68,13 @@ namespace MonoHaven.UI.Remote
 			rel.EnemyInitiative = (int)args[5];
 			rel.Offense = (int)args[6];
 			rel.Defense = (int)args[7];
-			widget.AddRelation(rel);
+
+			view.AddRelation(rel);
 		}
 
 		private void Update(object[] args)
 		{
-			var rel = widget.GetRelation((int)args[0]);
+			var rel = view.GetRelation((int)args[0]);
 			if (rel != null)
 			{
 				rel.Balance = (int)args[1];
@@ -69,12 +87,17 @@ namespace MonoHaven.UI.Remote
 
 		private void Delete(object[] args)
 		{
-			widget.RemoveRelation((int)args[0]);
+			int id = (int)args[0];
+
+			view.RemoveRelation(id);
+
+			if (meter.Relation != null && meter.Relation.Id == id)
+				meter.Relation = null;
 		}
 
 		private void UpdateOffenseDefense(object[] args)
 		{
-			var rel = widget.GetRelation((int)args[0]);
+			var rel = view.GetRelation((int)args[0]);
 			if (rel != null)
 			{
 				rel.Offense = (int)args[1];
@@ -84,29 +107,31 @@ namespace MonoHaven.UI.Remote
 
 		private void SetCurrent(object[] args)
 		{
-			widget.SetCurrentRelation((int)args[0]);
+			view.SetCurrentRelation((int)args[0]);
+			meter.Relation = view.Current;
+			window.Relation = view.Current;
 		}
 
 		private void SetCooldown(object[] args)
 		{
-			widget.Window.AttackCooldown = DateTime.Now.AddMilliseconds((int)args[0] * 60);
+			window.AttackCooldown = DateTime.Now.AddMilliseconds((int)args[0] * 60);
 		}
 
 		private void SetManeuver(object[] args)
 		{
-			widget.Window.Maneuver = GetAction((int)args[0]);
+			window.Maneuver = GetAction((int)args[0]);
 		}
 
 		private void SetAttack(object[] args)
 		{
-			widget.Window.Move = GetAction((int)args[0]);
-			widget.Window.Attack = GetAction((int)args[1]);
+			window.Move = GetAction((int)args[0]);
+			window.Attack = GetAction((int)args[1]);
 		}
 
 		private void SetOffenseDefense(object[] args)
 		{
-			widget.Offense = (int)args[0];
-			widget.Defense = (int)args[1];
+			meter.Offense = (int)args[0];
+			meter.Defense = (int)args[1];
 		}
 
 		private void OnClick(CombatRelationClickEventArgs e)
