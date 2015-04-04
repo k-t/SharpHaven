@@ -12,7 +12,7 @@ namespace MonoHaven.UI.Widgets
 		public Progress(Widget parent) : base(parent)
 		{
 			textLine = new TextLine(Fonts.LabelText);
-			textLine.TextColor = Color.DeepPink;
+			textLine.TextColor = Color.Yellow;
 			textLine.TextAlign = TextAlign.Center;
 			textLine.SetWidth(75);
 			Resize(textLine.Width, 20);
