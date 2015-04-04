@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Concurrent;
+using System.Drawing;
 using System.Threading.Tasks;
 using MonoHaven.Game;
 using MonoHaven.Graphics;
@@ -78,8 +79,8 @@ namespace MonoHaven.UI.Widgets
 					var p = Geometry.MapToTile(member.Location.Value).Sub(tc);
 					int x = p.X + Width / 2;
 					int y = p.Y + Height / 2;
-					dc.SetColor(member.Color.A, member.Color.R, member.Color.G, 128);
-					dc.Draw(mark, x, y);
+					dc.SetColor(Color.FromArgb(128, member.Color));
+					dc.Draw(mark, x - mark.Width / 2, y - mark.Height / 2);
 					dc.ResetColor();
 				}
 			}
