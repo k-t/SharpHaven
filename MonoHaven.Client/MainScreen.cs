@@ -36,13 +36,13 @@ namespace MonoHaven
 		{
 			this.session = session;
 			gameScreen = session.State.Screen;
-			gameScreen.Closed += OnGameScreenClosed;
+			gameScreen.Closed += OnGameExited;
 			ChangeScreen(gameScreen);
 		}
 
-		private void OnGameScreenClosed()
+		private void OnGameExited()
 		{
-			gameScreen.Closed -= OnGameScreenClosed;
+			gameScreen.Closed -= OnGameExited;
 			session.Finish();
 
 			ChangeScreen(loginScreen);

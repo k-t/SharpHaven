@@ -28,7 +28,7 @@ namespace MonoHaven.Game
 			RootWidget.KeyDown += OnKeyDown;
 		}
 
-		public Action Closed;
+		public event Action Closed;
 
 		public Widget Root
 		{

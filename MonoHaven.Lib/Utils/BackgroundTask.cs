@@ -22,7 +22,7 @@ namespace MonoHaven.Utils
 			token = tokenSource.Token;
 		}
 
-		public EventHandler Finished;
+		public event EventHandler Finished;
 
 		protected bool IsCancelled
 		{
