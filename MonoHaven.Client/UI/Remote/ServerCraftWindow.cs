@@ -1,5 +1,6 @@
 ﻿using MonoHaven.Game;
 using MonoHaven.UI.Widgets;
+using System.Drawing;
 
 namespace MonoHaven.UI.Remote
 {
@@ -23,11 +24,12 @@ namespace MonoHaven.UI.Remote
 			return new ServerCraftWindow(id, parent);
 		}
 
-		protected override void OnInit(object[] args)
+		protected override void OnInit(Point position, object[] args)
 		{
 			var recipeName = (string)args[0];
 
 			widget = new CraftWindow(Parent.Widget);
+			widget.Move(position);
 			widget.RecipeName = recipeName;
 			widget.Craft += () => SendMessage("make", 0);
 			widget.CraftAll += () => SendMessage("make", 1);

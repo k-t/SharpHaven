@@ -1,4 +1,5 @@
-﻿using MonoHaven.UI.Widgets;
+﻿using System.Drawing;
+using MonoHaven.UI.Widgets;
 
 namespace MonoHaven.UI.Remote
 {
@@ -20,9 +21,10 @@ namespace MonoHaven.UI.Remote
 			return new ServerPartyWidget(id, parent);
 		}
 
-		protected override void OnInit(object[] args)
+		protected override void OnInit(Point position, object[] args)
 		{
 			widget = new PartyWidget(Parent.Widget, Session.State.Objects);
+			widget.Move(position);
 			widget.PlayerId = (int)args[0];
 			widget.Party = Session.State.Party;
 			widget.Leave += () => SendMessage("leave");

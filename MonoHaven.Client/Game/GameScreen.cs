@@ -3,6 +3,7 @@ using MonoHaven.Input;
 using MonoHaven.UI;
 using MonoHaven.UI.Widgets;
 using OpenTK.Input;
+using System.Drawing;
 
 namespace MonoHaven.Game
 {
@@ -26,6 +27,8 @@ namespace MonoHaven.Game
 			escapeWindow.Exit += App.Exit;
 
 			container = new Container(Root);
+			// HACK: to display character selection screen nicely
+			container.Resize(800, 600);
 			container.Visible = false;
 
 			mapView = new MapView(Root);

@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Drawing;
+using System.Linq;
 using MonoHaven.UI.Widgets;
 
 namespace MonoHaven.UI.Remote
@@ -22,12 +23,13 @@ namespace MonoHaven.UI.Remote
 			return new ServerLayeredAvatarView(id, parent);
 		}
 
-		protected override void OnInit(object[] args)
+		protected override void OnInit(Point position, object[] args)
 		{
 			var session = Parent.Session;
 			var layers = args.Select(x => session.GetSprite((int)x));
 			
 			widget = new AvatarView(Parent.Widget);
+			widget.Move(position);
 			widget.Avatar = new Avatar(layers);
 		}
 	}

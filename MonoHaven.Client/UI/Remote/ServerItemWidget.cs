@@ -1,6 +1,7 @@
 ﻿using System.Drawing;
 using MonoHaven.Game;
 using MonoHaven.UI.Widgets;
+using MonoHaven.Utils;
 
 namespace MonoHaven.UI.Remote
 {
@@ -28,7 +29,7 @@ namespace MonoHaven.UI.Remote
 			return new ServerItemWidget(id, parent);
 		}
 
-		protected override void OnInit(object[] args)
+		protected override void OnInit(Point position, object[] args)
 		{
 			int i = 3;
 
@@ -52,6 +53,11 @@ namespace MonoHaven.UI.Remote
 			widget.Act += (p) => SendMessage("iact", p);
 			widget.Interact += (mods) => SendMessage("itemact", ServerInput.ToServerModifiers(mods));
 			widget.Item = item;
+
+			if (dragOffset.HasValue)
+				widget.Move(Session.State.Screen.MousePosition.Sub(dragOffset.Value));
+			else
+				widget.Move(position);
 		}
 
 		private void SetAmount(object[] args)

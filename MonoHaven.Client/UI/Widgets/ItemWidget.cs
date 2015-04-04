@@ -76,6 +76,9 @@ namespace MonoHaven.UI.Widgets
 		protected override void OnDispose()
 		{
 			lblAmount.Dispose();
+
+			if (dragOffset.HasValue)
+				Host.ReleaseMouse();
 		}
 
 		protected override void OnDraw(DrawingContext dc)

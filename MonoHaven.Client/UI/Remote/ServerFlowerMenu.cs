@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using MonoHaven.UI.Widgets;
+using System.Drawing;
 
 namespace MonoHaven.UI.Remote
 {
@@ -24,12 +25,17 @@ namespace MonoHaven.UI.Remote
 			return new ServerFlowerMenu(id, parent);
 		}
 
-		protected override void OnInit(object[] args)
+		protected override void OnInit(Point position, object[] args)
 		{
 			var options = args.OfType<string>();
 			
 			widget = new FlowerMenu(Parent.Widget, options);
 			widget.Selected += n => SendMessage("cl", n);
+
+			if (position.X != -1 && position.Y != -1)
+				widget.Move(position);
+			else
+				widget.Move(Session.State.Screen.MousePosition);
 		}
 	}
 }

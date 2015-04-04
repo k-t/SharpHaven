@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using MonoHaven.Game;
 using MonoHaven.UI.Widgets;
 using MonoHaven.Utils;
@@ -47,9 +48,9 @@ namespace MonoHaven.UI.Remote
 			get;
 		}
 
-		public void Init(object[] args)
+		public void Init(Point position, object[] args)
 		{
-			OnInit(args);
+			OnInit(position, args);
 		}
 
 		public void Dispose()
@@ -73,7 +74,7 @@ namespace MonoHaven.UI.Remote
 					message, string.Join(",", args), GetType());
 		}
 
-		protected virtual void OnInit(object[] args)
+		protected virtual void OnInit(Point position, object[] args)
 		{
 		}
 

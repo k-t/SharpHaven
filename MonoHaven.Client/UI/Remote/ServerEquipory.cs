@@ -1,4 +1,5 @@
-﻿using MonoHaven.Game;
+﻿using System.Drawing;
+using MonoHaven.Game;
 using MonoHaven.UI.Widgets;
 
 namespace MonoHaven.UI.Remote
@@ -25,9 +26,10 @@ namespace MonoHaven.UI.Remote
 			return new ServerEquipory(id, parent);
 		}
 
-		protected override void OnInit(object[] args)
+		protected override void OnInit(Point position, object[] args)
 		{
 			widget = new Equipory(Parent.Widget, Parent.Session.State.Objects);
+			widget.Move(position);
 			widget.Drop += (slot) => SendMessage("drop", slot);
 			widget.ItemTake += (slot, p) => SendMessage("take", slot, p);
 			widget.ItemTransfer += (slot, p) => SendMessage("transfer", slot, p);

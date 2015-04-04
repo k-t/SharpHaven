@@ -1,4 +1,5 @@
-﻿using MonoHaven.UI.Widgets;
+﻿using System.Drawing;
+using MonoHaven.UI.Widgets;
 
 namespace MonoHaven.UI.Remote
 {
@@ -20,12 +21,13 @@ namespace MonoHaven.UI.Remote
 			return new ServerLabel(id, parent);
 		}
 
-		protected override void OnInit(object[] args)
+		protected override void OnInit(Point position, object[] args)
 		{
 			var text = (string)args[0];
 			var width = args.Length > 1 ? (int?)args[1] : null;
 
 			widget = new Label(Parent.Widget, Fonts.Text);
+			widget.Move(position);
 			widget.AutoSize = true;
 			widget.Text = text;
 		}

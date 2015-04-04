@@ -1,4 +1,5 @@
-﻿using MonoHaven.Game;
+﻿using System.Drawing;
+using MonoHaven.Game;
 using MonoHaven.UI.Widgets;
 
 namespace MonoHaven.UI.Remote
@@ -18,7 +19,7 @@ namespace MonoHaven.UI.Remote
 			get { return widget; }
 		}
 
-		protected override void OnInit(object[] args)
+		protected override void OnInit(Point position, object[] args)
 		{
 		}
 	}

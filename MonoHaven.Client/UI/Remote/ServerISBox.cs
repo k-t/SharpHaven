@@ -1,4 +1,5 @@
-﻿using MonoHaven.Graphics;
+﻿using System.Drawing;
+using MonoHaven.Graphics;
 using MonoHaven.UI.Widgets;
 
 namespace MonoHaven.UI.Remote
@@ -22,7 +23,7 @@ namespace MonoHaven.UI.Remote
 			return new ServerISBox(id, parent);
 		}
 
-		protected override void OnInit(object[] args)
+		protected override void OnInit(Point position, object[] args)
 		{
 			// TODO: get tooltip
 			var image = App.Resources.Get<Drawable>((string)args[0]);
@@ -31,6 +32,7 @@ namespace MonoHaven.UI.Remote
 			int built = (int)args[3];
 
 			widget = new ISBox(Parent.Widget);
+			widget.Move(position);
 			widget.Image = image;
 			widget.Remaining = remaining;
 			widget.Available = available;

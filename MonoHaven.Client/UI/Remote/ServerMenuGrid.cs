@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Drawing;
+using System.Linq;
 using MonoHaven.Game;
 using MonoHaven.UI.Widgets;
 
@@ -23,7 +24,7 @@ namespace MonoHaven.UI.Remote
 			return new ServerMenuGrid(id, parent);
 		}
 
-		protected override void OnInit(object[] args)
+		protected override void OnInit(Point position, object[] args)
 		{
 			widget = Session.State.Screen.MenuGrid;
 			widget.Actions = Session.State.Actions;

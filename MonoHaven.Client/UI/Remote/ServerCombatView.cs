@@ -2,6 +2,7 @@
 using MonoHaven.Game;
 using MonoHaven.UI.Widgets;
 using MonoHaven.Utils;
+using System.Drawing;
 
 namespace MonoHaven.UI.Remote
 {
@@ -32,9 +33,10 @@ namespace MonoHaven.UI.Remote
 			return new ServerCombatView(id, parent);
 		}
 
-		protected override void OnInit(object[] args)
+		protected override void OnInit(Point position, object[] args)
 		{
 			widget = new CombatView(Parent.Widget);
+			widget.Move(position);
 			widget.Click += OnClick;
 			widget.Give += OnGive;
 		}

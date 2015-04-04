@@ -22,7 +22,7 @@ namespace MonoHaven.UI.Remote
 			return new ServerVMeter(id, parent);
 		}
 
-		protected override void OnInit(object[] args)
+		protected override void OnInit(Point position, object[] args)
 		{
 			var amount = (int)args[0];
 			var color = args.Length > 4
@@ -30,6 +30,7 @@ namespace MonoHaven.UI.Remote
 				: Color.FromArgb((int)args[1], (int)args[2], (int)args[3]);
 
 			widget = new VMeter(Parent.Widget);
+			widget.Move(position);
 			widget.Amount = amount;
 			widget.Color = color;
 		}

@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Drawing;
+using System.Linq;
 using MonoHaven.UI.Widgets;
 
 namespace MonoHaven.UI.Remote
@@ -34,9 +35,10 @@ namespace MonoHaven.UI.Remote
 			return new ServerBuddyList(id, parent);
 		}
 
-		protected override void OnInit(object[] args)
+		protected override void OnInit(Point position, object[] args)
 		{
 			widget = new BuddyWindow(Parent.Widget);
+			widget.Move(position);
 
 			widget.AddKin += OnAddKin;
 			widget.ChangeSecret += OnChangeSecret;

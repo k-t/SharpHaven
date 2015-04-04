@@ -1,4 +1,5 @@
-﻿using MonoHaven.UI.Widgets;
+﻿using System.Drawing;
+using MonoHaven.UI.Widgets;
 
 namespace MonoHaven.UI.Remote
 {
@@ -22,12 +23,13 @@ namespace MonoHaven.UI.Remote
 			return new ServerSpeedget(id, parent);
 		}
 
-		protected override void OnInit(object[] args)
+		protected override void OnInit(Point position, object[] args)
 		{
 			var cur = (int)args[0];
 			var max = (int)args[1];
 
 			widget = new Speedget(Parent.Widget);
+			widget.Move(position);
 			widget.CurrentSpeed = cur;
 			widget.MaxSpeed = max;
 			widget.SpeedSelected += value => SendMessage("set", value);

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Drawing;
 using MonoHaven.Game;
 using MonoHaven.UI.Widgets;
 
@@ -31,11 +32,12 @@ namespace MonoHaven.UI.Remote
 			return new ServerCharWindow(id, parent);
 		}
 
-		protected override void OnInit(object[] args)
+		protected override void OnInit(Point position, object[] args)
 		{
 			var studyId = args.Length > 0 ? (int)args[0] : -1;
 
 			widget = new CharWindow(Parent.Widget, Parent.Session.State);
+			widget.Move(position);
 			widget.AttributesChanged += OnAttributesChanged;
 			widget.BeliefChanged += OnBeliefChanged;
 			widget.SkillLearned += OnSkillLearned;

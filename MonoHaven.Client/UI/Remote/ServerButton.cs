@@ -1,4 +1,5 @@
-﻿using MonoHaven.UI.Widgets;
+﻿using System.Drawing;
+using MonoHaven.UI.Widgets;
 
 namespace MonoHaven.UI.Remote
 {
@@ -20,12 +21,13 @@ namespace MonoHaven.UI.Remote
 			return new ServerButton(id, parent);
 		}
 
-		protected override void OnInit(object[] args)
+		protected override void OnInit(Point position, object[] args)
 		{
 			var width = (int)args[0];
 			var text = (string)args[1];
 
 			widget = new Button(Parent.Widget, width);
+			widget.Move(position);
 			widget.Text = text;
 			widget.Click += () => SendMessage("activate");
 		}

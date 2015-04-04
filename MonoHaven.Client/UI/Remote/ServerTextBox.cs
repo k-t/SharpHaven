@@ -26,12 +26,13 @@ namespace MonoHaven.UI.Remote
 			return new ServerTextBox(id, parent);
 		}
 
-		protected override void OnInit(object[] args)
+		protected override void OnInit(Point position, object[] args)
 		{
 			var size = (Point)args[0];
 			var text = (string)args[1];
 
 			widget = new TextBox(Parent.Widget);
+			widget.Move(position);
 			widget.Resize(size.X, size.Y);
 			widget.Text = text;
 			widget.KeyDown += HandleKeyDown;

@@ -22,11 +22,12 @@ namespace MonoHaven.UI.Remote
 			return new ServerInventoryWidget(id, parent);
 		}
 
-		protected override void OnInit(object[] args)
+		protected override void OnInit(Point position, object[] args)
 		{
 			var size = (Point)args[0];
 
 			widget = new InventoryWidget(Parent.Widget);
+			widget.Move(position);
 			widget.SetInventorySize(size);
 			widget.Drop += (p) => SendMessage("drop", p);
 			widget.Transfer += OnTransfer;

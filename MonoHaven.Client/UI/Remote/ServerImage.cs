@@ -1,6 +1,8 @@
-﻿using MonoHaven.Graphics;
+﻿using System.Drawing;
+using MonoHaven.Graphics;
 using MonoHaven.Input;
 using MonoHaven.UI.Widgets;
+using Image = MonoHaven.UI.Widgets.Image;
 
 namespace MonoHaven.UI.Remote
 {
@@ -23,12 +25,13 @@ namespace MonoHaven.UI.Remote
 			return new ServerImage(id, parent);
 		}
 
-		protected override void OnInit(object[] args)
+		protected override void OnInit(Point position, object[] args)
 		{
 			var resName = (string)args[0];
 			var handleClick = args.Length > 2 && (int)args[2] != 0;
 
 			widget = new Image(Parent.Widget);
+			widget.Move(position);
 			widget.Drawable = App.Resources.Get<Drawable>(resName);
 			widget.Resize(widget.Drawable.Size);
 

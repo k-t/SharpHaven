@@ -27,7 +27,7 @@ namespace MonoHaven.UI.Remote
 			return new ServerMapView(id, parent);
 		}
 
-		protected override void OnInit(object[] args)
+		protected override void OnInit(Point position, object[] args)
 		{
 			//var size = (Point)args[0];
 			var worldpos = (Point)args[1];

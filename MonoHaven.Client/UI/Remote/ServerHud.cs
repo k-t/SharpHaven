@@ -1,4 +1,5 @@
-﻿using MonoHaven.Graphics;
+﻿using System.Drawing;
+using MonoHaven.Graphics;
 using MonoHaven.UI.Widgets;
 
 namespace MonoHaven.UI.Remote
@@ -24,7 +25,7 @@ namespace MonoHaven.UI.Remote
 			return new ServerHud(id, parent);
 		}
 
-		protected override void OnInit(object[] args)
+		protected override void OnInit(Point position, object[] args)
 		{
 			widget = new Hud(Parent.Widget, Parent.Session.State);
 			widget.Menu.ButtonClick += OnMenuButtonClick;

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Drawing;
 using MonoHaven.Graphics.Sprites;
 using MonoHaven.UI.Widgets;
 using MonoHaven.Utils;
@@ -24,11 +25,12 @@ namespace MonoHaven.UI.Remote
 			return new ServerCharlist(id, parent);
 		}
 
-		protected override void OnInit(object[] args)
+		protected override void OnInit(Point position, object[] args)
 		{
 			var height = (int)args[0];
 
 			widget = new Charlist(Parent.Widget, height);
+			widget.Move(position);
 			widget.CharacterSelected += OnCharacterSelected;
 		}
 

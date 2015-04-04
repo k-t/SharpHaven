@@ -23,12 +23,13 @@ namespace MonoHaven.UI.Remote
 			get { return widget; }
 		}
 
-		protected override void OnInit(object[] args)
+		protected override void OnInit(Point position, object[] args)
 		{
 			var size = (Point)args[0];
 			var caption = args.Length > 1 ? (string)args[1] : "";
 
 			widget = new Window(Parent.Widget, caption);
+			widget.Move(position);
 			widget.Resize(size.X, size.Y);
 			widget.Closed += () => SendMessage("close");
 		}

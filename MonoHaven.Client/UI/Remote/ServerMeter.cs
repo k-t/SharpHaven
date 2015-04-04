@@ -26,7 +26,7 @@ namespace MonoHaven.UI.Remote
 			return new ServerMeter(id, parent);
 		}
 
-		protected override void OnInit(object[] args)
+		protected override void OnInit(Point position, object[] args)
 		{
 			var metrics = new List<Metric>();
 
@@ -35,6 +35,7 @@ namespace MonoHaven.UI.Remote
 				metrics.Add(new Metric((Color)args[i], (int)args[i + 1]));
 
 			widget = new Meter(Parent.Widget);
+			widget.Move(position);
 			widget.Background = App.Resources.Get<Drawable>(resName);
 			widget.SetMetrics(metrics);
 		}

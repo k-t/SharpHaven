@@ -9,13 +9,13 @@ namespace MonoHaven.Messages
 			ushort id,
 			ushort parentId,
 			string type,
-			Point location,
+			Point position,
 			object[] args)
 		{
 			Id = id;
 			ParentId = parentId;
 			Type = type;
-			Location = location;
+			Position = position;
 			Args = args;
 		}
 
@@ -37,7 +37,7 @@ namespace MonoHaven.Messages
 			private set;
 		}
 
-		public Point Location
+		public Point Position
 		{
 			get;
 			private set;
@@ -54,7 +54,7 @@ namespace MonoHaven.Messages
 			return new WidgetCreateMessage(
 				id: reader.ReadUint16(),
 				type: reader.ReadString(),
-				location: reader.ReadCoord(),
+				position: reader.ReadCoord(),
 				parentId: reader.ReadUint16(),
 				args: reader.ReadList()
 			);

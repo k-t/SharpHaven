@@ -10,7 +10,7 @@ namespace MonoHaven.UI
 	public abstract class BaseScreen : IDisposable, IScreen, IWidgetHost
 	{
 		private readonly RootWidget rootWidget;
-		private Point mousePosition;
+		protected Point mousePosition;
 		protected Widget mouseFocus;
 		protected Widget keyboardFocus;
 		private Widget hoveredWidget;
@@ -103,7 +103,7 @@ namespace MonoHaven.UI
 			if (hoveredWidget != null) hoveredWidget.IsHovered = true;
 		}
 
-		#region IScreen Implementation
+		#region IScreen
 
 		void IScreen.Show()
 		{
@@ -190,9 +190,9 @@ namespace MonoHaven.UI
 
 		#endregion
 
-		#region IWidgetHost Implementation
+		#region IWidgetHost
 
-		Point IWidgetHost.MousePosition
+		public Point MousePosition
 		{
 			get { return mousePosition; }
 		}

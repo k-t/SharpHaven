@@ -1,4 +1,5 @@
 ﻿using MonoHaven.UI.Widgets;
+using System.Drawing;
 
 namespace MonoHaven.UI.Remote
 {
@@ -20,7 +21,7 @@ namespace MonoHaven.UI.Remote
 			return new ServerCalendar(id, parent);
 		}
 
-		protected override void OnInit(object[] args)
+		protected override void OnInit(Point position, object[] args)
 		{
 			widget = Session.State.Screen.Calendar;
 			widget.Visible = true;

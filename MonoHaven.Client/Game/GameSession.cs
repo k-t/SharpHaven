@@ -126,12 +126,8 @@ namespace MonoHaven.Game
 						message.ParentId,
 						message.Id));
 
-				// TODO: refactor
 				var widget = widgetFactory.Create(message.Type, message.Id, parent);
-				widget.Init(message.Args);
-				if (widget.Widget != null && message.Location != Point.Empty)
-					widget.Widget.Move(message.Location);
-
+				widget.Init(message.Position, message.Args);
 				widgets.Add(widget);
 			});
 		}

@@ -1,4 +1,5 @@
-﻿using MonoHaven.UI.Widgets;
+﻿using System.Drawing;
+using MonoHaven.UI.Widgets;
 
 namespace MonoHaven.UI.Remote
 {
@@ -21,9 +22,10 @@ namespace MonoHaven.UI.Remote
 			return new ServerGiveButton(id, parent);
 		}
 
-		protected override void OnInit(object[] args)
+		protected override void OnInit(Point position, object[] args)
 		{
 			widget = new GiveButton(Parent.Widget);
+			widget.Move(position);
 		}
 	}
 }
