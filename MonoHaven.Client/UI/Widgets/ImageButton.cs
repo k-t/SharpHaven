@@ -1,4 +1,5 @@
 using System;
+using System.Drawing;
 using MonoHaven.Graphics;
 using MonoHaven.Input;
 
@@ -7,6 +8,7 @@ namespace MonoHaven.UI.Widgets
 	public class ImageButton : Widget
 	{
 		private bool isPressed;
+		private Drawable image;
 
 		public ImageButton(Widget parent)
 			: base(parent)
@@ -24,8 +26,12 @@ namespace MonoHaven.UI.Widgets
 
 		public Drawable Image
 		{
-			get;
-			set;
+			get { return image; }
+			set
+			{
+				image = value;
+				UpdateSize();
+			}
 		}
 
 		public Drawable PressedImage
@@ -80,6 +86,12 @@ namespace MonoHaven.UI.Widgets
 				Click.Raise();
 
 			e.Handled = true;
+		}
+
+		private void UpdateSize()
+		{
+			var size = Image != null ? Image.Size : new Size(0, 0);
+			Resize(size);
 		}
 	}
 }
