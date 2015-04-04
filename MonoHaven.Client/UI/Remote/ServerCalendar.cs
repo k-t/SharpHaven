@@ -13,7 +13,7 @@ namespace MonoHaven.UI.Remote
 
 		public override Widget Widget
 		{
-			get { return widget; }
+			get { return null; }
 		}
 
 		public static ServerWidget Create(ushort id, ServerWidget parent)
