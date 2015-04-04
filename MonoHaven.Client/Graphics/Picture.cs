@@ -8,10 +8,11 @@ namespace MonoHaven.Graphics
 	{
 		private readonly int id;
 		private readonly TextureSlice tex;
-		private readonly Rectangle bounds;
+		private Rectangle bounds;
 		private readonly int z;
 		private readonly int subz;
 		private readonly BitArray hitmask;
+		private readonly Drawable innerDrawable;
 
 		public Picture(TextureSlice tex, BitArray hitmask)
 			: this(-1, tex, Point.Empty, 0, 0, hitmask)
@@ -38,19 +39,29 @@ namespace MonoHaven.Graphics
 			this.hitmask = hitmask;
 		}
 
+		// TODO: it's better to create a new class that will wrap both Picture and TextLine
+		public Picture(
+			Drawable drawable,
+			Point offset,
+			int z,
+			int subz)
+		{
+			this.innerDrawable = drawable;
+			this.size = new Size(drawable.Width, drawable.Height);
+			this.bounds = new Rectangle(offset.X, offset.Y, drawable.Width, drawable.Height);
+			this.z = z;
+			this.subz = subz;
+		}
+
 		public int Id
 		{
 			get { return id; }
 		}
 
-		public TextureSlice Tex
-		{
-			get { return tex; }
-		}
-
 		public Point Offset
 		{
 			get { return bounds.Location; }
+			set { bounds.Location = value; }
 		}
 
 		public Size Size
@@ -70,11 +81,17 @@ namespace MonoHaven.Graphics
 
 		public override void Draw(SpriteBatch batch, int x, int y, int w, int h)
 		{
-			Tex.Draw(batch, x + Offset.X, y + Offset.Y, w, h);
+			if (innerDrawable != null)
+				innerDrawable.Draw(batch, x + Offset.X, y + Offset.Y, w, h);
+			else
+				tex.Draw(batch, x + Offset.X, y + Offset.Y, w, h);
 		}
 
 		public override bool CheckHit(int x, int y)
 		{
+			if (innerDrawable != null)
+				return innerDrawable.CheckHit(x, y);
+
 			if (hitmask != null)
 			{
 				if (bounds.Contains(x, y))

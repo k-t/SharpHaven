@@ -103,6 +103,8 @@
     <Compile Include="Graphics\Sprites\AnimFrame.cs" />
     <Compile Include="Graphics\Sprites\AnimSprite.cs" />
     <Compile Include="Graphics\Sprites\AnimSpritePrototype.cs" />
+    <Compile Include="Graphics\Sprites\FloatText.cs" />
+    <Compile Include="Graphics\Sprites\FloatTextPrototype.cs" />
     <Compile Include="Graphics\Sprites\ISpriteEffect.cs" />
     <Compile Include="Graphics\Sprites\SpritePrototype.cs" />
     <Compile Include="Graphics\Sprites\StaticSprite.cs" />
