@@ -1,7 +1,7 @@
 using System;
 using System.Drawing;
 using System.Threading;
-using System.Windows.Threading;
+using System.Windows.Forms;
 using MonoHaven.Resources;
 using NLog;
 using OpenTK;
@@ -73,7 +73,7 @@ namespace MonoHaven
 		private static void SetSynchronizationContext()
 		{
 			SynchronizationContext.SetSynchronizationContext(
-				new DispatcherSynchronizationContext());
+				new WindowsFormsSynchronizationContext());
 		}
 
 		private static void OnUnhandledException(object sender, UnhandledExceptionEventArgs e)
