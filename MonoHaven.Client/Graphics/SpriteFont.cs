@@ -25,8 +25,8 @@ namespace MonoHaven.Graphics
 			EnsureSize();
 			using (var size = face.Size)
 			{
-				ascent = size.Metrics.Ascender >> 6;
-				height = size.Metrics.Height >> 6;
+				ascent = size.Metrics.Ascender.ToInt32();
+				height = size.Metrics.Height.ToInt32();
 			}
 		}
 
@@ -60,9 +60,9 @@ namespace MonoHaven.Graphics
 		{
 			LoadGlyph(c);
 
-			var sz = new Size(face.Glyph.Metrics.Width >> 6, face.Glyph.Metrics.Height >> 6);
+			var sz = new Size(face.Glyph.Metrics.Width.ToInt32(), face.Glyph.Metrics.Height.ToInt32());
 			if (sz == Size.Empty)
-				return new Glyph { Advance = face.Glyph.Advance.X / 64f };
+				return new Glyph { Advance = face.Glyph.Advance.X.ToSingle() };
 
 			face.Glyph.RenderGlyph(RenderMode.Normal);
 			using (var bitmap = face.Glyph.Bitmap)
@@ -79,7 +79,7 @@ namespace MonoHaven.Graphics
 						image.PixelData[k + 3] = bufferData[i + bitmap.Width * j];
 					}
 				return new Glyph {
-					Advance = face.Glyph.Advance.X / 64f,
+					Advance = face.Glyph.Advance.X.ToSingle(),
 					Offset = new Point(face.Glyph.BitmapLeft, -face.Glyph.BitmapTop),
 					Image = atlas.Add(image)
 				};
