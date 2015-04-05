@@ -93,20 +93,24 @@ namespace MonoHaven.UI.Widgets
 				for (int j = 0; j < ColumnCount; j++)
 					if (i * ColumnCount + j < children.Length)
 					{
-						buttons[i, j].Image = children[i * ColumnCount + j].Image;
-						buttons[i, j].Tag = children[i * ColumnCount + j];
+						var action = children[i * ColumnCount + j];
+						buttons[i, j].Image = action.Image;
+						buttons[i, j].Tooltip = new Tooltip(action.Tooltip);
+						buttons[i, j].Tag = action;
 					}
 					else
 					{
 						buttons[i, j].Image = null;
 						buttons[i, j].Tag = null;
+						buttons[i, j].Tooltip = null;
 					}
 
 			if (!string.IsNullOrEmpty(current.Name))
 			{
 				back = buttons[RowCount - 1, ColumnCount - 1];
-				back.Tag = null;
 				back.Image = backImage;
+				back.Tag = null;
+				back.Tooltip = null;
 			}
 			else
 				back = null;
