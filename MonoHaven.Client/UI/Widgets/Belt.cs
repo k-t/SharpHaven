@@ -4,7 +4,6 @@ using MonoHaven.Graphics;
 using MonoHaven.Input;
 using MonoHaven.UI.Layouts;
 using MonoHaven.Utils;
-using OpenTK.Input;
 
 namespace MonoHaven.UI.Widgets
 {
@@ -42,18 +41,18 @@ namespace MonoHaven.UI.Widgets
 			Resize(w, h);
 		}
 
-		public event Action<int> Activate;
+		public event Action<BeltClickEventArgs> Click;
 
 		public void SetSlot(int slot, Delayed<Drawable> image)
 		{
 			slots[slot].Image = image;
 		}
 
-		private void OnSlotClick(BeltSlot sender)
+		private void OnSlotClick(object sender, MouseButtonEvent e)
 		{
-			int index = slots.IndexOf(sender);
+			int index = slots.IndexOf((BeltSlot)sender);
 			if (index != -1)
-				Activate.Raise(index);
+				Click.Raise(new BeltClickEventArgs(index, e.Button, e.Modifiers));
 		}
 
 		private class BeltSlot : Widget
@@ -76,7 +75,7 @@ namespace MonoHaven.UI.Widgets
 				label.Move(4, 0);
 			}
 
-			public event Action<BeltSlot> Click;
+			public event EventHandler<MouseButtonEvent> Click;
 
 			public Delayed<Drawable> Image
 			{
@@ -99,8 +98,7 @@ namespace MonoHaven.UI.Widgets
 
 			protected override void OnMouseButtonDown(MouseButtonEvent e)
 			{
-				if (e.Button == MouseButton.Left)
-					Click.Raise(this);
+				Click.Raise(this, e);
 			}
 		}
 	}

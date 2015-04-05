@@ -183,6 +183,7 @@
     <Compile Include="UI\Widgets\Avatar.cs" />
     <Compile Include="UI\Widgets\AvatarView.cs" />
     <Compile Include="UI\Widgets\Belt.cs" />
+    <Compile Include="UI\Widgets\BeltClickEventArgs.cs" />
     <Compile Include="UI\Widgets\Buddy\Buddy.cs" />
     <Compile Include="UI\Widgets\Buddy\BuddyActions.cs" />
     <Compile Include="UI\Widgets\Buddy\BuddyComparers.cs" />

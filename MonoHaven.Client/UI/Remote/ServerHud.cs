@@ -29,7 +29,14 @@ namespace MonoHaven.UI.Remote
 		{
 			widget = new Hud(Parent.Widget, Parent.Session.State);
 			widget.Menu.ButtonClick += OnMenuButtonClick;
-			widget.Belt.Activate += (slot) => SendMessage("belt", slot, 1, 0);
+			widget.Belt.Click += OnBeltClick;
+		}
+
+		private void OnBeltClick(BeltClickEventArgs e)
+		{
+			var button = ServerInput.ToServerButton(e.Button);
+			var mods = ServerInput.ToServerModifiers(e.Modifiers);
+			SendMessage("belt", e.Slot, button, mods);
 		}
 
 		private void SetBelt(object[] args)
