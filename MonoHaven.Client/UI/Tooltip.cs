@@ -18,13 +18,19 @@ namespace MonoHaven.UI
 
 		public Tooltip(string text)
 		{
-			textLine = new TextLine(Fonts.Tooltip);
-			textLine.TextColor = Color.White;
-			textLine.Append(text);
+			if (!string.IsNullOrEmpty(text))
+			{
+				textLine = new TextLine(Fonts.Tooltip);
+				textLine.TextColor = Color.White;
+				textLine.Append(text);
+			}
 		}
 
 		public void Draw(DrawingContext dc, int x, int y)
 		{
+			if (textLine == null)
+				return;
+
 			int w = textLine.TextWidth;
 			int h = textLine.Font.Height;
 			
