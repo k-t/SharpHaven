@@ -327,6 +327,7 @@
   <Target Name="BeforeBuild">
     <Copy SourceFiles="$(SolutionDir)\lib\freetype6.dll" DestinationFolder="$(OutputPath)" />
     <Copy SourceFiles="$(SolutionDir)\lib\SharpFont.dll.config" DestinationFolder="$(OutputPath)" />
+	<Copy SourceFiles="$(SolutionDir)\lib\OpenTK.dll.config" DestinationFolder="$(OutputPath)" />
   </Target>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
