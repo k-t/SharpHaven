@@ -224,6 +224,7 @@
     <Compile Include="UI\Widgets\Hud.cs" />
     <Compile Include="UI\Widgets\HudMenu.cs" />
     <Compile Include="UI\Widgets\IDropTarget.cs" />
+    <Compile Include="UI\Widgets\MenuButton.cs" />
     <Compile Include="UI\Widgets\Minimap.cs" />
     <Compile Include="UI\Widgets\PartyMemberClickEventArgs.cs" />
     <Compile Include="UI\Widgets\PartyWidget.cs" />
@@ -327,7 +328,7 @@
   <Target Name="BeforeBuild">
     <Copy SourceFiles="$(SolutionDir)\lib\freetype6.dll" DestinationFolder="$(OutputPath)" />
     <Copy SourceFiles="$(SolutionDir)\lib\SharpFont.dll.config" DestinationFolder="$(OutputPath)" />
-	<Copy SourceFiles="$(SolutionDir)\lib\OpenTK.dll.config" DestinationFolder="$(OutputPath)" />
+    <Copy SourceFiles="$(SolutionDir)\lib\OpenTK.dll.config" DestinationFolder="$(OutputPath)" />
   </Target>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

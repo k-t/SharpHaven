@@ -29,7 +29,7 @@ namespace MonoHaven.UI.Remote
 			widget = Session.State.Screen.MenuGrid;
 			widget.Actions = Session.State.Actions;
 			widget.Visible = true;
-			widget.ActionSelected += HandleActionSelected;
+			widget.Act += OnAct;
 		}
 
 		protected override void OnDestroy()
@@ -41,10 +41,10 @@ namespace MonoHaven.UI.Remote
 		private void Goto(object[] args)
 		{
 			var resName = (string)args[0];
-			widget.SetCurrentAction(resName);
+			widget.Goto(resName);
 		}
 
-		private void HandleActionSelected(GameAction action)
+		private void OnAct(GameAction action)
 		{
 			SendMessage("act", action.Verbs.ToArray<object>());
 		}

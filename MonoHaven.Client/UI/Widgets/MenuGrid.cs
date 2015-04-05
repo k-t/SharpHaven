@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Linq;
 using MonoHaven.Game;
 using MonoHaven.Graphics;
 using MonoHaven.Input;
-using OpenTK.Input;
+using MonoHaven.UI.Layouts;
 
 namespace MonoHaven.UI.Widgets
 {
@@ -17,35 +16,42 @@ namespace MonoHaven.UI.Widgets
 		private static readonly Drawable backImage;
 		private static readonly Drawable nextImage;
 		private static readonly Drawable cellImage;
-		private static readonly int cellWidth;
-		private static readonly int cellHeight;
 
 		private GameActionTree actionTree;
 		private GameActionComparer actionComparer;
-		private readonly GridButton[,] buttons;
-		private readonly GridButton back;
-		private readonly GridButton next;
+		private readonly MenuButton[,] buttons;
+		private MenuButton back;
+		private MenuButton next;
 		private GameAction current;
-		private GridButton pressed;
 
 		static MenuGrid()
 		{
 			backImage = App.Resources.Get<Drawable>("gfx/hud/sc-back");
 			nextImage = App.Resources.Get<Drawable>("gfx/hud/sc-next");
 			cellImage = App.Resources.Get<Drawable>("gfx/hud/invsq");
-			cellWidth = cellImage.Width - 1;
-			cellHeight = cellImage.Height - 1;
 		}
 
 		public MenuGrid(Widget parent) : base(parent)
 		{
-			buttons = new GridButton[RowCount, ColumnCount];
-			back = new GridButton(backImage);
-			next = new GridButton(nextImage);
-			Resize(cellWidth * ColumnCount, cellHeight * RowCount);
+			buttons = new MenuButton[RowCount, ColumnCount];
+
+			var layout = new GridLayout();
+			for (int row = 0; row < RowCount; row++)
+				for (int col = 0; col < ColumnCount; col++)
+				{
+					var button = new MenuButton(this);
+					button.Click += OnButtonClick;
+					buttons[row, col] = button;
+					layout.AddWidget(button, row, col);
+					layout.SetColumnWidth(col, cellImage.Width);
+				}
+			layout.Spacing = -1;
+			layout.UpdateGeometry(0, 0, 0, 0);
+
+			Resize(cellImage.Width * ColumnCount, cellImage.Height * RowCount);
 		}
 
-		public event Action<GameAction> ActionSelected;
+		public event Action<GameAction> Act;
 
 		public GameActionTree Actions
 		{
@@ -53,140 +59,76 @@ namespace MonoHaven.UI.Widgets
 			set
 			{
 				if (actionTree != null)
-					actionTree.Changed -= UpdateCells;
+					actionTree.Changed -= UpdateButtons;
 
 				actionTree = value;
 
 				if (actionTree != null)
 				{
-					actionTree.Changed += UpdateCells;
+					actionTree.Changed += UpdateButtons;
 					actionComparer = new GameActionComparer(actionTree);
 					current = actionTree.Root;
 				}
-				UpdateCells();
+				UpdateButtons();
 			}
 		}
 
-		public void SetCurrentAction(string resName)
+		public void Goto(string resName)
 		{
 			if (Actions == null)
 				throw new InvalidOperationException();
 
-			current = string.IsNullOrEmpty(resName)
-				? Actions.Root
-				: Actions.GetByName(resName) ?? actionTree.Root;
-
-			UpdateCells();
+			current = actionTree.GetByName(resName) ?? actionTree.Root;
+			UpdateButtons();
 		}
 
-		protected override void OnDraw(DrawingContext dc)
-		{
-			for (int i = 0; i < RowCount; i++)
-				for (int j = 0; j < ColumnCount; j++)
-				{
-					int x = cellWidth * j;
-					int y = cellHeight * i;
-					dc.Draw(cellImage, x, y);
-					var button = buttons[i, j];
-					if (button != null)
-						button.Draw(dc, x, y, button == pressed);
-				}
-		}
-
-		protected override void OnMouseButtonDown(MouseButtonEvent e)
-		{
-			if (e.Button == MouseButton.Left)
-			{
-				var button = GetButtonAt(MapFromScreen(e.Position));
-				if (button != null)
-				{
-					pressed = button;
-					Host.GrabMouse(this);
-				}
-			}
-			e.Handled = true;
-		}
-
-		protected override void OnMouseButtonUp(MouseButtonEvent e)
-		{
-			if (e.Button == MouseButton.Left)
-			{
-				if (pressed != null)
-				{
-					if (pressed == back)
-						current = actionTree.GetByName(current.Parent.Name) ?? actionTree.Root;
-					else if (actionTree.HasChildren(pressed.Action))
-						current = pressed.Action;
-					else
-						ActionSelected.Raise(pressed.Action);
-					UpdateCells();
-				}
-				pressed = null;
-				Host.ReleaseMouse();
-			}
-			e.Handled = true;
-		}
-
-		private void UpdateCells()
+		private void UpdateButtons()
 		{
 			if (Actions == null)
-			{
-				// clear all buttons
-				buttons.Initialize();
 				return;
-			}
 
 			var children = Actions.GetChildren(current).ToArray();
 			Array.Sort(children, actionComparer);
 			for (int i = 0; i < RowCount; i++)
 				for (int j = 0; j < ColumnCount; j++)
 					if (i * ColumnCount + j < children.Length)
-						buttons[i, j] = new GridButton(children[i * ColumnCount + j]);
+					{
+						buttons[i, j].Image = children[i * ColumnCount + j].Image;
+						buttons[i, j].Tag = children[i * ColumnCount + j];
+					}
 					else
-						buttons[i, j] = null;
+					{
+						buttons[i, j].Image = null;
+						buttons[i, j].Tag = null;
+					}
 
 			if (!string.IsNullOrEmpty(current.Name))
-				buttons[RowCount - 1, ColumnCount - 1] = back;
+			{
+				back = buttons[RowCount - 1, ColumnCount - 1];
+				back.Tag = null;
+				back.Image = backImage;
+			}
+			else
+				back = null;
 		}
 
-		private GridButton GetButtonAt(Point p)
+		private void OnButtonClick(object sender, MouseButtonEvent e)
 		{
-			int row = p.Y / cellHeight;
-			int col = p.X / cellWidth;
-			if (row >= 0 && row < RowCount && col >= 0 && col < ColumnCount)
-				return buttons[row, col];
-			return null;
-		}
-
-		private class GridButton
-		{
-			private readonly GameAction action;
-			private readonly Drawable image;
-
-			public GridButton(Drawable image)
+			if (sender == back)
+				Goto(current.Parent.Name);
+			else
 			{
-				this.image = image;
-			}
-
-			public GridButton(GameAction action)
-			{
-				this.action = action;
-				this.image = action.Image;
-			}
-
-			public GameAction Action
-			{
-				get { return action; }
-			}
-
-			public void Draw(DrawingContext dc, int x, int y, bool isPressed)
-			{
-				dc.Draw(image, x + 1, y + 1);
-				if (isPressed)
+				var button = (MenuButton)sender;
+				var action = button.Tag as GameAction;
+				if (action != null)
 				{
-					dc.SetColor(0, 0, 0, 128);
-					dc.DrawRectangle(x, y, cellWidth, cellHeight);
-					dc.ResetColor();
+					if (Actions.HasChildren(action))
+					{
+						current = action;
+						UpdateButtons();
+					}
+					else
+						Act.Raise((GameAction)button.Tag);
 				}
 			}
 		}
