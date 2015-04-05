@@ -87,14 +87,9 @@ namespace MonoHaven.UI.Remote
 			handlers[messageName] = handler;
 		}
 
-		protected void SendMessage(string message)
-		{
-			SendMessage(message, new object[0]);
-		}
-
 		protected void SendMessage(string message, params object[] args)
 		{
-			session.SendMessage(id, message, args);
+			session.SendMessage(id, message, args ?? new object[0]);
 		}
 
 		private void SetCursor(object[] args)
