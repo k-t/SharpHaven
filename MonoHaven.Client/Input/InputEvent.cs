@@ -1,8 +1,9 @@
-﻿using OpenTK.Input;
+﻿using System;
+using OpenTK.Input;
 
 namespace MonoHaven.Input
 {
-	public abstract class InputEvent
+	public abstract class InputEvent : EventArgs
 	{
 		private readonly KeyModifiers mods;
 
