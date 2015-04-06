@@ -13,7 +13,7 @@ namespace MonoHaven.Network
 
 		public GameSocket(string host, int port)
 		{
-			address = new DnsEndPoint(host, port);
+			address = new IPEndPoint(Dns.GetHostEntry(host).AddressList[0], port);
 			socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
 			receiveBuffer = new byte[socket.ReceiveBufferSize];
 		}

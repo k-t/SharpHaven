@@ -51,12 +51,18 @@ namespace MonoHaven.Messages
 
 		public static WidgetCreateMessage ReadFrom(MessageReader reader)
 		{
+			var id = reader.ReadUint16();
+			var type = reader.ReadString();
+			var position = reader.ReadCoord();
+			var parentId = reader.ReadUint16();
+			var args = reader.ReadList();
+
 			return new WidgetCreateMessage(
-				id: reader.ReadUint16(),
-				type: reader.ReadString(),
-				position: reader.ReadCoord(),
-				parentId: reader.ReadUint16(),
-				args: reader.ReadList()
+				id: id,
+				type: type,
+				position: position,
+				parentId: parentId,
+				args: args
 			);
 		}
 	}

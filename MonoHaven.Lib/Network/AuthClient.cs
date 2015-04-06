@@ -38,7 +38,7 @@ namespace MonoHaven.Network
 		{
 			var tc = new TcpClient(host, port);
 			ctx = new SslStream(tc.GetStream(), false, ValidateServerCertificate, null);
-			ctx.AuthenticateAsClient(string.Empty);
+			ctx.AuthenticateAsClient(host);
 		}
 
 		public void BindUser(string userName)
