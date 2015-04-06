@@ -8,16 +8,16 @@ namespace MonoHaven.UI.Widgets
 {
 	public class MenuGrid : Widget
 	{
-		private const int RowCount = 4;
-		private const int ColumnCount = 4;
-		private const int PageSize = RowCount * ColumnCount;
+		private const int PageRows = 4;
+		private const int PageColumns = 4;
+		private const int PageSize = PageRows * PageColumns;
 
 		private static readonly Drawable backImage;
 		private static readonly Drawable nextImage;
 		private static readonly Drawable cellImage;
 
 		private readonly MenuNode root;
-		private readonly MenuButton[,] buttons;
+		private readonly MenuButton[] buttons;
 		private MenuButton back;
 		private MenuButton next;
 		private MenuNode current;
@@ -32,26 +32,28 @@ namespace MonoHaven.UI.Widgets
 
 		public MenuGrid(Widget parent) : base(parent)
 		{
-			buttons = new MenuButton[RowCount, ColumnCount];
+			buttons = new MenuButton[PageSize];
 
 			root = new MenuNode();
 			root.Children.CollectionChanged += (s, e) => UpdateButtons();
 
 			// create buttons
 			var layout = new GridLayout();
-			for (int row = 0; row < RowCount; row++)
-				for (int col = 0; col < ColumnCount; col++)
-				{
-					var button = new MenuButton(this);
-					button.Click += OnButtonClick;
-					buttons[row, col] = button;
-					layout.AddWidget(button, row, col);
-					layout.SetColumnWidth(col, cellImage.Width);
-				}
+			for (int i = 0; i < PageSize; i++)
+			{
+				var button = new MenuButton(this);
+				button.Click += OnButtonClick;
+				buttons[i] = button;
+
+				int row = i / PageRows;
+				int col = i % PageRows;
+				layout.AddWidget(button, row, col);
+				layout.SetColumnWidth(col, cellImage.Width);
+			}
 			layout.Spacing = -1;
 			layout.UpdateGeometry(0, 0, 0, 0);
 
-			Resize(cellImage.Width * ColumnCount, cellImage.Height * RowCount);
+			Resize(cellImage.Width * PageColumns, cellImage.Height * PageRows);
 
 			Current = root;
 		}
@@ -78,25 +80,24 @@ namespace MonoHaven.UI.Widgets
 			all.Sort();
 			var page = all.Skip(currentOffset).Take(PageSize).ToList();
 
-			for (int i = 0; i < RowCount; i++)
-				for (int j = 0; j < ColumnCount; j++)
-					if (i * ColumnCount + j < page.Count)
-					{
-						var node = page[i * ColumnCount + j];
-						buttons[i, j].Image = node.Image;
-						buttons[i, j].Tooltip = new Tooltip(node.Tooltip);
-						buttons[i, j].Node = node;
-					}
-					else
-					{
-						buttons[i, j].Image = null;
-						buttons[i, j].Node = null;
-						buttons[i, j].Tooltip = null;
-					}
+			for (int i = 0; i < PageSize; i++)
+				if (i < page.Count)
+				{
+					var node = page[i];
+					buttons[i].Image = node.Image;
+					buttons[i].Tooltip = new Tooltip(node.Tooltip);
+					buttons[i].Node = node;
+				}
+				else
+				{
+					buttons[i].Image = null;
+					buttons[i].Node = null;
+					buttons[i].Tooltip = null;
+				}
 
 			if (current.Parent != null)
 			{
-				back = buttons[RowCount - 1, ColumnCount - 1];
+				back = buttons[PageSize - 1];
 				back.Image = backImage;
 				back.Node = null;
 				back.Tooltip = null;
@@ -106,7 +107,7 @@ namespace MonoHaven.UI.Widgets
 
 			if (page.Count >= PageSize - 1)
 			{
-				next = buttons[RowCount - 1, ColumnCount - 2];
+				next = buttons[PageSize - 2];
 				next.Image = nextImage;
 				next.Node = null;
 				next.Tooltip = null;
@@ -119,7 +120,7 @@ namespace MonoHaven.UI.Widgets
 				Current = Current.Parent;
 			else if (sender == next)
 			{
-				currentOffset += (RowCount * ColumnCount) - 2;
+				currentOffset += (PageRows * PageColumns) - 2;
 				UpdateButtons();
 			}
 			else
