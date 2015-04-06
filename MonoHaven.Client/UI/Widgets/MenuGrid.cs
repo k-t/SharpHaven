@@ -31,12 +31,12 @@ namespace MonoHaven.UI.Widgets
 
 		public MenuGrid(Widget parent) : base(parent)
 		{
+			buttons = new MenuButton[RowCount, ColumnCount];
+
 			root = new MenuNode();
 			root.Children.CollectionChanged += (s, e) => UpdateButtons();
 
-			buttons = new MenuButton[RowCount, ColumnCount];
-			current = root;
-
+			// create buttons
 			var layout = new GridLayout();
 			for (int row = 0; row < RowCount; row++)
 				for (int col = 0; col < ColumnCount; col++)
@@ -52,7 +52,17 @@ namespace MonoHaven.UI.Widgets
 
 			Resize(cellImage.Width * ColumnCount, cellImage.Height * RowCount);
 
-			UpdateButtons();
+			Current = root;
+		}
+
+		public MenuNode Current
+		{
+			get { return current; }
+			set
+			{
+				current = value ?? root;
+				UpdateButtons();
+			}
 		}
 
 		public ICollection<MenuNode> Nodes
@@ -60,19 +70,13 @@ namespace MonoHaven.UI.Widgets
 			get { return root.Children; }
 		}
 
-		public void Goto(MenuNode node)
-		{
-			current = node ?? root;
-			UpdateButtons();
-		}
-
 		private void UpdateButtons()
 		{
-			var children = current.Children.ToArray();
-			Array.Sort(children);
+			var children = current.Children.ToList();
+			children.Sort();
 			for (int i = 0; i < RowCount; i++)
 				for (int j = 0; j < ColumnCount; j++)
-					if (i * ColumnCount + j < children.Length)
+					if (i * ColumnCount + j < children.Count)
 					{
 						var node = children[i * ColumnCount + j];
 						buttons[i, j].Image = node.Image;
@@ -100,17 +104,14 @@ namespace MonoHaven.UI.Widgets
 		private void OnButtonClick(object sender, MouseButtonEvent e)
 		{
 			if (sender == back)
-				Goto(current.Parent);
+				Current = Current.Parent;
 			else
 			{
 				var button = (MenuButton)sender;
 				if (button.Node != null)
 				{
 					if (button.Node.Children.Any())
-					{
-						current = button.Node;
-						UpdateButtons();
-					}
+						Current = button.Node;
 					else
 						button.Node.Activate();
 				}

@@ -53,16 +53,15 @@ namespace MonoHaven.UI.Remote
 		private void Goto(object[] args)
 		{
 			var resName = (string)args[0];
-
 			if (!string.IsNullOrEmpty(resName))
 			{
 				var action = Session.State.Actions.Get(resName);
 				MenuNode node;
 				if (action != null && nodes.Find(ref action, out node))
-					widget.Goto(node);
+					widget.Current = null;
 			}
 			else
-				widget.Goto(null);
+				widget.Current = null;
 		}
 
 		private MenuNode CreateMenuNode(GameAction action)
