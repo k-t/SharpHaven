@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using MonoHaven.Graphics;
 using MonoHaven.Input;
@@ -11,6 +10,7 @@ namespace MonoHaven.UI.Widgets
 	{
 		private const int RowCount = 4;
 		private const int ColumnCount = 4;
+		private const int PageSize = RowCount * ColumnCount;
 
 		private static readonly Drawable backImage;
 		private static readonly Drawable nextImage;
@@ -21,6 +21,7 @@ namespace MonoHaven.UI.Widgets
 		private MenuButton back;
 		private MenuButton next;
 		private MenuNode current;
+		private int currentOffset;
 
 		static MenuGrid()
 		{
@@ -61,6 +62,7 @@ namespace MonoHaven.UI.Widgets
 			set
 			{
 				current = value ?? root;
+				currentOffset = 0;
 				UpdateButtons();
 			}
 		}
@@ -72,13 +74,15 @@ namespace MonoHaven.UI.Widgets
 
 		private void UpdateButtons()
 		{
-			var children = current.Children.ToList();
-			children.Sort();
+			var all = current.Children.ToList();
+			all.Sort();
+			var page = all.Skip(currentOffset).Take(PageSize).ToList();
+
 			for (int i = 0; i < RowCount; i++)
 				for (int j = 0; j < ColumnCount; j++)
-					if (i * ColumnCount + j < children.Count)
+					if (i * ColumnCount + j < page.Count)
 					{
-						var node = children[i * ColumnCount + j];
+						var node = page[i * ColumnCount + j];
 						buttons[i, j].Image = node.Image;
 						buttons[i, j].Tooltip = new Tooltip(node.Tooltip);
 						buttons[i, j].Node = node;
@@ -99,12 +103,25 @@ namespace MonoHaven.UI.Widgets
 			}
 			else
 				back = null;
+
+			if (page.Count >= PageSize - 1)
+			{
+				next = buttons[RowCount - 1, ColumnCount - 2];
+				next.Image = nextImage;
+				next.Node = null;
+				next.Tooltip = null;
+			}
 		}
 
 		private void OnButtonClick(object sender, MouseButtonEvent e)
 		{
 			if (sender == back)
 				Current = Current.Parent;
+			else if (sender == next)
+			{
+				currentOffset += (RowCount * ColumnCount) - 2;
+				UpdateButtons();
+			}
 			else
 			{
 				var button = (MenuButton)sender;
