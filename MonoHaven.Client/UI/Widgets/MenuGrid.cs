@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using MonoHaven.Game;
 using MonoHaven.Graphics;
 using MonoHaven.Input;
 using MonoHaven.UI.Layouts;
@@ -17,12 +16,11 @@ namespace MonoHaven.UI.Widgets
 		private static readonly Drawable nextImage;
 		private static readonly Drawable cellImage;
 
-		private GameActionTree actionTree;
-		private GameActionComparer actionComparer;
+		private readonly MenuNode root;
 		private readonly MenuButton[,] buttons;
 		private MenuButton back;
 		private MenuButton next;
-		private GameAction current;
+		private MenuNode current;
 
 		static MenuGrid()
 		{
@@ -33,7 +31,11 @@ namespace MonoHaven.UI.Widgets
 
 		public MenuGrid(Widget parent) : base(parent)
 		{
+			root = new MenuNode();
+			root.Children.CollectionChanged += (s, e) => UpdateButtons();
+
 			buttons = new MenuButton[RowCount, ColumnCount];
+			current = root;
 
 			var layout = new GridLayout();
 			for (int row = 0; row < RowCount; row++)
@@ -49,67 +51,46 @@ namespace MonoHaven.UI.Widgets
 			layout.UpdateGeometry(0, 0, 0, 0);
 
 			Resize(cellImage.Width * ColumnCount, cellImage.Height * RowCount);
+
+			UpdateButtons();
 		}
 
-		public event Action<GameAction> Act;
-
-		public GameActionTree Actions
+		public ICollection<MenuNode> Nodes
 		{
-			get { return actionTree; }
-			set
-			{
-				if (actionTree != null)
-					actionTree.Changed -= UpdateButtons;
-
-				actionTree = value;
-
-				if (actionTree != null)
-				{
-					actionTree.Changed += UpdateButtons;
-					actionComparer = new GameActionComparer(actionTree);
-					current = actionTree.Root;
-				}
-				UpdateButtons();
-			}
+			get { return root.Children; }
 		}
 
-		public void Goto(string resName)
+		public void Goto(MenuNode node)
 		{
-			if (Actions == null)
-				throw new InvalidOperationException();
-
-			current = actionTree.GetByName(resName) ?? actionTree.Root;
+			current = node ?? root;
 			UpdateButtons();
 		}
 
 		private void UpdateButtons()
 		{
-			if (Actions == null)
-				return;
-
-			var children = Actions.GetChildren(current).ToArray();
-			Array.Sort(children, actionComparer);
+			var children = current.Children.ToArray();
+			Array.Sort(children);
 			for (int i = 0; i < RowCount; i++)
 				for (int j = 0; j < ColumnCount; j++)
 					if (i * ColumnCount + j < children.Length)
 					{
-						var action = children[i * ColumnCount + j];
-						buttons[i, j].Image = action.Image;
-						buttons[i, j].Tooltip = new Tooltip(action.Tooltip);
-						buttons[i, j].Tag = action;
+						var node = children[i * ColumnCount + j];
+						buttons[i, j].Image = node.Image;
+						buttons[i, j].Tooltip = new Tooltip(node.Tooltip);
+						buttons[i, j].Node = node;
 					}
 					else
 					{
 						buttons[i, j].Image = null;
-						buttons[i, j].Tag = null;
+						buttons[i, j].Node = null;
 						buttons[i, j].Tooltip = null;
 					}
 
-			if (!string.IsNullOrEmpty(current.Name))
+			if (current.Parent != null)
 			{
 				back = buttons[RowCount - 1, ColumnCount - 1];
 				back.Image = backImage;
-				back.Tag = null;
+				back.Node = null;
 				back.Tooltip = null;
 			}
 			else
@@ -119,41 +100,20 @@ namespace MonoHaven.UI.Widgets
 		private void OnButtonClick(object sender, MouseButtonEvent e)
 		{
 			if (sender == back)
-				Goto(current.Parent.Name);
+				Goto(current.Parent);
 			else
 			{
 				var button = (MenuButton)sender;
-				var action = button.Tag as GameAction;
-				if (action != null)
+				if (button.Node != null)
 				{
-					if (Actions.HasChildren(action))
+					if (button.Node.Children.Any())
 					{
-						current = action;
+						current = button.Node;
 						UpdateButtons();
 					}
 					else
-						Act.Raise((GameAction)button.Tag);
+						button.Node.Activate();
 				}
-			}
-		}
-
-		private class GameActionComparer : IComparer<GameAction>
-		{
-			private readonly GameActionTree tree;
-
-			public GameActionComparer(GameActionTree tree)
-			{
-				this.tree = tree;
-			}
-
-			public int Compare(GameAction x, GameAction y)
-			{
-				if (x == y) return 0;
-				if (x == null) return -1;
-				if (y == null) return 1;
-				if (tree.HasChildren(y) != tree.HasChildren(x))
-					return tree.HasChildren(y) ? 1 : -1;
-				return string.CompareOrdinal(x.Name, y.Name);
 			}
 		}
 	}

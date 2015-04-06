@@ -11,6 +11,7 @@ namespace MonoHaven.Resources
 			var image = TextureSlice.FromBitmap(res.GetLayer<ImageData>().Data);
 			return new GameAction(
 				data.Name,
+				resName,
 				data.Parent,
 				data.Name,
 				new Picture(image, null),

@@ -78,7 +78,7 @@ namespace MonoHaven.Game
 			return GetResource(id, n => App.Resources.GetSprite(n, spriteState));
 		}
 
-		public Delayed<T> Get<T>(int id) where T : class 
+		public Delayed<T> Get<T>(int id) where T : class
 		{
 			return GetResource(id, n => App.Resources.Get<T>(n));
 		}
@@ -89,7 +89,7 @@ namespace MonoHaven.Game
 			string resName;
 			return resources.TryGetValue(id, out resName)
 				? new Delayed<T>(getter(resName))
-				: new Delayed<T>((out T res) => 
+				: new Delayed<T>((out T res) =>
 				{
 					if (resources.TryGetValue(id, out resName))
 					{

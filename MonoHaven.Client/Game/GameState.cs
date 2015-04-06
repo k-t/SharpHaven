@@ -6,7 +6,7 @@ namespace MonoHaven.Game
 {
 	public class GameState
 	{
-		private readonly GameActionTree actions;
+		private readonly GameActionCollection actions;
 		private readonly Dictionary<string, CharAttribute> attributes;
 		private readonly Dictionary<int, Buff> buffs;
 		private readonly Map map;
@@ -17,7 +17,7 @@ namespace MonoHaven.Game
 
 		public GameState(GameSession session)
 		{
-			actions = new GameActionTree();
+			actions = new GameActionCollection();
 			attributes = new Dictionary<string, CharAttribute>();
 			buffs = new Dictionary<int, Buff>();
 			map = new Map(session);
@@ -40,7 +40,7 @@ namespace MonoHaven.Game
 			set;
 		}
 
-		public GameActionTree Actions
+		public GameActionCollection Actions
 		{
 			get { return actions; }
 		}

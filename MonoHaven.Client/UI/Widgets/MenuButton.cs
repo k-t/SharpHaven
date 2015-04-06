@@ -31,7 +31,7 @@ namespace MonoHaven.UI.Widgets
 			set;
 		}
 
-		public Object Tag
+		public MenuNode Node
 		{
 			get;
 			set;

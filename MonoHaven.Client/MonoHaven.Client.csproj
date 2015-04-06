@@ -83,7 +83,8 @@
     <Compile Include="Game\Buff.cs" />
     <Compile Include="Game\BuffMold.cs" />
     <Compile Include="Game\CharAttribute.cs" />
-    <Compile Include="Game\GameActionTree.cs" />
+    <Compile Include="Game\GameActionCollection.cs" />
+    <Compile Include="UI\Widgets\MenuNode.cs" />
     <Compile Include="Game\GameScene.cs" />
     <Compile Include="Game\GameTime.cs" />
     <Compile Include="Game\Geometry.cs" />
