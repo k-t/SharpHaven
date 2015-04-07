@@ -61,7 +61,7 @@ namespace MonoHaven.UI.Widgets
 						node.parent = this;
 					break;
 				case NotifyCollectionChangedAction.Remove:
-					foreach (MenuNode node in e.NewItems)
+					foreach (MenuNode node in e.OldItems)
 						node.parent = null;
 					break;
 			}
