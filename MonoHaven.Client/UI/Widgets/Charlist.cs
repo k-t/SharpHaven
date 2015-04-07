@@ -12,7 +12,7 @@ namespace MonoHaven.UI.Widgets
 {
 	public class Charlist : Widget
 	{
-		private const int Margin = 6;
+		private const int Spacing = 6;
 
 		private static readonly Drawable background;
 		private static readonly Drawable scrollUp;
@@ -33,7 +33,7 @@ namespace MonoHaven.UI.Widgets
 
 		public Charlist(Widget parent, int listHeight) : base(parent)
 		{
-			Resize(background.Width, 40 + (background.Height * listHeight) + (Margin * (listHeight - 1)));
+			Resize(background.Width, 40 + (background.Height * listHeight) + (Spacing * (listHeight - 1)));
 
 			this.items = new List<ListItem>(listHeight);
 			this.listHeight = listHeight;
@@ -84,7 +84,7 @@ namespace MonoHaven.UI.Widgets
 				if (item.Visible)
 				{
 					item.Move(0, y);
-					y += item.Height + Margin;
+					y += item.Height + Spacing;
 				}
 			}
 		}

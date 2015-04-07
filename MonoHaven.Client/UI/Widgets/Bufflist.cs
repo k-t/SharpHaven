@@ -8,7 +8,7 @@ namespace MonoHaven.UI.Widgets
 {
 	public class Bufflist : Widget
 	{
-		private const int Margin = 2;
+		private const int Spacing = 2;
 		private const int Num = 5;
 
 		private static readonly Point imgoff = new Point(3, 3);
@@ -17,21 +17,21 @@ namespace MonoHaven.UI.Widgets
 		private static readonly Drawable frame;
 		private static readonly Drawable cframe;
 
+		private readonly GameState gstate;
+		private readonly Dictionary<int, BuffWidget> widgets;
+
 		static Bufflist()
 		{
 			frame = App.Resources.Get<Drawable>("gfx/hud/buffs/frame");
 			cframe = App.Resources.Get<Drawable>("gfx/hud/buffs/cframe");
 		}
 
-		private readonly GameState gstate;
-		private readonly Dictionary<int, BuffWidget> widgets;
-
 		public Bufflist(Widget parent, GameState gstate) : base(parent)
 		{
 			this.gstate = gstate;
 			this.gstate.BuffUpdated += Update;
 			this.widgets = new Dictionary<int, BuffWidget>();
-			Resize(Num * frame.Width + (Num - 1) * Margin, cframe.Height);
+			Resize(Num * frame.Width + (Num - 1) * Spacing, cframe.Height);
 			Update();
 		}
 
@@ -75,7 +75,7 @@ namespace MonoHaven.UI.Widgets
 				widgets.Remove(id);
 			}
 
-			layout.Spacing = Margin;
+			layout.Spacing = Spacing;
 			layout.UpdateGeometry(0, 0, 0, 0);
 		}
 

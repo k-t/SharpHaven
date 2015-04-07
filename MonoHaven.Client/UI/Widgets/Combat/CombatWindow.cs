@@ -16,7 +16,7 @@ namespace MonoHaven.UI.Widgets
 		}
 
 		private CombatRelation relation;
-		private Delayed<GameAction> move = new Delayed<GameAction>();
+		private Delayed<GameAction> attackMove = new Delayed<GameAction>();
 		private Delayed<GameAction> attack = new Delayed<GameAction>();
 		private Delayed<GameAction> maneuver = new Delayed<GameAction>();
 		private readonly Label lblCurrentAttack;
@@ -65,12 +65,12 @@ namespace MonoHaven.UI.Widgets
 			set;
 		}
 
-		public Delayed<GameAction> Move
+		public Delayed<GameAction> AttackMove
 		{
-			get { return move; }
+			get { return attackMove; }
 			set
 			{
-				move = value ?? new Delayed<GameAction>();
+				attackMove = value ?? new Delayed<GameAction>();
 				UpdateAttackLabel();
 			}
 		}
@@ -108,9 +108,9 @@ namespace MonoHaven.UI.Widgets
 			dc.PushMatrix();
 			dc.Translate(Margin, Margin);
 
-			var hasMove = (Move.Value != null);
+			var hasMove = (AttackMove.Value != null);
 			if (hasMove)
-				dc.Draw(Move.Value.Image, 15, 20);
+				dc.Draw(AttackMove.Value.Image, 15, 20);
 
 			if (Attack.Value != null)
 			{
@@ -139,8 +139,8 @@ namespace MonoHaven.UI.Widgets
 		{
 			if (Attack.Value != null)
 				lblCurrentAttack.Text = Attack.Value.Name;
-			else if (Move.Value != null)
-				lblCurrentAttack.Text = Move.Value.Name;
+			else if (AttackMove.Value != null)
+				lblCurrentAttack.Text = AttackMove.Value.Name;
 			else
 				lblCurrentAttack.Text = "";
 		}

@@ -124,7 +124,7 @@ namespace MonoHaven.UI.Remote
 
 		private void SetAttack(object[] args)
 		{
-			window.Move = GetAction((int)args[0]);
+			window.AttackMove = GetAction((int)args[0]);
 			window.Attack = GetAction((int)args[1]);
 		}
 

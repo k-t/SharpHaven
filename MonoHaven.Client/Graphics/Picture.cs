@@ -32,8 +32,8 @@ namespace MonoHaven.Graphics
 
 			this.id = id;
 			this.tex = tex;
-			this.size = new Size(tex.Width, tex.Height);
 			this.bounds = new Rectangle(offset.X, offset.Y, tex.Width, tex.Height);
+			this.size = bounds.Size;
 			this.z = z;
 			this.subz = subz;
 			this.hitmask = hitmask;
@@ -47,8 +47,8 @@ namespace MonoHaven.Graphics
 			int subz)
 		{
 			this.innerDrawable = drawable;
-			this.size = new Size(drawable.Width, drawable.Height);
 			this.bounds = new Rectangle(offset.X, offset.Y, drawable.Width, drawable.Height);
+			this.size = bounds.Size;
 			this.z = z;
 			this.subz = subz;
 		}
@@ -62,11 +62,6 @@ namespace MonoHaven.Graphics
 		{
 			get { return bounds.Location; }
 			set { bounds.Location = value; }
-		}
-
-		public Size Size
-		{
-			get { return bounds.Size; }
 		}
 
 		public int Z

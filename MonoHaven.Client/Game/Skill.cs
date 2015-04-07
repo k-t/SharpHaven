@@ -7,7 +7,6 @@ namespace MonoHaven.Game
 		private readonly string id;
 		private readonly Drawable image;
 		private readonly string tooltip;
-		private int? cost;
 
 		public Skill(string id, Drawable image, string tooltip)
 		{
