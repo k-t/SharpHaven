@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MonoHaven
+namespace MonoHaven.Utils
 {
 	public class FrameCounter
 	{

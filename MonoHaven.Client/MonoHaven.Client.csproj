@@ -79,7 +79,7 @@
     <Compile Include="Audio.cs" />
     <Compile Include="Cursors.cs" />
     <Compile Include="FontFaces.cs" />
-    <Compile Include="FrameCounter.cs" />
+    <Compile Include="Utils\FrameCounter.cs" />
     <Compile Include="Game\Buff.cs" />
     <Compile Include="Game\BuffMold.cs" />
     <Compile Include="Game\CharAttribute.cs" />
