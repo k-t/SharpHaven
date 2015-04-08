@@ -27,7 +27,7 @@ namespace MonoHaven.UI.Widgets
 		}
 
 		public event Action Leave;
-		public event Action<PartyMemberClickEventArgs> PartyMemberClick;
+		public event Action<PartyMemberClickEvent> PartyMemberClick;
 
 		public int PlayerId
 		{
@@ -119,7 +119,7 @@ namespace MonoHaven.UI.Widgets
 		{
 			var pair = avatars.FirstOrDefault(x => x.Value == sender);
 			if (pair.Value != null)
-				PartyMemberClick.Raise(new PartyMemberClickEventArgs(pair.Key, e.Button));
+				PartyMemberClick.Raise(new PartyMemberClickEvent(pair.Key, e.Button));
 		}
 	}
 }

@@ -31,7 +31,7 @@ namespace MonoHaven.UI.Remote
 			widget.PartyMemberClick += OnPartyMemberClick;
 		}
 
-		private void OnPartyMemberClick(PartyMemberClickEventArgs e)
+		private void OnPartyMemberClick(PartyMemberClickEvent e)
 		{
 			var button = ServerInput.ToServerButton(e.Button);
 			SendMessage("click", e.MemberId, button);

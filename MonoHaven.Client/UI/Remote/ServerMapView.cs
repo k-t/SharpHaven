@@ -71,7 +71,7 @@ namespace MonoHaven.UI.Remote
 			widget.Unplace();
 		}
 
-		private void OnMapClick(MapClickEventArgs e)
+		private void OnMapClick(MapClickEvent e)
 		{
 			var button = ServerInput.ToServerButton(e.Button);
 			var mods = ServerInput.ToServerModifiers(e.Modifiers);
@@ -81,7 +81,7 @@ namespace MonoHaven.UI.Remote
 				SendMessage("click", e.ScreenCoord, e.MapCoord, button, mods);
 		}
 
-		private void OnPlaced(MapPlaceEventArgs e)
+		private void OnPlaced(MapPlaceEvent e)
 		{
 			var button = ServerInput.ToServerButton(e.Button);
 			var mods = ServerInput.ToServerModifiers(e.Modifiers);
@@ -93,7 +93,7 @@ namespace MonoHaven.UI.Remote
 			SendMessage("drop", ServerInput.ToServerModifiers(mods));
 		}
 
-		private void OnItemInteract(MapClickEventArgs e)
+		private void OnItemInteract(MapClickEvent e)
 		{
 			var mods = ServerInput.ToServerModifiers(e.Modifiers);
 			if (e.Gob != null)

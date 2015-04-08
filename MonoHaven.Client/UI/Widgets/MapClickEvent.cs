@@ -6,7 +6,7 @@ using OpenTK.Input;
 
 namespace MonoHaven.UI.Widgets
 {
-	public class MapClickEventArgs : EventArgs
+	public class MapClickEvent : EventArgs
 	{
 		private readonly MouseButton button;
 		private readonly KeyModifiers mods;
@@ -14,12 +14,12 @@ namespace MonoHaven.UI.Widgets
 		private readonly Point screenCoord;
 		private readonly Gob gob;
 
-		public MapClickEventArgs(MouseButtonEvent e, Point mapCoord, Point screenCoord, Gob gob)
+		public MapClickEvent(MouseButtonEvent e, Point mapCoord, Point screenCoord, Gob gob)
 			: this(e.Button, e.Modifiers, mapCoord, screenCoord, gob)
 		{
 		}
 
-		public MapClickEventArgs(
+		public MapClickEvent(
 			MouseButton button,
 			KeyModifiers mods,
 			Point mapCoord,

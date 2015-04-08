@@ -25,8 +25,8 @@ namespace MonoHaven.UI.Widgets
 			btnGive.Click += OnCurrentGiveButtonClick;
 		}
 
-		public event Action<CombatRelationClickEventArgs> Give;
-		public event Action<CombatRelationClickEventArgs> Click;
+		public event Action<CombatRelationClickEvent> Give;
+		public event Action<CombatRelationClickEvent> Click;
 
 		public CombatRelation Current
 		{
@@ -121,20 +121,20 @@ namespace MonoHaven.UI.Widgets
 
 		private void OnCurrentAvatarClick(AvatarView sender, MouseButtonEvent e)
 		{
-			Click.Raise(new CombatRelationClickEventArgs(e.Button, current));
+			Click.Raise(new CombatRelationClickEvent(e.Button, current));
 		}
 
 		private void OnCurrentGiveButtonClick(MouseButtonEvent e)
 		{
-			Give.Raise(new CombatRelationClickEventArgs(e.Button, current));
+			Give.Raise(new CombatRelationClickEvent(e.Button, current));
 		}
 
-		private void OnRelationClick(CombatRelationClickEventArgs e)
+		private void OnRelationClick(CombatRelationClickEvent e)
 		{
 			Click.Raise(e);
 		}
 
-		private void OnRelationGive(CombatRelationClickEventArgs e)
+		private void OnRelationGive(CombatRelationClickEvent e)
 		{
 			Give.Raise(e);
 		}

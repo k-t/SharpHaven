@@ -90,7 +90,7 @@ namespace MonoHaven.UI.Widgets
 		}
 
 		public event Action<object[]> AttributesChanged;
-		public event Action<BeliefChangeEventArgs> BeliefChanged;
+		public event Action<BeliefChangeEvent> BeliefChanged;
 		public event Action<Skill> SkillLearned;
 
 		public Container Study
@@ -461,7 +461,7 @@ namespace MonoHaven.UI.Widgets
 
 		private void HandleBeliefChange(string name, int delta, bool inv)
 		{
-			BeliefChanged.Raise(new BeliefChangeEventArgs(name, delta, inv));
+			BeliefChanged.Raise(new BeliefChangeEvent(name, delta, inv));
 		}
 
 		#endregion

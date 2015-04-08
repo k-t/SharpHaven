@@ -34,7 +34,7 @@ namespace MonoHaven.UI.Remote
 			widget.Belt.Set += OnBeltSet;
 		}
 
-		private void OnBeltClick(BeltClickEventArgs e)
+		private void OnBeltClick(BeltClickEvent e)
 		{
 			var button = ServerInput.ToServerButton(e.Button);
 			var mods = ServerInput.ToServerModifiers(e.Modifiers);

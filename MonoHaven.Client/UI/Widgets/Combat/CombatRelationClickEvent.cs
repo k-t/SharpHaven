@@ -3,12 +3,12 @@ using OpenTK.Input;
 
 namespace MonoHaven.UI.Widgets
 {
-	public class CombatRelationClickEventArgs : EventArgs
+	public class CombatRelationClickEvent : EventArgs
 	{
 		private readonly MouseButton button;
 		private readonly CombatRelation relation;
 
-		public CombatRelationClickEventArgs(MouseButton button, CombatRelation relation)
+		public CombatRelationClickEvent(MouseButton button, CombatRelation relation)
 		{
 			this.button = button;
 			this.relation = relation;

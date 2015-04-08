@@ -43,8 +43,8 @@ namespace MonoHaven.UI.Widgets
 		}
 
 		public event Action Changed;
-		public event Action<CombatRelationClickEventArgs> Click;
-		public event Action<CombatRelationClickEventArgs> Give;
+		public event Action<CombatRelationClickEvent> Click;
+		public event Action<CombatRelationClickEvent> Give;
 
 		public int Id
 		{
@@ -110,12 +110,12 @@ namespace MonoHaven.UI.Widgets
 
 		private void OnAvatarClick(AvatarView sender, MouseButtonEvent e)
 		{
-			Click.Raise(new CombatRelationClickEventArgs(e.Button, this));
+			Click.Raise(new CombatRelationClickEvent(e.Button, this));
 		}
 
 		private void OnButtonClick(MouseButtonEvent e)
 		{
-			Give.Raise(new CombatRelationClickEventArgs(e.Button, this));
+			Give.Raise(new CombatRelationClickEvent(e.Button, this));
 		}
 	}
 }

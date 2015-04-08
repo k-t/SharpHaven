@@ -43,7 +43,7 @@ namespace MonoHaven.UI.Widgets
 			Resize(w, h);
 		}
 
-		public event Action<BeltClickEventArgs> Click;
+		public event Action<BeltClickEvent> Click;
 		public event Action<int, GameAction> Set;
 
 		public void SetSlot(int slot, Delayed<Drawable> image)
@@ -55,7 +55,7 @@ namespace MonoHaven.UI.Widgets
 		{
 			int index = slots.IndexOf((BeltSlot)sender);
 			if (index != -1)
-				Click.Raise(new BeltClickEventArgs(index, e.Button, e.Modifiers));
+				Click.Raise(new BeltClickEvent(index, e.Button, e.Modifiers));
 		}
 
 		private void OnSlotDrop(object sender, DropEvent e)

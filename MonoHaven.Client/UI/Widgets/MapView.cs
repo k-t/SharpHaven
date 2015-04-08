@@ -44,10 +44,10 @@ namespace MonoHaven.UI.Widgets
 			IsFocusable = true;
 		}
 
-		public event Action<MapClickEventArgs> MapClick;
+		public event Action<MapClickEvent> MapClick;
 		public event Action<KeyModifiers> ItemDrop;
-		public event Action<MapClickEventArgs> ItemInteract;
-		public event Action<MapPlaceEventArgs> Placed;
+		public event Action<MapClickEvent> ItemInteract;
+		public event Action<MapPlaceEvent> Placed;
 
 		public int PlayerId
 		{
@@ -228,13 +228,13 @@ namespace MonoHaven.UI.Widgets
 			}
 			else if (placeGob != null)
 			{
-				Placed.Raise(new MapPlaceEventArgs(e, placeGob.Position));
+				Placed.Raise(new MapPlaceEvent(e, placeGob.Position));
 				State.Objects.RemoveLocal(placeGob);
 				placeGob = null;
 			}
 			else
 			{
-				MapClick.Raise(new MapClickEventArgs(e, mc, e.Position, gob));
+				MapClick.Raise(new MapClickEvent(e, mc, e.Position, gob));
 			}
 			e.Handled = true;
 		}
@@ -310,7 +310,7 @@ namespace MonoHaven.UI.Widgets
 			var sc = ToAbsolute(p);
 			var mc = Geometry.ScreenToMap(sc);
 			var gob = State.Scene.GetObjectAt(sc);
-			ItemInteract.Raise(new MapClickEventArgs(0, mods, mc, p, gob));
+			ItemInteract.Raise(new MapClickEvent(0, mods, mc, p, gob));
 			return true;
 		}
 

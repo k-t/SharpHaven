@@ -189,7 +189,7 @@
     <Compile Include="UI\Widgets\Avatar.cs" />
     <Compile Include="UI\Widgets\AvatarView.cs" />
     <Compile Include="UI\Widgets\Belt.cs" />
-    <Compile Include="UI\Widgets\BeltClickEventArgs.cs" />
+    <Compile Include="UI\Widgets\BeltClickEvent.cs" />
     <Compile Include="UI\Widgets\Buddy\Buddy.cs" />
     <Compile Include="UI\Widgets\Buddy\BuddyActions.cs" />
     <Compile Include="UI\Widgets\Buddy\BuddyComparers.cs" />
@@ -205,7 +205,7 @@
     <Compile Include="UI\Widgets\Char\AttributeBinding.cs" />
     <Compile Include="UI\Widgets\Char\BaseAttributeBinding.cs" />
     <Compile Include="UI\Widgets\Char\BeliefBinding.cs" />
-    <Compile Include="UI\Widgets\Char\BeliefChangeEventArgs.cs" />
+    <Compile Include="UI\Widgets\Char\BeliefChangeEvent.cs" />
     <Compile Include="UI\Widgets\Char\BeliefTimer.cs" />
     <Compile Include="UI\Widgets\Char\BeliefWidget.cs" />
     <Compile Include="UI\Widgets\Char\CharWindow.cs" />
@@ -219,7 +219,7 @@
     <Compile Include="UI\Widgets\ChatWindow.cs" />
     <Compile Include="UI\Widgets\Combat\CombatMeter.cs" />
     <Compile Include="UI\Widgets\Combat\CombatRelation.cs" />
-    <Compile Include="UI\Widgets\Combat\CombatRelationClickEventArgs.cs" />
+    <Compile Include="UI\Widgets\Combat\CombatRelationClickEvent.cs" />
     <Compile Include="UI\Widgets\Combat\CombatView.cs" />
     <Compile Include="UI\Widgets\Combat\CombatWindow.cs" />
     <Compile Include="UI\Widgets\Combat\GiveButton.cs" />
@@ -232,11 +232,11 @@
     <Compile Include="UI\Widgets\IDropTarget.cs" />
     <Compile Include="UI\Widgets\MenuButton.cs" />
     <Compile Include="UI\Widgets\Minimap.cs" />
-    <Compile Include="UI\Widgets\PartyMemberClickEventArgs.cs" />
+    <Compile Include="UI\Widgets\PartyMemberClickEvent.cs" />
     <Compile Include="UI\Widgets\PartyWidget.cs" />
-    <Compile Include="UI\Widgets\MapPlaceEventArgs.cs" />
+    <Compile Include="UI\Widgets\MapPlaceEvent.cs" />
     <Compile Include="UI\Widgets\TabBar.cs" />
-    <Compile Include="UI\Widgets\TransferEventArgs.cs" />
+    <Compile Include="UI\Widgets\TransferEvent.cs" />
     <Compile Include="UI\Widgets\InventoryWidget.cs" />
     <Compile Include="UI\IScreen.cs" />
     <Compile Include="UI\Widgets\ISBox.cs" />
@@ -245,7 +245,7 @@
     <Compile Include="UI\Widgets\Label.cs" />
     <Compile Include="UI\Widgets\ListBox.cs" />
     <Compile Include="UI\Widgets\ListBoxItem.cs" />
-    <Compile Include="UI\Widgets\MapClickEventArgs.cs" />
+    <Compile Include="UI\Widgets\MapClickEvent.cs" />
     <Compile Include="UI\Widgets\MenuGrid.cs" />
     <Compile Include="UI\Widgets\Meter.cs" />
     <Compile Include="UI\Padding.cs" />

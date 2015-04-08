@@ -2,9 +2,9 @@
 
 namespace MonoHaven.UI.Widgets
 {
-	public class BeliefChangeEventArgs : EventArgs
+	public class BeliefChangeEvent : EventArgs
 	{
-		public BeliefChangeEventArgs(string name, int delta, bool invert)
+		public BeliefChangeEvent(string name, int delta, bool invert)
 		{
 			Name = name;
 			Delta = delta * (invert ? -1 : 1);

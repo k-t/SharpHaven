@@ -3,12 +3,12 @@ using OpenTK.Input;
 
 namespace MonoHaven.UI.Widgets
 {
-	public class TransferEventArgs : EventArgs
+	public class TransferEvent : EventArgs
 	{
 		private readonly int delta;
 		private readonly KeyModifiers mods;
 
-		public TransferEventArgs(int delta, KeyModifiers mods)
+		public TransferEvent(int delta, KeyModifiers mods)
 		{
 			this.delta = delta;
 			this.mods = mods;

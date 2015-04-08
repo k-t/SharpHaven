@@ -52,7 +52,7 @@ namespace MonoHaven.UI.Remote
 			widget.Built = (int)args[2];
 		}
 
-		private void OnTransfer2(TransferEventArgs e)
+		private void OnTransfer2(TransferEvent e)
 		{
 			int mods = ServerInput.ToServerModifiers(e.Modifiers);
 			SendMessage("xfer2", e.Delta, mods);

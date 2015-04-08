@@ -32,7 +32,7 @@ namespace MonoHaven.UI.Widgets
 
 		public event Action Click;
 		public event Action Transfer;
-		public event Action<TransferEventArgs> Transfer2;
+		public event Action<TransferEvent> Transfer2;
 		public event Action ItemDrop;
 		public event Action ItemInteract;
 
@@ -93,7 +93,7 @@ namespace MonoHaven.UI.Widgets
 
 		protected override void OnMouseWheel(MouseWheelEvent e)
 		{
-			Transfer2.Raise(new TransferEventArgs(Math.Sign(-e.Delta), e.Modifiers));
+			Transfer2.Raise(new TransferEvent(Math.Sign(-e.Delta), e.Modifiers));
 		}
 
 		private void UpdateLabel()

@@ -23,7 +23,7 @@ namespace MonoHaven.UI.Widgets
 		}
 
 		public event Action<Point> Drop;
-		public event Action<TransferEventArgs> Transfer;
+		public event Action<TransferEvent> Transfer;
 
 		protected override void OnDraw(DrawingContext dc)
 		{
@@ -34,7 +34,7 @@ namespace MonoHaven.UI.Widgets
 
 		protected override void OnMouseWheel(MouseWheelEvent e)
 		{
-			Transfer.Raise(new TransferEventArgs(Math.Sign(-e.Delta), e.Modifiers));
+			Transfer.Raise(new TransferEvent(Math.Sign(-e.Delta), e.Modifiers));
 		}
 
 		public void SetInventorySize(int rows, int columns)

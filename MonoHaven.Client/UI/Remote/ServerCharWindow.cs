@@ -90,7 +90,7 @@ namespace MonoHaven.UI.Remote
 			SendMessage("sattr", args);
 		}
 
-		private void OnBeliefChanged(BeliefChangeEventArgs args)
+		private void OnBeliefChanged(BeliefChangeEvent args)
 		{
 			SendMessage("believe", args.Name, args.Delta);
 		}

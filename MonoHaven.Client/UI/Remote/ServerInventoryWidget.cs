@@ -38,7 +38,7 @@ namespace MonoHaven.UI.Remote
 			widget.SetInventorySize((Point)args[0]);
 		}
 
-		private void OnTransfer(TransferEventArgs e)
+		private void OnTransfer(TransferEvent e)
 		{
 			var mods = ServerInput.ToServerModifiers(e.Modifiers);
 			SendMessage("xfer", e.Delta, mods);

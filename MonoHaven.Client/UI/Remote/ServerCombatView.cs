@@ -134,12 +134,12 @@ namespace MonoHaven.UI.Remote
 			meter.Defense = (int)args[1];
 		}
 
-		private void OnClick(CombatRelationClickEventArgs e)
+		private void OnClick(CombatRelationClickEvent e)
 		{
 			SendMessage("click", e.Relation.Id, ServerInput.ToServerButton(e.Button));
 		}
 
-		private void OnGive(CombatRelationClickEventArgs e)
+		private void OnGive(CombatRelationClickEvent e)
 		{
 			SendMessage("give", e.Relation.Id, ServerInput.ToServerButton(e.Button));
 		}
