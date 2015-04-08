@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
 
 namespace MonoHaven.Utils
 {
@@ -37,6 +38,11 @@ namespace MonoHaven.Utils
 		public static Point Mul(this Point a, int x, int y)
 		{
 			return new Point(a.X * x, a.Y * y);
+		}
+
+		public static double DistanceTo(this Point a, Point b)
+		{
+			return Math.Sqrt(Math.Pow(b.X - a.X, 2) + Math.Pow(b.Y - a.Y, 2));
 		}
 	}
 }

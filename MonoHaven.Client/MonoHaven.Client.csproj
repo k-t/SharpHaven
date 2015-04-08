@@ -79,6 +79,8 @@
     <Compile Include="Audio.cs" />
     <Compile Include="Cursors.cs" />
     <Compile Include="FontFaces.cs" />
+    <Compile Include="Input\DropEvent.cs" />
+    <Compile Include="UI\Drag.cs" />
     <Compile Include="Utils\FrameCounter.cs" />
     <Compile Include="Game\Buff.cs" />
     <Compile Include="Game\BuffMold.cs" />

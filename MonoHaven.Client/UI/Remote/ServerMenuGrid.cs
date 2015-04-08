@@ -69,6 +69,7 @@ namespace MonoHaven.UI.Remote
 			var node = new MenuNode();
 			node.Name = action.Name;
 			node.Image = action.Image;
+			node.Tag = action;
 			node.Tooltip = action.Tooltip;
 			node.Activated += OnNodeActivated;
 			nodes.Add(action, node);
@@ -102,9 +103,8 @@ namespace MonoHaven.UI.Remote
 		private void OnNodeActivated(object sender, EventArgs e)
 		{
 			var node = (MenuNode)sender;
-			var pair = nodes.FirstOrDefault(x => x.Value == node);
-			if (pair.Key != null)
-				SendMessage("act", pair.Key.Verbs.ToArray<object>());
+			var action = (GameAction)node.Tag;
+			SendMessage("act", action.Verbs.ToArray<object>());
 		}
 
 		private void OnActionCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)

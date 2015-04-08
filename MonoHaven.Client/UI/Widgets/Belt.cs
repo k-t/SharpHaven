@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using MonoHaven.Game;
 using MonoHaven.Graphics;
 using MonoHaven.Input;
 using MonoHaven.UI.Layouts;
@@ -26,6 +27,7 @@ namespace MonoHaven.UI.Widgets
 				var slot = new BeltSlot(this);
 				slot.Label = (i + 1).ToString();
 				slot.Click += OnSlotClick;
+				slot.Drop += OnSlotDrop;
 				slots.Add(slot);
 
 				int column = layout.ColumnCount;
@@ -42,6 +44,7 @@ namespace MonoHaven.UI.Widgets
 		}
 
 		public event Action<BeltClickEventArgs> Click;
+		public event Action<int, GameAction> Set;
 
 		public void SetSlot(int slot, Delayed<Drawable> image)
 		{
@@ -53,6 +56,17 @@ namespace MonoHaven.UI.Widgets
 			int index = slots.IndexOf((BeltSlot)sender);
 			if (index != -1)
 				Click.Raise(new BeltClickEventArgs(index, e.Button, e.Modifiers));
+		}
+
+		private void OnSlotDrop(object sender, DropEvent e)
+		{
+			var action = e.Data as GameAction;
+			if (action != null)
+			{
+				int index = slots.IndexOf((BeltSlot)sender);
+				if (index != -1)
+					Set.Raise(index, action);
+			}
 		}
 
 		private class BeltSlot : Widget
@@ -76,6 +90,7 @@ namespace MonoHaven.UI.Widgets
 			}
 
 			public event EventHandler<MouseButtonEvent> Click;
+			public event EventHandler<DropEvent> Drop;
 
 			public Delayed<Drawable> Image
 			{
@@ -99,6 +114,11 @@ namespace MonoHaven.UI.Widgets
 			protected override void OnMouseButtonDown(MouseButtonEvent e)
 			{
 				Click.Raise(this, e);
+			}
+
+			protected override void OnDrop(DropEvent e)
+			{
+				Drop.Raise(this, e);
 			}
 		}
 	}

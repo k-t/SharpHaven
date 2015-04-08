@@ -1,5 +1,5 @@
 ﻿using System;
-using MonoHaven.Game;
+using System.Drawing;
 using MonoHaven.Graphics;
 using MonoHaven.Input;
 using MonoHaven.Utils;
@@ -12,6 +12,7 @@ namespace MonoHaven.UI.Widgets
 		private static readonly Drawable background;
 
 		private bool isPressed;
+		private Point dragPosition;
 
 		static MenuButton()
 		{
@@ -54,24 +55,37 @@ namespace MonoHaven.UI.Widgets
 
 		protected override void OnMouseButtonDown(MouseButtonEvent e)
 		{
-			switch (e.Button)
+			if (e.Button == MouseButton.Left)
 			{
-				case MouseButton.Left:
-					isPressed = true;
-					Host.GrabMouse(this);
-					break;
+				isPressed = true;
+				dragPosition = e.Position;
+				Host.GrabMouse(this);
 			}
 		}
 
 		protected override void OnMouseButtonUp(MouseButtonEvent e)
 		{
-			switch (e.Button)
+			if (e.Button == MouseButton.Left)
 			{
-				case MouseButton.Left:
+				if (isPressed)
+				{
 					isPressed = false;
 					Host.ReleaseMouse();
 					Click.Raise(this, e);
-					break;
+				}
+			}
+		}
+
+		protected override void OnMouseMove(MouseMoveEvent e)
+		{
+			if (isPressed && dragPosition.DistanceTo(e.Position) > 2)
+			{
+				if (Node != null && Node.Tag != null)
+				{
+					isPressed = false;
+					Host.ReleaseMouse();
+					Host.DoDragDrop(new Drag(Node.Image, Node.Tag));
+				}
 			}
 		}
 	}

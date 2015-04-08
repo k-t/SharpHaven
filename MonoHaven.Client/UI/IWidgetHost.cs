@@ -10,5 +10,6 @@ namespace MonoHaven.UI
 		void RequestKeyboardFocus(Widget widget);
 		void GrabMouse(Widget widget);
 		void ReleaseMouse();
+		void DoDragDrop(Drag drag);
 	}
 }

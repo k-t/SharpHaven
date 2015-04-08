@@ -276,6 +276,13 @@ namespace MonoHaven.UI.Widgets
 				Parent.HandleKeyPress(e);
 		}
 
+		public void HandleDrop(DropEvent e)
+		{
+			OnDrop(e);
+			if (!e.Handled && Parent != null)
+				Parent.OnDrop(e);
+		}
+
 		#endregion
 
 		#region Protected Methods
@@ -357,6 +364,11 @@ namespace MonoHaven.UI.Widgets
 
 		protected virtual void OnSizeChanged()
 		{
+		}
+
+		protected virtual void OnDrop(DropEvent e)
+		{
+			
 		}
 
 		#endregion

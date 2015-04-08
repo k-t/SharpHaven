@@ -1,4 +1,5 @@
 ﻿using System.Drawing;
+using MonoHaven.Game;
 using MonoHaven.Graphics;
 using MonoHaven.UI.Widgets;
 
@@ -30,6 +31,7 @@ namespace MonoHaven.UI.Remote
 			widget = new Hud(Parent.Widget, Parent.Session.State);
 			widget.Menu.ButtonClick += OnMenuButtonClick;
 			widget.Belt.Click += OnBeltClick;
+			widget.Belt.Set += OnBeltSet;
 		}
 
 		private void OnBeltClick(BeltClickEventArgs e)
@@ -37,6 +39,11 @@ namespace MonoHaven.UI.Remote
 			var button = ServerInput.ToServerButton(e.Button);
 			var mods = ServerInput.ToServerModifiers(e.Modifiers);
 			SendMessage("belt", e.Slot, button, mods);
+		}
+
+		private void OnBeltSet(int slot, GameAction action)
+		{
+			SendMessage("setbelt", slot, action.ResName);
 		}
 
 		private void SetBelt(object[] args)

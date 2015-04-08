@@ -47,6 +47,12 @@ namespace MonoHaven.UI.Widgets
 			set;
 		}
 
+		public object Tag
+		{
+			get;
+			set;
+		}
+
 		public void Activate()
 		{
 			Activated.Raise(this, EventArgs.Empty);

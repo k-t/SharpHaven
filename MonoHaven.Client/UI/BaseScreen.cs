@@ -4,6 +4,7 @@ using MonoHaven.Graphics;
 using MonoHaven.Input;
 using MonoHaven.UI.Widgets;
 using OpenTK;
+using OpenTK.Input;
 
 namespace MonoHaven.UI
 {
@@ -15,6 +16,7 @@ namespace MonoHaven.UI
 		protected Widget keyboardFocus;
 		private Widget hoveredWidget;
 		private Tooltip tooltip;
+		private Drag drag;
 
 		protected BaseScreen()
 		{
@@ -82,6 +84,11 @@ namespace MonoHaven.UI
 
 			if (tooltip != null)
 				tooltip.Draw(dc, mousePosition.X, mousePosition.Y);
+
+			if (drag != null)
+				dc.Draw(drag.Image,
+					mousePosition.X - drag.Image.Width / 2,
+					mousePosition.Y - drag.Image.Height / 2);
 		}
 
 		protected virtual void OnUpdate(int dt)
@@ -132,6 +139,9 @@ namespace MonoHaven.UI
 
 		void IScreen.MouseButtonDown(MouseButtonEvent e)
 		{
+			if (e.Button == MouseButton.Right && drag != null)
+				drag = null;
+
 			var widget = mouseFocus ?? RootWidget.GetChildAt(e.Position);
 			if (widget != null)
 			{
@@ -143,25 +153,29 @@ namespace MonoHaven.UI
 
 		void IScreen.MouseButtonUp(MouseButtonEvent e)
 		{
-			var widget = mouseFocus ?? RootWidget.GetChildAt(e.Position);
-			if (widget != null)
-				widget.HandleMouseButtonUp(e);
+			if (drag != null)
+			{
+				var dropTarget = RootWidget.GetChildAt(e.Position);
+				if (dropTarget != null)
+					dropTarget.HandleDrop(new DropEvent(e.Position, drag.Tag));
+				drag = null;
+			}
+			else
+			{
+				var widget = mouseFocus ?? RootWidget.GetChildAt(e.Position);
+				if (widget != null)
+					widget.HandleMouseButtonUp(e);
+			}
 		}
 
 		void IScreen.MouseMove(MouseMoveEvent e)
 		{
 			mousePosition = e.Position;
 
-			if (mouseFocus != null)
-				// don't hover widgets mouse is grabbed
-				mouseFocus.HandleMouseMove(e);
-			else
-			{
-				var widget = mouseFocus ?? RootWidget.GetChildAt(e.Position);
-				SetHoveredWidget(widget);
-				if (widget != null)
-					widget.HandleMouseMove(e);
-			}
+			var widget = mouseFocus ?? RootWidget.GetChildAt(e.Position);
+			SetHoveredWidget(widget);
+			if (widget != null)
+				widget.HandleMouseMove(e);
 		}
 
 		void IScreen.MouseWheel(MouseWheelEvent e)
@@ -211,6 +225,11 @@ namespace MonoHaven.UI
 		{
 			mouseFocus = null;
 			SetHoveredWidget(null);
+		}
+
+		void IWidgetHost.DoDragDrop(Drag drag)
+		{
+			this.drag = drag;
 		}
 
 		#endregion
