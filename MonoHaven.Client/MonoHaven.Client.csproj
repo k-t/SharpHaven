@@ -325,15 +325,16 @@
       <Generator>TextTemplatingFilePreprocessor</Generator>
       <LastGenOutput>VertexShaderTemplate.cs</LastGenOutput>
     </None>
+    <None Include="OpenTK.dll.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
-  <Target Name="BeforeBuild">
-    <Copy SourceFiles="$(SolutionDir)\lib\OpenTK.dll.config" DestinationFolder="$(OutputPath)" />
-  </Target>
+  <Target Name="BeforeBuild" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
