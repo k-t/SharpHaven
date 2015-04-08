@@ -148,6 +148,8 @@ namespace MonoHaven.Login
 				login.UserName = tbUserName.Text;
 				login.Password = tbPassword.Text;
 				login.Remember = chkRemember.IsChecked;
+				// clear password
+				tbPassword.Text = "";
 			}
 
 			var authResult = await login.LoginAsync(UpdateProgress);
