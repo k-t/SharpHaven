@@ -39,6 +39,12 @@ namespace MonoHaven.Login
 			Token = null;
 		}
 
+		public bool Remember
+		{
+			get;
+			set;
+		}
+
 		public Task<LoginResult> LoginAsync(Action<string> reportStatus)
 		{
 			var authenticate = (Token != null)
@@ -94,7 +100,7 @@ namespace MonoHaven.Login
 				if (authClient.TryPassword(password, out cookie))
 				{
 					UserName = userName;
-					Token = authClient.GetToken();
+					Token = Remember ? authClient.GetToken() : null;
 					return new AuthResult(cookie);
 				}
 				return new AuthResult("Username or password incorrect");

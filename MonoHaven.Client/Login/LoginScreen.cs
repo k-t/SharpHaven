@@ -22,6 +22,7 @@ namespace MonoHaven.Login
 		private Container cntPassword;
 		private TextBox tbUserName;
 		private TextBox tbPassword;
+		private CheckBox chkRemember;
 		private Label lblErrorMessage;
 
 		private Container cntToken;
@@ -80,6 +81,10 @@ namespace MonoHaven.Login
 			tbPassword = new TextBox(cntPassword);
 			tbPassword.PasswordChar = '*';
 			tbPassword.Move(0, 80).Resize(150, 23);
+
+			chkRemember = new CheckBox(cntPassword);
+			chkRemember.Move(0, 110);
+			chkRemember.Text = "Remember me";
 
 			cntToken = new Container(RootWidget);
 			cntToken.Move(295, 310).Resize(250, 100);
@@ -142,6 +147,7 @@ namespace MonoHaven.Login
 			{
 				login.UserName = tbUserName.Text;
 				login.Password = tbPassword.Text;
+				login.Remember = chkRemember.IsChecked;
 			}
 
 			var authResult = await login.LoginAsync(UpdateProgress);
