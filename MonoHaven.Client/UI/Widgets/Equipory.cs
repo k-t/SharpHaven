@@ -6,7 +6,7 @@ using OpenTK.Input;
 
 namespace MonoHaven.UI.Widgets
 {
-	public class Equipory : Window, IDropTarget
+	public class Equipory : Window, IItemDropTarget
 	{
 		private static readonly Drawable background;
 		private static readonly Point avatarPosition = new Point(32, 0);
@@ -112,15 +112,15 @@ namespace MonoHaven.UI.Widgets
 			dc.PopMatrix();
 		}
 
-		#region IDropTarget
+		#region IItemDropTarget
 
-		bool IDropTarget.Drop(Point p, Point ul, KeyModifiers mods)
+		bool IItemDropTarget.Drop(Point p, Point ul, KeyModifiers mods)
 		{
 			Drop.Raise(-1);
 			return true;
 		}
 
-		bool IDropTarget.ItemInteract(Point p, Point ul, KeyModifiers mods)
+		bool IItemDropTarget.Interact(Point p, Point ul, KeyModifiers mods)
 		{
 			return false;
 		}

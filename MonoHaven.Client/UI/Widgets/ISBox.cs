@@ -7,7 +7,7 @@ using OpenTK.Input;
 
 namespace MonoHaven.UI.Widgets
 {
-	public class ISBox : Widget, IDropTarget
+	public class ISBox : Widget, IItemDropTarget
 	{
 		private static readonly Drawable background;
 
@@ -101,15 +101,15 @@ namespace MonoHaven.UI.Widgets
 			label.Text = string.Format("{0}/{1}/{2}", Remaining, Available, Built);
 		}
 
-		#region IDropTarget
+		#region IItemDropTarget
 
-		bool IDropTarget.Drop(Point p, Point ul, KeyModifiers mods)
+		bool IItemDropTarget.Drop(Point p, Point ul, KeyModifiers mods)
 		{
 			ItemDrop.Raise();
 			return true;
 		}
 
-		bool IDropTarget.ItemInteract(Point p, Point ul, KeyModifiers mods)
+		bool IItemDropTarget.Interact(Point p, Point ul, KeyModifiers mods)
 		{
 			ItemInteract.Raise();
 			return true;

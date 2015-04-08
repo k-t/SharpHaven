@@ -229,7 +229,7 @@
     <Compile Include="UI\Widgets\FlowerMenu.cs" />
     <Compile Include="UI\Widgets\Hud.cs" />
     <Compile Include="UI\Widgets\HudMenu.cs" />
-    <Compile Include="UI\Widgets\IDropTarget.cs" />
+    <Compile Include="UI\IItemDropTarget.cs" />
     <Compile Include="UI\Widgets\MenuButton.cs" />
     <Compile Include="UI\Widgets\Minimap.cs" />
     <Compile Include="UI\Widgets\PartyMemberClickEvent.cs" />

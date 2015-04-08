@@ -7,7 +7,7 @@ using OpenTK.Input;
 
 namespace MonoHaven.UI.Widgets
 {
-	public class InventoryWidget : Widget, IDropTarget
+	public class InventoryWidget : Widget, IItemDropTarget
 	{
 		private static readonly Drawable tile;
 
@@ -50,16 +50,16 @@ namespace MonoHaven.UI.Widgets
 			SetInventorySize(size.X, size.Y);
 		}
 
-		#region IDropTarget
+		#region IItemDropTarget
 
-		bool IDropTarget.Drop(Point p, Point ul, KeyModifiers mods)
+		bool IItemDropTarget.Drop(Point p, Point ul, KeyModifiers mods)
 		{
 			var dropPoint = MapFromScreen(ul).Add(15);
 			Drop.Raise(new Point(dropPoint.X / tile.Width, dropPoint.Y / tile.Height));
 			return true;
 		}
 
-		bool IDropTarget.ItemInteract(Point p, Point ul, KeyModifiers mods)
+		bool IItemDropTarget.Interact(Point p, Point ul, KeyModifiers mods)
 		{
 			return false;
 		}

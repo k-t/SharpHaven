@@ -12,7 +12,7 @@ using OpenTK.Input;
 
 namespace MonoHaven.UI.Widgets
 {
-	public class MapView : Widget, IDropTarget
+	public class MapView : Widget, IItemDropTarget
 	{
 		private static readonly Drawable circle;
 		private static readonly Drawable overlay;
@@ -345,15 +345,15 @@ namespace MonoHaven.UI.Widgets
 				rel.Y - Height / 2 + CameraOffset.Y);
 		}
 
-		#region IDropTarget
+		#region IItemDropTarget
 
-		bool IDropTarget.Drop(Point p, Point ul, KeyModifiers mods)
+		bool IItemDropTarget.Drop(Point p, Point ul, KeyModifiers mods)
 		{
 			ItemDrop.Raise(mods);
 			return true;
 		}
 
-		bool IDropTarget.ItemInteract(Point p, Point ul, KeyModifiers mods)
+		bool IItemDropTarget.Interact(Point p, Point ul, KeyModifiers mods)
 		{
 			if (State == null)
 				return false;

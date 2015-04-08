@@ -9,7 +9,7 @@ using OpenTK.Input;
 
 namespace MonoHaven.UI.Widgets
 {
-	public class ItemWidget : Widget, IDropTarget
+	public class ItemWidget : Widget, IItemDropTarget
 	{
 		private static readonly Drawable missing;
 		private static readonly Point defaultSize = new Point(30, 30);
@@ -154,7 +154,7 @@ namespace MonoHaven.UI.Widgets
 			foreach (var child in widget.GetChildrenAt(p))
 			{
 				if (child == this) continue;
-				var dropTarget = child as IDropTarget;
+				var dropTarget = child as IItemDropTarget;
 				if (dropTarget != null && dropTarget.Drop(p, p.Sub(dragOffset.Value), mods))
 					break;
 			}
@@ -165,8 +165,8 @@ namespace MonoHaven.UI.Widgets
 			foreach (var child in widget.GetChildrenAt(p))
 			{
 				if (child == this) continue;
-				var dropTarget = child as IDropTarget;
-				if (dropTarget != null && dropTarget.ItemInteract(p, p.Sub(dragOffset.Value), mods))
+				var dropTarget = child as IItemDropTarget;
+				if (dropTarget != null && dropTarget.Interact(p, p.Sub(dragOffset.Value), mods))
 					break;
 			}
 		}
@@ -204,14 +204,14 @@ namespace MonoHaven.UI.Widgets
 				lblAmount.Append(item.Amount.ToString());
 		}
 
-		#region IDropTarget
+		#region IItemDropTarget
 
-		bool IDropTarget.Drop(Point p, Point ul, KeyModifiers mods)
+		bool IItemDropTarget.Drop(Point p, Point ul, KeyModifiers mods)
 		{
 			return false;
 		}
 
-		bool IDropTarget.ItemInteract(Point p, Point ul, KeyModifiers mods)
+		bool IItemDropTarget.Interact(Point p, Point ul, KeyModifiers mods)
 		{
 			Interact.Raise(mods);
 			return true;

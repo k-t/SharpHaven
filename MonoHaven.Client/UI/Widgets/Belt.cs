@@ -80,7 +80,7 @@ namespace MonoHaven.UI.Widgets
 				SetItem.Raise(index);
 		}
 
-		private class BeltSlot : Widget, IDropTarget
+		private class BeltSlot : Widget, IItemDropTarget
 		{
 			private static readonly Drawable background;
 
@@ -133,15 +133,15 @@ namespace MonoHaven.UI.Widgets
 				Drop.Raise(this, e);
 			}
 
-			#region IDropTarget
+			#region IItemDropTarget
 
-			bool IDropTarget.Drop(Point p, Point ul, KeyModifiers mods)
+			bool IItemDropTarget.Drop(Point p, Point ul, KeyModifiers mods)
 			{
 				ItemDrop.Raise(this, EventArgs.Empty);
 				return true;
 			}
 
-			bool IDropTarget.ItemInteract(Point p, Point ul, KeyModifiers mods)
+			bool IItemDropTarget.Interact(Point p, Point ul, KeyModifiers mods)
 			{
 				return false;
 			}
