@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Drawing;
 using C5;
-using MonoHaven.Graphics;
 using MonoHaven.Graphics.Sprites;
 using MonoHaven.Messages;
 using MonoHaven.Utils;
@@ -15,11 +14,18 @@ namespace MonoHaven.Game
 		private readonly Tileset[] tilesets = new Tileset[256];
 		private readonly TreeDictionary<Point, MapGrid> grids;
 		private readonly List<Tuple<Point, ISprite>> flavorObjects = new List<Tuple<Point, ISprite>>();
+		private readonly List<MapOverlay> overlays;
 
 		public Map(GameSession session)
 		{
 			this.session = session;
 			grids = new TreeDictionary<Point, MapGrid>(new PointComparer());
+			overlays = new List<MapOverlay>();
+		}
+
+		public System.Collections.Generic.ICollection<MapOverlay> Overlays
+		{
+			get { return overlays; }
 		}
 
 		public IEnumerable<Tuple<Point, ISprite>> FlavorObjects

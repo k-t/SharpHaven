@@ -1,9 +1,5 @@
-﻿using System;
-using System.Drawing;
-using C5;
+﻿using C5;
 using MonoHaven.Game;
-using MonoHaven.Messages;
-using MonoHaven.UI.Widgets;
 using NLog;
 
 namespace MonoHaven.UI.Remote

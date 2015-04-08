@@ -44,6 +44,7 @@ namespace MonoHaven.UI.Remote
 			methods["make"] = ServerCraftWindow.Create;
 			methods["frv"] = ServerCombatView.Create;
 			methods["give"] = ServerGiveButton.Create;
+			methods["ui/land2"] = ServerClaimWindow.Create;
 		}
 
 		public ServerWidget Create(
@@ -51,9 +52,15 @@ namespace MonoHaven.UI.Remote
 			ushort id,
 			ServerWidget parent)
 		{
+			// if widget is supposed to be in a resource
+			if (widgetType.Contains("/"))
+				// remove version, e.g. ui/land2:6 => ui/land2
+				widgetType = widgetType.Split(':')[0];
+
 			FactoryMethod method;
 			if (methods.TryGetValue(widgetType, out method))
 				return method(id, parent);
+
 			throw new ArgumentException("Unknown widget type " + widgetType);
 		}
 	}

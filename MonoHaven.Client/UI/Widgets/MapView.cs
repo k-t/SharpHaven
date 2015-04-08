@@ -17,6 +17,7 @@ namespace MonoHaven.UI.Widgets
 		private static readonly Drawable circle;
 		private static readonly Drawable overlay;
 		private static readonly List<Tuple<Point, Drawable>> overlayBorders;
+		private static readonly Color[] overlayColors;
 
 		private bool dragging;
 		private Point dragPosition;
@@ -41,6 +42,14 @@ namespace MonoHaven.UI.Widgets
 				Tuple.Create(new Point(-1, 0), tiles[3]),
 				Tuple.Create(new Point(1, 0), tiles[4])
 			};
+
+			overlayColors = new Color[31];
+			overlayColors[0] = Color.FromArgb(255, 0, 128);
+			overlayColors[1] = Color.FromArgb(0, 0, 255);
+			overlayColors[2] = Color.FromArgb(255, 0, 0);
+			overlayColors[3] = Color.FromArgb(128, 0, 255);
+			overlayColors[16] = Color.FromArgb(0, 255, 0);
+			overlayColors[17] = Color.FromArgb(255, 255, 0);
 		}
 
 		public MapView(Widget parent) : base(parent)
@@ -202,9 +211,11 @@ namespace MonoHaven.UI.Widgets
 			// draw transitions
 			foreach (var trans in tile.Transitions)
 				g.Draw(trans, sc.X, sc.Y);
-			// draw overlay
-			foreach (var color in tile.Overlays)
+
+			// draw overlays
+			foreach (var overlayIndex in tile.Overlays)
 			{
+				var color = overlayColors[overlayIndex];
 				g.SetColor(color);
 				g.Draw(overlay, sc.X, sc.Y);
 				foreach (var border in overlayBorders)
@@ -212,7 +223,21 @@ namespace MonoHaven.UI.Widgets
 					int dx = border.Item1.X;
 					int dy = border.Item1.Y;
 					var btile = State.Map.GetTile(tx + dx, ty + dy);
-					if (btile != null && !btile.Overlays.Contains(color))
+					if (btile != null && !btile.Overlays.Contains(overlayIndex))
+						g.Draw(border.Item2, sc.X, sc.Y);
+				}
+				g.ResetColor();
+			}
+			foreach (var mapOverlay in State.Map.Overlays.Where(x => x.Bounds.Contains(tx, ty)))
+			{
+				var color = overlayColors[mapOverlay.Index];
+				g.SetColor(color);
+				g.Draw(overlay, sc.X, sc.Y);
+				foreach (var border in overlayBorders)
+				{
+					int dx = border.Item1.X;
+					int dy = border.Item1.Y;
+					if (!mapOverlay.Bounds.Contains(tx + dx, ty + dy))
 						g.Draw(border.Item2, sc.X, sc.Y);
 				}
 				g.ResetColor();

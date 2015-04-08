@@ -5,17 +5,17 @@ namespace MonoHaven.UI.Remote
 {
 	public class ServerWindow : ServerWidget
 	{
-		public static ServerWidget Create(ushort id, ServerWidget parent)
-		{
-			return new ServerWindow(id, parent);
-		}
-
 		private Window widget;
 
 		public ServerWindow(ushort id, ServerWidget parent)
 			: base(id, parent)
 		{
 			SetHandler("pack", Pack);
+		}
+
+		public static ServerWidget Create(ushort id, ServerWidget parent)
+		{
+			return new ServerWindow(id, parent);
 		}
 
 		public override Widget Widget
