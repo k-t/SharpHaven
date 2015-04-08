@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using MonoHaven.Game;
 using MonoHaven.Graphics;
 using MonoHaven.Input;
 using MonoHaven.UI.Layouts;
 using MonoHaven.Utils;
+using OpenTK.Input;
 
 namespace MonoHaven.UI.Widgets
 {
@@ -28,6 +30,7 @@ namespace MonoHaven.UI.Widgets
 				slot.Label = (i + 1).ToString();
 				slot.Click += OnSlotClick;
 				slot.Drop += OnSlotDrop;
+				slot.ItemDrop += OnSlotItemDrop;
 				slots.Add(slot);
 
 				int column = layout.ColumnCount;
@@ -45,6 +48,7 @@ namespace MonoHaven.UI.Widgets
 
 		public event Action<BeltClickEvent> Click;
 		public event Action<int, GameAction> Set;
+		public event Action<int> SetItem;
 
 		public void SetSlot(int slot, Delayed<Drawable> image)
 		{
@@ -69,7 +73,14 @@ namespace MonoHaven.UI.Widgets
 			}
 		}
 
-		private class BeltSlot : Widget
+		private void OnSlotItemDrop(object sender, EventArgs e)
+		{
+			int index = slots.IndexOf((BeltSlot)sender);
+			if (index != -1)
+				SetItem.Raise(index);
+		}
+
+		private class BeltSlot : Widget, IDropTarget
 		{
 			private static readonly Drawable background;
 
@@ -91,6 +102,7 @@ namespace MonoHaven.UI.Widgets
 
 			public event EventHandler<MouseButtonEvent> Click;
 			public event EventHandler<DropEvent> Drop;
+			public event EventHandler ItemDrop;
 
 			public Delayed<Drawable> Image
 			{
@@ -120,6 +132,21 @@ namespace MonoHaven.UI.Widgets
 			{
 				Drop.Raise(this, e);
 			}
+
+			#region IDropTarget
+
+			bool IDropTarget.Drop(Point p, Point ul, KeyModifiers mods)
+			{
+				ItemDrop.Raise(this, EventArgs.Empty);
+				return true;
+			}
+
+			bool IDropTarget.ItemInteract(Point p, Point ul, KeyModifiers mods)
+			{
+				return false;
+			}
+
+			#endregion
 		}
 	}
 }

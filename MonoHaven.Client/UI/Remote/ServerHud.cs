@@ -32,6 +32,7 @@ namespace MonoHaven.UI.Remote
 			widget.Menu.ButtonClick += OnMenuButtonClick;
 			widget.Belt.Click += OnBeltClick;
 			widget.Belt.Set += OnBeltSet;
+			widget.Belt.SetItem += (slot) => SendMessage("setbelt", slot, 0);
 		}
 
 		private void OnBeltClick(BeltClickEvent e)
