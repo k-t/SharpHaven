@@ -15,6 +15,7 @@ namespace MonoHaven.UI.Remote
 			SetHandler("move", SetWorldPosition);
 			SetHandler("place", Place);
 			SetHandler("unplace", Unplace);
+			SetHandler("polowner", ShowOverlayOwner);
 		}
 
 		public override Widget Widget
@@ -69,6 +70,12 @@ namespace MonoHaven.UI.Remote
 		private void Unplace(object[] args)
 		{
 			widget.Unplace();
+		}
+
+		private void ShowOverlayOwner(object[] args)
+		{
+			var owner = (string)args[0];
+			widget.ShowOverlayOwner(owner);
 		}
 
 		private void OnMapClick(MapClickEvent e)

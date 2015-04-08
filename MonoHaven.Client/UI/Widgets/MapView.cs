@@ -5,6 +5,7 @@ using System.Linq;
 using MonoHaven.Game;
 using MonoHaven.Graphics;
 using MonoHaven.Graphics.Sprites;
+using MonoHaven.Graphics.Text;
 using MonoHaven.Input;
 using MonoHaven.Utils;
 using OpenTK.Input;
@@ -23,6 +24,9 @@ namespace MonoHaven.UI.Widgets
 		private Gob placeGob;
 		private int placeRadius;
 		private bool placeOnTile;
+		private string ownerName;
+		private TextLine ownerNameText;
+		private DateTime ownerShowTime;
 
 		static MapView()
 		{
@@ -42,6 +46,9 @@ namespace MonoHaven.UI.Widgets
 		public MapView(Widget parent) : base(parent)
 		{
 			IsFocusable = true;
+
+			ownerNameText = new TextLine(Fonts.Create(FontFaces.Serif, 20));
+			ownerNameText.TextColor = Color.White;
 		}
 
 		public event Action<MapClickEvent> MapClick;
@@ -92,6 +99,26 @@ namespace MonoHaven.UI.Widgets
 			placeGob = null;
 		}
 
+		public void ShowOverlayOwner(string name)
+		{
+			ownerNameText.Clear();
+			if (string.IsNullOrEmpty(name))
+			{
+				if (string.IsNullOrEmpty(ownerName))
+					return;
+
+				ownerNameText.Append("Leaving "+ ownerName);
+				ownerShowTime = DateTime.Now;
+				ownerName = null;
+			}
+			else
+			{
+				ownerName = name;
+				ownerNameText.Append("Entering " + name);
+				ownerShowTime = DateTime.Now;
+			}
+		}
+
 		protected override void OnDraw(DrawingContext dc)
 		{
 			if (State == null)
@@ -101,6 +128,7 @@ namespace MonoHaven.UI.Widgets
 			DrawTiles(dc);
 			DrawScene(dc);
 
+			// draw placed object
 			if (placeGob != null && placeRadius > 0)
 			{
 				var p = ToRelative(Geometry.MapToScreen(placeGob.Position));
@@ -109,6 +137,24 @@ namespace MonoHaven.UI.Widgets
 				dc.SetColor(0, 255, 0, 32);
 				dc.Draw(circle, p.X - (w / 2), p.Y - (h / 2), w, h);
 				dc.ResetColor();
+			}
+
+			// draw owner name
+			var span = (DateTime.Now - ownerShowTime).TotalSeconds;
+			if (span < 6)
+			{
+				byte a;
+				if (span < 1)
+					a = (byte)(255 * span);
+				else if (span < 4)
+					a = 255;
+				else
+					a = (byte)((255 * (2 - (span - 4))) / 2);
+
+				ownerNameText.TextColor = Color.FromArgb(a, Color.White);
+				dc.Draw(ownerNameText,
+					(Width - ownerNameText.TextWidth) / 2,
+					(Height - ownerNameText.Font.Height) / 2);
 			}
 		}
 
@@ -267,6 +313,11 @@ namespace MonoHaven.UI.Widgets
 				var snap = placeOnTile ^ e.Modifiers.HasShift();
 				placeGob.Position = snap ? Geometry.Tilify(mc) : mc;
 			}
+		}
+
+		protected override void OnDispose()
+		{
+			ownerNameText.Dispose();
 		}
 
 		private void MoveCamera(int deltaX, int deltaY)
