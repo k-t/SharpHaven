@@ -16,7 +16,7 @@ namespace MonoHaven.Graphics
 		private const int BottomRight = 8;
 
 		private readonly Rectangle patchBounds;
-		private readonly TextureSlice[] patches = new TextureSlice[9];
+		private readonly TextureSlice[] patches;
 		
 		public NinePatch(TextureSlice tex, int left, int right, int top, int bottom)
 		{
