@@ -1,18 +1,17 @@
-﻿using System;
-using System.Drawing;
+﻿using System.Drawing;
 using MonoHaven.Network;
 using MonoHaven.Resources;
 
-namespace MonoHaven.Graphics.Sprites
+namespace MonoHaven.Graphics.Sprites.Fx
 {
-	public class FloatTextPrototype : SpritePrototype
+	public class FloatTextMaker : SpriteMaker
 	{
-		public FloatTextPrototype(Resource res)
+		public FloatTextMaker(Resource res)
 			: base(res)
 		{
 		}
 
-		public override ISprite CreateInstance(byte[] state)
+		public override ISprite MakeInstance(byte[] state)
 		{
 			var reader = new MessageReader(0, state);
 

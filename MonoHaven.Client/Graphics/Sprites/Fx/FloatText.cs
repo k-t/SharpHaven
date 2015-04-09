@@ -2,7 +2,7 @@
 using System.Drawing;
 using MonoHaven.Graphics.Text;
 
-namespace MonoHaven.Graphics.Sprites
+namespace MonoHaven.Graphics.Sprites.Fx
 {
 	public class FloatText : ISprite
 	{

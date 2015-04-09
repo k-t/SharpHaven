@@ -29,7 +29,7 @@ namespace MonoHaven.Resources
 			RegisterType(typeof(MouseCursor), new MouseCursorFactory());
 			RegisterType(typeof(Face), new FontFaceFactory());
 			RegisterType(typeof(Tileset), new TilesetFactory());
-			RegisterType(typeof(SpritePrototype), new SpritePrototypeFactory());
+			RegisterType(typeof(SpriteMaker), new SpriteMakerFactory());
 			RegisterType(typeof(GameAction), new GameActionFactory());
 			RegisterType(typeof(ItemMold), new ItemMoldFactory(drawableFactory));
 			RegisterType(typeof(BuffMold), new BuffMoldFactory(drawableFactory));
@@ -51,8 +51,8 @@ namespace MonoHaven.Resources
 
 		public ISprite GetSprite(string resName, byte[] state = null)
 		{
-			var prototype = Get<SpritePrototype>(resName);
-			return prototype.CreateInstance(state);
+			var maker = Get<SpriteMaker>(resName);
+			return maker.MakeInstance(state);
 		}
 
 		public Resource Load(string resName)

@@ -5,13 +5,13 @@ using MonoHaven.Utils;
 
 namespace MonoHaven.Graphics.Sprites
 {
-	public class StaticSpritePrototype : SpritePrototype
+	public class StaticSpriteMaker : SpriteMaker
 	{
-		public StaticSpritePrototype(Resource res) : base(res)
+		public StaticSpriteMaker(Resource res) : base(res)
 		{
 		}
 
-		public override ISprite CreateInstance(byte[] state)
+		public override ISprite MakeInstance(byte[] state)
 		{
 			var flags = state != null
 				? new BitArray(state)

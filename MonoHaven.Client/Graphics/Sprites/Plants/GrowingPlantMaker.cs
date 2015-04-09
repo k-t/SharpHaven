@@ -7,13 +7,13 @@ using MonoHaven.Utils;
 
 namespace MonoHaven.Graphics.Sprites.Plants
 {
-	public class GrowingPlantPrototype : SpritePrototype
+	public class GrowingPlantMaker : SpriteMaker
 	{
 		private readonly int num;
 		private readonly Picture[,] strands;
 		private readonly NegData neg;
 
-		public GrowingPlantPrototype(
+		public GrowingPlantMaker(
 			Resource res,
 			int stages,
 			int variants,
@@ -29,15 +29,16 @@ namespace MonoHaven.Graphics.Sprites.Plants
 			{
 				int stage = rev ? part.Id / variants : part.Id % stages;
 				int variant = rev ? part.Id % variants : part.Id / stages;
-				this.strands[stage, variant] = part;
+				strands[stage, variant] = part;
 			}
 		}
 
-		public override ISprite CreateInstance(byte[] state)
+		public override ISprite MakeInstance(byte[] state)
 		{
 			var rnd = new Random(RandomUtils.GetSeed()); // TODO: gobId should be used as seed
 			var stage = state[0];
 			var parts = new List<Picture>();
+
 			parts.AddRange(Parts.Where(x => x.Id == -1));
 
 			for (int i = 0; i < num; i++)

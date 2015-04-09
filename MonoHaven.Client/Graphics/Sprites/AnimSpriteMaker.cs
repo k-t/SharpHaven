@@ -7,16 +7,16 @@ using MonoHaven.Utils;
 
 namespace MonoHaven.Graphics.Sprites
 {
-	public class AnimSpritePrototype : SpritePrototype
+	public class AnimSpriteMaker : SpriteMaker
 	{
 		private List<AnimData> anims;
 
-		public AnimSpritePrototype(Resource res) : base(res)
+		public AnimSpriteMaker(Resource res) : base(res)
 		{
 			anims = res.GetLayers<AnimData>().ToList();
 		}
 
-		public override ISprite CreateInstance(byte[] state)
+		public override ISprite MakeInstance(byte[] state)
 		{
 			var flags = state != null
 				? new BitArray(state)
