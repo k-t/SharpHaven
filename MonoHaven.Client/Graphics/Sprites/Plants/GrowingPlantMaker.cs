@@ -13,12 +13,7 @@ namespace MonoHaven.Graphics.Sprites.Plants
 		private readonly Picture[,] strands;
 		private readonly NegData neg;
 
-		public GrowingPlantMaker(
-			Resource res,
-			int stages,
-			int variants,
-			int num,
-			bool rev = false)
+		private GrowingPlantMaker(Resource res, int stages, int variants, int num, bool rev)
 			: base(res)
 		{
 			this.num = num;
@@ -31,6 +26,11 @@ namespace MonoHaven.Graphics.Sprites.Plants
 				int variant = rev ? part.Id % variants : part.Id / stages;
 				strands[stage, variant] = part;
 			}
+		}
+
+		public static Func<Resource, SpriteMaker> Create(int stages, int variants, int num, bool rev = false)
+		{
+			return res => new GrowingPlantMaker(res, stages, variants, num, rev);
 		}
 
 		public override ISprite MakeInstance(byte[] state)

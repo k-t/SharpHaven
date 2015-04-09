@@ -19,21 +19,21 @@ namespace MonoHaven.Resources
 			
 			// known dynamic sprite factories
 			makers["gfx/fx/score"] = (res) => new FloatTextMaker(res);
-			makers["gfx/terobjs/plants/flax"] = (res) => new GrowingPlantMaker(res, 4, 3, 20);
-			makers["gfx/terobjs/plants/hemp"] = (res) => new GrowingPlantMaker(res, 5, 3, 2);
-			makers["gfx/terobjs/plants/carrot"] = (res) => new GrowingPlantMaker(res, 5, 3, 4);
-			makers["gfx/terobjs/plants/wheat"] = (res) => new GrowingPlantMaker(res, 4, 2, 20, true);
-			makers["gfx/terobjs/plants/tobacco"] = (res) => new GrowingPlantMaker(res, 5, 3, 2);
-			makers["gfx/terobjs/plants/pepper"] = (res) => new GrowingPlantMaker(res, 4, 3, 3);
-			makers["gfx/terobjs/plants/hops"] = (res) => new GrowingPlantMaker(res, 4, 3, 4);
-			makers["gfx/terobjs/plants/onion"] = (res) => new GrowingPlantMaker(res, 4, 3, 4);
-			makers["gfx/terobjs/plants/tea"] = (res) => new GrowingPlantMaker(res, 4, 3, 4);
-			makers["gfx/terobjs/plants/wine"] = (res) => new GrowingPlantMaker(res, 4, 3, 2);
-			makers["gfx/terobjs/plants/pumpkin"] = (res) => new GrowingPlantMaker(res, 7, 3, 1);
-			makers["gfx/terobjs/plants/pumpkin"] = (res) => new GrowingPlantMaker(res, 7, 3, 1);
-			makers["gfx/terobjs/plants/beetroot"] = (res) => new GrowingPlantMaker(res, 4, 3, 5);
-			makers["gfx/terobjs/plants/peas"] = (res) => new GrowingPlantMaker(res, 5, 3, 4);
-			makers["gfx/terobjs/plants/poppy"] = (res) => new GrowingPlantMaker(res, 5, 3, 10);
+			makers["gfx/terobjs/plants/flax"] = GrowingPlantMaker.Create(4, 3, 20);
+			makers["gfx/terobjs/plants/hemp"] = GrowingPlantMaker.Create(5, 3, 2);
+			makers["gfx/terobjs/plants/carrot"] = GrowingPlantMaker.Create(5, 3, 4);
+			makers["gfx/terobjs/plants/wheat"] = GrowingPlantMaker.Create(4, 2, 20, true);
+			makers["gfx/terobjs/plants/tobacco"] = GrowingPlantMaker.Create(5, 3, 2);
+			makers["gfx/terobjs/plants/pepper"] = GrowingPlantMaker.Create(4, 3, 3);
+			makers["gfx/terobjs/plants/hops"] = GrowingPlantMaker.Create(4, 3, 4);
+			makers["gfx/terobjs/plants/onion"] = GrowingPlantMaker.Create(4, 3, 4);
+			makers["gfx/terobjs/plants/tea"] = GrowingPlantMaker.Create(4, 3, 4);
+			makers["gfx/terobjs/plants/wine"] = GrowingPlantMaker.Create(4, 3, 2);
+			makers["gfx/terobjs/plants/pumpkin"] = GrowingPlantMaker.Create(7, 3, 1);
+			makers["gfx/terobjs/plants/pumpkin"] = GrowingPlantMaker.Create(7, 3, 1);
+			makers["gfx/terobjs/plants/beetroot"] = GrowingPlantMaker.Create(4, 3, 5);
+			makers["gfx/terobjs/plants/peas"] = GrowingPlantMaker.Create(5, 3, 4);
+			makers["gfx/terobjs/plants/poppy"] = GrowingPlantMaker.Create(5, 3, 10);
 		}
 
 		public SpriteMaker Create(string resName, Resource res)
