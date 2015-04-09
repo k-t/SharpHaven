@@ -1,6 +1,4 @@
 ﻿using System.Drawing;
-using Microsoft.Win32;
-using MonoHaven.Game;
 using MonoHaven.UI.Widgets;
 using OpenTK.Input;
 

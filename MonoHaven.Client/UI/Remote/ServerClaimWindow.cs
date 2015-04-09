@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Drawing;
-using MonoHaven.UI.Widgets;
 using MonoHaven.Game;
+using MonoHaven.UI.Widgets;
 
 namespace MonoHaven.UI.Remote
 {

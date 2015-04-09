@@ -1,8 +1,8 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.Collections.Specialized;
-using MonoHaven.Graphics;
-using System;
 using System.Linq;
+using MonoHaven.Graphics;
 
 namespace MonoHaven.UI.Widgets
 {

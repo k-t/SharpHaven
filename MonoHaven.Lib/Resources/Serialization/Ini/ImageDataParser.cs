@@ -1,6 +1,6 @@
 ﻿using System;
-using IniParser.Model;
 using System.IO;
+using IniParser.Model;
 
 namespace MonoHaven.Resources.Serialization.Ini
 {

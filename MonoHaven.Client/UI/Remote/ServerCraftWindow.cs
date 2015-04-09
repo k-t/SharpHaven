@@ -1,6 +1,6 @@
-﻿using MonoHaven.Game;
+﻿using System.Drawing;
+using MonoHaven.Game;
 using MonoHaven.UI.Widgets;
-using System.Drawing;
 
 namespace MonoHaven.UI.Remote
 {

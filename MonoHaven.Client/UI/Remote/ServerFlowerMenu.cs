@@ -1,6 +1,6 @@
-﻿using System.Linq;
+﻿using System.Drawing;
+using System.Linq;
 using MonoHaven.UI.Widgets;
-using System.Drawing;
 
 namespace MonoHaven.UI.Remote
 {
