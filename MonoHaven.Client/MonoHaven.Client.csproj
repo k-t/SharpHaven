@@ -79,6 +79,7 @@
     <Compile Include="Audio.cs" />
     <Compile Include="Cursors.cs" />
     <Compile Include="FontFaces.cs" />
+    <Compile Include="Game\GobFollowing.cs" />
     <Compile Include="Game\MapOverlay.cs" />
     <Compile Include="Graphics\Sprites\Plants\GrowingPlantMaker.cs" />
     <Compile Include="Input\DropEvent.cs" />

@@ -76,6 +76,12 @@ namespace MonoHaven.Game
 			get { return overlays; }
 		}
 
+		public GobFollowing Following
+		{
+			get;
+			set;
+		}
+
 		public void SetSprite(Delayed<ISprite> value)
 		{
 			sprite = value;

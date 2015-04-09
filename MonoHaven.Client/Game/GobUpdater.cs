@@ -7,10 +7,10 @@ namespace MonoHaven.Game
 {
 	public class GobUpdater
 	{
+		private readonly TypeMatcher deltaMatcher;
 		private readonly GameSession session;
 		private UpdateGobMessage message;
 		private Gob gob;
-		private TypeMatcher deltaMatcher;
 
 		public GobUpdater(GameSession session)
 		{
@@ -79,6 +79,9 @@ namespace MonoHaven.Game
 
 		private void Apply(GobDelta.Follow delta)
 		{
+			gob.Following = (delta.GobId != -1)
+				? new GobFollowing(delta.GobId, delta.Offset, delta.Szo)
+				: null;
 		}
 
 		private void Apply(GobDelta.Health delta)
