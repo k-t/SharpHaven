@@ -23,8 +23,9 @@ namespace MonoHaven.Resources.Serialization.Binary
 		{
 			var neg = new NegData();
 			neg.Center = reader.ReadPoint();
-			neg.Bc = reader.ReadPoint();
-			neg.Bs = reader.ReadPoint();
+			var hul = Geometry.ScreenToMap(reader.ReadPoint());
+			var hbr = Geometry.ScreenToMap(reader.ReadPoint());
+			neg.Hitbox = Rectangle.FromLTRB(hul.X, hul.Y, hbr.X, hbr.Y);
 			// not sure what that data means but preserve it anyway
 			neg.Sz = reader.ReadPoint();
 			var en = reader.ReadByte(); /* number of E? */
@@ -44,8 +45,8 @@ namespace MonoHaven.Resources.Serialization.Binary
 		{
 			var neg = (NegData)data;
 			writer.WritePoint(neg.Center);
-			writer.WritePoint(neg.Bc);
-			writer.WritePoint(neg.Bs);
+			writer.WritePoint(Geometry.MapToScreen(neg.Hitbox.Location));
+			writer.WritePoint(Geometry.MapToScreen(neg.Hitbox.Right, neg.Hitbox.Bottom));
 			writer.WritePoint(neg.Sz);
 			writer.Write((byte)neg.Ep.Count(x => x != null));
 			for (int i = 0; i < neg.Ep.Length; i++)
@@ -57,7 +58,6 @@ namespace MonoHaven.Resources.Serialization.Binary
 				for (int j = 0; j < neg.Ep[i].Length; j++)
 					writer.WritePoint(neg.Ep[i][j]);
 			}
-
 		}
 	}
 }

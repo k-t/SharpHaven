@@ -80,6 +80,7 @@
     <Compile Include="Cursors.cs" />
     <Compile Include="FontFaces.cs" />
     <Compile Include="Game\MapOverlay.cs" />
+    <Compile Include="Graphics\Sprites\Plants\GrowingPlantPrototype.cs" />
     <Compile Include="Input\DropEvent.cs" />
     <Compile Include="UI\Drag.cs" />
     <Compile Include="UI\Remote\ServerClaimWindow.cs" />
@@ -95,7 +96,6 @@
     <Compile Include="UI\Widgets\MenuNode.cs" />
     <Compile Include="Game\GameScene.cs" />
     <Compile Include="Game\GameTime.cs" />
-    <Compile Include="Game\Geometry.cs" />
     <Compile Include="Game\Gob.cs" />
     <Compile Include="Game\GobCache.cs" />
     <Compile Include="Game\GobHealth.cs" />
@@ -292,7 +292,6 @@
     <Compile Include="UI\Widgets\Window.cs" />
     <Compile Include="Utils\BitArrayExtensions.cs" />
     <Compile Include="Utils\KeyModifiersExtensions.cs" />
-    <Compile Include="Utils\MathUtils.cs" />
     <Compile Include="Utils\MinimapProvider.cs" />
     <Compile Include="Utils\StringUtils.cs" />
     <Compile Include="Utils\TypeMatcher.cs" />
@@ -311,7 +310,6 @@
     <Compile Include="UI\Widgets\ImageButton.cs" />
     <Compile Include="MainWindow.cs" />
     <Compile Include="UI\Widgets\TextBox.cs" />
-    <Compile Include="Utils\PointExtensions.cs" />
     <Compile Include="Utils\RandomUtils.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

@@ -54,6 +54,7 @@
     <Reference Include="System.Drawing" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Geometry.cs" />
     <Compile Include="Messages\PlaySoundMessage.cs" />
     <Compile Include="Resources\Layers\AudioData.cs" />
     <Compile Include="Resources\Layers\CodeData.cs" />
@@ -103,6 +104,8 @@
     <Compile Include="Resources\Layers\NegData.cs" />
     <Compile Include="Resources\Layers\TextData.cs" />
     <Compile Include="Resources\Serialization\Binary\BinaryStreamExtensions.cs" />
+    <Compile Include="Utils\MathUtils.cs" />
+    <Compile Include="Utils\PointExtensions.cs" />
     <Compile Include="Utils\ValueTreeNode.cs" />
     <Compile Include="Utils\TreeNode.cs" />
     <Compile Include="EventHelper.cs" />

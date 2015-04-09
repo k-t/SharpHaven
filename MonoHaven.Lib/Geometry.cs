@@ -1,7 +1,7 @@
 ﻿using System.Drawing;
 using MonoHaven.Utils;
 
-namespace MonoHaven.Game
+namespace MonoHaven
 {
 	public static class Geometry
 	{

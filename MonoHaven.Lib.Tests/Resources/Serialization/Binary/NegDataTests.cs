@@ -14,8 +14,7 @@ namespace MonoHaven.Tests.Resources.Serialization.Binary
 			var input = new NegData
 			{
 				Center = new Point(12, 21),
-				Bc = new Point(1, 2),
-				Bs = new Point(3, 4),
+				Hitbox = Rectangle.FromLTRB(1, 2, 3, 4),
 				Sz = new Point(5, 6),
 				Ep = new Point[8][]
 			};
@@ -26,8 +25,7 @@ namespace MonoHaven.Tests.Resources.Serialization.Binary
 			var output = (NegData)serializer.Reserialize(input);
 
 			Assert.That(output.Center, Is.EqualTo(input.Center));
-			Assert.That(output.Bc, Is.EqualTo(input.Bc));
-			Assert.That(output.Bs, Is.EqualTo(input.Bs));
+			Assert.That(output.Hitbox, Is.EqualTo(input.Hitbox));
 			Assert.That(output.Sz, Is.EqualTo(input.Sz));
 			for (int i = 0; i < 8; i++)
 				Assert.That(output.Ep[i], Is.EqualTo(input.Ep[i]));

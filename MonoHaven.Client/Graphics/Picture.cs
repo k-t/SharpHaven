@@ -74,6 +74,16 @@ namespace MonoHaven.Graphics
 			get { return subz; }
 		}
 
+		public TextureSlice Tex
+		{
+			get { return tex; }
+		}
+
+		public BitArray Hitmask
+		{
+			get { return hitmask; }
+		}
+
 		public override void Draw(SpriteBatch batch, int x, int y, int w, int h)
 		{
 			if (innerDrawable != null)
