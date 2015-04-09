@@ -40,7 +40,7 @@ namespace MonoHaven.UI.Remote
 			widget = new ClaimWindow(Parent.Widget, area);
 			widget.Move(position);
 			widget.Closed += OnClosed;
-			widget.AreaChanged += OnAreaChanged;
+			widget.SelectedAreaChanged += OnSelectedAreaChanged;
 			widget.Buy += OnBuy;
 			widget.Declaim += OnDeclaim;
 			widget.RightsChanged += OnRightsChanged;
@@ -71,15 +71,15 @@ namespace MonoHaven.UI.Remote
 			SendMessage("close");
 		}
 
-		private void OnAreaChanged(object sender, EventArgs e)
+		private void OnSelectedAreaChanged(object sender, EventArgs e)
 		{
-			overlay.Bounds = widget.Area;
+			overlay.Bounds = widget.SelectedArea;
 		}
 
 		private void OnBuy(object sender, EventArgs e)
 		{
-			var ul = new Point(widget.Area.Left, widget.Area.Top);
-			var br = new Point(widget.Area.Right - 1, widget.Area.Bottom - 1);
+			var ul = new Point(widget.SelectedArea.Left, widget.SelectedArea.Top);
+			var br = new Point(widget.SelectedArea.Right - 1, widget.SelectedArea.Bottom - 1);
 			SendMessage("take", ul, br);
 		}
 

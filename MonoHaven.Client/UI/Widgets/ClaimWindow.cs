@@ -12,14 +12,14 @@ namespace MonoHaven.UI.Widgets
 		private List<RightCheckBox> chkRights;
 
 		private Rectangle area;
-		private readonly Rectangle oldArea;
+		private Rectangle selectedArea;
 		private readonly ClaimRight[] rights;
 
 		public ClaimWindow(Widget parent, Rectangle area)
 			: base(parent, "Stake")
 		{
-			this.oldArea = area;
 			this.area = area;
+			this.selectedArea = area;
 			this.rights = new ClaimRight[BuddyGroup.Colors.Length];
 
 			lblArea = new Label(this, Fonts.LabelText);
@@ -90,7 +90,7 @@ namespace MonoHaven.UI.Widgets
 			Pack();
 		}
 
-		public event EventHandler AreaChanged;
+		public event EventHandler SelectedAreaChanged;
 		public event EventHandler<ClaimRightsChangeEvent> RightsChanged;
 		public event EventHandler Buy;
 		public event EventHandler Declaim;
@@ -101,8 +101,18 @@ namespace MonoHaven.UI.Widgets
 			set
 			{
 				area = value;
+				SelectedArea = value;
+			}
+		}
+
+		public Rectangle SelectedArea
+		{
+			get { return selectedArea; }
+			set
+			{
+				selectedArea = value;
 				UpdateLabels();
-				AreaChanged.Raise(this, EventArgs.Empty);
+				SelectedAreaChanged.Raise(this, EventArgs.Empty);
 			}
 		}
 
@@ -115,16 +125,16 @@ namespace MonoHaven.UI.Widgets
 
 		private void Extend(int n, int e, int s, int w)
 		{
-			Area = new Rectangle(
-				Area.X - w,
-				Area.Y - n,
-				Area.Width + e + w,
-				Area.Height + s + n);
+			SelectedArea = new Rectangle(
+				SelectedArea.X - w,
+				SelectedArea.Y - n,
+				SelectedArea.Width + e + w,
+				SelectedArea.Height + s + n);
 		}
 
 		private void Reset()
 		{
-			Area = oldArea;
+			SelectedArea = area;
 		}
 
 		private void ToggleRight(object sender, EventArgs e)
@@ -168,8 +178,8 @@ namespace MonoHaven.UI.Widgets
 
 		private void UpdateLabels()
 		{
-			int oldSize = oldArea.Width * oldArea.Height;
-			int newSize = area.Width * area.Height;
+			int oldSize = area.Width * area.Height;
+			int newSize = selectedArea.Width * selectedArea.Height;
 
 			lblArea.Text = string.Format("Area: {0} m²", newSize);
 			lblCost.Text = string.Format("Cost: {0}", (newSize - oldSize) * 10);
