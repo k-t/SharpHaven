@@ -6,13 +6,13 @@ namespace MonoHaven.Graphics.Sprites
 	{
 		private readonly int id;
 		private readonly int duration;
-		private readonly List<Picture> parts;
+		private readonly List<SpritePart> parts;
 
 		public AnimFrame(int id, int duration)
 		{
 			this.id = id;
 			this.duration = duration;
-			this.parts = new List<Picture>();
+			this.parts = new List<SpritePart>();
 		}
 
 		public int Id
@@ -25,7 +25,7 @@ namespace MonoHaven.Graphics.Sprites
 			get { return duration; }
 		}
 
-		public List<Picture> Parts
+		public List<SpritePart> Parts
 		{
 			get { return parts; }
 		}

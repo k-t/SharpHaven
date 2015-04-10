@@ -10,7 +10,7 @@ namespace MonoHaven.Graphics.Sprites.Plants
 	public class GrowingPlantMaker : SpriteMaker
 	{
 		private readonly int num;
-		private readonly Picture[,] strands;
+		private readonly SpritePart[,] strands;
 		private readonly NegData neg;
 
 		private GrowingPlantMaker(Resource res, int stages, int variants, int num, bool rev)
@@ -18,7 +18,7 @@ namespace MonoHaven.Graphics.Sprites.Plants
 		{
 			this.num = num;
 			this.neg = res.GetLayer<NegData>();
-			this.strands = new Picture[stages, variants];
+			this.strands = new SpritePart[stages, variants];
 
 			foreach (var part in Parts.Where(x => x.Id != -1))
 			{
@@ -37,7 +37,7 @@ namespace MonoHaven.Graphics.Sprites.Plants
 		{
 			var rnd = new Random(RandomUtils.GetSeed()); // TODO: gobId should be used as seed
 			var stage = state[0];
-			var parts = new List<Picture>();
+			var parts = new List<SpritePart>();
 
 			parts.AddRange(Parts.Where(x => x.Id == -1));
 
@@ -48,10 +48,10 @@ namespace MonoHaven.Graphics.Sprites.Plants
 					rnd.Next(neg.Hitbox.Height))
 					.Add(neg.Hitbox.Location);
 				var s = strands[stage, rnd.Next(strands.GetLength(1))];
-				parts.Add(new Picture(0, s.Tex,
+				parts.Add(new SpritePart(s.Image,
 					Geometry.MapToScreen(c).Sub(s.Width / 2, s.Height),
 					s.Z,
-					s.SubZ, s.Hitmask));
+					s.SubZ));
 			}
 
 			return new StaticSprite(parts);

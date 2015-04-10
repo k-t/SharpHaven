@@ -82,6 +82,7 @@
     <Compile Include="Game\GobFollowing.cs" />
     <Compile Include="Game\MapOverlay.cs" />
     <Compile Include="Graphics\Sprites\Plants\GrowingPlantMaker.cs" />
+    <Compile Include="Graphics\Sprites\SpritePart.cs" />
     <Compile Include="Input\DropEvent.cs" />
     <Compile Include="UI\Drag.cs" />
     <Compile Include="UI\Remote\ServerClaimWindow.cs" />

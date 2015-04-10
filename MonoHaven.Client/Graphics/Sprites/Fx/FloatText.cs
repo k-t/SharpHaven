@@ -7,7 +7,7 @@ namespace MonoHaven.Graphics.Sprites.Fx
 	public class FloatText : ISprite
 	{
 		private readonly TextLine text;
-		private readonly Picture part;
+		private readonly SpritePart part;
 		private readonly int startY;
 		private double a;
 
@@ -17,10 +17,10 @@ namespace MonoHaven.Graphics.Sprites.Fx
 			this.text.TextColor = color;
 			this.text.Append(text);
 			this.startY = -Fonts.LabelText.Height;
-			this.part = new Picture(this.text, new Point(this.text.TextWidth / 2, startY), 5, 0);
+			this.part = new SpritePart(-1, this.text, new Point(this.text.TextWidth / 2, startY), 5, 0);
 		}
 
-		public IEnumerable<Picture> Parts
+		public IEnumerable<SpritePart> Parts
 		{
 			get { yield return part; }
 		}

@@ -13,14 +13,14 @@ namespace MonoHaven.Graphics.Sprites
 			sprites = new List<Delayed<ISprite>>(layers);
 		}
 
-		public IEnumerable<Picture> Parts
+		public IEnumerable<SpritePart> Parts
 		{
 			get
 			{
 				return sprites.SelectMany(
 					x => x.Value != null
 						? x.Value.Parts
-						: new Picture[0]);
+						: new SpritePart[0]);
 			}
 		}
 

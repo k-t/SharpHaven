@@ -8,14 +8,14 @@ using MonoHaven.Resources;
 
 namespace MonoHaven.Graphics.Sprites
 {
-	public class SpriteSheet : IEnumerable<Picture>, IDisposable
+	public class SpriteSheet : IEnumerable<SpritePart>, IDisposable
 	{
 		private Texture tex;
-		private readonly List<Picture> parts;
+		private readonly List<SpritePart> parts;
 
 		public SpriteSheet(IEnumerable<ImageData> images, Point center)
 		{
-			parts = new List<Picture>();
+			parts = new List<SpritePart>();
 			Pack(images.ToArray(), center);
 		}
 
@@ -25,7 +25,7 @@ namespace MonoHaven.Graphics.Sprites
 				tex.Dispose();
 		}
 
-		public IEnumerator<Picture> GetEnumerator()
+		public IEnumerator<SpritePart> GetEnumerator()
 		{
 			return parts.GetEnumerator();
 		}
@@ -60,7 +60,8 @@ namespace MonoHaven.Graphics.Sprites
 					slice.Update(bitmaps[i]);
 					var img = images[i];
 					var off = Point.Subtract(img.Offset, (Size)center);
-					parts.Add(new Picture(img.Id, slice, off, img.Z, img.SubZ, hitmasks[i]));
+					var pic = new Picture(slice, hitmasks[i]);
+					parts.Add(new SpritePart(img.Id, pic, off, img.Z, img.SubZ));
 				}
 			}
 			finally

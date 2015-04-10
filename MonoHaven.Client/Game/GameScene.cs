@@ -82,10 +82,10 @@ namespace MonoHaven.Game
 			public readonly int X;
 			public readonly int Y;
 			public readonly Gob Gob;
-			public readonly Picture Sprite;
+			public readonly SpritePart Sprite;
 			public readonly ISpriteEffect Effect;
 
-			public ObjectPart(Point position, Picture sprite, Gob gob, ISpriteEffect effect)
+			public ObjectPart(Point position, SpritePart sprite, Gob gob, ISpriteEffect effect)
 			{
 				X = position.X;
 				Y = position.Y;
