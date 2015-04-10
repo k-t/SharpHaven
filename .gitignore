@@ -63,5 +63,3 @@ packages/
 *.testsettings
 MonoHaven.Tests/test-results/
 test-results/
-MonoHaven.Client/SharpFont.dll.config
-*.DotSettings
