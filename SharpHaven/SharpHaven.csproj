@@ -10,7 +10,7 @@
     <ProjectGuid>{78A18B20-EE44-4B5A-8D07-9BB1BC25CB45}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <RootNamespace>SharpHaven</RootNamespace>
-    <AssemblyName>sharphaven</AssemblyName>
+    <AssemblyName>SharpHaven</AssemblyName>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
     <NuGetPackageImportStamp>d8856c9c</NuGetPackageImportStamp>

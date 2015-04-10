@@ -8,7 +8,7 @@
     <ProjectGuid>{37671BF5-2A78-46D2-B3DF-EAF21AC15850}</ProjectGuid>
     <OutputType>Library</OutputType>
     <RootNamespace>SharpHaven</RootNamespace>
-    <AssemblyName>sharphaven.common</AssemblyName>
+    <AssemblyName>SharpHaven.Common</AssemblyName>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
   </PropertyGroup>
