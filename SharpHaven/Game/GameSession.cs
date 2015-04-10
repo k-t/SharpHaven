@@ -24,15 +24,16 @@ namespace SharpHaven.Game
 		private readonly ServerWidgetFactory widgetFactory;
 		private readonly ServerWidgetCollection widgets;
 
-		public GameSession(ConnectionSettings connSettings)
+		public GameSession(GameState state, ConnectionSettings connSettings)
 		{
-			state = new GameState();
-			resources = new Dictionary<int, string>();
-			widgetFactory = new ServerWidgetFactory();
-			gridRequests = new HashSet<Point>();
+			this.state = state;
 
 			connection = new Connection(connSettings);
 			connection.AddListener(this);
+
+			gridRequests = new HashSet<Point>();
+			resources = new Dictionary<int, string>();
+			widgetFactory = new ServerWidgetFactory();
 
 			widgets = new ServerWidgetCollection(this);
 			widgets.Add(new ServerRootWidget(0, this, state.Screen.Root));

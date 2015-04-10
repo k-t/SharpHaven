@@ -35,6 +35,8 @@ namespace SharpHaven.Login
 		public LoginScreen()
 		{
 			login = new Login();
+			login.Progress += UpdateProgress;
+
 			InitWidgets();
 			GotoInitialPage();
 			RootWidget.KeyDown += OnKeyDown;
@@ -152,7 +154,7 @@ namespace SharpHaven.Login
 				tbPassword.Text = "";
 			}
 
-			var authResult = await login.LoginAsync(UpdateProgress);
+			var authResult = await login.LoginAsync();
 			if (authResult.IsSuccessful)
 			{
 				LoginCompleted.Raise(authResult.Session);

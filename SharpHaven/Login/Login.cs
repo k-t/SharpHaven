@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Threading;
 using System.Threading.Tasks;
 using NLog;
@@ -45,49 +46,53 @@ namespace SharpHaven.Login
 			set;
 		}
 
-		public Task<LoginResult> LoginAsync(Action<string> reportStatus)
+		public event Action<string> Progress;
+
+		public Task<LoginResult> LoginAsync()
 		{
+			// create state in the calling thread
+			var state = new GameState();
+
+			var asyncContext = AsyncOperationManager.CreateOperation(null);
 			var authenticate = (Token != null)
 				? new Func<AuthResult>(() => Authenticate(UserName, Token))
 				: new Func<AuthResult>(() => Authenticate(UserName, Password));
-			return LoginAsync(authenticate, reportStatus);
-		}
 
-		private async Task<LoginResult> LoginAsync(
-			Func<AuthResult> authenticate,
-			Action<string> reportStatus)
-		{
-			try
+			return RunAsync(() =>
 			{
-				reportStatus("Authenticating...");
+				try
+				{
+					asyncContext.Post(_ => Progress.Raise("Authenticating..."), null);
 
-				var result = await RunAsync(authenticate);
-				if (result.Cookie == null)
-					return new LoginResult(result.Error);
+					var result = authenticate();
+					if (result.Cookie == null)
+						return new LoginResult(result.Error);
 
-				reportStatus("Connecting...");
+					asyncContext.Post(_ => Progress.Raise("Connecting..."), null);
 
-				var session = CreateSession(UserName, result.Cookie);
-				await RunAsync(session.Start);
+					var session = CreateSession(state, UserName, result.Cookie);
+					session.Start();
 
-				Log.Info("{0} logged in successfully", UserName);
-				return new LoginResult(session);
-			}
-			catch (AuthException ex)
-			{
-				Log.Error("Authentication error", (Exception)ex);
-				return new LoginResult(ex.Message);
-			}
-			catch (ConnectionException ex)
-			{
-				Log.Error("Connection error ({0}) {1}", (byte)ex.Error, ex.Message);
-				return new LoginResult(ex.Message);
-			}
-			catch (Exception ex)
-			{
-				Log.Error("Unexpected login error", ex);
-				return new LoginResult(ex.Message);
-			}
+					Log.Info("{0} logged in successfully", UserName);
+					return new LoginResult(session);
+				}
+				catch (AuthException ex)
+				{
+					Log.Error("Authentication error", (Exception)ex);
+					return new LoginResult(ex.Message);
+				}
+				catch (ConnectionException ex)
+				{
+					Log.Error("Connection error ({0}) {1}", (byte)ex.Error, ex.Message);
+					return new LoginResult(ex.Message);
+				}
+				catch (Exception ex)
+				{
+					Log.Error("Unexpected login error", ex);
+					return new LoginResult(ex.Message);
+				}
+			});
+			
 		}
 
 		private AuthResult Authenticate(string userName, string password)
@@ -121,7 +126,7 @@ namespace SharpHaven.Login
 			}
 		}
 
-		private GameSession CreateSession(string userName, byte[] cookie)
+		private GameSession CreateSession(GameState state, string userName, byte[] cookie)
 		{
 			var connSettings = new ConnectionSettings
 			{
@@ -130,21 +135,12 @@ namespace SharpHaven.Login
 				UserName = userName,
 				Cookie = cookie
 			};
-			return new GameSession(connSettings);
-		}
-
-		private static Task RunAsync(Action action)
-		{
-			return Task.Factory.StartNew(
-				action,
-				CancellationToken.None,
-				TaskCreationOptions.None,
-				TaskScheduler.Default);
+			return new GameSession(state, connSettings);
 		}
 
 		private static Task<T> RunAsync<T>(Func<T> func)
 		{
-			return Task<T>.Factory.StartNew(
+			return Task.Factory.StartNew(
 				func,
 				CancellationToken.None,
 				TaskCreationOptions.None,
