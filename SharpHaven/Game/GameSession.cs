@@ -19,15 +19,17 @@ namespace SharpHaven.Game
 		private readonly Connection connection;
 		private readonly GameState state;
 		private readonly Dictionary<int, string> resources;
+		private readonly HashSet<Point> gridRequests;
 
 		private readonly ServerWidgetFactory widgetFactory;
 		private readonly ServerWidgetCollection widgets;
 
 		public GameSession(ConnectionSettings connSettings)
 		{
-			state = new GameState(this);
+			state = new GameState();
 			resources = new Dictionary<int, string>();
 			widgetFactory = new ServerWidgetFactory();
+			gridRequests = new HashSet<Point>();
 
 			connection = new Connection(connSettings);
 			connection.AddListener(this);
@@ -103,15 +105,16 @@ namespace SharpHaven.Game
 
 		#endregion
 
-		#region Map Data Management
-
-		public void RequestData(int x, int y)
+		public void RequestGrid(Point gc)
 		{
-			// TODO: Queue on sender thread?
-			ThreadPool.QueueUserWorkItem(o => connection.RequestMapData(x, y));
+			var grid = State.Map.GetGrid(gc);
+			if (grid == null && !gridRequests.Contains(gc))
+			{
+				gridRequests.Add(gc);
+				// TODO: Queue on sender thread?
+				ThreadPool.QueueUserWorkItem(o => connection.RequestMapData(gc.X, gc.Y));
+			}
 		}
-
-		#endregion
 
 		#region IConnectionListener implementation
 
@@ -171,7 +174,7 @@ namespace SharpHaven.Game
 
 		void IConnectionListener.InvalidateMap(Point gc)
 		{
-			App.QueueOnMainThread(() => State.Map.Invalidate(gc));
+			App.QueueOnMainThread(() => RequestGrid(gc));
 		}
 
 		void IConnectionListener.InvalidateMap(Point ul, Point br)
@@ -250,9 +253,13 @@ namespace SharpHaven.Game
 			});
 		}
 
-		void IConnectionListener.UpdateMap(UpdateMapMessage updateMapMessage)
+		void IConnectionListener.UpdateMap(UpdateMapMessage message)
 		{
-			App.QueueOnMainThread(() => State.Map.AddGrid(updateMapMessage));
+			App.QueueOnMainThread(() =>
+			{
+				gridRequests.Remove(message.Grid);
+				State.Map.AddGrid(message);
+			});
 		}
 
 		void IConnectionListener.PlaySound(PlaySoundMessage message)

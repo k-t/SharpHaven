@@ -64,6 +64,7 @@ namespace SharpHaven.UI.Widgets
 		public event Action<KeyModifiers> ItemDrop;
 		public event Action<MapClickEvent> ItemInteract;
 		public event Action<MapPlaceEvent> Placed;
+		public event Action<Point> GridRequest;
 
 		public int PlayerId
 		{
@@ -176,7 +177,7 @@ namespace SharpHaven.UI.Widgets
 				var br = Geometry.MapToGrid(player.Position.Add(500));
 				for (int y = ul.Y; y <= br.Y; y++)
 					for (int x = ul.X; x <= br.X; x++)
-						State.Map.Request(x, y);
+						GridRequest.Raise(new Point(x, y));
 			}
 		}
 

@@ -10,15 +10,13 @@ namespace SharpHaven.Game
 {
 	public class Map
 	{
-		private readonly GameSession session;
 		private readonly Tileset[] tilesets = new Tileset[256];
 		private readonly TreeDictionary<Point, MapGrid> grids;
 		private readonly List<Tuple<Point, ISprite>> flavorObjects = new List<Tuple<Point, ISprite>>();
 		private readonly List<MapOverlay> overlays;
 
-		public Map(GameSession session)
+		public Map()
 		{
-			this.session = session;
 			grids = new TreeDictionary<Point, MapGrid>(new PointComparer());
 			overlays = new List<MapOverlay>();
 		}
@@ -59,15 +57,6 @@ namespace SharpHaven.Game
 		public Tileset GetTileset(byte tileType)
 		{
 			return tilesets[tileType];
-		}
-
-		public void Request(int gx, int gy)
-		{
-			if (!grids.Contains(new Point(gx, gy)))
-			{
-				grids[new Point(gx, gy)] = null; // prevent continious requests
-				session.RequestData(gx, gy);
-			}
 		}
 
 		public void AddGrid(UpdateMapMessage message)
@@ -111,11 +100,6 @@ namespace SharpHaven.Game
 		{
 			var tileset = App.Resources.Get<Tileset>(message.Name);
 			tilesets[message.Id] = tileset;
-		}
-
-		public void Invalidate(Point gc)
-		{
-			session.RequestData(gc.X, gc.Y);
 		}
 
 		public void InvalidateRange(Point ul, Point br)

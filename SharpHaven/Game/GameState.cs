@@ -15,12 +15,12 @@ namespace SharpHaven.Game
 		private readonly Party party;
 		private readonly GameScreen screen;
 
-		public GameState(GameSession session)
+		public GameState()
 		{
 			actions = new GameActionCollection();
 			attributes = new Dictionary<string, CharAttribute>();
 			buffs = new Dictionary<int, Buff>();
-			map = new Map(session);
+			map = new Map();
 			objects = new GobCache();
 			scene = new GameScene(this);
 			party = new Party();

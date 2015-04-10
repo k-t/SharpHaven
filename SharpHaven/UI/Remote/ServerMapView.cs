@@ -42,6 +42,7 @@ namespace SharpHaven.UI.Remote
 			widget.Placed += OnPlaced;
 			widget.ItemDrop += OnItemDrop;
 			widget.ItemInteract += OnItemInteract;
+			widget.GridRequest += gc => Session.RequestGrid(gc);
 		}
 
 		protected override void OnDestroy()
