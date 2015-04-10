@@ -59,7 +59,12 @@
     <Compile Include="Resources\FolderSourceTests.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\SharpHaven.Common\SharpHaven.Common.csproj">
+      <Project>{37671bf5-2a78-46d2-b3df-eaf21ac15850}</Project>
+      <Name>SharpHaven.Common</Name>
+    </ProjectReference>
+  </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
     <None Include="Resources\Samples\tooltip.res">
@@ -71,12 +76,6 @@
     <None Include="Resources\Samples\SubFolder\font.res">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\MonoHaven.Lib\SharpHaven.Common.csproj">
-      <Project>{37671BF5-2A78-46D2-B3DF-EAF21AC15850}</Project>
-      <Name>SharpHaven.Common</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

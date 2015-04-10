@@ -316,7 +316,7 @@
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
-    <ProjectReference Include="..\MonoHaven.Lib\SharpHaven.Common.csproj">
+    <ProjectReference Include="..\SharpHaven.Common\SharpHaven.Common.csproj">
       <Project>{37671BF5-2A78-46D2-B3DF-EAF21AC15850}</Project>
       <Name>SharpHaven.Common</Name>
     </ProjectReference>
