@@ -36,6 +36,7 @@ namespace SharpHaven.Login
 		{
 			login = new Login();
 			login.Progress += UpdateProgress;
+			login.Finished += Finish;
 
 			InitWidgets();
 			GotoInitialPage();
@@ -141,7 +142,7 @@ namespace SharpHaven.Login
 			}
 		}
 
-		private async void Login()
+		private void Login()
 		{
 			GotoProgressPage();
 
@@ -154,14 +155,7 @@ namespace SharpHaven.Login
 				tbPassword.Text = "";
 			}
 
-			var authResult = await login.LoginAsync();
-			if (authResult.IsSuccessful)
-			{
-				LoginCompleted.Raise(authResult.Session);
-				GotoInitialPage();
-			}
-			else
-				GotoInitialPage(authResult.Error);
+			login.LoginAsync();
 		}
 
 		private void GotoInitialPage(string errorMessage = null)
@@ -199,6 +193,17 @@ namespace SharpHaven.Login
 		private void UpdateProgress(string status)
 		{
 			lbProgress.Text = status;
+		}
+
+		private void Finish(LoginResult authResult)
+		{
+			if (authResult.IsSuccessful)
+			{
+				LoginCompleted.Raise(authResult.Session);
+				GotoInitialPage();
+			}
+			else
+				GotoInitialPage(authResult.Error);
 		}
 
 		private void ForgetToken()

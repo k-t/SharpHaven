@@ -43,9 +43,6 @@
     <StartupObject>SharpHaven.App</StartupObject>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AsyncBridge">
-      <HintPath>..\packages\AsyncBridge.0.1.1\lib\net40-Client\AsyncBridge.dll</HintPath>
-    </Reference>
     <Reference Include="C5, Version=2.3.5280.26713, Culture=neutral, PublicKeyToken=282361b99ded7e8e, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\C5.2.3.0.1\lib\net40\C5.dll</HintPath>
@@ -90,6 +87,7 @@
     <Compile Include="UI\Widgets\ClaimRight.cs" />
     <Compile Include="UI\Widgets\ClaimWindow.cs" />
     <Compile Include="UI\Widgets\ClaimRightsChangeEvent.cs" />
+    <Compile Include="Utils\AsyncOperationExtensions.cs" />
     <Compile Include="Utils\FrameCounter.cs" />
     <Compile Include="Game\Buff.cs" />
     <Compile Include="Game\BuffMold.cs" />

@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using NLog;
 using SharpHaven.Game;
 using SharpHaven.Network;
+using SharpHaven.Utils;
 
 namespace SharpHaven.Login
 {
@@ -47,8 +48,9 @@ namespace SharpHaven.Login
 		}
 
 		public event Action<string> Progress;
+		public event Action<LoginResult> Finished;
 
-		public Task<LoginResult> LoginAsync()
+		public void LoginAsync()
 		{
 			// create state in the calling thread
 			var state = new GameState();
@@ -58,41 +60,43 @@ namespace SharpHaven.Login
 				? new Func<AuthResult>(() => Authenticate(UserName, Token))
 				: new Func<AuthResult>(() => Authenticate(UserName, Password));
 
-			return RunAsync(() =>
+			RunAsync(() =>
 			{
 				try
 				{
-					asyncContext.Post(_ => Progress.Raise("Authenticating..."), null);
+					asyncContext.PostEvent(Progress, "Authenticating...");
 
 					var result = authenticate();
 					if (result.Cookie == null)
-						return new LoginResult(result.Error);
+					{
+						asyncContext.PostEvent(Finished, new LoginResult(result.Error));
+						return;
+					}
 
-					asyncContext.Post(_ => Progress.Raise("Connecting..."), null);
+					asyncContext.PostEvent(Progress, "Connecting...");
 
 					var session = CreateSession(state, UserName, result.Cookie);
 					session.Start();
 
 					Log.Info("{0} logged in successfully", UserName);
-					return new LoginResult(session);
+					asyncContext.PostEvent(Finished, new LoginResult(session));
 				}
 				catch (AuthException ex)
 				{
 					Log.Error("Authentication error", (Exception)ex);
-					return new LoginResult(ex.Message);
+					asyncContext.PostEvent(Finished, new LoginResult(ex.Message));
 				}
 				catch (ConnectionException ex)
 				{
 					Log.Error("Connection error ({0}) {1}", (byte)ex.Error, ex.Message);
-					return new LoginResult(ex.Message);
+					asyncContext.PostEvent(Finished, new LoginResult(ex.Message));
 				}
 				catch (Exception ex)
 				{
 					Log.Error("Unexpected login error", ex);
-					return new LoginResult(ex.Message);
+					asyncContext.PostEvent(Finished, new LoginResult(ex.Message));
 				}
 			});
-			
 		}
 
 		private AuthResult Authenticate(string userName, string password)
@@ -138,10 +142,10 @@ namespace SharpHaven.Login
 			return new GameSession(state, connSettings);
 		}
 
-		private static Task<T> RunAsync<T>(Func<T> func)
+		private static void RunAsync(Action action)
 		{
-			return Task.Factory.StartNew(
-				func,
+			Task.Factory.StartNew(
+				action,
 				CancellationToken.None,
 				TaskCreationOptions.None,
 				TaskScheduler.Default);
