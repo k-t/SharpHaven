@@ -19,11 +19,6 @@ namespace MonoHaven.Graphics
 			this.size = new Size(tex.Width, tex.Height);
 		}
 
-		public BitArray Hitmask
-		{
-			get { return hitmask; }
-		}
-
 		public override void Draw(SpriteBatch batch, int x, int y, int w, int h)
 		{
 			tex.Draw(batch, x, y, w, h);
