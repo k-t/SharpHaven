@@ -10,6 +10,7 @@ namespace SharpHaven
 		private const int DefaultGamePort = 1870;
 		private const int DefaultAuthPort = 1871;
 		private const string DefaultMapUrl = "http://www.havenandhearth.com/mm/";
+		private const string DefaultResUrl = "http://www.havenandhearth.com/res/";
 
 		private readonly IConfig havenConfig;
 
