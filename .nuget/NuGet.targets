@@ -90,7 +90,9 @@
     </Target>
 
     <Target Name="_DownloadNuGet">
-        <DownloadNuGet OutputFilename="$(NuGetExePath)" Condition=" '$(DownloadNuGetExe)' == 'true' AND !Exists('$(NuGetExePath)')" />
+        <MakeDir Directories="$(NuGetToolsPath)" Condition=" !Exists('$(NuGetToolsPath)') " />
+        <Exec Command="wget https://www.nuget.org/nuget.exe -O $(NuGetExePath)" Condition=" '$(OS)' != 'Windows_NT' AND !Exists('$(NuGetExePath)') " />
+        <DownloadNuGet OutputFilename="$(NuGetExePath)" Condition=" '$(OS)' == 'Windows_NT' AND '$(DownloadNuGetExe)' == 'true' AND !Exists('$(NuGetExePath)')" />
     </Target>
 
     <Target Name="RestorePackages" DependsOnTargets="CheckPrerequisites">        
