@@ -1,2 +1,8 @@
 language: csharp
 solution: SharpHaven.sln
+install:
+  - nuget restore SharpHaven.sln
+  - nuget install NUnit.Runners -Version 2.6.3 -OutputDirectory testrunner
+script:
+  - xbuild /p:Configuration=Release SharpHaven.sln
+  - mono ./testrunner/NUnit.Runners.2.6.3/tools/nunit-console.exe ./SharpHaven.Common.Tests/bin/Release/SharpHaven.Common.Tests.dll
