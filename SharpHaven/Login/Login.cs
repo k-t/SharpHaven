@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using NLog;
 using SharpHaven.Game;
 using SharpHaven.Network;
-using SharpHaven.Utils;
 
 namespace SharpHaven.Login
 {
@@ -55,48 +54,52 @@ namespace SharpHaven.Login
 			// create state in the calling thread
 			var state = new GameState();
 
-			var asyncContext = AsyncOperationManager.CreateOperation(null);
 			var authenticate = (Token != null)
 				? new Func<AuthResult>(() => Authenticate(UserName, Token))
 				: new Func<AuthResult>(() => Authenticate(UserName, Password));
 
-			RunAsync(() =>
+			var worker = new BackgroundWorker();
+			worker.WorkerReportsProgress = true;
+			worker.ProgressChanged += (_, e) => Progress.Raise((string)e.UserState);
+			worker.RunWorkerCompleted += (_, e) => Finished.Raise((LoginResult)e.Result);
+			worker.DoWork += (_, e) =>
 			{
 				try
 				{
-					asyncContext.PostEvent(Progress, "Authenticating...");
+					worker.ReportProgress(0, "Authenticating...");
 
 					var result = authenticate();
 					if (result.Cookie == null)
 					{
-						asyncContext.PostEvent(Finished, new LoginResult(result.Error));
+						e.Result = new LoginResult(result.Error);
 						return;
 					}
 
-					asyncContext.PostEvent(Progress, "Connecting...");
+					worker.ReportProgress(0, "Connecting...");
 
 					var session = CreateSession(state, UserName, result.Cookie);
 					session.Start();
 
 					Log.Info("{0} logged in successfully", UserName);
-					asyncContext.PostEvent(Finished, new LoginResult(session));
+					e.Result = new LoginResult(session);
 				}
 				catch (AuthException ex)
 				{
 					Log.Error("Authentication error", (Exception)ex);
-					asyncContext.PostEvent(Finished, new LoginResult(ex.Message));
+					e.Result = new LoginResult(ex.Message);
 				}
 				catch (ConnectionException ex)
 				{
 					Log.Error("Connection error ({0}) {1}", (byte)ex.Error, ex.Message);
-					asyncContext.PostEvent(Finished, new LoginResult(ex.Message));
+					e.Result = new LoginResult(ex.Message);
 				}
 				catch (Exception ex)
 				{
 					Log.Error("Unexpected login error", ex);
-					asyncContext.PostEvent(Finished, new LoginResult(ex.Message));
+					e.Result = new LoginResult(ex.Message);
 				}
-			});
+			};
+			worker.RunWorkerAsync();
 		}
 
 		private AuthResult Authenticate(string userName, string password)

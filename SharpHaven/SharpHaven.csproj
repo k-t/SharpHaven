@@ -87,7 +87,6 @@
     <Compile Include="UI\Widgets\ClaimRight.cs" />
     <Compile Include="UI\Widgets\ClaimWindow.cs" />
     <Compile Include="UI\Widgets\ClaimRightsChangeEvent.cs" />
-    <Compile Include="Utils\AsyncOperationExtensions.cs" />
     <Compile Include="Utils\FrameCounter.cs" />
     <Compile Include="Game\Buff.cs" />
     <Compile Include="Game\BuffMold.cs" />
