@@ -14,26 +14,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{2EB20B
 		.nuget\NuGet.targets = .nuget\NuGet.targets
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "content", "content", "{1C51938B-29D0-4293-B484-71746F80ACA9}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "fonts", "fonts", "{E6136E2D-3AF2-4754-AA2E-FEAADFB36EBE}"
-	ProjectSection(SolutionItems) = preProject
-		content\fonts\sans.yaml = content\fonts\sans.yaml
-		content\fonts\serif.yaml = content\fonts\serif.yaml
-		content\fonts\SourceSansPro-Regular.ttf = content\fonts\SourceSansPro-Regular.ttf
-		content\fonts\SourceSerifPro-Regular.ttf = content\fonts\SourceSerifPro-Regular.ttf
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ui", "ui", "{F36458A1-0703-42BC-9F9C-8AE64654CDAF}"
-	ProjectSection(SolutionItems) = preProject
-		content\ui\icon.png = content\ui\icon.png
-		content\ui\icon.yaml = content\ui\icon.yaml
-		content\ui\wbox.png = content\ui\wbox.png
-		content\ui\wbox.yaml = content\ui\wbox.yaml
-		content\ui\wcap.png = content\ui\wcap.png
-		content\ui\wcap.yaml = content\ui\wcap.yaml
-	EndProjectSection
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -81,10 +61,6 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
-		{E6136E2D-3AF2-4754-AA2E-FEAADFB36EBE} = {1C51938B-29D0-4293-B484-71746F80ACA9}
-		{F36458A1-0703-42BC-9F9C-8AE64654CDAF} = {1C51938B-29D0-4293-B484-71746F80ACA9}
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
 		StartupItem = MonoHaven.Designer\MonoHaven.Designer.csproj
