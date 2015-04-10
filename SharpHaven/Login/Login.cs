@@ -1,5 +1,4 @@
 ﻿using System;
-using System.ComponentModel;
 using System.Threading;
 using System.Threading.Tasks;
 using NLog;
@@ -53,53 +52,46 @@ namespace SharpHaven.Login
 		{
 			// create state in the calling thread
 			var state = new GameState();
-
 			var authenticate = (Token != null)
 				? new Func<AuthResult>(() => Authenticate(UserName, Token))
 				: new Func<AuthResult>(() => Authenticate(UserName, Password));
-
-			var worker = new BackgroundWorker();
-			worker.WorkerReportsProgress = true;
-			worker.ProgressChanged += (_, e) => Progress.Raise((string)e.UserState);
-			worker.RunWorkerCompleted += (_, e) => Finished.Raise((LoginResult)e.Result);
-			worker.DoWork += (_, e) =>
+			RunAsync(() =>
 			{
 				try
 				{
-					worker.ReportProgress(0, "Authenticating...");
+					ReportProgress("Authenticating...");
 
 					var result = authenticate();
 					if (result.Cookie == null)
 					{
-						e.Result = new LoginResult(result.Error);
+						App.QueueOnMainThread(() => Finished.Raise(new LoginResult(result.Error)));
 						return;
 					}
 
-					worker.ReportProgress(0, "Connecting...");
+					ReportProgress("Connecting...");
 
 					var session = CreateSession(state, UserName, result.Cookie);
 					session.Start();
 
 					Log.Info("{0} logged in successfully", UserName);
-					e.Result = new LoginResult(session);
+					Finish(new LoginResult(session));
 				}
 				catch (AuthException ex)
 				{
 					Log.Error("Authentication error", (Exception)ex);
-					e.Result = new LoginResult(ex.Message);
+					Finish(new LoginResult(ex.Message));
 				}
 				catch (ConnectionException ex)
 				{
 					Log.Error("Connection error ({0}) {1}", (byte)ex.Error, ex.Message);
-					e.Result = new LoginResult(ex.Message);
+					Finish(new LoginResult(ex.Message));
 				}
 				catch (Exception ex)
 				{
 					Log.Error("Unexpected login error", ex);
-					e.Result = new LoginResult(ex.Message);
+					Finish(new LoginResult(ex.Message));
 				}
-			};
-			worker.RunWorkerAsync();
+			});
 		}
 
 		private AuthResult Authenticate(string userName, string password)
@@ -152,6 +144,16 @@ namespace SharpHaven.Login
 				CancellationToken.None,
 				TaskCreationOptions.None,
 				TaskScheduler.Default);
+		}
+
+		private void ReportProgress(string message)
+		{
+			App.QueueOnMainThread(() => Progress.Raise(message));
+		}
+
+		private void Finish(LoginResult result)
+		{
+			App.QueueOnMainThread(() => Finished.Raise(result));
 		}
 
 		private class AuthResult
