@@ -6,12 +6,12 @@ using System.Net.Sockets;
 using System.Threading;
 using C5;
 using ICSharpCode.SharpZipLib.Zip.Compression;
-using MonoHaven.Messages;
-using MonoHaven.Resources;
-using MonoHaven.Utils;
 using NLog;
+using SharpHaven.Messages;
+using SharpHaven.Resources;
+using SharpHaven.Utils;
 
-namespace MonoHaven.Network
+namespace SharpHaven.Network
 {
 	public class Connection : IDisposable
 	{

@@ -1,7 +1,7 @@
-﻿using MonoHaven.Utils;
-using OpenTK.Input;
+﻿using OpenTK.Input;
+using SharpHaven.Utils;
 
-namespace MonoHaven.UI.Remote
+namespace SharpHaven.UI.Remote
 {
 	public static class ServerInput
 	{

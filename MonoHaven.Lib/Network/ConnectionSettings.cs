@@ -1,4 +1,4 @@
-﻿namespace MonoHaven.Network
+﻿namespace SharpHaven.Network
 {
 	public class ConnectionSettings
 	{

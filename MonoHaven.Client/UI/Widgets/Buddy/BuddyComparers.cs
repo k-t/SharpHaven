@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MonoHaven.UI.Widgets
+namespace SharpHaven.UI.Widgets
 {
 	public static class BuddyComparison
 	{

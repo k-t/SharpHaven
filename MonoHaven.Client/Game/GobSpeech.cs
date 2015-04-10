@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Drawing;
-using MonoHaven.Graphics;
-using MonoHaven.Graphics.Text;
-using MonoHaven.Utils;
+using SharpHaven.Graphics;
+using SharpHaven.Graphics.Text;
+using SharpHaven.Utils;
 
-namespace MonoHaven.Game
+namespace SharpHaven.Game
 {
 	public class GobSpeech : IDisposable
 	{

@@ -1,4 +1,4 @@
-﻿namespace MonoHaven.Input
+﻿namespace SharpHaven.Input
 {
 	public class KeyPressEvent : InputEvent
 	{

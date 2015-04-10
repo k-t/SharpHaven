@@ -1,8 +1,7 @@
 ﻿using System.IO;
-using MonoHaven.Resources.Serialization.Binary;
 using NUnit.Framework;
 
-namespace MonoHaven.Tests.Resources.Serialization.Binary
+namespace SharpHaven.Resources.Serialization.Binary
 {
 	public static class BinarySerializerHelper
 	{

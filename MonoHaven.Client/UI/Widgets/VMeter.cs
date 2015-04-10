@@ -1,7 +1,7 @@
 ﻿using System.Drawing;
-using MonoHaven.Graphics;
+using SharpHaven.Graphics;
 
-namespace MonoHaven.UI.Widgets
+namespace SharpHaven.UI.Widgets
 {
 	public class VMeter : Widget
 	{

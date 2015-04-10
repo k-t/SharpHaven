@@ -1,9 +1,9 @@
 ﻿using System;
-using MonoHaven.Game;
-using MonoHaven.Graphics;
-using MonoHaven.Utils;
+using SharpHaven.Game;
+using SharpHaven.Graphics;
+using SharpHaven.Utils;
 
-namespace MonoHaven.UI.Widgets
+namespace SharpHaven.UI.Widgets
 {
 	public class Calendar : Widget
 	{

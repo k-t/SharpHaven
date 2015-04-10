@@ -1,7 +1,7 @@
-using MonoHaven.Network;
 using NUnit.Framework;
+using SharpHaven.Network;
 
-namespace MonoHaven.Tests
+namespace SharpHaven
 {
 	[TestFixture]
 	public class MessageTests

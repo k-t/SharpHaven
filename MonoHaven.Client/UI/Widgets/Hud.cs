@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Drawing;
-using MonoHaven.Game;
-using MonoHaven.Graphics;
+using SharpHaven.Game;
+using SharpHaven.Graphics;
 
-namespace MonoHaven.UI.Widgets
+namespace SharpHaven.UI.Widgets
 {
 	public class Hud : Widget
 	{

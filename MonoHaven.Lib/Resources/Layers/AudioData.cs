@@ -1,4 +1,4 @@
-﻿namespace MonoHaven.Resources.Layers
+﻿namespace SharpHaven.Resources
 {
 	public class AudioData
 	{

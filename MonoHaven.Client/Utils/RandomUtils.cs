@@ -2,7 +2,7 @@
 using System.Drawing;
 using System.Security.Cryptography;
 
-namespace MonoHaven.Utils
+namespace SharpHaven.Utils
 {
 	public static class RandomUtils
 	{

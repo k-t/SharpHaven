@@ -1,10 +1,10 @@
 ﻿using System.Drawing;
-using MonoHaven.Graphics;
-using MonoHaven.Input;
-using MonoHaven.UI.Widgets;
-using Image = MonoHaven.UI.Widgets.Image;
+using SharpHaven.Graphics;
+using SharpHaven.Input;
+using SharpHaven.UI.Widgets;
+using Image = SharpHaven.UI.Widgets.Image;
 
-namespace MonoHaven.UI.Remote
+namespace SharpHaven.UI.Remote
 {
 	public class ServerImage : ServerWidget
 	{

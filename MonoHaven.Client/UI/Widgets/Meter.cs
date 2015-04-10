@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using MonoHaven.Game;
-using MonoHaven.Graphics;
+using SharpHaven.Game;
+using SharpHaven.Graphics;
 
-namespace MonoHaven.UI.Widgets
+namespace SharpHaven.UI.Widgets
 {
 	public class Meter : Widget
 	{

@@ -1,11 +1,11 @@
 ﻿using System;
-using MonoHaven.Game;
-using MonoHaven.Graphics;
-using MonoHaven.Input;
-using MonoHaven.Login;
-using MonoHaven.UI;
+using SharpHaven.Game;
+using SharpHaven.Graphics;
+using SharpHaven.Input;
+using SharpHaven.Login;
+using SharpHaven.UI;
 
-namespace MonoHaven
+namespace SharpHaven
 {
 	public class MainScreen : IScreen
 	{

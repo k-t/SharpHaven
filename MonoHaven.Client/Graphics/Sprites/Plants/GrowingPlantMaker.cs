@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using MonoHaven.Resources;
-using MonoHaven.Utils;
+using SharpHaven.Resources;
+using SharpHaven.Utils;
 
-namespace MonoHaven.Graphics.Sprites.Plants
+namespace SharpHaven.Graphics.Sprites.Plants
 {
 	public class GrowingPlantMaker : SpriteMaker
 	{

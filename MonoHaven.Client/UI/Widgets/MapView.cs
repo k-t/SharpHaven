@@ -2,15 +2,15 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using MonoHaven.Game;
-using MonoHaven.Graphics;
-using MonoHaven.Graphics.Sprites;
-using MonoHaven.Graphics.Text;
-using MonoHaven.Input;
-using MonoHaven.Utils;
 using OpenTK.Input;
+using SharpHaven.Game;
+using SharpHaven.Graphics;
+using SharpHaven.Graphics.Sprites;
+using SharpHaven.Graphics.Text;
+using SharpHaven.Input;
+using SharpHaven.Utils;
 
-namespace MonoHaven.UI.Widgets
+namespace SharpHaven.UI.Widgets
 {
 	public class MapView : Widget, IItemDropTarget
 	{

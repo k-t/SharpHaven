@@ -2,13 +2,12 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Threading;
-using MonoHaven.Resources;
-using MonoHaven.Resources.Layers;
-using MonoHaven.Utils;
 using NVorbis.OpenTKSupport;
 using OpenTK.Audio;
+using SharpHaven.Resources;
+using SharpHaven.Utils;
 
-namespace MonoHaven
+namespace SharpHaven
 {
 	public class Audio : IDisposable
 	{

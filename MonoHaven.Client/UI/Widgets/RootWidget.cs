@@ -1,4 +1,4 @@
-﻿namespace MonoHaven.UI.Widgets
+﻿namespace SharpHaven.UI.Widgets
 {
 	public class RootWidget : Widget
 	{

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Drawing;
 
-namespace MonoHaven.Graphics
+namespace SharpHaven.Graphics
 {
 	public abstract class Drawable : IDisposable
 	{

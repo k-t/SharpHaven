@@ -1,7 +1,7 @@
 ﻿using System;
 using OpenTK.Input;
 
-namespace MonoHaven.Input
+namespace SharpHaven.Input
 {
 	public abstract class InputEvent : EventArgs
 	{

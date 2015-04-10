@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using MonoHaven.Game;
-using MonoHaven.Graphics;
-using MonoHaven.Graphics.Text;
-using MonoHaven.UI.Layouts;
-using MonoHaven.Utils;
+using SharpHaven.Game;
+using SharpHaven.Graphics;
+using SharpHaven.Graphics.Text;
+using SharpHaven.UI.Layouts;
+using SharpHaven.Utils;
 
-namespace MonoHaven.UI.Widgets
+namespace SharpHaven.UI.Widgets
 {
 	public class CharWindow : Window
 	{

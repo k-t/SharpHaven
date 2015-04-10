@@ -1,6 +1,6 @@
-﻿using MonoHaven.Graphics;
+﻿using SharpHaven.Graphics;
 
-namespace MonoHaven.UI
+namespace SharpHaven.UI
 {
 	public class Drag
 	{

@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using MonoHaven.Game;
-using MonoHaven.Input;
+using SharpHaven.Game;
+using SharpHaven.Input;
 
-namespace MonoHaven.UI.Widgets
+namespace SharpHaven.UI.Widgets
 {
 	public class PartyWidget : Widget
 	{

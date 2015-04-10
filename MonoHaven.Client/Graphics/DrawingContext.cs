@@ -2,11 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using MonoHaven.Graphics.Sprites;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
+using SharpHaven.Graphics.Sprites;
 
-namespace MonoHaven.Graphics
+namespace SharpHaven.Graphics
 {
 	public class DrawingContext : IDisposable
 	{

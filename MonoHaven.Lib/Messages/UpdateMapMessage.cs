@@ -1,6 +1,6 @@
 ﻿using System.Drawing;
 
-namespace MonoHaven.Messages
+namespace SharpHaven.Messages
 {
 	public class UpdateMapMessage
 	{

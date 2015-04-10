@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MonoHaven.Utils
+namespace SharpHaven.Utils
 {
 	public delegate bool Promise<T>(out T value);
 

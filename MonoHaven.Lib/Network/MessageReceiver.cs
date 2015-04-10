@@ -1,8 +1,8 @@
 ﻿using System;
-using MonoHaven.Utils;
 using NLog;
+using SharpHaven.Utils;
 
-namespace MonoHaven.Network
+namespace SharpHaven.Network
 {
 	internal class MessageReceiver : BackgroundTask
 	{

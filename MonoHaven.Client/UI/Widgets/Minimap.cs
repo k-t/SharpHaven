@@ -2,12 +2,12 @@
 using System.Collections.Concurrent;
 using System.Drawing;
 using System.Threading.Tasks;
-using MonoHaven.Game;
-using MonoHaven.Graphics;
-using MonoHaven.Utils;
 using NLog;
+using SharpHaven.Game;
+using SharpHaven.Graphics;
+using SharpHaven.Utils;
 
-namespace MonoHaven.UI.Widgets
+namespace SharpHaven.UI.Widgets
 {
 	public class Minimap : Widget
 	{

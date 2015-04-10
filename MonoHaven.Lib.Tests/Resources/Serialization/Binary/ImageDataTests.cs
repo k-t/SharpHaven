@@ -1,9 +1,7 @@
 ﻿using System.Drawing;
-using MonoHaven.Resources;
-using MonoHaven.Resources.Serialization.Binary;
 using NUnit.Framework;
 
-namespace MonoHaven.Tests.Resources.Serialization.Binary
+namespace SharpHaven.Resources.Serialization.Binary
 {
 	[TestFixture]
 	public class ImageDataTests
@@ -22,7 +20,7 @@ namespace MonoHaven.Tests.Resources.Serialization.Binary
 			};
 
 			var serializer = new ImageDataSerializer();
-			var output = (ImageData)serializer.Reserialize(input);
+			var output = (ImageData)BinarySerializerHelper.Reserialize(serializer, input);
 
 			Assert.That(output.Id, Is.EqualTo(input.Id));
 			Assert.That(output.Z, Is.EqualTo(input.Z));

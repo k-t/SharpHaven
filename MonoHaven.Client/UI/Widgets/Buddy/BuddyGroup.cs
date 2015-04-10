@@ -1,6 +1,6 @@
 ﻿using System.Drawing;
 
-namespace MonoHaven.UI.Widgets
+namespace SharpHaven.UI.Widgets
 {
 	public static class BuddyGroup
 	{

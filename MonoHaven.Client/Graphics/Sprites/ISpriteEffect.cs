@@ -1,4 +1,4 @@
-﻿namespace MonoHaven.Graphics.Sprites
+﻿namespace SharpHaven.Graphics.Sprites
 {
 	public interface ISpriteEffect
 	{

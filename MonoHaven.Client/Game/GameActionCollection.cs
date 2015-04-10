@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using C5;
 
-namespace MonoHaven.Game
+namespace SharpHaven.Game
 {
 	public class GameActionCollection : IEnumerable<GameAction>, INotifyCollectionChanged
 	{

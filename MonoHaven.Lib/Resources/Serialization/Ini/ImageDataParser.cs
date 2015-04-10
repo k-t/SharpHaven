@@ -2,7 +2,7 @@
 using System.IO;
 using IniParser.Model;
 
-namespace MonoHaven.Resources.Serialization.Ini
+namespace SharpHaven.Resources.Serialization.Ini
 {
 	internal class ImageDataParser : IIniDataLayerParser
 	{

@@ -1,6 +1,6 @@
 ﻿using System.Drawing;
 
-namespace MonoHaven.Graphics.Sprites
+namespace SharpHaven.Graphics.Sprites
 {
 	public class SpritePart
 	{

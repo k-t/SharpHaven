@@ -1,9 +1,9 @@
 ﻿using System.Collections;
 using System.Linq;
-using MonoHaven.Resources;
-using MonoHaven.Utils;
+using SharpHaven.Resources;
+using SharpHaven.Utils;
 
-namespace MonoHaven.Graphics.Sprites
+namespace SharpHaven.Graphics.Sprites
 {
 	public class StaticSpriteMaker : SpriteMaker
 	{

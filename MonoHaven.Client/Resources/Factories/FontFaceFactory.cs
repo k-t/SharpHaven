@@ -1,6 +1,6 @@
 ﻿using SharpFont;
 
-namespace MonoHaven.Resources
+namespace SharpHaven.Resources
 {
 	public class FontFaceFactory : IObjectFactory<Face>
 	{

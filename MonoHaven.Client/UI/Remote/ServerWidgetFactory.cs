@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace MonoHaven.UI.Remote
+namespace SharpHaven.UI.Remote
 {
 	public class ServerWidgetFactory
 	{

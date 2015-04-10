@@ -1,9 +1,9 @@
 using System.Collections.Generic;
 using System.IO;
 using ICSharpCode.SharpZipLib.Zip;
-using MonoHaven.Resources.Serialization.Binary;
+using SharpHaven.Resources.Serialization.Binary;
 
-namespace MonoHaven.Resources
+namespace SharpHaven.Resources
 {
 	public class JarSource : IEnumerableResourceSource
 	{

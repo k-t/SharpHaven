@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
-using MonoHaven.Game;
-using MonoHaven.Network;
 using NLog;
+using SharpHaven.Game;
+using SharpHaven.Network;
 
-namespace MonoHaven.Login
+namespace SharpHaven.Login
 {
 	public class Login
 	{

@@ -1,6 +1,6 @@
-﻿using MonoHaven.Resources;
+﻿using SharpHaven.Resources;
 
-namespace MonoHaven.Messages
+namespace SharpHaven.Messages
 {
 	public class ActionMessage
 	{

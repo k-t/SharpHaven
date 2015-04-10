@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using MonoHaven.Game;
-using MonoHaven.Input;
-using MonoHaven.UI.Layouts;
-using MonoHaven.Utils;
 using OpenTK.Input;
+using SharpHaven.Game;
+using SharpHaven.Input;
+using SharpHaven.UI.Layouts;
+using SharpHaven.Utils;
 
-namespace MonoHaven.UI.Widgets
+namespace SharpHaven.UI.Widgets
 {
 	public class CraftWindow : Window
 	{

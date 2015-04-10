@@ -1,6 +1,6 @@
 ﻿using System.Globalization;
 
-namespace MonoHaven.Utils
+namespace SharpHaven.Utils
 {
 	public static class StringUtils
 	{

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace MonoHaven.Messages
+namespace SharpHaven.Messages
 {
 	public class UpdateGobMessage
 	{

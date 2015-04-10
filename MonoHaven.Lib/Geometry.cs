@@ -1,7 +1,7 @@
 ﻿using System.Drawing;
-using MonoHaven.Utils;
+using SharpHaven.Utils;
 
-namespace MonoHaven
+namespace SharpHaven
 {
 	public static class Geometry
 	{

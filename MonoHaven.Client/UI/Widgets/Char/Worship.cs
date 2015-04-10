@@ -1,9 +1,9 @@
 ﻿using System;
-using MonoHaven.Game;
-using MonoHaven.Graphics;
-using MonoHaven.Graphics.Text;
+using SharpHaven.Game;
+using SharpHaven.Graphics;
+using SharpHaven.Graphics.Text;
 
-namespace MonoHaven.UI.Widgets
+namespace SharpHaven.UI.Widgets
 {
 	public class Worship : Widget
 	{

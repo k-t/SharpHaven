@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using MonoHaven.Game;
-using MonoHaven.Graphics;
-using MonoHaven.Graphics.Sprites;
 using OpenTK;
 using SharpFont;
+using SharpHaven.Game;
+using SharpHaven.Graphics;
+using SharpHaven.Graphics.Sprites;
 
-namespace MonoHaven.Resources
+namespace SharpHaven.Resources
 {
 	public class ResourceManager
 	{

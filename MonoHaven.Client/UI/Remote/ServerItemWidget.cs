@@ -1,9 +1,9 @@
 ﻿using System.Drawing;
-using MonoHaven.Game;
-using MonoHaven.UI.Widgets;
-using MonoHaven.Utils;
+using SharpHaven.Game;
+using SharpHaven.UI.Widgets;
+using SharpHaven.Utils;
 
-namespace MonoHaven.UI.Remote
+namespace SharpHaven.UI.Remote
 {
 	public class ServerItemWidget : ServerWidget
 	{

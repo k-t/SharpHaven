@@ -1,8 +1,6 @@
-﻿using MonoHaven.Resources;
-using MonoHaven.Resources.Serialization.Binary;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 
-namespace MonoHaven.Tests.Resources.Serialization.Binary
+namespace SharpHaven.Resources.Serialization.Binary
 {
 	[TestFixture]
 	public class AnimDataTests
@@ -18,7 +16,7 @@ namespace MonoHaven.Tests.Resources.Serialization.Binary
 			};
 
 			var serializer = new AnimDataSerializer();
-			var output = (AnimData)serializer.Reserialize(input);
+			var output = (AnimData)BinarySerializerHelper.Reserialize(serializer, input);
 
 			Assert.That(output.Id, Is.EqualTo(input.Id));
 			Assert.That(output.Duration, Is.EqualTo(input.Duration));

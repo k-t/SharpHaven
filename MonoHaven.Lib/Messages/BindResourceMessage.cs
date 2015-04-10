@@ -1,4 +1,4 @@
-﻿namespace MonoHaven.Messages
+﻿namespace SharpHaven.Messages
 {
 	public class BindResourceMessage
 	{

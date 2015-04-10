@@ -3,7 +3,7 @@ using System.Drawing;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
 
-namespace MonoHaven.Graphics
+namespace SharpHaven.Graphics
 {
 	public class Texture : IDisposable
 	{

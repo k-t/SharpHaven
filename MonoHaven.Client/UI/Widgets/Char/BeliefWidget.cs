@@ -1,7 +1,7 @@
 ﻿using System;
-using MonoHaven.Graphics;
+using SharpHaven.Graphics;
 
-namespace MonoHaven.UI.Widgets
+namespace SharpHaven.UI.Widgets
 {
 	public class BeliefWidget : Widget
 	{

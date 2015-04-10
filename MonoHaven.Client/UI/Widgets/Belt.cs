@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using MonoHaven.Game;
-using MonoHaven.Graphics;
-using MonoHaven.Input;
-using MonoHaven.UI.Layouts;
-using MonoHaven.Utils;
 using OpenTK.Input;
+using SharpHaven.Game;
+using SharpHaven.Graphics;
+using SharpHaven.Input;
+using SharpHaven.UI.Layouts;
+using SharpHaven.Utils;
 
-namespace MonoHaven.UI.Widgets
+namespace SharpHaven.UI.Widgets
 {
 	public class Belt : Widget
 	{

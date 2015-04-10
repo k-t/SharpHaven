@@ -1,4 +1,4 @@
-﻿namespace MonoHaven.Graphics.Text
+﻿namespace SharpHaven.Graphics.Text
 {
 	public enum TextAlign
 	{

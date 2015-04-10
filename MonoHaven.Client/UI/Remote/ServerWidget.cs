@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using MonoHaven.Game;
-using MonoHaven.UI.Widgets;
-using MonoHaven.Utils;
 using NLog;
 using OpenTK;
+using SharpHaven.Game;
+using SharpHaven.UI.Widgets;
+using SharpHaven.Utils;
 
-namespace MonoHaven.UI.Remote
+namespace SharpHaven.UI.Remote
 {
 	public abstract class ServerWidget : TreeNode<ServerWidget>, IDisposable
 	{

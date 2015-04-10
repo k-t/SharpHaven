@@ -1,6 +1,6 @@
 ﻿using OpenTK.Input;
 
-namespace MonoHaven.Input
+namespace SharpHaven.Input
 {
 	public class KeyEvent : InputEvent
 	{

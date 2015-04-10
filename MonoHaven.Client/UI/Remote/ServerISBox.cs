@@ -1,8 +1,8 @@
 ﻿using System.Drawing;
-using MonoHaven.Graphics;
-using MonoHaven.UI.Widgets;
+using SharpHaven.Graphics;
+using SharpHaven.UI.Widgets;
 
-namespace MonoHaven.UI.Remote
+namespace SharpHaven.UI.Remote
 {
 	public class ServerISBox : ServerWidget
 	{

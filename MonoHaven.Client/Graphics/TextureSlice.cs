@@ -3,7 +3,7 @@ using System.Drawing;
 using System.IO;
 using OpenTK;
 
-namespace MonoHaven.Graphics
+namespace SharpHaven.Graphics
 {
 	public class TextureSlice : IDisposable
 	{

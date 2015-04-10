@@ -1,8 +1,7 @@
 ﻿using System;
 using System.IO;
-using MonoHaven.Resources.Layers;
 
-namespace MonoHaven.Resources.Serialization.Binary
+namespace SharpHaven.Resources.Serialization.Binary
 {
 	public class AudioDataSerializer : IBinaryDataLayerSerializer
 	{

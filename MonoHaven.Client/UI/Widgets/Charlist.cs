@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using MonoHaven.Graphics;
-using MonoHaven.Graphics.Sprites;
-using MonoHaven.Graphics.Text;
-using MonoHaven.Input;
-using MonoHaven.Utils;
 using OpenTK;
+using SharpHaven.Graphics;
+using SharpHaven.Graphics.Sprites;
+using SharpHaven.Graphics.Text;
+using SharpHaven.Input;
+using SharpHaven.Utils;
 
-namespace MonoHaven.UI.Widgets
+namespace SharpHaven.UI.Widgets
 {
 	public class Charlist : Widget
 	{

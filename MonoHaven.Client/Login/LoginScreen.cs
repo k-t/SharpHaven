@@ -1,16 +1,16 @@
 ﻿using System;
 using System.Drawing;
 using System.Threading.Tasks;
-using MonoHaven.Game;
-using MonoHaven.Graphics;
-using MonoHaven.Graphics.Text;
-using MonoHaven.Input;
-using MonoHaven.UI;
-using MonoHaven.UI.Widgets;
 using OpenTK.Input;
-using Image = MonoHaven.UI.Widgets.Image;
+using SharpHaven.Game;
+using SharpHaven.Graphics;
+using SharpHaven.Graphics.Text;
+using SharpHaven.Input;
+using SharpHaven.UI;
+using SharpHaven.UI.Widgets;
+using Image = SharpHaven.UI.Widgets.Image;
 
-namespace MonoHaven.Login
+namespace SharpHaven.Login
 {
 	public class LoginScreen : BaseScreen
 	{

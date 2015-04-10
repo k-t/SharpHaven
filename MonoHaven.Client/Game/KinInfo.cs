@@ -1,4 +1,4 @@
-﻿namespace MonoHaven.Game
+﻿namespace SharpHaven.Game
 {
 	public class KinInfo
 	{

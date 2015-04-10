@@ -2,7 +2,7 @@
 using System.IO;
 using OpenTK;
 
-namespace MonoHaven.Resources
+namespace SharpHaven.Resources
 {
 	public class MouseCursorFactory : IObjectFactory<MouseCursor>
 	{

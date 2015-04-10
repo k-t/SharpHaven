@@ -2,7 +2,7 @@ using System;
 using System.IO;
 using Nini.Config;
 
-namespace MonoHaven
+namespace SharpHaven
 {
 	public class Config
 	{
@@ -75,7 +75,7 @@ namespace MonoHaven
 		private static void CreateOrLoadIniConfig(IniConfigSource config)
 		{
 			var appDataPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-			var configPath = Path.Combine(appDataPath, "monohaven", "settings.ini");
+			var configPath = Path.Combine(appDataPath, "sharphaven", "settings.ini");
 			try
 			{
 				config.Load(configPath);

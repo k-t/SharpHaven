@@ -1,8 +1,8 @@
 ﻿using System.Drawing;
-using MonoHaven.UI.Widgets;
 using OpenTK.Input;
+using SharpHaven.UI.Widgets;
 
-namespace MonoHaven.UI.Remote
+namespace SharpHaven.UI.Remote
 {
 	public class ServerMapView : ServerWidget
 	{

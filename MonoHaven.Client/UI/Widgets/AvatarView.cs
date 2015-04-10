@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Drawing;
-using MonoHaven.Graphics;
-using MonoHaven.Input;
+using SharpHaven.Graphics;
+using SharpHaven.Input;
 
-namespace MonoHaven.UI.Widgets
+namespace SharpHaven.UI.Widgets
 {
 	public class AvatarView : Widget
 	{

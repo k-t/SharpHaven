@@ -1,8 +1,6 @@
-﻿using MonoHaven.Resources;
-using MonoHaven.Resources.Serialization.Binary;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 
-namespace MonoHaven.Tests.Resources.Serialization.Binary
+namespace SharpHaven.Resources.Serialization.Binary
 {
 	[TestFixture]
 	public class ActionDataTests
@@ -20,7 +18,7 @@ namespace MonoHaven.Tests.Resources.Serialization.Binary
 			};
 
 			var serializer = new ActionDataSerializer();
-			var output = (ActionData)serializer.Reserialize(input);
+			var output = (ActionData)BinarySerializerHelper.Reserialize(serializer, input);
 
 			Assert.That(output.Hotkey, Is.EqualTo(input.Hotkey));
 			Assert.That(output.Name, Is.EqualTo(input.Name));

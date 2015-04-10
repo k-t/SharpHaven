@@ -1,7 +1,7 @@
 ﻿using System.Drawing;
 using OpenTK.Input;
 
-namespace MonoHaven.Input
+namespace SharpHaven.Input
 {
 	public class MouseButtonEvent : MouseEvent
 	{

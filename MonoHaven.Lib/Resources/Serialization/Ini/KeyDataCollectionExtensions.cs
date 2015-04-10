@@ -1,7 +1,7 @@
 ﻿using System;
 using IniParser.Model;
 
-namespace MonoHaven.Resources.Serialization.Ini
+namespace SharpHaven.Resources.Serialization.Ini
 {
 	public static class KeyDataCollectionExtensions
 	{

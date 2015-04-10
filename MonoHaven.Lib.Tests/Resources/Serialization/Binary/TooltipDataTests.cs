@@ -1,8 +1,6 @@
-﻿using MonoHaven.Resources;
-using MonoHaven.Resources.Serialization.Binary;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 
-namespace MonoHaven.Tests.Resources.Serialization.Binary
+namespace SharpHaven.Resources.Serialization.Binary
 {
 	[TestFixture]
 	public class TooltipDataTests
@@ -16,7 +14,7 @@ namespace MonoHaven.Tests.Resources.Serialization.Binary
 			};
 
 			var serializer = new TooltipDataSerializer();
-			var output = (TooltipData)serializer.Reserialize(input);
+			var output = (TooltipData)BinarySerializerHelper.Reserialize(serializer, input);
 
 			Assert.That(output.Text, Is.EqualTo(input.Text));
 		}

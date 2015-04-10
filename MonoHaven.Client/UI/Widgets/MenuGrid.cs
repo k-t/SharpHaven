@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using MonoHaven.Graphics;
-using MonoHaven.Input;
-using MonoHaven.UI.Layouts;
+using SharpHaven.Graphics;
+using SharpHaven.Input;
+using SharpHaven.UI.Layouts;
 
-namespace MonoHaven.UI.Widgets
+namespace SharpHaven.UI.Widgets
 {
 	public class MenuGrid : Widget
 	{

@@ -2,7 +2,7 @@
 using System.Drawing;
 using OpenTK.Graphics.OpenGL;
 
-namespace MonoHaven.Graphics
+namespace SharpHaven.Graphics
 {
 	public class Pixmap
 	{

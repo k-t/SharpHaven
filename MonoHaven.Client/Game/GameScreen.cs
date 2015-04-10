@@ -1,10 +1,10 @@
 ﻿using System;
-using MonoHaven.Input;
-using MonoHaven.UI;
-using MonoHaven.UI.Widgets;
 using OpenTK.Input;
+using SharpHaven.Input;
+using SharpHaven.UI;
+using SharpHaven.UI.Widgets;
 
-namespace MonoHaven.Game
+namespace SharpHaven.Game
 {
 	public class GameScreen : BaseScreen
 	{

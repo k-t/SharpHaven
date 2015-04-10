@@ -1,8 +1,8 @@
 ﻿using System.Drawing;
 using System.Linq;
-using MonoHaven.UI.Widgets;
+using SharpHaven.UI.Widgets;
 
-namespace MonoHaven.UI.Remote
+namespace SharpHaven.UI.Remote
 {
 	public class ServerFlowerMenu : ServerWidget
 	{

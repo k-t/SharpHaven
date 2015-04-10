@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Drawing;
-using MonoHaven.Game;
-using MonoHaven.Graphics;
-using MonoHaven.Graphics.Text;
-using MonoHaven.Input;
-using MonoHaven.Utils;
 using OpenTK.Input;
+using SharpHaven.Game;
+using SharpHaven.Graphics;
+using SharpHaven.Graphics.Text;
+using SharpHaven.Input;
+using SharpHaven.Utils;
 
-namespace MonoHaven.UI.Widgets
+namespace SharpHaven.UI.Widgets
 {
 	public class ItemWidget : Widget, IItemDropTarget
 	{

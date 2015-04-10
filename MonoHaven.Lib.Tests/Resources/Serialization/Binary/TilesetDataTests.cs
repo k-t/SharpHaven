@@ -1,8 +1,6 @@
-﻿using MonoHaven.Resources;
-using MonoHaven.Resources.Serialization.Binary;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 
-namespace MonoHaven.Tests.Resources.Serialization.Binary
+namespace SharpHaven.Resources.Serialization.Binary
 {
 	[TestFixture]
 	public class TilesetDataTests
@@ -22,7 +20,7 @@ namespace MonoHaven.Tests.Resources.Serialization.Binary
 			};
 
 			var serializer = new TilesetDataSerializer();
-			var output = (TilesetData)serializer.Reserialize(input);
+			var output = (TilesetData)BinarySerializerHelper.Reserialize(serializer, input);
 
 			Assert.That(output.FlavorDensity, Is.EqualTo(input.FlavorDensity));
 			Assert.That(output.HasTransitions, Is.EqualTo(input.HasTransitions));

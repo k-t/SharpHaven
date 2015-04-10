@@ -9,8 +9,8 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{78A18B20-EE44-4B5A-8D07-9BB1BC25CB45}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>MonoHaven</RootNamespace>
-    <AssemblyName>MonoHaven</AssemblyName>
+    <RootNamespace>SharpHaven</RootNamespace>
+    <AssemblyName>sharphaven</AssemblyName>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
     <NuGetPackageImportStamp>d8856c9c</NuGetPackageImportStamp>
@@ -40,7 +40,7 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
-    <StartupObject>MonoHaven.App</StartupObject>
+    <StartupObject>SharpHaven.App</StartupObject>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="AsyncBridge">
@@ -316,9 +316,9 @@
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
-    <ProjectReference Include="..\MonoHaven.Lib\MonoHaven.Lib.csproj">
+    <ProjectReference Include="..\MonoHaven.Lib\SharpHaven.Common.csproj">
       <Project>{37671BF5-2A78-46D2-B3DF-EAF21AC15850}</Project>
-      <Name>MonoHaven.Lib</Name>
+      <Name>SharpHaven.Common</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

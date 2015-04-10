@@ -1,6 +1,6 @@
 ﻿using System.IO;
 
-namespace MonoHaven.Resources
+namespace SharpHaven.Resources
 {
 	public interface IResourceSerializer
 	{

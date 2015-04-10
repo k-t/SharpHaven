@@ -1,8 +1,6 @@
-﻿using MonoHaven.Resources;
-using MonoHaven.Resources.Serialization.Binary;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 
-namespace MonoHaven.Tests.Resources.Serialization.Binary
+namespace SharpHaven.Resources.Serialization.Binary
 {
 	[TestFixture]
 	public class FontDataTests
@@ -16,7 +14,7 @@ namespace MonoHaven.Tests.Resources.Serialization.Binary
 			};
 
 			var serializer = new FontDataSerializer();
-			var output = (FontData)serializer.Reserialize(input);
+			var output = (FontData)BinarySerializerHelper.Reserialize(serializer, input);
 
 			Assert.That(output.Data, Is.EquivalentTo(input.Data));
 		}

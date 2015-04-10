@@ -1,6 +1,6 @@
 ﻿using OpenTK;
 
-namespace MonoHaven
+namespace SharpHaven
 {
 	public static class Cursors
 	{

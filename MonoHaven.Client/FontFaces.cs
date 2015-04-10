@@ -1,6 +1,6 @@
 ﻿using SharpFont;
 
-namespace MonoHaven
+namespace SharpHaven
 {
 	public static class FontFaces
 	{

@@ -2,10 +2,10 @@
 using System.Drawing;
 using System.Linq;
 using C5;
-using MonoHaven.Graphics;
-using MonoHaven.Utils;
+using SharpHaven.Graphics;
+using SharpHaven.Utils;
 
-namespace MonoHaven.Game
+namespace SharpHaven.Game
 {
 	public class MapTile
 	{

@@ -1,7 +1,7 @@
-﻿using MonoHaven.Graphics;
-using MonoHaven.Resources;
+﻿using SharpHaven.Graphics;
+using SharpHaven.Resources;
 
-namespace MonoHaven.Game
+namespace SharpHaven.Game
 {
 	public class GameAction
 	{

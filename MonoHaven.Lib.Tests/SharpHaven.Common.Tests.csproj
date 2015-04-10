@@ -7,8 +7,8 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{2AC7E30C-B076-4FD8-B537-7A55CD115DB4}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>MonoHaven.Tests</RootNamespace>
-    <AssemblyName>MonoHaven.Lib.Tests</AssemblyName>
+    <RootNamespace>SharpHaven</RootNamespace>
+    <AssemblyName>sharphaven.common.tests</AssemblyName>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
   </PropertyGroup>
@@ -73,9 +73,9 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\MonoHaven.Lib\MonoHaven.Lib.csproj">
+    <ProjectReference Include="..\MonoHaven.Lib\SharpHaven.Common.csproj">
       <Project>{37671BF5-2A78-46D2-B3DF-EAF21AC15850}</Project>
-      <Name>MonoHaven.Lib</Name>
+      <Name>SharpHaven.Common</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />

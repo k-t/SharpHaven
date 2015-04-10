@@ -1,6 +1,6 @@
 ﻿using System.Drawing;
 
-namespace MonoHaven.Input
+namespace SharpHaven.Input
 {
 	public class DropEvent : MouseEvent
 	{

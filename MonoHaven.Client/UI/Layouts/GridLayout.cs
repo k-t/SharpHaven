@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using MonoHaven.UI.Widgets;
+using SharpHaven.UI.Widgets;
 
-namespace MonoHaven.UI.Layouts
+namespace SharpHaven.UI.Layouts
 {
 	public class GridLayout
 	{

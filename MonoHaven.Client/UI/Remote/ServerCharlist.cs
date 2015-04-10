@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
-using MonoHaven.Graphics.Sprites;
-using MonoHaven.UI.Widgets;
-using MonoHaven.Utils;
+using SharpHaven.Graphics.Sprites;
+using SharpHaven.UI.Widgets;
+using SharpHaven.Utils;
 
-namespace MonoHaven.UI.Remote
+namespace SharpHaven.UI.Remote
 {
 	public class ServerCharlist : ServerWidget
 	{

@@ -2,12 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using MonoHaven.Graphics;
-using MonoHaven.Input;
-using MonoHaven.Utils;
 using OpenTK;
+using SharpHaven.Graphics;
+using SharpHaven.Input;
+using SharpHaven.Utils;
 
-namespace MonoHaven.UI.Widgets
+namespace SharpHaven.UI.Widgets
 {
 	public abstract class Widget : TreeNode<Widget>, IDisposable
 	{

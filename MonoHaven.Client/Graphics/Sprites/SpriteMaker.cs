@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Drawing;
-using MonoHaven.Resources;
+using SharpHaven.Resources;
 
-namespace MonoHaven.Graphics.Sprites
+namespace SharpHaven.Graphics.Sprites
 {
 	public abstract class SpriteMaker : IDisposable
 	{

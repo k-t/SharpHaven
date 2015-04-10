@@ -1,7 +1,7 @@
-﻿using MonoHaven.Graphics;
-using MonoHaven.Graphics.Sprites;
+﻿using SharpHaven.Graphics;
+using SharpHaven.Graphics.Sprites;
 
-namespace MonoHaven.Game
+namespace SharpHaven.Game
 {
 	public class GobHealth
 	{

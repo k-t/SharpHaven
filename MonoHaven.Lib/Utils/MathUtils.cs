@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Drawing;
 
-namespace MonoHaven.Utils
+namespace SharpHaven.Utils
 {
 	public static class MathUtils
 	{

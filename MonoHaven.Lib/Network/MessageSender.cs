@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading;
-using MonoHaven.Utils;
+using SharpHaven.Utils;
 
-namespace MonoHaven.Network
+namespace SharpHaven.Network
 {
 	internal class MessageSender : BackgroundTask
 	{

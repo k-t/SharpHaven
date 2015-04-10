@@ -1,9 +1,9 @@
 ﻿using System.Collections;
 using System.Drawing;
 using System.IO;
-using MonoHaven.Graphics;
+using SharpHaven.Graphics;
 
-namespace MonoHaven.Resources
+namespace SharpHaven.Resources
 {
 	public class DrawableFactory : IObjectFactory<Drawable>
 	{

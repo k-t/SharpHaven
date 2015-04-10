@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Drawing;
 
-namespace MonoHaven.Game
+namespace SharpHaven.Game
 {
 	public class PartyMember
 	{

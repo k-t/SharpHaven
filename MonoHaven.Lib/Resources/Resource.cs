@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace MonoHaven.Resources
+namespace SharpHaven.Resources
 {
 	public class Resource
 	{

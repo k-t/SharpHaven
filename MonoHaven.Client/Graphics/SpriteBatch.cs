@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using MonoHaven.Graphics.Shaders;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
+using SharpHaven.Graphics.Shaders;
 
-namespace MonoHaven.Graphics
+namespace SharpHaven.Graphics
 {
 	public class SpriteBatch : IDisposable
 	{

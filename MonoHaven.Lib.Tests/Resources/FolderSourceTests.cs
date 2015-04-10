@@ -1,10 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using MonoHaven.Resources;
 using NUnit.Framework;
 
-namespace MonoHaven.Tests.Resources
+namespace SharpHaven.Resources
 {
 	[TestFixture]
 	public class FolderSourceTests

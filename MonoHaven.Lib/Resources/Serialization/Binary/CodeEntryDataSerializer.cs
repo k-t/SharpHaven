@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 
-namespace MonoHaven.Resources.Serialization.Binary
+namespace SharpHaven.Resources.Serialization.Binary
 {
 	public class CodeEntryDataSerializer : IBinaryDataLayerSerializer
 	{

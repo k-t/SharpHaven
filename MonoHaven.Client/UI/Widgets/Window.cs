@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Drawing;
-using MonoHaven.Graphics;
-using MonoHaven.Graphics.Text;
-using MonoHaven.Input;
 using OpenTK.Input;
+using SharpHaven.Graphics;
+using SharpHaven.Graphics.Text;
+using SharpHaven.Input;
 
-namespace MonoHaven.UI.Widgets
+namespace SharpHaven.UI.Widgets
 {
 	public class Window : Widget
 	{

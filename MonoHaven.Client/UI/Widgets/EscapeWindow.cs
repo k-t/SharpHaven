@@ -1,8 +1,8 @@
 ﻿using System;
-using MonoHaven.Input;
-using MonoHaven.UI.Layouts;
+using SharpHaven.Input;
+using SharpHaven.UI.Layouts;
 
-namespace MonoHaven.UI.Widgets
+namespace SharpHaven.UI.Widgets
 {
 	public class EscapeWindow : Window
 	{

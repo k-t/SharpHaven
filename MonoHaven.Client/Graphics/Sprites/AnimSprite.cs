@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace MonoHaven.Graphics.Sprites
+namespace SharpHaven.Graphics.Sprites
 {
 	public class AnimSprite : ISprite
 	{

@@ -1,0 +1,111 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.31101.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpHaven.Common", "MonoHaven.Lib\SharpHaven.Common.csproj", "{37671BF5-2A78-46D2-B3DF-EAF21AC15850}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpHaven.Common.Tests", "MonoHaven.Lib.Tests\SharpHaven.Common.Tests.csproj", "{2AC7E30C-B076-4FD8-B537-7A55CD115DB4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpHaven", "MonoHaven.Client\SharpHaven.csproj", "{78A18B20-EE44-4B5A-8D07-9BB1BC25CB45}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{2EB20B82-F1EF-4F8B-9DD4-488B0B7012AE}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\NuGet.targets = .nuget\NuGet.targets
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|Mixed Platforms = Debug|Mixed Platforms
+		Debug|x86 = Debug|x86
+		Release|Any CPU = Release|Any CPU
+		Release|Mixed Platforms = Release|Mixed Platforms
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{37671BF5-2A78-46D2-B3DF-EAF21AC15850}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{37671BF5-2A78-46D2-B3DF-EAF21AC15850}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{37671BF5-2A78-46D2-B3DF-EAF21AC15850}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{37671BF5-2A78-46D2-B3DF-EAF21AC15850}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{37671BF5-2A78-46D2-B3DF-EAF21AC15850}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{37671BF5-2A78-46D2-B3DF-EAF21AC15850}.Debug|x86.Build.0 = Debug|Any CPU
+		{37671BF5-2A78-46D2-B3DF-EAF21AC15850}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{37671BF5-2A78-46D2-B3DF-EAF21AC15850}.Release|Any CPU.Build.0 = Release|Any CPU
+		{37671BF5-2A78-46D2-B3DF-EAF21AC15850}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{37671BF5-2A78-46D2-B3DF-EAF21AC15850}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{37671BF5-2A78-46D2-B3DF-EAF21AC15850}.Release|x86.ActiveCfg = Release|Any CPU
+		{37671BF5-2A78-46D2-B3DF-EAF21AC15850}.Release|x86.Build.0 = Release|Any CPU
+		{2AC7E30C-B076-4FD8-B537-7A55CD115DB4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2AC7E30C-B076-4FD8-B537-7A55CD115DB4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2AC7E30C-B076-4FD8-B537-7A55CD115DB4}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{2AC7E30C-B076-4FD8-B537-7A55CD115DB4}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{2AC7E30C-B076-4FD8-B537-7A55CD115DB4}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{2AC7E30C-B076-4FD8-B537-7A55CD115DB4}.Debug|x86.Build.0 = Debug|Any CPU
+		{2AC7E30C-B076-4FD8-B537-7A55CD115DB4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2AC7E30C-B076-4FD8-B537-7A55CD115DB4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2AC7E30C-B076-4FD8-B537-7A55CD115DB4}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{2AC7E30C-B076-4FD8-B537-7A55CD115DB4}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{2AC7E30C-B076-4FD8-B537-7A55CD115DB4}.Release|x86.ActiveCfg = Release|Any CPU
+		{2AC7E30C-B076-4FD8-B537-7A55CD115DB4}.Release|x86.Build.0 = Release|Any CPU
+		{78A18B20-EE44-4B5A-8D07-9BB1BC25CB45}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{78A18B20-EE44-4B5A-8D07-9BB1BC25CB45}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{78A18B20-EE44-4B5A-8D07-9BB1BC25CB45}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{78A18B20-EE44-4B5A-8D07-9BB1BC25CB45}.Debug|x86.ActiveCfg = Debug|x86
+		{78A18B20-EE44-4B5A-8D07-9BB1BC25CB45}.Debug|x86.Build.0 = Debug|x86
+		{78A18B20-EE44-4B5A-8D07-9BB1BC25CB45}.Release|Any CPU.ActiveCfg = Release|x86
+		{78A18B20-EE44-4B5A-8D07-9BB1BC25CB45}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{78A18B20-EE44-4B5A-8D07-9BB1BC25CB45}.Release|Mixed Platforms.Build.0 = Release|x86
+		{78A18B20-EE44-4B5A-8D07-9BB1BC25CB45}.Release|x86.ActiveCfg = Release|x86
+		{78A18B20-EE44-4B5A-8D07-9BB1BC25CB45}.Release|x86.Build.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		StartupItem = MonoHaven.Designer\MonoHaven.Designer.csproj
+		Policies = $0
+		$0.DotNetNamingPolicy = $1
+		$1.DirectoryNamespaceAssociation = None
+		$1.ResourceNamePolicy = FileFormatDefault
+		$0.TextStylePolicy = $5
+		$2.TabsToSpaces = False
+		$2.inheritsSet = VisualStudio
+		$2.inheritsScope = text/plain
+		$2.scope = text/plain
+		$3.inheritsSet = null
+		$3.scope = text/x-csharp
+		$0.CSharpFormattingPolicy = $4
+		$4.IndentSwitchBody = True
+		$4.AnonymousMethodBraceStyle = NextLine
+		$4.PropertyBraceStyle = NextLine
+		$4.PropertyGetBraceStyle = NextLine
+		$4.PropertySetBraceStyle = NextLine
+		$4.EventBraceStyle = NextLine
+		$4.EventAddBraceStyle = NextLine
+		$4.EventRemoveBraceStyle = NextLine
+		$4.StatementBraceStyle = NextLine
+		$4.ElseNewLinePlacement = NewLine
+		$4.CatchNewLinePlacement = NewLine
+		$4.FinallyNewLinePlacement = NewLine
+		$4.WhileNewLinePlacement = DoNotCare
+		$4.ArrayInitializerWrapping = DoNotChange
+		$4.ArrayInitializerBraceStyle = NextLine
+		$4.BeforeMethodDeclarationParentheses = False
+		$4.BeforeMethodCallParentheses = False
+		$4.BeforeConstructorDeclarationParentheses = False
+		$4.BeforeDelegateDeclarationParentheses = False
+		$4.NewParentheses = False
+		$4.SpacesBeforeBrackets = False
+		$4.inheritsSet = Mono
+		$4.inheritsScope = text/x-csharp
+		$4.scope = text/x-csharp
+		$5.inheritsSet = VisualStudio
+		$5.inheritsScope = text/plain
+		$5.scope = application/xml
+		$0.XmlFormattingPolicy = $6
+		$6.inheritsSet = Mono
+		$6.inheritsScope = application/xml
+		$6.scope = application/xml
+	EndGlobalSection
+EndGlobal

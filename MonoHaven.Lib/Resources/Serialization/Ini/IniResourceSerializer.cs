@@ -5,7 +5,7 @@ using System.Linq;
 using IniParser;
 using IniParser.Model;
 
-namespace MonoHaven.Resources.Serialization.Ini
+namespace SharpHaven.Resources.Serialization.Ini
 {
 	public class IniResourceSerializer : IResourceSerializer
 	{

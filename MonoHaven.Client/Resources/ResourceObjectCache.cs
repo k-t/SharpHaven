@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace MonoHaven.Resources
+namespace SharpHaven.Resources
 {
 	public class ResourceObjectCache
 	{

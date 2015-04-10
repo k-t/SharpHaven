@@ -1,7 +1,7 @@
-﻿using MonoHaven.Graphics;
-using SharpFont;
+﻿using SharpFont;
+using SharpHaven.Graphics;
 
-namespace MonoHaven
+namespace SharpHaven
 {
 	public static class Fonts
 	{

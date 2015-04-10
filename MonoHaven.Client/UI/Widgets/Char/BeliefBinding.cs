@@ -1,6 +1,6 @@
-﻿using MonoHaven.Game;
+﻿using SharpHaven.Game;
 
-namespace MonoHaven.UI.Widgets
+namespace SharpHaven.UI.Widgets
 {
 	public class BeliefBinding : AttributeBinding
 	{

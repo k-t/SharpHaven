@@ -1,6 +1,6 @@
 ﻿using System.Collections;
 
-namespace MonoHaven.Utils
+namespace SharpHaven.Utils
 {
 	public static class BitArrayExtensions
 	{

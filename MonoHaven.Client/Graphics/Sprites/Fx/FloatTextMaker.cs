@@ -1,8 +1,8 @@
 ﻿using System.Drawing;
-using MonoHaven.Network;
-using MonoHaven.Resources;
+using SharpHaven.Network;
+using SharpHaven.Resources;
 
-namespace MonoHaven.Graphics.Sprites.Fx
+namespace SharpHaven.Graphics.Sprites.Fx
 {
 	public class FloatTextMaker : SpriteMaker
 	{

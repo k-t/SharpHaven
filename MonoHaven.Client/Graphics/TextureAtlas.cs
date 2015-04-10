@@ -2,7 +2,7 @@
 using System.Drawing;
 using System.IO;
 
-namespace MonoHaven.Graphics
+namespace SharpHaven.Graphics
 {
 	public class TextureAtlas : IDisposable
 	{

@@ -2,7 +2,7 @@
 using OpenTK;
 using OpenTK.Input;
 
-namespace MonoHaven.Input
+namespace SharpHaven.Input
 {
 	public static class InputConverter
 	{

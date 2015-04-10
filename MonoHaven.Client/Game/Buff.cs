@@ -1,7 +1,7 @@
-﻿using MonoHaven.Graphics;
-using MonoHaven.Utils;
+﻿using SharpHaven.Graphics;
+using SharpHaven.Utils;
 
-namespace MonoHaven.Game
+namespace SharpHaven.Game
 {
 	public class Buff
 	{

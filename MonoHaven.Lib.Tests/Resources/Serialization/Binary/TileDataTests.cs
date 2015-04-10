@@ -1,8 +1,6 @@
-﻿using MonoHaven.Resources;
-using MonoHaven.Resources.Serialization.Binary;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 
-namespace MonoHaven.Tests.Resources.Serialization.Binary
+namespace SharpHaven.Resources.Serialization.Binary
 {
 	[TestFixture]
 	public class TileDataTests
@@ -19,7 +17,7 @@ namespace MonoHaven.Tests.Resources.Serialization.Binary
 			};
 
 			var serializer = new TileDataSerializer();
-			var output = (TileData)serializer.Reserialize(input);
+			var output = (TileData)BinarySerializerHelper.Reserialize(serializer, input);
 
 			Assert.That(output.Id, Is.EqualTo(input.Id));
 			Assert.That(output.Type, Is.EqualTo(input.Type));

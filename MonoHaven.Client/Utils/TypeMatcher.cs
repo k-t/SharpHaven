@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace MonoHaven.Utils
+namespace SharpHaven.Utils
 {
 	public class TypeMatcher
 	{

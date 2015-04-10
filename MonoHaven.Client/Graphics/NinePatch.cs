@@ -1,7 +1,7 @@
 ﻿using System.Drawing;
 using System.Linq;
 
-namespace MonoHaven.Graphics
+namespace SharpHaven.Graphics
 {
 	public class NinePatch : Drawable
 	{

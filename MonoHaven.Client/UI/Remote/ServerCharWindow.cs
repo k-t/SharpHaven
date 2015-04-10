@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
-using MonoHaven.Game;
-using MonoHaven.UI.Widgets;
+using SharpHaven.Game;
+using SharpHaven.UI.Widgets;
 
-namespace MonoHaven.UI.Remote
+namespace SharpHaven.UI.Remote
 {
 	public class ServerCharWindow : ServerWindow
 	{

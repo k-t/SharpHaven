@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Drawing;
-using MonoHaven.Graphics;
-using MonoHaven.Graphics.Text;
+using SharpHaven.Graphics;
+using SharpHaven.Graphics.Text;
 
-namespace MonoHaven.UI.Widgets
+namespace SharpHaven.UI.Widgets
 {
 	public class ListBoxItem : IDisposable
 	{

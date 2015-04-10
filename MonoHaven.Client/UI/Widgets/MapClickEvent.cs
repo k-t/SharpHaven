@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Drawing;
-using MonoHaven.Game;
-using MonoHaven.Input;
 using OpenTK.Input;
+using SharpHaven.Game;
+using SharpHaven.Input;
 
-namespace MonoHaven.UI.Widgets
+namespace SharpHaven.UI.Widgets
 {
 	public class MapClickEvent : EventArgs
 	{

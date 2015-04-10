@@ -2,12 +2,12 @@ using System;
 using System.Drawing;
 using System.Threading;
 using System.Windows.Forms;
-using MonoHaven.Resources;
 using NLog;
 using OpenTK;
 using OpenTK.Graphics;
+using SharpHaven.Resources;
 
-namespace MonoHaven
+namespace SharpHaven
 {
 	public static class App
 	{

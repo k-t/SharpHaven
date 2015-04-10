@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
-using MonoHaven.Game;
-using MonoHaven.Graphics;
-using MonoHaven.UI.Layouts;
+using SharpHaven.Game;
+using SharpHaven.Graphics;
+using SharpHaven.UI.Layouts;
 
-namespace MonoHaven.UI.Widgets
+namespace SharpHaven.UI.Widgets
 {
 	public class Bufflist : Widget
 	{

@@ -1,6 +1,6 @@
 ﻿using System.Net;
 
-namespace MonoHaven.Utils
+namespace SharpHaven.Utils
 {
 	public class MinimapProvider
 	{

@@ -1,9 +1,7 @@
 ﻿using System.Drawing;
-using MonoHaven.Resources;
-using MonoHaven.Resources.Serialization.Binary;
 using NUnit.Framework;
 
-namespace MonoHaven.Tests.Resources.Serialization.Binary
+namespace SharpHaven.Resources.Serialization.Binary
 {
 	[TestFixture]
 	public class NegDataTests
@@ -22,7 +20,7 @@ namespace MonoHaven.Tests.Resources.Serialization.Binary
 			input.Ep[6] = new[] { new Point(47, 74), new Point(48, 84) };
 
 			var serializer = new NegDataSerializer();
-			var output = (NegData)serializer.Reserialize(input);
+			var output = (NegData)BinarySerializerHelper.Reserialize(serializer, input);
 
 			Assert.That(output.Center, Is.EqualTo(input.Center));
 			Assert.That(output.Hitbox, Is.EqualTo(input.Hitbox));

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MonoHaven.Game
+namespace SharpHaven.Game
 {
 	public class CharAttribute
 	{

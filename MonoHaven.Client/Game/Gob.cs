@@ -1,9 +1,9 @@
 ﻿using System.Drawing;
 using System.Linq;
-using MonoHaven.Graphics.Sprites;
-using MonoHaven.Utils;
+using SharpHaven.Graphics.Sprites;
+using SharpHaven.Utils;
 
-namespace MonoHaven.Game
+namespace SharpHaven.Game
 {
 	public class Gob
 	{

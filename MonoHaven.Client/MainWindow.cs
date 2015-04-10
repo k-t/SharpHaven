@@ -2,20 +2,20 @@ using System;
 using System.Collections.Concurrent;
 using System.ComponentModel;
 using System.Drawing;
-using MonoHaven.Graphics;
-using MonoHaven.Input;
-using MonoHaven.UI;
-using MonoHaven.Utils;
 using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
 using OpenTK.Input;
+using SharpHaven.Graphics;
+using SharpHaven.Input;
+using SharpHaven.UI;
+using SharpHaven.Utils;
 
-namespace MonoHaven
+namespace SharpHaven
 {
 	public sealed class MainWindow : GameWindow
 	{
-		private const string WindowTitle = "MonoHaven";
+		private const string WindowTitle = "SharpHaven";
 
 		private IScreen currentScreen;
 		private readonly FrameCounter frameCounter;

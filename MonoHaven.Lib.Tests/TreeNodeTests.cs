@@ -1,8 +1,8 @@
 ﻿using System.Linq;
-using MonoHaven.Utils;
 using NUnit.Framework;
+using SharpHaven.Utils;
 
-namespace MonoHaven.Tests
+namespace SharpHaven
 {
 	[TestFixture]
 	public class TreeNodeTests

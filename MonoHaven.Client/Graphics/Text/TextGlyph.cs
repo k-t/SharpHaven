@@ -1,6 +1,6 @@
 ﻿using System.Drawing;
 
-namespace MonoHaven.Graphics.Text
+namespace SharpHaven.Graphics.Text
 {
 	public class TextGlyph
 	{

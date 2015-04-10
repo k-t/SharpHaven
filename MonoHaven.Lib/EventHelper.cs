@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MonoHaven
+namespace SharpHaven
 {
 	public static class EventHelper
 	{

@@ -1,7 +1,7 @@
 ﻿using System.Drawing;
 using System.IO;
 
-namespace MonoHaven.Resources
+namespace SharpHaven.Resources
 {
 	public class BitmapFactory : IObjectFactory<Bitmap>
 	{

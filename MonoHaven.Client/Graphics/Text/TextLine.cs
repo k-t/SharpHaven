@@ -3,7 +3,7 @@ using System.Collections.ObjectModel;
 using System.Drawing;
 using System.Linq;
 
-namespace MonoHaven.Graphics.Text
+namespace SharpHaven.Graphics.Text
 {
 	public class TextLine : Drawable
 	{

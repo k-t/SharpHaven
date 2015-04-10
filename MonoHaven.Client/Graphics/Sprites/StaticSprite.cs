@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace MonoHaven.Graphics.Sprites
+namespace SharpHaven.Graphics.Sprites
 {
 	public class StaticSprite : ISprite
 	{

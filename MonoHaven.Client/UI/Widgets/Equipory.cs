@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Drawing;
-using MonoHaven.Game;
-using MonoHaven.Graphics;
 using OpenTK.Input;
+using SharpHaven.Game;
+using SharpHaven.Graphics;
 
-namespace MonoHaven.UI.Widgets
+namespace SharpHaven.UI.Widgets
 {
 	public class Equipory : Window, IItemDropTarget
 	{

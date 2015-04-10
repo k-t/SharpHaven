@@ -4,7 +4,7 @@ using System.Drawing;
 using OpenTK.Graphics.OpenGL;
 using SharpFont;
 
-namespace MonoHaven.Graphics
+namespace SharpHaven.Graphics
 {
 	public class SpriteFont : IDisposable
 	{

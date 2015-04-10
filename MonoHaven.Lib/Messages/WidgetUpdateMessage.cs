@@ -1,6 +1,6 @@
-﻿using MonoHaven.Network;
+﻿using SharpHaven.Network;
 
-namespace MonoHaven.Messages
+namespace SharpHaven.Messages
 {
 	public class WidgetUpdateMessage
 	{

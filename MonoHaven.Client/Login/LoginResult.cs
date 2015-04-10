@@ -1,6 +1,6 @@
-﻿using MonoHaven.Game;
+﻿using SharpHaven.Game;
 
-namespace MonoHaven.Login
+namespace SharpHaven.Login
 {
 	public class LoginResult
 	{

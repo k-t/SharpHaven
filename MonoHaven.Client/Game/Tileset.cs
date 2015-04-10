@@ -1,9 +1,9 @@
-﻿using MonoHaven.Graphics;
-using MonoHaven.Graphics.Sprites;
-using MonoHaven.Resources;
-using MonoHaven.Utils;
+﻿using SharpHaven.Graphics;
+using SharpHaven.Graphics.Sprites;
+using SharpHaven.Resources;
+using SharpHaven.Utils;
 
-namespace MonoHaven.Game
+namespace SharpHaven.Game
 {
 	public class Tileset
 	{

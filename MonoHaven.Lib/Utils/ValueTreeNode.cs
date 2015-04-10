@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace MonoHaven.Utils
+namespace SharpHaven.Utils
 {
 	public class ValueTreeNode<T> : TreeNode<ValueTreeNode<T>>
 	{

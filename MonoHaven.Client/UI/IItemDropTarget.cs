@@ -1,7 +1,7 @@
 ﻿using System.Drawing;
 using OpenTK.Input;
 
-namespace MonoHaven.UI
+namespace SharpHaven.UI
 {
 	public interface IItemDropTarget
 	{

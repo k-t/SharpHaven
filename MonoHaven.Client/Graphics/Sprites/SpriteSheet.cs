@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using MonoHaven.Resources;
+using SharpHaven.Resources;
 
-namespace MonoHaven.Graphics.Sprites
+namespace SharpHaven.Graphics.Sprites
 {
 	public class SpriteSheet : IEnumerable<SpritePart>, IDisposable
 	{

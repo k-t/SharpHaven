@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
-using MonoHaven.Graphics.Text;
+using SharpHaven.Graphics.Text;
 
-namespace MonoHaven.Graphics.Sprites.Fx
+namespace SharpHaven.Graphics.Sprites.Fx
 {
 	public class FloatText : ISprite
 	{

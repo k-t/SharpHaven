@@ -2,7 +2,7 @@
 using System.IO;
 using System.Text;
 
-namespace MonoHaven.Resources.Serialization.Binary
+namespace SharpHaven.Resources.Serialization.Binary
 {
 	internal class TextDataSerializer : IBinaryDataLayerSerializer
 	{

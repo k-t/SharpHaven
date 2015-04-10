@@ -1,6 +1,6 @@
-﻿using MonoHaven.Graphics;
+﻿using SharpHaven.Graphics;
 
-namespace MonoHaven.Game
+namespace SharpHaven.Game
 {
 	public class ItemMold
 	{

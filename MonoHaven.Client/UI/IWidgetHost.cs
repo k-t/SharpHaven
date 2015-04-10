@@ -1,7 +1,7 @@
 ﻿using System.Drawing;
-using MonoHaven.UI.Widgets;
+using SharpHaven.UI.Widgets;
 
-namespace MonoHaven.UI
+namespace SharpHaven.UI
 {
 	public interface IWidgetHost
 	{

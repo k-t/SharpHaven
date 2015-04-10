@@ -1,4 +1,4 @@
-﻿namespace MonoHaven.Login
+﻿namespace SharpHaven.Login
 {
 	public class LoginSettings
 	{

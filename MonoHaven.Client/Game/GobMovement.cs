@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Drawing;
-using MonoHaven.Utils;
+using SharpHaven.Utils;
 
-namespace MonoHaven.Game
+namespace SharpHaven.Game
 {
 	public class GobMovement
 	{

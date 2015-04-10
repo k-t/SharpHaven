@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace MonoHaven.Game
+namespace SharpHaven.Game
 {
 	public class Party
 	{

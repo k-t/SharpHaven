@@ -2,15 +2,15 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Threading;
-using MonoHaven.Graphics.Sprites;
-using MonoHaven.Messages;
-using MonoHaven.Network;
-using MonoHaven.Resources;
-using MonoHaven.UI.Remote;
-using MonoHaven.Utils;
 using NLog;
+using SharpHaven.Graphics.Sprites;
+using SharpHaven.Messages;
+using SharpHaven.Network;
+using SharpHaven.Resources;
+using SharpHaven.UI.Remote;
+using SharpHaven.Utils;
 
-namespace MonoHaven.Game
+namespace SharpHaven.Game
 {
 	public class GameSession : IConnectionListener
 	{

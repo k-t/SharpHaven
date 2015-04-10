@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MonoHaven.Resources
+namespace SharpHaven.Resources
 {
 	public struct ResourceRef
 	{

@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using MonoHaven.Resources.Serialization.Binary;
-using MonoHaven.Resources.Serialization.Ini;
+using SharpHaven.Resources.Serialization.Binary;
+using SharpHaven.Resources.Serialization.Ini;
 
-namespace MonoHaven.Resources
+namespace SharpHaven.Resources
 {
 	public class FolderSource : IEnumerableResourceSource
 	{

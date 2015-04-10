@@ -1,8 +1,8 @@
 ﻿using System.Linq;
-using MonoHaven.Game;
-using MonoHaven.Graphics;
+using SharpHaven.Game;
+using SharpHaven.Graphics;
 
-namespace MonoHaven.Resources
+namespace SharpHaven.Resources
 {
 	public class SkillFactory : IObjectFactory<Skill>
 	{

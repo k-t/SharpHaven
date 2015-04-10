@@ -1,4 +1,4 @@
-﻿namespace MonoHaven.Resources
+﻿namespace SharpHaven.Resources
 {
 	public class NinepatchData
 	{

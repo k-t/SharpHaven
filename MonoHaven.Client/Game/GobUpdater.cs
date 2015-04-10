@@ -1,9 +1,9 @@
 ﻿using System.Linq;
-using MonoHaven.Graphics.Sprites;
-using MonoHaven.Messages;
-using MonoHaven.Utils;
+using SharpHaven.Graphics.Sprites;
+using SharpHaven.Messages;
+using SharpHaven.Utils;
 
-namespace MonoHaven.Game
+namespace SharpHaven.Game
 {
 	public class GobUpdater
 	{

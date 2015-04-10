@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
-using MonoHaven.Messages;
+using SharpHaven.Messages;
 
-namespace MonoHaven.Network
+namespace SharpHaven.Network
 {
 	public interface IConnectionListener
 	{

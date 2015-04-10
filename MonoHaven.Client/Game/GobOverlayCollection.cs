@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 
-namespace MonoHaven.Game
+namespace SharpHaven.Game
 {
 	public class GobOverlayCollection : IEnumerable<GobOverlay>
 	{

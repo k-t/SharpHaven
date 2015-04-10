@@ -1,11 +1,11 @@
 ﻿using System;
-using MonoHaven.Graphics;
-using MonoHaven.Input;
-using MonoHaven.UI.Widgets;
 using OpenTK;
 using OpenTK.Input;
+using SharpHaven.Graphics;
+using SharpHaven.Input;
+using SharpHaven.UI.Widgets;
 
-namespace MonoHaven.UI
+namespace SharpHaven.UI
 {
 	public class Scrollbar : Widget
 	{

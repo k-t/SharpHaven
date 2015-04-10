@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Drawing;
 using System.Text;
-using MonoHaven.Graphics;
-using MonoHaven.Graphics.Text;
-using MonoHaven.Input;
-using MonoHaven.Utils;
 using OpenTK;
 using OpenTK.Input;
+using SharpHaven.Graphics;
+using SharpHaven.Graphics.Text;
+using SharpHaven.Input;
+using SharpHaven.Utils;
 
-namespace MonoHaven.UI.Widgets
+namespace SharpHaven.UI.Widgets
 {
 	public class TextBox : Widget
 	{

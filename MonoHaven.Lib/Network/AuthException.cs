@@ -1,6 +1,6 @@
 using System;
 
-namespace MonoHaven.Network
+namespace SharpHaven.Network
 {
 	public class AuthException : Exception
 	{

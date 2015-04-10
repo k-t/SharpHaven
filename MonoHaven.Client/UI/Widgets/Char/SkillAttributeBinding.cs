@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Drawing;
-using MonoHaven.Game;
+using SharpHaven.Game;
 
-namespace MonoHaven.UI.Widgets
+namespace SharpHaven.UI.Widgets
 {
 	public class SkillAttributeBinding : AttributeBinding
 	{

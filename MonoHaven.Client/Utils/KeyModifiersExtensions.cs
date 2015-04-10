@@ -1,6 +1,6 @@
 ﻿using OpenTK.Input;
 
-namespace MonoHaven.Utils
+namespace SharpHaven.Utils
 {
 	public static class KeyModifiersExtensions
 	{

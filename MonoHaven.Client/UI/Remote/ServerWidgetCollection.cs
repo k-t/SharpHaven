@@ -1,8 +1,8 @@
 ﻿using C5;
-using MonoHaven.Game;
 using NLog;
+using SharpHaven.Game;
 
-namespace MonoHaven.UI.Remote
+namespace SharpHaven.UI.Remote
 {
 	public class ServerWidgetCollection
 	{

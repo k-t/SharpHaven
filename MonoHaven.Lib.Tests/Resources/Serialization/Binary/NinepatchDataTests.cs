@@ -1,8 +1,6 @@
-﻿using MonoHaven.Resources;
-using MonoHaven.Resources.Serialization.Binary;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 
-namespace MonoHaven.Tests.Resources.Serialization.Binary
+namespace SharpHaven.Resources.Serialization.Binary
 {
 	[TestFixture]
 	public class NinepatchDataTests
@@ -19,7 +17,7 @@ namespace MonoHaven.Tests.Resources.Serialization.Binary
 			};
 
 			var serializer = new NinepatchDataSerializer();
-			var output = (NinepatchData)serializer.Reserialize(input);
+			var output = (NinepatchData)BinarySerializerHelper.Reserialize(serializer, input);
 
 			Assert.That(output.Top, Is.EqualTo(input.Top));
 			Assert.That(output.Bottom, Is.EqualTo(input.Bottom));

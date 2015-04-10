@@ -2,7 +2,7 @@
 using System.Threading;
 using NLog;
 
-namespace MonoHaven.Utils
+namespace SharpHaven.Utils
 {
 	public abstract class BackgroundTask
 	{

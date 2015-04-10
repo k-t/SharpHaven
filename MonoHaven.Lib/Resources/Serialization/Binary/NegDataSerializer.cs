@@ -3,7 +3,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 
-namespace MonoHaven.Resources.Serialization.Binary
+namespace SharpHaven.Resources.Serialization.Binary
 {
 	internal class NegDataSerializer : IBinaryDataLayerSerializer
 	{

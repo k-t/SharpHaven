@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Drawing;
-using MonoHaven.Graphics;
-using MonoHaven.Input;
 using OpenTK;
+using SharpHaven.Graphics;
+using SharpHaven.Input;
 
-namespace MonoHaven.UI.Widgets
+namespace SharpHaven.UI.Widgets
 {
 	public class Speedget : Widget
 	{

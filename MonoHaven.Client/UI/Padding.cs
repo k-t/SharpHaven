@@ -1,4 +1,4 @@
-﻿namespace MonoHaven.UI
+﻿namespace SharpHaven.UI
 {
 	public struct Padding
 	{

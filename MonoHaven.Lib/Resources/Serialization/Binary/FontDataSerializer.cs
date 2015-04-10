@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 
-namespace MonoHaven.Resources.Serialization.Binary
+namespace SharpHaven.Resources.Serialization.Binary
 {
 	internal class FontDataSerializer : IBinaryDataLayerSerializer
 	{

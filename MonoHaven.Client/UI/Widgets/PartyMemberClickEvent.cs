@@ -1,6 +1,6 @@
 ﻿using OpenTK.Input;
 
-namespace MonoHaven.UI.Widgets
+namespace SharpHaven.UI.Widgets
 {
 	public class PartyMemberClickEvent
 	{

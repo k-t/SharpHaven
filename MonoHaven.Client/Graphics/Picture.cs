@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Drawing;
 
-namespace MonoHaven.Graphics
+namespace SharpHaven.Graphics
 {
 	public class Picture : Drawable
 	{

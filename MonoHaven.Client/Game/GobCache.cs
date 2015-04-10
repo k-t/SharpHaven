@@ -2,7 +2,7 @@
 using System.Linq;
 using C5;
 
-namespace MonoHaven.Game
+namespace SharpHaven.Game
 {
 	public class GobCache : IEnumerable<Gob>
 	{

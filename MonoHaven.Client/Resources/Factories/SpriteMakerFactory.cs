@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using MonoHaven.Graphics.Sprites;
-using MonoHaven.Graphics.Sprites.Fx;
-using MonoHaven.Graphics.Sprites.Plants;
 using NLog;
+using SharpHaven.Graphics.Sprites;
+using SharpHaven.Graphics.Sprites.Fx;
+using SharpHaven.Graphics.Sprites.Plants;
 
-namespace MonoHaven.Resources
+namespace SharpHaven.Resources
 {
 	public class SpriteMakerFactory : IObjectFactory<SpriteMaker>
 	{
