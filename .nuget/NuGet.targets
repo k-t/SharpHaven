@@ -91,7 +91,7 @@
 
     <Target Name="_DownloadNuGet">
         <MakeDir Directories="$(NuGetToolsPath)" Condition=" !Exists('$(NuGetToolsPath)') " />
-        <Exec Command="wget https://www.nuget.org/nuget.exe -O $(NuGetExePath)" Condition=" '$(OS)' != 'Windows_NT' AND !Exists('$(NuGetExePath)') " />
+        <Exec Command="wget https://www.nuget.org/nuget.exe -O $(NuGetExePath) -nv" Condition=" '$(OS)' != 'Windows_NT' AND !Exists('$(NuGetExePath)') " />
         <DownloadNuGet OutputFilename="$(NuGetExePath)" Condition=" '$(OS)' == 'Windows_NT' AND '$(DownloadNuGetExe)' == 'true' AND !Exists('$(NuGetExePath)')" />
     </Target>
 
