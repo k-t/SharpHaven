@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.IO;
 using ICSharpCode.SharpZipLib.Zip;
 using SharpHaven.Resources.Serialization.Binary;
 
@@ -10,40 +9,38 @@ namespace SharpHaven.Resources
 		private const string NamePrefix = "res/";
 		private const string NameSuffix = ".res";
 
-		private readonly string _path;
-		private readonly ZipFile _zip;
+		private readonly ZipFile zip;
 
 		public JarSource(string path)
 		{
-			_path = path;
-			_zip = new ZipFile(path);
+			zip = new ZipFile(path);
 		}
 
 		public string Description
 		{
-			get { return string.Format("[JAR]{0}", Path.GetFileName(_path)); }
+			get { return string.Format("[JAR]{0}", zip.Name); }
 		}
 
 		public Resource Get(string resourceName)
 		{
 			var serializer = new BinaryResourceSerializer();
 			var entryName = GetEntryName(resourceName);
-			var entry = _zip.GetEntry(entryName);
+			var entry = zip.GetEntry(entryName);
 			if (entry == null)
 				throw new ResourceException(string.Format("Entry '{0}' not found", entryName));
-			return serializer.Deserialize(_zip.GetInputStream(entry));
+			return serializer.Deserialize(zip.GetInputStream(entry));
 		}
 
 		public IEnumerable<string> EnumerateAll()
 		{
-			foreach (ZipEntry entry in _zip)
+			foreach (ZipEntry entry in zip)
 				if (IsResourceName(entry.Name))
 					yield return GetResourceName(entry.Name);
 		}
 
 		public void Dispose()
 		{
-			_zip.Close();
+			zip.Close();
 		}
 
 		private static string GetEntryName(string resourceName)
