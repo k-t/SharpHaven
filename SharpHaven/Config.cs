@@ -73,6 +73,11 @@ namespace SharpHaven
 			get { return havenConfig.Get("mapurl", DefaultMapUrl); }
 		}
 
+		public string ResUrl
+		{
+			get { return havenConfig.Get("resurl", DefaultResUrl); }
+		}
+
 		private static void CreateOrLoadIniConfig(IniConfigSource config)
 		{
 			var appDataPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);

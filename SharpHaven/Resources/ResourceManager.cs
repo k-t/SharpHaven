@@ -38,6 +38,8 @@ namespace SharpHaven.Resources
 
 			AddSource(new FolderSource("Data"));
 			AddSource(new JarSource("haven-res.jar"));
+			AddSource(new HttpSource(App.Config.ResUrl));
+			
 		}
 
 		public void AddSource(IResourceSource source)
