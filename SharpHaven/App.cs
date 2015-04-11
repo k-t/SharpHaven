@@ -24,7 +24,6 @@ namespace SharpHaven
 			Log.Info("Client started");
 
 			AppDomain.CurrentDomain.UnhandledException += OnUnhandledException;
-			SetSynchronizationContext();
 			GraphicsContext.ShareContexts = false;
 
 			config = new Config();
@@ -68,12 +67,6 @@ namespace SharpHaven
 		public static void Exit()
 		{
 			window.Close();
-		}
-
-		private static void SetSynchronizationContext()
-		{
-			SynchronizationContext.SetSynchronizationContext(
-				new WindowsFormsSynchronizationContext());
 		}
 
 		private static Icon GetApplicationIcon()
