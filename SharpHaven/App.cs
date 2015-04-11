@@ -12,9 +12,6 @@ namespace SharpHaven
 	{
 		private static readonly Logger Log = LogManager.GetCurrentClassLogger();
 
-		private static Audio audio;
-		private static Config config;
-		private static ResourceManager resourceManager;
 		private static MainWindow window;
 
 		public static void Main(string[] args)
@@ -24,32 +21,34 @@ namespace SharpHaven
 			AppDomain.CurrentDomain.UnhandledException += OnUnhandledException;
 			GraphicsContext.ShareContexts = false;
 
-			config = new Config();
-			resourceManager = new ResourceManager();
+			Config = new Config();
+			Resources = new ResourceManager();
 
-			using (audio = new Audio())
-			using (var icon = GetApplicationIcon())
-			using (var gameWindow = new MainWindow(1024, 768))
+			using (var icon = LoadApplicationIcon())
+			using (Audio = new Audio())
+			using (window = new MainWindow(1024, 768))
 			{
-				window = gameWindow;
-				gameWindow.Icon = icon;
-				gameWindow.Run(60, 60);
+				window.Icon = icon;
+				window.Run(60, 60);
 			}
 		}
 
 		public static Audio Audio
 		{
-			get { return audio; }
+			get;
+			private set;
 		}
 
 		public static Config Config
 		{
-			get { return config; }
+			get;
+			private set;
 		}
 
 		public static ResourceManager Resources
 		{
-			get { return resourceManager; }
+			get;
+			private set;
 		}
 
 		public static INativeWindow Window
@@ -67,7 +66,7 @@ namespace SharpHaven
 			window.Close();
 		}
 
-		private static Icon GetApplicationIcon()
+		private static Icon LoadApplicationIcon()
 		{
 			var res = Resources.Load("custom/ui/icon");
 			var data = res.GetLayer<ImageData>();
