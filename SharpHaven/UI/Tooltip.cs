@@ -11,7 +11,7 @@ namespace SharpHaven.UI
 
 		static Tooltip()
 		{
-			background = App.Resources.Get<Drawable>("custom/ui/tooltip-bg");
+			background = App.Resources.Get<Drawable>("gfx/tooltip-bg");
 		}
 
 		private readonly TextLine textLine;

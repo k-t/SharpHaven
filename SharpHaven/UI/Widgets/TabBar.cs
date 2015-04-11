@@ -17,7 +17,7 @@ namespace SharpHaven.UI.Widgets
 
 		static TabBar()
 		{
-			tabImage = App.Resources.Get<Drawable>("custom/ui/tab");
+			tabImage = App.Resources.Get<Drawable>("gfx/tab");
 			tabHeight = TabPadding * 2 + Fonts.Default.Height;
 		}
 

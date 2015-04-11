@@ -31,9 +31,9 @@ namespace SharpHaven.UI.Widgets
 
 		static MapView()
 		{
-			circle = App.Resources.Get<Drawable>("custom/ui/circle");
+			circle = App.Resources.Get<Drawable>("gfx/circle");
 
-			var tileset = App.Resources.Get<Tileset>("custom/gfx/tiles/ol/ol");
+			var tileset = App.Resources.Get<Tileset>("gfx/tiles/ol/ol");
 			var tiles = tileset.GroundTiles.ToList();
 			overlay = tiles[0];
 			overlayBorders = new List<Tuple<Point, Drawable>> {

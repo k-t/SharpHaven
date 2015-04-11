@@ -10,7 +10,7 @@ namespace SharpHaven.UI.Widgets
 		
 		static TabWidget()
 		{
-			background = App.Resources.Get<Drawable>("custom/ui/wbox2");
+			background = App.Resources.Get<Drawable>("gfx/wbox2");
 		}
 
 		private readonly TabBar bar;

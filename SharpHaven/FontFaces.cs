@@ -9,8 +9,8 @@ namespace SharpHaven
 
 		static FontFaces()
 		{
-			Sans = App.Resources.Get<Face>("custom/fonts/sans");
-			Serif = App.Resources.Get<Face>("custom/fonts/serif");
+			Sans = App.Resources.Get<Face>("fonts/sans");
+			Serif = App.Resources.Get<Face>("fonts/serif");
 		}
 	}
 }

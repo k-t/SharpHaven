@@ -15,11 +15,11 @@ namespace SharpHaven.UI.Widgets
 		{
 			background = App.Resources.Get<Drawable>("gfx/hud/invsq");
 			images = new[] {
-				"custom/gfx/hud/slen/invu", "custom/gfx/hud/slen/invd",
-				"custom/gfx/hud/slen/equu", "custom/gfx/hud/slen/equd",
-				"custom/gfx/hud/slen/chru", "custom/gfx/hud/slen/chrd",
-				"custom/gfx/hud/slen/budu", "custom/gfx/hud/slen/budd",
-				"custom/gfx/hud/slen/optu", "custom/gfx/hud/slen/optd" }
+				"gfx/hud/slen/invu", "gfx/hud/slen/invd",
+				"gfx/hud/slen/equu", "gfx/hud/slen/equd",
+				"gfx/hud/slen/chru", "gfx/hud/slen/chrd",
+				"gfx/hud/slen/budu", "gfx/hud/slen/budd",
+				"gfx/hud/slen/optu", "gfx/hud/slen/optd" }
 				.Select(x => App.Resources.Get<Drawable>(x))
 				.ToArray();
 			tooltips = new[] {

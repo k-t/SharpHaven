@@ -26,8 +26,8 @@ namespace SharpHaven.UI.Widgets
 			closeButton = App.Resources.Get<Drawable>("gfx/hud/cbtn");
 			closeButtonPressed = App.Resources.Get<Drawable>("gfx/hud/cbtnd");
 			closeButtonHovered = App.Resources.Get<Drawable>("gfx/hud/cbtnh");
-			box = App.Resources.Get<Drawable>("custom/ui/wbox");
-			cap = App.Resources.Get<Drawable>("custom/ui/wcap");
+			box = App.Resources.Get<Drawable>("gfx/wbox");
+			cap = App.Resources.Get<Drawable>("gfx/wcap");
 		}
 
 		public Window(Widget parent) : this(parent, null)

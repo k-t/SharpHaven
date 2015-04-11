@@ -16,7 +16,7 @@ namespace SharpHaven.UI.Widgets
 		static FlowerMenu()
 		{
 			back = App.Resources.Get<Drawable>("gfx/hud/bgtex");
-			box = App.Resources.Get<Drawable>("custom/gfx/hud/invsq");
+			box = App.Resources.Get<Drawable>("gfx/hud/invsq");
 		}
 
 		private readonly int optionCount;

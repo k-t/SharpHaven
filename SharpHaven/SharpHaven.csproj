@@ -21,7 +21,7 @@
     <DebugSymbols>True</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>False</Optimize>
-    <OutputPath>bin\</OutputPath>
+    <OutputPath>bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -32,7 +32,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <DebugType>none</DebugType>
     <Optimize>True</Optimize>
-    <OutputPath>bin\</OutputPath>
+    <OutputPath>bin\Release\</OutputPath>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <PlatformTarget>x86</PlatformTarget>
@@ -319,76 +319,76 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="Data\custom\fonts\sans.ini">
+    <None Include="Data\fonts\sans.ini">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Data\custom\fonts\serif.ini">
+    <None Include="Data\fonts\serif.ini">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Data\custom\fonts\SourceSansPro-Regular.ttf">
+    <None Include="Data\fonts\SourceSansPro-Regular.ttf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Data\custom\fonts\SourceSerifPro-Regular.ttf">
+    <None Include="Data\fonts\SourceSerifPro-Regular.ttf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Data\custom\gfx\hud\invsq.ini">
+    <None Include="Data\gfx\hud\invsq.ini">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Data\custom\gfx\hud\slen\budd.ini">
+    <None Include="Data\gfx\hud\slen\budd.ini">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Data\custom\gfx\hud\slen\budu.ini">
+    <None Include="Data\gfx\hud\slen\budu.ini">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Data\custom\gfx\hud\slen\chrd.ini">
+    <None Include="Data\gfx\hud\slen\chrd.ini">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Data\custom\gfx\hud\slen\chru.ini">
+    <None Include="Data\gfx\hud\slen\chru.ini">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Data\custom\gfx\hud\slen\equd.ini">
+    <None Include="Data\gfx\hud\slen\equd.ini">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Data\custom\gfx\hud\slen\equu.ini">
+    <None Include="Data\gfx\hud\slen\equu.ini">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Data\custom\gfx\hud\slen\invd.ini">
+    <None Include="Data\gfx\hud\slen\invd.ini">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Data\custom\gfx\hud\slen\invu.ini">
+    <None Include="Data\gfx\hud\slen\invu.ini">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Data\custom\gfx\hud\slen\optd.ini">
+    <None Include="Data\gfx\hud\slen\optd.ini">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Data\custom\gfx\hud\slen\optu.ini">
+    <None Include="Data\gfx\hud\slen\optu.ini">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Data\custom\gfx\tiles\ol\ol.ini">
+    <None Include="Data\gfx\tiles\ol\ol.ini">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Data\custom\ui\circle.ini">
+    <None Include="Data\gfx\circle.ini">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Data\custom\ui\icon.ini">
+    <None Include="Data\gfx\icon.ini">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Data\custom\ui\speech-bubble.ini">
+    <None Include="Data\gfx\speech-bubble.ini">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Data\custom\ui\tab.ini">
+    <None Include="Data\gfx\tab.ini">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Data\custom\ui\tooltip-bg.ini">
+    <None Include="Data\gfx\tooltip-bg.ini">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Data\custom\ui\wbox.ini">
+    <None Include="Data\gfx\wbox.ini">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Data\custom\ui\wbox2.ini">
+    <None Include="Data\gfx\wbox2.ini">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Data\custom\ui\wcap.ini">
+    <None Include="Data\gfx\wcap.ini">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="Graphics\Shaders\FragmentShaderTemplate.tt">
@@ -408,76 +408,76 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Data\custom\gfx\hud\invsq.png">
+    <Content Include="Data\gfx\hud\invsq.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Data\custom\gfx\hud\slen\budd.png">
+    <Content Include="Data\gfx\hud\slen\budd.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Data\custom\gfx\hud\slen\budu.png">
+    <Content Include="Data\gfx\hud\slen\budu.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Data\custom\gfx\hud\slen\chrd.png">
+    <Content Include="Data\gfx\hud\slen\chrd.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Data\custom\gfx\hud\slen\chru.png">
+    <Content Include="Data\gfx\hud\slen\chru.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Data\custom\gfx\hud\slen\equd.png">
+    <Content Include="Data\gfx\hud\slen\equd.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Data\custom\gfx\hud\slen\equu.png">
+    <Content Include="Data\gfx\hud\slen\equu.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Data\custom\gfx\hud\slen\invd.png">
+    <Content Include="Data\gfx\hud\slen\invd.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Data\custom\gfx\hud\slen\invu.png">
+    <Content Include="Data\gfx\hud\slen\invu.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Data\custom\gfx\hud\slen\optd.png">
+    <Content Include="Data\gfx\hud\slen\optd.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Data\custom\gfx\hud\slen\optu.png">
+    <Content Include="Data\gfx\hud\slen\optu.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Data\custom\gfx\tiles\ol\ol-bottom.png">
+    <Content Include="Data\gfx\tiles\ol\ol-bottom.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Data\custom\gfx\tiles\ol\ol-left.png">
+    <Content Include="Data\gfx\tiles\ol\ol-left.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Data\custom\gfx\tiles\ol\ol-right.png">
+    <Content Include="Data\gfx\tiles\ol\ol-right.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Data\custom\gfx\tiles\ol\ol-top.png">
+    <Content Include="Data\gfx\tiles\ol\ol-top.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Data\custom\gfx\tiles\ol\ol.png">
+    <Content Include="Data\gfx\tiles\ol\ol.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Data\custom\ui\circle.png">
+    <Content Include="Data\gfx\circle.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Data\custom\ui\icon.ico">
+    <Content Include="Data\gfx\icon.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Data\custom\ui\speech-bubble.png">
+    <Content Include="Data\gfx\speech-bubble.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Data\custom\ui\tab.png">
+    <Content Include="Data\gfx\tab.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Data\custom\ui\tooltip-bg.png">
+    <Content Include="Data\gfx\tooltip-bg.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Data\custom\ui\wbox.png">
+    <Content Include="Data\gfx\wbox.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Data\custom\ui\wbox2.png">
+    <Content Include="Data\gfx\wbox2.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Data\custom\ui\wcap.png">
+    <Content Include="Data\gfx\wcap.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

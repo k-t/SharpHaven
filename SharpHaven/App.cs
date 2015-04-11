@@ -68,7 +68,7 @@ namespace SharpHaven
 
 		private static Icon LoadApplicationIcon()
 		{
-			var res = Resources.Load("custom/ui/icon");
+			var res = Resources.Load("gfx/icon");
 			var data = res.GetLayer<ImageData>();
 			return new Icon(new MemoryStream(data.Data));
 		}

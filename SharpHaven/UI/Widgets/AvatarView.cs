@@ -16,7 +16,7 @@ namespace SharpHaven.UI.Widgets
 		{
 			missing = App.Resources.Get<Drawable>("gfx/hud/equip/missing");
 			background = App.Resources.Get<Drawable>("gfx/hud/equip/bg");
-			box = App.Resources.Get<Drawable>("custom/ui/wbox");
+			box = App.Resources.Get<Drawable>("gfx/wbox");
 		}
 
 		public AvatarView(Widget parent) : base(parent)

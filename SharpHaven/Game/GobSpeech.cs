@@ -14,7 +14,7 @@ namespace SharpHaven.Game
 
 		static GobSpeech()
 		{
-			bubble = App.Resources.Get<Drawable>("custom/ui/speech-bubble");
+			bubble = App.Resources.Get<Drawable>("gfx/speech-bubble");
 		}
 
 		private TextLine text;
