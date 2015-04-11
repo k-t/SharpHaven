@@ -11,7 +11,7 @@ namespace SharpHaven.Resources
 {
 	public class ResourceManager
 	{
-		private readonly IResourceSource defaultSource = new FolderSource("haven-res/res");
+		private readonly IResourceSource defaultSource = new FolderSource("Data");
 		
 		private readonly Dictionary<Type, ResourceObjectCache> objectCaches;
 		private readonly Dictionary<Type, IObjectFactory<object>> objectFactories;
