@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using NLog;
 using OpenTK;
 using SharpFont;
 using SharpHaven.Game;
@@ -11,18 +12,19 @@ namespace SharpHaven.Resources
 {
 	public class ResourceManager
 	{
-		private readonly IResourceSource defaultSource = new FolderSource("Data");
-		
+		private static readonly Logger Log = LogManager.GetCurrentClassLogger();
+
+		private readonly List<IResourceSource> sources;
 		private readonly Dictionary<Type, ResourceObjectCache> objectCaches;
 		private readonly Dictionary<Type, IObjectFactory<object>> objectFactories;
 
 		public ResourceManager()
 		{
+			sources = new List<IResourceSource>();
 			objectCaches = new Dictionary<Type, ResourceObjectCache>();
 			objectFactories = new Dictionary<Type, IObjectFactory<object>>();
 
 			var drawableFactory = new DrawableFactory();
-
 			RegisterType(typeof(Drawable), drawableFactory);
 			RegisterType(typeof(Skill), new SkillFactory(drawableFactory));
 			RegisterType(typeof(Bitmap), new BitmapFactory());
@@ -33,6 +35,14 @@ namespace SharpHaven.Resources
 			RegisterType(typeof(GameAction), new GameActionFactory());
 			RegisterType(typeof(ItemMold), new ItemMoldFactory(drawableFactory));
 			RegisterType(typeof(BuffMold), new BuffMoldFactory(drawableFactory));
+
+			AddSource(new FolderSource("Data"));
+			AddSource(new JarSource("haven-res.jar"));
+		}
+
+		public void AddSource(IResourceSource source)
+		{
+			sources.Add(source);
 		}
 
 		public T Get<T>(string resName) where T : class
@@ -57,7 +67,20 @@ namespace SharpHaven.Resources
 
 		public Resource Load(string resName)
 		{
-			return defaultSource.Get(resName);
+			foreach (var source in sources)
+			{
+				try
+				{
+					var res = source.Get(resName);
+					if (res != null)
+						return res;
+				}
+				catch (Exception ex)
+				{
+					Log.Debug(ex);
+				}
+			}
+			throw new ResourceException("Couldn't load resource " + resName);
 		}
 
 		private void RegisterType(Type type, IObjectFactory<object> factory)
