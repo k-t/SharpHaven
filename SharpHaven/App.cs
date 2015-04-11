@@ -1,5 +1,6 @@
 using System;
 using System.Drawing;
+using System.IO;
 using System.Threading;
 using System.Windows.Forms;
 using NLog;
@@ -30,8 +31,7 @@ namespace SharpHaven
 			resourceManager = new ResourceManager();
 
 			using (audio = new Audio())
-			using (var iconImage = Resources.Get<Bitmap>("custom/ui/icon"))
-			using (var icon = Icon.FromHandle(iconImage.GetHicon()))
+			using (var icon = GetApplicationIcon())
 			using (var gameWindow = new MainWindow(1024, 768))
 			{
 				window = gameWindow;
@@ -74,6 +74,13 @@ namespace SharpHaven
 		{
 			SynchronizationContext.SetSynchronizationContext(
 				new WindowsFormsSynchronizationContext());
+		}
+
+		private static Icon GetApplicationIcon()
+		{
+			var res = Resources.Load("custom/ui/icon");
+			var data = res.GetLayer<ImageData>();
+			return new Icon(new MemoryStream(data.Data));
 		}
 
 		private static void OnUnhandledException(object sender, UnhandledExceptionEventArgs e)
