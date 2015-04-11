@@ -34,6 +34,7 @@ namespace SharpHaven.Resources
 			makers["gfx/terobjs/plants/beetroot"] = GrowingPlantMaker.Create(4, 3, 5);
 			makers["gfx/terobjs/plants/peas"] = GrowingPlantMaker.Create(5, 3, 4);
 			makers["gfx/terobjs/plants/poppy"] = GrowingPlantMaker.Create(5, 3, 10);
+			makers["gfx/terobjs/herbs/chantrelle"] = GaussianPlantMaker.Create(15);
 		}
 
 		public SpriteMaker Create(string resName, Resource res)

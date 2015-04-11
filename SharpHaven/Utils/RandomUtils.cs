@@ -20,5 +20,14 @@ namespace SharpHaven.Utils
 		{
 			return p.X ^ p.Y;
 		}
+
+		public static double NextGaussian(this Random rnd)
+		{
+			// uniform(0,1) random doubles
+			var u1 = rnd.NextDouble();
+			var u2 = rnd.NextDouble();
+			// random normal(0,1)
+			return Math.Sqrt(-2.0 * Math.Log(u1)) * Math.Sin(2.0 * Math.PI * u2);
+		}
 	}
 }

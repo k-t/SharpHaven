@@ -38,22 +38,15 @@ namespace SharpHaven.Graphics.Sprites.Plants
 			var rnd = new Random(RandomUtils.GetSeed()); // TODO: gobId should be used as seed
 			var stage = state[0];
 			var parts = new List<SpritePart>();
-
 			parts.AddRange(Parts.Where(x => x.Id == -1));
-
 			for (int i = 0; i < num; i++)
 			{
-				var c = new Point(
-					rnd.Next(neg.Hitbox.Width),
-					rnd.Next(neg.Hitbox.Height))
-					.Add(neg.Hitbox.Location);
 				var s = strands[stage, rnd.Next(strands.GetLength(1))];
-				parts.Add(new SpritePart(s.Image,
-					Geometry.MapToScreen(c).Sub(s.Width / 2, s.Height),
-					s.Z,
-					s.SubZ));
+				var cx = rnd.Next(neg.Hitbox.Width) + neg.Hitbox.X;
+				var cy = rnd.Next(neg.Hitbox.Height) + neg.Hitbox.Y;
+				var offset = Geometry.MapToScreen(cx, cy).Sub(s.Width / 2, s.Height);
+				parts.Add(new SpritePart(s.Image, offset, s.Z, s.SubZ));
 			}
-
 			return new StaticSprite(parts);
 		}
 	}
