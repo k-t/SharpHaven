@@ -4,20 +4,20 @@ namespace SharpHaven.Game
 {
 	public class GobFollowing
 	{
-		private readonly int gobId;
+		private readonly Gob gob;
 		private readonly Point offset;
 		private readonly byte szo;
 
-		public GobFollowing(int gobId, Point offset, byte szo)
+		public GobFollowing(Gob gob, Point offset, byte szo)
 		{
-			this.gobId = gobId;
+			this.gob = gob;
 			this.offset = offset;
 			this.szo = szo;
 		}
 
-		public int GobId
+		public Gob Gob
 		{
-			get { return gobId; }
+			get { return gob; }
 		}
 
 		public Point Offset

@@ -79,8 +79,9 @@ namespace SharpHaven.Game
 
 		private void Apply(GobDelta.Follow delta)
 		{
-			gob.Following = (delta.GobId != -1)
-				? new GobFollowing(delta.GobId, delta.Offset, delta.Szo)
+			var other = (delta.GobId != -1) ? session.State.Objects.Get(delta.GobId) : null;
+			gob.Following = (other != null)
+				? new GobFollowing(other, delta.Offset, delta.Szo)
 				: null;
 		}
 

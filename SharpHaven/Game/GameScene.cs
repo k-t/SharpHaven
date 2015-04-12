@@ -44,13 +44,17 @@ namespace SharpHaven.Game
 				if (gob.Health != null)
 					effect = gob.Health.Effect;
 
+				int szo = 0;
+				if (gob.Following != null)
+					szo = gob.Following.Szo;
+
 				var p = Geometry.MapToScreen(gob.Position);
 				
-				spriteList.AddRange(sprite.Parts.Select(part => new ObjectPart(p, part, gob, effect)));
+				spriteList.AddRange(sprite.Parts.Select(part => new ObjectPart(p, part, gob, effect, szo)));
 
 				foreach (var overlay in gob.Overlays)
 					if (overlay.Sprite.Value != null)
-						spriteList.AddRange(overlay.Sprite.Value.Parts.Select(part => new ObjectPart(p, part, gob, null)));
+						spriteList.AddRange(overlay.Sprite.Value.Parts.Select(part => new ObjectPart(p, part, gob, null, szo)));
 
 				if (gob.Speech != null)
 					speeches.Add(Tuple.Create(p, gob.Speech));
@@ -60,7 +64,8 @@ namespace SharpHaven.Game
 			foreach (var part in spriteList)
 			{
 				if (part.Effect != null) part.Effect.Apply(dc);
-				dc.Draw(part.Sprite, x + part.X, y + part.Y);
+				var doff = part.Gob.DrawOffset;
+				dc.Draw(part.Sprite, x + part.X + doff.X, y + part.Y + doff.Y);
 				if (part.Effect != null) part.Effect.Unapply(dc);
 			}
 
@@ -74,7 +79,7 @@ namespace SharpHaven.Game
 				return a.Sprite.Z - b.Sprite.Z;
 			if (a.Y != b.Y)
 				return a.Y - b.Y;
-			return a.Sprite.SubZ - b.Sprite.SubZ;
+			return (a.Sprite.SubZ + a.Szo) - (b.Sprite.SubZ + b.Szo);
 		}
 
 		private struct ObjectPart
@@ -84,14 +89,16 @@ namespace SharpHaven.Game
 			public readonly Gob Gob;
 			public readonly SpritePart Sprite;
 			public readonly ISpriteEffect Effect;
+			public readonly int Szo;
 
-			public ObjectPart(Point position, SpritePart sprite, Gob gob, ISpriteEffect effect)
+			public ObjectPart(Point position, SpritePart sprite, Gob gob, ISpriteEffect effect, int szo)
 			{
 				X = position.X;
 				Y = position.Y;
 				Sprite = sprite;
 				Gob = gob;
 				Effect = effect;
+				Szo = szo;
 			}
 		}
 	}

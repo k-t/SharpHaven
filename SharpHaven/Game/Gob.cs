@@ -14,6 +14,7 @@ namespace SharpHaven.Game
 		private GobSpeech speech;
 		private Point position;
 		private GobMovement movement;
+		private Point drawOffset;
 		
 		public Gob(int id)
 		{
@@ -28,14 +29,27 @@ namespace SharpHaven.Game
 
 		public Point Position
 		{
-			get { return (movement != null) ? movement.Position : position; }
+			get
+			{
+				if (movement != null)
+					return movement.Position;
+				if (Following != null)
+					return Following.Gob.Position;
+				return position;
+			}
 			set { position = value; }
 		}
 
 		public Point DrawOffset
 		{
-			get;
-			set;
+			get
+			{
+				var value = drawOffset;
+				if (Following != null)
+					value = value.Add(Following.Offset);
+				return value;
+			}
+			set { drawOffset = value; }
 		}
 
 		public KinInfo KinInfo
