@@ -19,7 +19,7 @@ namespace SharpHaven.Graphics
 		private readonly int colorAttrib;
 		private readonly int texCoordAttrib;
 
-		private Color4 color = Color4.White;
+		private float color;
 		private Texture currentTexture;
 		private bool isActive;
 		private int idx;
@@ -48,6 +48,8 @@ namespace SharpHaven.Graphics
 			
 			empty = new Texture(1, 1);
 			empty.Update(PixelFormat.Rgba, new byte[] {255, 255, 255, 255});
+
+			SetColor(Color.White);
 		}
 
 #if DEBUG
@@ -85,9 +87,10 @@ namespace SharpHaven.Graphics
 			idx = 0;
 		}
 
-		public void SetColor(Color color)
+		public void SetColor(Color c)
 		{
-			this.color = color;
+			var bytes = new[] {c.R, c.G, c.B, c.A};
+			color = BitConverter.ToSingle(bytes, 0);
 		}
 
 		/// <summary>
@@ -128,13 +131,9 @@ namespace SharpHaven.Graphics
 		{
 			vertices[idx++] = x;
 			vertices[idx++] = y;
-			// TODO: pack colors
-			vertices[idx++] = color.R;
-			vertices[idx++] = color.G;
-			vertices[idx++] = color.B;
-			vertices[idx++] = color.A;
 			vertices[idx++] = u;
 			vertices[idx++] = v;
+			vertices[idx++] = color;
 		}
 
 		private void ChangeTexture(Texture texture)
@@ -160,13 +159,17 @@ namespace SharpHaven.Graphics
 			GL.EnableVertexAttribArray(colorAttrib);
 			GL.EnableVertexAttribArray(texCoordAttrib);
 
-			int stride = 8 * sizeof(float);
+			int stride = 5 * sizeof(float);
 
 			GL.BindBuffer(BufferTarget.ArrayBuffer, vbo.Id);
 			vbo.Fill(vertices, idx);
-			GL.VertexAttribPointer(coordAtrrib, 2, VertexAttribPointerType.Float, false, stride, 0);
-			GL.VertexAttribPointer(colorAttrib, 4, VertexAttribPointerType.Float, false, stride, 2 * sizeof(float));
-			GL.VertexAttribPointer(texCoordAttrib, 2, VertexAttribPointerType.Float, false, stride, 6 * sizeof(float));
+
+			int offset = 0;
+			GL.VertexAttribPointer(coordAtrrib, 2, VertexAttribPointerType.Float, false, stride, offset);
+			offset += 2;
+			GL.VertexAttribPointer(texCoordAttrib, 2, VertexAttribPointerType.Float, false, stride, offset * sizeof(float));
+			offset += 2;
+			GL.VertexAttribPointer(colorAttrib, 4, VertexAttribPointerType.UnsignedByte, true, stride, offset * sizeof(float));
 			
 			if (currentTexture != null)
 				GL.BindTexture(currentTexture.Target, currentTexture.Id);
@@ -174,7 +177,7 @@ namespace SharpHaven.Graphics
 				GL.BindTexture(TextureTarget.Texture2D, 0);
 
 			// TODO: Use triangles instead of quads?
-			GL.DrawArrays(PrimitiveType.Quads, 0, idx / 8);
+			GL.DrawArrays(PrimitiveType.Quads, 0, idx / 5);
 
 			GL.DisableVertexAttribArray(coordAtrrib);
 			GL.DisableVertexAttribArray(colorAttrib);
