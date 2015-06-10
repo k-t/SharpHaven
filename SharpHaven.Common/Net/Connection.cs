@@ -14,7 +14,7 @@ using SharpHaven.Utils;
 
 namespace SharpHaven.Net
 {
-	public class Connection : IGame, IDisposable
+	public class Connection : IDisposable
 	{
 		#region Constants
 
@@ -65,7 +65,6 @@ namespace SharpHaven.Net
 
 		private static readonly NLog.Logger Log = LogManager.GetCurrentClassLogger();
 
-		private readonly ConnectionSettings settings;
 		private readonly GameSocket socket;
 		private readonly MessageReceiver receiver;
 		private readonly MessageSender sender;
@@ -76,16 +75,14 @@ namespace SharpHaven.Net
 		private readonly TreeDictionary<int, FragmentBuffer> mapFrags;
 		private readonly List<IGameEventListener> listeners;
 
-		public Connection(ConnectionSettings settings)
+		public Connection(string host, int port)
 		{
-			this.settings = settings;
-
 			waiting = new TreeDictionary<ushort, MessageReader>();
 			mapFrags = new TreeDictionary<int, FragmentBuffer>();
 			listeners = new List<IGameEventListener>();
 
 			state = ConnectionState.Created;
-			socket = new GameSocket(settings.Host, settings.Port);
+			socket = new GameSocket(host, port);
 			socket.SetReceiveTimeout(ReceiveTimeout);
 			sender = new MessageSender(socket);
 			sender.Finished += OnTaskFinished;
@@ -100,7 +97,7 @@ namespace SharpHaven.Net
 			Close();
 		}
 
-		public void Open()
+		public void Open(string userName, byte[] cookie)
 		{
 			try
 			{
@@ -109,7 +106,7 @@ namespace SharpHaven.Net
 					if (state != ConnectionState.Created)
 						throw new InvalidOperationException("Can't open already opened/closed connection");
 
-					Connect();
+					Connect(userName, cookie);
 					receiver.Run();
 					sender.Run();
 
@@ -151,7 +148,7 @@ namespace SharpHaven.Net
 			socket.SendMessage(new Message(Message.MSG_OBJACK).Int32(id).Int32(frame));
 		}
 
-		private void Connect()
+		private void Connect(string userName, byte[] cookie)
 		{
 			socket.Connect();
 
@@ -159,8 +156,8 @@ namespace SharpHaven.Net
 				.Uint16(1)
 				.String("Haven")
 				.Uint16(ProtocolVersion)
-				.String(settings.UserName)
-				.Bytes(settings.Cookie);
+				.String(userName)
+				.Bytes(cookie);
 
 			socket.SendMessage(hello);
 
@@ -727,35 +724,23 @@ namespace SharpHaven.Net
 			throw new Exception("Task finished abruptly");
 		}
 
-		#region IGame
-
-		void IGame.Start()
-		{
-			Open();
-		}
-
-		void IGame.Stop()
-		{
-			Close();
-		}
-
-		void IGame.AddListener(IGameEventListener listener)
+		public void AddListener(IGameEventListener listener)
 		{
 			listeners.Add(listener);
 		}
 
-		void IGame.RemoveListener(IGameEventListener listener)
+		public void RemoveListener(IGameEventListener listener)
 		{
 			listeners.Remove(listener);
 		}
 
-		void IGame.RequestMap(int x, int y)
+		public void RequestMap(int x, int y)
 		{
 			var msg = new Message(Message.MSG_MAPREQ).Coord(x, y);
 			socket.SendMessage(msg);
 		}
 
-		void IGame.MessageWidget(WidgetMessage wmsg)
+		public void MessageWidget(WidgetMessage wmsg)
 		{
 			var message = new Message(RMSG_WDGMSG)
 				.Uint16(wmsg.Id)
@@ -764,7 +749,5 @@ namespace SharpHaven.Net
 				message.List(wmsg.Args);
 			sender.SendMessage(message);
 		}
-
-		#endregion
 	}
 }

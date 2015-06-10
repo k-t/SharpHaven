@@ -1,6 +1,6 @@
 ﻿namespace SharpHaven.Net
 {
-	public class ConnectionSettings
+	public class NetGameSettings
 	{
 		public string Host { get; set; }
 		public int Port { get; set; }

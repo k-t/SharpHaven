@@ -127,14 +127,14 @@ namespace SharpHaven.Login
 
 		private GameSession CreateSession(GameState state, string userName, byte[] cookie)
 		{
-			var connSettings = new ConnectionSettings
+			var settings = new NetGameSettings
 			{
 				Host = App.Config.GameHost,
 				Port = App.Config.GamePort,
 				UserName = userName,
 				Cookie = cookie
 			};
-			var game = new Connection(connSettings);
+			var game = new NetGame(settings);
 			return new GameSession(state, game);
 		}
 
