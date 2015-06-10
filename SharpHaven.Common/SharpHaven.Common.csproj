@@ -54,6 +54,7 @@
     <Reference Include="System.Drawing" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Game\CompositeGameEventListener.cs" />
     <Compile Include="Game\IGame.cs" />
     <Compile Include="Geometry.cs" />
     <Compile Include="Game\Events\SoundEvent.cs" />

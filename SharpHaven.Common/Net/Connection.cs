@@ -73,13 +73,13 @@ namespace SharpHaven.Net
 		private ushort rseq;
 		private readonly TreeDictionary<ushort, MessageReader> waiting;
 		private readonly TreeDictionary<int, FragmentBuffer> mapFrags;
-		private readonly List<IGameEventListener> listeners;
+		private readonly CompositeGameEventListener listener;
 
 		public Connection(string host, int port)
 		{
 			waiting = new TreeDictionary<ushort, MessageReader>();
 			mapFrags = new TreeDictionary<int, FragmentBuffer>();
-			listeners = new List<IGameEventListener>();
+			listener = new CompositeGameEventListener();
 
 			state = ConnectionState.Created;
 			socket = new GameSocket(host, port);
@@ -88,6 +88,11 @@ namespace SharpHaven.Net
 			sender.Finished += OnTaskFinished;
 			receiver = new MessageReceiver(socket, ReceiveMessage);
 			receiver.Finished += OnTaskFinished;
+		}
+
+		public CompositeGameEventListener Listener
+		{
+			get { return listener; }
 		}
 
 		public event Action Stopped;
@@ -247,18 +252,18 @@ namespace SharpHaven.Net
 				case RMSG_NEWWDG:
 				{
 					var args = WidgetCreateEvent.ReadFrom(msg);
-					listeners.ForEach(x => x.CreateWidget(args));
+					Listener.CreateWidget(args);
 					break;
 				}
 				case RMSG_WDGMSG:
 				{
 					var args = WidgetMessage.ReadFrom(msg);
-					listeners.ForEach(x => x.UpdateWidget(args));
+					Listener.UpdateWidget(args);
 					break;
 				}
 				case RMSG_DSTWDG:
 					var widgetId = msg.ReadUint16();
-					listeners.ForEach(x => x.DestroyWidget(widgetId));
+					Listener.DestroyWidget(widgetId);
 					break;
 				case RMSG_MAPIV:
 				{
@@ -266,15 +271,15 @@ namespace SharpHaven.Net
 					switch (type)
 					{
 						case 0:
-							listeners.ForEach(x => x.InvalidateMap(msg.ReadCoord()));
+							Listener.InvalidateMap(msg.ReadCoord());
 							break;
 						case 1:
 							var ul = msg.ReadCoord();
 							var br = msg.ReadCoord();
-							listeners.ForEach(x => x.InvalidateMap(ul, br));
+							Listener.InvalidateMap(ul, br);
 							break;
 						case 2:
-							listeners.ForEach(x => x.InvalidateMap());
+							Listener.InvalidateMap();
 							break;
 					}
 					break;
@@ -296,11 +301,11 @@ namespace SharpHaven.Net
 									DayTime = Defix(dt),
 									MoonPhase = Defix(mp)
 								};
-								listeners.ForEach(x => x.UpdateAstronomy(astronomy));
+								Listener.UpdateAstronomy(astronomy);
 								break;
 							case GMSG_LIGHT:
 								var amblight = msg.ReadColor();
-								listeners.ForEach(x => x.UpdateAmbientLight(amblight));
+								Listener.UpdateAmbientLight(amblight);
 								break;
 						}
 					}
@@ -316,7 +321,7 @@ namespace SharpHaven.Net
 							Resource = new ResourceRef(msg.ReadString(), msg.ReadUint16())
 						});
 					}
-					listeners.ForEach(x => x.UpdateActions(actions));
+					Listener.UpdateActions(actions);
 					break;
 				case RMSG_RESID:
 				{
@@ -325,7 +330,7 @@ namespace SharpHaven.Net
 						Name = msg.ReadString(),
 						Version = msg.ReadUint16()
 					};
-					listeners.ForEach(x => x.LoadResource(message));
+					Listener.LoadResource(message);
 					break;
 				}
 				case RMSG_PARTY:
@@ -342,12 +347,12 @@ namespace SharpHaven.Net
 									if(id == -1)
 										break;
 									ids.Add(id);
-									listeners.ForEach(x => x.UpdatePartyList(ids));
+									Listener.UpdatePartyList(ids);
 								}
 								break;
 							case PD_LEADER:
 								var leaderId = msg.ReadInt32();
-								listeners.ForEach(x => x.SetPartyLeader(leaderId));
+								Listener.SetPartyLeader(leaderId);
 								break;
 							case PD_MEMBER:
 								var memberId = msg.ReadInt32();
@@ -356,7 +361,7 @@ namespace SharpHaven.Net
 								if (visible)
 									location = msg.ReadCoord();
 								var color = msg.ReadColor();
-								listeners.ForEach(x => x.UpdatePartyMember(memberId, color, location));
+								Listener.UpdatePartyMember(memberId, color, location);
 								break;
 						}
 					}
@@ -368,7 +373,7 @@ namespace SharpHaven.Net
 						Volume = msg.ReadUint16()/256.0,
 						Speed = msg.ReadUint16()/256.0
 					};
-					listeners.ForEach(x => x.PlaySound(message));
+					Listener.PlaySound(message);
 					break;
 				}
 				case RMSG_CATTR:
@@ -382,10 +387,10 @@ namespace SharpHaven.Net
 						};
 						attributes.Add(attribute);
 					}
-					listeners.ForEach(x => x.UpdateCharAttributes(attributes));
+					Listener.UpdateCharAttributes(attributes);
 					break;
 				case RMSG_MUSIC:
-					listeners.ForEach(x => x.PlayMusic());
+					Listener.PlayMusic();
 					break;
 				case RMSG_TILES:
 					var messages = new List<TilesetLoadEvent>();
@@ -398,7 +403,7 @@ namespace SharpHaven.Net
 						};
 						messages.Add(message);
 					}
-					listeners.ForEach(x => x.LoadTilesets(messages));
+					Listener.LoadTilesets(messages);
 					break;
 				case RMSG_BUFF:
 				{
@@ -406,14 +411,14 @@ namespace SharpHaven.Net
 					switch (message)
 					{
 						case "clear":
-							listeners.ForEach(x => x.ClearBuffs());
+							Listener.ClearBuffs();
 							break;
 						case "rm":
 							int id = msg.ReadInt32();
-							listeners.ForEach(x => x.RemoveBuff(id));
+							Listener.RemoveBuff(id);
 							break;
 						case "set":
-							listeners.ForEach(x => x.UpdateBuff(
+							Listener.UpdateBuff(
 								new BuffUpdateEvent
 								{
 									Id = msg.ReadInt32(),
@@ -424,7 +429,7 @@ namespace SharpHaven.Net
 									CMeter = msg.ReadInt32(),
 									CTicks = msg.ReadInt32(),
 									Major = msg.ReadByte() != 0
-								}));
+								});
 							break;
 					}
 					break;
@@ -454,7 +459,7 @@ namespace SharpHaven.Net
 				{
 					mapFrags.Remove(packetId);
 					var mapData = GetMapData(new MessageReader(0, fragbuf.Content));
-					listeners.ForEach(x => x.UpdateMap(mapData));
+					Listener.UpdateMap(mapData);
 				}
 			}
 			else if (offset != 0 || msg.Length - 8 < length)
@@ -466,7 +471,7 @@ namespace SharpHaven.Net
 			else
 			{
 				var mapData = GetMapData(msg);
-				listeners.ForEach(x => x.UpdateMap(mapData));
+				Listener.UpdateMap(mapData);
 			}
 		}
 
@@ -714,7 +719,7 @@ namespace SharpHaven.Net
 					break;
 				gobData.Deltas.Add(delta);
 			}
-			listeners.ForEach(x => x.UpdateGob(gobData));
+			Listener.UpdateGob(gobData);
 			SendObjectAck(gobData.GobId, gobData.Frame);
 		}
 
@@ -722,16 +727,6 @@ namespace SharpHaven.Net
 		{
 			// it shouldn't happen normally, so let it crash
 			throw new Exception("Task finished abruptly");
-		}
-
-		public void AddListener(IGameEventListener listener)
-		{
-			listeners.Add(listener);
-		}
-
-		public void RemoveListener(IGameEventListener listener)
-		{
-			listeners.Remove(listener);
 		}
 
 		public void RequestMap(int x, int y)

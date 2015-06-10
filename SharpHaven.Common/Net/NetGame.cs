@@ -29,12 +29,12 @@ namespace SharpHaven.Net
 
 		public void AddListener(IGameEventListener listener)
 		{
-			connection.AddListener(listener);
+			connection.Listener.Add(listener);
 		}
 
 		public void RemoveListener(IGameEventListener listener)
 		{
-			connection.RemoveListener(listener);
+			connection.Listener.Remove(listener);
 		}
 
 		public void RequestMap(int x, int y)
