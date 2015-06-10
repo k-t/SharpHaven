@@ -4,7 +4,7 @@ using System.Drawing;
 using System.Text;
 using MiscUtil.Conversion;
 
-namespace SharpHaven.Network
+namespace SharpHaven.Net
 {
 	public class MessageReader
 	{

@@ -1,5 +1,5 @@
 ﻿using System.Drawing;
-using SharpHaven.Network;
+using SharpHaven.Net;
 using SharpHaven.Resources;
 
 namespace SharpHaven.Graphics.Sprites.Fx

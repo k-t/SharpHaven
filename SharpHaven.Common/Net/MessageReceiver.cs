@@ -2,7 +2,7 @@
 using NLog;
 using SharpHaven.Utils;
 
-namespace SharpHaven.Network
+namespace SharpHaven.Net
 {
 	internal class MessageReceiver : BackgroundTask
 	{

@@ -1,5 +1,5 @@
 ﻿using System.Drawing;
-using SharpHaven.Network;
+using SharpHaven.Net;
 
 namespace SharpHaven.Game.Events
 {

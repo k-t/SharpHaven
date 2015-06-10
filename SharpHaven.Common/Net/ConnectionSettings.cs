@@ -1,4 +1,4 @@
-﻿namespace SharpHaven.Network
+﻿namespace SharpHaven.Net
 {
 	public class ConnectionSettings
 	{

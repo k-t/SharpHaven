@@ -1,5 +1,5 @@
 using NUnit.Framework;
-using SharpHaven.Network;
+using SharpHaven.Net;
 
 namespace SharpHaven
 {

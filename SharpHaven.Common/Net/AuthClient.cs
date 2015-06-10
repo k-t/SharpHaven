@@ -5,7 +5,7 @@ using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 
-namespace SharpHaven.Network
+namespace SharpHaven.Net
 {
 	public class AuthClient : IDisposable
 	{

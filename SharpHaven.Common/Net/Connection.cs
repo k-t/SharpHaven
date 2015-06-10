@@ -12,7 +12,7 @@ using SharpHaven.Game.Events;
 using SharpHaven.Resources;
 using SharpHaven.Utils;
 
-namespace SharpHaven.Network
+namespace SharpHaven.Net
 {
 	public class Connection : IGame, IDisposable
 	{

@@ -1,6 +1,6 @@
 using System;
 
-namespace SharpHaven.Network
+namespace SharpHaven.Net
 {
 	public class AuthException : Exception
 	{

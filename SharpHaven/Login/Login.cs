@@ -3,7 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using NLog;
 using SharpHaven.Game;
-using SharpHaven.Network;
+using SharpHaven.Net;
 
 namespace SharpHaven.Login
 {

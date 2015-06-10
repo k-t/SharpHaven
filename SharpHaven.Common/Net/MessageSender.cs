@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Threading;
 using SharpHaven.Utils;
 
-namespace SharpHaven.Network
+namespace SharpHaven.Net
 {
 	internal class MessageSender : BackgroundTask
 	{

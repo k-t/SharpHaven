@@ -4,7 +4,7 @@ using System.IO;
 using System.Text;
 using MiscUtil.Conversion;
 
-namespace SharpHaven.Network
+namespace SharpHaven.Net
 {
 	public class Message : IDisposable
 	{

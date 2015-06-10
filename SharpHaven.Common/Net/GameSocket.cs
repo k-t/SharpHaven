@@ -2,7 +2,7 @@
 using System.Net;
 using System.Net.Sockets;
 
-namespace SharpHaven.Network
+namespace SharpHaven.Net
 {
 	public class GameSocket : IDisposable
 	{
