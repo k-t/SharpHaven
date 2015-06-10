@@ -14,7 +14,7 @@ using SharpHaven.Utils;
 
 namespace SharpHaven.Network
 {
-	public class Connection : IDisposable
+	public class Connection : IGame, IDisposable
 	{
 		#region Constants
 
@@ -93,21 +93,11 @@ namespace SharpHaven.Network
 			receiver.Finished += OnTaskFinished;
 		}
 
-		public event Action Closed;
+		public event Action Stopped;
 
 		public void Dispose()
 		{
 			Close();
-		}
-
-		public void AddListener(IGameEventListener listener)
-		{
-			listeners.Add(listener);
-		}
-
-		public void RemoveListener(IGameEventListener listener)
-		{
-			listeners.Remove(listener);
 		}
 
 		public void Open()
@@ -152,26 +142,10 @@ namespace SharpHaven.Network
 
 				state = ConnectionState.Closed;
 			}
-			Closed.Raise();
+			Stopped.Raise();
 		}
 
-		public void SendMessage(ushort widgetId, string name, object[] args)
-		{
-			var message = new Message(RMSG_WDGMSG)
-				.Uint16(widgetId)
-				.String(name);
-			if (args != null)
-				message.List(args);
-			sender.SendMessage(message);
-		}
-
-		public void RequestMapData(int x, int y)
-		{
-			var msg = new Message(Message.MSG_MAPREQ).Coord(x, y);
-			socket.SendMessage(msg);
-		}
-
-		public void SendObjectAck(int id, int frame)
+		private void SendObjectAck(int id, int frame)
 		{
 			// FIXME: make it smarter
 			socket.SendMessage(new Message(Message.MSG_OBJACK).Int32(id).Int32(frame));
@@ -281,7 +255,7 @@ namespace SharpHaven.Network
 				}
 				case RMSG_WDGMSG:
 				{
-					var args = WidgetMessageEvent.ReadFrom(msg);
+					var args = WidgetMessage.ReadFrom(msg);
 					listeners.ForEach(x => x.UpdateWidget(args));
 					break;
 				}
@@ -499,7 +473,7 @@ namespace SharpHaven.Network
 			}
 		}
 
-		public static MapUpdateEvent GetMapData(MessageReader reader)
+		private static MapUpdateEvent GetMapData(MessageReader reader)
 		{
 			var msg = new MapUpdateEvent {
 				Grid = reader.ReadCoord(),
@@ -752,5 +726,45 @@ namespace SharpHaven.Network
 			// it shouldn't happen normally, so let it crash
 			throw new Exception("Task finished abruptly");
 		}
+
+		#region IGame
+
+		void IGame.Start()
+		{
+			Open();
+		}
+
+		void IGame.Stop()
+		{
+			Close();
+		}
+
+		void IGame.AddListener(IGameEventListener listener)
+		{
+			listeners.Add(listener);
+		}
+
+		void IGame.RemoveListener(IGameEventListener listener)
+		{
+			listeners.Remove(listener);
+		}
+
+		void IGame.RequestMap(int x, int y)
+		{
+			var msg = new Message(Message.MSG_MAPREQ).Coord(x, y);
+			socket.SendMessage(msg);
+		}
+
+		void IGame.MessageWidget(WidgetMessage wmsg)
+		{
+			var message = new Message(RMSG_WDGMSG)
+				.Uint16(wmsg.Id)
+				.String(wmsg.Name);
+			if (wmsg.Args != null)
+				message.List(wmsg.Args);
+			sender.SendMessage(message);
+		}
+
+		#endregion
 	}
 }

@@ -5,7 +5,6 @@ using System.Threading;
 using NLog;
 using SharpHaven.Game.Events;
 using SharpHaven.Graphics.Sprites;
-using SharpHaven.Network;
 using SharpHaven.Resources;
 using SharpHaven.UI.Remote;
 using SharpHaven.Utils;
@@ -16,7 +15,7 @@ namespace SharpHaven.Game
 	{
 		private static readonly Logger Log = LogManager.GetCurrentClassLogger();
 
-		private readonly Connection connection;
+		private readonly IGame game;
 		private readonly GameState state;
 		private readonly Dictionary<int, string> resources;
 		private readonly HashSet<Point> gridRequests;
@@ -24,12 +23,12 @@ namespace SharpHaven.Game
 		private readonly ServerWidgetFactory widgetFactory;
 		private readonly ServerWidgetCollection widgets;
 
-		public GameSession(GameState state, ConnectionSettings connSettings)
+		public GameSession(GameState state, IGame game)
 		{
 			this.state = state;
 
-			connection = new Connection(connSettings);
-			connection.AddListener(this);
+			this.game = game;
+			this.game.AddListener(this);
 
 			gridRequests = new HashSet<Point>();
 			resources = new Dictionary<int, string>();
@@ -51,22 +50,22 @@ namespace SharpHaven.Game
 
 		public void Start()
 		{
-			connection.Open();
+			game.Start();
 		}
 
 		public void Finish()
 		{
 			lock (this)
 			{
-				connection.RemoveListener(this);
-				connection.Close();
+				game.RemoveListener(this);
+				game.Stop();
 			}
 			App.QueueOnMainThread(() => state.Screen.Close());
 		}
 
 		public void SendMessage(ushort widgetId, string name, object[] args)
 		{
-			connection.SendMessage(widgetId, name, args);
+			game.MessageWidget(new WidgetMessage(widgetId, name, args));
 		}
 
 		#region Resource Management
@@ -113,7 +112,7 @@ namespace SharpHaven.Game
 			{
 				gridRequests.Add(gc);
 				// TODO: Queue on sender thread?
-				ThreadPool.QueueUserWorkItem(o => connection.RequestMapData(gc.X, gc.Y));
+				ThreadPool.QueueUserWorkItem(o => game.RequestMap(gc.X, gc.Y));
 			}
 		}
 
@@ -136,7 +135,7 @@ namespace SharpHaven.Game
 			});
 		}
 
-		void IGameEventListener.UpdateWidget(WidgetMessageEvent args)
+		void IGameEventListener.UpdateWidget(WidgetMessage args)
 		{
 			App.QueueOnMainThread(() =>
 			{

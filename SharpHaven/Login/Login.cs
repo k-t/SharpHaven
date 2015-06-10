@@ -134,7 +134,8 @@ namespace SharpHaven.Login
 				UserName = userName,
 				Cookie = cookie
 			};
-			return new GameSession(state, connSettings);
+			var game = new Connection(connSettings);
+			return new GameSession(state, game);
 		}
 
 		private static void RunAsync(Action action)

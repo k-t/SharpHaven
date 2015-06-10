@@ -7,7 +7,7 @@ namespace SharpHaven.Game
 	public interface IGameEventListener
 	{
 		void CreateWidget(WidgetCreateEvent args);
-		void UpdateWidget(WidgetMessageEvent args);
+		void UpdateWidget(WidgetMessage args);
 		void DestroyWidget(ushort widgetId);
 
 		void LoadResource(ResourceLoadEvent args);

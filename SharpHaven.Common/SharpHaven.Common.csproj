@@ -54,6 +54,7 @@
     <Reference Include="System.Drawing" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Game\IGame.cs" />
     <Compile Include="Geometry.cs" />
     <Compile Include="Game\Events\SoundEvent.cs" />
     <Compile Include="Resources\Layers\AudioData.cs" />
@@ -84,7 +85,7 @@
     <Compile Include="Game\Events\ResourceLoadEvent.cs" />
     <Compile Include="Game\Events\TilesetLoadEvent.cs" />
     <Compile Include="Game\Events\WidgetCreateEvent.cs" />
-    <Compile Include="Game\Events\WidgetMessageEvent.cs" />
+    <Compile Include="Game\Events\WidgetMessage.cs" />
     <Compile Include="Resources\IResourceSerializer.cs" />
     <Compile Include="Resources\Serialization\Binary\NegDataSerializer.cs" />
     <Compile Include="Resources\Serialization\Binary\NinepatchDataSerializer.cs" />

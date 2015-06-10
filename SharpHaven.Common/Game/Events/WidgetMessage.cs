@@ -2,9 +2,9 @@
 
 namespace SharpHaven.Game.Events
 {
-	public class WidgetMessageEvent
+	public class WidgetMessage
 	{
-		public WidgetMessageEvent(ushort id, string name, object[] args)
+		public WidgetMessage(ushort id, string name, object[] args)
 		{
 			Id = id;
 			Name = name;
@@ -29,9 +29,9 @@ namespace SharpHaven.Game.Events
 			private set;
 		}
 
-		public static WidgetMessageEvent ReadFrom(MessageReader reader)
+		public static WidgetMessage ReadFrom(MessageReader reader)
 		{
-			return new WidgetMessageEvent(
+			return new WidgetMessage(
 				id: reader.ReadUint16(),
 				name: reader.ReadString(),
 				args: reader.ReadList()
