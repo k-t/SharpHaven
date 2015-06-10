@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 
-namespace SharpHaven.Messages
+namespace SharpHaven.Game.Events
 {
-	public class UpdateGobMessage
+	public class GobUpdateEvent
 	{
 		private readonly List<GobDelta> deltas = new List<GobDelta>();
 

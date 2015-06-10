@@ -1,11 +1,11 @@
 ﻿using System.Drawing;
 using SharpHaven.Network;
 
-namespace SharpHaven.Messages
+namespace SharpHaven.Game.Events
 {
-	public class WidgetCreateMessage
+	public class WidgetCreateEvent
 	{
-		public WidgetCreateMessage(
+		public WidgetCreateEvent(
 			ushort id,
 			ushort parentId,
 			string type,
@@ -49,7 +49,7 @@ namespace SharpHaven.Messages
 			private set;
 		}
 
-		public static WidgetCreateMessage ReadFrom(MessageReader reader)
+		public static WidgetCreateEvent ReadFrom(MessageReader reader)
 		{
 			var id = reader.ReadUint16();
 			var type = reader.ReadString();
@@ -57,7 +57,7 @@ namespace SharpHaven.Messages
 			var parentId = reader.ReadUint16();
 			var args = reader.ReadList();
 
-			return new WidgetCreateMessage(
+			return new WidgetCreateEvent(
 				id: id,
 				type: type,
 				position: position,

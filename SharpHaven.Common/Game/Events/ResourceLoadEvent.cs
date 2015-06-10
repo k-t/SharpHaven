@@ -1,6 +1,6 @@
-﻿namespace SharpHaven.Messages
+﻿namespace SharpHaven.Game.Events
 {
-	public class BindResourceMessage
+	public class ResourceLoadEvent
 	{
 		public ushort Id { get; set; }
 		public string Name { get; set; }

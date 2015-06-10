@@ -1,8 +1,8 @@
 ﻿using SharpHaven.Resources;
 
-namespace SharpHaven.Messages
+namespace SharpHaven.Game.Events
 {
-	public class ActionMessage
+	public class ActionUpdateEvent
 	{
 		public bool RemoveFlag { get; set; }
 		public ResourceRef Resource { get; set; }

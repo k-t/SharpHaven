@@ -1,6 +1,6 @@
 ﻿using System.Linq;
+using SharpHaven.Game.Events;
 using SharpHaven.Graphics.Sprites;
-using SharpHaven.Messages;
 using SharpHaven.Utils;
 
 namespace SharpHaven.Game
@@ -9,7 +9,7 @@ namespace SharpHaven.Game
 	{
 		private readonly TypeMatcher deltaMatcher;
 		private readonly GameSession session;
-		private UpdateGobMessage message;
+		private GobUpdateEvent message;
 		private Gob gob;
 
 		public GobUpdater(GameSession session)
@@ -33,7 +33,7 @@ namespace SharpHaven.Game
 				.Case<GobDelta.StartMovement>(Apply);
 		}
 
-		public void ApplyChanges(UpdateGobMessage message)
+		public void ApplyChanges(GobUpdateEvent message)
 		{
 			this.message = message;
 			this.gob = null;

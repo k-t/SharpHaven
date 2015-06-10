@@ -1,6 +1,6 @@
-﻿namespace SharpHaven.Messages
+﻿namespace SharpHaven.Game.Events
 {
-	public class AstronomyMessage
+	public class AstronomyEvent
 	{
 		public double DayTime { get; set; }
 		public double MoonPhase { get; set; }

@@ -7,7 +7,8 @@ using System.Threading;
 using C5;
 using ICSharpCode.SharpZipLib.Zip.Compression;
 using NLog;
-using SharpHaven.Messages;
+using SharpHaven.Game;
+using SharpHaven.Game.Events;
 using SharpHaven.Resources;
 using SharpHaven.Utils;
 
@@ -73,7 +74,7 @@ namespace SharpHaven.Network
 		private ushort rseq;
 		private readonly TreeDictionary<ushort, MessageReader> waiting;
 		private readonly TreeDictionary<int, FragmentBuffer> mapFrags;
-		private readonly List<IConnectionListener> listeners;
+		private readonly List<IGameEventListener> listeners;
 
 		public Connection(ConnectionSettings settings)
 		{
@@ -81,7 +82,7 @@ namespace SharpHaven.Network
 
 			waiting = new TreeDictionary<ushort, MessageReader>();
 			mapFrags = new TreeDictionary<int, FragmentBuffer>();
-			listeners = new List<IConnectionListener>();
+			listeners = new List<IGameEventListener>();
 
 			state = ConnectionState.Created;
 			socket = new GameSocket(settings.Host, settings.Port);
@@ -99,12 +100,12 @@ namespace SharpHaven.Network
 			Close();
 		}
 
-		public void AddListener(IConnectionListener listener)
+		public void AddListener(IGameEventListener listener)
 		{
 			listeners.Add(listener);
 		}
 
-		public void RemoveListener(IConnectionListener listener)
+		public void RemoveListener(IGameEventListener listener)
 		{
 			listeners.Remove(listener);
 		}
@@ -274,13 +275,13 @@ namespace SharpHaven.Network
 			{
 				case RMSG_NEWWDG:
 				{
-					var args = WidgetCreateMessage.ReadFrom(msg);
+					var args = WidgetCreateEvent.ReadFrom(msg);
 					listeners.ForEach(x => x.CreateWidget(args));
 					break;
 				}
 				case RMSG_WDGMSG:
 				{
-					var args = WidgetUpdateMessage.ReadFrom(msg);
+					var args = WidgetMessageEvent.ReadFrom(msg);
 					listeners.ForEach(x => x.UpdateWidget(args));
 					break;
 				}
@@ -320,7 +321,7 @@ namespace SharpHaven.Network
 								int dt = msg.ReadInt32();
 								int mp = msg.ReadInt32();
 								int yt = msg.ReadInt32();
-								var astronomy = new AstronomyMessage {
+								var astronomy = new AstronomyEvent {
 									DayTime = Defix(dt),
 									MoonPhase = Defix(mp)
 								};
@@ -335,10 +336,10 @@ namespace SharpHaven.Network
 					break;
 				}
 				case RMSG_PAGINAE:
-					var actions = new List<ActionMessage>();
+					var actions = new List<ActionUpdateEvent>();
 					while (!msg.IsEom)
 					{
-						actions.Add(new ActionMessage
+						actions.Add(new ActionUpdateEvent
 						{
 							RemoveFlag = msg.ReadByte() == '-',
 							Resource = new ResourceRef(msg.ReadString(), msg.ReadUint16())
@@ -348,12 +349,12 @@ namespace SharpHaven.Network
 					break;
 				case RMSG_RESID:
 				{
-					var message = new BindResourceMessage {
+					var message = new ResourceLoadEvent {
 						Id = msg.ReadUint16(),
 						Name = msg.ReadString(),
 						Version = msg.ReadUint16()
 					};
-					listeners.ForEach(x => x.BindResource(message));
+					listeners.ForEach(x => x.LoadResource(message));
 					break;
 				}
 				case RMSG_PARTY:
@@ -391,7 +392,7 @@ namespace SharpHaven.Network
 					break;
 				case RMSG_SFX:
 				{
-					var message = new PlaySoundMessage {
+					var message = new SoundEvent {
 						ResourceId = msg.ReadUint16(),
 						Volume = msg.ReadUint16()/256.0,
 						Speed = msg.ReadUint16()/256.0
@@ -400,10 +401,10 @@ namespace SharpHaven.Network
 					break;
 				}
 				case RMSG_CATTR:
-					var attributes = new List<CharAttributeMessage>();
+					var attributes = new List<CharAttrUpdateEvent>();
 					while (!msg.IsEom)
 					{
-						var attribute = new CharAttributeMessage {
+						var attribute = new CharAttrUpdateEvent {
 							Name = msg.ReadString(),
 							BaseValue = msg.ReadInt32(),
 							CompValue = msg.ReadInt32()
@@ -416,17 +417,17 @@ namespace SharpHaven.Network
 					listeners.ForEach(x => x.PlayMusic());
 					break;
 				case RMSG_TILES:
-					var messages = new List<BindTilesetMessage>();
+					var messages = new List<TilesetLoadEvent>();
 					while (!msg.IsEom)
 					{
-						var message = new BindTilesetMessage {
+						var message = new TilesetLoadEvent {
 							Id = msg.ReadByte(),
 							Name = msg.ReadString(),
 							Version = msg.ReadUint16()
 						};
 						messages.Add(message);
 					}
-					listeners.ForEach(x => x.BindTilesets(messages));
+					listeners.ForEach(x => x.LoadTilesets(messages));
 					break;
 				case RMSG_BUFF:
 				{
@@ -441,8 +442,8 @@ namespace SharpHaven.Network
 							listeners.ForEach(x => x.RemoveBuff(id));
 							break;
 						case "set":
-							listeners.ForEach(x => x.AddBuff(
-								new BuffAddMessage
+							listeners.ForEach(x => x.UpdateBuff(
+								new BuffUpdateEvent
 								{
 									Id = msg.ReadInt32(),
 									ResId = msg.ReadUint16(),
@@ -498,9 +499,9 @@ namespace SharpHaven.Network
 			}
 		}
 
-		public static UpdateMapMessage GetMapData(MessageReader reader)
+		public static MapUpdateEvent GetMapData(MessageReader reader)
 		{
-			var msg = new UpdateMapMessage {
+			var msg = new MapUpdateEvent {
 				Grid = reader.ReadCoord(),
 				MinimapName = reader.ReadString(),
 				Tiles = new byte[100 * 100],
@@ -570,7 +571,7 @@ namespace SharpHaven.Network
 
 		private void HandleObjData(MessageReader msg)
 		{
-			var gobData = new UpdateGobMessage();
+			var gobData = new GobUpdateEvent();
 			gobData.ReplaceFlag = (msg.ReadByte() & 1) != 0;
 			gobData.GobId = msg.ReadInt32();
 			gobData.Frame = msg.ReadInt32();

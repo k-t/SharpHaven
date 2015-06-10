@@ -1,10 +1,10 @@
 ﻿using SharpHaven.Network;
 
-namespace SharpHaven.Messages
+namespace SharpHaven.Game.Events
 {
-	public class WidgetUpdateMessage
+	public class WidgetMessageEvent
 	{
-		public WidgetUpdateMessage(ushort id, string name, object[] args)
+		public WidgetMessageEvent(ushort id, string name, object[] args)
 		{
 			Id = id;
 			Name = name;
@@ -29,9 +29,9 @@ namespace SharpHaven.Messages
 			private set;
 		}
 
-		public static WidgetUpdateMessage ReadFrom(MessageReader reader)
+		public static WidgetMessageEvent ReadFrom(MessageReader reader)
 		{
-			return new WidgetUpdateMessage(
+			return new WidgetMessageEvent(
 				id: reader.ReadUint16(),
 				name: reader.ReadString(),
 				args: reader.ReadList()

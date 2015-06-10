@@ -1,6 +1,6 @@
 ﻿using System.Drawing;
 
-namespace SharpHaven.Messages
+namespace SharpHaven.Game.Events
 {
 	public abstract class GobDelta
 	{

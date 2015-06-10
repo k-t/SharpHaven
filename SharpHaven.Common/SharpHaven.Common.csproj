@@ -55,7 +55,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Geometry.cs" />
-    <Compile Include="Messages\PlaySoundMessage.cs" />
+    <Compile Include="Game\Events\SoundEvent.cs" />
     <Compile Include="Resources\Layers\AudioData.cs" />
     <Compile Include="Resources\Layers\CodeData.cs" />
     <Compile Include="Resources\Serialization\Binary\AudioDataSerializer.cs" />
@@ -73,18 +73,18 @@
     <Compile Include="Resources\Sources\HttpSource.cs" />
     <Compile Include="Utils\Delayed.cs" />
     <Compile Include="Utils\FragmentBuffer.cs" />
-    <Compile Include="Network\IConnectionListener.cs" />
-    <Compile Include="Messages\ActionMessage.cs" />
-    <Compile Include="Messages\AstronomyMessage.cs" />
-    <Compile Include="Messages\BuffAddMessage.cs" />
-    <Compile Include="Messages\CharAttributeMessage.cs" />
-    <Compile Include="Messages\UpdateGobMessage.cs" />
-    <Compile Include="Messages\GobDelta.cs" />
-    <Compile Include="Messages\UpdateMapMessage.cs" />
-    <Compile Include="Messages\BindResourceMessage.cs" />
-    <Compile Include="Messages\BindTilesetMessage.cs" />
-    <Compile Include="Messages\WidgetCreateMessage.cs" />
-    <Compile Include="Messages\WidgetUpdateMessage.cs" />
+    <Compile Include="Game\IGameEventListener.cs" />
+    <Compile Include="Game\Events\ActionUpdateEvent.cs" />
+    <Compile Include="Game\Events\AstronomyEvent.cs" />
+    <Compile Include="Game\Events\BuffUpdateEvent.cs" />
+    <Compile Include="Game\Events\CharAttrUpdateEvent.cs" />
+    <Compile Include="Game\Events\GobUpdateEvent.cs" />
+    <Compile Include="Game\Events\GobDelta.cs" />
+    <Compile Include="Game\Events\MapUpdateEvent.cs" />
+    <Compile Include="Game\Events\ResourceLoadEvent.cs" />
+    <Compile Include="Game\Events\TilesetLoadEvent.cs" />
+    <Compile Include="Game\Events\WidgetCreateEvent.cs" />
+    <Compile Include="Game\Events\WidgetMessageEvent.cs" />
     <Compile Include="Resources\IResourceSerializer.cs" />
     <Compile Include="Resources\Serialization\Binary\NegDataSerializer.cs" />
     <Compile Include="Resources\Serialization\Binary\NinepatchDataSerializer.cs" />

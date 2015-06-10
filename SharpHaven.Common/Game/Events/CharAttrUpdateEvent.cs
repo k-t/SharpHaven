@@ -1,6 +1,6 @@
-﻿namespace SharpHaven.Messages
+﻿namespace SharpHaven.Game.Events
 {
-	public class CharAttributeMessage
+	public class CharAttrUpdateEvent
 	{
 		public string Name { get; set; }
 		public int BaseValue { get; set; }

@@ -1,8 +1,8 @@
 ﻿using System.Drawing;
 
-namespace SharpHaven.Messages
+namespace SharpHaven.Game.Events
 {
-	public class UpdateMapMessage
+	public class MapUpdateEvent
 	{
 		public Point Grid { get; set; }
 		public string MinimapName { get; set; }

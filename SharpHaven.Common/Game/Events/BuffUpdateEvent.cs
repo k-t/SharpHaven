@@ -1,6 +1,6 @@
-﻿namespace SharpHaven.Messages
+﻿namespace SharpHaven.Game.Events
 {
-	public class BuffAddMessage
+	public class BuffUpdateEvent
 	{
 		public int Id { get; set; }
 		public int ResId { get; set; }

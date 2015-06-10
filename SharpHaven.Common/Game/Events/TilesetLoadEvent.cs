@@ -1,6 +1,6 @@
-﻿namespace SharpHaven.Messages
+﻿namespace SharpHaven.Game.Events
 {
-	public class BindTilesetMessage
+	public class TilesetLoadEvent
 	{
 		public byte Id { get; set; }
 		public string Name { get; set; }

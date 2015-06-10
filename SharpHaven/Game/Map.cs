@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Drawing;
 using C5;
+using SharpHaven.Game.Events;
 using SharpHaven.Graphics.Sprites;
-using SharpHaven.Messages;
 using SharpHaven.Utils;
 
 namespace SharpHaven.Game
@@ -59,7 +59,7 @@ namespace SharpHaven.Game
 			return tilesets[tileType];
 		}
 
-		public void AddGrid(UpdateMapMessage message)
+		public void AddGrid(MapUpdateEvent message)
 		{
 			var random = new C5Random(RandomUtils.GetSeed(message.Grid));
 			var gc = message.Grid;
@@ -96,7 +96,7 @@ namespace SharpHaven.Game
 				}
 		}
 
-		public void BindTileset(BindTilesetMessage message)
+		public void BindTileset(TilesetLoadEvent message)
 		{
 			var tileset = App.Resources.Get<Tileset>(message.Name);
 			tilesets[message.Id] = tileset;

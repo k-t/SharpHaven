@@ -1,6 +1,6 @@
-﻿namespace SharpHaven.Messages
+﻿namespace SharpHaven.Game.Events
 {
-	public class PlaySoundMessage
+	public class SoundEvent
 	{
 		public ushort ResourceId { get; set; }
 		public double Volume { get; set; }
