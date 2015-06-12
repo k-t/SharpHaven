@@ -1,5 +1,4 @@
 ﻿using System.Drawing;
-using SharpHaven.Net;
 
 namespace SharpHaven.Game.Events
 {

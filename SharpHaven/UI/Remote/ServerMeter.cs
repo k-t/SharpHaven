@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
-using SharpHaven.Game;
+using SharpHaven.Client;
 using SharpHaven.Graphics;
 using SharpHaven.UI.Widgets;
 

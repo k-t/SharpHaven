@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using SharpHaven.Game;
+using SharpHaven.Client;
 using SharpHaven.Graphics;
 using SharpHaven.Graphics.Text;
 using SharpHaven.UI.Layouts;
@@ -28,7 +28,7 @@ namespace SharpHaven.UI.Widgets
 			PlusDown = App.Resources.Get<Drawable>("gfx/hud/charsh/plusdown");
 		}
 
-		private readonly GameState gstate;
+		private readonly ClientState gstate;
 		private int exp;
 		private List<AttributeBinding> attrBindings;
 
@@ -53,7 +53,7 @@ namespace SharpHaven.UI.Widgets
 		private readonly GridLayout skillLayout;
 		private readonly GridLayout beliefLayout;
 
-		public CharWindow(Widget parent, GameState gstate) : base(parent, "Character Sheet")
+		public CharWindow(Widget parent, ClientState gstate) : base(parent, "Character Sheet")
 		{
 			Resize(400, 340);
 

@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using SharpHaven.Game;
+using SharpHaven.Client;
 using SharpHaven.Graphics.Sprites;
 using SharpHaven.Utils;
 

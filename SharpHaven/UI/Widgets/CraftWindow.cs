@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using OpenTK.Input;
-using SharpHaven.Game;
+using SharpHaven.Client;
 using SharpHaven.Input;
 using SharpHaven.UI.Layouts;
 using SharpHaven.Utils;

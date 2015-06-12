@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Drawing;
-using SharpHaven.Game;
+using SharpHaven.Client;
 using SharpHaven.Graphics;
 
 namespace SharpHaven.UI.Widgets
@@ -12,7 +12,7 @@ namespace SharpHaven.UI.Widgets
 		private readonly Label lblError;
 		private DateTime errorTime;
 
-		public Hud(Widget parent, GameState gstate) : base(parent)
+		public Hud(Widget parent, ClientState gstate) : base(parent)
 		{
 			menu = gstate.Screen.HudMenu;
 			menu.Visible = true;
@@ -57,7 +57,7 @@ namespace SharpHaven.UI.Widgets
 			belt.Visible = false;
 		}
 
-		private void InitMinimap(GameState gstate)
+		private void InitMinimap(ClientState gstate)
 		{
 			var window = new Window(this);
 			window.Margin = 5;

@@ -4,7 +4,7 @@ using System.Drawing;
 using NLog;
 using OpenTK;
 using SharpFont;
-using SharpHaven.Game;
+using SharpHaven.Client;
 using SharpHaven.Graphics;
 using SharpHaven.Graphics.Sprites;
 

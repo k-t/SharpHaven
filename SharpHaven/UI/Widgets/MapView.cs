@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using OpenTK.Input;
-using SharpHaven.Game;
+using SharpHaven.Client;
 using SharpHaven.Graphics;
 using SharpHaven.Graphics.Sprites;
 using SharpHaven.Graphics.Text;
@@ -72,7 +72,7 @@ namespace SharpHaven.UI.Widgets
 			set;
 		}
 
-		public GameState State
+		public ClientState State
 		{
 			get;
 			set;

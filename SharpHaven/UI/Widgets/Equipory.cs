@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Drawing;
 using OpenTK.Input;
-using SharpHaven.Game;
+using SharpHaven.Client;
 using SharpHaven.Graphics;
 
 namespace SharpHaven.UI.Widgets

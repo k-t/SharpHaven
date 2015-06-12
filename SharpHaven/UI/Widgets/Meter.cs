@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using SharpHaven.Game;
+using SharpHaven.Client;
 using SharpHaven.Graphics;
 
 namespace SharpHaven.UI.Widgets

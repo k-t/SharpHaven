@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
-using SharpHaven.Game;
+using SharpHaven.Client;
 using SharpHaven.Graphics;
 using SharpHaven.UI.Layouts;
 
@@ -17,7 +17,7 @@ namespace SharpHaven.UI.Widgets
 		private static readonly Drawable frame;
 		private static readonly Drawable cframe;
 
-		private readonly GameState gstate;
+		private readonly ClientState gstate;
 		private readonly Dictionary<int, BuffWidget> widgets;
 
 		static Bufflist()
@@ -26,7 +26,7 @@ namespace SharpHaven.UI.Widgets
 			cframe = App.Resources.Get<Drawable>("gfx/hud/buffs/cframe");
 		}
 
-		public Bufflist(Widget parent, GameState gstate) : base(parent)
+		public Bufflist(Widget parent, ClientState gstate) : base(parent)
 		{
 			this.gstate = gstate;
 			this.gstate.BuffUpdated += Update;

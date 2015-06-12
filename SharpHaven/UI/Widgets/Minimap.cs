@@ -3,7 +3,7 @@ using System.Collections.Concurrent;
 using System.Drawing;
 using System.Threading.Tasks;
 using NLog;
-using SharpHaven.Game;
+using SharpHaven.Client;
 using SharpHaven.Graphics;
 using SharpHaven.Utils;
 
@@ -24,11 +24,11 @@ namespace SharpHaven.UI.Widgets
 			mark = App.Resources.Get<Drawable>("gfx/hud/mmap/x");
 		}
 
-		private readonly GameState gstate;
+		private readonly ClientState gstate;
 		private readonly MinimapProvider provider;
 		private readonly ConcurrentDictionary<string, Drawable> cache;
 
-		public Minimap(Widget parent, GameState gstate) : base(parent)
+		public Minimap(Widget parent, ClientState gstate) : base(parent)
 		{
 			this.gstate = gstate;
 			this.cache = new ConcurrentDictionary<string, Drawable>();

@@ -3,7 +3,7 @@ using System.Collections.Specialized;
 using System.Drawing;
 using System.Linq;
 using C5;
-using SharpHaven.Game;
+using SharpHaven.Client;
 using SharpHaven.UI.Widgets;
 
 namespace SharpHaven.UI.Remote

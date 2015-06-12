@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Drawing;
-using System.Threading.Tasks;
 using OpenTK.Input;
-using SharpHaven.Game;
+using SharpHaven.Client;
 using SharpHaven.Graphics;
 using SharpHaven.Graphics.Text;
 using SharpHaven.Input;
@@ -43,7 +42,7 @@ namespace SharpHaven.Login
 			RootWidget.KeyDown += OnKeyDown;
 		}
 
-		public event Action<GameSession> LoginCompleted;
+		public event Action<ClientSession> LoginCompleted;
 
 		private void InitWidgets()
 		{

@@ -1,5 +1,5 @@
 ﻿using System;
-using SharpHaven.Game;
+using SharpHaven.Client;
 using SharpHaven.Graphics;
 using SharpHaven.Utils;
 
@@ -36,7 +36,7 @@ namespace SharpHaven.UI.Widgets
 			Resize(background.Size);
 		}
 
-		public GameState State
+		public ClientState State
 		{
 			get;
 			set;

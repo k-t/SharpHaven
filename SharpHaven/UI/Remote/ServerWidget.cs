@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using NLog;
 using OpenTK;
-using SharpHaven.Game;
+using SharpHaven.Client;
 using SharpHaven.UI.Widgets;
 using SharpHaven.Utils;
 
@@ -14,10 +14,10 @@ namespace SharpHaven.UI.Remote
 		private readonly static Logger Log = LogManager.GetCurrentClassLogger();
 
 		private readonly ushort id;
-		private readonly GameSession session;
+		private readonly ClientSession session;
 		private readonly Dictionary<string, Action<object[]>> handlers;
 
-		protected ServerWidget(ushort id, GameSession session)
+		protected ServerWidget(ushort id, ClientSession session)
 		{
 			this.id = id;
 			this.session = session;
@@ -38,7 +38,7 @@ namespace SharpHaven.UI.Remote
 			get { return id; }
 		}
 
-		public GameSession Session
+		public ClientSession Session
 		{
 			get { return session; }
 		}

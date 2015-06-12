@@ -1,5 +1,5 @@
 ﻿using System.Drawing;
-using SharpHaven.Game;
+using SharpHaven.Client;
 using SharpHaven.UI.Widgets;
 
 namespace SharpHaven.UI.Remote
@@ -8,7 +8,7 @@ namespace SharpHaven.UI.Remote
 	{
 		private readonly Widget widget;
 
-		public ServerRootWidget(ushort id, GameSession session, Widget widget)
+		public ServerRootWidget(ushort id, ClientSession session, Widget widget)
 			: base(id, session)
 		{
 			this.widget = widget;

@@ -1,6 +1,6 @@
 ﻿using C5;
 using NLog;
-using SharpHaven.Game;
+using SharpHaven.Client;
 
 namespace SharpHaven.UI.Remote
 {
@@ -10,7 +10,7 @@ namespace SharpHaven.UI.Remote
 
 		private readonly TreeDictionary<ushort, ServerWidget> widgets;
 
-		public ServerWidgetCollection(GameSession session)
+		public ServerWidgetCollection(ClientSession session)
 		{
 			widgets = new TreeDictionary<ushort, ServerWidget>();
 		}

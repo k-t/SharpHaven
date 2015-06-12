@@ -1,5 +1,5 @@
 ﻿using System;
-using SharpHaven.Game;
+using SharpHaven.Client;
 using SharpHaven.Graphics;
 using SharpHaven.Input;
 using SharpHaven.Login;
@@ -12,7 +12,7 @@ namespace SharpHaven
 		private readonly LoginScreen loginScreen;
 		private GameScreen gameScreen;
 		private IScreen current;
-		private GameSession session;
+		private ClientSession session;
 
 		public MainScreen()
 		{
@@ -32,7 +32,7 @@ namespace SharpHaven
 			current.Show();
 		}
 
-		private void OnLoginCompleted(GameSession session)
+		private void OnLoginCompleted(ClientSession session)
 		{
 			this.session = session;
 			gameScreen = session.State.Screen;

@@ -1,13 +1,13 @@
-﻿using SharpHaven.Game;
+﻿using SharpHaven.Client;
 
 namespace SharpHaven.Login
 {
 	public class LoginResult
 	{
 		private readonly string error;
-		private readonly GameSession session;
+		private readonly ClientSession session;
 
-		public LoginResult(GameSession session)
+		public LoginResult(ClientSession session)
 		{
 			this.session = session;
 		}
@@ -27,7 +27,7 @@ namespace SharpHaven.Login
 			get { return error; }
 		}
 
-		public GameSession Session
+		public ClientSession Session
 		{
 			get { return session; }
 		}

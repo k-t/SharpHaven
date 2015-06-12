@@ -1,5 +1,5 @@
 ﻿using System.Drawing;
-using SharpHaven.Game;
+using SharpHaven.Client;
 
 namespace SharpHaven.UI.Widgets
 {
