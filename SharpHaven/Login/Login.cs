@@ -81,7 +81,7 @@ namespace SharpHaven.Login
 					Log.Error("Authentication error", (Exception)ex);
 					Finish(new LoginResult(ex.Message));
 				}
-				catch (ConnectionException ex)
+				catch (NetworkException ex)
 				{
 					Log.Error("Connection error ({0}) {1}", (byte)ex.Error, ex.Message);
 					Finish(new LoginResult(ex.Message));
@@ -127,14 +127,14 @@ namespace SharpHaven.Login
 
 		private GameSession CreateSession(GameState state, string userName, byte[] cookie)
 		{
-			var settings = new NetGameSettings
+			var settings = new NetworkGameSettings
 			{
 				Host = App.Config.GameHost,
 				Port = App.Config.GamePort,
 				UserName = userName,
 				Cookie = cookie
 			};
-			var game = new NetGame(settings);
+			var game = new NetworkGame(settings);
 			return new GameSession(state, game);
 		}
 

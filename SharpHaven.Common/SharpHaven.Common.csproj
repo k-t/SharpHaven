@@ -73,7 +73,6 @@
     <Compile Include="Geometry.cs" />
     <Compile Include="Game\Events\PlaySoundEvent.cs" />
     <Compile Include="Net\GameEventMessageReaders.cs" />
-    <Compile Include="Net\NetGame.cs" />
     <Compile Include="Resources\Layers\AudioData.cs" />
     <Compile Include="Resources\Layers\CodeData.cs" />
     <Compile Include="Resources\Serialization\Binary\AudioDataSerializer.cs" />
@@ -129,10 +128,10 @@
     <Compile Include="Utils\TreeNode.cs" />
     <Compile Include="EventHelper.cs" />
     <Compile Include="Net\ConnectionError.cs" />
-    <Compile Include="Net\NetGameSettings.cs" />
-    <Compile Include="Net\ConnectionException.cs" />
-    <Compile Include="Net\ConnectionState.cs" />
-    <Compile Include="Net\Connection.cs" />
+    <Compile Include="Net\NetworkGameSettings.cs" />
+    <Compile Include="Net\NetworkException.cs" />
+    <Compile Include="Net\NetworkGameState.cs" />
+    <Compile Include="Net\NetworkGame.cs" />
     <Compile Include="Utils\BackgroundTask.cs" />
     <Compile Include="Net\GameSocket.cs" />
     <Compile Include="Net\MessageReceiver.cs" />
