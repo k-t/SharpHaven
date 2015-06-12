@@ -1,15 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
-using System.IO;
 using System.Net.Sockets;
 using System.Threading;
 using C5;
-using ICSharpCode.SharpZipLib.Zip.Compression;
 using NLog;
 using SharpHaven.Game;
 using SharpHaven.Game.Events;
-using SharpHaven.Resources;
 using SharpHaven.Utils;
 
 namespace SharpHaven.Net
@@ -218,7 +214,7 @@ namespace SharpHaven.Net
 					break;
 				case Message.MSG_OBJDATA:
 					while (msg.Position < msg.Length)
-						HandleObjData(msg);
+						HandleGobData(msg);
 					break;
 				case Message.MSG_CLOSE:
 					Log.Info("Server dropped connection");
@@ -245,482 +241,199 @@ namespace SharpHaven.Net
 				waiting[seq] = msg;
 		}
 
-		private void HandleRel(MessageReader msg)
+		private void HandleRel(MessageReader reader)
 		{
-			switch (msg.MessageType)
+			switch (reader.MessageType)
 			{
 				case RMSG_NEWWDG:
-				{
-					var args = WidgetCreateEvent.ReadFrom(msg);
-					Listener.CreateWidget(args);
+					Listener.Handle(reader.ReadWidgetCreateEvent());
 					break;
-				}
 				case RMSG_WDGMSG:
-				{
-					var args = WidgetMessage.ReadFrom(msg);
-					Listener.UpdateWidget(args);
+					Listener.Handle(reader.ReadWidgetMessageEvent());
 					break;
-				}
 				case RMSG_DSTWDG:
-					var widgetId = msg.ReadUint16();
-					Listener.DestroyWidget(widgetId);
+					Listener.Handle(reader.ReadWidgetDestroyEvent());
 					break;
 				case RMSG_MAPIV:
 				{
-					int type = msg.ReadByte();
+					int type = reader.ReadByte();
 					switch (type)
 					{
 						case 0:
-							Listener.InvalidateMap(msg.ReadCoord());
+							Listener.Handle(reader.ReadMapInvalidateGridEvent());
 							break;
 						case 1:
-							var ul = msg.ReadCoord();
-							var br = msg.ReadCoord();
-							Listener.InvalidateMap(ul, br);
+							Listener.Handle(reader.ReadMapInvalidateRegionEvent());
 							break;
 						case 2:
-							Listener.InvalidateMap();
+							Listener.Handle(new MapInvalidateEvent());
 							break;
 					}
 					break;
 				}
 				case RMSG_GLOBLOB:
-				{
-					while (!msg.IsEom)
+					while (!reader.IsEom)
 					{
-						switch (msg.ReadByte())
+						switch (reader.ReadByte())
 						{
 							case GMSG_TIME:
-								var time = msg.ReadInt32();
+								Listener.Handle(reader.ReadGameTimeUpdateEvent());
 								break;
 							case GMSG_ASTRO:
-								int dt = msg.ReadInt32();
-								int mp = msg.ReadInt32();
-								int yt = msg.ReadInt32();
-								var astronomy = new AstronomyEvent {
-									DayTime = Defix(dt),
-									MoonPhase = Defix(mp)
-								};
-								Listener.UpdateAstronomy(astronomy);
+								Listener.Handle(reader.ReadAstronomyUpdateEvent());
 								break;
 							case GMSG_LIGHT:
-								var amblight = msg.ReadColor();
-								Listener.UpdateAmbientLight(amblight);
+								Listener.Handle(reader.ReadAmbientLightUpdateEvent());
 								break;
 						}
 					}
 					break;
-				}
 				case RMSG_PAGINAE:
-					var actions = new List<ActionUpdateEvent>();
-					while (!msg.IsEom)
-					{
-						actions.Add(new ActionUpdateEvent
-						{
-							RemoveFlag = msg.ReadByte() == '-',
-							Resource = new ResourceRef(msg.ReadString(), msg.ReadUint16())
-						});
-					}
-					Listener.UpdateActions(actions);
+					Listener.Handle(reader.ReadGameActionsUpdateEvent());
 					break;
 				case RMSG_RESID:
-				{
-					var message = new ResourceLoadEvent {
-						Id = msg.ReadUint16(),
-						Name = msg.ReadString(),
-						Version = msg.ReadUint16()
-					};
-					Listener.LoadResource(message);
+					Listener.Handle(reader.ReadResourceLoadEvent());
 					break;
-				}
 				case RMSG_PARTY:
-					while (!msg.IsEom)
+					while (!reader.IsEom)
 					{
-						int type = msg.ReadByte();
+						int type = reader.ReadByte();
 						switch (type)
 						{
 							case PD_LIST:
-								var ids = new List<int>();
-								while(true)
-								{
-									int id = msg.ReadInt32();
-									if(id == -1)
-										break;
-									ids.Add(id);
-									Listener.UpdatePartyList(ids);
-								}
+								Listener.Handle(reader.ReadPartyUpdateEvent());
 								break;
 							case PD_LEADER:
-								var leaderId = msg.ReadInt32();
-								Listener.SetPartyLeader(leaderId);
+								Listener.Handle(reader.ReadPartyLeaderChangeEvent());
 								break;
 							case PD_MEMBER:
-								var memberId = msg.ReadInt32();
-								var visible = msg.ReadByte() == 1;
-								Point? location = null;
-								if (visible)
-									location = msg.ReadCoord();
-								var color = msg.ReadColor();
-								Listener.UpdatePartyMember(memberId, color, location);
+								Listener.Handle(reader.ReadPartyMemberUpdateEvent());
 								break;
 						}
 					}
 					break;
 				case RMSG_SFX:
-				{
-					var message = new SoundEvent {
-						ResourceId = msg.ReadUint16(),
-						Volume = msg.ReadUint16()/256.0,
-						Speed = msg.ReadUint16()/256.0
-					};
-					Listener.PlaySound(message);
+					Listener.Handle(reader.ReadPlaySoundEvent());
 					break;
-				}
 				case RMSG_CATTR:
-					var attributes = new List<CharAttrUpdateEvent>();
-					while (!msg.IsEom)
-					{
-						var attribute = new CharAttrUpdateEvent {
-							Name = msg.ReadString(),
-							BaseValue = msg.ReadInt32(),
-							CompValue = msg.ReadInt32()
-						};
-						attributes.Add(attribute);
-					}
-					Listener.UpdateCharAttributes(attributes);
+					Listener.Handle(reader.ReadCharAttributesUpdateEvent());
 					break;
 				case RMSG_MUSIC:
-					Listener.PlayMusic();
+					Listener.Handle(new PlayMusicEvent());
 					break;
 				case RMSG_TILES:
-					var messages = new List<TilesetLoadEvent>();
-					while (!msg.IsEom)
-					{
-						var message = new TilesetLoadEvent {
-							Id = msg.ReadByte(),
-							Name = msg.ReadString(),
-							Version = msg.ReadUint16()
-						};
-						messages.Add(message);
-					}
-					Listener.LoadTilesets(messages);
+					Listener.Handle(reader.ReadTilesetsLoadEvent());
 					break;
 				case RMSG_BUFF:
 				{
-					var message = msg.ReadString();
+					var message = reader.ReadString();
 					switch (message)
 					{
 						case "clear":
-							Listener.ClearBuffs();
+							Listener.Handle(new BuffClearEvent());
 							break;
 						case "rm":
-							int id = msg.ReadInt32();
-							Listener.RemoveBuff(id);
+							Listener.Handle(reader.ReadBuffRemoveEvent());
 							break;
 						case "set":
-							Listener.UpdateBuff(
-								new BuffUpdateEvent
-								{
-									Id = msg.ReadInt32(),
-									ResId = msg.ReadUint16(),
-									Tooltip = msg.ReadString(),
-									AMeter = msg.ReadInt32(),
-									NMeter = msg.ReadInt32(),
-									CMeter = msg.ReadInt32(),
-									CTicks = msg.ReadInt32(),
-									Major = msg.ReadByte() != 0
-								});
+							Listener.Handle(reader.ReadBuffUpdateEvent());
 							break;
 					}
 					break;
 				}
 				default:
-					throw new Exception("Unknown rmsg type: " + msg.MessageType);
+					throw new Exception("Unknown rmsg type: " + reader.MessageType);
 			}
 		}
 
-		private static double Defix(int i)
-		{
-			return i / 1e9;
-		}
-
 		// TODO: delete lingering fragments?
-		private void HandleMapData(MessageReader msg)
+		private void HandleMapData(MessageReader reader)
 		{
-			int packetId = msg.ReadInt32();
-			int offset = msg.ReadUint16();
-			int length = msg.ReadUint16();
+			int packetId = reader.ReadInt32();
+			int offset = reader.ReadUint16();
+			int length = reader.ReadUint16();
 
 			FragmentBuffer fragbuf;
 			if (mapFrags.Find(ref packetId, out fragbuf))
 			{
-				fragbuf.Add(offset, msg.Buffer, 8, msg.Length - 8);
+				fragbuf.Add(offset, reader.Buffer, 8, reader.Length - 8);
 				if (fragbuf.IsComplete)
 				{
 					mapFrags.Remove(packetId);
-					var mapData = GetMapData(new MessageReader(0, fragbuf.Content));
-					Listener.UpdateMap(mapData);
+					var fragReader = new MessageReader(0, fragbuf.Content);
+					Listener.Handle(fragReader.ReadMapUpdateEvent());
 				}
 			}
-			else if (offset != 0 || msg.Length - 8 < length)
+			else if (offset != 0 || reader.Length - 8 < length)
 			{
 				fragbuf = new FragmentBuffer(length);
-				fragbuf.Add(offset, msg.Buffer, 8, msg.Length - 8);
+				fragbuf.Add(offset, reader.Buffer, 8, reader.Length - 8);
 				mapFrags[packetId] = fragbuf;
 			}
 			else
 			{
-				var mapData = GetMapData(msg);
-				Listener.UpdateMap(mapData);
+				Listener.Handle(reader.ReadMapUpdateEvent());
 			}
 		}
 
-		private static MapUpdateEvent GetMapData(MessageReader reader)
+		private void HandleGobData(MessageReader reader)
 		{
-			var msg = new MapUpdateEvent {
-				Grid = reader.ReadCoord(),
-				MinimapName = reader.ReadString(),
-				Tiles = new byte[100 * 100],
-				Overlays = new int[100 * 100]
-			};
-
-			var pfl = new byte[256];
+			var ev = new GobUpdateEvent();
+			ev.ReplaceFlag = (reader.ReadByte() & 1) != 0;
+			ev.GobId = reader.ReadInt32();
+			ev.Frame = reader.ReadInt32();
 			while (true)
 			{
-				int pidx = reader.ReadByte();
-				if (pidx == 255)
-					break;
-				pfl[pidx] = reader.ReadByte();
-			}
-
-			var blob = Unpack(reader.Buffer, reader.Position, reader.Length - reader.Position);
-			Array.Copy(blob, msg.Tiles, msg.Tiles.Length);
-
-			reader = new MessageReader(0, blob);
-			reader.Position += msg.Tiles.Length;
-			while (true)
-			{
-				int pidx = reader.ReadByte();
-				if (pidx == 255)
-					break;
-				int fl = pfl[pidx];
-				int type = reader.ReadByte();
-				var c1 = new Point(reader.ReadByte(), reader.ReadByte());
-				var c2 = new Point(reader.ReadByte(), reader.ReadByte());
-
-				int ol;
-				if (type == 0)
-					ol = ((fl & 1) == 1) ? 2 : 1;
-				else if (type == 1)
-					ol = ((fl & 1) == 1) ? 8 : 4;
-				else
-				{
-					Log.Warn("Unknown plot type " + type);
-					continue;
-				}
-
-				for (int y = c1.Y; y <= c2.Y; y++)
-					for (int x = c1.X; x <= c2.X; x++)
-						msg.Overlays[y * 100 + x] |= ol;
-			}
-
-			return msg;
-		}
-
-		private static byte[] Unpack(byte[] input, int offset, int length)
-		{
-			var buf = new byte[4096];
-			var inflater = new Inflater();
-			using (var output = new MemoryStream())
-			{
-				inflater.SetInput(input, offset, length);
-				int n;
-				while ((n = inflater.Inflate(buf)) != 0)
-					output.Write(buf, 0, n);
-
-				if (!inflater.IsFinished)
-					throw new Exception("Got unterminated map blob");
-
-				return output.ToArray();
-			}
-		}
-
-		private void HandleObjData(MessageReader msg)
-		{
-			var gobData = new GobUpdateEvent();
-			gobData.ReplaceFlag = (msg.ReadByte() & 1) != 0;
-			gobData.GobId = msg.ReadInt32();
-			gobData.Frame = msg.ReadInt32();
-			while (true)
-			{
-				GobDelta delta;
-				int type = msg.ReadByte();
-				switch (type)
-				{
-					case OD_REM:
-						delta = new GobDelta.Clear();
-						break;
-					case OD_MOVE:
-						{
-							var pos = msg.ReadCoord();
-							delta = new GobDelta.Position { Value = pos };
-							break;
-						}
-					case OD_RES:
-						{
-							int resId = msg.ReadUint16();
-							byte[] spriteData;
-							if ((resId & 0x8000) != 0)
-							{
-								resId &= ~0x8000;
-								var len = msg.ReadByte();
-								spriteData = msg.ReadBytes(len);
-							}
-							else
-							{
-								spriteData = new byte[0];
-							}
-							delta = new GobDelta.Resource { Id = resId, SpriteData = spriteData };
-							break;
-						}
-					case OD_LINBEG:
-						delta = new GobDelta.StartMovement
-						{
-							Origin = msg.ReadCoord(),
-							Destination = msg.ReadCoord(),
-							TotalSteps = msg.ReadInt32()
-						};
-						break;
-					case OD_LINSTEP:
-						delta = new GobDelta.AdjustMovement { Step = msg.ReadInt32() };
-						break;
-					case OD_SPEECH:
-						delta = new GobDelta.Speech
-						{
-							Offset = msg.ReadCoord(),
-							Text = msg.ReadString()
-						};
-						break;
-					case OD_LAYERS:
-					case OD_AVATAR:
-						{
-							int baseResId = -1;
-							if (type == OD_LAYERS)
-								baseResId = msg.ReadUint16();
-							var layers = new List<int>();
-							while (true)
-							{
-								int layer = msg.ReadUint16();
-								if (layer == 65535)
-									break;
-								layers.Add(layer);
-							}
-							if (type == OD_LAYERS)
-								delta = new GobDelta.Layers
-								{
-									BaseResourceId = baseResId,
-									ResourceIds = layers.ToArray()
-								};
-							else
-								delta = new GobDelta.Avatar { ResourceIds = layers.ToArray() };
-							break;
-						}
-					case OD_DRAWOFF:
-						delta = new GobDelta.DrawOffset { Value = msg.ReadCoord() };
-						break;
-					case OD_LUMIN:
-						delta = new GobDelta.Light
-						{
-							Offset = msg.ReadCoord(),
-							Size = msg.ReadUint16(),
-							Intensity = msg.ReadByte()
-						};
-						break;
-					case OD_FOLLOW:
-						{
-							int oid = msg.ReadInt32();
-							if (oid != -1)
-							{
-								delta = new GobDelta.Follow
-								{
-									GobId = oid,
-									Szo = msg.ReadByte(),
-									Offset = msg.ReadCoord()
-								};
-							}
-							else
-								delta = new GobDelta.Follow { GobId = oid };
-							break;
-						}
-					case OD_HOMING:
-						{
-							int oid = msg.ReadInt32();
-							if (oid == -1)
-								delta = new GobDelta.Homing { GobId = oid };
-							else
-								delta = new GobDelta.Homing
-								{
-									GobId = oid,
-									Target = msg.ReadCoord(),
-									Velocity = msg.ReadUint16()
-								};
-							break;
-						}
-					case OD_OVERLAY:
-						{
-							int overlayId = msg.ReadInt32();
-							var prs = (overlayId & 1) != 0;
-							overlayId >>= 1;
-							int resId = msg.ReadUint16();
-							byte[] spriteData = null;
-
-							if (resId != 65535)
-							{
-								if ((resId & 0x8000) != 0)
-								{
-									resId &= ~0x8000;
-									var len = msg.ReadByte();
-									spriteData = msg.ReadBytes(len);
-								}
-								else
-									spriteData = new byte[0];
-							}
-							else
-								resId = -1;
-
-							delta = new GobDelta.Overlay
-							{
-								Id = overlayId,
-								IsPersistent = prs,
-								ResourceId = resId,
-								SpriteData = spriteData
-							};
-							break;
-						}
-					case OD_HEALTH:
-						delta = new GobDelta.Health { Value = msg.ReadByte() };
-						break;
-					case OD_BUDDY:
-						delta = new GobDelta.Buddy
-						{
-							Name = msg.ReadString(),
-							Group = msg.ReadByte(),
-							Type = msg.ReadByte()
-						};
-						break;
-					case OD_END:
-						delta = null;
-						break;
-					default:
-						// TODO: MessageException
-						throw new Exception("Unknown objdelta type: " + type);
-				}
+				var delta = ReadGobDelta(reader);
 				if (delta == null)
 					break;
-				gobData.Deltas.Add(delta);
+				ev.Deltas.Add(delta);
 			}
-			Listener.UpdateGob(gobData);
-			SendObjectAck(gobData.GobId, gobData.Frame);
+			Listener.Handle(ev);
+			SendObjectAck(ev.GobId, ev.Frame);
+		}
+
+		private GobDelta ReadGobDelta(MessageReader reader)
+		{
+			int type = reader.ReadByte();
+			switch (type)
+			{
+				case OD_REM:
+					return new GobDelta.Clear();
+				case OD_MOVE:
+					return reader.ReadGobPosition();
+				case OD_RES:
+					return reader.ReadGobResource();
+				case OD_LINBEG:
+					return reader.ReadGobStartMovement();
+				case OD_LINSTEP:
+					return reader.ReadGobAdjustMovement();
+				case OD_SPEECH:
+					return reader.ReadGobSpeech();
+				case OD_LAYERS:
+					return reader.ReadGobLayers();
+				case OD_AVATAR:
+					return reader.ReadGobAvatar();
+				case OD_DRAWOFF:
+					return reader.ReadGobDrawOffset();
+				case OD_LUMIN:
+					return reader.ReadGobLight();
+				case OD_FOLLOW:
+					return reader.ReadGobFollow();
+				case OD_HOMING:
+					return reader.ReadGobHoming();
+				case OD_OVERLAY:
+					return reader.ReadGobOverlay();
+				case OD_HEALTH:
+					return reader.ReadGobHealth();
+				case OD_BUDDY:
+					return reader.ReadGobBuddy();
+				case OD_END:
+					return null;
+				default:
+					// TODO: MessageException
+					throw new Exception("Unknown objdelta type: " + type);
+			}
 		}
 
 		private void OnTaskFinished(object sender, EventArgs args)
@@ -735,13 +448,13 @@ namespace SharpHaven.Net
 			socket.SendMessage(msg);
 		}
 
-		public void MessageWidget(WidgetMessage wmsg)
+		public void MessageWidget(ushort widgetId, string name, object[] args)
 		{
 			var message = new Message(RMSG_WDGMSG)
-				.Uint16(wmsg.Id)
-				.String(wmsg.Name);
-			if (wmsg.Args != null)
-				message.List(wmsg.Args);
+				.Uint16(widgetId)
+				.String(name);
+			if (args != null)
+				message.List(args);
 			sender.SendMessage(message);
 		}
 	}

@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Drawing;
 using SharpHaven.Game.Events;
 
 namespace SharpHaven.Game
@@ -23,142 +22,142 @@ namespace SharpHaven.Game
 			listeners.Remove(listener);
 		}
 
-		public void CreateWidget(WidgetCreateEvent args)
+		public void Handle(WidgetCreateEvent args)
 		{
 			foreach (var listener in listeners)
-				listener.CreateWidget(args);
+				listener.Handle(args);
 		}
 
-		public void UpdateWidget(WidgetMessage args)
+		public void Handle(WidgetMessageEvent args)
 		{
 			foreach (var listener in listeners)
-				listener.UpdateWidget(args);
+				listener.Handle(args);
 		}
 
-		public void DestroyWidget(ushort widgetId)
+		public void Handle(WidgetDestroyEvent args)
 		{
 			foreach (var listener in listeners)
-				listener.DestroyWidget(widgetId);
+				listener.Handle(args);
 		}
 
-		public void LoadResource(ResourceLoadEvent args)
+		public void Handle(ResourceLoadEvent args)
 		{
 			foreach (var listener in listeners)
-				listener.LoadResource(args);
+				listener.Handle(args);
 		}
 
-		public void LoadTilesets(IEnumerable<TilesetLoadEvent> args)
+		public void Handle(TilesetsLoadEvent args)
 		{
 			foreach (var listener in listeners)
-				listener.LoadTilesets(args);
+				listener.Handle(args);
 		}
 
-		public void InvalidateMap()
+		public void Handle(MapInvalidateEvent args)
 		{
 			foreach (var listener in listeners)
-				listener.InvalidateMap();
+				listener.Handle(args);
 		}
 
-		public void InvalidateMap(Point gc)
+		public void Handle(MapInvalidateGridEvent args)
 		{
 			foreach (var listener in listeners)
-				listener.InvalidateMap(gc);
+				listener.Handle(args);
 		}
 
-		public void InvalidateMap(Point ul, Point br)
+		public void Handle(MapInvalidateRegionEvent args)
 		{
 			foreach (var listener in listeners)
-				listener.InvalidateMap(ul, br);
+				listener.Handle(args);
 		}
 
-		public void UpdateCharAttributes(IEnumerable<CharAttrUpdateEvent> attributes)
+		public void Handle(CharAttributesUpdateEvent args)
 		{
 			foreach (var listener in listeners)
-				listener.UpdateCharAttributes(attributes);
+				listener.Handle(args);
 		}
 
-		public void UpdateTime(int time)
+		public void Handle(GameTimeUpdateEvent args)
 		{
 			foreach (var listener in listeners)
-				listener.UpdateTime(time);
+				listener.Handle(args);
 		}
 
-		public void UpdateAmbientLight(Color color)
+		public void Handle(AmbientLightUpdateEvent args)
 		{
 			foreach (var listener in listeners)
-				listener.UpdateAmbientLight(color);
+				listener.Handle(args);
 		}
 
-		public void UpdateAstronomy(AstronomyEvent args)
+		public void Handle(AstronomyUpdateEvent args)
 		{
 			foreach (var listener in listeners)
-				listener.UpdateAstronomy(args);
+				listener.Handle(args);
 		}
 
-		public void UpdateActions(IEnumerable<ActionUpdateEvent> actions)
+		public void Handle(GameActionsUpdateEvent args)
 		{
 			foreach (var listener in listeners)
-				listener.UpdateActions(actions);
+				listener.Handle(args);
 		}
 
-		public void UpdateGob(GobUpdateEvent args)
+		public void Handle(GobUpdateEvent args)
 		{
 			foreach (var listener in listeners)
-				listener.UpdateGob(args);
+				listener.Handle(args);
 		}
 
-		public void UpdateMap(MapUpdateEvent args)
+		public void Handle(MapUpdateEvent args)
 		{
 			foreach (var listener in listeners)
-				listener.UpdateMap(args);
+				listener.Handle(args);
 		}
 
-		public void UpdateBuff(BuffUpdateEvent args)
+		public void Handle(BuffUpdateEvent args)
 		{
 			foreach (var listener in listeners)
-				listener.UpdateBuff(args);
+				listener.Handle(args);
 		}
 
-		public void RemoveBuff(int buffId)
+		public void Handle(BuffRemoveEvent args)
 		{
 			foreach (var listener in listeners)
-				listener.RemoveBuff(buffId);
+				listener.Handle(args);
 		}
 
-		public void ClearBuffs()
+		public void Handle(BuffClearEvent args)
 		{
 			foreach (var listener in listeners)
-				listener.ClearBuffs();
+				listener.Handle(args);
 		}
 
-		public void SetPartyLeader(int leaderId)
+		public void Handle(PartyLeaderChangeEvent args)
 		{
 			foreach (var listener in listeners)
-				listener.SetPartyLeader(leaderId);
+				listener.Handle(args);
 		}
 
-		public void UpdatePartyList(List<int> memberIds)
+		public void Handle(PartyUpdateEvent args)
 		{
 			foreach (var listener in listeners)
-				listener.UpdatePartyList(memberIds);
+				listener.Handle(args);
 		}
 
-		public void UpdatePartyMember(int memberId, Color color, Point? location)
+		public void Handle(PartyMemberUpdateEvent args)
 		{
 			foreach (var listener in listeners)
-				listener.UpdatePartyMember(memberId, color, location);
+				listener.Handle(args);
 		}
 
-		public void PlaySound(SoundEvent args)
+		public void Handle(PlaySoundEvent args)
 		{
 			foreach (var listener in listeners)
-				listener.PlaySound(args);
+				listener.Handle(args);
 		}
 
-		public void PlayMusic()
+		public void Handle(PlayMusicEvent args)
 		{
 			foreach (var listener in listeners)
-				listener.PlayMusic();
+				listener.Handle(args);
 		}
 
 		public void Exit()

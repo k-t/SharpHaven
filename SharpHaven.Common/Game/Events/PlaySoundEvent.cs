@@ -1,6 +1,6 @@
 ﻿namespace SharpHaven.Game.Events
 {
-	public class ResourceLoadEvent
+	public class PlaySoundEvent
 	{
 		public ushort ResourceId
 		{
@@ -8,13 +8,13 @@
 			set;
 		}
 
-		public string Name
+		public double Volume
 		{
 			get;
 			set;
 		}
 
-		public ushort Version
+		public double Speed
 		{
 			get;
 			set;

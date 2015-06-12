@@ -1,40 +1,38 @@
-﻿using System.Collections.Generic;
-using System.Drawing;
-using SharpHaven.Game.Events;
+﻿using SharpHaven.Game.Events;
 
 namespace SharpHaven.Game
 {
 	public interface IGameEventListener
 	{
-		void CreateWidget(WidgetCreateEvent args);
-		void UpdateWidget(WidgetMessage args);
-		void DestroyWidget(ushort widgetId);
+		void Handle(AmbientLightUpdateEvent args);
+		void Handle(AstronomyUpdateEvent args);
+		void Handle(CharAttributesUpdateEvent args);
+		void Handle(GameActionsUpdateEvent args);
+		void Handle(GameTimeUpdateEvent args);
+		void Handle(GobUpdateEvent args);
 
-		void LoadResource(ResourceLoadEvent args);
-		void LoadTilesets(IEnumerable<TilesetLoadEvent> args);
+		void Handle(BuffUpdateEvent args);
+		void Handle(BuffRemoveEvent args);
+		void Handle(BuffClearEvent args);
 
-		void InvalidateMap();
-		void InvalidateMap(Point gc);
-		void InvalidateMap(Point ul, Point br);
+		void Handle(MapInvalidateEvent args);
+		void Handle(MapInvalidateGridEvent args);
+		void Handle(MapInvalidateRegionEvent args);
+		void Handle(MapUpdateEvent args);
 
-		void UpdateCharAttributes(IEnumerable<CharAttrUpdateEvent> attributes);
-		void UpdateTime(int time);
-		void UpdateAmbientLight(Color color);
-		void UpdateAstronomy(AstronomyEvent astronomy);
-		void UpdateActions(IEnumerable<ActionUpdateEvent> actions);
-		void UpdateGob(GobUpdateEvent args);
-		void UpdateMap(MapUpdateEvent args);
+		void Handle(PartyLeaderChangeEvent args);
+		void Handle(PartyUpdateEvent args);
+		void Handle(PartyMemberUpdateEvent args);
 
-		void UpdateBuff(BuffUpdateEvent args);
-		void RemoveBuff(int buffId);
-		void ClearBuffs();
+		void Handle(PlaySoundEvent args);
+		void Handle(PlayMusicEvent args);
 
-		void SetPartyLeader(int leaderId);
-		void UpdatePartyList(List<int> memberIds);
-		void UpdatePartyMember(int memberId, Color color, Point? location);
+		void Handle(WidgetCreateEvent args);
+		void Handle(WidgetMessageEvent args);
+		void Handle(WidgetDestroyEvent args);
 
-		void PlaySound(SoundEvent args);
-		void PlayMusic();
+		void Handle(ResourceLoadEvent args);
+		void Handle(TilesetsLoadEvent args);
 
 		void Exit();
 	}

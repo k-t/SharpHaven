@@ -96,13 +96,13 @@ namespace SharpHaven.Game
 				}
 		}
 
-		public void BindTileset(TilesetLoadEvent message)
+		public void BindTileset(TilesetBinding binding)
 		{
-			var tileset = App.Resources.Get<Tileset>(message.Name);
-			tilesets[message.Id] = tileset;
+			var tileset = App.Resources.Get<Tileset>(binding.Name);
+			tilesets[binding.Id] = tileset;
 		}
 
-		public void InvalidateRange(Point ul, Point br)
+		public void InvalidateRegion(Rectangle region)
 		{
 			// TODO:
 		}

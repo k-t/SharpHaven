@@ -1,8 +1,8 @@
 ﻿namespace SharpHaven.Game.Events
 {
-	public class ResourceLoadEvent
+	public class WidgetMessageEvent
 	{
-		public ushort ResourceId
+		public ushort WidgetId
 		{
 			get;
 			set;
@@ -14,7 +14,7 @@
 			set;
 		}
 
-		public ushort Version
+		public object[] Args
 		{
 			get;
 			set;

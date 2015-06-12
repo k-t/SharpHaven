@@ -65,7 +65,7 @@ namespace SharpHaven.Game
 
 		public void SendMessage(ushort widgetId, string name, object[] args)
 		{
-			game.MessageWidget(new WidgetMessage(widgetId, name, args));
+			game.MessageWidget(widgetId, name, args);
 		}
 
 		#region Resource Management
@@ -118,7 +118,7 @@ namespace SharpHaven.Game
 
 		#region IGameEventListener implementation
 
-		void IGameEventListener.CreateWidget(WidgetCreateEvent args)
+		void IGameEventListener.Handle(WidgetCreateEvent args)
 		{
 			App.QueueOnMainThread(() =>
 			{
@@ -135,116 +135,116 @@ namespace SharpHaven.Game
 			});
 		}
 
-		void IGameEventListener.UpdateWidget(WidgetMessage args)
+		void IGameEventListener.Handle(WidgetMessageEvent args)
 		{
 			App.QueueOnMainThread(() =>
 			{
-				var widget = widgets.Get(args.Id);
+				var widget = widgets.Get(args.WidgetId);
 				if (widget != null)
 					widget.HandleMessage(args.Name, args.Args);
 				else
 					Log.Warn("UI message {1} to non-existent widget {0}",
-						args.Id, args.Name);
+						args.WidgetId, args.Name);
 			});
 		}
 
-		void IGameEventListener.DestroyWidget(ushort widgetId)
+		void IGameEventListener.Handle(WidgetDestroyEvent args)
 		{
-			App.QueueOnMainThread(() => widgets.Remove(widgetId));
+			App.QueueOnMainThread(() => widgets.Remove(args.WidgetId));
 		}
 
-		void IGameEventListener.LoadResource(ResourceLoadEvent args)
+		void IGameEventListener.Handle(ResourceLoadEvent args)
 		{
-			App.QueueOnMainThread(() => resources[args.Id] = args.Name);
+			App.QueueOnMainThread(() => resources[args.ResourceId] = args.Name);
 		}
 
-		void IGameEventListener.LoadTilesets(IEnumerable<TilesetLoadEvent> args)
+		void IGameEventListener.Handle(TilesetsLoadEvent args)
 		{
 			App.QueueOnMainThread(() =>
 			{
-				foreach (var binding in args)
+				foreach (var binding in args.Tilesets)
 					State.Map.BindTileset(binding);
 			});
 		}
 
-		void IGameEventListener.InvalidateMap()
+		void IGameEventListener.Handle(MapInvalidateEvent args)
 		{
 			App.QueueOnMainThread(() => State.Map.InvalidateAll());
 		}
 
-		void IGameEventListener.InvalidateMap(Point gc)
+		void IGameEventListener.Handle(MapInvalidateGridEvent args)
 		{
-			App.QueueOnMainThread(() => RequestGrid(gc));
+			App.QueueOnMainThread(() => RequestGrid(args.Coord));
 		}
 
-		void IGameEventListener.InvalidateMap(Point ul, Point br)
+		void IGameEventListener.Handle(MapInvalidateRegionEvent args)
 		{
-			App.QueueOnMainThread(() => State.Map.InvalidateRange(ul, br));
+			App.QueueOnMainThread(() => State.Map.InvalidateRegion(args.Region));
 		}
 
-		void IGameEventListener.UpdateCharAttributes(IEnumerable<CharAttrUpdateEvent> attributes)
+		void IGameEventListener.Handle(CharAttributesUpdateEvent args)
 		{
 			App.QueueOnMainThread(() =>
 			{
-				foreach (var attr in attributes)
-					State.SetAttr(attr.Name, attr.BaseValue, attr.CompValue);
+				foreach (var attr in args.Attributes)
+					State.SetAttr(attr.Name, attr.BaseValue, attr.ModifiedValue);
 			});
 		}
 
-		void IGameEventListener.UpdateTime(int time)
+		void IGameEventListener.Handle(GameTimeUpdateEvent args)
 		{
 			Log.Info("UpdateTime");
 		}
 
-		void IGameEventListener.UpdateAmbientLight(Color color)
+		void IGameEventListener.Handle(AmbientLightUpdateEvent args)
 		{
 			Log.Info("UpdateAmbientLight");
 		}
 
-		void IGameEventListener.UpdateAstronomy(AstronomyEvent astonomy)
+		void IGameEventListener.Handle(AstronomyUpdateEvent astonomy)
 		{
 			App.QueueOnMainThread(() => state.Time = new GameTime(astonomy.DayTime, astonomy.MoonPhase));
 		}
 
-		void IGameEventListener.UpdateActions(IEnumerable<ActionUpdateEvent> actions)
+		void IGameEventListener.Handle(GameActionsUpdateEvent args)
 		{
 			App.QueueOnMainThread(() =>
 			{
-				foreach (var action in actions)
-					if (action.RemoveFlag)
-						State.Actions.Remove(action.Resource.Name);
-					else
-						State.Actions.Add(action.Resource.Name);
+				foreach (var action in args.Removed)
+					State.Actions.Remove(action.Name);
+
+				foreach (var action in args.Added)
+					State.Actions.Add(action.Name);
 			});
 		}
 
-		void IGameEventListener.SetPartyLeader(int leaderId)
+		void IGameEventListener.Handle(PartyLeaderChangeEvent args)
 		{
 			App.QueueOnMainThread(() =>
 			{
-				State.Party.LeaderId = leaderId;
+				State.Party.LeaderId = args.LeaderId;
 			});
 		}
 
-		void IGameEventListener.UpdatePartyList(List<int> memberIds)
+		void IGameEventListener.Handle(PartyUpdateEvent args)
 		{
-			App.QueueOnMainThread(() => State.Party.Update(memberIds));
+			App.QueueOnMainThread(() => State.Party.Update(args.MemberIds));
 		}
 
-		void IGameEventListener.UpdatePartyMember(int memberId, Color color, Point? location)
+		void IGameEventListener.Handle(PartyMemberUpdateEvent args)
 		{
 			App.QueueOnMainThread(() =>
 			{
-				var member = State.Party.GetMember(memberId);
+				var member = State.Party.GetMember(args.MemberId);
 				if (member != null)
 				{
-					member.Color = color;
-					member.Location = location;
+					member.Color = args.Color;
+					member.Location = args.Location;
 				}
 			});
 		}
 
-		void IGameEventListener.UpdateGob(GobUpdateEvent args)
+		void IGameEventListener.Handle(GobUpdateEvent args)
 		{
 			App.QueueOnMainThread(() =>
 			{
@@ -253,7 +253,7 @@ namespace SharpHaven.Game
 			});
 		}
 
-		void IGameEventListener.UpdateMap(MapUpdateEvent message)
+		void IGameEventListener.Handle(MapUpdateEvent message)
 		{
 			App.QueueOnMainThread(() =>
 			{
@@ -262,13 +262,13 @@ namespace SharpHaven.Game
 			});
 		}
 
-		void IGameEventListener.PlaySound(SoundEvent args)
+		void IGameEventListener.Handle(PlaySoundEvent args)
 		{
 			var res = GetResource(args.ResourceId);
 			App.Audio.Play(res);
 		}
 
-		void IGameEventListener.PlayMusic()
+		void IGameEventListener.Handle(PlayMusicEvent args)
 		{
 			Log.Info("PlayMusic");
 		}
@@ -278,25 +278,25 @@ namespace SharpHaven.Game
 			App.QueueOnMainThread(Finish);
 		}
 
-		void IGameEventListener.UpdateBuff(BuffUpdateEvent args)
+		void IGameEventListener.Handle(BuffUpdateEvent args)
 		{
 			App.QueueOnMainThread(() =>
 			{
-				var buff = new Buff(args.Id, Get<BuffMold>(args.ResId));
+				var buff = new Buff(args.Id, Get<BuffMold>(args.ResourceId));
 				buff.Amount = args.AMeter;
-				buff.IsMajor = args.Major;
+				buff.IsMajor = args.IsMajor;
 				if (!string.IsNullOrEmpty(args.Tooltip))
 					buff.Tooltip = args.Tooltip;
 				State.UpdateBuff(buff);
 			});
 		}
 
-		void IGameEventListener.RemoveBuff(int buffId)
+		void IGameEventListener.Handle(BuffRemoveEvent args)
 		{
-			App.QueueOnMainThread(() => State.RemoveBuff(buffId));
+			App.QueueOnMainThread(() => State.RemoveBuff(args.BuffId));
 		}
 
-		void IGameEventListener.ClearBuffs()
+		void IGameEventListener.Handle(BuffClearEvent args)
 		{
 			App.QueueOnMainThread(() => State.ClearBuffs());
 		}

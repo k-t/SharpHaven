@@ -42,9 +42,9 @@ namespace SharpHaven.Net
 			connection.RequestMap(x, y);
 		}
 
-		public void MessageWidget(WidgetMessage message)
+		public void MessageWidget(ushort widgetId, string name, object[] args)
 		{
-			connection.MessageWidget(message);
+			connection.MessageWidget(widgetId, name, args);
 		}
 	}
 }

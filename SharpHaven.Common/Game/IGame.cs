@@ -1,5 +1,4 @@
 ﻿using System;
-using SharpHaven.Game.Events;
 
 namespace SharpHaven.Game
 {
@@ -12,6 +11,6 @@ namespace SharpHaven.Game
 		void AddListener(IGameEventListener listener);
 		void RemoveListener(IGameEventListener listener);
 		void RequestMap(int x, int y);
-		void MessageWidget(WidgetMessage message);
+		void MessageWidget(ushort widgetId, string name, object[] args);
 	}
 }
