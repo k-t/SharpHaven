@@ -28,7 +28,7 @@ namespace SharpHaven.UI.Remote
 
 		protected override void OnInit(Point position, object[] args)
 		{
-			widget = new Equipory(Parent.Widget, Parent.Session.State.Objects);
+			widget = new Equipory(Parent.Widget, Parent.Session.Objects);
 			widget.Move(position);
 			widget.Drop += (slot) => SendMessage("drop", slot);
 			widget.ItemTake += (slot, p) => SendMessage("take", slot, p);

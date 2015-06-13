@@ -35,7 +35,7 @@ namespace SharpHaven
 		private void OnLoginCompleted(ClientSession session)
 		{
 			this.session = session;
-			gameScreen = session.State.Screen;
+			gameScreen = session.Screen;
 			gameScreen.Closed += OnGameExited;
 
 			ChangeScreen(gameScreen);
@@ -81,7 +81,7 @@ namespace SharpHaven
 			current.Update(dt);
 
 			if (session != null)
-				session.State.Objects.Tick(dt);
+				session.Objects.Tick(dt);
 		}
 
 		void IScreen.MouseButtonDown(MouseButtonEvent e)

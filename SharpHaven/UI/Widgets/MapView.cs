@@ -72,7 +72,7 @@ namespace SharpHaven.UI.Widgets
 			set;
 		}
 
-		public ClientState State
+		public ClientSession Session
 		{
 			get;
 			set;
@@ -80,13 +80,13 @@ namespace SharpHaven.UI.Widgets
 
 		private Point CameraOffset
 		{
-			get { return Geometry.MapToScreen(State.WorldPosition); }
-			set { State.WorldPosition = Geometry.ScreenToMap(value); }
+			get { return Geometry.MapToScreen(Session.WorldPosition); }
+			set { Session.WorldPosition = Geometry.ScreenToMap(value); }
 		}
 
 		public void Place(ISprite sprite, bool snapToTile, int? radius)
 		{
-			if (State == null)
+			if (Session == null)
 				throw new InvalidOperationException();
 
 			placeOnTile = snapToTile;
@@ -97,15 +97,15 @@ namespace SharpHaven.UI.Widgets
 			var mc = Geometry.ScreenToMap(ToAbsolute(Host.MousePosition));
 			placeGob.Position = placeOnTile ? Geometry.Tilify(mc) : mc;
 
-			State.Objects.AddLocal(placeGob);
+			Session.Objects.AddLocal(placeGob);
 		}
 
 		public void Unplace()
 		{
-			if (State == null)
+			if (Session == null)
 				throw new InvalidOperationException();
 
-			State.Objects.RemoveLocal(placeGob);
+			Session.Objects.RemoveLocal(placeGob);
 			placeGob = null;
 		}
 
@@ -131,7 +131,7 @@ namespace SharpHaven.UI.Widgets
 
 		protected override void OnDraw(DrawingContext dc)
 		{
-			if (State == null)
+			if (Session == null)
 				return;
 
 			RequestMaps();
@@ -172,7 +172,7 @@ namespace SharpHaven.UI.Widgets
 		{
 			if (PlayerId != -1)
 			{
-				var player = State.Objects.Get(PlayerId);
+				var player = Session.Objects.Get(PlayerId);
 				var ul = Geometry.MapToGrid(player.Position.Add(-500));
 				var br = Geometry.MapToGrid(player.Position.Add(500));
 				for (int y = ul.Y; y <= br.Y; y++)
@@ -202,7 +202,7 @@ namespace SharpHaven.UI.Widgets
 
 		private void DrawTile(DrawingContext g, int tx, int ty)
 		{
-			var tile = State.Map.GetTile(tx, ty);
+			var tile = Session.Map.GetTile(tx, ty);
 			if (tile == null)
 				return;
 			// determine screen position
@@ -223,13 +223,13 @@ namespace SharpHaven.UI.Widgets
 				{
 					int dx = border.Item1.X;
 					int dy = border.Item1.Y;
-					var btile = State.Map.GetTile(tx + dx, ty + dy);
+					var btile = Session.Map.GetTile(tx + dx, ty + dy);
 					if (btile != null && !btile.Overlays.Contains(overlayIndex))
 						g.Draw(border.Item2, sc.X, sc.Y);
 				}
 				g.ResetColor();
 			}
-			foreach (var mapOverlay in State.Map.Overlays.Where(x => x.Bounds.Contains(tx, ty)))
+			foreach (var mapOverlay in Session.Map.Overlays.Where(x => x.Bounds.Contains(tx, ty)))
 			{
 				var color = overlayColors[mapOverlay.Index];
 				g.SetColor(color);
@@ -247,7 +247,7 @@ namespace SharpHaven.UI.Widgets
 
 		private void DrawScene(DrawingContext g)
 		{
-			State.Scene.Draw(g, Width / 2 - CameraOffset.X, Height / 2 - CameraOffset.Y);
+			Session.Scene.Draw(g, Width / 2 - CameraOffset.X, Height / 2 - CameraOffset.Y);
 		}
 
 		protected override void OnKeyDown(KeyEvent e)
@@ -271,8 +271,8 @@ namespace SharpHaven.UI.Widgets
 				case Key.Keypad7:
 					if (PlayerId != -1)
 					{
-						var player = State.Objects.Get(PlayerId);
-						State.WorldPosition = player.Position;
+						var player = Session.Objects.Get(PlayerId);
+						Session.WorldPosition = player.Position;
 					}
 					break;
 				default:
@@ -284,12 +284,12 @@ namespace SharpHaven.UI.Widgets
 
 		protected override void OnMouseButtonDown(MouseButtonEvent e)
 		{
-			if (State == null)
+			if (Session == null)
 				return;
 
 			var sc = ToAbsolute(e.Position);
 			var mc = Geometry.ScreenToMap(sc);
-			var gob = State.Scene.GetObjectAt(sc);
+			var gob = Session.Scene.GetObjectAt(sc);
 
 			if (e.Button == MouseButton.Middle)
 			{
@@ -301,7 +301,7 @@ namespace SharpHaven.UI.Widgets
 			else if (placeGob != null)
 			{
 				Placed.Raise(new MapPlaceEvent(e, placeGob.Position));
-				State.Objects.RemoveLocal(placeGob);
+				Session.Objects.RemoveLocal(placeGob);
 				placeGob = null;
 			}
 			else
@@ -313,7 +313,7 @@ namespace SharpHaven.UI.Widgets
 
 		protected override void OnMouseButtonUp(MouseButtonEvent e)
 		{
-			if (State == null)
+			if (Session == null)
 				return;
 
 			if (e.Button == MouseButton.Middle)
@@ -326,7 +326,7 @@ namespace SharpHaven.UI.Widgets
 
 		protected override void OnMouseMove(MouseMoveEvent e)
 		{
-			if (State == null)
+			if (Session == null)
 				return;
 
 			if (dragging)
@@ -381,12 +381,12 @@ namespace SharpHaven.UI.Widgets
 
 		bool IItemDropTarget.Interact(Point p, Point ul, KeyModifiers mods)
 		{
-			if (State == null)
+			if (Session == null)
 				return false;
 
 			var sc = ToAbsolute(p);
 			var mc = Geometry.ScreenToMap(sc);
-			var gob = State.Scene.GetObjectAt(sc);
+			var gob = Session.Scene.GetObjectAt(sc);
 			ItemInteract.Raise(new MapClickEvent(0, mods, mc, p, gob));
 			return true;
 		}

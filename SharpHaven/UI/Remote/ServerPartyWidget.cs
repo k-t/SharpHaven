@@ -23,10 +23,10 @@ namespace SharpHaven.UI.Remote
 
 		protected override void OnInit(Point position, object[] args)
 		{
-			widget = new PartyWidget(Parent.Widget, Session.State.Objects);
+			widget = new PartyWidget(Parent.Widget, Session.Objects);
 			widget.Move(position);
 			widget.PlayerId = (int)args[0];
-			widget.Party = Session.State.Party;
+			widget.Party = Session.Party;
 			widget.Leave += () => SendMessage("leave");
 			widget.PartyMemberClick += OnPartyMemberClick;
 		}

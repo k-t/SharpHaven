@@ -23,15 +23,15 @@ namespace SharpHaven.UI.Remote
 
 		protected override void OnInit(Point position, object[] args)
 		{
-			widget = Session.State.Screen.Calendar;
+			widget = Session.Screen.Calendar;
 			widget.Visible = true;
-			widget.State = Session.State;
+			widget.Session = Session;
 		}
 
 		protected override void OnDestroy()
 		{
 			widget.Visible = false;
-			widget.State = null;
+			widget.Session = null;
 		}
 	}
 }

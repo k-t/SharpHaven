@@ -35,7 +35,7 @@ namespace SharpHaven.UI.Remote
 
 			overlay = new MapOverlay(16);
 			overlay.Bounds = area;
-			Session.State.Map.Overlays.Add(overlay);
+			Session.Map.Overlays.Add(overlay);
 
 			widget = new ClaimWindow(Parent.Widget, area);
 			widget.Move(position);
@@ -48,7 +48,7 @@ namespace SharpHaven.UI.Remote
 
 		protected override void OnDestroy()
 		{
-			Session.State.Map.Overlays.Remove(overlay);
+			Session.Map.Overlays.Remove(overlay);
 		}
 
 		private void UpdateArea(object[] args)

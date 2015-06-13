@@ -138,7 +138,6 @@
       <DependentUpon>VertexShaderTemplate.tt</DependentUpon>
     </Compile>
     <Compile Include="Fonts.cs" />
-    <Compile Include="Client\ClientState.cs" />
     <Compile Include="Client\Map.cs" />
     <Compile Include="Client\MapGrid.cs" />
     <Compile Include="Client\MapTile.cs" />

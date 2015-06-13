@@ -32,12 +32,12 @@ namespace SharpHaven.UI.Remote
 			var worldpos = (Point)args[1];
 			var playerId = args.Length > 2 ? (int)args[2] : -1;
 
-			Session.State.WorldPosition = worldpos;
+			Session.WorldPosition = worldpos;
 
-			widget = Session.State.Screen.MapView;
+			widget = Session.Screen.MapView;
 			widget.Visible = true;
 			widget.PlayerId = playerId;
-			widget.State = Session.State;
+			widget.Session = Session;
 			widget.MapClick += OnMapClick;
 			widget.Placed += OnPlaced;
 			widget.ItemDrop += OnItemDrop;
@@ -48,12 +48,12 @@ namespace SharpHaven.UI.Remote
 		protected override void OnDestroy()
 		{
 			widget.Visible = false;
-			widget.State = null;
+			widget.Session = null;
 		}
 
 		private void SetWorldPosition(object[] args)
 		{
-			Session.State.WorldPosition = (Point)args[0];
+			Session.WorldPosition = (Point)args[0];
 		}
 
 		private void Place(object[] args)

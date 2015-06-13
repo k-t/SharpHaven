@@ -23,7 +23,7 @@ namespace SharpHaven.UI.Remote
 
 		protected override void OnInit(Point position, object[] args)
 		{
-			widget = new Bufflist(Parent.Widget, Parent.Session.State);
+			widget = new Bufflist(Parent.Widget, Parent.Session);
 			widget.Move(position);
 		}
 	}

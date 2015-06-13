@@ -28,7 +28,7 @@ namespace SharpHaven.UI.Remote
 
 		protected override void OnInit(Point position, object[] args)
 		{
-			widget = new Hud(Parent.Widget, Parent.Session.State);
+			widget = new Hud(Parent.Widget, Session);
 			widget.Menu.ButtonClick += OnMenuButtonClick;
 			widget.Belt.Click += OnBeltClick;
 			widget.Belt.Set += OnBeltSet;

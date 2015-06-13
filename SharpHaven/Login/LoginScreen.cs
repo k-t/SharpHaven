@@ -5,6 +5,7 @@ using SharpHaven.Client;
 using SharpHaven.Graphics;
 using SharpHaven.Graphics.Text;
 using SharpHaven.Input;
+using SharpHaven.Net;
 using SharpHaven.UI;
 using SharpHaven.UI.Widgets;
 using Image = SharpHaven.UI.Widgets.Image;
@@ -198,7 +199,16 @@ namespace SharpHaven.Login
 		{
 			if (authResult.IsSuccessful)
 			{
-				LoginCompleted.Raise(authResult.Session);
+				var settings = new NetworkGameSettings {
+					Host = App.Config.GameHost,
+					Port = App.Config.GamePort,
+					UserName = authResult.UserName,
+					Cookie = authResult.Cookie
+				};
+				var game = new NetworkGame(settings);
+				var session = new ClientSession(game);
+				session.Start();
+				LoginCompleted.Raise(session);
 				GotoInitialPage();
 			}
 			else

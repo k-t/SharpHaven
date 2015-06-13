@@ -17,7 +17,7 @@ namespace SharpHaven.UI.Widgets
 		private static readonly Drawable frame;
 		private static readonly Drawable cframe;
 
-		private readonly ClientState gstate;
+		private readonly ClientSession session;
 		private readonly Dictionary<int, BuffWidget> widgets;
 
 		static Bufflist()
@@ -26,10 +26,10 @@ namespace SharpHaven.UI.Widgets
 			cframe = App.Resources.Get<Drawable>("gfx/hud/buffs/cframe");
 		}
 
-		public Bufflist(Widget parent, ClientState gstate) : base(parent)
+		public Bufflist(Widget parent, ClientSession session) : base(parent)
 		{
-			this.gstate = gstate;
-			this.gstate.BuffUpdated += Update;
+			this.session = session;
+			this.session.BuffUpdated += Update;
 			this.widgets = new Dictionary<int, BuffWidget>();
 			Resize(Num * frame.Width + (Num - 1) * Spacing, cframe.Height);
 			Update();
@@ -37,7 +37,7 @@ namespace SharpHaven.UI.Widgets
 
 		protected override void OnDispose()
 		{
-			gstate.BuffUpdated -= Update;
+			session.BuffUpdated -= Update;
 		}
 
 		private void Update()
@@ -46,7 +46,7 @@ namespace SharpHaven.UI.Widgets
 			var layout = new GridLayout();
 			
 			int i = 0;
-			foreach (var buff in gstate.Buffs)
+			foreach (var buff in session.Buffs)
 			{
 				if (!buff.IsMajor) continue;
 

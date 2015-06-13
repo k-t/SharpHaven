@@ -17,31 +17,90 @@ namespace SharpHaven.Client
 		private static readonly Logger Log = LogManager.GetCurrentClassLogger();
 
 		private readonly IGame game;
-		private readonly ClientState state;
-		private readonly Dictionary<int, string> resources;
 		private readonly HashSet<Point> gridRequests;
-
 		private readonly ServerWidgetFactory widgetFactory;
+
+		private readonly GameActionCollection actions;
+		private readonly Dictionary<string, CharAttribute> attributes;
+		private readonly Dictionary<int, Buff> buffs;
+		private readonly Map map;
+		private readonly GobCache objects;
+		private readonly GameScene scene;
+		private readonly Party party;
+		private readonly GameScreen screen;
 		private readonly ServerWidgetCollection widgets;
+		private readonly Dictionary<int, string> resources;
 
-		public ClientSession(ClientState state, IGame game)
+		public ClientSession(IGame game)
 		{
-			this.state = state;
-
 			this.game = game;
 			this.game.AddListener(this);
 
 			gridRequests = new HashSet<Point>();
-			resources = new Dictionary<int, string>();
 			widgetFactory = new ServerWidgetFactory();
 
-			widgets = new ServerWidgetCollection(this);
-			widgets.Add(new ServerRootWidget(0, this, state.Screen.Root));
+			actions = new GameActionCollection();
+			attributes = new Dictionary<string, CharAttribute>();
+			buffs = new Dictionary<int, Buff>();
+			map = new Map();
+			objects = new GobCache();
+			scene = new GameScene(this);
+			party = new Party();
+			screen = new GameScreen();
+
+			widgets = new ServerWidgetCollection();
+			widgets.Add(new ServerRootWidget(0, this, Screen.Root));
+
+			resources = new Dictionary<int, string>();
 		}
 
-		public ClientState State
+		public event Action BuffUpdated;
+
+		public Map Map
 		{
-			get { return state; }
+			get { return map; }
+		}
+
+		public Point WorldPosition
+		{
+			get;
+			set;
+		}
+
+		public GameActionCollection Actions
+		{
+			get { return actions; }
+		}
+
+		public GobCache Objects
+		{
+			get { return objects; }
+		}
+
+		public GameScene Scene
+		{
+			get { return scene; }
+		}
+
+		public GameScreen Screen
+		{
+			get { return screen; }
+		}
+
+		public GameTime Time
+		{
+			get;
+			set;
+		}
+
+		public Party Party
+		{
+			get { return party; }
+		}
+
+		public IEnumerable<Buff> Buffs
+		{
+			get { return buffs.Values; }
 		}
 
 		public ServerWidgetCollection Widgets
@@ -49,24 +108,40 @@ namespace SharpHaven.Client
 			get { return widgets; }
 		}
 
-		public void Start()
+		public CharAttribute GetAttr(string name)
 		{
-			game.Start();
+			CharAttribute attr;
+			return attributes.TryGetValue(name, out attr) ? attr : null;
 		}
 
-		public void Finish()
+		public void SetAttr(string name, int baseValue, int compValue)
 		{
-			lock (this)
+			CharAttribute attr;
+			if (attributes.TryGetValue(name, out attr))
+				attr.Update(baseValue, compValue);
+			else
 			{
-				game.RemoveListener(this);
-				game.Stop();
+				attr = new CharAttribute(name, baseValue, compValue);
+				attributes[name] = attr;
 			}
-			App.QueueOnMainThread(() => state.Screen.Close());
 		}
 
-		public void SendMessage(ushort widgetId, string name, object[] args)
+		public void UpdateBuff(Buff buff)
 		{
-			game.MessageWidget(widgetId, name, args);
+			buffs[buff.Id] = buff;
+			BuffUpdated.Raise();
+		}
+
+		public void RemoveBuff(int id)
+		{
+			buffs.Remove(id);
+			BuffUpdated.Raise();
+		}
+
+		public void ClearBuffs()
+		{
+			buffs.Clear();
+			BuffUpdated.Raise();
 		}
 
 		#region Resource Management
@@ -104,11 +179,36 @@ namespace SharpHaven.Client
 				});
 		}
 
+		public void LoadResource(ushort resId, string resName)
+		{
+			resources[resId] = resName;
+		}
+
 		#endregion
+
+		public void Start()
+		{
+			game.Start();
+		}
+
+		public void Finish()
+		{
+			lock (this)
+			{
+				game.RemoveListener(this);
+				game.Stop();
+			}
+			App.QueueOnMainThread(() => Screen.Close());
+		}
+
+		public void SendMessage(ushort widgetId, string name, object[] args)
+		{
+			game.MessageWidget(widgetId, name, args);
+		}
 
 		public void RequestGrid(Point gc)
 		{
-			var grid = State.Map.GetGrid(gc);
+			var grid = Map.GetGrid(gc);
 			if (grid == null && !gridRequests.Contains(gc))
 			{
 				gridRequests.Add(gc);
@@ -123,7 +223,7 @@ namespace SharpHaven.Client
 		{
 			App.QueueOnMainThread(() =>
 			{
-				var parent = widgets.Get(args.ParentId);
+				var parent = Widgets[args.ParentId];
 				if (parent == null)
 					throw new Exception(string.Format(
 						"Non-existent parent widget {0} for {1}",
@@ -132,7 +232,7 @@ namespace SharpHaven.Client
 
 				var widget = widgetFactory.Create(args.Type, args.Id, parent);
 				widget.Init(args.Position, args.Args);
-				widgets.Add(widget);
+				Widgets.Add(widget);
 			});
 		}
 
@@ -140,7 +240,7 @@ namespace SharpHaven.Client
 		{
 			App.QueueOnMainThread(() =>
 			{
-				var widget = widgets.Get(args.WidgetId);
+				var widget = Widgets[args.WidgetId];
 				if (widget != null)
 					widget.HandleMessage(args.Name, args.Args);
 				else
@@ -151,12 +251,12 @@ namespace SharpHaven.Client
 
 		void IGameEventListener.Handle(WidgetDestroyEvent args)
 		{
-			App.QueueOnMainThread(() => widgets.Remove(args.WidgetId));
+			App.QueueOnMainThread(() => Widgets.Remove(args.WidgetId));
 		}
 
 		void IGameEventListener.Handle(ResourceLoadEvent args)
 		{
-			App.QueueOnMainThread(() => resources[args.ResourceId] = args.Name);
+			App.QueueOnMainThread(() => LoadResource(args.ResourceId, args.Name));
 		}
 
 		void IGameEventListener.Handle(TilesetsLoadEvent args)
@@ -164,13 +264,13 @@ namespace SharpHaven.Client
 			App.QueueOnMainThread(() =>
 			{
 				foreach (var binding in args.Tilesets)
-					State.Map.BindTileset(binding);
+					Map.BindTileset(binding);
 			});
 		}
 
 		void IGameEventListener.Handle(MapInvalidateEvent args)
 		{
-			App.QueueOnMainThread(() => State.Map.InvalidateAll());
+			App.QueueOnMainThread(() => Map.InvalidateAll());
 		}
 
 		void IGameEventListener.Handle(MapInvalidateGridEvent args)
@@ -180,7 +280,7 @@ namespace SharpHaven.Client
 
 		void IGameEventListener.Handle(MapInvalidateRegionEvent args)
 		{
-			App.QueueOnMainThread(() => State.Map.InvalidateRegion(args.Region));
+			App.QueueOnMainThread(() => Map.InvalidateRegion(args.Region));
 		}
 
 		void IGameEventListener.Handle(CharAttributesUpdateEvent args)
@@ -188,7 +288,7 @@ namespace SharpHaven.Client
 			App.QueueOnMainThread(() =>
 			{
 				foreach (var attr in args.Attributes)
-					State.SetAttr(attr.Name, attr.BaseValue, attr.ModifiedValue);
+					SetAttr(attr.Name, attr.BaseValue, attr.ModifiedValue);
 			});
 		}
 
@@ -204,7 +304,7 @@ namespace SharpHaven.Client
 
 		void IGameEventListener.Handle(AstronomyUpdateEvent astonomy)
 		{
-			App.QueueOnMainThread(() => state.Time = new GameTime(astonomy.DayTime, astonomy.MoonPhase));
+			App.QueueOnMainThread(() => Time = new GameTime(astonomy.DayTime, astonomy.MoonPhase));
 		}
 
 		void IGameEventListener.Handle(GameActionsUpdateEvent args)
@@ -212,10 +312,10 @@ namespace SharpHaven.Client
 			App.QueueOnMainThread(() =>
 			{
 				foreach (var action in args.Removed)
-					State.Actions.Remove(action.Name);
+					Actions.Remove(action.Name);
 
 				foreach (var action in args.Added)
-					State.Actions.Add(action.Name);
+					Actions.Add(action.Name);
 			});
 		}
 
@@ -223,20 +323,20 @@ namespace SharpHaven.Client
 		{
 			App.QueueOnMainThread(() =>
 			{
-				State.Party.LeaderId = args.LeaderId;
+				Party.LeaderId = args.LeaderId;
 			});
 		}
 
 		void IGameEventListener.Handle(PartyUpdateEvent args)
 		{
-			App.QueueOnMainThread(() => State.Party.Update(args.MemberIds));
+			App.QueueOnMainThread(() => Party.Update(args.MemberIds));
 		}
 
 		void IGameEventListener.Handle(PartyMemberUpdateEvent args)
 		{
 			App.QueueOnMainThread(() =>
 			{
-				var member = State.Party.GetMember(args.MemberId);
+				var member = Party.GetMember(args.MemberId);
 				if (member != null)
 				{
 					member.Color = args.Color;
@@ -259,7 +359,7 @@ namespace SharpHaven.Client
 			App.QueueOnMainThread(() =>
 			{
 				gridRequests.Remove(message.Grid);
-				State.Map.AddGrid(message);
+				Map.AddGrid(message);
 			});
 		}
 
@@ -288,18 +388,18 @@ namespace SharpHaven.Client
 				buff.IsMajor = args.IsMajor;
 				if (!string.IsNullOrEmpty(args.Tooltip))
 					buff.Tooltip = args.Tooltip;
-				State.UpdateBuff(buff);
+				UpdateBuff(buff);
 			});
 		}
 
 		void IGameEventListener.Handle(BuffRemoveEvent args)
 		{
-			App.QueueOnMainThread(() => State.RemoveBuff(args.BuffId));
+			App.QueueOnMainThread(() => RemoveBuff(args.BuffId));
 		}
 
 		void IGameEventListener.Handle(BuffClearEvent args)
 		{
-			App.QueueOnMainThread(() => State.ClearBuffs());
+			App.QueueOnMainThread(() => ClearBuffs());
 		}
 
 		#endregion

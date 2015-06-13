@@ -37,15 +37,15 @@ namespace SharpHaven.UI.Remote
 
 		protected override void OnInit(Point position, object[] args)
 		{
-			view = Session.State.Screen.CombatView;
+			view = Session.Screen.CombatView;
 			view.Visible = true;
 			view.Click += OnClick;
 			view.Give += OnGive;
 
-			meter = Session.State.Screen.CombatMeter;
+			meter = Session.Screen.CombatMeter;
 			meter.Visible = true;
 
-			window = Session.State.Screen.CombatWindow;
+			window = Session.Screen.CombatWindow;
 			window.Visible = true;
 		}
 

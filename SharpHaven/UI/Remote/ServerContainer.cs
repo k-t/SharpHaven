@@ -32,7 +32,7 @@ namespace SharpHaven.UI.Remote
 		{
 			var size = (Point)args[0];
 
-			widget = Session.State.Screen.Container;
+			widget = Session.Screen.Container;
 			widget.Resize(size.X, size.Y);
 			widget.Visible = true;
 		}

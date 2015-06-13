@@ -36,7 +36,7 @@ namespace SharpHaven.UI.Widgets
 			Resize(background.Size);
 		}
 
-		public ClientState State
+		public ClientSession Session
 		{
 			get;
 			set;
@@ -44,10 +44,10 @@ namespace SharpHaven.UI.Widgets
 
 		protected override void OnDraw(DrawingContext dc)
 		{
-			if (State == null)
+			if (Session == null)
 				return;
 
-			var astro = State.Time;
+			var astro = Session.Time;
 			var mp = (int)(astro.MoonPhase * moons.Length);
 			var moon = moons[mp];
 

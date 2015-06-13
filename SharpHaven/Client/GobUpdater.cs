@@ -10,7 +10,7 @@ namespace SharpHaven.Client
 	{
 		private readonly TypeMatcher deltaMatcher;
 		private readonly ClientSession session;
-		private GobUpdateEvent message;
+		private GobUpdateEvent args;
 		private Gob gob;
 
 		public GobUpdater(ClientSession session)
@@ -34,19 +34,19 @@ namespace SharpHaven.Client
 				.Case<GobDelta.StartMovement>(Apply);
 		}
 
-		public void ApplyChanges(GobUpdateEvent message)
+		public void ApplyChanges(GobUpdateEvent args)
 		{
-			this.message = message;
+			this.args = args;
 			this.gob = null;
 
-			var objectCache = session.State.Objects;
-			if (message.ReplaceFlag)
-				objectCache.Remove(message.GobId, message.Frame - 1);
+			var objectCache = session.Objects;
+			if (args.ReplaceFlag)
+				objectCache.Remove(args.GobId, args.Frame - 1);
 			
-			foreach (var delta in message.Deltas)
+			foreach (var delta in args.Deltas)
 			{
 				if (this.gob == null)
-					this.gob = objectCache.Get(message.GobId, message.Frame);
+					this.gob = objectCache.Get(args.GobId, args.Frame);
 				deltaMatcher.Match(delta);
 			}
 		}
@@ -69,7 +69,7 @@ namespace SharpHaven.Client
 
 		private void Apply(GobDelta.Clear delta)
 		{
-			session.State.Objects.Remove(message.GobId, message.Frame);
+			session.Objects.Remove(args.GobId, args.Frame);
 			gob = null;
 		}
 
@@ -80,7 +80,7 @@ namespace SharpHaven.Client
 
 		private void Apply(GobDelta.Follow delta)
 		{
-			var other = (delta.GobId != -1) ? session.State.Objects.Get(delta.GobId) : null;
+			var other = (delta.GobId != -1) ? session.Objects.Get(delta.GobId) : null;
 			gob.Following = (other != null)
 				? new GobFollowing(other, delta.Offset, delta.Szo)
 				: null;

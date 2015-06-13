@@ -1,15 +1,15 @@
-﻿using SharpHaven.Client;
-
-namespace SharpHaven.Login
+﻿namespace SharpHaven.Login
 {
 	public class LoginResult
 	{
 		private readonly string error;
-		private readonly ClientSession session;
+		private readonly string userName;
+		private readonly byte[] cookie;
 
-		public LoginResult(ClientSession session)
+		public LoginResult(string userName, byte[] cookie)
 		{
-			this.session = session;
+			this.userName = userName;
+			this.cookie = cookie;
 		}
 
 		public LoginResult(string error)
@@ -19,7 +19,7 @@ namespace SharpHaven.Login
 
 		public bool IsSuccessful
 		{
-			get { return session != null; }
+			get { return cookie != null; }
 		}
 
 		public string Error
@@ -27,9 +27,14 @@ namespace SharpHaven.Login
 			get { return error; }
 		}
 
-		public ClientSession Session
+		public string UserName
 		{
-			get { return session; }
+			get { return userName; }
+		}
+
+		public byte[] Cookie
+		{
+			get { return cookie; }
 		}
 	}
 }

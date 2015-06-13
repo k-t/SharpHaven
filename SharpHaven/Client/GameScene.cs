@@ -12,12 +12,12 @@ namespace SharpHaven.Client
 		public const int ScreenTileWidth = 46;
 		public const int ScreenTileHeight = 23;
 
-		private readonly ClientState state;
+		private readonly ClientSession session;
 		private readonly List<ObjectPart> spriteList;
 
-		public GameScene(ClientState state)
+		public GameScene(ClientSession session)
 		{
-			this.state = state;
+			this.session = session;
 			this.spriteList = new List<ObjectPart>();
 		}
 
@@ -34,7 +34,7 @@ namespace SharpHaven.Client
 			var speeches = new List<Tuple<Point, GobSpeech>>();
 
 			spriteList.Clear();
-			foreach (var gob in state.Objects)
+			foreach (var gob in session.Objects)
 			{
 				var sprite = gob.Sprite;
 				if (sprite == null)

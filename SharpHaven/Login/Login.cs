@@ -2,7 +2,6 @@
 using System.Threading;
 using System.Threading.Tasks;
 using NLog;
-using SharpHaven.Client;
 using SharpHaven.Net;
 
 namespace SharpHaven.Login
@@ -50,8 +49,6 @@ namespace SharpHaven.Login
 
 		public void LoginAsync()
 		{
-			// create state in the calling thread
-			var state = new ClientState();
 			var authenticate = (Token != null)
 				? new Func<AuthResult>(() => Authenticate(UserName, Token))
 				: new Func<AuthResult>(() => Authenticate(UserName, Password));
@@ -70,11 +67,8 @@ namespace SharpHaven.Login
 
 					ReportProgress("Connecting...");
 
-					var session = CreateSession(state, UserName, result.Cookie);
-					session.Start();
-
 					Log.Info("{0} logged in successfully", UserName);
-					Finish(new LoginResult(session));
+					Finish(new LoginResult(UserName, result.Cookie));
 				}
 				catch (AuthException ex)
 				{
@@ -123,19 +117,6 @@ namespace SharpHaven.Login
 				ForgetToken();
 				return new AuthResult("Invalid save");
 			}
-		}
-
-		private ClientSession CreateSession(ClientState state, string userName, byte[] cookie)
-		{
-			var settings = new NetworkGameSettings
-			{
-				Host = App.Config.GameHost,
-				Port = App.Config.GamePort,
-				UserName = userName,
-				Cookie = cookie
-			};
-			var game = new NetworkGame(settings);
-			return new ClientSession(state, game);
 		}
 
 		private static void RunAsync(Action action)

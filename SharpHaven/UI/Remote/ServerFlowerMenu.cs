@@ -35,7 +35,7 @@ namespace SharpHaven.UI.Remote
 			if (position.X != -1 && position.Y != -1)
 				widget.Move(position);
 			else
-				widget.Move(Session.State.Screen.MousePosition);
+				widget.Move(Session.Screen.MousePosition);
 		}
 	}
 }

@@ -36,7 +36,7 @@ namespace SharpHaven.UI.Remote
 		{
 			var studyId = args.Length > 0 ? (int)args[0] : -1;
 
-			widget = new CharWindow(Parent.Widget, Parent.Session.State);
+			widget = new CharWindow(Parent.Widget, Parent.Session);
 			widget.Move(position);
 			widget.AttributesChanged += OnAttributesChanged;
 			widget.BeliefChanged += OnBeliefChanged;

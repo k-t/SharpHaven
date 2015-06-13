@@ -28,7 +28,7 @@ namespace SharpHaven.UI.Widgets
 			PlusDown = App.Resources.Get<Drawable>("gfx/hud/charsh/plusdown");
 		}
 
-		private readonly ClientState gstate;
+		private readonly ClientSession session;
 		private int exp;
 		private List<AttributeBinding> attrBindings;
 
@@ -53,11 +53,11 @@ namespace SharpHaven.UI.Widgets
 		private readonly GridLayout skillLayout;
 		private readonly GridLayout beliefLayout;
 
-		public CharWindow(Widget parent, ClientState gstate) : base(parent, "Character Sheet")
+		public CharWindow(Widget parent, ClientSession session) : base(parent, "Character Sheet")
 		{
 			Resize(400, 340);
 
-			this.gstate = gstate;
+			this.session = session;
 			this.tabs = new List<Container>();
 			this.attrBindings = new List<AttributeBinding>();
 			this.beliefWidgets = new List<BeliefWidget>();
@@ -182,7 +182,7 @@ namespace SharpHaven.UI.Widgets
 			lblExpMod.Text = "Learning Ability:";
 			lblExpModValue = new Label(tabAttr, Fonts.LabelText);
 
-			var expMod = gstate.GetAttr("expmod");
+			var expMod = session.GetAttr("expmod");
 			attrBindings.Add(new ExpModBinding(expMod, lblExpModValue));
 
 			var btnBuy = new Button(tabAttr, 75);
@@ -252,13 +252,13 @@ namespace SharpHaven.UI.Widgets
 			baseLayout.AddWidget(lblName, row, 1);
 			baseLayout.AddWidget(lblValue, row, 2);
 
-			var attr = gstate.GetAttr(name);
+			var attr = session.GetAttr(name);
 			attrBindings.Add(new BaseAttributeBinding(attr, lblValue));
 		}
 
 		private void AddSkill(string name, string title)
 		{
-			var attr = gstate.GetAttr(name);
+			var attr = session.GetAttr(name);
 
 			var image = new Image(tabAttr);
 			image.Drawable = App.Resources.Get<Drawable>("gfx/hud/charsh/" + name);
@@ -337,7 +337,7 @@ namespace SharpHaven.UI.Widgets
 			var lblLimitValue = new Label(tabStudy, Fonts.LabelText);
 			lblLimitValue.Move(240, 225);
 
-			var intelAttr = gstate.GetAttr("intel");
+			var intelAttr = session.GetAttr("intel");
 			attrBindings.Add(new BaseAttributeBinding(intelAttr, lblLimitValue));
 		}
 
@@ -445,7 +445,7 @@ namespace SharpHaven.UI.Widgets
 			label.Text = string.Format("{0} / {1}", left.ToTitleCase(), right.ToTitleCase());
 			label.Resize(widget.Width, label.Height);
 
-			var attr = gstate.GetAttr(name);
+			var attr = session.GetAttr(name);
 			attrBindings.Add(new BeliefBinding(attr, widget, inv));
 
 			int row = beliefLayout.RowCount;

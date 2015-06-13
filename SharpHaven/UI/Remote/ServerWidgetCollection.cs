@@ -1,6 +1,5 @@
 ﻿using C5;
 using NLog;
-using SharpHaven.Client;
 
 namespace SharpHaven.UI.Remote
 {
@@ -10,20 +9,23 @@ namespace SharpHaven.UI.Remote
 
 		private readonly TreeDictionary<ushort, ServerWidget> widgets;
 
-		public ServerWidgetCollection(ClientSession session)
+		public ServerWidgetCollection()
 		{
 			widgets = new TreeDictionary<ushort, ServerWidget>();
+		}
+
+		public ServerWidget this[ushort id]
+		{
+			get
+			{
+				ServerWidget widget;
+				return widgets.Find(ref id, out widget) ? widget : null;
+			}
 		}
 
 		public void Add(ServerWidget widget)
 		{
 			widgets[widget.Id] = widget;
-		}
-
-		public ServerWidget Get(ushort id)
-		{
-			ServerWidget widget;
-			return widgets.Find(ref id, out widget) ? widget : null;
 		}
 
 		public void Remove(ushort id)

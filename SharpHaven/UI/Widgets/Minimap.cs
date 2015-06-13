@@ -24,13 +24,13 @@ namespace SharpHaven.UI.Widgets
 			mark = App.Resources.Get<Drawable>("gfx/hud/mmap/x");
 		}
 
-		private readonly ClientState gstate;
+		private readonly ClientSession session;
 		private readonly MinimapProvider provider;
 		private readonly ConcurrentDictionary<string, Drawable> cache;
 
-		public Minimap(Widget parent, ClientState gstate) : base(parent)
+		public Minimap(Widget parent, ClientSession session) : base(parent)
 		{
-			this.gstate = gstate;
+			this.session = session;
 			this.cache = new ConcurrentDictionary<string, Drawable>();
 			this.provider = new MinimapProvider(App.Config.MapUrl);
 		}
@@ -42,7 +42,7 @@ namespace SharpHaven.UI.Widgets
 			dc.SetClip(0, 0, Width, Height);
 			dc.Draw(bg, 0, 0, Width, Height);
 
-			var tc = Geometry.MapToTile(gstate.WorldPosition);
+			var tc = Geometry.MapToTile(session.WorldPosition);
 
 			int bx = (tc.X - Width / 2).Div(Geometry.GridWidth);
 			int by = (tc.Y - Height / 2).Div(Geometry.GridHeight);
@@ -51,7 +51,7 @@ namespace SharpHaven.UI.Widgets
 			for (int gx = bx; gx <= ex; gx++)
 				for (int gy = by; gy <= ey; gy++)
 				{
-					var grid = gstate.Map.GetGrid(gx, gy);
+					var grid = session.Map.GetGrid(gx, gy);
 					if (grid == null)
 						continue;
 
@@ -72,7 +72,7 @@ namespace SharpHaven.UI.Widgets
 
 			if (!missing)
 			{
-				foreach (var member in gstate.Party.Members)
+				foreach (var member in session.Party.Members)
 				{
 					if (!member.Location.HasValue)
 						continue;

@@ -31,13 +31,13 @@ namespace SharpHaven.UI.Remote
 
 		protected override void OnInit(Point position, object[] args)
 		{
-			widget = Session.State.Screen.MenuGrid;
+			widget = Session.Screen.MenuGrid;
 			widget.Visible = true;
 			
-			foreach (var action in Session.State.Actions)
+			foreach (var action in Session.Actions)
 				CreateMenuNode(action);
 
-			Session.State.Actions.CollectionChanged += OnActionCollectionChanged;
+			Session.Actions.CollectionChanged += OnActionCollectionChanged;
 		}
 
 		protected override void OnDestroy()
@@ -47,7 +47,7 @@ namespace SharpHaven.UI.Remote
 			foreach (var node in nodes.Keys.ToArray())
 				RemoveMenuNode(node);
 
-			Session.State.Actions.CollectionChanged -= OnActionCollectionChanged;
+			Session.Actions.CollectionChanged -= OnActionCollectionChanged;
 		}
 
 		private void Goto(object[] args)
@@ -55,7 +55,7 @@ namespace SharpHaven.UI.Remote
 			var resName = (string)args[0];
 			if (!string.IsNullOrEmpty(resName))
 			{
-				var action = Session.State.Actions.Get(resName);
+				var action = Session.Actions.Get(resName);
 				MenuNode node;
 				if (action != null && nodes.Find(ref action, out node))
 					widget.Current = null;

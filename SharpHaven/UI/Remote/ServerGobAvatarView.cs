@@ -28,7 +28,7 @@ namespace SharpHaven.UI.Remote
 			
 			widget = new AvatarView(Parent.Widget);
 			widget.Move(position);
-			widget.Avatar = new Avatar(gobId, Session.State.Objects);
+			widget.Avatar = new Avatar(gobId, Session.Objects);
 		}
 	}
 }

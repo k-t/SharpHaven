@@ -12,19 +12,19 @@ namespace SharpHaven.UI.Widgets
 		private readonly Label lblError;
 		private DateTime errorTime;
 
-		public Hud(Widget parent, ClientState gstate) : base(parent)
+		public Hud(Widget parent, ClientSession session) : base(parent)
 		{
-			menu = gstate.Screen.HudMenu;
+			menu = session.Screen.HudMenu;
 			menu.Visible = true;
 
-			belt = gstate.Screen.Belt;
+			belt = session.Screen.Belt;
 			belt.Visible = true;
 
 			lblError = new Label(this, Fonts.Default);
 			lblError.TextColor = Color.FromArgb(192, 0, 0);
 			lblError.Visible = false;
 
-			InitMinimap(gstate);
+			InitMinimap(session);
 		}
 
 		public HudMenu Menu
@@ -57,13 +57,13 @@ namespace SharpHaven.UI.Widgets
 			belt.Visible = false;
 		}
 
-		private void InitMinimap(ClientState gstate)
+		private void InitMinimap(ClientSession session)
 		{
 			var window = new Window(this);
 			window.Margin = 5;
 			window.Move(500, 50);
 
-			var minimap = new Minimap(window, gstate);
+			var minimap = new Minimap(window, session);
 			minimap.Resize(250, 250);
 
 			window.Pack();
