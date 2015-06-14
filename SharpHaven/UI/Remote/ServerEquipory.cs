@@ -52,7 +52,7 @@ namespace SharpHaven.UI.Remote
 						? (string)args[j++]
 						: null;
 
-					var itemMold = Session.Get<ItemMold>(resId);
+					var itemMold = Session.Resources.Get<ItemMold>(resId);
 					var item = new Item(itemMold);
 					item.Quality = q;
 					if (!string.IsNullOrEmpty(tooltip))
@@ -72,7 +72,7 @@ namespace SharpHaven.UI.Remote
 			var resId = (int)args[1];
 			var q = (int)args[2];
 
-			var item = new Item(Session.Get<ItemMold>(resId));
+			var item = new Item(Session.Resources.Get<ItemMold>(resId));
 			item.Quality = q;
 
 			// TODO: tooltip must be preserved

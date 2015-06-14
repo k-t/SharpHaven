@@ -25,11 +25,11 @@ namespace SharpHaven.Client
 		private readonly BuffCollection buffs;
 		private readonly Map map;
 		private readonly GobCache objects;
-		private readonly GameScene scene;
 		private readonly Party party;
+		private readonly ClientResources resources;
+		private readonly GameScene scene;
 		private readonly GameScreen screen;
 		private readonly ServerWidgetCollection widgets;
-		private readonly Dictionary<int, string> resources;
 
 		public ClientSession(IGame game)
 		{
@@ -44,25 +44,13 @@ namespace SharpHaven.Client
 			buffs = new BuffCollection();
 			map = new Map();
 			objects = new GobCache();
-			scene = new GameScene(this);
 			party = new Party();
+			resources = new ClientResources();
+			scene = new GameScene(this);
 			screen = new GameScreen();
 
 			widgets = new ServerWidgetCollection();
 			widgets.Add(new ServerRootWidget(0, this, Screen.Root));
-
-			resources = new Dictionary<int, string>();
-		}
-
-		public Map Map
-		{
-			get { return map; }
-		}
-
-		public Point WorldPosition
-		{
-			get;
-			set;
 		}
 
 		public GameActionCollection Actions
@@ -75,9 +63,29 @@ namespace SharpHaven.Client
 			get { return attributes; }
 		}
 
+		public BuffCollection Buffs
+		{
+			get { return buffs; }
+		}
+
+		public Map Map
+		{
+			get { return map; }
+		}
+
 		public GobCache Objects
 		{
 			get { return objects; }
+		}
+
+		public Party Party
+		{
+			get { return party; }
+		}
+
+		public ClientResources Resources
+		{
+			get { return resources; }
 		}
 
 		public GameScene Scene
@@ -96,62 +104,16 @@ namespace SharpHaven.Client
 			set;
 		}
 
-		public Party Party
-		{
-			get { return party; }
-		}
-
-		public BuffCollection Buffs
-		{
-			get { return buffs; }
-		}
-
 		public ServerWidgetCollection Widgets
 		{
 			get { return widgets; }
 		}
 
-		#region Resource Management
-
-		public Delayed<Resource> GetResource(int id)
+		public Point WorldPosition
 		{
-			return GetResource(id, App.Resources.Load);
+			get;
+			set;
 		}
-
-		public Delayed<ISprite> GetSprite(int id, byte[] spriteState = null)
-		{
-			return GetResource(id, n => App.Resources.GetSprite(n, spriteState));
-		}
-
-		public Delayed<T> Get<T>(int id) where T : class
-		{
-			return GetResource(id, n => App.Resources.Get<T>(n));
-		}
-
-		private Delayed<T> GetResource<T>(int id, Func<string, T> getter)
-			where T : class
-		{
-			string resName;
-			return resources.TryGetValue(id, out resName)
-				? new Delayed<T>(getter(resName))
-				: new Delayed<T>((out T res) =>
-				{
-					if (resources.TryGetValue(id, out resName))
-					{
-						res = getter(resName);
-						return true;
-					}
-					res = null;
-					return false;
-				});
-		}
-
-		public void LoadResource(ushort resId, string resName)
-		{
-			resources[resId] = resName;
-		}
-
-		#endregion
 
 		public void Start()
 		{
@@ -223,7 +185,7 @@ namespace SharpHaven.Client
 
 		void IGameEventListener.Handle(ResourceLoadEvent args)
 		{
-			App.QueueOnMainThread(() => LoadResource(args.ResourceId, args.Name));
+			App.QueueOnMainThread(() => Resources.Load(args.ResourceId, args.Name));
 		}
 
 		void IGameEventListener.Handle(TilesetsLoadEvent args)
@@ -332,7 +294,7 @@ namespace SharpHaven.Client
 
 		void IGameEventListener.Handle(PlaySoundEvent args)
 		{
-			var res = GetResource(args.ResourceId);
+			var res = Resources.Get(args.ResourceId);
 			App.Audio.Play(res);
 		}
 
@@ -350,7 +312,7 @@ namespace SharpHaven.Client
 		{
 			App.QueueOnMainThread(() =>
 			{
-				var buff = new Buff(args.Id, Get<BuffMold>(args.ResourceId));
+				var buff = new Buff(args.Id, Resources.Get<BuffMold>(args.ResourceId));
 				buff.Amount = args.AMeter;
 				buff.IsMajor = args.IsMajor;
 				if (!string.IsNullOrEmpty(args.Tooltip))

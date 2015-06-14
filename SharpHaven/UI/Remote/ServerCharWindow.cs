@@ -79,7 +79,7 @@ namespace SharpHaven.UI.Remote
 			int amount = (int)args[3];
 			if (ent == 0)
 			{
-				var item = new Item(Session.Get<ItemMold>(resid));
+				var item = new Item(Session.Resources.Get<ItemMold>(resid));
 				item.Amount = amount;
 				widget.Worship.SetWish(wish, item);
 			}

@@ -39,7 +39,7 @@ namespace SharpHaven.UI.Remote
 			var tooltip = args.Length > i ? (string)args[i++] : null;
 			var num = args.Length > i ? (int)args[i] : -1;
 
-			var itemMold = Session.Get<ItemMold>(resId);
+			var itemMold = Session.Resources.Get<ItemMold>(resId);
 			var item = new Item(itemMold);
 			item.Quality = q;
 			item.Amount = num;
@@ -74,7 +74,7 @@ namespace SharpHaven.UI.Remote
 		{
 			int resId = (int)args[0];
 			int q = (int)args[1];
-			var item = new Item(Session.Get<ItemMold>(resId));
+			var item = new Item(Session.Resources.Get<ItemMold>(resId));
 			item.Quality = q;
 			widget.Item = item;
 		}

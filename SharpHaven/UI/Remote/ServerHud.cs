@@ -50,7 +50,7 @@ namespace SharpHaven.UI.Remote
 		private void SetBelt(object[] args)
 		{
 			var slot = (int)args[0];
-			var action = args.Length > 1 ? Session.Get<Drawable>((int)args[1]) : null;
+			var action = args.Length > 1 ? Session.Resources.Get<Drawable>((int)args[1]) : null;
 			widget.Belt.SetSlot(slot, action);
 		}
 

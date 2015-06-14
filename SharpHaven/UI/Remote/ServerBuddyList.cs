@@ -22,7 +22,6 @@ namespace SharpHaven.UI.Remote
 			SetHandler("i-atime", args => widget.BuddyInfo.SetLastSeenTime((int)args[0]));
 			SetHandler("i-clear", args => widget.BuddyInfo.Clear());
 			SetHandler("pwd", args => widget.Secret = (string)args[0]);
-
 		}
 
 		public override Widget Widget
@@ -110,7 +109,7 @@ namespace SharpHaven.UI.Remote
 
 		private void SetAvatar(object[] args)
 		{
-			var layers = args.Select(x => Session.GetSprite((int)x));
+			var layers = args.Select(x => Session.Resources.GetSprite((int)x));
 			var avatar = layers.Any() ? new Avatar(layers) : null;
 			widget.BuddyInfo.SetAvatar(avatar);
 		}

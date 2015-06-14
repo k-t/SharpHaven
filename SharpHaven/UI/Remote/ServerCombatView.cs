@@ -146,7 +146,7 @@ namespace SharpHaven.UI.Remote
 
 		private Delayed<GameAction> GetAction(int resId)
 		{
-			return resId >= 0 ? Session.Get<GameAction>(resId) : null;
+			return resId >= 0 ? Session.Resources.Get<GameAction>(resId) : null;
 		}
 	}
 }

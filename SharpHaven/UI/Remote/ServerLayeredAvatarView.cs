@@ -26,7 +26,7 @@ namespace SharpHaven.UI.Remote
 		protected override void OnInit(Point position, object[] args)
 		{
 			var session = Parent.Session;
-			var layers = args.Select(x => session.GetSprite((int)x));
+			var layers = args.Select(x => session.Resources.GetSprite((int)x));
 			
 			widget = new AvatarView(Parent.Widget);
 			widget.Move(position);
