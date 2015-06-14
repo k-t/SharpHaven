@@ -73,6 +73,7 @@
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="Audio.cs" />
+    <Compile Include="Client\BuffCollection.cs" />
     <Compile Include="Cursors.cs" />
     <Compile Include="FontFaces.cs" />
     <Compile Include="Client\GobFollowing.cs" />

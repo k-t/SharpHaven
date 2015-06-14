@@ -29,7 +29,7 @@ namespace SharpHaven.UI.Widgets
 		public Bufflist(Widget parent, ClientSession session) : base(parent)
 		{
 			this.session = session;
-			this.session.BuffUpdated += Update;
+			this.session.Buffs.Changed += Update;
 			this.widgets = new Dictionary<int, BuffWidget>();
 			Resize(Num * frame.Width + (Num - 1) * Spacing, cframe.Height);
 			Update();
@@ -37,7 +37,7 @@ namespace SharpHaven.UI.Widgets
 
 		protected override void OnDispose()
 		{
-			session.BuffUpdated -= Update;
+			session.Buffs.Changed -= Update;
 		}
 
 		private void Update()

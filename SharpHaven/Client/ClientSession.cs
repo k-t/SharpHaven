@@ -22,7 +22,7 @@ namespace SharpHaven.Client
 
 		private readonly GameActionCollection actions;
 		private readonly Dictionary<string, CharAttribute> attributes;
-		private readonly Dictionary<int, Buff> buffs;
+		private readonly BuffCollection buffs;
 		private readonly Map map;
 		private readonly GobCache objects;
 		private readonly GameScene scene;
@@ -41,7 +41,7 @@ namespace SharpHaven.Client
 
 			actions = new GameActionCollection();
 			attributes = new Dictionary<string, CharAttribute>();
-			buffs = new Dictionary<int, Buff>();
+			buffs = new BuffCollection();
 			map = new Map();
 			objects = new GobCache();
 			scene = new GameScene(this);
@@ -53,8 +53,6 @@ namespace SharpHaven.Client
 
 			resources = new Dictionary<int, string>();
 		}
-
-		public event Action BuffUpdated;
 
 		public Map Map
 		{
@@ -98,9 +96,9 @@ namespace SharpHaven.Client
 			get { return party; }
 		}
 
-		public IEnumerable<Buff> Buffs
+		public BuffCollection Buffs
 		{
-			get { return buffs.Values; }
+			get { return buffs; }
 		}
 
 		public ServerWidgetCollection Widgets
@@ -124,24 +122,6 @@ namespace SharpHaven.Client
 				attr = new CharAttribute(name, baseValue, compValue);
 				attributes[name] = attr;
 			}
-		}
-
-		public void UpdateBuff(Buff buff)
-		{
-			buffs[buff.Id] = buff;
-			BuffUpdated.Raise();
-		}
-
-		public void RemoveBuff(int id)
-		{
-			buffs.Remove(id);
-			BuffUpdated.Raise();
-		}
-
-		public void ClearBuffs()
-		{
-			buffs.Clear();
-			BuffUpdated.Raise();
 		}
 
 		#region Resource Management
@@ -388,18 +368,18 @@ namespace SharpHaven.Client
 				buff.IsMajor = args.IsMajor;
 				if (!string.IsNullOrEmpty(args.Tooltip))
 					buff.Tooltip = args.Tooltip;
-				UpdateBuff(buff);
+				Buffs.AddOrUpdate(buff);
 			});
 		}
 
 		void IGameEventListener.Handle(BuffRemoveEvent args)
 		{
-			App.QueueOnMainThread(() => RemoveBuff(args.BuffId));
+			App.QueueOnMainThread(() => Buffs.Remove(args.BuffId));
 		}
 
 		void IGameEventListener.Handle(BuffClearEvent args)
 		{
-			App.QueueOnMainThread(() => ClearBuffs());
+			App.QueueOnMainThread(() => Buffs.Clear());
 		}
 
 		#endregion
