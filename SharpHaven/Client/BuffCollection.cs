@@ -23,7 +23,7 @@ namespace SharpHaven.Client
 
 		public void Remove(int buffId)
 		{
-			if (dict.Remove(buffId));
+			if (dict.Remove(buffId))
 				Changed.Raise();
 		}
 
