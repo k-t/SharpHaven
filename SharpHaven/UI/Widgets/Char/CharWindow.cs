@@ -182,7 +182,7 @@ namespace SharpHaven.UI.Widgets
 			lblExpMod.Text = "Learning Ability:";
 			lblExpModValue = new Label(tabAttr, Fonts.LabelText);
 
-			var expMod = session.GetAttr("expmod");
+			var expMod = session.Attributes["expmod"];
 			attrBindings.Add(new ExpModBinding(expMod, lblExpModValue));
 
 			var btnBuy = new Button(tabAttr, 75);
@@ -252,13 +252,13 @@ namespace SharpHaven.UI.Widgets
 			baseLayout.AddWidget(lblName, row, 1);
 			baseLayout.AddWidget(lblValue, row, 2);
 
-			var attr = session.GetAttr(name);
+			var attr = session.Attributes[name];
 			attrBindings.Add(new BaseAttributeBinding(attr, lblValue));
 		}
 
 		private void AddSkill(string name, string title)
 		{
-			var attr = session.GetAttr(name);
+			var attr = session.Attributes[name];
 
 			var image = new Image(tabAttr);
 			image.Drawable = App.Resources.Get<Drawable>("gfx/hud/charsh/" + name);
@@ -337,7 +337,7 @@ namespace SharpHaven.UI.Widgets
 			var lblLimitValue = new Label(tabStudy, Fonts.LabelText);
 			lblLimitValue.Move(240, 225);
 
-			var intelAttr = session.GetAttr("intel");
+			var intelAttr = session.Attributes["intel"];
 			attrBindings.Add(new BaseAttributeBinding(intelAttr, lblLimitValue));
 		}
 
@@ -445,7 +445,7 @@ namespace SharpHaven.UI.Widgets
 			label.Text = string.Format("{0} / {1}", left.ToTitleCase(), right.ToTitleCase());
 			label.Resize(widget.Width, label.Height);
 
-			var attr = session.GetAttr(name);
+			var attr = session.Attributes[name];
 			attrBindings.Add(new BeliefBinding(attr, widget, inv));
 
 			int row = beliefLayout.RowCount;

@@ -21,7 +21,7 @@ namespace SharpHaven.Client
 		private readonly ServerWidgetFactory widgetFactory;
 
 		private readonly GameActionCollection actions;
-		private readonly Dictionary<string, CharAttribute> attributes;
+		private readonly CharAttributeCollection attributes;
 		private readonly BuffCollection buffs;
 		private readonly Map map;
 		private readonly GobCache objects;
@@ -40,7 +40,7 @@ namespace SharpHaven.Client
 			widgetFactory = new ServerWidgetFactory();
 
 			actions = new GameActionCollection();
-			attributes = new Dictionary<string, CharAttribute>();
+			attributes = new CharAttributeCollection();
 			buffs = new BuffCollection();
 			map = new Map();
 			objects = new GobCache();
@@ -68,6 +68,11 @@ namespace SharpHaven.Client
 		public GameActionCollection Actions
 		{
 			get { return actions; }
+		}
+
+		public CharAttributeCollection Attributes
+		{
+			get { return attributes; }
 		}
 
 		public GobCache Objects
@@ -104,24 +109,6 @@ namespace SharpHaven.Client
 		public ServerWidgetCollection Widgets
 		{
 			get { return widgets; }
-		}
-
-		public CharAttribute GetAttr(string name)
-		{
-			CharAttribute attr;
-			return attributes.TryGetValue(name, out attr) ? attr : null;
-		}
-
-		public void SetAttr(string name, int baseValue, int compValue)
-		{
-			CharAttribute attr;
-			if (attributes.TryGetValue(name, out attr))
-				attr.Update(baseValue, compValue);
-			else
-			{
-				attr = new CharAttribute(name, baseValue, compValue);
-				attributes[name] = attr;
-			}
 		}
 
 		#region Resource Management
@@ -268,7 +255,7 @@ namespace SharpHaven.Client
 			App.QueueOnMainThread(() =>
 			{
 				foreach (var attr in args.Attributes)
-					SetAttr(attr.Name, attr.BaseValue, attr.ModifiedValue);
+					Attributes.AddOrUpdate(attr.Name, attr.BaseValue, attr.ModifiedValue);
 			});
 		}
 

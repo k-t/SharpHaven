@@ -21,30 +21,30 @@ namespace SharpHaven.UI.Widgets
 
 		private void UpdateLabel()
 		{
-			label.Text = string.Format("{0}", attribute.ComputedValue);
+			label.Text = string.Format("{0}", attribute.ModifiedValue);
 			label.TextColor = GetDisplayColor();
 			label.Tooltip = GetTooltip();
 		}
 
 		private Color GetDisplayColor()
 		{
-			if (attribute.ComputedValue > attribute.BaseValue)
+			if (attribute.ModifiedValue > attribute.BaseValue)
 				return CharWindow.BuffColor;
-			if (attribute.ComputedValue < attribute.BaseValue)
+			if (attribute.ModifiedValue < attribute.BaseValue)
 				return CharWindow.DebuffColor;
 			return Color.White;
 		}
 
 		private Tooltip GetTooltip()
 		{
-			if (attribute.ComputedValue < attribute.BaseValue)
+			if (attribute.ModifiedValue < attribute.BaseValue)
 				return new Tooltip(string.Format("{0} - {1}",
 					attribute.BaseValue,
-					attribute.BaseValue - attribute.ComputedValue));
-			if (attribute.ComputedValue > attribute.BaseValue)
+					attribute.BaseValue - attribute.ModifiedValue));
+			if (attribute.ModifiedValue > attribute.BaseValue)
 				return new Tooltip(string.Format("{0} + {1}",
 					attribute.BaseValue,
-					attribute.ComputedValue - attribute.BaseValue));
+					attribute.ModifiedValue - attribute.BaseValue));
 			return null;
 		}
 	}

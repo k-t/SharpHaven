@@ -21,15 +21,15 @@ namespace SharpHaven.UI.Widgets
 
 		private void UpdateLabel()
 		{
-			label.Text = string.Format("{0}%", attribute.ComputedValue);
+			label.Text = string.Format("{0}%", attribute.ModifiedValue);
 			label.TextColor = GetDisplayColor();
 		}
 
 		private Color GetDisplayColor()
 		{
-			if (attribute.ComputedValue > 100)
+			if (attribute.ModifiedValue > 100)
 				return CharWindow.BuffColor;
-			if (attribute.ComputedValue < 100)
+			if (attribute.ModifiedValue < 100)
 				return CharWindow.DebuffColor;
 			return Color.White;
 		}

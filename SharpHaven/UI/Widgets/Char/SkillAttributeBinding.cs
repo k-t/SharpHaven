@@ -16,7 +16,7 @@ namespace SharpHaven.UI.Widgets
 		{
 			this.label = label;
 			this.baseValue = attribute.BaseValue;
-			this.compValue = attribute.ComputedValue;
+			this.compValue = attribute.ModifiedValue;
 			UpdateLabel();
 		}
 
@@ -57,7 +57,7 @@ namespace SharpHaven.UI.Widgets
 		protected override void OnAttributeChange()
 		{
 			baseValue = attribute.BaseValue;
-			compValue = attribute.ComputedValue;
+			compValue = attribute.ModifiedValue;
 			cost = 0;
 			UpdateLabel();
 		}
@@ -73,23 +73,23 @@ namespace SharpHaven.UI.Widgets
 		{
 			if (baseValue > attribute.BaseValue)
 				return Color.FromArgb(128, 128, 255);
-			if (attribute.ComputedValue > attribute.BaseValue)
+			if (attribute.ModifiedValue > attribute.BaseValue)
 				return CharWindow.BuffColor;
-			if (attribute.ComputedValue < attribute.BaseValue)
+			if (attribute.ModifiedValue < attribute.BaseValue)
 				return CharWindow.DebuffColor;
 			return Color.White;
 		}
 
 		private Tooltip GetTooltip()
 		{
-			if (attribute.ComputedValue < attribute.BaseValue)
+			if (attribute.ModifiedValue < attribute.BaseValue)
 				return new Tooltip(string.Format("{0} - {1}",
 					attribute.BaseValue,
-					attribute.BaseValue - attribute.ComputedValue));
-			if(attribute.ComputedValue > attribute.BaseValue)
+					attribute.BaseValue - attribute.ModifiedValue));
+			if(attribute.ModifiedValue > attribute.BaseValue)
 				return new Tooltip(string.Format("{0} + {1}",
 					attribute.BaseValue,
-					attribute.ComputedValue - attribute.BaseValue));
+					attribute.ModifiedValue - attribute.BaseValue));
 			return null;
 		}
 	}

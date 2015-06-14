@@ -22,7 +22,7 @@ namespace SharpHaven.UI.Widgets
 
 		private void UpdateWidget()
 		{
-			int val = attribute.ComputedValue;
+			int val = attribute.ModifiedValue;
 			if (inv) val = -val;
 			widget.SetSliderPosition(val);
 		}

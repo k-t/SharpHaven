@@ -6,13 +6,13 @@ namespace SharpHaven.Client
 	{
 		private readonly string name;
 		private int baseValue;
-		private int compValue;
+		private int modValue;
 
-		public CharAttribute(string name, int baseValue, int compValue)
+		public CharAttribute(string name, int baseValue, int modValue)
 		{
 			this.name = name;
 			this.baseValue = baseValue;
-			this.compValue = compValue;
+			this.modValue = modValue;
 		}
 
 		public event Action Changed;
@@ -27,15 +27,15 @@ namespace SharpHaven.Client
 			get { return baseValue; }
 		}
 
-		public int ComputedValue
+		public int ModifiedValue
 		{
-			get { return compValue; }
+			get { return modValue; }
 		}
 
-		public void Update(int baseValue, int compValue)
+		public void Update(int baseValue, int modValue)
 		{
 			this.baseValue = baseValue;
-			this.compValue = compValue;
+			this.modValue = modValue;
 			Changed.Raise();
 		}
 	}
