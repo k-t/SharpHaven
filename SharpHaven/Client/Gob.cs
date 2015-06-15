@@ -140,7 +140,5 @@ namespace SharpHaven.Client
 				}
 			}
 		}
-
-		
 	}
 }

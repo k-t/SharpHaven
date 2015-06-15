@@ -71,7 +71,7 @@ namespace SharpHaven.Net
 								.Uint16(msg.Seq)
 								.Byte(msg.Message.Type)
 								.Bytes(msg.Message.GetAllBytes());
-							socket.SendMessage(rmsg);
+							socket.Send(rmsg);
 							beat = false;
 						}
 					}
@@ -81,7 +81,7 @@ namespace SharpHaven.Net
 				{
 					if (ackTime.HasValue && ((now - ackTime.Value).TotalMilliseconds >= AckThreshold))
 					{
-						socket.SendMessage(new Message(Message.MSG_ACK).Uint16(ackSeq));
+						socket.Send(new Message(Message.MSG_ACK).Uint16(ackSeq));
 						ackTime = null;
 						beat = false;
 					}
@@ -91,7 +91,7 @@ namespace SharpHaven.Net
 				{
 					if ((now - last).TotalMilliseconds > KeepAliveTimeout)
 					{
-						socket.SendMessage(new Message(Message.MSG_BEAT));
+						socket.Send(new Message(Message.MSG_BEAT));
 						last = now;
 					}
 				}

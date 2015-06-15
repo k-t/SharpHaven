@@ -9,7 +9,7 @@ namespace SharpHaven.Client
 		private Delayed<Drawable> image;
 		private Delayed<string> tooltip;
 
-		public Buff(int id, Delayed<BuffMold> mold)
+		public Buff(int id, Delayed<BuffProto> mold)
 		{
 			this.id = id;
 			this.image = mold.Select(x => x.Image);

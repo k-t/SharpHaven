@@ -3,20 +3,20 @@ using SharpHaven.Graphics;
 
 namespace SharpHaven.Resources
 {
-	public class BuffMoldFactory : IObjectFactory<BuffMold>
+	public class BuffProtoFactory : IObjectFactory<BuffProto>
 	{
 		private readonly IObjectFactory<Drawable> imageFactory;
 
-		public BuffMoldFactory(IObjectFactory<Drawable> imageFactory)
+		public BuffProtoFactory(IObjectFactory<Drawable> imageFactory)
 		{
 			this.imageFactory = imageFactory;
 		}
 
-		public BuffMold Create(string resName, Resource res)
+		public BuffProto Create(string resName, Resource res)
 		{
 			var image = imageFactory.Create(resName, res);
 			var tooltip = res.GetLayer<TooltipData>();
-			return new BuffMold(image, tooltip != null ? tooltip.Text : null);
+			return new BuffProto(image, tooltip != null ? tooltip.Text : null);
 		}
 	}
 }

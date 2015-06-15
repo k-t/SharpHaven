@@ -21,7 +21,7 @@ namespace SharpHaven.Client
 
 		public event Action Changed;
 
-		public Item(Delayed<ItemMold> mold) : this()
+		public Item(Delayed<ItemProto> mold) : this()
 		{
 			image = mold.Select(x => x.Image);
 			tooltip = mold.Select(x => x.Tooltip);

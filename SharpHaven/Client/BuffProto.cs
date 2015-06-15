@@ -2,12 +2,12 @@
 
 namespace SharpHaven.Client
 {
-	public class BuffMold
+	public class BuffProto
 	{
 		private readonly Drawable image;
 		private readonly string tooltip;
 
-		public BuffMold(Drawable image, string tooltip)
+		public BuffProto(Drawable image, string tooltip)
 		{
 			this.image = image;
 			this.tooltip = tooltip;

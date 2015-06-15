@@ -125,7 +125,7 @@ namespace SharpHaven.Net
 				sender.Finished -= OnTaskFinished;
 				sender.Stop();
 
-				socket.SendMessage(new Message(Message.MSG_CLOSE));
+				socket.Send(new Message(Message.MSG_CLOSE));
 				// HACK: otherwise close message may not be sent
 				Thread.Sleep(TimeSpan.FromMilliseconds(5));
 				socket.Close();
@@ -148,7 +148,7 @@ namespace SharpHaven.Net
 		public void RequestMap(int x, int y)
 		{
 			var msg = new Message(Message.MSG_MAPREQ).Coord(x, y);
-			socket.SendMessage(msg);
+			socket.Send(msg);
 		}
 
 		public void MessageWidget(ushort widgetId, string name, object[] args)
@@ -164,7 +164,7 @@ namespace SharpHaven.Net
 		private void SendObjectAck(int id, int frame)
 		{
 			// FIXME: make it smarter
-			socket.SendMessage(new Message(Message.MSG_OBJACK).Int32(id).Int32(frame));
+			socket.Send(new Message(Message.MSG_OBJACK).Int32(id).Int32(frame));
 		}
 
 		private void Connect()
@@ -178,7 +178,7 @@ namespace SharpHaven.Net
 				.String(settings.UserName)
 				.Bytes(settings.Cookie);
 
-			socket.SendMessage(hello);
+			socket.Send(hello);
 
 			MessageReader reply;
 			ConnectionError error;

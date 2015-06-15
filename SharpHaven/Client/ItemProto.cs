@@ -2,12 +2,12 @@
 
 namespace SharpHaven.Client
 {
-	public class ItemMold
+	public class ItemProto
 	{
 		private readonly Drawable image;
 		private readonly string tooltip;
 
-		public ItemMold(Drawable image, string tooltip)
+		public ItemProto(Drawable image, string tooltip)
 		{
 			this.image = image;
 			this.tooltip = tooltip;

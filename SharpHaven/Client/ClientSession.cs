@@ -312,7 +312,7 @@ namespace SharpHaven.Client
 		{
 			App.QueueOnMainThread(() =>
 			{
-				var buff = new Buff(args.Id, Resources.Get<BuffMold>(args.ResourceId));
+				var buff = new Buff(args.Id, Resources.Get<BuffProto>(args.ResourceId));
 				buff.Amount = args.AMeter;
 				buff.IsMajor = args.IsMajor;
 				if (!string.IsNullOrEmpty(args.Tooltip))

@@ -92,7 +92,7 @@
     <Compile Include="UI\Widgets\ClaimRightsChangeEvent.cs" />
     <Compile Include="Utils\FrameCounter.cs" />
     <Compile Include="Client\Buff.cs" />
-    <Compile Include="Client\BuffMold.cs" />
+    <Compile Include="Client\BuffProto.cs" />
     <Compile Include="Client\CharAttribute.cs" />
     <Compile Include="Client\GameActionCollection.cs" />
     <Compile Include="UI\Widgets\MenuNode.cs" />
@@ -108,7 +108,7 @@
     <Compile Include="Client\GobUpdater.cs" />
     <Compile Include="Client\ClientSession.cs" />
     <Compile Include="Client\Item.cs" />
-    <Compile Include="Client\ItemMold.cs" />
+    <Compile Include="Client\ItemProto.cs" />
     <Compile Include="Client\KinInfo.cs" />
     <Compile Include="Client\Metric.cs" />
     <Compile Include="Client\Party.cs" />
@@ -167,11 +167,11 @@
     <Compile Include="MainScreen.cs" />
     <Compile Include="Client\Tileset.cs" />
     <Compile Include="Client\GameAction.cs" />
-    <Compile Include="Resources\Factories\BuffMoldFactory.cs" />
+    <Compile Include="Resources\Factories\BuffProtoFactory.cs" />
     <Compile Include="Resources\Factories\GameActionFactory.cs" />
     <Compile Include="Resources\Factories\BitmapFactory.cs" />
     <Compile Include="Resources\Factories\FontFaceFactory.cs" />
-    <Compile Include="Resources\Factories\ItemMoldFactory.cs" />
+    <Compile Include="Resources\Factories\ItemProtoFactory.cs" />
     <Compile Include="Resources\Factories\MouseCursorFactory.cs" />
     <Compile Include="Resources\Factories\DrawableFactory.cs" />
     <Compile Include="Resources\Factories\SpriteMakerFactory.cs" />

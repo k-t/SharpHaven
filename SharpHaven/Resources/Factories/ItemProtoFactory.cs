@@ -3,20 +3,20 @@ using SharpHaven.Graphics;
 
 namespace SharpHaven.Resources
 {
-	public class ItemMoldFactory : IObjectFactory<ItemMold>
+	public class ItemProtoFactory : IObjectFactory<ItemProto>
 	{
 		private readonly IObjectFactory<Drawable> imageFactory;
 
-		public ItemMoldFactory(IObjectFactory<Drawable> imageFactory)
+		public ItemProtoFactory(IObjectFactory<Drawable> imageFactory)
 		{
 			this.imageFactory = imageFactory;
 		}
 
-		public ItemMold Create(string resName, Resource res)
+		public ItemProto Create(string resName, Resource res)
 		{
 			var image = imageFactory.Create(resName, res);
 			var tooltip = res.GetLayer<TooltipData>();
-			return new ItemMold(image, tooltip != null ? tooltip.Text : null);
+			return new ItemProto(image, tooltip != null ? tooltip.Text : null);
 		}
 	}
 }

@@ -33,11 +33,11 @@ namespace SharpHaven.Net
 			socket.Dispose();
 		}
 
-		public bool Receive(out MessageReader message)
+		public bool Receive(out MessageReader reader)
 		{
 			if (!socket.Poll(receiveTimeout * 1000, SelectMode.SelectRead))
 			{
-				message = null;
+				reader = null;
 				return false;
 			}
 
@@ -48,11 +48,11 @@ namespace SharpHaven.Net
 			var buffer = new byte[size - 1];
 			Array.Copy(receiveBuffer, 1, buffer, 0, size - 1);
 
-			message = new MessageReader(type, buffer);
+			reader = new MessageReader(type, buffer);
 			return true;
 		}
 
-		public void SendMessage(Message msg)
+		public void Send(Message msg)
 		{
 			var buffer = new byte[msg.Length + 1];
 			buffer[0] = msg.Type;

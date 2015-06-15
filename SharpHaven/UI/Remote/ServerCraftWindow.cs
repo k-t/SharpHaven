@@ -55,7 +55,7 @@ namespace SharpHaven.UI.Remote
 
 		private Item MakeItem(int resId, int count)
 		{
-			var mold = Session.Resources.Get<ItemMold>(resId);
+			var mold = Session.Resources.Get<ItemProto>(resId);
 			return new Item(mold) { Amount = count };
 		}
 	}

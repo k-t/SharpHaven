@@ -33,8 +33,8 @@ namespace SharpHaven.Resources
 			RegisterType(typeof(Tileset), new TilesetFactory());
 			RegisterType(typeof(SpriteMaker), new SpriteMakerFactory());
 			RegisterType(typeof(GameAction), new GameActionFactory());
-			RegisterType(typeof(ItemMold), new ItemMoldFactory(drawableFactory));
-			RegisterType(typeof(BuffMold), new BuffMoldFactory(drawableFactory));
+			RegisterType(typeof(ItemProto), new ItemProtoFactory(drawableFactory));
+			RegisterType(typeof(BuffProto), new BuffProtoFactory(drawableFactory));
 
 			AddSource(new FolderSource("Data"));
 			AddSource(new JarSource("haven-res.jar"));
