@@ -89,7 +89,7 @@ namespace SharpHaven.UI.Remote
 
 		protected void SendMessage(string message, params object[] args)
 		{
-			session.SendMessage(id, message, args ?? new object[0]);
+			session.MessageWidget(id, message, args ?? new object[0]);
 		}
 
 		private void SetCursor(object[] args)

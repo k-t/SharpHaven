@@ -5,10 +5,7 @@ using System.Threading;
 using NLog;
 using SharpHaven.Game;
 using SharpHaven.Game.Events;
-using SharpHaven.Graphics.Sprites;
-using SharpHaven.Resources;
 using SharpHaven.UI.Remote;
-using SharpHaven.Utils;
 
 namespace SharpHaven.Client
 {
@@ -130,12 +127,12 @@ namespace SharpHaven.Client
 			App.QueueOnMainThread(() => Screen.Close());
 		}
 
-		public void SendMessage(ushort widgetId, string name, object[] args)
+		public void MessageWidget(ushort widgetId, string name, object[] args)
 		{
 			game.MessageWidget(widgetId, name, args);
 		}
 
-		public void RequestGrid(Point gc)
+		public void RequestMap(Point gc)
 		{
 			var grid = Map.GetGrid(gc);
 			if (grid == null && !gridRequests.Contains(gc))
@@ -204,7 +201,7 @@ namespace SharpHaven.Client
 
 		void IGameEventListener.Handle(MapInvalidateGridEvent args)
 		{
-			App.QueueOnMainThread(() => RequestGrid(args.Coord));
+			App.QueueOnMainThread(() => RequestMap(args.Coord));
 		}
 
 		void IGameEventListener.Handle(MapInvalidateRegionEvent args)
