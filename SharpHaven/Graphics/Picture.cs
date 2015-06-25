@@ -34,5 +34,10 @@ namespace SharpHaven.Graphics
 			}
 			return base.CheckHit(x, y);
 		}
+		
+		public Picture Slice(int x, int y, int w, int h)
+		{
+			return new Picture(tex.Slice(x, y, w, h), null);
+		}
 	}
 }

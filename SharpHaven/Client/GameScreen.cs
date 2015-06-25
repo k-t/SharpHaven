@@ -19,6 +19,7 @@ namespace SharpHaven.Client
 		private readonly CombatMeter combatMeter;
 		private readonly CombatView combatView;
 		private readonly CombatWindow combatWindow;
+		private readonly AimWidget aimWidget;
 
 		public GameScreen()
 		{
@@ -62,6 +63,9 @@ namespace SharpHaven.Client
 			combatWindow.Move(100, 100);
 			combatWindow.Visible = false;
 
+			aimWidget = new AimWidget(Root);
+			aimWidget.Visible = false;
+
 			RootWidget.KeyDown += OnKeyDown;
 		}
 
@@ -70,6 +74,11 @@ namespace SharpHaven.Client
 		public Widget Root
 		{
 			get { return RootWidget; }
+		}
+
+		public AimWidget Aim
+		{
+			get { return aimWidget; }
 		}
 
 		public Container Container
@@ -144,6 +153,7 @@ namespace SharpHaven.Client
 			escapeWindow.Move((newWidth - 100) / 2, (newHeight - 100) / 2);
 			combatMeter.Move((newWidth - calendar.Width) / 2, calendar.Y);
 			combatView.Move((newWidth - combatView.Width - 10), 10);
+			aimWidget.Move((newWidth - aimWidget.Width) / 2, (newHeight - aimWidget.Height) / 2);
 		}
 
 		private void OnKeyDown(KeyEvent e)

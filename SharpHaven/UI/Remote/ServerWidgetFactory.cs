@@ -45,6 +45,7 @@ namespace SharpHaven.UI.Remote
 			methods["frv"] = ServerCombatView.Create;
 			methods["give"] = ServerGiveButton.Create;
 			methods["ui/land2"] = ServerClaimWindow.Create;
+			methods["ui/aim"] = ServerAimWidget.Create;
 		}
 
 		public ServerWidget Create(

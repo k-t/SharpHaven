@@ -85,11 +85,13 @@
     <Compile Include="Graphics\Sprites\SpritePart.cs" />
     <Compile Include="Input\DropEvent.cs" />
     <Compile Include="UI\Drag.cs" />
+    <Compile Include="UI\Remote\ServerAimWidget.cs" />
     <Compile Include="UI\Remote\ServerClaimWindow.cs" />
     <Compile Include="UI\Widgets\CheckBox.cs" />
     <Compile Include="UI\Widgets\ClaimRight.cs" />
     <Compile Include="UI\Widgets\ClaimWindow.cs" />
     <Compile Include="UI\Widgets\ClaimRightsChangeEvent.cs" />
+    <Compile Include="UI\Widgets\Combat\AimWidget.cs" />
     <Compile Include="Utils\FrameCounter.cs" />
     <Compile Include="Client\Buff.cs" />
     <Compile Include="Client\BuffProto.cs" />
