@@ -29,7 +29,7 @@ namespace SharpHaven
 			using (window = new MainWindow(1024, 768))
 			{
 				window.Icon = icon;
-				window.Run(60, 60);
+				window.Run(30, 60);
 			}
 		}
 

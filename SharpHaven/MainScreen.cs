@@ -81,7 +81,10 @@ namespace SharpHaven
 			current.Update(dt);
 
 			if (session != null)
+			{
 				session.Objects.Tick(dt);
+				session.Scene.Update();
+			}
 		}
 
 		void IScreen.MouseButtonDown(MouseButtonEvent e)

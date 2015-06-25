@@ -14,11 +14,13 @@ namespace SharpHaven.Client
 
 		private readonly ClientSession session;
 		private readonly List<ObjectPart> spriteList;
+		private readonly List<Tuple<Point, GobSpeech>> speeches;
 
 		public GameScene(ClientSession session)
 		{
 			this.session = session;
 			this.spriteList = new List<ObjectPart>();
+			this.speeches = new List<Tuple<Point, GobSpeech>>();
 		}
 
 		public Gob GetObjectAt(Point sc)
@@ -31,9 +33,23 @@ namespace SharpHaven.Client
 
 		public void Draw(DrawingContext dc, int x, int y)
 		{
-			var speeches = new List<Tuple<Point, GobSpeech>>();
+			foreach (var part in spriteList)
+			{
+				if (part.Effect != null) part.Effect.Apply(dc);
+				var doff = part.Gob.DrawOffset;
+				dc.Draw(part.Sprite, x + part.X + doff.X, y + part.Y + doff.Y);
+				if (part.Effect != null) part.Effect.Unapply(dc);
+			}
 
+			foreach (var speech in speeches)
+				speech.Item2.Draw(dc, x + speech.Item1.X, y + speech.Item1.Y);
+		}
+
+		public void Update()
+		{
+			speeches.Clear();
 			spriteList.Clear();
+
 			foreach (var gob in session.Objects)
 			{
 				var sprite = gob.Sprite;
@@ -48,8 +64,8 @@ namespace SharpHaven.Client
 				if (gob.Following != null)
 					szo = gob.Following.Szo;
 
-				var p = Geometry.MapToScreen(gob.Position);
-				
+				var p =  Geometry.MapToScreen(gob.Position);
+
 				spriteList.AddRange(sprite.Parts.Select(part => new ObjectPart(p, part, gob, effect, szo)));
 
 				foreach (var overlay in gob.Overlays)
@@ -61,16 +77,6 @@ namespace SharpHaven.Client
 			}
 
 			spriteList.Sort(CompareParts);
-			foreach (var part in spriteList)
-			{
-				if (part.Effect != null) part.Effect.Apply(dc);
-				var doff = part.Gob.DrawOffset;
-				dc.Draw(part.Sprite, x + part.X + doff.X, y + part.Y + doff.Y);
-				if (part.Effect != null) part.Effect.Unapply(dc);
-			}
-
-			foreach (var speech in speeches)
-				speech.Item2.Draw(dc, x + speech.Item1.X, y + speech.Item1.Y);
 		}
 
 		private int CompareParts(ObjectPart a, ObjectPart b)
