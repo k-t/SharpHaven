@@ -81,11 +81,13 @@ namespace SharpHaven.Client
 
 		private int CompareParts(ObjectPart a, ObjectPart b)
 		{
-			if (a.Sprite.Z != b.Sprite.Z)
-				return a.Sprite.Z - b.Sprite.Z;
+			if (a.Z != b.Z)
+				return a.Z - b.Z;
 			if (a.Y != b.Y)
 				return a.Y - b.Y;
-			return (a.Sprite.SubZ + a.Szo) - (b.Sprite.SubZ + b.Szo);
+			if (a.SubZ != b.SubZ)
+				return a.SubZ - b.SubZ;
+			return a.Sprite.GetHashCode() - b.Sprite.GetHashCode();
 		}
 
 		private struct ObjectPart
@@ -95,7 +97,8 @@ namespace SharpHaven.Client
 			public readonly Gob Gob;
 			public readonly SpritePart Sprite;
 			public readonly ISpriteEffect Effect;
-			public readonly int Szo;
+			public readonly int Z;
+			public readonly int SubZ;
 
 			public ObjectPart(Point position, SpritePart sprite, Gob gob, ISpriteEffect effect, int szo)
 			{
@@ -104,7 +107,8 @@ namespace SharpHaven.Client
 				Sprite = sprite;
 				Gob = gob;
 				Effect = effect;
-				Szo = szo;
+				Z = sprite.Z;
+				SubZ = sprite.SubZ + szo;
 			}
 		}
 	}
