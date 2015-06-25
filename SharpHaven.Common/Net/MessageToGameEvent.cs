@@ -10,7 +10,7 @@ using SharpHaven.Resources;
 
 namespace SharpHaven.Net
 {
-	public static class GameEventMessageReaders
+	public static class MessageToGameEvent
 	{
 		private static readonly Logger Log = LogManager.GetCurrentClassLogger();
 

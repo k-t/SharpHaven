@@ -3,7 +3,7 @@ using SharpHaven.Game;
 
 namespace SharpHaven.Net
 {
-	public static class GobDeltaMessageReaders
+	public static class MessageToGobDelta
 	{
 		public static GobDelta.Position ReadGobPosition(this MessageReader reader)
 		{

@@ -69,10 +69,10 @@
     <Compile Include="Game\Events\PlayMusicEvent.cs" />
     <Compile Include="Game\Events\WidgetDestroyEvent.cs" />
     <Compile Include="Game\IGame.cs" />
-    <Compile Include="Net\GobDeltaMessageReaders.cs" />
+    <Compile Include="Net\MessageToGobDelta.cs" />
     <Compile Include="Geometry.cs" />
     <Compile Include="Game\Events\PlaySoundEvent.cs" />
-    <Compile Include="Net\GameEventMessageReaders.cs" />
+    <Compile Include="Net\MessageToGameEvent.cs" />
     <Compile Include="Resources\Layers\AudioData.cs" />
     <Compile Include="Resources\Layers\CodeData.cs" />
     <Compile Include="Resources\Serialization\Binary\AudioDataSerializer.cs" />
