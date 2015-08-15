@@ -32,12 +32,7 @@ namespace SharpHaven.UI.Widgets
 
 		public Buddy SelectedItem
 		{
-			get
-			{
-				return listBox.SelectedItem != null
-					? (Buddy)listBox.SelectedItem.Tag
-					: null;
-			}
+			get { return (Buddy)listBox.SelectedItem?.Tag; }
 		}
 
 		public void Add(Buddy buddy)

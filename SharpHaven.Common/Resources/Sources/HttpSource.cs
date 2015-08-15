@@ -19,7 +19,7 @@ namespace SharpHaven.Resources
 
 		public string Description
 		{
-			get { return string.Format("[Http] {0}", client.BaseAddress); }
+			get { return $"[Http] {client.BaseAddress}"; }
 		}
 
 		public Resource Get(string resourceName)

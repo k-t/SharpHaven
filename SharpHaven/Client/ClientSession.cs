@@ -17,17 +17,6 @@ namespace SharpHaven.Client
 		private readonly HashSet<Point> gridRequests;
 		private readonly ServerWidgetFactory widgetFactory;
 
-		private readonly GameActionCollection actions;
-		private readonly CharAttributeCollection attributes;
-		private readonly BuffCollection buffs;
-		private readonly Map map;
-		private readonly GobCache objects;
-		private readonly Party party;
-		private readonly ClientResources resources;
-		private readonly GameScene scene;
-		private readonly GameScreen screen;
-		private readonly ServerWidgetCollection widgets;
-
 		public ClientSession(IGame game)
 		{
 			this.game = game;
@@ -36,81 +25,43 @@ namespace SharpHaven.Client
 			gridRequests = new HashSet<Point>();
 			widgetFactory = new ServerWidgetFactory();
 
-			actions = new GameActionCollection();
-			attributes = new CharAttributeCollection();
-			buffs = new BuffCollection();
-			map = new Map();
-			objects = new GobCache();
-			party = new Party();
-			resources = new ClientResources();
-			scene = new GameScene(this);
-			screen = new GameScreen();
+			Actions = new GameActionCollection();
+			Attributes = new CharAttributeCollection();
+			Buffs = new BuffCollection();
+			Map = new Map();
+			Objects = new GobCache();
+			Party = new Party();
+			Resources = new ClientResources();
+			Scene = new GameScene(this);
+			Screen = new GameScreen();
 
-			widgets = new ServerWidgetCollection();
-			widgets.Add(new ServerRootWidget(0, this, Screen.Root));
+			Widgets = new ServerWidgetCollection();
+			Widgets.Add(new ServerRootWidget(0, this, Screen.Root));
 		}
 
-		public GameActionCollection Actions
-		{
-			get { return actions; }
-		}
+		public GameActionCollection Actions { get; }
 
-		public CharAttributeCollection Attributes
-		{
-			get { return attributes; }
-		}
+		public CharAttributeCollection Attributes { get; }
 
-		public BuffCollection Buffs
-		{
-			get { return buffs; }
-		}
+		public BuffCollection Buffs { get; }
 
-		public Map Map
-		{
-			get { return map; }
-		}
+		public Map Map { get; }
 
-		public GobCache Objects
-		{
-			get { return objects; }
-		}
+		public GobCache Objects { get; }
 
-		public Party Party
-		{
-			get { return party; }
-		}
+		public Party Party { get; }
 
-		public ClientResources Resources
-		{
-			get { return resources; }
-		}
+		public ClientResources Resources { get; }
 
-		public GameScene Scene
-		{
-			get { return scene; }
-		}
+		public GameScene Scene { get; }
 
-		public GameScreen Screen
-		{
-			get { return screen; }
-		}
+		public GameScreen Screen { get; }
 
-		public GameTime Time
-		{
-			get;
-			set;
-		}
+		public GameTime Time { get; set; }
 
-		public ServerWidgetCollection Widgets
-		{
-			get { return widgets; }
-		}
+		public ServerWidgetCollection Widgets { get; }
 
-		public Point WorldPosition
-		{
-			get;
-			set;
-		}
+		public Point WorldPosition { get; set; }
 
 		public void Start()
 		{
@@ -151,10 +102,7 @@ namespace SharpHaven.Client
 			{
 				var parent = Widgets[args.ParentId];
 				if (parent == null)
-					throw new Exception(string.Format(
-						"Non-existent parent widget {0} for {1}",
-						args.ParentId,
-						args.Id));
+					throw new Exception($"Non-existent parent widget {args.ParentId} for {args.Id}");
 
 				var widget = widgetFactory.Create(args.Type, args.Id, parent);
 				widget.Init(args.Position, args.Args);

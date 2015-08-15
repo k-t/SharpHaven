@@ -139,7 +139,7 @@ namespace SharpHaven.UI.Widgets
 
 		public void SetLastSeenTime(int time)
 		{
-			lblLastSeen.Text = string.Format("Last seen: {0} ago", FormatTime(time));
+			lblLastSeen.Text = $"Last seen: {FormatTime(time)} ago";
 			lblLastSeen.Visible = true;
 		}
 

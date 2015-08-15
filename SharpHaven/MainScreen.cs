@@ -24,7 +24,7 @@ namespace SharpHaven
 		private void ChangeScreen(IScreen screen)
 		{
 			if (screen == null)
-				throw new ArgumentNullException("screen");
+				throw new ArgumentNullException(nameof(screen));
 
 			current.Close();
 			current = screen;

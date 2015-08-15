@@ -70,7 +70,7 @@ namespace SharpHaven.Client
 				var overlay = message.Overlays[i];
 				var tileset = tilesets[tile];
 				if (tileset == null)
-					throw new Exception(string.Format("Unknown tileset ({0})", tile));
+					throw new Exception($"Unknown tileset ({tile})");
 				tiles[i] = new MapTile(this, GetAbsoluteTileCoord(gc, i), tile, overlay, tileset.GroundTiles.PickRandom(random));
 			}
 			var grid = new MapGrid(gc, message.MinimapName, tiles);

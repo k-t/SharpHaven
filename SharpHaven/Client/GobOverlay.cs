@@ -5,30 +5,17 @@ namespace SharpHaven.Client
 {
 	public class GobOverlay
 	{
-		private readonly int id;
-		private readonly Delayed<ISprite> sprite;
-		private readonly bool isPersistent;
-
 		public GobOverlay(int id, Delayed<ISprite> sprite, bool isPersistent)
 		{
-			this.id = id;
-			this.sprite = sprite;
-			this.isPersistent = isPersistent;
+			Id = id;
+			Sprite = sprite;
+			IsPersistent = isPersistent;
 		}
 
-		public int Id
-		{
-			get { return id; }
-		}
+		public int Id { get; }
 
-		public Delayed<ISprite> Sprite
-		{
-			get { return sprite; }
-		}
+		public Delayed<ISprite> Sprite { get; }
 
-		public bool IsPersistent
-		{
-			get { return isPersistent; }
-		}
+		public bool IsPersistent { get; }
 	}
 }

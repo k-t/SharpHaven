@@ -5,21 +5,17 @@ namespace SharpHaven.Client
 {
 	public class PartyMember
 	{
-		private readonly int id;
 		private Color color;
 		private Point? location;
 
 		public PartyMember(int id)
 		{
-			this.id = id;
+			Id = id;
 		}
 
 		public event Action<PartyMember> Changed;
 
-		public int Id
-		{
-			get { return id; }
-		}
+		public int Id { get; }
 
 		public Color Color
 		{

@@ -4,36 +4,19 @@ namespace SharpHaven.Client
 {
 	public class Skill
 	{
-		private readonly string id;
-		private readonly Drawable image;
-		private readonly string tooltip;
-
 		public Skill(string id, Drawable image, string tooltip)
 		{
-			this.id = id;
-			this.image = image;
-			this.tooltip = tooltip;
+			Id = id;
+			Image = image;
+			Tooltip = tooltip;
 		}
 
-		public string Id
-		{
-			get { return id; }
-		}
+		public string Id { get; }
 
-		public Drawable Image
-		{
-			get { return image; }
-		}
+		public Drawable Image { get; }
 
-		public string Tooltip
-		{
-			get { return tooltip; }
-		}
+		public string Tooltip { get; }
 
-		public int? Cost
-		{
-			get;
-			set;
-		}
+		public int? Cost { get; set; }
 	}
 }

@@ -5,23 +5,14 @@ namespace SharpHaven.UI.Widgets
 {
 	public class TransferEvent : EventArgs
 	{
-		private readonly int delta;
-		private readonly KeyModifiers mods;
-
 		public TransferEvent(int delta, KeyModifiers mods)
 		{
-			this.delta = delta;
-			this.mods = mods;
+			Delta = delta;
+			KeyModifiers = mods;
 		}
 
-		public int Delta
-		{
-			get { return delta; }
-		}
+		public int Delta { get; }
 
-		public KeyModifiers Modifiers
-		{
-			get { return mods; }
-		}
+		public KeyModifiers KeyModifiers { get; }
 	}
 }

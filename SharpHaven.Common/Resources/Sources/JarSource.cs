@@ -18,7 +18,7 @@ namespace SharpHaven.Resources
 
 		public string Description
 		{
-			get { return string.Format("[JAR]{0}", zip.Name); }
+			get { return $"[JAR]{zip.Name}"; }
 		}
 
 		public Resource Get(string resourceName)
@@ -27,7 +27,7 @@ namespace SharpHaven.Resources
 			var entryName = GetEntryName(resourceName);
 			var entry = zip.GetEntry(entryName);
 			if (entry == null)
-				throw new ResourceException(string.Format("Entry '{0}' not found", entryName));
+				throw new ResourceException($"Entry '{entryName}' not found");
 			return serializer.Deserialize(zip.GetInputStream(entry));
 		}
 

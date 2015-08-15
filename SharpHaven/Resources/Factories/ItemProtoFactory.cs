@@ -16,7 +16,7 @@ namespace SharpHaven.Resources
 		{
 			var image = imageFactory.Create(resName, res);
 			var tooltip = res.GetLayer<TooltipData>();
-			return new ItemProto(image, tooltip != null ? tooltip.Text : null);
+			return new ItemProto(image, tooltip?.Text);
 		}
 	}
 }

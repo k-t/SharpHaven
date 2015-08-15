@@ -2,16 +2,11 @@
 {
 	public class KeyPressEvent : InputEvent
 	{
-		private readonly char keyChar;
-
 		public KeyPressEvent(char keyChar)
 		{
-			this.keyChar = keyChar;
+			KeyChar = keyChar;
 		}
 
-		public char KeyChar
-		{
-			get { return keyChar; }
-		}
+		public char KeyChar { get; }
 	}
 }

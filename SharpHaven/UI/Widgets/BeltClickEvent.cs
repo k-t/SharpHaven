@@ -5,30 +5,17 @@ namespace SharpHaven.UI.Widgets
 {
 	public class BeltClickEvent : EventArgs
 	{
-		private readonly int slot;
-		private readonly MouseButton button;
-		private readonly KeyModifiers mods;
-
 		public BeltClickEvent(int slot, MouseButton button, KeyModifiers mods)
 		{
-			this.slot = slot;
-			this.button = button;
-			this.mods = mods;
+			Slot = slot;
+			Button = button;
+			Modifiers = mods;
 		}
 
-		public int Slot
-		{
-			get { return slot; }
-		}
+		public int Slot { get; }
 
-		public MouseButton Button
-		{
-			get { return button; }
-		}
+		public MouseButton Button { get; }
 
-		public KeyModifiers Modifiers
-		{
-			get { return mods; }
-		}
+		public KeyModifiers Modifiers { get; }
 	}
 }

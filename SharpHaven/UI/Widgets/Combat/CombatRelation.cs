@@ -105,7 +105,7 @@ namespace SharpHaven.UI.Widgets
 
 		private void UpdateLabel()
 		{
-			label.Text = string.Format("{0} {1}", Balance, Intensity);
+			label.Text = $"{Balance} {Intensity}";
 		}
 
 		private void OnAvatarClick(AvatarView sender, MouseButtonEvent e)

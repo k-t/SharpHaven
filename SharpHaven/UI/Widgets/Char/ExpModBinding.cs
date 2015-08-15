@@ -21,7 +21,7 @@ namespace SharpHaven.UI.Widgets
 
 		private void UpdateLabel()
 		{
-			label.Text = string.Format("{0}%", attribute.ModifiedValue);
+			label.Text = $"{attribute.ModifiedValue}%";
 			label.TextColor = GetDisplayColor();
 		}
 

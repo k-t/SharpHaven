@@ -394,7 +394,7 @@ namespace SharpHaven.UI.Widgets
 			if (lstAvailableSkills.SelectedItem != null)
 			{
 				lstCurrentSkills.SelectedItem = null;
-				lblSkillCost.Text = string.Format("Cost: {0}", lstAvailableSkills.SelectedItem.Cost);
+				lblSkillCost.Text = $"Cost: {lstAvailableSkills.SelectedItem.Cost}";
 			}
 			else
 				lblSkillCost.Text = "Cost: N/A";

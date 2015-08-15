@@ -4,22 +4,13 @@ namespace SharpHaven.Client
 {
 	public class MapOverlay
 	{
-		private readonly int index;
-
 		public MapOverlay(int index)
 		{
-			this.index = index;
+			Index = index;
 		}
 
-		public int Index
-		{
-			get { return index; }
-		}
+		public int Index { get; }
 
-		public Rectangle Bounds
-		{
-			get;
-			set;
-		}
+		public Rectangle Bounds { get; set; }
 	}
 }

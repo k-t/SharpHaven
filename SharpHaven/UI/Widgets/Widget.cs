@@ -91,7 +91,7 @@ namespace SharpHaven.UI.Widgets
 
 		public virtual MouseCursor Cursor
 		{
-			get { return cursor ?? (Parent != null ? Parent.Cursor : null); }
+			get { return cursor ?? Parent?.Cursor; }
 			set { cursor = value; }
 		}
 

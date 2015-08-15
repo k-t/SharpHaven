@@ -130,14 +130,11 @@ namespace SharpHaven.Net
 				}
 				else if (o != null)
 				{
-					throw new ArgumentException(string.Format(
-						"Unsupported list element type: {0}",
-						o.GetType()));
+					throw new ArgumentException($"Unsupported list element type: {o.GetType()}");
 				}
 				else
 				{
-					throw new ArgumentNullException(
-						"args", "One of the arguments is null");
+					throw new ArgumentNullException(nameof(args), "One of the arguments is null");
 				}
 			}
 			return this;

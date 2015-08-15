@@ -6,10 +6,6 @@ namespace SharpHaven.UI.Widgets
 {
 	public class MapPlaceEvent
 	{
-		private readonly Point mapCoord;
-		private readonly MouseButton button;
-		private readonly KeyModifiers mods;
-
 		public MapPlaceEvent(MouseButtonEvent e, Point mapCoord)
 			: this(e.Button, e.Modifiers, mapCoord)
 		{
@@ -17,24 +13,15 @@ namespace SharpHaven.UI.Widgets
 
 		public MapPlaceEvent(MouseButton button, KeyModifiers mods, Point mapCoord)
 		{
-			this.mapCoord = mapCoord;
-			this.button = button;
-			this.mods = mods;
+			MapCoord = mapCoord;
+			Button = button;
+			Modifiers = mods;
 		}
 
-		public Point MapCoord
-		{
-			get { return mapCoord; }
-		}
+		public Point MapCoord { get; }
 
-		public MouseButton Button
-		{
-			get { return button; }
-		}
+		public MouseButton Button { get; }
 
-		public KeyModifiers Modifiers
-		{
-			get { return mods; }
-		}
+		public KeyModifiers Modifiers { get; }
 	}
 }

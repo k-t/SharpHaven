@@ -4,23 +4,18 @@ namespace SharpHaven.Net
 {
 	public class NetworkException : Exception
 	{
-		private readonly ConnectionError error;
-
 		public NetworkException(string message, Exception innerException)
 			: base(message, innerException)
 		{
-			this.error = ConnectionError.ConnectionError;
+			Error = ConnectionError.ConnectionError;
 		}
 
 		public NetworkException(ConnectionError error)
 			: base(error.GetMessage())
 		{
-			this.error = error;
+			Error = error;
 		}
 
-		public ConnectionError Error
-		{
-			get { return error; }
-		}
+		public ConnectionError Error { get; }
 	}
 }

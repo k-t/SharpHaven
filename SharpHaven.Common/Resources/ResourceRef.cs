@@ -4,26 +4,18 @@ namespace SharpHaven.Resources
 {
 	public struct ResourceRef
 	{
-		private readonly string name;
-		private readonly ushort version;
-
 		public ResourceRef(string name, ushort version)
 		{
 			if (name == null)
-				throw new ArgumentNullException("name");
-			this.name = name;
-			this.version = version;
+				throw new ArgumentNullException(nameof(name));
+
+			Name = name;
+			Version = version;
 		}
 
-		public string Name
-		{
-			get { return name; }
-		}
+		public string Name { get; }
 
-		public ushort Version
-		{
-			get { return version; }
-		}
+		public ushort Version { get; }
 
 		public override int GetHashCode()
 		{

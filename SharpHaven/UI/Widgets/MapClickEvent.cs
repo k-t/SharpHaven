@@ -8,12 +8,6 @@ namespace SharpHaven.UI.Widgets
 {
 	public class MapClickEvent : EventArgs
 	{
-		private readonly MouseButton button;
-		private readonly KeyModifiers mods;
-		private readonly Point mapCoord;
-		private readonly Point screenCoord;
-		private readonly Gob gob;
-
 		public MapClickEvent(MouseButtonEvent e, Point mapCoord, Point screenCoord, Gob gob)
 			: this(e.Button, e.Modifiers, mapCoord, screenCoord, gob)
 		{
@@ -26,36 +20,21 @@ namespace SharpHaven.UI.Widgets
 			Point screenCoord,
 			Gob gob)
 		{
-			this.button = button;
-			this.mapCoord = mapCoord;
-			this.screenCoord = screenCoord;
-			this.gob = gob;
-			this.mods = mods;
+			Button = button;
+			MapCoord = mapCoord;
+			ScreenCoord = screenCoord;
+			Gob = gob;
+			Modifiers = mods;
 		}
 
-		public MouseButton Button
-		{
-			get { return button; }
-		}
+		public MouseButton Button { get; }
 
-		public Gob Gob
-		{
-			get { return gob; }
-		}
+		public Gob Gob { get; }
 
-		public Point MapCoord
-		{
-			get { return mapCoord; }
-		}
+		public Point MapCoord { get; }
 
-		public Point ScreenCoord
-		{
-			get { return screenCoord; }
-		}
+		public Point ScreenCoord { get; }
 
-		public KeyModifiers Modifiers
-		{
-			get { return mods; }
-		}
+		public KeyModifiers Modifiers { get; }
 	}
 }

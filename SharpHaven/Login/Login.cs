@@ -140,28 +140,19 @@ namespace SharpHaven.Login
 
 		private class AuthResult
 		{
-			private readonly byte[] cookie;
-			private readonly string error;
-
 			public AuthResult(byte[] cookie)
 			{
-				this.cookie = cookie;
+				Cookie = cookie;
 			}
 
 			public AuthResult(string error)
 			{
-				this.error = error;
+				Error = error;
 			}
 
-			public byte[] Cookie
-			{
-				get { return cookie; }
-			}
+			public byte[] Cookie { get; }
 
-			public string Error
-			{
-				get { return error; }
-			}
+			public string Error { get; }
 		}
 	}
 }

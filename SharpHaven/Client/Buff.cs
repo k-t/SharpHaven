@@ -5,37 +5,29 @@ namespace SharpHaven.Client
 {
 	public class Buff
 	{
-		private readonly int id;
 		private Delayed<Drawable> image;
 		private Delayed<string> tooltip;
 
 		public Buff(int id, Delayed<BuffProto> mold)
 		{
-			this.id = id;
+			Id = id;
 			this.image = mold.Select(x => x.Image);
 			this.tooltip = mold.Select(x => x.Tooltip);
 		}
 
-		public int Id
-		{
-			get { return id; }
-		}
+		public int Id { get; }
 
-		public bool IsMajor
-		{
-			get;
-			set;
-		}
+		public bool IsMajor { get; set; }
 
 		public Drawable Image
 		{
-			get { return image != null ? image.Value : null; }
+			get { return image?.Value; }
 			set { image = new Delayed<Drawable>(value); }
 		}
 
 		public string Tooltip
 		{
-			get { return tooltip != null ? tooltip.Value : null; }
+			get { return tooltip?.Value; }
 			set { tooltip = new Delayed<string>(value); }
 		}
 

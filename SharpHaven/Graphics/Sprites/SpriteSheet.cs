@@ -89,24 +89,15 @@ namespace SharpHaven.Graphics.Sprites
 		{
 			private const int Padding = 1;
 
-			private int packWidth;
-			private int packHeight;
+			public int PackWidth { get; private set; }
 
-			public int PackWidth
-			{
-				get { return packWidth; }
-			}
-
-			public int PackHeight
-			{
-				get { return packHeight; }
-			}
+			public int PackHeight { get; private set; }
 
 			public Rectangle Add(Size sz)
 			{
-				var rect = new Rectangle(packWidth, 0, sz.Width, sz.Height);
-				packWidth += sz.Width + Padding;
-				packHeight = Math.Max(packHeight, sz.Height);
+				var rect = new Rectangle(PackWidth, 0, sz.Width, sz.Height);
+				PackWidth += sz.Width + Padding;
+				PackHeight = Math.Max(PackHeight, sz.Height);
 				return rect;
 			}
 		}

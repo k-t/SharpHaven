@@ -98,7 +98,7 @@ namespace SharpHaven.UI.Widgets
 
 		private void UpdateLabel()
 		{
-			label.Text = string.Format("{0}/{1}/{2}", Remaining, Available, Built);
+			label.Text = $"{Remaining}/{Available}/{Built}";
 		}
 
 		#region IItemDropTarget

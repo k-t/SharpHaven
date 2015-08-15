@@ -43,7 +43,7 @@ namespace SharpHaven.UI.Widgets
 		{
 			dc.SetClip(5, 5, defaultSize.X, defaultSize.Y);
 
-			var image = (Avatar != null ? Avatar.Image : null);
+			var image = Avatar?.Image;
 			if (image != null)
 			{
 				dc.Draw(background, -(background.Width - Width) / 2, -20 + 5);

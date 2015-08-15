@@ -170,7 +170,7 @@ namespace SharpHaven.Login
 			lblErrorMessage.Text = errorMessage;
 
 			tbUserName.Text = login.UserName;
-			lblUserName.Text = string.Format("Identity is saved for {0}", login.UserName);
+			lblUserName.Text = $"Identity is saved for {login.UserName}";
 
 			if (string.IsNullOrEmpty(tbUserName.Text))
 				SetKeyboardFocus(tbUserName);

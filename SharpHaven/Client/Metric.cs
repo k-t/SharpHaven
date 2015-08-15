@@ -4,23 +4,14 @@ namespace SharpHaven.Client
 {
 	public struct Metric
 	{
-		private readonly Color color;
-		private readonly int value;
-
 		public Metric(Color color, int value)
 		{
-			this.color = color;
-			this.value = value;
+			Color = color;
+			Value = value;
 		}
 
-		public Color Color
-		{
-			get { return color; }
-		}
+		public Color Color { get; }
 
-		public int Value
-		{
-			get { return value; }
-		}
+		public int Value { get; }
 	}
 }

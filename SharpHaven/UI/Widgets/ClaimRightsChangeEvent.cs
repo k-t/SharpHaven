@@ -4,23 +4,14 @@ namespace SharpHaven.UI.Widgets
 {
 	public class ClaimRightsChangeEvent : EventArgs
 	{
-		private readonly int group;
-		private readonly ClaimRight rights;
-
 		public ClaimRightsChangeEvent(int group, ClaimRight rights)
 		{
-			this.group = group;
-			this.rights = rights;
+			Group = group;
+			Rights = rights;
 		}
 
-		public int Group
-		{
-			get { return group; }
-		}
+		public int Group { get; }
 
-		public ClaimRight Rights
-		{
-			get { return rights; }
-		}
+		public ClaimRight Rights { get; }
 	}
 }

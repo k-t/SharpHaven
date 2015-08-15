@@ -4,17 +4,12 @@ namespace SharpHaven.Graphics.Sprites
 {
 	public class StaticSprite : ISprite
 	{
-		private readonly IEnumerable<SpritePart> parts;
-
 		public StaticSprite(IEnumerable<SpritePart> parts)
 		{
-			this.parts = parts;
+			Parts = parts;
 		}
 
-		public IEnumerable<SpritePart> Parts
-		{
-			get { return parts; }
-		}
+		public IEnumerable<SpritePart> Parts { get; }
 
 		public bool Tick(int dt)
 		{

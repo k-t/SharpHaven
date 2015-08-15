@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Drawing;
 using System.Linq;
 
@@ -19,9 +18,9 @@ namespace SharpHaven.Graphics.Text
 			BackgroundColor = Color.Transparent;
 		}
 
-		public ReadOnlyCollection<TextGlyph> Glyphs
+		public IList<TextGlyph> Glyphs
 		{
-			get { return glyphs.AsReadOnly(); }
+			get { return glyphs; }
 		}
 
 		public SpriteFont Font

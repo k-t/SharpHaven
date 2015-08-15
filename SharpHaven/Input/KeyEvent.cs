@@ -4,16 +4,11 @@ namespace SharpHaven.Input
 {
 	public class KeyEvent : InputEvent
 	{
-		private readonly Key key;
-
 		public KeyEvent(Key key)
 		{
-			this.key = key;
+			Key = key;
 		}
 
-		public Key Key
-		{
-			get { return key; }
-		}
+		public Key Key { get; }
 	}
 }

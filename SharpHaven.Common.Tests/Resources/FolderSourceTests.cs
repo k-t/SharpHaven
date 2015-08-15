@@ -21,7 +21,7 @@ namespace SharpHaven.Resources
 
 		[Test]
 		public void GetWorks(
-			[ValueSource("GetTestItems")]
+			[ValueSource(nameof(GetTestItems))]
 			TestItem testItem)
 		{
 			var source = new FolderSource(SamplesPath);

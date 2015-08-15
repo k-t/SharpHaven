@@ -4,26 +4,21 @@ namespace SharpHaven.Input
 {
 	public abstract class MouseEvent : InputEvent
 	{
-		private readonly Point position;
-
 		protected MouseEvent(Point position)
 		{
-			this.position = position;
+			this.Position = position;
 		}
 
-		public Point Position
-		{
-			get { return position; }
-		}
+		public Point Position { get; }
 
 		public int X
 		{
-			get { return position.X; }
+			get { return Position.X; }
 		}
 
 		public int Y
 		{
-			get { return position.Y; }
+			get { return Position.Y; }
 		}
 	}
 }

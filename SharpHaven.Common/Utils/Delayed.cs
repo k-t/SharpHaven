@@ -21,7 +21,7 @@ namespace SharpHaven.Utils
 		public Delayed(Promise<T> promise)
 		{
 			if (promise == null)
-				throw new ArgumentNullException("promise");
+				throw new ArgumentNullException(nameof(promise));
 			this.promise = promise;
 			this.value = default(T);
 		}

@@ -55,7 +55,7 @@ namespace SharpHaven.Graphics
 		public static TextureSlice FromBitmap(Bitmap bitmap)
 		{
 			if (bitmap == null)
-				throw new ArgumentNullException("bitmap");
+				throw new ArgumentNullException(nameof(bitmap));
 			var tex = new Texture(bitmap.Size);
 			tex.Update(bitmap);
 			return new TextureSlice(tex, 0, 0, bitmap.Width, bitmap.Height, true);

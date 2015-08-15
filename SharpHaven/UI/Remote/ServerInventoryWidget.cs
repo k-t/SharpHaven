@@ -40,7 +40,7 @@ namespace SharpHaven.UI.Remote
 
 		private void OnTransfer(TransferEvent e)
 		{
-			var mods = ServerInput.ToServerModifiers(e.Modifiers);
+			var mods = ServerInput.ToServerModifiers(e.KeyModifiers);
 			SendMessage("xfer", e.Delta, mods);
 		}
 	}

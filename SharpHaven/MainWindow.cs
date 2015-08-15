@@ -119,7 +119,7 @@ namespace SharpHaven
 
 #if DEBUG
 			frameCounter.Update();
-			Title = string.Format("{0} [FPS: {1}] [Render Calls: {2}]", WindowTitle, frameCounter.FramesPerSecond, SpriteBatch.RenderCount);
+			Title = $"{WindowTitle} [FPS: {frameCounter.FramesPerSecond}] [Render Calls: {SpriteBatch.RenderCount}]";
 			SpriteBatch.RenderCount = 0;
 #endif
 		}

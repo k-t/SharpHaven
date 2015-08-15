@@ -5,13 +5,6 @@ namespace SharpHaven.Client
 {
 	public class GameAction
 	{
-		private readonly string name;
-		private readonly string resName;
-		private readonly ResourceRef parent;
-		private readonly string tooltip;
-		private readonly Drawable image;
-		private readonly string[] verbs;
-
 		public GameAction()
 		{
 		}
@@ -24,47 +17,29 @@ namespace SharpHaven.Client
 			Drawable image,
 			string[] verbs)
 		{
-			this.name = name;
-			this.resName = resName;
-			this.tooltip = tooltip;
-			this.image = image;
-			this.verbs = verbs;
-			this.parent = parent;
+			Name = name;
+			ResName = resName;
+			Tooltip = tooltip;
+			Image = image;
+			Verbs = verbs;
+			Parent = parent;
 		}
 
-		public string Name
-		{
-			get { return name; }
-		}
+		public string Name { get; }
 
-		public string ResName
-		{
-			get { return resName; }
-		}
+		public string ResName { get; }
 
-		public ResourceRef Parent
-		{
-			get { return parent; }
-		}
+		public ResourceRef Parent { get; }
+
+		public string Tooltip { get; }
+
+		public Drawable Image { get; }
+
+		public string[] Verbs { get; }
 
 		public bool HasParent
 		{
-			get { return !string.IsNullOrEmpty(parent.Name); }
-		}
-
-		public string Tooltip
-		{
-			get { return tooltip; }
-		}
-
-		public Drawable Image
-		{
-			get { return image; }
-		}
-
-		public string[] Verbs
-		{
-			get { return verbs; }
+			get { return !string.IsNullOrEmpty(Parent.Name); }
 		}
 	}
 }

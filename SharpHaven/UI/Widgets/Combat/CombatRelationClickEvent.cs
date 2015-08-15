@@ -5,23 +5,14 @@ namespace SharpHaven.UI.Widgets
 {
 	public class CombatRelationClickEvent : EventArgs
 	{
-		private readonly MouseButton button;
-		private readonly CombatRelation relation;
-
 		public CombatRelationClickEvent(MouseButton button, CombatRelation relation)
 		{
-			this.button = button;
-			this.relation = relation;
+			Button = button;
+			Relation = relation;
 		}
 
-		public MouseButton Button
-		{
-			get { return button; }
-		}
+		public MouseButton Button { get; }
 
-		public CombatRelation Relation
-		{
-			get { return relation; }
-		}
+		public CombatRelation Relation { get; }
 	}
 }

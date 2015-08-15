@@ -4,30 +4,17 @@ namespace SharpHaven.Client
 {
 	public class GobFollowing
 	{
-		private readonly Gob gob;
-		private readonly Point offset;
-		private readonly byte szo;
-
 		public GobFollowing(Gob gob, Point offset, byte szo)
 		{
-			this.gob = gob;
-			this.offset = offset;
-			this.szo = szo;
+			Gob = gob;
+			Offset = offset;
+			Szo = szo;
 		}
 
-		public Gob Gob
-		{
-			get { return gob; }
-		}
+		public Gob Gob { get; }
 
-		public Point Offset
-		{
-			get { return offset; }
-		}
+		public Point Offset { get; }
 
-		public byte Szo
-		{
-			get { return szo; }
-		}
+		public byte Szo { get; }
 	}
 }

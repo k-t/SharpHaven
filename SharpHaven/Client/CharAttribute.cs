@@ -4,38 +4,25 @@ namespace SharpHaven.Client
 {
 	public class CharAttribute
 	{
-		private readonly string name;
-		private int baseValue;
-		private int modValue;
-
 		public CharAttribute(string name, int baseValue, int modValue)
 		{
-			this.name = name;
-			this.baseValue = baseValue;
-			this.modValue = modValue;
+			Name = name;
+			BaseValue = baseValue;
+			ModifiedValue = modValue;
 		}
 
 		public event Action Changed;
 
-		public string Name
-		{
-			get { return name; }
-		}
+		public string Name { get; }
 
-		public int BaseValue
-		{
-			get { return baseValue; }
-		}
+		public int BaseValue { get; private set; }
 
-		public int ModifiedValue
-		{
-			get { return modValue; }
-		}
+		public int ModifiedValue { get; private set; }
 
 		public void Update(int baseValue, int modValue)
 		{
-			this.baseValue = baseValue;
-			this.modValue = modValue;
+			BaseValue = baseValue;
+			ModifiedValue = modValue;
 			Changed.Raise();
 		}
 	}

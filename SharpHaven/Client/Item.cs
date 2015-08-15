@@ -29,13 +29,13 @@ namespace SharpHaven.Client
 
 		public Drawable Image
 		{
-			get { return image != null ? image.Value : null; }
+			get { return image?.Value; }
 			set { image = new Delayed<Drawable>(value); }
 		}
 
 		public string Tooltip
 		{
-			get { return tooltip != null ? tooltip.Value : null; }
+			get { return tooltip?.Value; }
 			set
 			{
 				tooltip = new Delayed<string>(value);

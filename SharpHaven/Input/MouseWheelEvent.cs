@@ -4,16 +4,11 @@ namespace SharpHaven.Input
 {
 	public class MouseWheelEvent : MouseEvent
 	{
-		private readonly int delta;
-
 		public MouseWheelEvent(int delta, Point position) : base(position)
 		{
-			this.delta = delta;
+			Delta = delta;
 		}
 
-		public int Delta
-		{
-			get { return delta; }
-		}
+		public int Delta { get; }
 	}
 }

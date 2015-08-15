@@ -25,7 +25,7 @@ namespace SharpHaven.UI.Widgets
 			{
 				this.value = value;
 				textLine.Clear();
-				textLine.Append(string.Format("{0}%", value));
+				textLine.Append($"{value}%");
 			}
 		}
 

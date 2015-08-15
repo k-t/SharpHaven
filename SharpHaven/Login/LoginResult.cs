@@ -2,39 +2,26 @@
 {
 	public class LoginResult
 	{
-		private readonly string error;
-		private readonly string userName;
-		private readonly byte[] cookie;
-
 		public LoginResult(string userName, byte[] cookie)
 		{
-			this.userName = userName;
-			this.cookie = cookie;
+			UserName = userName;
+			Cookie = cookie;
 		}
 
 		public LoginResult(string error)
 		{
-			this.error = error;
+			Error = error;
 		}
+
+		public string Error { get; }
+
+		public string UserName { get; }
+
+		public byte[] Cookie { get; }
 
 		public bool IsSuccessful
 		{
-			get { return cookie != null; }
-		}
-
-		public string Error
-		{
-			get { return error; }
-		}
-
-		public string UserName
-		{
-			get { return userName; }
-		}
-
-		public byte[] Cookie
-		{
-			get { return cookie; }
+			get { return Cookie != null; }
 		}
 	}
 }

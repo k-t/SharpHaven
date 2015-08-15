@@ -4,23 +4,14 @@ namespace SharpHaven.UI.Widgets
 {
 	public class PartyMemberClickEvent
 	{
-		private readonly int memberId;
-		private readonly MouseButton button;
-
 		public PartyMemberClickEvent(int memberId, MouseButton button)
 		{
-			this.memberId = memberId;
-			this.button = button;
+			MemberId = memberId;
+			Button = button;
 		}
 
-		public int MemberId
-		{
-			get { return memberId; }
-		}
+		public int MemberId { get; }
 
-		public MouseButton Button
-		{
-			get { return button; }
-		}
+		public MouseButton Button { get; }
 	}
 }

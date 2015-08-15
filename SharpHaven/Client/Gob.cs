@@ -7,7 +7,6 @@ namespace SharpHaven.Client
 {
 	public class Gob
 	{
-		private readonly int id;
 		private readonly GobOverlayCollection overlays;
 		private Delayed<ISprite> sprite;
 		private Delayed<ISprite> avatar;
@@ -18,14 +17,11 @@ namespace SharpHaven.Client
 		
 		public Gob(int id)
 		{
-			this.id = id;
+			Id = id;
 			this.overlays = new GobOverlayCollection();
 		}
 
-		public int Id
-		{
-			get { return id; }
-		}
+		public int Id { get; }
 
 		public Point Position
 		{
@@ -63,8 +59,7 @@ namespace SharpHaven.Client
 			get { return speech; }
 			set
 			{
-				if (speech != null)
-					speech.Dispose();
+				speech?.Dispose();
 				speech = value;
 			}
 		}
@@ -77,12 +72,12 @@ namespace SharpHaven.Client
 
 		public ISprite Sprite
 		{
-			get { return sprite != null ? sprite.Value : null; }
+			get { return sprite?.Value; }
 		}
 
 		public ISprite Avatar
 		{
-			get { return avatar != null ? avatar.Value : null; }
+			get { return avatar?.Value; }
 		}
 
 		public GobOverlayCollection Overlays
@@ -124,11 +119,8 @@ namespace SharpHaven.Client
 
 		public void Tick(int dt)
 		{
-			if (Sprite != null)
-				Sprite.Tick(dt);
-
-			if (movement != null)
-				movement.Tick(dt);
+			Sprite?.Tick(dt);
+			movement?.Tick(dt);
 
 			foreach (var overlay in overlays.ToList())
 			{

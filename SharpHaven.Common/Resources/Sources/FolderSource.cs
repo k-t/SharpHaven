@@ -28,7 +28,7 @@ namespace SharpHaven.Resources
 
 		public string Description
 		{
-			get { return string.Format("[Folder]{0}", basePath); }
+			get { return $"[Folder]{basePath}"; }
 		}
 
 		public IEnumerable<string> EnumerateAll()

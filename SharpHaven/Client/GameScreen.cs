@@ -8,18 +8,7 @@ namespace SharpHaven.Client
 {
 	public class GameScreen : BaseScreen
 	{
-		private readonly Container container;
-		private readonly MapView mapView;
-		private readonly Calendar calendar;
-		private readonly MenuGrid menuGrid;
-		private readonly HudMenu hudMenu;
-		private readonly Belt belt;
-		private readonly ChatWindow chatWindow;
 		private readonly EscapeWindow escapeWindow;
-		private readonly CombatMeter combatMeter;
-		private readonly CombatView combatView;
-		private readonly CombatWindow combatWindow;
-		private readonly AimWidget aimWidget;
 
 		public GameScreen()
 		{
@@ -29,42 +18,42 @@ namespace SharpHaven.Client
 			escapeWindow.Logout += Close;
 			escapeWindow.Exit += App.Exit;
 
-			container = new Container(Root);
+			Container = new Container(Root);
 			// HACK: to display character selection screen nicely
-			container.Resize(800, 600);
-			container.Visible = false;
+			Container.Resize(800, 600);
+			Container.Visible = false;
 
-			mapView = new MapView(Root);
-			mapView.Visible = false;
+			MapView = new MapView(Root);
+			MapView.Visible = false;
 
-			calendar = new Calendar(Root);
-			calendar.Visible = false;
+			Calendar = new Calendar(Root);
+			Calendar.Visible = false;
 
-			menuGrid = new MenuGrid(Root);
-			menuGrid.Visible = false;
+			MenuGrid = new MenuGrid(Root);
+			MenuGrid.Visible = false;
 
-			hudMenu = new HudMenu(Root);
-			hudMenu.Visible = false;
+			HudMenu = new HudMenu(Root);
+			HudMenu.Visible = false;
 
-			belt = new Belt(Root);
-			belt.Visible = false;
+			Belt = new Belt(Root);
+			Belt.Visible = false;
 
-			chatWindow = new ChatWindow(Root);
-			chatWindow.Resize(300, 200);
-			chatWindow.Visible = false;
+			Chat = new ChatWindow(Root);
+			Chat.Resize(300, 200);
+			Chat.Visible = false;
 
-			combatMeter = new CombatMeter(Root);
-			combatMeter.Visible = false;
+			CombatMeter = new CombatMeter(Root);
+			CombatMeter.Visible = false;
 
-			combatView = new CombatView(Root);
-			combatView.Visible = false;
+			CombatView = new CombatView(Root);
+			CombatView.Visible = false;
 
-			combatWindow = new CombatWindow(Root);
-			combatWindow.Move(100, 100);
-			combatWindow.Visible = false;
+			CombatWindow = new CombatWindow(Root);
+			CombatWindow.Move(100, 100);
+			CombatWindow.Visible = false;
 
-			aimWidget = new AimWidget(Root);
-			aimWidget.Visible = false;
+			Aim = new AimWidget(Root);
+			Aim.Visible = false;
 
 			RootWidget.KeyDown += OnKeyDown;
 		}
@@ -76,60 +65,27 @@ namespace SharpHaven.Client
 			get { return RootWidget; }
 		}
 
-		public AimWidget Aim
-		{
-			get { return aimWidget; }
-		}
+		public AimWidget Aim { get; }
 
-		public Container Container
-		{
-			get { return container; }
-		}
+		public Container Container { get; }
 
-		public CombatMeter CombatMeter
-		{
-			get { return combatMeter; }
-		}
+		public CombatMeter CombatMeter { get; }
 
-		public CombatView CombatView
-		{
-			get { return combatView; }
-		}
+		public CombatView CombatView { get; }
 
-		public CombatWindow CombatWindow
-		{
-			get { return combatWindow; }
-		}
+		public CombatWindow CombatWindow { get; }
 
-		public Belt Belt
-		{
-			get { return belt; }
-		}
+		public Belt Belt { get; }
 
-		public Calendar Calendar
-		{
-			get { return calendar; }
-		}
+		public Calendar Calendar { get; }
 
-		public ChatWindow Chat
-		{
-			get { return chatWindow; }
-		}
+		public ChatWindow Chat { get; }
 
-		public HudMenu HudMenu
-		{
-			get { return hudMenu; }
-		}
+		public HudMenu HudMenu { get; }
 
-		public MapView MapView
-		{
-			get { return mapView; }
-		}
+		public MapView MapView { get; }
 
-		public MenuGrid MenuGrid
-		{
-			get { return menuGrid; }
-		}
+		public MenuGrid MenuGrid { get; }
 
 		public void Close()
 		{
@@ -143,17 +99,17 @@ namespace SharpHaven.Client
 
 		protected override void OnResize(int newWidth, int newHeight)
 		{
-			mapView.Resize(newWidth, newHeight);
-			belt.Move((newWidth - belt.Width) / 2, newHeight - belt.Height * 2 - 10);
-			calendar.Move((newWidth - calendar.Width) / 2, calendar.Y);
-			container.Move((newWidth - container.Width) / 2, (newHeight - container.Height) / 2);
-			chatWindow.Move(5, newHeight - chatWindow.Height - 5);
-			menuGrid.Move(newWidth - menuGrid.Width - 5, newHeight - menuGrid.Height - 5);
-			hudMenu.Move((newWidth - hudMenu.Width) / 2, newHeight - hudMenu.Height - 5);
+			MapView.Resize(newWidth, newHeight);
+			Belt.Move((newWidth - Belt.Width) / 2, newHeight - Belt.Height * 2 - 10);
+			Calendar.Move((newWidth - Calendar.Width) / 2, Calendar.Y);
+			Container.Move((newWidth - Container.Width) / 2, (newHeight - Container.Height) / 2);
+			Chat.Move(5, newHeight - Chat.Height - 5);
+			MenuGrid.Move(newWidth - MenuGrid.Width - 5, newHeight - MenuGrid.Height - 5);
+			HudMenu.Move((newWidth - HudMenu.Width) / 2, newHeight - HudMenu.Height - 5);
 			escapeWindow.Move((newWidth - 100) / 2, (newHeight - 100) / 2);
-			combatMeter.Move((newWidth - calendar.Width) / 2, calendar.Y);
-			combatView.Move((newWidth - combatView.Width - 10), 10);
-			aimWidget.Move((newWidth - aimWidget.Width) / 2, (newHeight - aimWidget.Height) / 2);
+			CombatMeter.Move((newWidth - Calendar.Width) / 2, Calendar.Y);
+			CombatView.Move((newWidth - CombatView.Width - 10), 10);
+			Aim.Move((newWidth - Aim.Width) / 2, (newHeight - Aim.Height) / 2);
 		}
 
 		private void OnKeyDown(KeyEvent e)

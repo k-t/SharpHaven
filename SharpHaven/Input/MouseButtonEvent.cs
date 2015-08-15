@@ -5,17 +5,12 @@ namespace SharpHaven.Input
 {
 	public class MouseButtonEvent : MouseEvent
 	{
-		private readonly MouseButton button;
-
 		public MouseButtonEvent(MouseButton button, Point position)
 			: base(position)
 		{
-			this.button = button;
+			Button = button;
 		}
 
-		public MouseButton Button
-		{
-			get { return button; }
-		}
+		public MouseButton Button { get; }
 	}
 }

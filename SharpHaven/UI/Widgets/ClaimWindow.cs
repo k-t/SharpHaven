@@ -181,8 +181,8 @@ namespace SharpHaven.UI.Widgets
 			int oldSize = area.Width * area.Height;
 			int newSize = selectedArea.Width * selectedArea.Height;
 
-			lblArea.Text = string.Format("Area: {0} m²", newSize);
-			lblCost.Text = string.Format("Cost: {0}", (newSize - oldSize) * 10);
+			lblArea.Text = $"Area: {newSize} m²";
+			lblCost.Text = $"Cost: {(newSize - oldSize) * 10}";
 		}
 
 		protected void OnGroupSelect(int group)
@@ -193,19 +193,14 @@ namespace SharpHaven.UI.Widgets
 
 		private class RightCheckBox : CheckBox
 		{
-			private readonly ClaimRight right;
-
 			public RightCheckBox(Widget parent, ClaimRight right)
 				: base(parent)
 			{
-				this.right = right;
-				this.Text = right.ToString();
+				Right = right;
+				Text = right.ToString();
 			}
 
-			public ClaimRight Right
-			{
-				get { return right; }
-			}
+			public ClaimRight Right { get; }
 		}
 	}
 }

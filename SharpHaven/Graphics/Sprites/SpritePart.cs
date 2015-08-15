@@ -4,12 +4,8 @@ namespace SharpHaven.Graphics.Sprites
 {
 	public class SpritePart
 	{
-		private readonly int id;
-		private readonly Drawable image;
 		private Rectangle bounds;
-		private readonly int z;
-		private readonly int subz;
-
+		
 		public SpritePart(Drawable image, Point offset, int z, int subz)
 			: this(-1, image, offset, z, subz)
 		{
@@ -17,22 +13,20 @@ namespace SharpHaven.Graphics.Sprites
 
 		public SpritePart(int id, Drawable image, Point offset, int z, int subz)
 		{
-			this.id = id;
-			this.image = image;
-			this.bounds = new Rectangle(offset.X, offset.Y, image.Width, image.Height);
-			this.z = z;
-			this.subz = subz;
+			Id = id;
+			Image = image;
+			Z = z;
+			SubZ = subz;
+			bounds = new Rectangle(offset.X, offset.Y, image.Width, image.Height);
 		}
 
-		public int Id
-		{
-			get { return id; }
-		}
+		public int Id { get; }
 
-		public Drawable Image
-		{
-			get { return image; }
-		}
+		public Drawable Image { get; }
+
+		public int Z { get; }
+
+		public int SubZ { get; }
 
 		public Point Offset
 		{
@@ -42,27 +36,17 @@ namespace SharpHaven.Graphics.Sprites
 
 		public int Width
 		{
-			get { return image.Width; }
+			get { return Image.Width; }
 		}
 
 		public int Height
 		{
-			get { return image.Height; }
-		}
-
-		public int Z
-		{
-			get { return z; }
-		}
-
-		public int SubZ
-		{
-			get { return subz; }
+			get { return Image.Height; }
 		}
 
 		public bool CheckHit(int x, int y)
 		{
-			return image.CheckHit(x - Offset.X, y - Offset.Y);
+			return Image.CheckHit(x - Offset.X, y - Offset.Y);
 		}
 	}
 }

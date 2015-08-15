@@ -5,23 +5,14 @@ namespace SharpHaven.Input
 {
 	public abstract class InputEvent : EventArgs
 	{
-		private readonly KeyModifiers mods;
-
 		protected InputEvent()
 		{
-			mods = GetCurrentKeyModifiers();
+			Modifiers = GetCurrentKeyModifiers();
 		}
 
-		public bool Handled
-		{
-			get;
-			set;
-		}
+		public bool Handled { get; set; }
 
-		public KeyModifiers Modifiers
-		{
-			get { return mods; }
-		}
+		public KeyModifiers Modifiers { get; }
 
 		private static KeyModifiers GetCurrentKeyModifiers()
 		{
