@@ -56,17 +56,12 @@ namespace SharpHaven.Login
 			{
 				try
 				{
-					ReportProgress("Authenticating...");
-
 					var result = authenticate();
 					if (result.Cookie == null)
 					{
 						App.QueueOnMainThread(() => Finished.Raise(new LoginResult(result.Error)));
 						return;
 					}
-
-					ReportProgress("Connecting...");
-
 					Log.Info("{0} logged in successfully", UserName);
 					Finish(new LoginResult(UserName, result.Cookie));
 				}
@@ -126,11 +121,6 @@ namespace SharpHaven.Login
 				CancellationToken.None,
 				TaskCreationOptions.None,
 				TaskScheduler.Default);
-		}
-
-		private void ReportProgress(string message)
-		{
-			App.QueueOnMainThread(() => Progress.Raise(message));
 		}
 
 		private void Finish(LoginResult result)

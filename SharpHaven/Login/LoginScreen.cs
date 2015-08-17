@@ -155,6 +155,8 @@ namespace SharpHaven.Login
 				tbPassword.Text = "";
 			}
 
+			UpdateProgress("Connecting...");
+
 			login.LoginAsync();
 		}
 
@@ -207,9 +209,17 @@ namespace SharpHaven.Login
 				};
 				var game = new NetworkGame(settings);
 				var session = new ClientSession(game);
-				session.Start();
-				LoginCompleted.Raise(session);
-				GotoInitialPage();
+
+				try
+				{
+					session.Start();
+					LoginCompleted.Raise(session);
+					GotoInitialPage();
+				}
+				catch (Exception ex)
+				{
+					GotoInitialPage(ex.Message);
+				}
 			}
 			else
 				GotoInitialPage(authResult.Error);
