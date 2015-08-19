@@ -9,8 +9,6 @@ namespace SharpHaven.Client
 {
 	public class MapTile
 	{
-		
-
 		private readonly Map map;
 		private readonly Point coord;
 		private readonly byte type;
