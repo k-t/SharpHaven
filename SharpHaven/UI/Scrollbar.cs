@@ -23,7 +23,7 @@ namespace SharpHaven.UI
 
 		public Scrollbar(Widget parent) : base(parent)
 		{
-			Resize(sflarp.Width, 0);
+			Width = sflarp.Width;
 		}
 
 		public event Action ValueChanged;

@@ -34,7 +34,7 @@ namespace SharpHaven.UI.Widgets
 
 		public HudMenu(Widget parent) : base(parent)
 		{
-			Resize((background.Width - 1) * buttonCount, background.Height - 1);
+			this.Resize((background.Width - 1) * buttonCount, background.Height - 1);
 
 			int x = 0;
 			for (int i = 0; i < buttonCount; i++)

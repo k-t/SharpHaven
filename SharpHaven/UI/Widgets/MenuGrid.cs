@@ -53,7 +53,7 @@ namespace SharpHaven.UI.Widgets
 			layout.Spacing = -1;
 			layout.UpdateGeometry(0, 0, 0, 0);
 
-			Resize(cellImage.Width * PageColumns, cellImage.Height * PageRows);
+			this.Resize(cellImage.Width * PageColumns, cellImage.Height * PageRows);
 
 			Current = root;
 		}

@@ -18,7 +18,7 @@ namespace SharpHaven.UI.Widgets
 
 		public BeliefTimer(Widget parent) : base(parent)
 		{
-			Resize(offImage.Size);
+			Size = offImage.Size;
 		}
 
 		public event Action TimeChanged;

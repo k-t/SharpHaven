@@ -20,7 +20,7 @@ namespace SharpHaven.UI.Widgets
 		public FoodMeter(Widget parent) : base(parent)
 		{
 			els = new List<El>();
-			Resize(background.Width, background.Height);
+			Size = background.Size;
 		}
 
 		public void Update(object[] args)

@@ -33,7 +33,7 @@ namespace SharpHaven.UI.Widgets
 
 		public Calendar(Widget parent) : base(parent)
 		{
-			Resize(background.Size);
+			Size = background.Size;
 		}
 
 		public ClientSession Session

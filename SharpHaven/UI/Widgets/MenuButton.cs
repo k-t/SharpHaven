@@ -21,7 +21,7 @@ namespace SharpHaven.UI.Widgets
 
 		public MenuButton(Widget parent) : base(parent)
 		{
-			Resize(background.Size);
+			Size = background.Size;
 		}
 
 		public event EventHandler<MouseButtonEvent> Click;

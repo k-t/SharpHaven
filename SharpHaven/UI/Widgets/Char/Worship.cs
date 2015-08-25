@@ -43,7 +43,7 @@ namespace SharpHaven.UI.Widgets
 			lblNumen = new Label(this, Fonts.LabelText);
 			lblNumen.Text = "0";
 
-			Resize(100, 200);
+			this.Resize(100, 200);
 		}
 
 		public event Action Forfeit;

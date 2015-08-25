@@ -66,7 +66,7 @@ namespace SharpHaven.UI.Widgets
 				w = Math.Max(w, child.X + child.Width);
 				h = Math.Max(h, child.Y + child.Height);
 			}
-			Resize(w + Margin * 2, h + Margin * 2);
+			this.Resize(w + Margin * 2, h + Margin * 2);
 		}
 
 		protected override void OnDispose()
@@ -111,7 +111,7 @@ namespace SharpHaven.UI.Widgets
 		protected override void OnMouseMove(MouseMoveEvent e)
 		{
 			if (dragging)
-				Move(X + e.DeltaX, Y + e.DeltaY);
+				this.Move(X + e.DeltaX, Y + e.DeltaY);
 		}
 
 		protected override void OnSizeChanged()

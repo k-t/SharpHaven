@@ -30,7 +30,7 @@ namespace SharpHaven.UI.Widgets
 			textLine.TextColor = Color.Black;
 			IsFocusable = true;
 
-			Resize(Width, Fonts.Default.Height + 4);
+			this.Resize(Width, Fonts.Default.Height + 4);
 		}
 
 		public string Text

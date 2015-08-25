@@ -23,7 +23,7 @@ namespace SharpHaven.UI.Widgets
 
 		public GiveButton(Widget parent) : base(parent)
 		{
-			Resize(bg.Size);
+			Size = bg.Size;
 		}
 
 		public event Action<MouseButtonEvent> Click;

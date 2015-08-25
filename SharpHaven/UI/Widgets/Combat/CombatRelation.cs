@@ -26,7 +26,7 @@ namespace SharpHaven.UI.Widgets
 			: base(parent)
 		{
 			this.id = id;
-			Resize(background.Size);
+			Size = background.Size;
 
 			avatar = new AvatarView(this);
 			avatar.Resize(27, 27);

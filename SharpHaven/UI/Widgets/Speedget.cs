@@ -9,7 +9,7 @@ namespace SharpHaven.UI.Widgets
 	public class Speedget : Widget
 	{
 		private static readonly Drawable[,] images;
-		private static readonly Point size;
+		private static readonly Size size;
 
 		static Speedget()
 		{
@@ -26,12 +26,12 @@ namespace SharpHaven.UI.Widgets
 				}
 				w += images[i, 0].Width;
 			}
-			size = new Point(w, images[0, 0].Height);
+			size = new Size(w, images[0, 0].Height);
 		}
 
 		public Speedget(Widget parent) : base(parent)
 		{
-			Resize(size.X, size.Y);
+			Size = size;
 		}
 
 		public event Action<int> SpeedSelected;

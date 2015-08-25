@@ -43,7 +43,7 @@ namespace SharpHaven.UI.Widgets
 			layout.Spacing = -1;
 			layout.UpdateGeometry(0, 0, 0, 0);
 
-			Resize(w, h);
+			this.Resize(w, h);
 		}
 
 		public event Action<BeltClickEvent> Click;
@@ -94,7 +94,7 @@ namespace SharpHaven.UI.Widgets
 
 			public BeltSlot(Widget parent) : base(parent)
 			{
-				Resize(background.Size);
+				Size = background.Size;
 
 				label = new Label(this, Fonts.LabelText);
 				label.Move(4, 0);

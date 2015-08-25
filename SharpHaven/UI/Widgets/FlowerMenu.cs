@@ -107,7 +107,7 @@ namespace SharpHaven.UI.Widgets
 				this.numText.TextAlign = TextAlign.Right;
 
 				int width = Math.Max(40, this.text.TextWidth + this.numText.TextWidth + 15);
-				Resize(width, Fonts.Default.Height + 4);
+				this.Resize(width, Fonts.Default.Height + 4);
 			}
 
 			public int Num

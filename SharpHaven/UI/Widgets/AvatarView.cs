@@ -21,8 +21,8 @@ namespace SharpHaven.UI.Widgets
 
 		public AvatarView(Widget parent) : base(parent)
 		{
-			Resize(defaultSize.X + 10, defaultSize.Y + 10);
 			BorderColor = Color.White;
+			Size = new Size(defaultSize.X + 10, defaultSize.Y + 10);
 		}
 
 		public event Action<AvatarView, MouseButtonEvent> Click;

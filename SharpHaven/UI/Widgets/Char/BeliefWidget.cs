@@ -33,7 +33,7 @@ namespace SharpHaven.UI.Widgets
 
 		public BeliefWidget(Widget parent, string left, string right) : base(parent)
 		{
-			Resize(140, 20);
+			this.Resize(140, 20);
 
 			var imgLeft = new Image(this);
 			imgLeft.Drawable = App.Resources.Get<Drawable>("gfx/hud/charsh/" + left);

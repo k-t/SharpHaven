@@ -31,7 +31,7 @@ namespace SharpHaven.UI.Widgets
 			this.session = session;
 			this.session.Buffs.Changed += Update;
 			this.widgets = new Dictionary<int, BuffWidget>();
-			Resize(Num * frame.Width + (Num - 1) * Spacing, cframe.Height);
+			this.Resize(Num * frame.Width + (Num - 1) * Spacing, cframe.Height);
 			Update();
 		}
 
@@ -85,7 +85,7 @@ namespace SharpHaven.UI.Widgets
 
 			public BuffWidget(Widget parent) : base(parent)
 			{
-				Resize(cframe.Width, cframe.Height);
+				this.Resize(cframe.Width, cframe.Height);
 			}
 
 			public Buff Buff

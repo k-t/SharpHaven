@@ -55,7 +55,7 @@ namespace SharpHaven.UI.Widgets
 
 		public CharWindow(Widget parent, ClientSession session) : base(parent, "Character Sheet")
 		{
-			Resize(400, 340);
+			this.Resize(400, 340);
 
 			this.session = session;
 			this.tabs = new List<Container>();

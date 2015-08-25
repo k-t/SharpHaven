@@ -28,7 +28,7 @@ namespace SharpHaven.UI.Widgets
 
 		public CombatMeter(Widget parent) : base(parent)
 		{
-			Resize(sword.Size);
+			Size = sword.Size;
 
 			lblIntensity = new Label(this, Fonts.Heading);
 			lblIntensity.TextAlign = TextAlign.Center;

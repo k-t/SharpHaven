@@ -23,7 +23,7 @@ namespace SharpHaven.UI.Widgets
 		{
 			label = new Label(this, Fonts.LabelText);
 			label.Move(box.Width, box.Height - Fonts.LabelText.Height);
-			Resize(box.Size);
+			Size = box.Size;
 		}
 
 		public event EventHandler CheckedChanged;

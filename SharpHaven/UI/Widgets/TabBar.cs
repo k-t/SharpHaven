@@ -26,7 +26,7 @@ namespace SharpHaven.UI.Widgets
 		public TabBar(Widget parent) : base(parent)
 		{
 			buttons = new List<TabButton>();
-			Resize(Width, tabHeight);
+			this.Resize(Width, tabHeight);
 		}
 
 		public event Action<int> Click;
@@ -141,7 +141,7 @@ namespace SharpHaven.UI.Widgets
 			{
 				label.Clear();
 				label.Append(text ?? "");
-				Resize(label.TextWidth + TabPadding * 2, tabHeight);
+				this.Resize(label.TextWidth + TabPadding * 2, tabHeight);
 			}
 
 			private void UpdateColors()

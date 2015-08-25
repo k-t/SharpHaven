@@ -17,7 +17,7 @@ namespace SharpHaven.UI.Widgets
 		public Meter(Widget parent) : base(parent)
 		{
 			metrics = new List<Metric>();
-			Resize(fsz);
+			Size = fsz;
 		}
 
 		public Drawable Background

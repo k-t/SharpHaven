@@ -35,7 +35,7 @@ namespace SharpHaven.UI.Widgets
 			if (dragOffset.HasValue)
 			{
 				Host.GrabMouse(this);
-				Move(Host.MousePosition.Sub(dragOffset.Value));
+				Position = Host.MousePosition.Sub(dragOffset.Value);
 			}
 		}
 
@@ -146,7 +146,7 @@ namespace SharpHaven.UI.Widgets
 		protected override void OnMouseMove(MouseMoveEvent e)
 		{
 			if (dragOffset.HasValue)
-				Move(e.Position.Sub(dragOffset.Value));
+				this.Move(e.Position.Sub(dragOffset.Value));
 		}
 
 		private void DropOn(Widget widget, Point p, KeyModifiers mods)
@@ -180,7 +180,7 @@ namespace SharpHaven.UI.Widgets
 		
 		private void FixSize()
 		{
-			Resize(item.Image.Size);
+			Size = item.Image.Size;
 			isSizeFixed = true;
 		}
 

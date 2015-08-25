@@ -92,6 +92,7 @@
     <Compile Include="UI\Widgets\ClaimWindow.cs" />
     <Compile Include="UI\Widgets\ClaimRightsChangeEvent.cs" />
     <Compile Include="UI\Widgets\Combat\AimWidget.cs" />
+    <Compile Include="UI\Widgets\WidgetExtensions.cs" />
     <Compile Include="Utils\FrameCounter.cs" />
     <Compile Include="Client\Buff.cs" />
     <Compile Include="Client\BuffProto.cs" />

@@ -23,7 +23,7 @@ namespace SharpHaven.UI.Widgets
 
 		public ISBox(Widget parent) : base(parent)
 		{
-			Resize(background.Size);
+			Size = background.Size;
 
 			label = new Label(this, Fonts.Heading);
 			label.Move(40, (Height - label.Height) / 2);

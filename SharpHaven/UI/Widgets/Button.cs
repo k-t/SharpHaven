@@ -37,7 +37,7 @@ namespace SharpHaven.UI.Widgets
 			textLine = new TextLine(Fonts.Text);
 			textLine.TextColor = Color.Yellow;
 			textLine.TextAlign = TextAlign.Center;
-			Resize(width, ButtonHeight);
+			this.Resize(width, ButtonHeight);
 		}
 
 		public event Action Click;

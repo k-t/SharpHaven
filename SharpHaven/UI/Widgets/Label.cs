@@ -15,7 +15,7 @@ namespace SharpHaven.UI.Widgets
 			this.font = font;
 			this.textLine = new TextLine(font);
 			this.textLine.TextColor = Color.White;
-			Resize(0, font.Height);
+			this.Resize(0, font.Height);
 		}
 
 		public Label(Widget parent) : this(parent, Fonts.Default)
@@ -37,7 +37,7 @@ namespace SharpHaven.UI.Widgets
 				textLine.Clear();
 				textLine.Append(text);
 				if (AutoSize)
-					Resize(textLine.TextWidth, font.Height);
+					this.Resize(textLine.TextWidth, font.Height);
 			}
 		}
 

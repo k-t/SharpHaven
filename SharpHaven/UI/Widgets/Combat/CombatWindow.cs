@@ -46,7 +46,7 @@ namespace SharpHaven.UI.Widgets
 			lblInitiative.Move(205 + iptex.Width, 30);
 
 			Margin = 5;
-			Resize(300, 120);
+			Size = new Size(300, 120);
 		}
 
 		public Delayed<GameAction> Attack

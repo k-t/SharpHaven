@@ -10,7 +10,7 @@ namespace SharpHaven.UI.Widgets
 
 		public GroupSelector(Widget parent) : base(parent)
 		{
-			Resize(BuddyGroup.Colors.Length * SelectorSize, SelectorSize);
+			this.Resize(BuddyGroup.Colors.Length * SelectorSize, SelectorSize);
 		}
 
 		public event Action<int> Select;

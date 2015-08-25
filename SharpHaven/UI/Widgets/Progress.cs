@@ -15,7 +15,7 @@ namespace SharpHaven.UI.Widgets
 			textLine.TextColor = Color.Yellow;
 			textLine.TextAlign = TextAlign.Center;
 			textLine.SetWidth(75);
-			Resize(textLine.Width, 20);
+			this.Resize(textLine.Width, 20);
 		}
 
 		public int Value

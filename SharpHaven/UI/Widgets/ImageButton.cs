@@ -90,8 +90,7 @@ namespace SharpHaven.UI.Widgets
 
 		private void UpdateSize()
 		{
-			var size = Image != null ? Image.Size : new Size(0, 0);
-			Resize(size);
+			Size = Image?.Size ?? Size.Empty;
 		}
 	}
 }

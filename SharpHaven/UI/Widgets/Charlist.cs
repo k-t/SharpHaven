@@ -33,7 +33,7 @@ namespace SharpHaven.UI.Widgets
 
 		public Charlist(Widget parent, int listHeight) : base(parent)
 		{
-			Resize(background.Width, 40 + (background.Height * listHeight) + (Spacing * (listHeight - 1)));
+			this.Resize(background.Width, 40 + (background.Height * listHeight) + (Spacing * (listHeight - 1)));
 
 			this.items = new List<ListItem>(listHeight);
 			this.listHeight = listHeight;
@@ -98,7 +98,7 @@ namespace SharpHaven.UI.Widgets
 			public ListItem(Widget parent, string charName, IEnumerable<Delayed<ISprite>> layers)
 				: base(parent)
 			{
-				Resize(background.Size);
+				Size = background.Size;
 				
 				nameTextLine = new TextLine(Fonts.Heading);
 				nameTextLine.TextColor = Color.White;

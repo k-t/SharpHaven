@@ -32,7 +32,7 @@ namespace SharpHaven.UI.Widgets
 
 		public AimWidget(Widget parent) : base(parent)
 		{
-			Resize(bg.Size);
+			Size = bg.Size;
 		}
 
 		public int Value

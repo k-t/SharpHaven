@@ -61,32 +61,46 @@ namespace SharpHaven.UI.Widgets
 
 		public int X
 		{
-			get { return bounds.X; }
+			get { return Position.X; }
+			set { Position = new Point(value, Y); }
 		}
 
 		public int Y
 		{
-			get { return bounds.Y; }
+			get { return Position.Y; }
+			set { Position = new Point(X, value); }
 		}
 
 		public Point Position
 		{
 			get { return bounds.Location; }
+			set
+			{
+				bounds.Location = value;
+				OnPositionChanged();
+			}
 		}
 
 		public int Width
 		{
-			get { return bounds.Width; }
+			get { return Size.Width; }
+			set { Size = new Size(value, Height); }
 		}
 
 		public int Height
 		{
-			get { return bounds.Height; }
+			get { return Size.Height; }
+			set { Size = new Size(Width, value); }
 		}
 
 		public Size Size
 		{
 			get { return bounds.Size; }
+			set
+			{
+				bounds.Size = value;
+				OnSizeChanged();
+			}
 		}
 
 		public virtual MouseCursor Cursor
@@ -203,30 +217,6 @@ namespace SharpHaven.UI.Widgets
 			foreach (var widget in Children.Where(x => x.Visible))
 				widget.Draw(dc);
 			dc.PopMatrix();
-		}
-
-		public Widget Move(int x, int y)
-		{
-			bounds.Location = new Point(x, y);
-			OnPositionChanged();
-			return this;
-		}
-
-		public Widget Move(Point p)
-		{
-			return Move(p.X, p.Y);
-		}
-
-		public Widget Resize(int width, int height)
-		{
-			bounds.Size = new Size(width, height);
-			OnSizeChanged();
-			return this;
-		}
-
-		public Widget Resize(Size size)
-		{
-			return Resize(size.Width, size.Height);
 		}
 
 		public void HandleMouseButtonDown(MouseButtonEvent e)

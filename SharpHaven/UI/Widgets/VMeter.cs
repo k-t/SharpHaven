@@ -17,7 +17,7 @@ namespace SharpHaven.UI.Widgets
 		public VMeter(Widget parent) : base(parent)
 		{
 			Color = Color.White;
-			Resize(background.Size);
+			Size = background.Size;
 		}
 
 		public int Amount
