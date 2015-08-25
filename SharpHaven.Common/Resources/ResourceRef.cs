@@ -9,8 +9,8 @@ namespace SharpHaven.Resources
 			if (name == null)
 				throw new ArgumentNullException(nameof(name));
 
-			Name = name;
-			Version = version;
+			this.Name = name;
+			this.Version = version;
 		}
 
 		public string Name { get; }
