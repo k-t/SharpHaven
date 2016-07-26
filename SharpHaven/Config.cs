@@ -6,11 +6,11 @@ namespace SharpHaven
 {
 	public class Config
 	{
-		private const string DefaultHost = "moltke.seatribe.se";
+		private const string DefaultHost = "legacy.havenandhearth.com";
 		private const int DefaultGamePort = 1870;
 		private const int DefaultAuthPort = 1871;
-		private const string DefaultMapUrl = "http://www.havenandhearth.com/mm/";
-		private const string DefaultResUrl = "http://www.havenandhearth.com/res/";
+		private const string DefaultMapUrl = "http://legacy.havenandhearth.com/mm/";
+		private const string DefaultResUrl = "http://legacy.havenandhearth.com/res/";
 
 		private readonly IConfig havenConfig;
 
