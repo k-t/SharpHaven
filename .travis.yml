@@ -1,5 +1,7 @@
 language: csharp
 solution: SharpHaven.sln
+mono:
+  - latest
 install:
   - nuget restore SharpHaven.sln
   - nuget install NUnit.Runners -Version 2.6.3 -OutputDirectory testrunner
