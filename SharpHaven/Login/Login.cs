@@ -67,7 +67,7 @@ namespace SharpHaven.Login
 				}
 				catch (AuthException ex)
 				{
-					Log.Error("Authentication error", (Exception)ex);
+					Log.Error(ex, "Authentication error");
 					Finish(new LoginResult(ex.Message));
 				}
 				catch (NetworkException ex)
@@ -77,7 +77,7 @@ namespace SharpHaven.Login
 				}
 				catch (Exception ex)
 				{
-					Log.Error("Unexpected login error", ex);
+					Log.Error(ex, "Unexpected login error");
 					Finish(new LoginResult(ex.Message));
 				}
 			});

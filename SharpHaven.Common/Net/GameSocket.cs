@@ -20,7 +20,7 @@ namespace SharpHaven.Net
 
 		public void Dispose()
 		{
-			socket.Dispose();
+			socket.Close();
 		}
 
 		public void Connect()
@@ -30,7 +30,7 @@ namespace SharpHaven.Net
 
 		public void Close()
 		{
-			socket.Dispose();
+			socket.Close();
 		}
 
 		public bool Receive(out MessageReader reader)

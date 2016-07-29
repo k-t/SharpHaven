@@ -8,8 +8,7 @@ namespace SharpHaven.Utils
 	{
 		private static readonly Logger Log = LogManager.GetCurrentClassLogger();
 
-		private readonly CancellationTokenSource tokenSource;
-		private readonly CancellationToken token;
+		private volatile bool isCancelled;
 		private readonly Thread thread;
 		
 		protected BackgroundTask(string name)
@@ -17,16 +16,13 @@ namespace SharpHaven.Utils
 			thread = new Thread(Start);
 			thread.IsBackground = true;
 			thread.Name = name;
-
-			tokenSource = new CancellationTokenSource();
-			token = tokenSource.Token;
 		}
 
 		public event EventHandler Finished;
 
 		protected bool IsCancelled
 		{
-			get { return token.IsCancellationRequested; }
+			get { return isCancelled; }
 		}
 
 		public void Run()
@@ -37,7 +33,7 @@ namespace SharpHaven.Utils
 		public void Stop()
 		{
 			// TODO: it's assumed that task acts nicely but what if it's not the case?
-			tokenSource.Cancel();
+			isCancelled = true;
 		}
 
 		protected abstract void OnStart();
@@ -51,7 +47,7 @@ namespace SharpHaven.Utils
 			}
 			catch (Exception ex)
 			{
-				Log.Error("Unhandled exception within task", ex);
+				Log.Error(ex, "Unhandled exception within task");
 			}
 			finally
 			{

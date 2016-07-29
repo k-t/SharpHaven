@@ -114,7 +114,7 @@ namespace SharpHaven.UI.Widgets
 			}
 			catch (Exception ex)
 			{
-				Log.Error("Couldn't get minimap at " + grid.Coord, ex);
+				Log.Error(ex, "Couldn't get minimap at " + grid.Coord);
 			}
 		}
 	}
