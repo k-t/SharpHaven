@@ -3,6 +3,7 @@ using SharpHaven.Client;
 using SharpHaven.Graphics;
 using SharpHaven.Input;
 using SharpHaven.Login;
+using SharpHaven.Net;
 using SharpHaven.UI;
 
 namespace SharpHaven
@@ -12,11 +13,19 @@ namespace SharpHaven
 		private readonly LoginScreen loginScreen;
 		private GameScreen gameScreen;
 		private IScreen current;
+		private GameClient client;
 		private ClientSession session;
 
 		public MainScreen()
 		{
-			loginScreen = new LoginScreen();
+			var clientConfig = new GameClientConfiguration
+			{
+				AuthServerAddress = new NetworkAddress(App.Config.AuthHost, App.Config.AuthPort),
+				GameServerAddress = new NetworkAddress(App.Config.GameHost, App.Config.GamePort)
+			};
+
+			client = new GameClient(clientConfig);
+			loginScreen = new LoginScreen(client);
 			loginScreen.LoginCompleted += OnLoginCompleted;
 			current = loginScreen;
 		}
@@ -32,9 +41,11 @@ namespace SharpHaven
 			current.Show();
 		}
 
-		private void OnLoginCompleted(ClientSession session)
+		private void OnLoginCompleted()
 		{
-			this.session = session;
+			session = new ClientSession(client);
+			session.Start();
+
 			gameScreen = session.Screen;
 			gameScreen.Closed += OnGameExited;
 

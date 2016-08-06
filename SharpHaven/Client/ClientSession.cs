@@ -5,6 +5,7 @@ using System.Threading;
 using NLog;
 using SharpHaven.Game;
 using SharpHaven.Game.Events;
+using SharpHaven.Net;
 using SharpHaven.UI.Remote;
 
 namespace SharpHaven.Client
@@ -13,14 +14,14 @@ namespace SharpHaven.Client
 	{
 		private static readonly Logger Log = LogManager.GetCurrentClassLogger();
 
-		private readonly IGame game;
+		private readonly GameClient client;
 		private readonly HashSet<Point> gridRequests;
 		private readonly ServerWidgetFactory widgetFactory;
 
-		public ClientSession(IGame game)
+		public ClientSession(GameClient client)
 		{
-			this.game = game;
-			this.game.AddListener(this);
+			this.client = client;
+			this.client.Events.AddListener(this);
 
 			gridRequests = new HashSet<Point>();
 			widgetFactory = new ServerWidgetFactory();
@@ -65,22 +66,22 @@ namespace SharpHaven.Client
 
 		public void Start()
 		{
-			game.Start();
+			client.Connect();
 		}
 
 		public void Finish()
 		{
 			lock (this)
 			{
-				game.RemoveListener(this);
-				game.Stop();
+				client.Events.RemoveListener(this);
+				client.Close();
 			}
 			App.QueueOnMainThread(() => Screen.Close());
 		}
 
 		public void MessageWidget(ushort widgetId, string name, object[] args)
 		{
-			game.MessageWidget(widgetId, name, args);
+			client.MessageWidget(widgetId, name, args);
 		}
 
 		public void RequestMap(Point gc)
@@ -90,7 +91,7 @@ namespace SharpHaven.Client
 			{
 				gridRequests.Add(gc);
 				// TODO: Queue on sender thread?
-				ThreadPool.QueueUserWorkItem(o => game.RequestMap(gc.X, gc.Y));
+				ThreadPool.QueueUserWorkItem(o => client.RequestMap(gc.X, gc.Y));
 			}
 		}
 

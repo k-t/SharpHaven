@@ -2,26 +2,38 @@
 {
 	public class LoginResult
 	{
-		public LoginResult(string userName, byte[] cookie)
+		private bool isSuccessful;
+		private string errorMessage;
+
+		private LoginResult()
 		{
-			UserName = userName;
-			Cookie = cookie;
+			this.isSuccessful = true;
 		}
 
-		public LoginResult(string error)
+		private LoginResult(string errorMessage)
 		{
-			Error = error;
+			this.isSuccessful = false;
+			this.errorMessage = errorMessage;
 		}
 
-		public string Error { get; }
-
-		public string UserName { get; }
-
-		public byte[] Cookie { get; }
+		public string ErrorMessage
+		{
+			get { return errorMessage; }
+		}
 
 		public bool IsSuccessful
 		{
-			get { return Cookie != null; }
+			get { return isSuccessful; }
+		}
+
+		public static LoginResult Success()
+		{
+			return new LoginResult();
+		}
+
+		public static LoginResult Fail(string errorMessage)
+		{
+			return new LoginResult(errorMessage);
 		}
 	}
 }

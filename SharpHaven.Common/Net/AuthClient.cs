@@ -18,6 +18,11 @@ namespace SharpHaven.Net
 		private readonly int port;
 		private SslStream ctx;
 
+		public AuthClient(NetworkAddress address)
+			: this(address.Host, address.Port)
+		{
+		}
+
 		public AuthClient(string host, int port)
 		{
 			this.host = host;

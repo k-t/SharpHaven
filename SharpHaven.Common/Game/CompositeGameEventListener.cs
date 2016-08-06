@@ -3,7 +3,7 @@ using SharpHaven.Game.Events;
 
 namespace SharpHaven.Game
 {
-	public class CompositeGameEventListener : IGameEventListener
+	public class CompositeGameEventListener : IGameEventListener, IGameEventSource
 	{
 		private readonly List<IGameEventListener> listeners;
 
@@ -12,12 +12,12 @@ namespace SharpHaven.Game
 			listeners = new List<IGameEventListener>();
 		}
 
-		public void Add(IGameEventListener listener)
+		public void AddListener(IGameEventListener listener)
 		{
 			listeners.Add(listener);
 		}
 
-		public void Remove(IGameEventListener listener)
+		public void RemoveListener(IGameEventListener listener)
 		{
 			listeners.Remove(listener);
 		}

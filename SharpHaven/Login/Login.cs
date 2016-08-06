@@ -10,6 +10,13 @@ namespace SharpHaven.Login
 	{
 		private static readonly Logger Log = LogManager.GetCurrentClassLogger();
 
+		private readonly GameClient client;
+
+		public Login(GameClient client)
+		{
+			this.client = client;
+		}
+
 		public string UserName
 		{
 			get { return App.Config.UserName; }
@@ -50,68 +57,55 @@ namespace SharpHaven.Login
 		public void LoginAsync()
 		{
 			var authenticate = (Token != null)
-				? new Func<AuthResult>(() => Authenticate(UserName, Token))
-				: new Func<AuthResult>(() => Authenticate(UserName, Password));
+				? new Action(() => Authenticate(UserName, Token))
+				: new Action(() => Authenticate(UserName, Password));
 			RunAsync(() =>
 			{
 				try
 				{
-					var result = authenticate();
-					if (result.Cookie == null)
-					{
-						App.QueueOnMainThread(() => Finished.Raise(new LoginResult(result.Error)));
-						return;
-					}
+					authenticate();
 					Log.Info("{0} logged in successfully", UserName);
-					Finish(new LoginResult(UserName, result.Cookie));
+					Finish(LoginResult.Success());
 				}
 				catch (AuthException ex)
 				{
 					Log.Error(ex, "Authentication error");
-					Finish(new LoginResult(ex.Message));
+					Finish(LoginResult.Fail(ex.Message));
 				}
 				catch (NetworkException ex)
 				{
 					Log.Error("Connection error ({0}) {1}", (byte)ex.Error, ex.Message);
-					Finish(new LoginResult(ex.Message));
+					Finish(LoginResult.Fail(ex.Message));
 				}
 				catch (Exception ex)
 				{
 					Log.Error(ex, "Unexpected login error");
-					Finish(new LoginResult(ex.Message));
+					Finish(LoginResult.Fail(ex.Message));
 				}
 			});
 		}
 
-		private AuthResult Authenticate(string userName, string password)
+		private void Authenticate(string userName, string password)
 		{
-			byte[] cookie;
-			using (var authClient = new AuthClient(App.Config.AuthHost, App.Config.AuthPort))
+			var result = client.Authenticate(userName, password, Remember);
+			if (result.IsSuccessful)
 			{
-				authClient.Connect();
-				authClient.BindUser(userName);
-				if (authClient.TryPassword(password, out cookie))
-				{
-					UserName = userName;
-					Token = Remember ? authClient.GetToken() : null;
-					return new AuthResult(cookie);
-				}
-				return new AuthResult("Username or password incorrect");
+				if (Remember)
+					Token = result.Token;
+				return;
 			}
+			throw new AuthException("Username or password incorrect");
 		}
 
-		private AuthResult Authenticate(string userName, byte[] token)
+		private void Authenticate(string userName, byte[] token)
 		{
-			byte[] cookie;
-			using (var authClient = new AuthClient(App.Config.AuthHost, App.Config.AuthPort))
+			var result = client.Authenticate(userName, token);
+			if (result.IsSuccessful)
 			{
-				authClient.Connect();
-				authClient.BindUser(userName);
-				if (authClient.TryToken(token, out cookie))
-					return new AuthResult(cookie);
-				ForgetToken();
-				return new AuthResult("Invalid save");
+				return;
 			}
+			ForgetToken();
+			throw new AuthException("Invalid save");
 		}
 
 		private static void RunAsync(Action action)
@@ -126,23 +120,6 @@ namespace SharpHaven.Login
 		private void Finish(LoginResult result)
 		{
 			App.QueueOnMainThread(() => Finished.Raise(result));
-		}
-
-		private class AuthResult
-		{
-			public AuthResult(byte[] cookie)
-			{
-				Cookie = cookie;
-			}
-
-			public AuthResult(string error)
-			{
-				Error = error;
-			}
-
-			public byte[] Cookie { get; }
-
-			public string Error { get; }
 		}
 	}
 }

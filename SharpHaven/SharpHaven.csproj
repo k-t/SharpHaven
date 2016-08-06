@@ -86,6 +86,7 @@
     <Compile Include="Graphics\Sprites\Plants\GrowingPlantMaker.cs" />
     <Compile Include="Graphics\Sprites\SpritePart.cs" />
     <Compile Include="Input\DropEvent.cs" />
+    <Compile Include="Login\LoginResult.cs" />
     <Compile Include="UI\Drag.cs" />
     <Compile Include="UI\Remote\ServerAimWidget.cs" />
     <Compile Include="UI\Remote\ServerClaimWindow.cs" />
@@ -168,7 +169,6 @@
     <Compile Include="Input\InputConverter.cs" />
     <Compile Include="Login\Login.cs" />
     <Compile Include="Login\LoginSettings.cs" />
-    <Compile Include="Login\LoginResult.cs" />
     <Compile Include="MainScreen.cs" />
     <Compile Include="Client\Tileset.cs" />
     <Compile Include="Client\GameAction.cs" />

@@ -17,7 +17,7 @@ namespace SharpHaven.Login
 		private const int MinWidth = 800;
 		private const int MinHeight = 600;
 
-		private Login login;
+		private readonly Login login;
 
 		private Container cntPassword;
 		private TextBox tbUserName;
@@ -32,9 +32,9 @@ namespace SharpHaven.Login
 		private Label lbProgress;
 		private ImageButton btnLogin;
 
-		public LoginScreen()
+		public LoginScreen(GameClient client)
 		{
-			login = new Login();
+			login = new Login(client);
 			login.Progress += UpdateProgress;
 			login.Finished += Finish;
 
@@ -43,7 +43,7 @@ namespace SharpHaven.Login
 			RootWidget.KeyDown += OnKeyDown;
 		}
 
-		public event Action<ClientSession> LoginCompleted;
+		public event Action LoginCompleted;
 
 		private void InitWidgets()
 		{
@@ -155,7 +155,7 @@ namespace SharpHaven.Login
 				tbPassword.Text = "";
 			}
 
-			UpdateProgress("Connecting...");
+			UpdateProgress("Authenticating...");
 
 			login.LoginAsync();
 		}
@@ -201,19 +201,10 @@ namespace SharpHaven.Login
 		{
 			if (authResult.IsSuccessful)
 			{
-				var settings = new NetworkGameSettings {
-					Host = App.Config.GameHost,
-					Port = App.Config.GamePort,
-					UserName = authResult.UserName,
-					Cookie = authResult.Cookie
-				};
-				var game = new NetworkGame(settings);
-				var session = new ClientSession(game);
-
 				try
 				{
-					session.Start();
-					LoginCompleted.Raise(session);
+					UpdateProgress("Connecting...");
+					LoginCompleted.Raise();
 					GotoInitialPage();
 				}
 				catch (Exception ex)
@@ -222,7 +213,7 @@ namespace SharpHaven.Login
 				}
 			}
 			else
-				GotoInitialPage(authResult.Error);
+				GotoInitialPage(authResult.ErrorMessage);
 		}
 
 		private void ForgetToken()

@@ -9,7 +9,7 @@ using SharpHaven.Utils;
 
 namespace SharpHaven.Net
 {
-	public class NetworkGame : IGame
+	public class NetworkGame
 	{
 		#region Constants
 
@@ -60,7 +60,6 @@ namespace SharpHaven.Net
 
 		private static readonly NLog.Logger Log = LogManager.GetCurrentClassLogger();
 
-		private readonly NetworkGameSettings settings;
 		private readonly GameSocket socket;
 		private readonly MessageReceiver receiver;
 		private readonly MessageSender sender;
@@ -71,16 +70,14 @@ namespace SharpHaven.Net
 		private ushort rseq;
 		private NetworkGameState state;
 
-		public NetworkGame(NetworkGameSettings settings)
+		public NetworkGame(NetworkAddress address)
 		{
-			this.settings = settings;
-
 			waiting = new TreeDictionary<ushort, MessageReader>();
 			mapFrags = new TreeDictionary<int, FragmentBuffer>();
 			listener = new CompositeGameEventListener();
 
 			state = NetworkGameState.Created;
-			socket = new GameSocket(settings.Host, settings.Port);
+			socket = new GameSocket(address.Host, address.Port);
 			socket.SetReceiveTimeout(ReceiveTimeout);
 			sender = new MessageSender(socket);
 			sender.Finished += OnTaskFinished;
@@ -90,7 +87,7 @@ namespace SharpHaven.Net
 
 		public event Action Stopped;
 
-		public void Start()
+		public void Start(string userName, byte[] cookie)
 		{
 			try
 			{
@@ -99,7 +96,7 @@ namespace SharpHaven.Net
 					if (state != NetworkGameState.Created)
 						throw new InvalidOperationException("Can't open already opened/closed connection");
 
-					Connect();
+					Connect(userName, cookie);
 					receiver.Run();
 					sender.Run();
 
@@ -137,12 +134,12 @@ namespace SharpHaven.Net
 
 		public void AddListener(IGameEventListener l)
 		{
-			listener.Add(l);
+			listener.AddListener(l);
 		}
 
 		public void RemoveListener(IGameEventListener l)
 		{
-			listener.Remove(l);
+			listener.RemoveListener(l);
 		}
 
 		public void RequestMap(int x, int y)
@@ -167,7 +164,7 @@ namespace SharpHaven.Net
 			socket.Send(new Message(Message.MSG_OBJACK).Int32(id).Int32(frame));
 		}
 
-		private void Connect()
+		private void Connect(string userName, byte[] cookie)
 		{
 			socket.Connect();
 
@@ -175,8 +172,8 @@ namespace SharpHaven.Net
 				.Uint16(1)
 				.String("Haven")
 				.Uint16(ProtocolVersion)
-				.String(settings.UserName)
-				.Bytes(settings.Cookie);
+				.String(userName)
+				.Bytes(cookie);
 
 			socket.Send(hello);
 

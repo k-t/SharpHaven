@@ -72,7 +72,12 @@
     <Compile Include="Game\Events\PartyUpdateEvent.cs" />
     <Compile Include="Game\Events\PlayMusicEvent.cs" />
     <Compile Include="Game\Events\WidgetDestroyEvent.cs" />
-    <Compile Include="Game\IGame.cs" />
+    <Compile Include="Game\IGameEventSource.cs" />
+    <Compile Include="Net\AuthResult.cs" />
+    <Compile Include="Net\GameClientState.cs" />
+    <Compile Include="Net\NetworkAddress.cs" />
+    <Compile Include="Net\GameClient.cs" />
+    <Compile Include="Net\GameClientConfiguration.cs" />
     <Compile Include="Net\MessageToGobDelta.cs" />
     <Compile Include="Geometry.cs" />
     <Compile Include="Game\Events\PlaySoundEvent.cs" />
@@ -132,7 +137,6 @@
     <Compile Include="Utils\TreeNode.cs" />
     <Compile Include="EventHelper.cs" />
     <Compile Include="Net\ConnectionError.cs" />
-    <Compile Include="Net\NetworkGameSettings.cs" />
     <Compile Include="Net\NetworkException.cs" />
     <Compile Include="Net\NetworkGameState.cs" />
     <Compile Include="Net\NetworkGame.cs" />
