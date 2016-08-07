@@ -1,6 +1,5 @@
 ﻿using SharpHaven.Graphics;
 using SharpHaven.Resources;
-using SharpHaven.Utils;
 
 namespace SharpHaven.UI.Widgets
 {

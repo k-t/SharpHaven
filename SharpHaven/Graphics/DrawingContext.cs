@@ -4,7 +4,6 @@ using System.Linq;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
 using SharpHaven.Graphics.Sprites;
-using SharpHaven.Utils;
 
 namespace SharpHaven.Graphics
 {

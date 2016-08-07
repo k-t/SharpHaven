@@ -5,7 +5,6 @@ using OpenTK.Input;
 using SharpHaven.Graphics;
 using SharpHaven.Graphics.Text;
 using SharpHaven.Input;
-using SharpHaven.Utils;
 
 namespace SharpHaven.UI.Widgets
 {

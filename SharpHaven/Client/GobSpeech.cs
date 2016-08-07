@@ -1,7 +1,6 @@
 ﻿using System;
 using SharpHaven.Graphics;
 using SharpHaven.Graphics.Text;
-using SharpHaven.Utils;
 
 namespace SharpHaven.Client
 {

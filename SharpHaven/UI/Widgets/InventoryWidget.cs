@@ -2,7 +2,6 @@
 using OpenTK.Input;
 using SharpHaven.Graphics;
 using SharpHaven.Input;
-using SharpHaven.Utils;
 
 namespace SharpHaven.UI.Widgets
 {

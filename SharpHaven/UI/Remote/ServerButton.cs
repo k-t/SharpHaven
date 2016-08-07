@@ -1,5 +1,4 @@
-﻿using System.Drawing;
-using SharpHaven.Graphics;
+﻿using SharpHaven.Graphics;
 using SharpHaven.UI.Widgets;
 
 namespace SharpHaven.UI.Remote

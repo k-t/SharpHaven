@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace SharpHaven.Net
+﻿namespace SharpHaven.Net
 {
 	public class GameClientConfiguration
 	{

@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Concurrent;
 using System.ComponentModel;
-using System.Drawing;
 using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;

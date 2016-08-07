@@ -1,7 +1,6 @@
 ﻿using SharpHaven.Client;
 using SharpHaven.Graphics;
 using SharpHaven.UI.Widgets;
-using SharpHaven.Utils;
 
 namespace SharpHaven.UI.Remote
 {

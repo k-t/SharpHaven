@@ -5,7 +5,6 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using SharpHaven.Resources;
-using SharpHaven.Utils;
 
 namespace SharpHaven.Graphics.Sprites
 {

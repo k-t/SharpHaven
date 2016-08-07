@@ -1,8 +1,8 @@
 using System;
 using System.Text;
+using MiscUtil.Conversion;
 using SharpHaven.Graphics;
 using SharpHaven.Utils;
-using MiscUtil.Conversion;
 
 namespace SharpHaven.Net
 {
