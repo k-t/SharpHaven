@@ -2,9 +2,9 @@
 
 namespace SharpHaven.Game.Messages
 {
-	public class MapUpdate
+	public class MapUpdateGrid
 	{
-		public Coord2D Grid { get; set; }
+		public Coord2D Coord { get; set; }
 
 		public string MinimapName { get; set; }
 

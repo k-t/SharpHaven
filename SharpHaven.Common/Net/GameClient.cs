@@ -81,16 +81,10 @@ namespace SharpHaven.Net
 			this.state = GameClientState.Initial;
 		}
 
-		public void RequestMap(int x, int y)
+		public void Send<TMessage>(TMessage message)
 		{
 			CheckConnected();
-			session.RequestMap(x, y);
-		}
-
-		public void MessageWidget(ushort widgetId, string name, object[] args)
-		{
-			CheckConnected();
-			session.MessageWidget(widgetId, name, args);
+			session.Send(message);
 		}
 
 		private void CheckAuthenticated()

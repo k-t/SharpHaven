@@ -20,7 +20,7 @@ namespace SharpHaven.Game
 			typeof(MapInvalidate),
 			typeof(MapInvalidateGrid),
 			typeof(MapInvalidateRegion),
-			typeof(MapUpdate),
+			typeof(MapUpdateGrid),
 			typeof(PartyUpdateMember),
 			typeof(PartyChangeLeader),
 			typeof(PartyUpdate),
@@ -146,7 +146,7 @@ namespace SharpHaven.Game
 		{
 		}
 
-		protected virtual void Handle(MapUpdate message)
+		protected virtual void Handle(MapUpdateGrid message)
 		{
 		}
 

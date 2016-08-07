@@ -76,7 +76,7 @@ namespace SharpHaven.Client
 
 		public void MessageWidget(ushort widgetId, string name, object[] args)
 		{
-			client.MessageWidget(widgetId, name, args);
+			client.Send(new WidgetMessage(widgetId, name, args));
 		}
 
 		public void RequestMap(Coord2D gc)
@@ -86,7 +86,7 @@ namespace SharpHaven.Client
 			{
 				gridRequests.Add(gc);
 				// TODO: Queue on sender thread?
-				ThreadPool.QueueUserWorkItem(o => client.RequestMap(gc.X, gc.Y));
+				ThreadPool.QueueUserWorkItem(o => client.Send(new MapRequestGrid(gc)));
 			}
 		}
 
@@ -232,11 +232,11 @@ namespace SharpHaven.Client
 			});
 		}
 
-		protected override void Handle(MapUpdate message)
+		protected override void Handle(MapUpdateGrid message)
 		{
 			App.QueueOnMainThread(() =>
 			{
-				gridRequests.Remove(message.Grid);
+				gridRequests.Remove(message.Coord);
 				Map.AddGrid(message);
 			});
 		}

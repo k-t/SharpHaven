@@ -132,20 +132,31 @@ namespace SharpHaven.Net
 			Stopped.Raise();
 		}
 
-		public void RequestMap(int x, int y)
+		public void Send<TMessage>(TMessage message)
 		{
-			var msg = new Message(Message.MSG_MAPREQ).Coord(x, y);
-			socket.Send(msg);
-		}
+			var gridRequest = message as MapRequestGrid;
+			if (gridRequest != null)
+			{
+				var msg = new Message(Message.MSG_MAPREQ).Coord(gridRequest.Coord);
+				socket.Send(msg);
+				return;
+			}
 
-		public void MessageWidget(ushort widgetId, string name, object[] args)
-		{
-			var message = new Message(RMSG_WDGMSG)
-				.Uint16(widgetId)
-				.String(name);
-			if (args != null)
-				message.List(args);
-			sender.SendMessage(message);
+			var widgetMessage = message as WidgetMessage;
+			if (widgetMessage != null)
+			{
+				var msg = new Message(RMSG_WDGMSG)
+					.Uint16(widgetMessage.WidgetId)
+					.String(widgetMessage.Name);
+
+				if (widgetMessage.Args != null)
+					msg.List(widgetMessage.Args);
+
+				sender.SendMessage(msg);
+				return;
+			}
+
+			throw new ArgumentException($"Unsupported outgoing messages type '{message.GetType().Name}'");
 		}
 
 		private void SendObjectAck(int id, int frame)

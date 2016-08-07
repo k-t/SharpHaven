@@ -59,6 +59,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Game\DefaultMessageHandler.cs" />
+    <Compile Include="Game\Messages\MapRequestGrid.cs" />
     <Compile Include="Game\Messages\UpdateAmbientLight.cs" />
     <Compile Include="Game\Messages\BuffClearAll.cs" />
     <Compile Include="Game\Messages\BuffRemove.cs" />
@@ -177,7 +178,7 @@
     <Compile Include="Game\Messages\BuffUpdate.cs" />
     <Compile Include="Game\Messages\UpdateCharAttributes.cs" />
     <Compile Include="Game\Messages\UpdateGameObject.cs" />
-    <Compile Include="Game\Messages\MapUpdate.cs" />
+    <Compile Include="Game\Messages\MapUpdateGrid.cs" />
     <Compile Include="Game\Messages\LoadResource.cs" />
     <Compile Include="Game\Messages\LoadTilesets.cs" />
     <Compile Include="Game\Messages\WidgetCreate.cs" />

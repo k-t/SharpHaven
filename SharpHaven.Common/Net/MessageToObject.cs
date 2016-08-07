@@ -110,11 +110,11 @@ namespace SharpHaven.Net
 			};
 		}
 
-		public static MapUpdate ReadMapUpdateEvent(this ByteBuffer reader)
+		public static MapUpdateGrid ReadMapUpdateEvent(this ByteBuffer reader)
 		{
-			var msg = new MapUpdate
+			var msg = new MapUpdateGrid
 			{
-				Grid = reader.ReadInt32Coord(),
+				Coord = reader.ReadInt32Coord(),
 				MinimapName = reader.ReadCString(),
 				Overlays = new int[100 * 100]
 			};

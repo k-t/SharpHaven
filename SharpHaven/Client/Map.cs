@@ -59,10 +59,10 @@ namespace SharpHaven.Client
 			return tilesets[tileType];
 		}
 
-		public void AddGrid(MapUpdate message)
+		public void AddGrid(MapUpdateGrid message)
 		{
-			var random = new C5Random(RandomUtils.GetSeed(message.Grid));
-			var gc = message.Grid;
+			var random = new C5Random(RandomUtils.GetSeed(message.Coord));
+			var gc = message.Coord;
 			var tiles = new MapTile[message.Tiles.Length];
 			for (int i = 0; i < message.Tiles.Length; i++)
 			{
