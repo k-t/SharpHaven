@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using NUnit.Framework;
 using SharpHaven.Utils;
 
@@ -17,8 +18,11 @@ namespace SharpHaven.Resources.Serialization.Binary
 			{
 				buffer.WriteFloat40(input);
 				ms.Position = 0;
+
 				var output = buffer.ReadFloat40();
-				Assert.That(output, Is.EqualTo(input));
+
+				var tolerance = 1.0 / Math.Pow(10, 6);
+				Assert.That(output, Is.EqualTo(input).Within(tolerance));
 			}
 		}
 	}

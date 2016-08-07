@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using NUnit.Framework;
 using SharpHaven.Graphics;
 using SharpHaven.Resources.Serialization.Binary.Layers;
@@ -321,9 +322,11 @@ namespace SharpHaven.Resources.Serialization.Binary
 			var serializer = new PoseLayerHandler();
 			var output = (PoseLayer)serializer.Reserialize(input);
 
+			var tolerance = 1.0 / Math.Pow(10, 6);
+
 			Assert.That(output.Id, Is.EqualTo(input.Id));
-			Assert.That(output.Length, Is.EqualTo(input.Length));
-			Assert.That(output.Speed, Is.EqualTo(input.Speed));
+			Assert.That(output.Length, Is.EqualTo(input.Length).Within(tolerance));
+			Assert.That(output.Speed, Is.EqualTo(input.Speed).Within(tolerance));
 			Assert.That(output.Flags, Is.EqualTo(input.Flags));
 			Assert.That(output.Mode, Is.EqualTo(input.Mode));
 			Assert.That(output.Effects.Length, Is.EqualTo(output.Effects.Length));
