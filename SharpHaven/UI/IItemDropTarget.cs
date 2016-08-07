@@ -1,11 +1,11 @@
-﻿using System.Drawing;
-using OpenTK.Input;
+﻿using OpenTK.Input;
+using SharpHaven.Graphics;
 
 namespace SharpHaven.UI
 {
 	public interface IItemDropTarget
 	{
-		bool Drop(Point p, Point ul, KeyModifiers mods);
-		bool Interact(Point p, Point ul, KeyModifiers mods);
+		bool Drop(Coord2d p, Coord2d ul, KeyModifiers mods);
+		bool Interact(Coord2d p, Coord2d ul, KeyModifiers mods);
 	}
 }

@@ -14,7 +14,7 @@ namespace SharpHaven.Client
 		private readonly int flavorDensity;
 		private readonly bool hasTransitions;
 
-		public Tileset(TilesetData data)
+		public Tileset(TilesetLayer data)
 		{
 			hasTransitions = data.HasTransitions;
 			flavorDensity = data.FlavorDensity;

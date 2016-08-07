@@ -1,4 +1,4 @@
-﻿using System.Drawing;
+﻿using SharpHaven.Graphics;
 
 namespace SharpHaven.Game
 {
@@ -10,7 +10,7 @@ namespace SharpHaven.Game
 
 		public class Position : GobDelta
 		{
-			public Point Value { get; set; }
+			public Coord2d Value { get; set; }
 		}
 
 		public class Resource : GobDelta
@@ -21,8 +21,8 @@ namespace SharpHaven.Game
 
 		public class StartMovement : GobDelta
 		{
-			public Point Origin { get; set; }
-			public Point Destination { get; set; }
+			public Coord2d Origin { get; set; }
+			public Coord2d Destination { get; set; }
 			public int TotalSteps { get; set; }
 		}
 
@@ -33,7 +33,7 @@ namespace SharpHaven.Game
 
 		public class Speech : GobDelta
 		{
-			public Point Offset { get; set; }
+			public Coord2d Offset { get; set; }
 			public string Text { get; set; }
 		}
 
@@ -50,12 +50,12 @@ namespace SharpHaven.Game
 
 		public class DrawOffset : GobDelta
 		{
-			public Point Value { get; set; }
+			public Coord2d Value { get; set; }
 		}
 
 		public class Light : GobDelta
 		{
-			public Point Offset { get; set; }
+			public Coord2d Offset { get; set; }
 			public int Size { get; set; }
 			public byte Intensity { get; set; }
 		}
@@ -64,13 +64,13 @@ namespace SharpHaven.Game
 		{
 			public int GobId { get; set; }
 			public byte Szo { get; set; } // TODO: Rename
-			public Point Offset { get; set; }
+			public Coord2d Offset { get; set; }
 		}
 
 		public class Homing : GobDelta
 		{
 			public int GobId { get; set; }
-			public Point Target { get; set; }
+			public Coord2d Target { get; set; }
 			public int Velocity { get; set; }
 		}
 

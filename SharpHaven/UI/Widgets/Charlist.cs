@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
 using OpenTK;
 using SharpHaven.Graphics;
 using SharpHaven.Graphics.Sprites;

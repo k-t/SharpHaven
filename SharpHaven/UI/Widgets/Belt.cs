@@ -135,13 +135,13 @@ namespace SharpHaven.UI.Widgets
 
 			#region IItemDropTarget
 
-			bool IItemDropTarget.Drop(Point p, Point ul, KeyModifiers mods)
+			bool IItemDropTarget.Drop(Coord2d p, Coord2d ul, KeyModifiers mods)
 			{
 				ItemDrop.Raise(this, EventArgs.Empty);
 				return true;
 			}
 
-			bool IItemDropTarget.Interact(Point p, Point ul, KeyModifiers mods)
+			bool IItemDropTarget.Interact(Coord2d p, Coord2d ul, KeyModifiers mods)
 			{
 				return false;
 			}

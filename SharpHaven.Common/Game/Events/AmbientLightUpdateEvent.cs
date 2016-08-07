@@ -1,4 +1,4 @@
-﻿using System.Drawing;
+﻿using SharpHaven.Graphics;
 
 namespace SharpHaven.Game.Events
 {

@@ -1,19 +1,19 @@
 ﻿using System;
-using System.Drawing;
+using NLog;
 using OpenTK.Input;
-using SharpHaven.Client;
 using SharpHaven.Graphics;
 using SharpHaven.Graphics.Text;
 using SharpHaven.Input;
 using SharpHaven.Net;
 using SharpHaven.UI;
 using SharpHaven.UI.Widgets;
-using Image = SharpHaven.UI.Widgets.Image;
 
 namespace SharpHaven.Login
 {
 	public class LoginScreen : BaseScreen
 	{
+		private static readonly Logger Log = LogManager.GetCurrentClassLogger();
+
 		private const int MinWidth = 800;
 		private const int MinHeight = 600;
 
@@ -35,7 +35,6 @@ namespace SharpHaven.Login
 		public LoginScreen(GameClient client)
 		{
 			login = new Login(client);
-			login.Progress += UpdateProgress;
 			login.Finished += Finish;
 
 			InitWidgets();
@@ -207,9 +206,14 @@ namespace SharpHaven.Login
 					LoginCompleted.Raise();
 					GotoInitialPage();
 				}
-				catch (Exception ex)
+				catch (NetworkException ex)
 				{
 					GotoInitialPage(ex.Message);
+				}
+				catch (Exception ex)
+				{
+					Log.Error(ex, "Unexpected connection error");
+					GotoInitialPage("Unexpected connection error");
 				}
 			}
 			else

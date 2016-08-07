@@ -25,6 +25,11 @@ namespace SharpHaven.Utils
 			get { return holes.Count == 0; }
 		}
 
+		public void Add(int offset, byte[] frag)
+		{
+			Add(offset, frag, 0, frag.Length);
+		}
+
 		public void Add(int offset, byte[] frag, int index, int count)
 		{
 			Array.Copy(frag, index, content, offset, count);

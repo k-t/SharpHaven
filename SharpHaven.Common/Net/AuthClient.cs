@@ -4,6 +4,7 @@ using System.Net.Sockets;
 using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
+using SharpHaven.Utils;
 
 namespace SharpHaven.Net
 {
@@ -51,20 +52,20 @@ namespace SharpHaven.Net
 			var msg = new Message(CMD_USR).Chars(userName);
 			Send(msg);
 			var reply = GetReply();
-			if (reply.MessageType != 0)
-				throw new AuthException("Unhandled reply " + reply.MessageType + " when binding username");
+			if (reply.Type != 0)
+				throw new AuthException("Unhandled reply " + reply.Type + " when binding username");
 		}
 
 		public bool TryToken(byte[] token, out byte[] cookie)
 		{
 			Send(new Message(CMD_USETOKEN).Bytes(token));
 			var reply = GetReply();
-			if (reply.MessageType != 0)
+			if (reply.Type != 0)
 			{
 				cookie = null;
 				return false;
 			}
-			cookie = reply.GetBytes();
+			cookie = reply.Buffer.ReadRemaining();
 			return true;
 		}
 
@@ -73,12 +74,12 @@ namespace SharpHaven.Net
 			byte[] phash = Digest(password);
 			Send(new Message(CMD_PASSWD).Bytes(phash));
 			var reply = GetReply();
-			if (reply.MessageType != 0)
+			if (reply.Type != 0)
 			{
 				cookie = null;
 				return false;
 			}
-			cookie = reply.GetBytes();
+			cookie = reply.Buffer.ReadRemaining();
 			return true;
 		}
 
@@ -86,7 +87,7 @@ namespace SharpHaven.Net
 		{
 			Send(new Message(CMD_GETTOKEN));
 			var reply = GetReply();
-			return reply.MessageType == 0 ? reply.Buffer : null;
+			return reply.Type == 0 ? reply.Buffer.ReadRemaining() : null;
 		}
 
 		private byte[] Digest(string password)
@@ -107,24 +108,26 @@ namespace SharpHaven.Net
 			}
 		}
 
-		private MessageReader GetReply()
+		private Message GetReply()
 		{
 			byte[] header = new byte[2];
 			ReadAll(header);
 			byte[] buf = new byte[header[1]];
 			ReadAll(buf);
-			return new MessageReader(header[0], buf);
+			return new Message(header[0], buf);
 		}
 
-		private void Send(Message msg)
+		private void Send(Message message)
 		{
-			if (msg.Length > 255)
-				throw new AuthException("Message is too long (" + msg.Length + " bytes)");
+			if (message.Length > 255)
+				throw new AuthException("Message is too long (" + message.Length + " bytes)");
 
-			var bytes = new byte[msg.Length + 2];
-			bytes[0] = msg.Type;
-			bytes[1] = (byte)msg.Length;
-			msg.CopyBytes(bytes, 2, msg.Length);
+			var bytes = new byte[message.Length + 2];
+			bytes[0] = message.Type;
+			bytes[1] = (byte)message.Length;
+
+			message.Buffer.Rewind();
+			Array.Copy(message.Buffer.ReadRemaining(), 0, bytes, 2, message.Length);
 
 			ctx.Write(bytes);
 		}

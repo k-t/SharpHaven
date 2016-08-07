@@ -129,7 +129,7 @@ namespace SharpHaven.Graphics.Text
 
 		public void SetWidth(int width)
 		{
-			size.Width = width;
+			size.X = width;
 		}
 
 		private void UpdateGlyphs(int startIndex)

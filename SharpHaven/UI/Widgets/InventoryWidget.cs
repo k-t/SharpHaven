@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Drawing;
 using OpenTK.Input;
 using SharpHaven.Graphics;
 using SharpHaven.Input;
@@ -16,13 +15,13 @@ namespace SharpHaven.UI.Widgets
 			tile = App.Resources.Get<Drawable>("gfx/hud/invsq");
 		}
 
-		private Point inventorySize;
+		private Coord2d inventorySize;
 
 		public InventoryWidget(Widget parent) : base(parent)
 		{
 		}
 
-		public event Action<Point> Drop;
+		public event Action<Coord2d> Drop;
 		public event Action<TransferEvent> Transfer;
 
 		protected override void OnDraw(DrawingContext dc)
@@ -39,27 +38,27 @@ namespace SharpHaven.UI.Widgets
 
 		public void SetInventorySize(int rows, int columns)
 		{
-			inventorySize = new Point(rows, columns);
+			inventorySize = new Coord2d(rows, columns);
 			int w = (tile.Width - 1) * rows - 1;
 			int h = (tile.Height - 1) * columns - 1;
 			this.Resize(w, h);
 		}
 
-		public void SetInventorySize(Point size)
+		public void SetInventorySize(Coord2d size)
 		{
 			SetInventorySize(size.X, size.Y);
 		}
 
 		#region IItemDropTarget
 
-		bool IItemDropTarget.Drop(Point p, Point ul, KeyModifiers mods)
+		bool IItemDropTarget.Drop(Coord2d p, Coord2d ul, KeyModifiers mods)
 		{
 			var dropPoint = MapFromScreen(ul).Add(15);
-			Drop.Raise(new Point(dropPoint.X / tile.Width, dropPoint.Y / tile.Height));
+			Drop.Raise(new Coord2d(dropPoint.X / tile.Width, dropPoint.Y / tile.Height));
 			return true;
 		}
 
-		bool IItemDropTarget.Interact(Point p, Point ul, KeyModifiers mods)
+		bool IItemDropTarget.Interact(Coord2d p, Coord2d ul, KeyModifiers mods)
 		{
 			return false;
 		}

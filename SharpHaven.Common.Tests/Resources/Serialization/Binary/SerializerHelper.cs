@@ -1,18 +1,19 @@
 ﻿using System.IO;
 using NUnit.Framework;
+using SharpHaven.Utils;
 
 namespace SharpHaven.Resources.Serialization.Binary
 {
 	public static class BinarySerializerHelper
 	{
-		public static object Reserialize(this IBinaryDataLayerSerializer serializer, object input)
+		public static object Reserialize(this IBinaryLayerHandler handler, object input)
 		{
 			object output;
 			using (var ms = new MemoryStream())
 			{
-				serializer.Serialize(new BinaryWriter(ms), input);
+				handler.Serialize(new ByteBuffer(ms), input);
 				ms.Position = 0;
-				output = serializer.Deserialize(new BinaryReader(ms), (int)ms.Length);
+				output = handler.Deserialize(new ByteBuffer(ms));
 				Assert.That(ms.Position, Is.EqualTo(ms.Length), "Stream should be read till the end");
 			}
 			return output;

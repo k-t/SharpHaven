@@ -7,7 +7,7 @@ namespace SharpHaven.Resources
 	{
 		public Bitmap Create(string resName, Resource res)
 		{
-			var imageData = res.GetLayer<ImageData>();
+			var imageData = res.GetLayer<ImageLayer>();
 			if (imageData != null)
 			{
 				using (var ms = new MemoryStream(imageData.Data))

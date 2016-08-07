@@ -1,5 +1,5 @@
-﻿using System.Drawing;
-using SharpHaven.Client;
+﻿using SharpHaven.Client;
+using SharpHaven.Graphics;
 using SharpHaven.UI.Widgets;
 
 namespace SharpHaven.UI.Remote
@@ -24,7 +24,7 @@ namespace SharpHaven.UI.Remote
 			return new ServerCraftWindow(id, parent);
 		}
 
-		protected override void OnInit(Point position, object[] args)
+		protected override void OnInit(Coord2d position, object[] args)
 		{
 			var recipeName = (string)args[0];
 

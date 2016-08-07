@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using SharpHaven.Utils;
 
 namespace SharpHaven.Resources.Serialization.Binary
 {
@@ -8,48 +9,30 @@ namespace SharpHaven.Resources.Serialization.Binary
 	{
 		private const string Signature = "Haven Resource 1";
 
-		private readonly Dictionary<string, IBinaryDataLayerSerializer> deserializers;
-		private readonly Dictionary<Type, IBinaryDataLayerSerializer> serializers;
+		private readonly IBinaryLayerHandlerProvider handlerProvider;
 
-		public BinaryResourceSerializer()
+		public BinaryResourceSerializer() : this(new BinaryLayerHandlerProvider())
 		{
-			deserializers = new Dictionary<string, IBinaryDataLayerSerializer>();
-			serializers = new Dictionary<Type, IBinaryDataLayerSerializer>();
-			// register default serializers
-			Register(new ActionDataSerializer());
-			Register(new AnimDataSerializer());
-			Register(new ImageDataSerializer());
-			Register(new NegDataSerializer());
-			Register(new TextDataSerializer());
-			Register(new TileDataSerializer());
-			Register(new TilesetDataSerializer());
-			Register(new TooltipDataSerializer());
-			Register(new FontDataSerializer());
-			Register(new NinepatchDataSerializer());
-			Register(new AudioDataSerializer());
-			Register(new CodeDataSerializer());
-			Register(new CodeEntryDataSerializer());
 		}
 
-		public void Register(IBinaryDataLayerSerializer serializer)
+		public BinaryResourceSerializer(IBinaryLayerHandlerProvider handlerProvider)
 		{
-			deserializers[serializer.LayerName] = serializer;
-			serializers[serializer.LayerType] = serializer;
+			this.handlerProvider = handlerProvider;
 		}
 
 		public Resource Deserialize(Stream inputStream)
 		{
-			var reader = new BinaryReader(inputStream);
+			var buffer = new ByteBuffer(inputStream);
 
-			var sig = new String(reader.ReadChars(Signature.Length));
+			var sig = new String(buffer.ReadChars(Signature.Length));
 			if (sig != Signature)
 				throw new ResourceException("Invalid signature");
 
-			var version = reader.ReadUInt16();
+			var version = buffer.ReadUInt16();
 			var layers = new List<object>();
 			while (true)
 			{
-				var layer = ReadLayer(reader);
+				var layer = ReadLayer(buffer);
 				if (layer == null)
 					break;
 				layers.Add(layer);
@@ -59,53 +42,35 @@ namespace SharpHaven.Resources.Serialization.Binary
 
 		public void Serialize(Resource res, Stream outputStream)
 		{
-			var writer = new BinaryWriter(outputStream);
-			writer.Write(Signature.ToCharArray());
-			writer.Write((ushort)res.Version);
+			var buffer = new ByteBuffer(outputStream);
+			buffer.Write(Signature.ToCharArray());
+			buffer.Write((ushort)res.Version);
 			foreach (var layer in res.GetLayers())
 			{
-				var serializer = GetSerializer(layer.GetType());
+				var serializer = handlerProvider.Get(layer);
 				if (serializer == null)
 					throw new ResourceException("Unsupported layer type " + layer.GetType().FullName);
-				writer.WriteCString(serializer.LayerName);
+				buffer.WriteCString(serializer.LayerName);
 				// write each layer to the temporary buffer
 				// to be able to prefix layer length
 				using (var ms = new MemoryStream())
-				using (var bw = new BinaryWriter(ms))
+				using (var layerBuffer = new ByteBuffer(ms))
 				{
-					serializer.Serialize(bw, layer);
-					writer.Write((int)ms.Length);
-					ms.WriteTo(outputStream);
+					serializer.Serialize(layerBuffer, layer);
+					buffer.Write((int)ms.Length);
+					buffer.Write(ms.ToArray());
 				}
 			}
 		}
 
-		private object ReadLayer(BinaryReader reader)
+		private object ReadLayer(ByteBuffer buffer)
 		{
-			var type = reader.ReadCString();
-			if (string.IsNullOrEmpty(type))
+			var layerName = buffer.ReadCString();
+			if (string.IsNullOrEmpty(layerName))
 				return null;
-			var size = reader.ReadInt32();
-			var serializer = GetSerializer(type);
-			if (serializer == null)
-			{
-				// skip layer data
-				reader.ReadBytes(size);
-				return new UnknownDataLayer(type);
-			}
-			return serializer.Deserialize(reader, size);
-		}
-
-		private IBinaryDataLayerSerializer GetSerializer(string layerName)
-		{
-			IBinaryDataLayerSerializer serializer;
-			return deserializers.TryGetValue(layerName, out serializer) ? serializer : null;
-		}
-
-		private IBinaryDataLayerSerializer GetSerializer(Type layerType)
-		{
-			IBinaryDataLayerSerializer serializer;
-			return serializers.TryGetValue(layerType, out serializer) ? serializer : null;
+			var size = buffer.ReadInt32();
+			var layerBuffer = new ByteBuffer(buffer, size);
+			return handlerProvider.GetByName(layerName).Deserialize(layerBuffer);
 		}
 	}
 }

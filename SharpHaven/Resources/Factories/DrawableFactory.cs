@@ -9,7 +9,7 @@ namespace SharpHaven.Resources
 	{
 		public Drawable Create(string resName, Resource res)
 		{
-			var imageData = res.GetLayer<ImageData>();
+			var imageData = res.GetLayer<ImageLayer>();
 			if (imageData == null)
 				return null;
 
@@ -19,7 +19,7 @@ namespace SharpHaven.Resources
 				// load texture
 				var tex = TextureSlice.FromBitmap(bitmap);
 				// check whether image is a ninepatch
-				var ninepatch = res.GetLayer<NinepatchData>();
+				var ninepatch = res.GetLayer<NinepatchLayer>();
 				if (ninepatch != null)
 				{
 					return new NinePatch(tex, ninepatch.Left, ninepatch.Right,

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Drawing;
 using OpenTK.Input;
 using SharpHaven.Client;
 using SharpHaven.Graphics;
@@ -12,7 +11,7 @@ namespace SharpHaven.UI.Widgets
 	public class ItemWidget : Widget, IItemDropTarget
 	{
 		private static readonly Drawable missing;
-		private static readonly Point defaultSize = new Point(30, 30);
+		private static readonly Coord2d defaultSize = new Coord2d(30, 30);
 
 		static ItemWidget()
 		{
@@ -22,10 +21,10 @@ namespace SharpHaven.UI.Widgets
 		private Item item;
 		private readonly TextLine lblAmount;
 		private bool isSizeFixed;
-		private Point? dragOffset;
+		private Coord2d? dragOffset;
 		private Tooltip tooltip;
 
-		public ItemWidget(Widget parent, Point? dragOffset)
+		public ItemWidget(Widget parent, Coord2d? dragOffset)
 			: base(parent)
 		{
 			lblAmount = new TextLine(Fonts.Text);
@@ -39,10 +38,10 @@ namespace SharpHaven.UI.Widgets
 			}
 		}
 
-		public event Action<Point> Transfer;
-		public event Action<Point> Drop;
-		public event Action<Point> Take;
-		public event Action<Point> Act;
+		public event Action<Coord2d> Transfer;
+		public event Action<Coord2d> Drop;
+		public event Action<Coord2d> Take;
+		public event Action<Coord2d> Act;
 		public event Action<KeyModifiers> Interact;
 
 		public Item Item
@@ -149,7 +148,7 @@ namespace SharpHaven.UI.Widgets
 				this.Move(e.Position.Sub(dragOffset.Value));
 		}
 
-		private void DropOn(Widget widget, Point p, KeyModifiers mods)
+		private void DropOn(Widget widget, Coord2d p, KeyModifiers mods)
 		{
 			foreach (var child in widget.GetChildrenAt(p))
 			{
@@ -160,7 +159,7 @@ namespace SharpHaven.UI.Widgets
 			}
 		}
 
-		private void InteractWith(Widget widget, Point p, KeyModifiers mods)
+		private void InteractWith(Widget widget, Coord2d p, KeyModifiers mods)
 		{
 			foreach (var child in widget.GetChildrenAt(p))
 			{
@@ -206,12 +205,12 @@ namespace SharpHaven.UI.Widgets
 
 		#region IItemDropTarget
 
-		bool IItemDropTarget.Drop(Point p, Point ul, KeyModifiers mods)
+		bool IItemDropTarget.Drop(Coord2d p, Coord2d ul, KeyModifiers mods)
 		{
 			return false;
 		}
 
-		bool IItemDropTarget.Interact(Point p, Point ul, KeyModifiers mods)
+		bool IItemDropTarget.Interact(Coord2d p, Coord2d ul, KeyModifiers mods)
 		{
 			Interact.Raise(mods);
 			return true;

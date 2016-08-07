@@ -1,10 +1,10 @@
-﻿using System.Drawing;
+﻿using SharpHaven.Graphics;
 
 namespace SharpHaven.Input
 {
 	public class MouseWheelEvent : MouseEvent
 	{
-		public MouseWheelEvent(int delta, Point position) : base(position)
+		public MouseWheelEvent(int delta, Coord2d position) : base(position)
 		{
 			Delta = delta;
 		}

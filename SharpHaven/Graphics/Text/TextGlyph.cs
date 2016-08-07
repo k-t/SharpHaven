@@ -1,22 +1,19 @@
-﻿using System.Drawing;
-
-namespace SharpHaven.Graphics.Text
+﻿namespace SharpHaven.Graphics.Text
 {
 	public class TextGlyph
 	{
 		private readonly Glyph glyph;
 		private readonly int ascent;
-		private Rectangle box;
+		private Rect box;
 
 		public TextGlyph(SpriteFont font, char c)
 		{
 			glyph = font.GetGlyph(c);
 			ascent = font.Ascent;
-			box.Width = (int)glyph.Advance;
-			box.Height = font.Height;
+			box.Size = new Coord2d((int)glyph.Advance, font.Height);
 		}
 
-		public Rectangle Box
+		public Rect Box
 		{
 			get { return box; }
 		}
@@ -45,7 +42,7 @@ namespace SharpHaven.Graphics.Text
 
 		public void SetPosition(int x, int y)
 		{
-			box.Location = new Point(x, y);
+			box.Location = new Coord2d(x, y);
 		}
 	}
 }

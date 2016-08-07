@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
 using SharpHaven.Graphics;
 using SharpHaven.Graphics.Text;
 using SharpHaven.Input;

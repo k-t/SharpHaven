@@ -1,5 +1,4 @@
-﻿using System.Drawing;
-using SharpHaven.Graphics;
+﻿using SharpHaven.Graphics;
 using SharpHaven.UI.Widgets;
 
 namespace SharpHaven.UI.Remote
@@ -23,7 +22,7 @@ namespace SharpHaven.UI.Remote
 			return new ServerImageButton(id, parent);
 		}
 
-		protected override void OnInit(Point position, object[] args)
+		protected override void OnInit(Coord2d position, object[] args)
 		{
 			var defaultImage = args.Length > 0 ? (string)args[0] : null;
 			var pressedImage = args.Length > 1 ? (string)args[1] : defaultImage;

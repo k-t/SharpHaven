@@ -12,7 +12,7 @@ namespace SharpHaven.Graphics
 		private readonly Vector2 uv2;
 		private readonly bool ownsTexture;
 
-		public TextureSlice(Texture tex, RectangleF region, bool ownsTexture = false)
+		public TextureSlice(Texture tex, RectF region, bool ownsTexture = false)
 		{
 			this.tex = tex;
 			this.ownsTexture = ownsTexture;
@@ -21,7 +21,7 @@ namespace SharpHaven.Graphics
 		}
 
 		public TextureSlice(Texture tex, int x, int y, int w, int h, bool ownsTexture = false)
-			: this(tex, new RectangleF(x, y, w, h), ownsTexture)
+			: this(tex, new RectF(x, y, w, h), ownsTexture)
 		{
 		}
 
@@ -86,7 +86,7 @@ namespace SharpHaven.Graphics
 			return this;
 		}
 
-		public TextureSlice Slice(RectangleF region)
+		public TextureSlice Slice(Rect region)
 		{
 			int offsetX = X;
 			int offsetY = Y;
@@ -97,7 +97,7 @@ namespace SharpHaven.Graphics
 
 		public TextureSlice Slice(int x, int y, int width, int height)
 		{
-			return Slice(new RectangleF(x, y, width, height));
+			return Slice(new Rect(x, y, width, height));
 		}
 	}
 }

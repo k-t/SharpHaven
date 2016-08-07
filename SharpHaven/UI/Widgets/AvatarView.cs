@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Drawing;
 using SharpHaven.Graphics;
 using SharpHaven.Input;
 
@@ -7,7 +6,7 @@ namespace SharpHaven.UI.Widgets
 {
 	public class AvatarView : Widget
 	{
-		private static readonly Point defaultSize = new Point(74, 74);
+		private static readonly Coord2d defaultSize = new Coord2d(74, 74);
 		private static readonly Drawable missing;
 		private static readonly Drawable background;
 		private static readonly Drawable box;
@@ -22,7 +21,7 @@ namespace SharpHaven.UI.Widgets
 		public AvatarView(Widget parent) : base(parent)
 		{
 			BorderColor = Color.White;
-			Size = new Size(defaultSize.X + 10, defaultSize.Y + 10);
+			Size = new Coord2d(defaultSize.X + 10, defaultSize.Y + 10);
 		}
 
 		public event Action<AvatarView, MouseButtonEvent> Click;

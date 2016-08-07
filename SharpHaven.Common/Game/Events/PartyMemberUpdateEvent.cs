@@ -1,4 +1,4 @@
-﻿using System.Drawing;
+﻿using SharpHaven.Graphics;
 
 namespace SharpHaven.Game.Events
 {
@@ -16,7 +16,7 @@ namespace SharpHaven.Game.Events
 			set;
 		}
 
-		public Point? Location
+		public Coord2d? Location
 		{
 			get;
 			set;

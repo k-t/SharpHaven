@@ -301,7 +301,7 @@
     <Compile Include="Utils\MinimapProvider.cs" />
     <Compile Include="Utils\StringUtils.cs" />
     <Compile Include="Utils\TypeMatcher.cs" />
-    <Compile Include="Utils\PointComparer.cs" />
+    <Compile Include="Utils\Coord2dComparer.cs" />
     <Compile Include="Client\GameScreen.cs" />
     <Compile Include="Resources\ResourceManager.cs" />
     <Compile Include="Login\LoginScreen.cs" />

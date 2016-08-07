@@ -15,7 +15,7 @@ namespace SharpHaven.Resources
 		public BuffProto Create(string resName, Resource res)
 		{
 			var image = imageFactory.Create(resName, res);
-			var tooltip = res.GetLayer<TooltipData>();
+			var tooltip = res.GetLayer<TooltipLayer>();
 			return new BuffProto(image, tooltip?.Text);
 		}
 	}

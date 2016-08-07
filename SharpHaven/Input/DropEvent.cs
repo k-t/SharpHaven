@@ -1,10 +1,10 @@
-﻿using System.Drawing;
+﻿using SharpHaven.Graphics;
 
 namespace SharpHaven.Input
 {
 	public class DropEvent : MouseEvent
 	{
-		public DropEvent(Point mousePosition, object data) : base(mousePosition)
+		public DropEvent(Coord2d mousePosition, object data) : base(mousePosition)
 		{
 			Data = data;
 		}

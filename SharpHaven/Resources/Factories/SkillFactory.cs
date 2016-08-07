@@ -18,7 +18,7 @@ namespace SharpHaven.Resources
 			var image = imageFactory.Create(resName, res);
 
 			string tooltip = null;
-			var tooltipData = res.GetLayer<TooltipData>();
+			var tooltipData = res.GetLayer<TooltipLayer>();
 			if (tooltipData != null)
 				tooltip = tooltipData.Text;
 

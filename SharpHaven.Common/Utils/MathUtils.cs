@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Drawing;
+using SharpHaven.Graphics;
 
 namespace SharpHaven.Utils
 {
@@ -21,9 +21,9 @@ namespace SharpHaven.Utils
 			return v;
 		}
 
-		public static Point PolarToCartesian(double angle, double magnitude)
+		public static Coord2d PolarToCartesian(double angle, double magnitude)
 		{
-			return new Point(
+			return new Coord2d(
 				(int)(Math.Cos(angle) * magnitude),
 				(int)-(Math.Sin(angle) * magnitude));
 		}

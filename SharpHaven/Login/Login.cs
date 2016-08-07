@@ -51,7 +51,6 @@ namespace SharpHaven.Login
 			set;
 		}
 
-		public event Action<string> Progress;
 		public event Action<LoginResult> Finished;
 
 		public void LoginAsync()

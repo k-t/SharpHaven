@@ -1,5 +1,6 @@
 using NUnit.Framework;
 using SharpHaven.Net;
+using SharpHaven.Utils;
 
 namespace SharpHaven
 {
@@ -9,15 +10,15 @@ namespace SharpHaven
 		[Test]
 		public void ReadWriteTest()
 		{
-			var writer = new Message(1);
-			writer.String("Test");
-			writer.String("Test2");
+			var input = new Message(1);
+			input.String("Test");
+			input.String("Test2");
 
-			var messageBytes = writer.GetAllBytes();
+			input.Buffer.Rewind();
+			var output = new Message(1, input.Buffer.ReadRemaining());
 
-			var reader = new MessageReader(1, messageBytes);
-			Assert.AreEqual("Test", reader.ReadString());
-			Assert.AreEqual("Test2", reader.ReadString());
+			Assert.AreEqual("Test", output.Buffer.ReadCString());
+			Assert.AreEqual("Test2", output.Buffer.ReadCString());
 		}
 	}
 }

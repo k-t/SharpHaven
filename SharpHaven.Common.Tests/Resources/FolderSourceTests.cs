@@ -41,7 +41,7 @@ namespace SharpHaven.Resources
 			Assert.AreEqual(3, result.Count);
 			Assert.IsTrue(result.Contains("pagina"));
 			Assert.IsTrue(result.Contains("tooltip"));
-			Assert.IsTrue(result.Contains("SubFolder/font"));
+			Assert.IsTrue(result.Contains("SubFolder/radar"));
 		}
 
 		private IEnumerable<TestItem> GetTestItems
@@ -50,7 +50,7 @@ namespace SharpHaven.Resources
 			{
 				return new[] {
 					new TestItem { ResourceName = "pagina", ExpectedVersion = 1 },
-					new TestItem { ResourceName = "SubFolder/font", ExpectedVersion = 2 }
+					new TestItem { ResourceName = "SubFolder/radar", ExpectedVersion = 1 }
 				};
 			}
 		}

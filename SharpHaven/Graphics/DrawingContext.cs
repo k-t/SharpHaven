@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Linq;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
 using SharpHaven.Graphics.Sprites;
+using SharpHaven.Utils;
 
 namespace SharpHaven.Graphics
 {
@@ -12,14 +12,14 @@ namespace SharpHaven.Graphics
 	{
 		private readonly INativeWindow window;
 		private readonly SpriteBatch spriteBatch;
-		private Point offset;
-		private readonly Stack<Point> offsetStack;
+		private Coord2d offset;
+		private readonly Stack<Coord2d> offsetStack;
 
 		public DrawingContext(INativeWindow window, SpriteBatch spriteBatch)
 		{
 			this.window = window;
-			this.offset = Point.Empty;
-			this.offsetStack = new Stack<Point>();
+			this.offset = Coord2d.Empty;
+			this.offsetStack = new Stack<Coord2d>();
 			this.spriteBatch = spriteBatch;
 			this.spriteBatch.Begin();
 		}
@@ -71,15 +71,15 @@ namespace SharpHaven.Graphics
 
 		public void Translate(int x, int y)
 		{
-			offset = Point.Add(offset, new Size(x, y));
+			offset = offset.Add(x, y);
 		}
 
-		public void Translate(Point p)
+		public void Translate(Coord2d p)
 		{
 			Translate(p.X, p.Y);
 		}
 
-		public void Draw(Drawable drawable, Point p)
+		public void Draw(Drawable drawable, Coord2d p)
 		{
 			Draw(drawable, p.X, p.Y);
 		}
@@ -105,7 +105,7 @@ namespace SharpHaven.Graphics
 				Draw(part, x, y);
 		}
 
-		public void Draw(ISprite sprite, Point p)
+		public void Draw(ISprite sprite, Coord2d p)
 		{
 			Draw(sprite, p.X, p.Y);
 		}

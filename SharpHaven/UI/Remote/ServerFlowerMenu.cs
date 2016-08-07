@@ -1,5 +1,5 @@
-﻿using System.Drawing;
-using System.Linq;
+﻿using System.Linq;
+using SharpHaven.Graphics;
 using SharpHaven.UI.Widgets;
 
 namespace SharpHaven.UI.Remote
@@ -25,7 +25,7 @@ namespace SharpHaven.UI.Remote
 			return new ServerFlowerMenu(id, parent);
 		}
 
-		protected override void OnInit(Point position, object[] args)
+		protected override void OnInit(Coord2d position, object[] args)
 		{
 			var options = args.OfType<string>();
 			

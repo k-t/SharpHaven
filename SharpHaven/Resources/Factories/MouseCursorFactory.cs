@@ -8,7 +8,7 @@ namespace SharpHaven.Resources
 	{
 		public MouseCursor Create(string resName, Resource res)
 		{
-			var imageData = res.GetLayer<ImageData>();
+			var imageData = res.GetLayer<ImageLayer>();
 			if (imageData == null)
 				return null;
 			

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Drawing;
 using SharpHaven.Resources;
 
 namespace SharpHaven.Graphics.Sprites
@@ -10,9 +9,9 @@ namespace SharpHaven.Graphics.Sprites
 
 		protected SpriteMaker(Resource res)
 		{
-			var neg = res.GetLayer<NegData>();
-			var center = neg != null ? neg.Center : Point.Empty;
-			parts = new SpriteSheet(res.GetLayers<ImageData>(), center);
+			var neg = res.GetLayer<NegLayer>();
+			var center = neg != null ? neg.Center : Coord2d.Empty;
+			parts = new SpriteSheet(res.GetLayers<ImageLayer>(), center);
 		}
 
 		protected SpriteSheet Parts

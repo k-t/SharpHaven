@@ -10,12 +10,12 @@ namespace SharpHaven.Graphics.Sprites.Plants
 	{
 		private readonly int num;
 		private readonly SpritePart[] strands;
-		private readonly NegData neg;
+		private readonly NegLayer neg;
 
 		private GaussianPlantMaker(Resource res, int num)
 			: base(res)
 		{
-			this.neg = res.GetLayer<NegData>();
+			this.neg = res.GetLayer<NegLayer>();
 			this.num = num;
 			this.strands = Parts.Where(x => x.Id != -1).ToArray();
 		}

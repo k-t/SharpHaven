@@ -1,8 +1,7 @@
-﻿using System;
-using System.Drawing;
-using System.IO;
+﻿using System.IO;
 using System.Linq;
 using NUnit.Framework;
+using SharpHaven.Graphics;
 
 namespace SharpHaven.Resources.Serialization.Binary
 {
@@ -12,26 +11,25 @@ namespace SharpHaven.Resources.Serialization.Binary
 		[Test]
 		public void SerializationWorks()
 		{
-			var input = new Resource(42, new Object[] {
-				new ActionData
-				{
+			var input = new Resource(42, new object[] {
+				new ActionLayer {
 					Hotkey = 'h',
 					Name = "Name",
 					Parent = new ResourceRef("Parent", 42),
 					Prerequisite = "Prerequisite",
 					Verbs = new[] { "verb1", "verb2" }
 				},
-				new TextData { Text = "Text1" },
-				new ImageData
-				{
+				new TextLayer { Text = "Text1" },
+				new ImageLayer {
 					Id = 42,
-					Offset = new Point(1, 2),
+					Offset = new Coord2d(1, 2),
 					Z = -10,
 					SubZ = -20,
 					Data = new byte[] { 1, 2, 3, 4, 5 },
 					IsLayered = true
 				},
-				new TextData { Text = "Text2" }
+				new TextLayer { Text = "Text2" },
+				new UnknownLayer("unknown", new byte[] { 3, 4, 21 }), 
 			});
 
 			Resource output;
@@ -45,9 +43,13 @@ namespace SharpHaven.Resources.Serialization.Binary
 
 			Assert.That(output.Version, Is.EqualTo(input.Version));
 			Assert.That(output.GetLayers().Count(), Is.EqualTo(input.GetLayers().Count()));
-			Assert.That(output.GetLayer<ActionData>(), Is.Not.Null);
-			Assert.That(output.GetLayer<ImageData>(), Is.Not.Null);
-			Assert.That(output.GetLayers<TextData>().Count(), Is.EqualTo(2));
+			Assert.That(output.GetLayer<ActionLayer>(), Is.Not.Null);
+			Assert.That(output.GetLayer<ImageLayer>(), Is.Not.Null);
+			Assert.That(output.GetLayers<TextLayer>().Count(), Is.EqualTo(2));
+
+			Assert.That(output.GetLayers<UnknownLayer>().Count(), Is.EqualTo(1));
+			Assert.That(output.GetLayers<UnknownLayer>().First().LayerName, Is.EqualTo("unknown"));
+			Assert.That(output.GetLayers<UnknownLayer>().First().Bytes, Is.EquivalentTo(new byte[] { 3, 4, 21 }));
 		}
 	}
 }

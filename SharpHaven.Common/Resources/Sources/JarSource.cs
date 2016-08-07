@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using System.IO;
+using ICSharpCode.SharpZipLib.Core;
 using ICSharpCode.SharpZipLib.Zip;
 using SharpHaven.Resources.Serialization.Binary;
 
@@ -28,7 +30,14 @@ namespace SharpHaven.Resources
 			var entry = zip.GetEntry(entryName);
 			if (entry == null)
 				throw new ResourceException($"Entry '{entryName}' not found");
-			return serializer.Deserialize(zip.GetInputStream(entry));
+
+			// read to the buffer whole entry
+			var ms = new MemoryStream();
+			var buffer = new byte[4096];
+			StreamUtils.Copy(zip.GetInputStream(entry), ms, buffer);
+
+			ms.Position = 0;
+			return serializer.Deserialize(ms);
 		}
 
 		public IEnumerable<string> EnumerateAll()

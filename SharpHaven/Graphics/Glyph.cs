@@ -1,6 +1,4 @@
-﻿using System.Drawing;
-
-namespace SharpHaven.Graphics
+﻿namespace SharpHaven.Graphics
 {
 	public class Glyph
 	{
@@ -16,7 +14,7 @@ namespace SharpHaven.Graphics
 			set;
 		}
 
-		public Point Offset
+		public Coord2d Offset
 		{
 			get;
 			set;

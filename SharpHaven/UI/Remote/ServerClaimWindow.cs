@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Drawing;
 using SharpHaven.Client;
+using SharpHaven.Graphics;
 using SharpHaven.UI.Widgets;
 
 namespace SharpHaven.UI.Remote
@@ -27,11 +27,11 @@ namespace SharpHaven.UI.Remote
 			return new ServerClaimWindow(id, parent);
 		}
 
-		protected override void OnInit(Point position, object[] args)
+		protected override void OnInit(Coord2d position, object[] args)
 		{
-			var p1 = (Point)args[0];
-			var p2 = (Point)args[1];
-			var area = Rectangle.FromLTRB(p1.X, p1.Y, p2.X + 1, p2.Y + 1);
+			var p1 = (Coord2d)args[0];
+			var p2 = (Coord2d)args[1];
+			var area = Rect.FromLTRB(p1.X, p1.Y, p2.X + 1, p2.Y + 1);
 
 			overlay = new MapOverlay(16);
 			overlay.Bounds = area;
@@ -53,9 +53,9 @@ namespace SharpHaven.UI.Remote
 
 		private void UpdateArea(object[] args)
 		{
-			var p1 = (Point)args[0];
-			var p2 = (Point)args[1];
-			var area = Rectangle.FromLTRB(p1.X, p1.Y, p2.X + 1, p2.Y + 1);
+			var p1 = (Coord2d)args[0];
+			var p2 = (Coord2d)args[1];
+			var area = Rect.FromLTRB(p1.X, p1.Y, p2.X + 1, p2.Y + 1);
 			widget.Area = area;
 		}
 
@@ -78,8 +78,8 @@ namespace SharpHaven.UI.Remote
 
 		private void OnBuy(object sender, EventArgs e)
 		{
-			var ul = new Point(widget.SelectedArea.Left, widget.SelectedArea.Top);
-			var br = new Point(widget.SelectedArea.Right - 1, widget.SelectedArea.Bottom - 1);
+			var ul = new Coord2d(widget.SelectedArea.Left, widget.SelectedArea.Top);
+			var br = new Coord2d(widget.SelectedArea.Right - 1, widget.SelectedArea.Bottom - 1);
 			SendMessage("take", ul, br);
 		}
 

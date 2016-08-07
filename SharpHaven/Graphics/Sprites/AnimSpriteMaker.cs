@@ -9,11 +9,11 @@ namespace SharpHaven.Graphics.Sprites
 {
 	public class AnimSpriteMaker : SpriteMaker
 	{
-		private List<AnimData> anims;
+		private List<AnimLayer> anims;
 
 		public AnimSpriteMaker(Resource res) : base(res)
 		{
-			anims = res.GetLayers<AnimData>().ToList();
+			anims = res.GetLayers<AnimLayer>().ToList();
 		}
 
 		public override ISprite MakeInstance(byte[] state)

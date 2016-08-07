@@ -11,13 +11,13 @@ namespace SharpHaven.Net
 		private const int AckThreshold = 30;
 
 		private readonly object thisLock = new object();
-		private readonly GameSocket socket;
+		private readonly MessageSocket socket;
 		private readonly List<PendingMessage> pending;
 		private ushort pendingSeq;
 		private ushort ackSeq;
 		private DateTime? ackTime;
 
-		public MessageSender(GameSocket socket)
+		public MessageSender(MessageSocket socket)
 			: base("Message Sender")
 		{
 			this.socket = socket;
@@ -69,8 +69,8 @@ namespace SharpHaven.Net
 							msg.RetryCount++;
 							var rmsg = new Message(Message.MSG_REL)
 								.Uint16(msg.Seq)
-								.Byte(msg.Message.Type)
-								.Bytes(msg.Message.GetAllBytes());
+								.Byte(msg.Type)
+								.Bytes(msg.Content);
 							socket.Send(rmsg);
 							beat = false;
 						}
@@ -130,13 +130,16 @@ namespace SharpHaven.Net
 		{
 			public PendingMessage(ushort seq, Message message)
 			{
-				Message = message;
+				message.Buffer.Rewind();
+				Type = message.Type;
+				Content = message.Buffer.ReadRemaining();
 				Seq = seq;
 				Last = DateTime.Now;
 				RetryCount = 0;
 			}
 
-			public Message Message { get; private set; }
+			public byte Type { get; private set; }
+			public byte[] Content { get; private set; }
 			public ushort Seq { get; private set; }
 			public DateTime Last { get; set; }
 			public int RetryCount { get; set; }

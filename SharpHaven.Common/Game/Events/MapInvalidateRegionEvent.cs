@@ -1,9 +1,9 @@
-﻿using System.Drawing;
+﻿using SharpHaven.Graphics;
 
 namespace SharpHaven.Game.Events
 {
 	public class MapInvalidateRegionEvent
 	{
-		public Rectangle Region { get; set; }
+		public Rect Region { get; set; }
 	}
 }

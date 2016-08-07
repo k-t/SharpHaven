@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
 using C5;
 using SharpHaven.Game.Events;
+using SharpHaven.Graphics;
 using SharpHaven.Graphics.Sprites;
 using SharpHaven.Utils;
 
@@ -11,13 +11,13 @@ namespace SharpHaven.Client
 	public class Map
 	{
 		private readonly Tileset[] tilesets = new Tileset[256];
-		private readonly TreeDictionary<Point, MapGrid> grids;
-		private readonly List<Tuple<Point, ISprite>> flavorObjects = new List<Tuple<Point, ISprite>>();
+		private readonly TreeDictionary<Coord2d, MapGrid> grids;
+		private readonly List<Tuple<Coord2d, ISprite>> flavorObjects = new List<Tuple<Coord2d, ISprite>>();
 		private readonly List<MapOverlay> overlays;
 
 		public Map()
 		{
-			grids = new TreeDictionary<Point, MapGrid>(new PointComparer());
+			grids = new TreeDictionary<Coord2d, MapGrid>(new Coord2dComparer());
 			overlays = new List<MapOverlay>();
 		}
 
@@ -26,17 +26,17 @@ namespace SharpHaven.Client
 			get { return overlays; }
 		}
 
-		public IEnumerable<Tuple<Point, ISprite>> FlavorObjects
+		public IEnumerable<Tuple<Coord2d, ISprite>> FlavorObjects
 		{
 			get { return flavorObjects; }
 		}
 		
 		public MapGrid GetGrid(int gx, int gy)
 		{
-			return GetGrid(new Point(gx, gy));
+			return GetGrid(new Coord2d(gx, gy));
 		}
 
-		public MapGrid GetGrid(Point gc)
+		public MapGrid GetGrid(Coord2d gc)
 		{
 			MapGrid grid;
 			return grids.Find(ref gc, out grid) ? grid : null;
@@ -88,7 +88,7 @@ namespace SharpHaven.Client
 						if (random.Next(set.FlavorDensity) == 0)
 						{
 							var fo = set.FlavorObjects.PickRandom(random);
-							flavorObjects.Add(Tuple.Create(new Point(
+							flavorObjects.Add(Tuple.Create(new Coord2d(
 								(x + ox) * Geometry.TileWidth,
 								(y + oy) * Geometry.TileHeight), fo));
 						}
@@ -102,7 +102,7 @@ namespace SharpHaven.Client
 			tilesets[binding.Id] = tileset;
 		}
 
-		public void InvalidateRegion(Rectangle region)
+		public void InvalidateRegion(Rect region)
 		{
 			// TODO:
 		}
@@ -113,9 +113,9 @@ namespace SharpHaven.Client
 			flavorObjects.Clear();
 		}
 
-		private static Point GetAbsoluteTileCoord(Point gc, int tileIndex)
+		private static Coord2d GetAbsoluteTileCoord(Coord2d gc, int tileIndex)
 		{
-			return new Point(
+			return new Coord2d(
 				gc.X * Geometry.GridWidth + tileIndex % Geometry.GridWidth,
 				gc.Y * Geometry.GridHeight + tileIndex / Geometry.GridHeight
 			);

@@ -58,7 +58,7 @@ namespace SharpHaven
 						{
 							queue.Dequeue();
 
-							var audio = item.Value.GetLayer<AudioData>();
+							var audio = item.Value.GetLayer<AudioLayer>();
 							if (audio != null)
 							{
 								var ms = new MemoryStream(audio.Bytes);

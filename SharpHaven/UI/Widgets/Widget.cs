@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Linq;
 using OpenTK;
 using SharpHaven.Graphics;
@@ -12,7 +11,7 @@ namespace SharpHaven.UI.Widgets
 	public abstract class Widget : TreeNode<Widget>, IDisposable
 	{
 		private readonly IWidgetHost host;
-		private Rectangle bounds;
+		private Rect bounds;
 		private bool isDisposed;
 		private bool isFocused;
 		private bool isHovered;
@@ -62,16 +61,16 @@ namespace SharpHaven.UI.Widgets
 		public int X
 		{
 			get { return Position.X; }
-			set { Position = new Point(value, Y); }
+			set { Position = new Coord2d(value, Y); }
 		}
 
 		public int Y
 		{
 			get { return Position.Y; }
-			set { Position = new Point(X, value); }
+			set { Position = new Coord2d(X, value); }
 		}
 
-		public Point Position
+		public Coord2d Position
 		{
 			get { return bounds.Location; }
 			set
@@ -83,17 +82,17 @@ namespace SharpHaven.UI.Widgets
 
 		public int Width
 		{
-			get { return Size.Width; }
-			set { Size = new Size(value, Height); }
+			get { return Size.X; }
+			set { Size = new Coord2d(value, Height); }
 		}
 
 		public int Height
 		{
-			get { return Size.Height; }
-			set { Size = new Size(Width, value); }
+			get { return Size.Y; }
+			set { Size = new Coord2d(Width, value); }
 		}
 
-		public Size Size
+		public Coord2d Size
 		{
 			get { return bounds.Size; }
 			set
@@ -109,7 +108,7 @@ namespace SharpHaven.UI.Widgets
 			set { cursor = value; }
 		}
 
-		public Rectangle Bounds
+		public Rect Bounds
 		{
 			get { return bounds; }
 		}
@@ -166,10 +165,10 @@ namespace SharpHaven.UI.Widgets
 
 		#region Public Methods
 
-		public IEnumerable<Widget> GetChildrenAt(Point p)
+		public IEnumerable<Widget> GetChildrenAt(Coord2d p)
 		{
 			var result = new List<Widget>();
-			p = new Point(p.X - X - Margin, p.Y - Y - Margin);
+			p = new Coord2d(p.X - X - Margin, p.Y - Y - Margin);
 			foreach (var widget in ReversedChildren)
 			{
 				if (widget.Visible)
@@ -182,9 +181,9 @@ namespace SharpHaven.UI.Widgets
 			return result;
 		}
 
-		public Widget GetChildAt(Point p)
+		public Widget GetChildAt(Coord2d p)
 		{
-			p = new Point(p.X - X - Margin, p.Y - Y - Margin);
+			p = new Coord2d(p.X - X - Margin, p.Y - Y - Margin);
 			foreach (var widget in ReversedChildren)
 			{
 				if (widget.Visible)
@@ -277,19 +276,19 @@ namespace SharpHaven.UI.Widgets
 
 		#region Protected Methods
 
-		public Point MapFromScreen(Point p)
+		public Coord2d MapFromScreen(Coord2d p)
 		{
 			return MapFromScreen(p.X, p.Y);
 		}
 
-		public Point MapFromScreen(int x, int y)
+		public Coord2d MapFromScreen(int x, int y)
 		{
 			for (var widget = this; widget != null; widget = widget.Parent)
 			{
 				x -= (widget.X + widget.Margin);
 				y -= (widget.Y + widget.Margin);
 			}
-			return new Point(x, y);
+			return new Coord2d(x, y);
 		}
 
 		protected virtual bool CheckHit(int x, int y)

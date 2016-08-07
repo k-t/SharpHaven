@@ -1,14 +1,14 @@
 ﻿using System;
-using System.Drawing;
 using OpenTK.Input;
 using SharpHaven.Client;
+using SharpHaven.Graphics;
 using SharpHaven.Input;
 
 namespace SharpHaven.UI.Widgets
 {
 	public class MapClickEvent : EventArgs
 	{
-		public MapClickEvent(MouseButtonEvent e, Point mapCoord, Point screenCoord, Gob gob)
+		public MapClickEvent(MouseButtonEvent e, Coord2d mapCoord, Coord2d screenCoord, Gob gob)
 			: this(e.Button, e.Modifiers, mapCoord, screenCoord, gob)
 		{
 		}
@@ -16,8 +16,8 @@ namespace SharpHaven.UI.Widgets
 		public MapClickEvent(
 			MouseButton button,
 			KeyModifiers mods,
-			Point mapCoord,
-			Point screenCoord,
+			Coord2d mapCoord,
+			Coord2d screenCoord,
 			Gob gob)
 		{
 			Button = button;
@@ -31,9 +31,9 @@ namespace SharpHaven.UI.Widgets
 
 		public Gob Gob { get; }
 
-		public Point MapCoord { get; }
+		public Coord2d MapCoord { get; }
 
-		public Point ScreenCoord { get; }
+		public Coord2d ScreenCoord { get; }
 
 		public KeyModifiers Modifiers { get; }
 	}

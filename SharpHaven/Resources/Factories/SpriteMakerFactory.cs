@@ -41,7 +41,7 @@ namespace SharpHaven.Resources
 		{
 			// if sprite resource contains code, most likely it's a dynamic
 			// factory specific for this resource
-			var code = res.GetLayer<CodeEntryData>();
+			var code = res.GetLayer<CodeEntryLayer>();
 			if (code != null)
 			{
 				var maker = FindMaker(resName);
@@ -53,7 +53,7 @@ namespace SharpHaven.Resources
 						codeEntry.ClassName, resName);
 			}
 
-			var anim = res.GetLayer<AnimData>();
+			var anim = res.GetLayer<AnimLayer>();
 			return (anim != null)
 				? new AnimSpriteMaker(res)
 				: new StaticSpriteMaker(res) as SpriteMaker;

@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
 using NLog;
 using OpenTK;
 using SharpHaven.Client;
+using SharpHaven.Graphics;
 using SharpHaven.UI.Widgets;
 using SharpHaven.Utils;
 
@@ -48,7 +48,7 @@ namespace SharpHaven.UI.Remote
 			get;
 		}
 
-		public void Init(Point position, object[] args)
+		public void Init(Coord2d position, object[] args)
 		{
 			OnInit(position, args);
 		}
@@ -74,7 +74,7 @@ namespace SharpHaven.UI.Remote
 					message, string.Join(",", args), GetType());
 		}
 
-		protected virtual void OnInit(Point position, object[] args)
+		protected virtual void OnInit(Coord2d position, object[] args)
 		{
 		}
 

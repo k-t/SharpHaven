@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Drawing;
 using System.Linq;
 using C5;
 using SharpHaven.Graphics;
@@ -10,13 +9,13 @@ namespace SharpHaven.Client
 	public class MapTile
 	{
 		private readonly Map map;
-		private readonly Point coord;
+		private readonly Coord2d coord;
 		private readonly byte type;
 		private readonly int[] overlays;
 		private readonly Drawable texture;
 		private Drawable[] transitions;
 
-		public MapTile(Map map, Point coord, byte type, int overlay, Drawable texture)
+		public MapTile(Map map, Coord2d coord, byte type, int overlay, Drawable texture)
 		{
 			this.map = map;
 			this.coord = coord;

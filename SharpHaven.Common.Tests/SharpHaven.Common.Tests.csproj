@@ -31,6 +31,10 @@
     <ConsolePause>false</ConsolePause>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="MadMilkman.Ini, Version=1.0.6.0, Culture=neutral, PublicKeyToken=4e0b5157a7ffbb74, processorArchitecture=MSIL">
+      <HintPath>..\packages\MadMilkman.Ini.1.0.6.0\lib\net20\MadMilkman.Ini.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="nunit.framework, Version=2.6.3.13283, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\NUnit.2.6.3\lib\nunit.framework.dll</HintPath>
@@ -41,19 +45,9 @@
   <ItemGroup>
     <Compile Include="FragmentBufferTests.cs" />
     <Compile Include="MessageTests.cs" />
-    <Compile Include="Resources\Serialization\Binary\ActionDataTests.cs" />
-    <Compile Include="Resources\Serialization\Binary\AnimDataTests.cs" />
-    <Compile Include="Resources\Serialization\Binary\CodeDataTests.cs" />
-    <Compile Include="Resources\Serialization\Binary\CodeEntryDataSerializerTests.cs" />
-    <Compile Include="Resources\Serialization\Binary\FontDataTests.cs" />
-    <Compile Include="Resources\Serialization\Binary\ImageDataTests.cs" />
-    <Compile Include="Resources\Serialization\Binary\NegDataTests.cs" />
-    <Compile Include="Resources\Serialization\Binary\NinepatchDataTests.cs" />
-    <Compile Include="Resources\Serialization\Binary\TextDataTests.cs" />
-    <Compile Include="Resources\Serialization\Binary\TileDataTests.cs" />
-    <Compile Include="Resources\Serialization\Binary\TilesetDataTests.cs" />
-    <Compile Include="Resources\Serialization\Binary\TooltipDataTests.cs" />
+    <Compile Include="Resources\Serialization\Binary\BinaryLayerHandlerTests.cs" />
     <Compile Include="Resources\Serialization\Binary\BinaryResourceSerializerTests.cs" />
+    <Compile Include="Resources\Serialization\Binary\BinaryStreamExtensionsTests.cs" />
     <Compile Include="Resources\Serialization\Binary\SerializerHelper.cs" />
     <Compile Include="TreeNodeTests.cs" />
     <Compile Include="Resources\FolderSourceTests.cs" />
@@ -67,13 +61,13 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <None Include="Resources\Samples\SubFolder\radar.res">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="Resources\Samples\tooltip.res">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="Resources\Samples\pagina.res">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Resources\Samples\SubFolder\font.res">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>

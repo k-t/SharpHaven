@@ -10,13 +10,13 @@ namespace SharpHaven.Graphics.Sprites.Plants
 	{
 		private readonly int num;
 		private readonly SpritePart[,] strands;
-		private readonly NegData neg;
+		private readonly NegLayer neg;
 
 		private GrowingPlantMaker(Resource res, int stages, int variants, int num, bool rev)
 			: base(res)
 		{
 			this.num = num;
-			this.neg = res.GetLayer<NegData>();
+			this.neg = res.GetLayer<NegLayer>();
 			this.strands = new SpritePart[stages, variants];
 
 			foreach (var part in Parts.Where(x => x.Id != -1))

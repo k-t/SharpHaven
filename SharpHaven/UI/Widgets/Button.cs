@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Drawing;
 using OpenTK.Input;
 using SharpHaven.Graphics;
 using SharpHaven.Graphics.Text;
@@ -76,7 +75,7 @@ namespace SharpHaven.UI.Widgets
 			int offset = isPressed ? 1 : 0;
 			if (Image != null)
 			{
-				var p = new Point(
+				var p = new Coord2d(
 					(Width - Image.Width) / 2 + offset,
 					(Height - Image.Height) / 2 + offset);
 				dc.Draw(Image, p);
@@ -103,7 +102,7 @@ namespace SharpHaven.UI.Widgets
 
 			// button released outside of borders?
 			var p = MapFromScreen(e.Position);
-			if (Rectangle.FromLTRB(0, 0, Width, Height).Contains(p))
+			if (Rect.FromLTRB(0, 0, Width, Height).Contains(p))
 				Click.Raise();
 
 			e.Handled = true;

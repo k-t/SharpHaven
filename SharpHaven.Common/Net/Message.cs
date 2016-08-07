@@ -1,7 +1,7 @@
 using System;
-using System.Drawing;
-using System.IO;
 using System.Text;
+using SharpHaven.Graphics;
+using SharpHaven.Utils;
 using MiscUtil.Conversion;
 
 namespace SharpHaven.Net
@@ -18,24 +18,38 @@ namespace SharpHaven.Net
 		public const int MSG_OBJACK = 7;
 		public const int MSG_CLOSE = 8;
 
-		public const byte T_END = 0;
-		public const byte T_INT = 1;
-		public const byte T_STR = 2;
-		public const byte T_COORD = 3;
-		public const byte T_COLOR = 6;
-
 		private readonly byte type;
-		private readonly MemoryStream stream;
+		private readonly ByteBuffer buffer;
+
+		public Message(byte type, byte[] buffer)
+			: this(type, buffer, 0, buffer.Length)
+		{
+		}
+
+		public Message(byte type, byte[] buffer, int offset, int length)
+			: this(type, new ByteBuffer(buffer, offset, length))
+		{
+		}
 
 		public Message(byte type)
+			: this(type, new ByteBuffer())
+		{
+		}
+
+		public Message(byte type, ByteBuffer buffer)
 		{
 			this.type = type;
-			this.stream = new MemoryStream();
+			this.buffer = buffer;
+		}
+
+		public ByteBuffer Buffer
+		{
+			get { return buffer; }
 		}
 
 		public int Length
 		{
-			get { return (int)stream.Length; }
+			get { return (int)buffer.Length; }
 		}
 
 		public byte Type
@@ -45,12 +59,12 @@ namespace SharpHaven.Net
 
 		public void Dispose()
 		{
-			stream.Dispose();
+			buffer.Dispose();
 		}
 
 		public Message Bytes(byte[] src, int off, int len)
 		{
-			stream.Write(src, off, len);
+			buffer.Write(src, off, len);
 			return this;
 		}
 
@@ -62,11 +76,17 @@ namespace SharpHaven.Net
 
 		public Message Byte(byte value)
 		{
-			stream.WriteByte(value);
+			buffer.Write(value);
 			return this;
 		}
 
 		public Message Uint16(ushort value)
+		{
+			Bytes(EndianBitConverter.Little.GetBytes(value));
+			return this;
+		}
+
+		public Message UInt32(uint value)
 		{
 			Bytes(EndianBitConverter.Little.GetBytes(value));
 			return this;
@@ -104,53 +124,15 @@ namespace SharpHaven.Net
 			return this;
 		}
 
-		public Message Coord(Point c)
+		public Message Coord(Coord2d c)
 		{
 			return Coord(c.X, c.Y);
 		}
 
 		public Message List(params object[] args)
 		{
-			foreach (object o in args)
-			{
-				if (o is int)
-				{
-					Byte(Message.T_INT);
-					Int32((int)o);
-				}
-				else if (o is string)
-				{
-					Byte(Message.T_STR);
-					String((string)o);
-				}
-				else if (o is Point)
-				{
-					Byte(Message.T_COORD);
-					Coord((Point)o);
-				}
-				else if (o != null)
-				{
-					throw new ArgumentException($"Unsupported list element type: {o.GetType()}");
-				}
-				else
-				{
-					throw new ArgumentNullException(nameof(args), "One of the arguments is null");
-				}
-			}
+			buffer.WriteList(args);
 			return this;
-		}
-
-		public byte[] GetAllBytes()
-		{
-			return stream.ToArray();
-		}
-
-		public void CopyBytes(byte[] buffer, int offset, int count)
-		{
-			var oldpos = stream.Position;
-			stream.Position = 0;
-			stream.Read(buffer, offset, count);
-			stream.Position = oldpos;
 		}
 	}
 }

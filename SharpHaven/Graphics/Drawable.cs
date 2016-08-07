@@ -1,23 +1,22 @@
 ﻿using System;
-using System.Drawing;
 
 namespace SharpHaven.Graphics
 {
 	public abstract class Drawable : IDisposable
 	{
-		protected Size size;
+		protected Coord2d size;
 
 		public int Width
 		{
-			get { return size.Width; }
+			get { return size.X; }
 		}
 
 		public int Height
 		{
-			get { return size.Height; }
+			get { return size.Y; }
 		}
 
-		public Size Size
+		public Coord2d Size
 		{
 			get { return size; }
 		}

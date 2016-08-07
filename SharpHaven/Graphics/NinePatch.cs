@@ -1,5 +1,4 @@
-﻿using System.Drawing;
-using System.Linq;
+﻿using System.Linq;
 
 namespace SharpHaven.Graphics
 {
@@ -15,14 +14,14 @@ namespace SharpHaven.Graphics
 		private const int BottomCenter = 7;
 		private const int BottomRight = 8;
 
-		private readonly Rectangle patchBounds;
+		private readonly Rect patchBounds;
 		private readonly TextureSlice[] patches;
 		
 		public NinePatch(TextureSlice tex, int left, int right, int top, int bottom)
 		{
-			size = new Size(tex.Width, tex.Height);
-			patchBounds = Rectangle.FromLTRB(left, top, right, bottom);
-			var textureBounds = new Rectangle(0, 0, tex.Width, tex.Height);
+			size = new Coord2d(tex.Width, tex.Height);
+			patchBounds = Rect.FromLTRB(left, top, right, bottom);
+			var textureBounds = new Rect(0, 0, tex.Width, tex.Height);
 			patches = SplitToPatches(textureBounds, patchBounds)
 				.Select(x => tex.Slice(x))
 				.ToArray();
@@ -30,19 +29,19 @@ namespace SharpHaven.Graphics
 
 		public override void Draw(SpriteBatch batch, int x, int y, int w, int h)
 		{
-			var regionPatches = SplitToPatches(new Rectangle(x, y, w, h), patchBounds);
+			var regionPatches = SplitToPatches(new Rect(x, y, w, h), patchBounds);
 			for (int i = 0; i < regionPatches.Length; i++)
 			{
-				if (regionPatches[i] == Rectangle.Empty)
+				if (regionPatches[i] == Rect.Empty)
 					continue;
 				var patch = regionPatches[i];
 				patches[i].Draw(batch, patch.X, patch.Y, patch.Width, patch.Height);
 			}
 		}
 
-		private static Rectangle[] SplitToPatches(Rectangle rect, Rectangle patchBounds)
+		private static Rect[] SplitToPatches(Rect rect, Rect patchBounds)
 		{
-			var patches = new Rectangle[9];
+			var patches = new Rect[9];
 
 			int left = patchBounds.Left;
 			int right = patchBounds.Right;
@@ -54,21 +53,21 @@ namespace SharpHaven.Graphics
 
 			if (top > 0)
 			{
-				if (left > 0) patches[TopLeft] = new Rectangle(0, 0, left, top);
-				if (middleWidth > 0) patches[TopCenter] = new Rectangle(left, 0, middleWidth, top);
-				if (right > 0) patches[TopRight] = new Rectangle(left + middleWidth, 0, right, top);
+				if (left > 0) patches[TopLeft] = new Rect(0, 0, left, top);
+				if (middleWidth > 0) patches[TopCenter] = new Rect(left, 0, middleWidth, top);
+				if (right > 0) patches[TopRight] = new Rect(left + middleWidth, 0, right, top);
 			}
 			if (middleHeight > 0)
 			{
-				if (left > 0) patches[MiddleLeft] = new Rectangle(0, top, left, middleHeight);
-				if (middleWidth > 0) patches[MiddleCenter] = new Rectangle(left, top, middleWidth, middleHeight);
-				if (right > 0) patches[MiddleRight] = new Rectangle(left + middleWidth, top, right, middleHeight);
+				if (left > 0) patches[MiddleLeft] = new Rect(0, top, left, middleHeight);
+				if (middleWidth > 0) patches[MiddleCenter] = new Rect(left, top, middleWidth, middleHeight);
+				if (right > 0) patches[MiddleRight] = new Rect(left + middleWidth, top, right, middleHeight);
 			}
 			if (bottom > 0)
 			{
-				if (left > 0) patches[BottomLeft] = new Rectangle(0, top + middleHeight, left, bottom);
-				if (middleWidth > 0) patches[BottomCenter] = new Rectangle(left, top + middleHeight, middleWidth, bottom);
-				if (right > 0) patches[BottomRight] = new Rectangle(left + middleWidth, top + middleHeight, right, bottom);
+				if (left > 0) patches[BottomLeft] = new Rect(0, top + middleHeight, left, bottom);
+				if (middleWidth > 0) patches[BottomCenter] = new Rect(left, top + middleHeight, middleWidth, bottom);
+				if (right > 0) patches[BottomRight] = new Rect(left + middleWidth, top + middleHeight, right, bottom);
 			}
 
 			// If split only vertical, move splits from right to center.
@@ -77,9 +76,9 @@ namespace SharpHaven.Graphics
 				patches[TopCenter] = patches[TopRight];
 				patches[MiddleCenter] = patches[MiddleRight];
 				patches[BottomCenter] = patches[BottomRight];
-				patches[TopRight] = Rectangle.Empty;
-				patches[MiddleRight] = Rectangle.Empty;
-				patches[BottomRight] = Rectangle.Empty;
+				patches[TopRight] = Rect.Empty;
+				patches[MiddleRight] = Rect.Empty;
+				patches[BottomRight] = Rect.Empty;
 			}
 			// If split only horizontal, move splits from bottom to center.
 			if (top == 0 && middleHeight == 0)
@@ -87,14 +86,14 @@ namespace SharpHaven.Graphics
 				patches[MiddleLeft] = patches[BottomLeft];
 				patches[MiddleCenter] = patches[BottomCenter];
 				patches[MiddleRight] = patches[BottomRight];
-				patches[BottomLeft] = Rectangle.Empty;
-				patches[BottomCenter] = Rectangle.Empty;
-				patches[BottomRight] = Rectangle.Empty;
+				patches[BottomLeft] = Rect.Empty;
+				patches[BottomCenter] = Rect.Empty;
+				patches[BottomRight] = Rect.Empty;
 			}
 
 			// offset all rectangles
 			for (int i = 0; i < patches.Length; i++)
-				if (patches[i] != Rectangle.Empty)
+				if (patches[i] != Rect.Empty)
 					patches[i].Offset(rect.X, rect.Y);
 
 			return patches;

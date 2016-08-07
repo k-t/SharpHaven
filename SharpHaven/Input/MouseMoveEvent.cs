@@ -1,15 +1,15 @@
-﻿using System.Drawing;
+﻿using SharpHaven.Graphics;
 
 namespace SharpHaven.Input
 {
 	public class MouseMoveEvent : MouseEvent
 	{
-		public MouseMoveEvent(Point delta, Point position) : base(position)
+		public MouseMoveEvent(Coord2d delta, Coord2d position) : base(position)
 		{
 			Delta = delta;
 		}
 
-		public Point Delta { get; }
+		public Coord2d Delta { get; }
 
 		public int DeltaX
 		{

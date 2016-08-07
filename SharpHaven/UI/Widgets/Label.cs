@@ -1,5 +1,4 @@
-﻿using System.Drawing;
-using SharpHaven.Graphics;
+﻿using SharpHaven.Graphics;
 using SharpHaven.Graphics.Text;
 
 namespace SharpHaven.UI.Widgets

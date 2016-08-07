@@ -1,23 +1,21 @@
-﻿using System.Drawing;
-
-namespace SharpHaven.Graphics.Sprites
+﻿namespace SharpHaven.Graphics.Sprites
 {
 	public class SpritePart
 	{
-		private Rectangle bounds;
+		private Rect bounds;
 		
-		public SpritePart(Drawable image, Point offset, int z, int subz)
+		public SpritePart(Drawable image, Coord2d offset, int z, int subz)
 			: this(-1, image, offset, z, subz)
 		{
 		}
 
-		public SpritePart(int id, Drawable image, Point offset, int z, int subz)
+		public SpritePart(int id, Drawable image, Coord2d offset, int z, int subz)
 		{
 			Id = id;
 			Image = image;
 			Z = z;
 			SubZ = subz;
-			bounds = new Rectangle(offset.X, offset.Y, image.Width, image.Height);
+			bounds = new Rect(offset.X, offset.Y, image.Width, image.Height);
 		}
 
 		public int Id { get; }
@@ -28,7 +26,7 @@ namespace SharpHaven.Graphics.Sprites
 
 		public int SubZ { get; }
 
-		public Point Offset
+		public Coord2d Offset
 		{
 			get { return bounds.Location; }
 			set { bounds.Location = value; }

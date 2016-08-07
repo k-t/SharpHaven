@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
+using SharpHaven.Graphics;
 
 namespace SharpHaven.UI.Widgets
 {
@@ -11,11 +11,11 @@ namespace SharpHaven.UI.Widgets
 		private readonly GroupSelector selector;
 		private List<RightCheckBox> chkRights;
 
-		private Rectangle area;
-		private Rectangle selectedArea;
+		private Rect area;
+		private Rect selectedArea;
 		private readonly ClaimRight[] rights;
 
-		public ClaimWindow(Widget parent, Rectangle area)
+		public ClaimWindow(Widget parent, Rect area)
 			: base(parent, "Stake")
 		{
 			this.area = area;
@@ -95,7 +95,7 @@ namespace SharpHaven.UI.Widgets
 		public event EventHandler Buy;
 		public event EventHandler Declaim;
 
-		public Rectangle Area
+		public Rect Area
 		{
 			get { return area; }
 			set
@@ -105,7 +105,7 @@ namespace SharpHaven.UI.Widgets
 			}
 		}
 
-		public Rectangle SelectedArea
+		public Rect SelectedArea
 		{
 			get { return selectedArea; }
 			set
@@ -125,7 +125,7 @@ namespace SharpHaven.UI.Widgets
 
 		private void Extend(int n, int e, int s, int w)
 		{
-			SelectedArea = new Rectangle(
+			SelectedArea = new Rect(
 				SelectedArea.X - w,
 				SelectedArea.Y - n,
 				SelectedArea.Width + e + w,

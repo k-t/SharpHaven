@@ -8,10 +8,10 @@ namespace SharpHaven.Net
 	{
 		private static readonly Logger Log = LogManager.GetCurrentClassLogger();
 
-		private readonly Action<MessageReader> messageHandler;
-		private readonly GameSocket socket;
+		private readonly Action<Message> messageHandler;
+		private readonly MessageSocket socket;
 
-		public MessageReceiver(GameSocket socket, Action<MessageReader> handler)
+		public MessageReceiver(MessageSocket socket, Action<Message> handler)
 			: base("Message Receiver")
 		{
 			this.socket = socket;
@@ -20,7 +20,7 @@ namespace SharpHaven.Net
 
 		protected override void OnStart()
 		{
-			MessageReader message;
+			Message message;
 			try
 			{
 				while (!IsCancelled)

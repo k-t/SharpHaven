@@ -5,6 +5,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using SharpHaven.Resources;
+using SharpHaven.Utils;
 
 namespace SharpHaven.Graphics.Sprites
 {
@@ -13,7 +14,7 @@ namespace SharpHaven.Graphics.Sprites
 		private Texture tex;
 		private readonly List<SpritePart> parts;
 
-		public SpriteSheet(IEnumerable<ImageData> images, Point center)
+		public SpriteSheet(IEnumerable<ImageLayer> images, Coord2d center)
 		{
 			parts = new List<SpritePart>();
 			Pack(images.ToArray(), center);
@@ -35,10 +36,10 @@ namespace SharpHaven.Graphics.Sprites
 			return GetEnumerator();
 		}
 
-		private void Pack(ImageData[] images, Point center)
+		private void Pack(ImageLayer[] images, Coord2d center)
 		{
 			var bitmaps = new Bitmap[images.Length];
-			var regions = new Rectangle[images.Length];
+			var regions = new RectF[images.Length];
 			var hitmasks = new BitArray[images.Length];
 			try
 			{
@@ -59,7 +60,7 @@ namespace SharpHaven.Graphics.Sprites
 					var slice = new TextureSlice(tex, regions[i]);
 					slice.Update(bitmaps[i]);
 					var img = images[i];
-					var off = Point.Subtract(img.Offset, (Size)center);
+					var off = img.Offset.Sub(center);
 					var pic = new Picture(slice, hitmasks[i]);
 					parts.Add(new SpritePart(img.Id, pic, off, img.Z, img.SubZ));
 				}
@@ -79,7 +80,7 @@ namespace SharpHaven.Graphics.Sprites
 				{
 					var pixel = bitmap.GetPixel(i, j);
 					if ((pixel.ToArgb() & 0x00ffffff) == 0x00ff0080)
-						bitmap.SetPixel(i, j, Color.FromArgb(128, 0, 0, 0));
+						bitmap.SetPixel(i, j, System.Drawing.Color.FromArgb(128, 0, 0, 0));
 					hitmask[i * bitmap.Height + j] = pixel.A > 128;
 				}
 			return bitmap;
@@ -93,9 +94,9 @@ namespace SharpHaven.Graphics.Sprites
 
 			public int PackHeight { get; private set; }
 
-			public Rectangle Add(Size sz)
+			public RectF Add(Size sz)
 			{
-				var rect = new Rectangle(PackWidth, 0, sz.Width, sz.Height);
+				var rect = new RectF(PackWidth, 0, sz.Width, sz.Height);
 				PackWidth += sz.Width + Padding;
 				PackHeight = Math.Max(PackHeight, sz.Height);
 				return rect;

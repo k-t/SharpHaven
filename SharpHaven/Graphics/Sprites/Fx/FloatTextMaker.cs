@@ -1,6 +1,5 @@
-﻿using System.Drawing;
-using SharpHaven.Net;
-using SharpHaven.Resources;
+﻿using SharpHaven.Resources;
+using SharpHaven.Utils;
 
 namespace SharpHaven.Graphics.Sprites.Fx
 {
@@ -13,7 +12,7 @@ namespace SharpHaven.Graphics.Sprites.Fx
 
 		public override ISprite MakeInstance(byte[] state)
 		{
-			var reader = new MessageReader(0, state);
+			var reader = new ByteBuffer(state);
 
 			var value = reader.ReadInt32();
 			var displayPlus = reader.ReadByte() != 0;
@@ -23,18 +22,22 @@ namespace SharpHaven.Graphics.Sprites.Fx
 			{
 				str = "+" + str;
 			}
-			var color = UnpackColor(reader.ReadUint16());
+			var color = UnpackColor(reader.ReadUInt16());
 
 			return new FloatText(str, color);
 		}
 
 		private static Color UnpackColor(ushort value)
 		{
-			int r = (value & 0xF000) >> 12;
-			int g = (value & 0xF00) >> 8;
-			int b = (value & 0xF0) >> 4;
-			int a = (value & 0xF);
-			return Color.FromArgb((a << 4) | a, (r << 4) | r, (g << 4) | g, (b << 4) | b);
+			var r = (value & 0xF000) >> 12;
+			var g = (value & 0xF00) >> 8;
+			var b = (value & 0xF0) >> 4;
+			var a = (value & 0xF);
+			return Color.FromArgb(
+				(byte)((a << 4) | a),
+				(byte)((r << 4) | r),
+				(byte)((g << 4) | g),
+				(byte)((b << 4) | b));
 		}
 	}
 }

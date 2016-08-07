@@ -1,5 +1,4 @@
-﻿using System.Drawing;
-using SharpHaven.Graphics;
+﻿using SharpHaven.Graphics;
 using SharpHaven.Resources;
 using SharpHaven.Utils;
 
@@ -8,14 +7,14 @@ namespace SharpHaven.UI.Widgets
 	public class AimWidget : Widget
 	{
 		private static readonly Picture bg;
-		private static readonly Point bgOffset;
+		private static readonly Coord2d bgOffset;
 		private static readonly Picture fg;
-		private static readonly Point fgOffset;
+		private static readonly Coord2d fgOffset;
 
 		static AimWidget()
 		{
 			var res = App.Resources.Load("ui/aim");
-			foreach (var imageData in res.GetLayers<ImageData>())
+			foreach (var imageData in res.GetLayers<ImageLayer>())
 			{
 				if (imageData.Id == 0)
 				{

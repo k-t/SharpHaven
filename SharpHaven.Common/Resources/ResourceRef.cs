@@ -29,5 +29,10 @@ namespace SharpHaven.Resources
 			var other = (ResourceRef)obj;
 			return string.Equals(Name, other.Name) && Version == other.Version;
 		}
+
+		public bool IsEmpty()
+		{
+			return string.IsNullOrEmpty(Name);
+		}
 	}
 }

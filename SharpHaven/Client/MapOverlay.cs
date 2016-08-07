@@ -1,4 +1,4 @@
-﻿using System.Drawing;
+﻿using SharpHaven.Graphics;
 
 namespace SharpHaven.Client
 {
@@ -11,6 +11,6 @@ namespace SharpHaven.Client
 
 		public int Index { get; }
 
-		public Rectangle Bounds { get; set; }
+		public Rect Bounds { get; set; }
 	}
 }

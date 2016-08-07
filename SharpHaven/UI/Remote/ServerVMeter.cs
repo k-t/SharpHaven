@@ -1,4 +1,4 @@
-﻿using System.Drawing;
+﻿using SharpHaven.Graphics;
 using SharpHaven.UI.Widgets;
 
 namespace SharpHaven.UI.Remote
@@ -22,12 +22,12 @@ namespace SharpHaven.UI.Remote
 			return new ServerVMeter(id, parent);
 		}
 
-		protected override void OnInit(Point position, object[] args)
+		protected override void OnInit(Coord2d position, object[] args)
 		{
 			var amount = (int)args[0];
 			var color = args.Length > 4
-				? Color.FromArgb((int)args[1], (int)args[2], (int)args[3], (int)args[4])
-				: Color.FromArgb((int)args[1], (int)args[2], (int)args[3]);
+				? Color.FromArgb((byte)args[1], (byte)args[2], (byte)args[3], (byte)args[4])
+				: Color.FromArgb((byte)args[1], (byte)args[2], (byte)args[3]);
 
 			widget = new VMeter(Parent.Widget);
 			widget.Move(position);

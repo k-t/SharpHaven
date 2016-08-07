@@ -1,5 +1,5 @@
-﻿using System.Drawing;
-using System.Linq;
+﻿using System.Linq;
+using SharpHaven.Graphics;
 using SharpHaven.Graphics.Sprites;
 using SharpHaven.Utils;
 
@@ -11,9 +11,9 @@ namespace SharpHaven.Client
 		private Delayed<ISprite> sprite;
 		private Delayed<ISprite> avatar;
 		private GobSpeech speech;
-		private Point position;
+		private Coord2d position;
 		private GobMovement movement;
-		private Point drawOffset;
+		private Coord2d drawOffset;
 		
 		public Gob(int id)
 		{
@@ -23,7 +23,7 @@ namespace SharpHaven.Client
 
 		public int Id { get; }
 
-		public Point Position
+		public Coord2d Position
 		{
 			get
 			{
@@ -36,7 +36,7 @@ namespace SharpHaven.Client
 			set { position = value; }
 		}
 
-		public Point DrawOffset
+		public Coord2d DrawOffset
 		{
 			get
 			{
@@ -101,7 +101,7 @@ namespace SharpHaven.Client
 			avatar = value;
 		}
 
-		public void StartMovement(Point origin, Point destination, int totalSteps)
+		public void StartMovement(Coord2d origin, Coord2d destination, int totalSteps)
 		{
 			movement = new GobMovement(origin, destination, totalSteps);
 		}

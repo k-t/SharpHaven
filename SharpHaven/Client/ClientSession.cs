@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Threading;
 using NLog;
 using SharpHaven.Game;
 using SharpHaven.Game.Events;
+using SharpHaven.Graphics;
 using SharpHaven.Net;
 using SharpHaven.UI.Remote;
 
@@ -15,7 +15,7 @@ namespace SharpHaven.Client
 		private static readonly Logger Log = LogManager.GetCurrentClassLogger();
 
 		private readonly GameClient client;
-		private readonly HashSet<Point> gridRequests;
+		private readonly HashSet<Coord2d> gridRequests;
 		private readonly ServerWidgetFactory widgetFactory;
 
 		public ClientSession(GameClient client)
@@ -23,7 +23,7 @@ namespace SharpHaven.Client
 			this.client = client;
 			this.client.Events.AddListener(this);
 
-			gridRequests = new HashSet<Point>();
+			gridRequests = new HashSet<Coord2d>();
 			widgetFactory = new ServerWidgetFactory();
 
 			Actions = new GameActionCollection();
@@ -62,7 +62,7 @@ namespace SharpHaven.Client
 
 		public ServerWidgetCollection Widgets { get; }
 
-		public Point WorldPosition { get; set; }
+		public Coord2d WorldPosition { get; set; }
 
 		public void Start()
 		{
@@ -84,7 +84,7 @@ namespace SharpHaven.Client
 			client.MessageWidget(widgetId, name, args);
 		}
 
-		public void RequestMap(Point gc)
+		public void RequestMap(Coord2d gc)
 		{
 			var grid = Map.GetGrid(gc);
 			if (grid == null && !gridRequests.Contains(gc))

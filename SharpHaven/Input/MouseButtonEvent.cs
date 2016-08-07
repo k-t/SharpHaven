@@ -1,11 +1,11 @@
-﻿using System.Drawing;
-using OpenTK.Input;
+﻿using OpenTK.Input;
+using SharpHaven.Graphics;
 
 namespace SharpHaven.Input
 {
 	public class MouseButtonEvent : MouseEvent
 	{
-		public MouseButtonEvent(MouseButton button, Point position)
+		public MouseButtonEvent(MouseButton button, Coord2d position)
 			: base(position)
 		{
 			Button = button;

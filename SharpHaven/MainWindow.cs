@@ -61,7 +61,7 @@ namespace SharpHaven
 		{
 			base.OnLoad(e);
 
-			GL.Color3(Color.White);
+			GL.Color3(255, 255, 255);
 			GL.PointSize(4);
 			GL.Enable(EnableCap.Blend);
 			GL.Enable(EnableCap.Texture2D);

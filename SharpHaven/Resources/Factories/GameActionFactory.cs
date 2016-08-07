@@ -7,8 +7,8 @@ namespace SharpHaven.Resources
 	{
 		public GameAction Create(string resName, Resource res)
 		{
-			var data = res.GetLayer<ActionData>();
-			var image = TextureSlice.FromBitmap(res.GetLayer<ImageData>().Data);
+			var data = res.GetLayer<ActionLayer>();
+			var image = TextureSlice.FromBitmap(res.GetLayer<ImageLayer>().Data);
 			return new GameAction(
 				data.Name,
 				resName,

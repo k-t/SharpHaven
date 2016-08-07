@@ -1,15 +1,15 @@
-﻿using System.Drawing;
+﻿using SharpHaven.Graphics;
 
 namespace SharpHaven.Input
 {
 	public abstract class MouseEvent : InputEvent
 	{
-		protected MouseEvent(Point position)
+		protected MouseEvent(Coord2d position)
 		{
 			this.Position = position;
 		}
 
-		public Point Position { get; }
+		public Coord2d Position { get; }
 
 		public int X
 		{

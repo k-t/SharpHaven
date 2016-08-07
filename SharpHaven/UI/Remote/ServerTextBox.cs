@@ -1,5 +1,5 @@
-﻿using System.Drawing;
-using OpenTK.Input;
+﻿using OpenTK.Input;
+using SharpHaven.Graphics;
 using SharpHaven.Input;
 using SharpHaven.UI.Widgets;
 
@@ -26,9 +26,9 @@ namespace SharpHaven.UI.Remote
 			return new ServerTextBox(id, parent);
 		}
 
-		protected override void OnInit(Point position, object[] args)
+		protected override void OnInit(Coord2d position, object[] args)
 		{
-			var size = (Point)args[0];
+			var size = (Coord2d)args[0];
 			var text = (string)args[1];
 
 			widget = new TextBox(Parent.Widget);

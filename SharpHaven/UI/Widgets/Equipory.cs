@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Drawing;
 using OpenTK.Input;
 using SharpHaven.Client;
 using SharpHaven.Graphics;
@@ -9,24 +8,24 @@ namespace SharpHaven.UI.Widgets
 	public class Equipory : Window, IItemDropTarget
 	{
 		private static readonly Drawable background;
-		private static readonly Point avatarPosition = new Point(32, 0);
-		private static readonly Point[] slotPositions = {
-			new Point(0, 0),
-			new Point(244, 0),
-			new Point(0, 31),
-			new Point(244, 31),
-			new Point(0, 62),
-			new Point(244, 62),
-			new Point(0, 93),
-			new Point(244, 93),
-			new Point(0, 124),
-			new Point(244, 124),
-			new Point(0, 155),
-			new Point(244, 155),
-			new Point(0, 186),
-			new Point(244, 186),
-			new Point(0, 217),
-			new Point(244, 217)
+		private static readonly Coord2d avatarPosition = new Coord2d(32, 0);
+		private static readonly Coord2d[] slotPositions = {
+			new Coord2d(0, 0),
+			new Coord2d(244, 0),
+			new Coord2d(0, 31),
+			new Coord2d(244, 31),
+			new Coord2d(0, 62),
+			new Coord2d(244, 62),
+			new Coord2d(0, 93),
+			new Coord2d(244, 93),
+			new Coord2d(0, 124),
+			new Coord2d(244, 124),
+			new Coord2d(0, 155),
+			new Coord2d(244, 155),
+			new Coord2d(0, 186),
+			new Coord2d(244, 186),
+			new Coord2d(0, 217),
+			new Coord2d(244, 217)
 		};
 
 		static Equipory()
@@ -54,17 +53,17 @@ namespace SharpHaven.UI.Widgets
 			Pack();
 		}
 
-		public event Action<int, Point> ItemTransfer;
-		public event Action<int, Point> ItemTake;
-		public event Action<int, Point> ItemAct;
+		public event Action<int, Coord2d> ItemTransfer;
+		public event Action<int, Coord2d> ItemTake;
+		public event Action<int, Coord2d> ItemAct;
 		public event Action<int> ItemInteract;
 		public event Action<int> Drop;
 
 		public void SetItem(int i, Item item)
 		{
-			Action<Point> itemTakeHandler = (p) => ItemTake.Raise(i, p);
-			Action<Point> itemTransferHandler = (p) => ItemTransfer.Raise(i, p);
-			Action<Point> itemActHandler = (p) => ItemAct.Raise(i, p);
+			Action<Coord2d> itemTakeHandler = (p) => ItemTake.Raise(i, p);
+			Action<Coord2d> itemTransferHandler = (p) => ItemTransfer.Raise(i, p);
+			Action<Coord2d> itemActHandler = (p) => ItemAct.Raise(i, p);
 			Action<KeyModifiers> itemInteractHandler = (mods) => ItemInteract.Raise(i);
 
 			if (items[i] != null)
@@ -114,13 +113,13 @@ namespace SharpHaven.UI.Widgets
 
 		#region IItemDropTarget
 
-		bool IItemDropTarget.Drop(Point p, Point ul, KeyModifiers mods)
+		bool IItemDropTarget.Drop(Coord2d p, Coord2d ul, KeyModifiers mods)
 		{
 			Drop.Raise(-1);
 			return true;
 		}
 
-		bool IItemDropTarget.Interact(Point p, Point ul, KeyModifiers mods)
+		bool IItemDropTarget.Interact(Coord2d p, Coord2d ul, KeyModifiers mods)
 		{
 			return false;
 		}

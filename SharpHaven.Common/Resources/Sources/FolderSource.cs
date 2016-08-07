@@ -9,9 +9,14 @@ namespace SharpHaven.Resources
 	public class FolderSource : IEnumerableResourceSource
 	{
 		private readonly string basePath;
+		private readonly FolderFileSource fileSource;
 		private readonly Dictionary<string, IResourceSerializer> serializers;
 
-		public FolderSource(string path)
+		public FolderSource(string path) : this(path, ".res")
+		{
+		}
+
+		public FolderSource(string path, string resFileExt)
 		{
 			if (!Directory.Exists(path))
 				throw new ArgumentException("Specified path doesn't refer to an existing folder");
@@ -20,10 +25,11 @@ namespace SharpHaven.Resources
 			// add directory separator to handle relative paths correctly
 			if (!path.EndsWith(Path.DirectorySeparatorChar.ToString()))
 				basePath += Path.DirectorySeparatorChar;
+			fileSource = new FolderFileSource();
 
 			serializers = new Dictionary<string, IResourceSerializer>();
-			serializers[".res"] = new BinaryResourceSerializer();
-			serializers[".ini"] = new IniResourceSerializer();
+			serializers[resFileExt] = new BinaryResourceSerializer();
+			serializers[".ini"] = new IniResourceSerializer(fileSource);
 		}
 
 		public string Description
@@ -46,6 +52,7 @@ namespace SharpHaven.Resources
 			foreach (var extension in serializers.Keys)
 			{
 				var fileName = ToFileName(resName, extension);
+				fileSource.BasePath = Path.Combine(basePath, Path.GetDirectoryName(resName));
 				if (File.Exists(fileName))
 				{
 					var serializer = serializers[extension];
