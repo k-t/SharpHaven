@@ -4,7 +4,7 @@ using System.Threading;
 using C5;
 using NLog;
 using SharpHaven.Game;
-using SharpHaven.Game.Events;
+using SharpHaven.Game.Messages;
 using SharpHaven.Utils;
 
 namespace SharpHaven.Net
@@ -66,23 +66,23 @@ namespace SharpHaven.Net
 		private readonly object stateLock = new object();
 		private readonly TreeDictionary<ushort, Message> waiting;
 		private readonly TreeDictionary<int, FragmentBuffer> mapFrags;
-		private readonly CompositeGameEventListener listener;
+		private readonly IMessagePublisher publisher;
 		private ushort rseq;
 		private NetworkGameState state;
 
-		public NetworkGame(NetworkAddress address)
+		public NetworkGame(NetworkAddress address, IMessagePublisher publisher)
 		{
-			waiting = new TreeDictionary<ushort, Message>();
-			mapFrags = new TreeDictionary<int, FragmentBuffer>();
-			listener = new CompositeGameEventListener();
+			this.publisher = publisher;
+			this.waiting = new TreeDictionary<ushort, Message>();
+			this.mapFrags = new TreeDictionary<int, FragmentBuffer>();
 
-			state = NetworkGameState.Created;
-			socket = new MessageSocket(address.Host, address.Port);
-			socket.SetReceiveTimeout(ReceiveTimeout);
-			sender = new MessageSender(socket);
-			sender.Finished += OnTaskFinished;
-			receiver = new MessageReceiver(socket, ReceiveMessage);
-			receiver.Finished += OnTaskFinished;
+			this.state = NetworkGameState.Created;
+			this.socket = new MessageSocket(address.Host, address.Port);
+			this.socket.SetReceiveTimeout(ReceiveTimeout);
+			this.sender = new MessageSender(socket);
+			this.sender.Finished += OnTaskFinished;
+			this.receiver = new MessageReceiver(socket, ReceiveMessage);
+			this.receiver.Finished += OnTaskFinished;
 		}
 
 		public event Action Stopped;
@@ -130,16 +130,6 @@ namespace SharpHaven.Net
 				state = NetworkGameState.Stopped;
 			}
 			Stopped.Raise();
-		}
-
-		public void AddListener(IGameEventListener l)
-		{
-			listener.AddListener(l);
-		}
-
-		public void RemoveListener(IGameEventListener l)
-		{
-			listener.RemoveListener(l);
 		}
 
 		public void RequestMap(int x, int y)
@@ -262,13 +252,13 @@ namespace SharpHaven.Net
 			switch (msg.Type)
 			{
 				case RMSG_NEWWDG:
-					listener.Handle(buf.ReadWidgetCreateEvent());
+					publisher.Publish(buf.ReadWidgetCreateEvent());
 					break;
 				case RMSG_WDGMSG:
-					listener.Handle(buf.ReadWidgetMessageEvent());
+					publisher.Publish(buf.ReadWidgetMessageEvent());
 					break;
 				case RMSG_DSTWDG:
-					listener.Handle(buf.ReadWidgetDestroyEvent());
+					publisher.Publish(buf.ReadWidgetDestroyEvent());
 					break;
 				case RMSG_MAPIV:
 				{
@@ -276,13 +266,13 @@ namespace SharpHaven.Net
 					switch (type)
 					{
 						case 0:
-							listener.Handle(buf.ReadMapInvalidateGridEvent());
+							publisher.Publish(buf.ReadMapInvalidateGridEvent());
 							break;
 						case 1:
-							listener.Handle(buf.ReadMapInvalidateRegionEvent());
+							publisher.Publish(buf.ReadMapInvalidateRegionEvent());
 							break;
 						case 2:
-							listener.Handle(new MapInvalidateEvent());
+							publisher.Publish(new MapInvalidate());
 							break;
 					}
 					break;
@@ -293,22 +283,22 @@ namespace SharpHaven.Net
 						switch (buf.ReadByte())
 						{
 							case GMSG_TIME:
-								listener.Handle(buf.ReadGameTimeUpdateEvent());
+								publisher.Publish(buf.ReadGameTimeUpdateEvent());
 								break;
 							case GMSG_ASTRO:
-								listener.Handle(buf.ReadAstronomyUpdateEvent());
+								publisher.Publish(buf.ReadAstronomyUpdateEvent());
 								break;
 							case GMSG_LIGHT:
-								listener.Handle(buf.ReadAmbientLightUpdateEvent());
+								publisher.Publish(buf.ReadAmbientLightUpdateEvent());
 								break;
 						}
 					}
 					break;
 				case RMSG_PAGINAE:
-					listener.Handle(buf.ReadGameActionsUpdateEvent());
+					publisher.Publish(buf.ReadGameActionsUpdateEvent());
 					break;
 				case RMSG_RESID:
-					listener.Handle(buf.ReadResourceLoadEvent());
+					publisher.Publish(buf.ReadResourceLoadEvent());
 					break;
 				case RMSG_PARTY:
 					while (buf.HasRemaining)
@@ -317,28 +307,28 @@ namespace SharpHaven.Net
 						switch (type)
 						{
 							case PD_LIST:
-								listener.Handle(buf.ReadPartyUpdateEvent());
+								publisher.Publish(buf.ReadPartyUpdateEvent());
 								break;
 							case PD_LEADER:
-								listener.Handle(buf.ReadPartyLeaderChangeEvent());
+								publisher.Publish(buf.ReadPartyLeaderChangeEvent());
 								break;
 							case PD_MEMBER:
-								listener.Handle(buf.ReadPartyMemberUpdateEvent());
+								publisher.Publish(buf.ReadPartyMemberUpdateEvent());
 								break;
 						}
 					}
 					break;
 				case RMSG_SFX:
-					listener.Handle(buf.ReadPlaySoundEvent());
+					publisher.Publish(buf.ReadPlaySoundEvent());
 					break;
 				case RMSG_CATTR:
-					listener.Handle(buf.ReadCharAttributesUpdateEvent());
+					publisher.Publish(buf.ReadCharAttributesUpdateEvent());
 					break;
 				case RMSG_MUSIC:
-					listener.Handle(new PlayMusicEvent());
+					publisher.Publish(new PlayMusic());
 					break;
 				case RMSG_TILES:
-					listener.Handle(buf.ReadTilesetsLoadEvent());
+					publisher.Publish(buf.ReadTilesetsLoadEvent());
 					break;
 				case RMSG_BUFF:
 				{
@@ -346,13 +336,13 @@ namespace SharpHaven.Net
 					switch (message)
 					{
 						case "clear":
-							listener.Handle(new BuffClearEvent());
+							publisher.Publish(new BuffClearAll());
 							break;
 						case "rm":
-							listener.Handle(buf.ReadBuffRemoveEvent());
+							publisher.Publish(buf.ReadBuffRemoveEvent());
 							break;
 						case "set":
-							listener.Handle(buf.ReadBuffUpdateEvent());
+							publisher.Publish(buf.ReadBuffUpdateEvent());
 							break;
 					}
 					break;
@@ -377,7 +367,7 @@ namespace SharpHaven.Net
 				{
 					mapFrags.Remove(packetId);
 					var fragReader = new ByteBuffer(fragbuf.Content);
-					listener.Handle(fragReader.ReadMapUpdateEvent());
+					publisher.Publish(fragReader.ReadMapUpdateEvent());
 				}
 			}
 			else if (offset != 0 || reader.Length - 8 < length)
@@ -388,13 +378,13 @@ namespace SharpHaven.Net
 			}
 			else
 			{
-				listener.Handle(reader.ReadMapUpdateEvent());
+				publisher.Publish(reader.ReadMapUpdateEvent());
 			}
 		}
 
 		private void HandleGobData(ByteBuffer reader)
 		{
-			var ev = new GobUpdateEvent();
+			var ev = new UpdateGameObject();
 			ev.ReplaceFlag = (reader.ReadByte() & 1) != 0;
 			ev.GobId = reader.ReadInt32();
 			ev.Frame = reader.ReadInt32();
@@ -405,7 +395,7 @@ namespace SharpHaven.Net
 					break;
 				ev.Deltas.Add(delta);
 			}
-			listener.Handle(ev);
+			publisher.Publish(ev);
 			SendObjectAck(ev.GobId, ev.Frame);
 		}
 

@@ -10,18 +10,18 @@ namespace SharpHaven.Net
 		private string userName;
 		private byte[] cookie;
 		private NetworkGame session;
-		private readonly CompositeGameEventListener compositeListener;
+		private readonly MessageBus messageBus;
 
 		public GameClient(GameClientConfiguration config)
 		{
 			this.config = config;
-			this.compositeListener = new CompositeGameEventListener();
+			this.messageBus = new MessageBus();
 			this.state = GameClientState.Initial;
 		}
 
-		public IGameEventSource Events
+		public IMessageSource Messages
 		{
-			get { return compositeListener; }
+			get { return messageBus; }
 		}
 
 		public GameClientState State
@@ -69,8 +69,7 @@ namespace SharpHaven.Net
 			CheckAuthenticated();
 			CheckNotConnected();
 
-			session = new NetworkGame(config.GameServerAddress);
-			session.AddListener(compositeListener);
+			session = new NetworkGame(config.GameServerAddress, messageBus);
 			session.Start(userName, cookie);
 
 			this.state = GameClientState.Connected;
@@ -79,8 +78,6 @@ namespace SharpHaven.Net
 		public void Close()
 		{
 			session.Stop();
-			session.RemoveListener(compositeListener);
-
 			this.state = GameClientState.Initial;
 		}
 

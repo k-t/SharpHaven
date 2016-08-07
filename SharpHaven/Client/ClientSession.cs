@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using System.Threading;
 using NLog;
 using SharpHaven.Game;
-using SharpHaven.Game.Events;
+using SharpHaven.Game.Messages;
 using SharpHaven.Graphics;
 using SharpHaven.Net;
 using SharpHaven.UI.Remote;
 
 namespace SharpHaven.Client
 {
-	public class ClientSession : IGameEventListener
+	public class ClientSession : DefaultMessageHandler
 	{
 		private static readonly Logger Log = LogManager.GetCurrentClassLogger();
 
@@ -18,10 +18,10 @@ namespace SharpHaven.Client
 		private readonly HashSet<Coord2D> gridRequests;
 		private readonly ServerWidgetFactory widgetFactory;
 
-		public ClientSession(GameClient client)
+		public ClientSession(GameClient client) :
+			base(client.Messages)
 		{
 			this.client = client;
-			this.client.Events.AddListener(this);
 
 			gridRequests = new HashSet<Coord2D>();
 			widgetFactory = new ServerWidgetFactory();
@@ -71,12 +71,7 @@ namespace SharpHaven.Client
 
 		public void Finish()
 		{
-			lock (this)
-			{
-				client.Events.RemoveListener(this);
-				client.Close();
-			}
-			App.QueueOnMainThread(() => Screen.Close());
+			Dispose();
 		}
 
 		public void MessageWidget(ushort widgetId, string name, object[] args)
@@ -95,9 +90,17 @@ namespace SharpHaven.Client
 			}
 		}
 
-		#region IGameEventListener implementation
+		public override void Dispose()
+		{
+			base.Dispose();
+			client.Close();
+			App.QueueOnMainThread(() => Screen.Close());
+			
+		}
 
-		void IGameEventListener.Handle(WidgetCreateEvent args)
+		#region Message Handlers
+
+		protected override void Handle(WidgetCreate args)
 		{
 			App.QueueOnMainThread(() =>
 			{
@@ -111,7 +114,7 @@ namespace SharpHaven.Client
 			});
 		}
 
-		void IGameEventListener.Handle(WidgetMessageEvent args)
+		protected override void Handle(WidgetMessage args)
 		{
 			App.QueueOnMainThread(() =>
 			{
@@ -124,17 +127,17 @@ namespace SharpHaven.Client
 			});
 		}
 
-		void IGameEventListener.Handle(WidgetDestroyEvent args)
+		protected override void Handle(WidgetDestroy args)
 		{
 			App.QueueOnMainThread(() => Widgets.Remove(args.WidgetId));
 		}
 
-		void IGameEventListener.Handle(ResourceLoadEvent args)
+		protected override void Handle(LoadResource args)
 		{
 			App.QueueOnMainThread(() => Resources.Load(args.ResourceId, args.Name));
 		}
 
-		void IGameEventListener.Handle(TilesetsLoadEvent args)
+		protected override void Handle(LoadTilesets args)
 		{
 			App.QueueOnMainThread(() =>
 			{
@@ -143,22 +146,22 @@ namespace SharpHaven.Client
 			});
 		}
 
-		void IGameEventListener.Handle(MapInvalidateEvent args)
+		protected override void Handle(MapInvalidate args)
 		{
 			App.QueueOnMainThread(() => Map.InvalidateAll());
 		}
 
-		void IGameEventListener.Handle(MapInvalidateGridEvent args)
+		protected override void Handle(MapInvalidateGrid args)
 		{
 			App.QueueOnMainThread(() => RequestMap(args.Coord));
 		}
 
-		void IGameEventListener.Handle(MapInvalidateRegionEvent args)
+		protected override void Handle(MapInvalidateRegion args)
 		{
 			App.QueueOnMainThread(() => Map.InvalidateRegion(args.Region));
 		}
 
-		void IGameEventListener.Handle(CharAttributesUpdateEvent args)
+		protected override void Handle(UpdateCharAttributes args)
 		{
 			App.QueueOnMainThread(() =>
 			{
@@ -167,22 +170,22 @@ namespace SharpHaven.Client
 			});
 		}
 
-		void IGameEventListener.Handle(GameTimeUpdateEvent args)
+		protected override void Handle(UpdateGameTime args)
 		{
 			Log.Info("UpdateTime");
 		}
 
-		void IGameEventListener.Handle(AmbientLightUpdateEvent args)
+		protected override void Handle(UpdateAmbientLight args)
 		{
 			Log.Info("UpdateAmbientLight");
 		}
 
-		void IGameEventListener.Handle(AstronomyUpdateEvent astonomy)
+		protected override void Handle(UpdateAstronomy astonomy)
 		{
 			App.QueueOnMainThread(() => Time = new GameTime(astonomy.DayTime, astonomy.MoonPhase));
 		}
 
-		void IGameEventListener.Handle(GameActionsUpdateEvent args)
+		protected override void Handle(UpdateActions args)
 		{
 			App.QueueOnMainThread(() =>
 			{
@@ -194,7 +197,7 @@ namespace SharpHaven.Client
 			});
 		}
 
-		void IGameEventListener.Handle(PartyLeaderChangeEvent args)
+		protected override void Handle(PartyChangeLeader args)
 		{
 			App.QueueOnMainThread(() =>
 			{
@@ -202,12 +205,12 @@ namespace SharpHaven.Client
 			});
 		}
 
-		void IGameEventListener.Handle(PartyUpdateEvent args)
+		protected override void Handle(PartyUpdate args)
 		{
 			App.QueueOnMainThread(() => Party.Update(args.MemberIds));
 		}
 
-		void IGameEventListener.Handle(PartyMemberUpdateEvent args)
+		protected override void Handle(PartyUpdateMember args)
 		{
 			App.QueueOnMainThread(() =>
 			{
@@ -220,7 +223,7 @@ namespace SharpHaven.Client
 			});
 		}
 
-		void IGameEventListener.Handle(GobUpdateEvent args)
+		protected override void Handle(UpdateGameObject args)
 		{
 			App.QueueOnMainThread(() =>
 			{
@@ -229,7 +232,7 @@ namespace SharpHaven.Client
 			});
 		}
 
-		void IGameEventListener.Handle(MapUpdateEvent message)
+		protected override void Handle(MapUpdate message)
 		{
 			App.QueueOnMainThread(() =>
 			{
@@ -238,23 +241,23 @@ namespace SharpHaven.Client
 			});
 		}
 
-		void IGameEventListener.Handle(PlaySoundEvent args)
+		protected override void Handle(PlaySound args)
 		{
 			var res = Resources.Get(args.ResourceId);
 			App.Audio.Play(res);
 		}
 
-		void IGameEventListener.Handle(PlayMusicEvent args)
+		protected override void Handle(PlayMusic args)
 		{
 			Log.Info("PlayMusic");
 		}
 
-		void IGameEventListener.Exit()
-		{
-			App.QueueOnMainThread(Finish);
-		}
+		//protected override void Exit()
+		//{
+		//	App.QueueOnMainThread(Finish);
+		//}
 
-		void IGameEventListener.Handle(BuffUpdateEvent args)
+		protected override void Handle(BuffUpdate args)
 		{
 			App.QueueOnMainThread(() =>
 			{
@@ -267,12 +270,12 @@ namespace SharpHaven.Client
 			});
 		}
 
-		void IGameEventListener.Handle(BuffRemoveEvent args)
+		protected override void Handle(BuffRemove args)
 		{
 			App.QueueOnMainThread(() => Buffs.Remove(args.BuffId));
 		}
 
-		void IGameEventListener.Handle(BuffClearEvent args)
+		protected override void Handle(BuffClearAll args)
 		{
 			App.QueueOnMainThread(() => Buffs.Clear());
 		}

@@ -1,8 +1,8 @@
 ﻿using SharpHaven.Graphics;
 
-namespace SharpHaven.Game.Events
+namespace SharpHaven.Game.Messages
 {
-	public class MapInvalidateRegionEvent
+	public class MapInvalidateRegion
 	{
 		public Rect Region { get; set; }
 	}

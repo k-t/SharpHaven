@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using SharpHaven.Game;
+using SharpHaven.Game.Messages;
 using SharpHaven.Utils;
 
 namespace SharpHaven.Net

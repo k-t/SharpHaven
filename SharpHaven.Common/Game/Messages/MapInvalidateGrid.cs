@@ -1,8 +1,8 @@
 ﻿using SharpHaven.Graphics;
 
-namespace SharpHaven.Game.Events
+namespace SharpHaven.Game.Messages
 {
-	public class MapInvalidateGridEvent
+	public class MapInvalidateGrid
 	{
 		public Coord2D Coord { get; set; }
 	}
