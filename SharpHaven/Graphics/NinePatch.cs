@@ -19,7 +19,7 @@ namespace SharpHaven.Graphics
 		
 		public NinePatch(TextureSlice tex, int left, int right, int top, int bottom)
 		{
-			size = new Coord2d(tex.Width, tex.Height);
+			size = new Coord2D(tex.Width, tex.Height);
 			patchBounds = Rect.FromLTRB(left, top, right, bottom);
 			var textureBounds = new Rect(0, 0, tex.Width, tex.Height);
 			patches = SplitToPatches(textureBounds, patchBounds)

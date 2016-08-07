@@ -4,12 +4,12 @@
 	{
 		private Rect bounds;
 		
-		public SpritePart(Drawable image, Coord2d offset, int z, int subz)
+		public SpritePart(Drawable image, Coord2D offset, int z, int subz)
 			: this(-1, image, offset, z, subz)
 		{
 		}
 
-		public SpritePart(int id, Drawable image, Coord2d offset, int z, int subz)
+		public SpritePart(int id, Drawable image, Coord2D offset, int z, int subz)
 		{
 			Id = id;
 			Image = image;
@@ -26,7 +26,7 @@
 
 		public int SubZ { get; }
 
-		public Coord2d Offset
+		public Coord2D Offset
 		{
 			get { return bounds.Location; }
 			set { bounds.Location = value; }

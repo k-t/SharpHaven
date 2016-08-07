@@ -158,7 +158,7 @@ namespace SharpHaven.Resources.Serialization.Binary
 		{
 			var input = new ImageLayer {
 				Id = 42,
-				Offset = new Coord2d(1, 2),
+				Offset = new Coord2D(1, 2),
 				Z = -10,
 				SubZ = -20,
 				Data = new byte[] { 1, 2, 3, 4, 5 },
@@ -185,7 +185,7 @@ namespace SharpHaven.Resources.Serialization.Binary
 				IsMipmap = true,
 				Materials = new [] {
 					new MaterialLayer.Material { Name = "mlink", Params = new object[] { "gfx/someres", 1, 2, 3 } },
-					new MaterialLayer.Material { Name = "col", Params = new object[] { 1, 2.0f, "dsd", new Coord2d(1, 2)  } },
+					new MaterialLayer.Material { Name = "col", Params = new object[] { 1, 2.0f, "dsd", new Coord2D(1, 2)  } },
 					new MaterialLayer.Material { Name = "mipmap", Params = new object[0] },
 				}
 			};
@@ -242,13 +242,13 @@ namespace SharpHaven.Resources.Serialization.Binary
 		{
 			var input = new NegLayer
 			{
-				Center = new Coord2d(12, 21),
+				Center = new Coord2D(12, 21),
 				Hitbox = new Rect(1, 2, 3, 4),
-				Sz = new Coord2d(5, 6),
-				Ep = new Coord2d[8][]
+				Sz = new Coord2D(5, 6),
+				Ep = new Coord2D[8][]
 			};
-			input.Ep[2] = new[] { new Coord2d(45, 54), new Coord2d(46, 64) };
-			input.Ep[6] = new[] { new Coord2d(47, 74), new Coord2d(48, 84) };
+			input.Ep[2] = new[] { new Coord2D(45, 54), new Coord2D(46, 64) };
+			input.Ep[6] = new[] { new Coord2D(47, 74), new Coord2D(48, 84) };
 
 			var serializer = new NegLayerHandler();
 			var output = (NegLayer)serializer.Reserialize(input);
@@ -381,8 +381,8 @@ namespace SharpHaven.Resources.Serialization.Binary
 				Mipmap = TexMipmap.Dav,
 				MagFilter = TexMagFilter.Nearest,
 				MinFilter = TexMinFilter.NearestMipmapLinear,
-				Offset = new Coord2d(42, 24),
-				Size = new Coord2d(12, 21),
+				Offset = new Coord2D(42, 24),
+				Size = new Coord2D(12, 21),
 			};
 
 			var serializer = new TexLayerHandler();

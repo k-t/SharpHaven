@@ -8,7 +8,7 @@ namespace SharpHaven.UI.Widgets
 	public class Speedget : Widget
 	{
 		private static readonly Drawable[,] images;
-		private static readonly Coord2d size;
+		private static readonly Coord2D size;
 
 		static Speedget()
 		{
@@ -25,7 +25,7 @@ namespace SharpHaven.UI.Widgets
 				}
 				w += images[i, 0].Width;
 			}
-			size = new Coord2d(w, images[0, 0].Height);
+			size = new Coord2D(w, images[0, 0].Height);
 		}
 
 		public Speedget(Widget parent) : base(parent)

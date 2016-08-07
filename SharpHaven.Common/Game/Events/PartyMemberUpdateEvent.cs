@@ -16,7 +16,7 @@ namespace SharpHaven.Game.Events
 			set;
 		}
 
-		public Coord2d? Location
+		public Coord2D? Location
 		{
 			get;
 			set;

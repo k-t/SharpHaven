@@ -23,7 +23,7 @@ namespace SharpHaven.UI.Remote
 			return new ServerSpeedget(id, parent);
 		}
 
-		protected override void OnInit(Coord2d position, object[] args)
+		protected override void OnInit(Coord2D position, object[] args)
 		{
 			var cur = (int)args[0];
 			var max = (int)args[1];

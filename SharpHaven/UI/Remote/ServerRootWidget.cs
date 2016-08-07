@@ -19,7 +19,7 @@ namespace SharpHaven.UI.Remote
 			get { return widget; }
 		}
 
-		protected override void OnInit(Coord2d position, object[] args)
+		protected override void OnInit(Coord2D position, object[] args)
 		{
 		}
 	}

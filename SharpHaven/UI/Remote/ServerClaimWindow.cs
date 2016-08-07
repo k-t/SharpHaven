@@ -27,10 +27,10 @@ namespace SharpHaven.UI.Remote
 			return new ServerClaimWindow(id, parent);
 		}
 
-		protected override void OnInit(Coord2d position, object[] args)
+		protected override void OnInit(Coord2D position, object[] args)
 		{
-			var p1 = (Coord2d)args[0];
-			var p2 = (Coord2d)args[1];
+			var p1 = (Coord2D)args[0];
+			var p2 = (Coord2D)args[1];
 			var area = Rect.FromLTRB(p1.X, p1.Y, p2.X + 1, p2.Y + 1);
 
 			overlay = new MapOverlay(16);
@@ -53,8 +53,8 @@ namespace SharpHaven.UI.Remote
 
 		private void UpdateArea(object[] args)
 		{
-			var p1 = (Coord2d)args[0];
-			var p2 = (Coord2d)args[1];
+			var p1 = (Coord2D)args[0];
+			var p2 = (Coord2D)args[1];
 			var area = Rect.FromLTRB(p1.X, p1.Y, p2.X + 1, p2.Y + 1);
 			widget.Area = area;
 		}
@@ -78,8 +78,8 @@ namespace SharpHaven.UI.Remote
 
 		private void OnBuy(object sender, EventArgs e)
 		{
-			var ul = new Coord2d(widget.SelectedArea.Left, widget.SelectedArea.Top);
-			var br = new Coord2d(widget.SelectedArea.Right - 1, widget.SelectedArea.Bottom - 1);
+			var ul = new Coord2D(widget.SelectedArea.Left, widget.SelectedArea.Top);
+			var br = new Coord2D(widget.SelectedArea.Right - 1, widget.SelectedArea.Bottom - 1);
 			SendMessage("take", ul, br);
 		}
 

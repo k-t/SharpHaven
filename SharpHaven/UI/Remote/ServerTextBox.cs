@@ -26,9 +26,9 @@ namespace SharpHaven.UI.Remote
 			return new ServerTextBox(id, parent);
 		}
 
-		protected override void OnInit(Coord2d position, object[] args)
+		protected override void OnInit(Coord2D position, object[] args)
 		{
-			var size = (Coord2d)args[0];
+			var size = (Coord2D)args[0];
 			var text = (string)args[1];
 
 			widget = new TextBox(Parent.Widget);

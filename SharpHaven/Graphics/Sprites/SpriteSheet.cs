@@ -14,7 +14,7 @@ namespace SharpHaven.Graphics.Sprites
 		private Texture tex;
 		private readonly List<SpritePart> parts;
 
-		public SpriteSheet(IEnumerable<ImageLayer> images, Coord2d center)
+		public SpriteSheet(IEnumerable<ImageLayer> images, Coord2D center)
 		{
 			parts = new List<SpritePart>();
 			Pack(images.ToArray(), center);
@@ -36,7 +36,7 @@ namespace SharpHaven.Graphics.Sprites
 			return GetEnumerator();
 		}
 
-		private void Pack(ImageLayer[] images, Coord2d center)
+		private void Pack(ImageLayer[] images, Coord2D center)
 		{
 			var bitmaps = new Bitmap[images.Length];
 			var regions = new RectF[images.Length];

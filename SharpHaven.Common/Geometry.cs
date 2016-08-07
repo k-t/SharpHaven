@@ -12,14 +12,14 @@ namespace SharpHaven
 
 		#region Tilify
 
-		public static Coord2d Tilify(int mx, int my)
+		public static Coord2D Tilify(int mx, int my)
 		{
-			return new Coord2d(
+			return new Coord2D(
 				mx.Div(TileWidth) * TileWidth + TileWidth.Div(2),
 				my.Div(TileHeight) * TileHeight + TileHeight.Div(2));
 		}
 
-		public static Coord2d Tilify(Coord2d mc)
+		public static Coord2D Tilify(Coord2D mc)
 		{
 			return Tilify(mc.X, mc.Y);
 		}
@@ -28,12 +28,12 @@ namespace SharpHaven
 
 		#region ScreenToMap
 
-		public static Coord2d ScreenToMap(int sx, int sy)
+		public static Coord2D ScreenToMap(int sx, int sy)
 		{
-			return new Coord2d((sx / 2 + sy) / 2, (sy - sx / 2) / 2);
+			return new Coord2D((sx / 2 + sy) / 2, (sy - sx / 2) / 2);
 		}
 
-		public static Coord2d ScreenToMap(Coord2d sc)
+		public static Coord2D ScreenToMap(Coord2D sc)
 		{
 			return ScreenToMap(sc.X, sc.Y);
 		}
@@ -42,12 +42,12 @@ namespace SharpHaven
 
 		#region MapToScreen
 
-		public static Coord2d MapToScreen(int mx, int my)
+		public static Coord2D MapToScreen(int mx, int my)
 		{
-			return new Coord2d((mx - my) * 2, (mx + my));
+			return new Coord2D((mx - my) * 2, (mx + my));
 		}
 
-		public static Coord2d MapToScreen(Coord2d mc)
+		public static Coord2D MapToScreen(Coord2D mc)
 		{
 			return MapToScreen(mc.X, mc.Y);
 		}
@@ -56,15 +56,15 @@ namespace SharpHaven
 
 		#region ScreenToTile
 
-		public static Coord2d ScreenToTile(int sx, int sy)
+		public static Coord2D ScreenToTile(int sx, int sy)
 		{
 			// convert to world coordinate first
 			int mx = (sx / 2 + sy) / 2;
 			int my = (sy - sx / 2) / 2;
-			return new Coord2d(mx / TileWidth, my / TileHeight);
+			return new Coord2D(mx / TileWidth, my / TileHeight);
 		}
 
-		public static Coord2d ScreenToTile(Coord2d screen)
+		public static Coord2D ScreenToTile(Coord2D screen)
 		{
 			return ScreenToTile(screen.X, screen.Y);
 		}
@@ -73,14 +73,14 @@ namespace SharpHaven
 
 		#region TileToScreen
 
-		public static Coord2d TileToScreen(int tx, int ty)
+		public static Coord2D TileToScreen(int tx, int ty)
 		{
-			return new Coord2d(
+			return new Coord2D(
 				(tx - ty - 1) * TileWidth * 2,
 				(tx + ty) * TileHeight);
 		}
 
-		public static Coord2d TileToScreen(Coord2d tile)
+		public static Coord2D TileToScreen(Coord2D tile)
 		{
 			return TileToScreen(tile.X, tile.Y);
 		}
@@ -89,12 +89,12 @@ namespace SharpHaven
 
 		#region MapToTile
 
-		public static Coord2d MapToTile(int mx, int my)
+		public static Coord2D MapToTile(int mx, int my)
 		{
-			return new Coord2d(mx.Div(TileWidth), my.Div(TileHeight));
+			return new Coord2D(mx.Div(TileWidth), my.Div(TileHeight));
 		}
 
-		public static Coord2d MapToTile(Coord2d mc)
+		public static Coord2D MapToTile(Coord2D mc)
 		{
 			return MapToTile(mc.X, mc.Y);
 		}
@@ -103,14 +103,14 @@ namespace SharpHaven
 
 		#region MapToGrid
 
-		public static Coord2d MapToGrid(int mx, int my)
+		public static Coord2D MapToGrid(int mx, int my)
 		{
-			return new Coord2d(
+			return new Coord2D(
 				mx.Div(TileWidth).Div(GridWidth),
 				my.Div(TileHeight).Div(GridHeight));
 		}
 
-		public static Coord2d MapToGrid(Coord2d mc)
+		public static Coord2D MapToGrid(Coord2D mc)
 		{
 			return MapToGrid(mc.X, mc.Y);
 		}
@@ -119,12 +119,12 @@ namespace SharpHaven
 
 		#region TileToGrid
 
-		public static Coord2d TileToGrid(int tx, int ty)
+		public static Coord2D TileToGrid(int tx, int ty)
 		{
-			return new Coord2d(tx.Div(GridWidth), ty.Div(GridHeight));
+			return new Coord2D(tx.Div(GridWidth), ty.Div(GridHeight));
 		}
 
-		public static Coord2d TileToGrid(Coord2d tc)
+		public static Coord2D TileToGrid(Coord2D tc)
 		{
 			return TileToGrid(tc.X, tc.Y);
 		}

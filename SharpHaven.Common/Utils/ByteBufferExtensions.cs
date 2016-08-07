@@ -16,7 +16,7 @@ namespace SharpHaven.Utils
 				{typeof(short), BinaryListType.Int16 },
 				{typeof(int), BinaryListType.Int32 },
 				{typeof(object[]), BinaryListType.List },
-				{typeof(Coord2d), BinaryListType.Coord },
+				{typeof(Coord2D), BinaryListType.Coord },
 				{typeof(sbyte), BinaryListType.SByte },
 				{typeof(float), BinaryListType.Single },
 				{typeof(string), BinaryListType.String },
@@ -57,14 +57,14 @@ namespace SharpHaven.Utils
 		/// <summary>
 		/// Reads a point from the current stream.
 		/// </summary>
-		public static Coord2d ReadInt16Coord(this ByteBuffer buffer)
+		public static Coord2D ReadInt16Coord(this ByteBuffer buffer)
 		{
-			return new Coord2d(buffer.ReadInt16(), buffer.ReadInt16());
+			return new Coord2D(buffer.ReadInt16(), buffer.ReadInt16());
 		}
 
-		public static Coord2d ReadInt32Coord(this ByteBuffer buffer)
+		public static Coord2D ReadInt32Coord(this ByteBuffer buffer)
 		{
-			return new Coord2d(buffer.ReadInt32(), buffer.ReadInt32());
+			return new Coord2D(buffer.ReadInt32(), buffer.ReadInt32());
 		}
 
 		public static Color ReadColor(this ByteBuffer buffer)
@@ -165,12 +165,12 @@ namespace SharpHaven.Utils
 		/// <summary>
 		/// Writes a point to the current stream.
 		/// </summary>
-		public static void WriteInt16Coord(this ByteBuffer writer, Coord2d value)
+		public static void WriteInt16Coord(this ByteBuffer writer, Coord2D value)
 		{
 			writer.WriteInt16Coord(value.X, value.Y);
 		}
 
-		public static void WriteInt32Coord(this ByteBuffer writer, Coord2d value)
+		public static void WriteInt32Coord(this ByteBuffer writer, Coord2D value)
 		{
 			writer.Write(value.X);
 			writer.Write(value.Y);
@@ -199,7 +199,7 @@ namespace SharpHaven.Utils
 						writer.WriteCString((string)item);
 						break;
 					case BinaryListType.Coord:
-						writer.WriteInt32Coord((Coord2d)item);
+						writer.WriteInt32Coord((Coord2D)item);
 						break;
 					case BinaryListType.Byte:
 						writer.Write((byte)item);

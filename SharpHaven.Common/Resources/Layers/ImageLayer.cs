@@ -8,7 +8,7 @@ namespace SharpHaven.Resources
 		public short Z { get; set; }
 		public short SubZ { get; set; }
 		public byte[] Data { get; set; }
-		public Coord2d Offset { get; set; }
+		public Coord2D Offset { get; set; }
 		public bool IsLayered { get; set; }
 	}
 }

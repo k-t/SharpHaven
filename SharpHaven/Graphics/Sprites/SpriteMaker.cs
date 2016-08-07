@@ -10,7 +10,7 @@ namespace SharpHaven.Graphics.Sprites
 		protected SpriteMaker(Resource res)
 		{
 			var neg = res.GetLayer<NegLayer>();
-			var center = neg != null ? neg.Center : Coord2d.Empty;
+			var center = neg != null ? neg.Center : Coord2D.Empty;
 			parts = new SpriteSheet(res.GetLayers<ImageLayer>(), center);
 		}
 

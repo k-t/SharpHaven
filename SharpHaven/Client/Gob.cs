@@ -11,9 +11,9 @@ namespace SharpHaven.Client
 		private Delayed<ISprite> sprite;
 		private Delayed<ISprite> avatar;
 		private GobSpeech speech;
-		private Coord2d position;
+		private Coord2D position;
 		private GobMovement movement;
-		private Coord2d drawOffset;
+		private Coord2D drawOffset;
 		
 		public Gob(int id)
 		{
@@ -23,7 +23,7 @@ namespace SharpHaven.Client
 
 		public int Id { get; }
 
-		public Coord2d Position
+		public Coord2D Position
 		{
 			get
 			{
@@ -36,7 +36,7 @@ namespace SharpHaven.Client
 			set { position = value; }
 		}
 
-		public Coord2d DrawOffset
+		public Coord2D DrawOffset
 		{
 			get
 			{
@@ -101,7 +101,7 @@ namespace SharpHaven.Client
 			avatar = value;
 		}
 
-		public void StartMovement(Coord2d origin, Coord2d destination, int totalSteps)
+		public void StartMovement(Coord2D origin, Coord2D destination, int totalSteps)
 		{
 			movement = new GobMovement(origin, destination, totalSteps);
 		}

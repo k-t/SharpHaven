@@ -29,13 +29,13 @@ namespace SharpHaven.UI.Remote
 			return new ServerItemWidget(id, parent);
 		}
 
-		protected override void OnInit(Coord2d position, object[] args)
+		protected override void OnInit(Coord2D position, object[] args)
 		{
 			int i = 3;
 
 			var resId = (int)args[0];
 			var q = (int)args[1];
-			var dragOffset = (int)args[2] != 0 ? (Coord2d?)args[i++] : null;
+			var dragOffset = (int)args[2] != 0 ? (Coord2D?)args[i++] : null;
 			var tooltip = args.Length > i ? (string)args[i++] : null;
 			var num = args.Length > i ? (int)args[i] : -1;
 

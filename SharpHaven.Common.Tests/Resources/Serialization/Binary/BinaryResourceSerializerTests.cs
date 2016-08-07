@@ -22,7 +22,7 @@ namespace SharpHaven.Resources.Serialization.Binary
 				new TextLayer { Text = "Text1" },
 				new ImageLayer {
 					Id = 42,
-					Offset = new Coord2d(1, 2),
+					Offset = new Coord2D(1, 2),
 					Z = -10,
 					SubZ = -20,
 					Data = new byte[] { 1, 2, 3, 4, 5 },

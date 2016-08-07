@@ -14,7 +14,7 @@
 			set;
 		}
 
-		public Coord2d Offset
+		public Coord2D Offset
 		{
 			get;
 			set;

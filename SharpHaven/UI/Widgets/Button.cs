@@ -75,7 +75,7 @@ namespace SharpHaven.UI.Widgets
 			int offset = isPressed ? 1 : 0;
 			if (Image != null)
 			{
-				var p = new Coord2d(
+				var p = new Coord2D(
 					(Width - Image.Width) / 2 + offset,
 					(Height - Image.Height) / 2 + offset);
 				dc.Draw(Image, p);

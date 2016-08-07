@@ -6,7 +6,7 @@ namespace SharpHaven.Client
 	public class PartyMember
 	{
 		private Color color;
-		private Coord2d? location;
+		private Coord2D? location;
 
 		public PartyMember(int id)
 		{
@@ -27,7 +27,7 @@ namespace SharpHaven.Client
 			}
 		}
 
-		public Coord2d? Location
+		public Coord2D? Location
 		{
 			get { return location; }
 			set

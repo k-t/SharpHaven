@@ -4,18 +4,18 @@ namespace SharpHaven.Client
 {
 	public class MapGrid
 	{
-		private readonly Coord2d coord;
+		private readonly Coord2D coord;
 		private readonly string minimapName;
 		private readonly MapTile[] tiles;
 
-		public MapGrid(Coord2d coord, string minimapName, MapTile[] tiles)
+		public MapGrid(Coord2D coord, string minimapName, MapTile[] tiles)
 		{
 			this.coord = coord;
 			this.minimapName = minimapName;
 			this.tiles = tiles;
 		}
 
-		public Coord2d Coord
+		public Coord2D Coord
 		{
 			get { return coord; }
 		}

@@ -42,8 +42,8 @@ namespace SharpHaven.Resources.Serialization.Binary.Layers
 		{
 			var data = new TexLayer();
 			data.Id = buffer.ReadInt16();
-			data.Offset = new Coord2d(buffer.ReadUInt16(), buffer.ReadUInt16());
-			data.Size = new Coord2d(buffer.ReadUInt16(), buffer.ReadUInt16());
+			data.Offset = new Coord2D(buffer.ReadUInt16(), buffer.ReadUInt16());
+			data.Size = new Coord2D(buffer.ReadUInt16(), buffer.ReadUInt16());
 			data.Mipmap = TexMipmap.None;
 			TexMinFilter? minFilter = null;
 			TexMagFilter? magFilter = null;

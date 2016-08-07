@@ -17,9 +17,9 @@ namespace SharpHaven.Client
 		}
 
 		private TextLine text;
-		private Coord2d offset;
+		private Coord2D offset;
 
-		public GobSpeech(string text, Coord2d offset)
+		public GobSpeech(string text, Coord2D offset)
 		{
 			this.text = new TextLine(Fonts.Text);
 			this.text.TextColor = Color.Black;

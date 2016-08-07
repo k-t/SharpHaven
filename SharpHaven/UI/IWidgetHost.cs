@@ -5,7 +5,7 @@ namespace SharpHaven.UI
 {
 	public interface IWidgetHost
 	{
-		Coord2d MousePosition { get; }
+		Coord2D MousePosition { get; }
 
 		void RequestKeyboardFocus(Widget widget);
 		void GrabMouse(Widget widget);

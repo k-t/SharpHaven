@@ -17,7 +17,7 @@ namespace SharpHaven.Resources.Serialization.Ini
 			keys.Add(key, $"{value:D}");
 		}
 
-		public static void Add(this IniKeyCollection keys, string key, Coord2d value)
+		public static void Add(this IniKeyCollection keys, string key, Coord2D value)
 		{
 			keys.Add(key, $"{value.X:D},{value.Y:D}");
 		}
@@ -135,7 +135,7 @@ namespace SharpHaven.Resources.Serialization.Ini
 			return ushort.TryParse(strValue, out value) ? value : defaultValue;
 		}
 
-		public static Coord2d GetPoint(this IniKeyCollection keys, string key)
+		public static Coord2D GetPoint(this IniKeyCollection keys, string key)
 		{
 			var value = keys[key]?.Value;
 			if (value == null)
@@ -143,10 +143,10 @@ namespace SharpHaven.Resources.Serialization.Ini
 			var parts = value.Split(',');
 			if (parts.Length != 2)
 				throw new FormatException($"Invalid point format: {value}");
-			return new Coord2d(int.Parse(parts[0]), int.Parse(parts[1]));
+			return new Coord2D(int.Parse(parts[0]), int.Parse(parts[1]));
 		}
 
-		public static Coord2d GetPoint(this IniKeyCollection keys, string key, Coord2d defaultValue)
+		public static Coord2D GetPoint(this IniKeyCollection keys, string key, Coord2D defaultValue)
 		{
 			return keys.Contains(key) ? keys.GetPoint(key) : defaultValue;
 		}

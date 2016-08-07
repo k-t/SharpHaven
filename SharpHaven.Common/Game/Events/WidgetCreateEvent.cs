@@ -22,7 +22,7 @@ namespace SharpHaven.Game.Events
 			set;
 		}
 
-		public Coord2d Position
+		public Coord2D Position
 		{
 			get;
 			set;

@@ -74,9 +74,9 @@
     <Compile Include="Game\Events\WidgetDestroyEvent.cs" />
     <Compile Include="Game\IGameEventSource.cs" />
     <Compile Include="Graphics\Color.cs" />
-    <Compile Include="Graphics\Coord2d.cs" />
-    <Compile Include="Graphics\Coord2f.cs" />
-    <Compile Include="Graphics\Coord3f.cs" />
+    <Compile Include="Graphics\Coord2D.cs" />
+    <Compile Include="Graphics\Coord2F.cs" />
+    <Compile Include="Graphics\Coord3F.cs" />
     <Compile Include="Graphics\RectF.cs" />
     <Compile Include="Graphics\Rect.cs" />
     <Compile Include="Net\AuthResult.cs" />
@@ -186,7 +186,6 @@
     <Compile Include="Resources\ResourceRef.cs" />
     <Compile Include="Utils\ImageUtils.cs" />
     <Compile Include="Utils\MathUtils.cs" />
-    <Compile Include="Utils\Coord2dExtensions.cs" />
     <Compile Include="Utils\ValueTreeNode.cs" />
     <Compile Include="Utils\TreeNode.cs" />
     <Compile Include="EventHelper.cs" />

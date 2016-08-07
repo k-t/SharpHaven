@@ -21,9 +21,9 @@ namespace SharpHaven.Utils
 			return v;
 		}
 
-		public static Coord2d PolarToCartesian(double angle, double magnitude)
+		public static Coord2D PolarToCartesian(double angle, double magnitude)
 		{
-			return new Coord2d(
+			return new Coord2D(
 				(int)(Math.Cos(angle) * magnitude),
 				(int)-(Math.Sin(angle) * magnitude));
 		}

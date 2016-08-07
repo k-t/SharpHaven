@@ -23,7 +23,7 @@ namespace SharpHaven.UI.Remote
 			return new ServerLayeredAvatarView(id, parent);
 		}
 
-		protected override void OnInit(Coord2d position, object[] args)
+		protected override void OnInit(Coord2D position, object[] args)
 		{
 			var session = Parent.Session;
 			var layers = args.Select(x => session.Resources.GetSprite((int)x));

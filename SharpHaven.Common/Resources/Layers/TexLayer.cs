@@ -5,8 +5,8 @@ namespace SharpHaven.Resources
 	public class TexLayer
 	{
 		public short Id { get; set; }
-		public Coord2d Offset { get; set; }
-		public Coord2d Size { get; set; }
+		public Coord2D Offset { get; set; }
+		public Coord2D Size { get; set; }
 		public byte[] Image { get; set; }
 		public byte[] Mask { get; set; }
 		public TexMipmap Mipmap { get; set; }

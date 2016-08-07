@@ -25,7 +25,7 @@ namespace SharpHaven.UI.Remote
 			return new ServerCharlist(id, parent);
 		}
 
-		protected override void OnInit(Coord2d position, object[] args)
+		protected override void OnInit(Coord2D position, object[] args)
 		{
 			var height = (int)args[0];
 

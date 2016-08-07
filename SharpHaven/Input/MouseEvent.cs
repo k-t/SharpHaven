@@ -4,12 +4,12 @@ namespace SharpHaven.Input
 {
 	public abstract class MouseEvent : InputEvent
 	{
-		protected MouseEvent(Coord2d position)
+		protected MouseEvent(Coord2D position)
 		{
 			this.Position = position;
 		}
 
-		public Coord2d Position { get; }
+		public Coord2D Position { get; }
 
 		public int X
 		{

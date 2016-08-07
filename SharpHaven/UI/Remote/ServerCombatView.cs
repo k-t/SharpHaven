@@ -36,7 +36,7 @@ namespace SharpHaven.UI.Remote
 			return new ServerCombatView(id, parent);
 		}
 
-		protected override void OnInit(Coord2d position, object[] args)
+		protected override void OnInit(Coord2D position, object[] args)
 		{
 			view = Session.Screen.CombatView;
 			view.Visible = true;

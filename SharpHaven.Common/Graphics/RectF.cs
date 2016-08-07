@@ -1,16 +1,18 @@
-﻿namespace SharpHaven.Graphics
+﻿using System;
+
+namespace SharpHaven.Graphics
 {
-	public struct RectF
+	public struct RectF : IEquatable<RectF>
 	{
 		public RectF(float x, float y, float width, float height) : this()
 		{
-			Location = new Coord2f(x, y);
-			Size = new Coord2f(width, height);
+			Location = new Coord2F(x, y);
+			Size = new Coord2F(width, height);
 		}
 
-		public Coord2f Location { get; set; }
+		public Coord2F Location { get; set; }
 
-		public Coord2f Size { get; set; }
+		public Coord2F Size { get; set; }
 
 		public float X
 		{
@@ -57,7 +59,30 @@
 			return (x >= Left && x <= Right) && (y >= Top && y <= Bottom);
 		}
 
-		public static RectF FromLTRB(Coord2f topLeft, Coord2f bottomRight)
+		public void Offset(int x, int y)
+		{
+			Location = Location.Add(x, y);
+		}
+
+		public override bool Equals(object obj)
+		{
+			return (obj is RectF) && Equals((RectF)obj);
+		}
+
+		public bool Equals(RectF other)
+		{
+			return Location.Equals(other.Location) && Size.Equals(other.Size);
+		}
+
+		public override int GetHashCode()
+		{
+			int hash = 17;
+			hash = (hash * 13) + Location.GetHashCode();
+			hash = (hash * 13) + Size.GetHashCode();
+			return hash;
+		}
+
+		public static RectF FromLTRB(Coord2F topLeft, Coord2F bottomRight)
 		{
 			return FromLTRB(topLeft.X, topLeft.Y, bottomRight.X, bottomRight.Y);
 		}

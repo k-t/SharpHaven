@@ -138,8 +138,8 @@ namespace SharpHaven.Net
 					break;
 				int fl = pfl[pidx];
 				int type = reader.ReadByte();
-				var c1 = new Coord2d(reader.ReadByte(), reader.ReadByte());
-				var c2 = new Coord2d(reader.ReadByte(), reader.ReadByte());
+				var c1 = new Coord2D(reader.ReadByte(), reader.ReadByte());
+				var c2 = new Coord2D(reader.ReadByte(), reader.ReadByte());
 
 				int ol;
 				if (type == 0)
@@ -184,7 +184,7 @@ namespace SharpHaven.Net
 		{
 			var memberId = reader.ReadInt32();
 			var hasLocation = reader.ReadByte() == 1;
-			var location = hasLocation ? reader.ReadInt32Coord() : (Coord2d?)null;
+			var location = hasLocation ? reader.ReadInt32Coord() : (Coord2D?)null;
 			var color = reader.ReadColor();
 			return new PartyMemberUpdateEvent {
 				Color = color,

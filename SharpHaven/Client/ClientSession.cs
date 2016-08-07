@@ -15,7 +15,7 @@ namespace SharpHaven.Client
 		private static readonly Logger Log = LogManager.GetCurrentClassLogger();
 
 		private readonly GameClient client;
-		private readonly HashSet<Coord2d> gridRequests;
+		private readonly HashSet<Coord2D> gridRequests;
 		private readonly ServerWidgetFactory widgetFactory;
 
 		public ClientSession(GameClient client)
@@ -23,7 +23,7 @@ namespace SharpHaven.Client
 			this.client = client;
 			this.client.Events.AddListener(this);
 
-			gridRequests = new HashSet<Coord2d>();
+			gridRequests = new HashSet<Coord2D>();
 			widgetFactory = new ServerWidgetFactory();
 
 			Actions = new GameActionCollection();
@@ -62,7 +62,7 @@ namespace SharpHaven.Client
 
 		public ServerWidgetCollection Widgets { get; }
 
-		public Coord2d WorldPosition { get; set; }
+		public Coord2D WorldPosition { get; set; }
 
 		public void Start()
 		{
@@ -84,7 +84,7 @@ namespace SharpHaven.Client
 			client.MessageWidget(widgetId, name, args);
 		}
 
-		public void RequestMap(Coord2d gc)
+		public void RequestMap(Coord2D gc)
 		{
 			var grid = Map.GetGrid(gc);
 			if (grid == null && !gridRequests.Contains(gc))

@@ -7,9 +7,9 @@ namespace SharpHaven.UI.Widgets
 	public class AimWidget : Widget
 	{
 		private static readonly Picture bg;
-		private static readonly Coord2d bgOffset;
+		private static readonly Coord2D bgOffset;
 		private static readonly Picture fg;
-		private static readonly Coord2d fgOffset;
+		private static readonly Coord2D fgOffset;
 
 		static AimWidget()
 		{

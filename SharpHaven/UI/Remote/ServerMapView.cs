@@ -26,10 +26,10 @@ namespace SharpHaven.UI.Remote
 			return new ServerMapView(id, parent);
 		}
 
-		protected override void OnInit(Coord2d position, object[] args)
+		protected override void OnInit(Coord2D position, object[] args)
 		{
 			//var size = (Point)args[0];
-			var worldpos = (Coord2d)args[1];
+			var worldpos = (Coord2D)args[1];
 			var playerId = args.Length > 2 ? (int)args[2] : -1;
 
 			Session.WorldPosition = worldpos;
@@ -53,7 +53,7 @@ namespace SharpHaven.UI.Remote
 
 		private void SetWorldPosition(object[] args)
 		{
-			Session.WorldPosition = (Coord2d)args[0];
+			Session.WorldPosition = (Coord2D)args[0];
 		}
 
 		private void Place(object[] args)

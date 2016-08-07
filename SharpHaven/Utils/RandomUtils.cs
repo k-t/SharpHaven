@@ -16,7 +16,7 @@ namespace SharpHaven.Utils
 			}
 		}
 
-		public static long GetSeed(Coord2d p)
+		public static long GetSeed(Coord2D p)
 		{
 			return p.X ^ p.Y;
 		}

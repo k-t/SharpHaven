@@ -22,9 +22,9 @@ namespace SharpHaven.UI.Remote
 			return new ServerInventoryWidget(id, parent);
 		}
 
-		protected override void OnInit(Coord2d position, object[] args)
+		protected override void OnInit(Coord2D position, object[] args)
 		{
-			var size = (Coord2d)args[0];
+			var size = (Coord2D)args[0];
 
 			widget = new InventoryWidget(Parent.Widget);
 			widget.Move(position);
@@ -35,7 +35,7 @@ namespace SharpHaven.UI.Remote
 
 		private void SetSize(object[] args)
 		{
-			widget.SetInventorySize((Coord2d)args[0]);
+			widget.SetInventorySize((Coord2D)args[0]);
 		}
 
 		private void OnTransfer(TransferEvent e)

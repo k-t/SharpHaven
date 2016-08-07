@@ -4,7 +4,7 @@ namespace SharpHaven.Client
 {
 	public class GobFollowing
 	{
-		public GobFollowing(Gob gob, Coord2d offset, byte szo)
+		public GobFollowing(Gob gob, Coord2D offset, byte szo)
 		{
 			Gob = gob;
 			Offset = offset;
@@ -13,7 +13,7 @@ namespace SharpHaven.Client
 
 		public Gob Gob { get; }
 
-		public Coord2d Offset { get; }
+		public Coord2D Offset { get; }
 
 		public byte Szo { get; }
 	}

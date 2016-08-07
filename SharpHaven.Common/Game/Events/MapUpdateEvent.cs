@@ -4,7 +4,7 @@ namespace SharpHaven.Game.Events
 {
 	public class MapUpdateEvent
 	{
-		public Coord2d Grid
+		public Coord2D Grid
 		{
 			get;
 			set;

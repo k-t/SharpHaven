@@ -12,14 +12,14 @@ namespace SharpHaven.Graphics
 	{
 		private readonly INativeWindow window;
 		private readonly SpriteBatch spriteBatch;
-		private Coord2d offset;
-		private readonly Stack<Coord2d> offsetStack;
+		private Coord2D offset;
+		private readonly Stack<Coord2D> offsetStack;
 
 		public DrawingContext(INativeWindow window, SpriteBatch spriteBatch)
 		{
 			this.window = window;
-			this.offset = Coord2d.Empty;
-			this.offsetStack = new Stack<Coord2d>();
+			this.offset = Coord2D.Empty;
+			this.offsetStack = new Stack<Coord2D>();
 			this.spriteBatch = spriteBatch;
 			this.spriteBatch.Begin();
 		}
@@ -74,12 +74,12 @@ namespace SharpHaven.Graphics
 			offset = offset.Add(x, y);
 		}
 
-		public void Translate(Coord2d p)
+		public void Translate(Coord2D p)
 		{
 			Translate(p.X, p.Y);
 		}
 
-		public void Draw(Drawable drawable, Coord2d p)
+		public void Draw(Drawable drawable, Coord2D p)
 		{
 			Draw(drawable, p.X, p.Y);
 		}
@@ -105,7 +105,7 @@ namespace SharpHaven.Graphics
 				Draw(part, x, y);
 		}
 
-		public void Draw(ISprite sprite, Coord2d p)
+		public void Draw(ISprite sprite, Coord2D p)
 		{
 			Draw(sprite, p.X, p.Y);
 		}

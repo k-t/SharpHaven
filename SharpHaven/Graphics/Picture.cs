@@ -15,7 +15,7 @@ namespace SharpHaven.Graphics
 
 			this.tex = tex;
 			this.hitmask = hitmask;
-			this.size = new Coord2d(tex.Width, tex.Height);
+			this.size = new Coord2D(tex.Width, tex.Height);
 		}
 
 		public override void Draw(SpriteBatch batch, int x, int y, int w, int h)

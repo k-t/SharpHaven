@@ -124,7 +124,7 @@ namespace SharpHaven.Net
 			return this;
 		}
 
-		public Message Coord(Coord2d c)
+		public Message Coord(Coord2D c)
 		{
 			return Coord(c.X, c.Y);
 		}

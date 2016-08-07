@@ -10,7 +10,7 @@
 		{
 			glyph = font.GetGlyph(c);
 			ascent = font.Ascent;
-			box.Size = new Coord2d((int)glyph.Advance, font.Height);
+			box.Size = new Coord2D((int)glyph.Advance, font.Height);
 		}
 
 		public Rect Box
@@ -42,7 +42,7 @@
 
 		public void SetPosition(int x, int y)
 		{
-			box.Location = new Coord2d(x, y);
+			box.Location = new Coord2D(x, y);
 		}
 	}
 }

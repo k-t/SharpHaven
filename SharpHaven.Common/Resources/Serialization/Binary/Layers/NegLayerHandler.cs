@@ -20,12 +20,12 @@ namespace SharpHaven.Resources.Serialization.Binary.Layers
 			// not sure what that data means but preserve it anyway
 			neg.Sz = buffer.ReadInt16Coord();
 			var en = buffer.ReadByte(); /* number of E? */
-			neg.Ep = new Coord2d[DirectionCount][];
+			neg.Ep = new Coord2D[DirectionCount][];
 			for (int i = 0; i < en; i++)
 			{
 				var epid = buffer.ReadByte();
 				var cnt = buffer.ReadUInt16();
-				neg.Ep[epid] = new Coord2d[cnt];
+				neg.Ep[epid] = new Coord2D[cnt];
 				for (int j = 0; j < cnt; j++)
 					neg.Ep[epid][j] = buffer.ReadInt16Coord();
 			}

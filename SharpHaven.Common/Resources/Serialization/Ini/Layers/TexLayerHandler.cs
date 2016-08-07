@@ -30,7 +30,7 @@ namespace SharpHaven.Resources.Serialization.Ini.Layers
 			data.Id = keys.GetInt16("id", -1);
 			data.Image = fileSource.Read(imageFileName);
 			data.Mask = !string.IsNullOrEmpty(maskFileName) ? fileSource.Read(maskFileName) : null;
-			data.Offset = keys.GetPoint("off", Coord2d.Empty);
+			data.Offset = keys.GetPoint("off", Coord2D.Empty);
 			data.Size = keys.GetPoint("size");
 			data.Mipmap = keys.GetEnum("mipmap", TexMipmap.None);
 			data.MagFilter = keys.GetEnum("magfilter", TexMagFilter.Nearest);

@@ -80,7 +80,7 @@ namespace SharpHaven.Graphics
 					}
 				return new Glyph {
 					Advance = face.Glyph.Advance.X.ToSingle(),
-					Offset = new Coord2d(face.Glyph.BitmapLeft, -face.Glyph.BitmapTop),
+					Offset = new Coord2D(face.Glyph.BitmapLeft, -face.Glyph.BitmapTop),
 					Image = atlas.Add(image)
 				};
 			}

@@ -23,7 +23,7 @@ namespace SharpHaven.UI.Remote
 			return new ServerImage(id, parent);
 		}
 
-		protected override void OnInit(Coord2d position, object[] args)
+		protected override void OnInit(Coord2D position, object[] args)
 		{
 			var resName = (string)args[0];
 			var handleClick = args.Length > 2 && (int)args[2] != 0;

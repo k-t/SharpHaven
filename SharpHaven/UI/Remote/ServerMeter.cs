@@ -25,7 +25,7 @@ namespace SharpHaven.UI.Remote
 			return new ServerMeter(id, parent);
 		}
 
-		protected override void OnInit(Coord2d position, object[] args)
+		protected override void OnInit(Coord2D position, object[] args)
 		{
 			var metrics = new List<Metric>();
 

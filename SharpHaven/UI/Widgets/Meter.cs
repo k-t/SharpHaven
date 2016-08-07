@@ -7,9 +7,9 @@ namespace SharpHaven.UI.Widgets
 {
 	public class Meter : Widget
 	{
-		private static readonly Coord2d off = new Coord2d(13, 7);
-		private static readonly Coord2d fsz = new Coord2d(63, 18);
-		private static readonly Coord2d msz = new Coord2d(49, 4);
+		private static readonly Coord2D off = new Coord2D(13, 7);
+		private static readonly Coord2D fsz = new Coord2D(63, 18);
+		private static readonly Coord2D msz = new Coord2D(49, 4);
 
 		private List<Metric> metrics;
 

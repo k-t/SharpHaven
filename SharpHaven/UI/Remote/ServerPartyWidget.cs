@@ -21,7 +21,7 @@ namespace SharpHaven.UI.Remote
 			return new ServerPartyWidget(id, parent);
 		}
 
-		protected override void OnInit(Coord2d position, object[] args)
+		protected override void OnInit(Coord2D position, object[] args)
 		{
 			widget = new PartyWidget(Parent.Widget, Session.Objects);
 			widget.Move(position);

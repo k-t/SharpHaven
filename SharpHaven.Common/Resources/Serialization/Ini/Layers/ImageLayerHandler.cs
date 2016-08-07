@@ -27,7 +27,7 @@ namespace SharpHaven.Resources.Serialization.Ini.Layers
 			data.Id = keys.GetInt16("id", -1);
 			data.Z = keys.GetInt16("z", 0);
 			data.SubZ = keys.GetInt16("subz", 0);
-			data.Offset = keys.GetPoint("off", Coord2d.Empty);
+			data.Offset = keys.GetPoint("off", Coord2D.Empty);
 
 			layer.Data = data;
 			layer.Files[ImageFileKey] = fileName;

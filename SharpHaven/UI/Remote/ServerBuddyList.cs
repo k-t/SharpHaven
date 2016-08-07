@@ -34,7 +34,7 @@ namespace SharpHaven.UI.Remote
 			return new ServerBuddyList(id, parent);
 		}
 
-		protected override void OnInit(Coord2d position, object[] args)
+		protected override void OnInit(Coord2D position, object[] args)
 		{
 			widget = new BuddyWindow(Parent.Widget);
 			widget.Move(position);

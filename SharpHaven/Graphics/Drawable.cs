@@ -4,7 +4,7 @@ namespace SharpHaven.Graphics
 {
 	public abstract class Drawable : IDisposable
 	{
-		protected Coord2d size;
+		protected Coord2D size;
 
 		public int Width
 		{
@@ -16,7 +16,7 @@ namespace SharpHaven.Graphics
 			get { return size.Y; }
 		}
 
-		public Coord2d Size
+		public Coord2D Size
 		{
 			get { return size; }
 		}

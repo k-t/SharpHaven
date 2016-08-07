@@ -1,21 +1,20 @@
 ﻿using System;
-using SharpHaven.Utils;
 
 namespace SharpHaven.Graphics
 {
-	public struct Rect
+	public struct Rect : IEquatable<Rect>
 	{
 		public static readonly Rect Empty = new Rect();
 
 		public Rect(int x, int y, int width, int height) : this()
 		{
-			Location = new Coord2d(x, y);
-			Size = new Coord2d(width, height);
+			Location = new Coord2D(x, y);
+			Size = new Coord2D(width, height);
 		}
 
-		public Coord2d Location { get; set; }
+		public Coord2D Location { get; set; }
 
-		public Coord2d Size { get; set; }
+		public Coord2D Size { get; set; }
 
 		public int X
 		{
@@ -57,7 +56,7 @@ namespace SharpHaven.Graphics
 			get { return X + Width; }
 		}
 
-		public static Rect FromLTRB(Coord2d topLeft, Coord2d bottomRight)
+		public static Rect FromLTRB(Coord2D topLeft, Coord2D bottomRight)
 		{
 			return FromLTRB(topLeft.X, topLeft.Y, bottomRight.X, bottomRight.Y);
 		}
@@ -68,17 +67,7 @@ namespace SharpHaven.Graphics
 			return new Rect(left, top, right - left, bottom - top);
 		}
 
-		public static bool operator ==(Rect a, Rect b)
-		{
-			return a.Equals(b);
-		}
-
-		public static bool operator !=(Rect a, Rect b)
-		{
-			return !(a == b);
-		}
-
-		public bool Contains(Coord2d c)
+		public bool Contains(Coord2D c)
 		{
 			return Contains(c.X, c.Y);
 		}
@@ -86,6 +75,11 @@ namespace SharpHaven.Graphics
 		public bool Contains(int x, int y)
 		{
 			return (x >= Left && x <= Right) && (y >= Top && y <= Bottom);
+		}
+
+		public void Offset(int x, int y)
+		{
+			Location = Location.Add(x, y);
 		}
 
 		public override bool Equals(object obj)
@@ -100,12 +94,20 @@ namespace SharpHaven.Graphics
 
 		public override int GetHashCode()
 		{
-			return Location.GetHashCode() ^ Size.GetHashCode();
+			int hash = 17;
+			hash = (hash * 13) + Location.GetHashCode();
+			hash = (hash * 13) + Size.GetHashCode();
+			return hash;
 		}
 
-		public void Offset(int x, int y)
+		public static bool operator ==(Rect a, Rect b)
 		{
-			Location = Location.Add(x, y);
+			return a.Equals(b);
+		}
+
+		public static bool operator !=(Rect a, Rect b)
+		{
+			return !(a == b);
 		}
 	}
 }

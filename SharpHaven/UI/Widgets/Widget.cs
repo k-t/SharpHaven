@@ -61,16 +61,16 @@ namespace SharpHaven.UI.Widgets
 		public int X
 		{
 			get { return Position.X; }
-			set { Position = new Coord2d(value, Y); }
+			set { Position = new Coord2D(value, Y); }
 		}
 
 		public int Y
 		{
 			get { return Position.Y; }
-			set { Position = new Coord2d(X, value); }
+			set { Position = new Coord2D(X, value); }
 		}
 
-		public Coord2d Position
+		public Coord2D Position
 		{
 			get { return bounds.Location; }
 			set
@@ -83,16 +83,16 @@ namespace SharpHaven.UI.Widgets
 		public int Width
 		{
 			get { return Size.X; }
-			set { Size = new Coord2d(value, Height); }
+			set { Size = new Coord2D(value, Height); }
 		}
 
 		public int Height
 		{
 			get { return Size.Y; }
-			set { Size = new Coord2d(Width, value); }
+			set { Size = new Coord2D(Width, value); }
 		}
 
-		public Coord2d Size
+		public Coord2D Size
 		{
 			get { return bounds.Size; }
 			set
@@ -165,10 +165,10 @@ namespace SharpHaven.UI.Widgets
 
 		#region Public Methods
 
-		public IEnumerable<Widget> GetChildrenAt(Coord2d p)
+		public IEnumerable<Widget> GetChildrenAt(Coord2D p)
 		{
 			var result = new List<Widget>();
-			p = new Coord2d(p.X - X - Margin, p.Y - Y - Margin);
+			p = new Coord2D(p.X - X - Margin, p.Y - Y - Margin);
 			foreach (var widget in ReversedChildren)
 			{
 				if (widget.Visible)
@@ -181,9 +181,9 @@ namespace SharpHaven.UI.Widgets
 			return result;
 		}
 
-		public Widget GetChildAt(Coord2d p)
+		public Widget GetChildAt(Coord2D p)
 		{
-			p = new Coord2d(p.X - X - Margin, p.Y - Y - Margin);
+			p = new Coord2D(p.X - X - Margin, p.Y - Y - Margin);
 			foreach (var widget in ReversedChildren)
 			{
 				if (widget.Visible)
@@ -276,19 +276,19 @@ namespace SharpHaven.UI.Widgets
 
 		#region Protected Methods
 
-		public Coord2d MapFromScreen(Coord2d p)
+		public Coord2D MapFromScreen(Coord2D p)
 		{
 			return MapFromScreen(p.X, p.Y);
 		}
 
-		public Coord2d MapFromScreen(int x, int y)
+		public Coord2D MapFromScreen(int x, int y)
 		{
 			for (var widget = this; widget != null; widget = widget.Parent)
 			{
 				x -= (widget.X + widget.Margin);
 				y -= (widget.Y + widget.Margin);
 			}
-			return new Coord2d(x, y);
+			return new Coord2D(x, y);
 		}
 
 		protected virtual bool CheckHit(int x, int y)

@@ -9,13 +9,13 @@ namespace SharpHaven.Client
 	public class MapTile
 	{
 		private readonly Map map;
-		private readonly Coord2d coord;
+		private readonly Coord2D coord;
 		private readonly byte type;
 		private readonly int[] overlays;
 		private readonly Drawable texture;
 		private Drawable[] transitions;
 
-		public MapTile(Map map, Coord2d coord, byte type, int overlay, Drawable texture)
+		public MapTile(Map map, Coord2D coord, byte type, int overlay, Drawable texture)
 		{
 			this.map = map;
 			this.coord = coord;

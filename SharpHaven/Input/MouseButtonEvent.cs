@@ -5,7 +5,7 @@ namespace SharpHaven.Input
 {
 	public class MouseButtonEvent : MouseEvent
 	{
-		public MouseButtonEvent(MouseButton button, Coord2d position)
+		public MouseButtonEvent(MouseButton button, Coord2D position)
 			: base(position)
 		{
 			Button = button;
