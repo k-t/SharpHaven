@@ -5,14 +5,14 @@ using SharpHaven.Utils;
 
 namespace SharpHaven.Net
 {
-	public class MessageSocket : IDisposable
+	public class BinaryMessageSocket : IDisposable
 	{
 		private readonly EndPoint address;
 		private readonly Socket socket;
 		private readonly byte[] receiveBuffer;
 		private int receiveTimeout;
 
-		public MessageSocket(string host, int port)
+		public BinaryMessageSocket(string host, int port)
 		{
 			address = new IPEndPoint(Dns.GetHostEntry(host).AddressList[0], port);
 			socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
@@ -34,7 +34,7 @@ namespace SharpHaven.Net
 			socket.Close();
 		}
 
-		public bool Receive(out Message message)
+		public bool Receive(out BinaryMessage message)
 		{
 			if (!socket.Poll(receiveTimeout * 1000, SelectMode.SelectRead))
 			{
@@ -49,16 +49,15 @@ namespace SharpHaven.Net
 			var buffer = new byte[size - 1];
 			Array.Copy(receiveBuffer, 1, buffer, 0, size - 1);
 
-			message = new Message(type, buffer);
+			message = new BinaryMessage(type, buffer);
 			return true;
 		}
 
-		public void Send(Message message)
+		public void Send(BinaryMessage message)
 		{
 			var buffer = new byte[message.Length + 1];
 			buffer[0] = message.Type;
-			message.Buffer.Rewind();
-			Array.Copy(message.Buffer.ReadRemaining(), 0, buffer, 1, message.Length);
+			Array.Copy(message.GetData(), 0, buffer, 1, message.Length);
 			socket.Send(buffer);
 		}
 

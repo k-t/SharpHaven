@@ -57,6 +57,12 @@ namespace SharpHaven.Utils
 			get { return Remaining > 0; }
 		}
 
+		public long Position
+		{
+			get { return stream.Position; }
+			set { stream.Position = value; }
+		}
+
 		private BinaryReader Reader
 		{
 			get

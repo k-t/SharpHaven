@@ -16,6 +16,16 @@ namespace SharpHaven.Net
 		private const int ReceiveTimeout = 1000; // milliseconds
 		private const int ProtocolVersion = 2;
 
+		public const int MSG_SESS = 0;
+		public const int MSG_REL = 1;
+		public const int MSG_ACK = 2;
+		public const int MSG_BEAT = 3;
+		public const int MSG_MAPREQ = 4;
+		public const int MSG_MAPDATA = 5;
+		public const int MSG_OBJDATA = 6;
+		public const int MSG_OBJACK = 7;
+		public const int MSG_CLOSE = 8;
+
 		private const int RMSG_NEWWDG = 0;
 		private const int RMSG_WDGMSG = 1;
 		private const int RMSG_DSTWDG = 2;
@@ -60,11 +70,11 @@ namespace SharpHaven.Net
 
 		private static readonly NLog.Logger Log = LogManager.GetCurrentClassLogger();
 
-		private readonly MessageSocket socket;
+		private readonly BinaryMessageSocket socket;
 		private readonly MessageReceiver receiver;
 		private readonly MessageSender sender;
 		private readonly object stateLock = new object();
-		private readonly TreeDictionary<ushort, Message> waiting;
+		private readonly TreeDictionary<ushort, BinaryMessage> waiting;
 		private readonly TreeDictionary<int, FragmentBuffer> mapFrags;
 		private readonly IMessagePublisher publisher;
 		private ushort rseq;
@@ -73,11 +83,11 @@ namespace SharpHaven.Net
 		public NetworkGame(NetworkAddress address, IMessagePublisher publisher)
 		{
 			this.publisher = publisher;
-			this.waiting = new TreeDictionary<ushort, Message>();
+			this.waiting = new TreeDictionary<ushort, BinaryMessage>();
 			this.mapFrags = new TreeDictionary<int, FragmentBuffer>();
 
 			this.state = NetworkGameState.Created;
-			this.socket = new MessageSocket(address.Host, address.Port);
+			this.socket = new BinaryMessageSocket(address.Host, address.Port);
 			this.socket.SetReceiveTimeout(ReceiveTimeout);
 			this.sender = new MessageSender(socket);
 			this.sender.Finished += OnTaskFinished;
@@ -122,7 +132,7 @@ namespace SharpHaven.Net
 				sender.Finished -= OnTaskFinished;
 				sender.Stop();
 
-				socket.Send(new Message(Message.MSG_CLOSE));
+				socket.Send(BinaryMessage.Make(MSG_CLOSE).Complete());
 				// HACK: otherwise close message may not be sent
 				Thread.Sleep(TimeSpan.FromMilliseconds(5));
 				socket.Close();
@@ -137,7 +147,9 @@ namespace SharpHaven.Net
 			var gridRequest = message as MapRequestGrid;
 			if (gridRequest != null)
 			{
-				var msg = new Message(Message.MSG_MAPREQ).Coord(gridRequest.Coord);
+				var msg = BinaryMessage.Make(MSG_MAPREQ)
+					.Coord(gridRequest.Coord)
+					.Complete();
 				socket.Send(msg);
 				return;
 			}
@@ -145,14 +157,14 @@ namespace SharpHaven.Net
 			var widgetMessage = message as WidgetMessage;
 			if (widgetMessage != null)
 			{
-				var msg = new Message(RMSG_WDGMSG)
-					.Uint16(widgetMessage.WidgetId)
+				var msg = BinaryMessage.Make(RMSG_WDGMSG)
+					.UInt16(widgetMessage.WidgetId)
 					.String(widgetMessage.Name);
 
 				if (widgetMessage.Args != null)
 					msg.List(widgetMessage.Args);
 
-				sender.SendMessage(msg);
+				sender.SendMessage(msg.Complete());
 				return;
 			}
 
@@ -161,36 +173,41 @@ namespace SharpHaven.Net
 
 		private void SendObjectAck(int id, int frame)
 		{
+			var message = BinaryMessage.Make(MSG_OBJACK)
+				.Int32(id)
+				.Int32(frame)
+				.Complete();
 			// FIXME: make it smarter
-			socket.Send(new Message(Message.MSG_OBJACK).Int32(id).Int32(frame));
+			socket.Send(message);
 		}
 
 		private void Connect(string userName, byte[] cookie)
 		{
 			socket.Connect();
 
-			var hello = new Message(Message.MSG_SESS)
-				.Uint16(1)
+			var hello = BinaryMessage.Make(MSG_SESS)
+				.UInt16(1)
 				.String("Haven")
-				.Uint16(ProtocolVersion)
+				.UInt16(ProtocolVersion)
 				.String(userName)
-				.Bytes(cookie);
+				.Bytes(cookie)
+				.Complete();
 
 			socket.Send(hello);
 
-			Message reply;
+			BinaryMessage reply;
 			ConnectionError error;
 			while (true)
 			{
 				if (!socket.Receive(out reply))
 					throw new NetworkException(ConnectionError.ConnectionError);
 
-				if (reply.Type == Message.MSG_SESS)
+				if (reply.Type == MSG_SESS)
 				{
-					error = (ConnectionError)reply.Buffer.ReadByte();
+					error = (ConnectionError)reply.GetReader().ReadByte();
 					break;
 				}
-				if (reply.Type == Message.MSG_CLOSE)
+				if (reply.Type == MSG_CLOSE)
 				{
 					error = ConnectionError.ConnectionError;
 					break;
@@ -200,12 +217,12 @@ namespace SharpHaven.Net
 				throw new NetworkException(error);
 		}
 
-		private void ReceiveMessage(Message msg)
+		private void ReceiveMessage(BinaryMessage msg)
 		{
-			var buffer = msg.Buffer;
+			var buffer = msg.GetReader();
 			switch (msg.Type)
 			{
-				case Message.MSG_REL:
+				case MSG_REL:
 					var seq = buffer.ReadUInt16();
 					while (buffer.HasRemaining)
 					{
@@ -218,28 +235,28 @@ namespace SharpHaven.Net
 						}
 						else
 							len = (int)buffer.Remaining;
-						GotRel(seq, new Message(type, buffer.ReadBytes(len)));
+						GotRel(seq, new BinaryMessage(type, buffer.ReadBytes(len)));
 						seq++;
 					}
 					break;
-				case Message.MSG_ACK:
+				case MSG_ACK:
 					sender.ReceiveAck(buffer.ReadUInt16());
 					break;
-				case Message.MSG_MAPDATA:
+				case MSG_MAPDATA:
 					HandleMapData(buffer);
 					break;
-				case Message.MSG_OBJDATA:
+				case MSG_OBJDATA:
 					while (buffer.HasRemaining)
 						HandleGobData(buffer);
 					break;
-				case Message.MSG_CLOSE:
+				case MSG_CLOSE:
 					Log.Info("Server dropped connection");
 					Stop();
 					return;
 			}
 		}
 
-		private void GotRel(ushort seq, Message msg)
+		private void GotRel(ushort seq, BinaryMessage msg)
 		{
 			if (seq == rseq)
 			{
@@ -257,9 +274,9 @@ namespace SharpHaven.Net
 				waiting[seq] = msg;
 		}
 
-		private void HandleRel(Message msg)
+		private void HandleRel(BinaryMessage msg)
 		{
-			var buf = msg.Buffer;
+			var buf = msg.GetReader();
 			switch (msg.Type)
 			{
 				case RMSG_NEWWDG:

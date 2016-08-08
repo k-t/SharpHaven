@@ -49,7 +49,7 @@ namespace SharpHaven.Net
 
 		public void BindUser(string userName)
 		{
-			var msg = new Message(CMD_USR).Chars(userName);
+			var msg = BinaryMessage.Make(CMD_USR).Chars(userName).Complete();
 			Send(msg);
 			var reply = GetReply();
 			if (reply.Type != 0)
@@ -58,36 +58,36 @@ namespace SharpHaven.Net
 
 		public bool TryToken(byte[] token, out byte[] cookie)
 		{
-			Send(new Message(CMD_USETOKEN).Bytes(token));
+			Send(BinaryMessage.Make(CMD_USETOKEN).Bytes(token).Complete());
 			var reply = GetReply();
 			if (reply.Type != 0)
 			{
 				cookie = null;
 				return false;
 			}
-			cookie = reply.Buffer.ReadRemaining();
+			cookie = reply.GetData();
 			return true;
 		}
 
 		public bool TryPassword(string password, out byte[] cookie)
 		{
 			byte[] phash = Digest(password);
-			Send(new Message(CMD_PASSWD).Bytes(phash));
+			Send(BinaryMessage.Make(CMD_PASSWD).Bytes(phash).Complete());
 			var reply = GetReply();
 			if (reply.Type != 0)
 			{
 				cookie = null;
 				return false;
 			}
-			cookie = reply.Buffer.ReadRemaining();
+			cookie = reply.GetData();
 			return true;
 		}
 
 		public byte[] GetToken()
 		{
-			Send(new Message(CMD_GETTOKEN));
+			Send(BinaryMessage.Make(CMD_GETTOKEN).Complete());
 			var reply = GetReply();
-			return reply.Type == 0 ? reply.Buffer.ReadRemaining() : null;
+			return reply.Type == 0 ? reply.GetData() : null;
 		}
 
 		private byte[] Digest(string password)
@@ -108,16 +108,16 @@ namespace SharpHaven.Net
 			}
 		}
 
-		private Message GetReply()
+		private BinaryMessage GetReply()
 		{
 			byte[] header = new byte[2];
 			ReadAll(header);
 			byte[] buf = new byte[header[1]];
 			ReadAll(buf);
-			return new Message(header[0], buf);
+			return new BinaryMessage(header[0], buf);
 		}
 
-		private void Send(Message message)
+		private void Send(BinaryMessage message)
 		{
 			if (message.Length > 255)
 				throw new AuthException("Message is too long (" + message.Length + " bytes)");
@@ -126,8 +126,7 @@ namespace SharpHaven.Net
 			bytes[0] = message.Type;
 			bytes[1] = (byte)message.Length;
 
-			message.Buffer.Rewind();
-			Array.Copy(message.Buffer.ReadRemaining(), 0, bytes, 2, message.Length);
+			Array.Copy(message.GetData(), 0, bytes, 2, message.Length);
 
 			ctx.Write(bytes);
 		}

@@ -11,13 +11,13 @@ namespace SharpHaven.Net
 		private const int AckThreshold = 30;
 
 		private readonly object thisLock = new object();
-		private readonly MessageSocket socket;
+		private readonly BinaryMessageSocket socket;
 		private readonly List<PendingMessage> pending;
 		private ushort pendingSeq;
 		private ushort ackSeq;
 		private DateTime? ackTime;
 
-		public MessageSender(MessageSocket socket)
+		public MessageSender(BinaryMessageSocket socket)
 			: base("Message Sender")
 		{
 			this.socket = socket;
@@ -67,10 +67,11 @@ namespace SharpHaven.Net
 						{
 							msg.Last = now;
 							msg.RetryCount++;
-							var rmsg = new Message(Message.MSG_REL)
-								.Uint16(msg.Seq)
+							var rmsg = BinaryMessage.Make(NetworkGame.MSG_REL)
+								.UInt16(msg.Seq)
 								.Byte(msg.Type)
-								.Bytes(msg.Content);
+								.Bytes(msg.Content)
+								.Complete();
 							socket.Send(rmsg);
 							beat = false;
 						}
@@ -81,7 +82,7 @@ namespace SharpHaven.Net
 				{
 					if (ackTime.HasValue && ((now - ackTime.Value).TotalMilliseconds >= AckThreshold))
 					{
-						socket.Send(new Message(Message.MSG_ACK).Uint16(ackSeq));
+						socket.Send(BinaryMessage.Make(NetworkGame.MSG_ACK).UInt16(ackSeq).Complete());
 						ackTime = null;
 						beat = false;
 					}
@@ -91,14 +92,14 @@ namespace SharpHaven.Net
 				{
 					if ((now - last).TotalMilliseconds > KeepAliveTimeout)
 					{
-						socket.Send(new Message(Message.MSG_BEAT));
+						socket.Send(BinaryMessage.Make(NetworkGame.MSG_BEAT).Complete());
 						last = now;
 					}
 				}
 			}
 		}
 
-		public void SendMessage(Message message)
+		public void SendMessage(BinaryMessage message)
 		{
 			lock (pending)
 			{
@@ -128,11 +129,10 @@ namespace SharpHaven.Net
 
 		private class PendingMessage
 		{
-			public PendingMessage(ushort seq, Message message)
+			public PendingMessage(ushort seq, BinaryMessage message)
 			{
-				message.Buffer.Rewind();
 				Type = message.Type;
-				Content = message.Buffer.ReadRemaining();
+				Content = message.GetData();
 				Seq = seq;
 				Last = DateTime.Now;
 				RetryCount = 0;

@@ -44,7 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="FragmentBufferTests.cs" />
-    <Compile Include="MessageTests.cs" />
+    <Compile Include="BinaryMessageTests.cs" />
     <Compile Include="Resources\Serialization\Binary\BinaryLayerHandlerTests.cs" />
     <Compile Include="Resources\Serialization\Binary\BinaryResourceSerializerTests.cs" />
     <Compile Include="Resources\Serialization\Binary\BinaryStreamExtensionsTests.cs" />

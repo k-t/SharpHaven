@@ -83,6 +83,7 @@
     <Compile Include="Graphics\RectF.cs" />
     <Compile Include="Graphics\Rect.cs" />
     <Compile Include="Net\AuthResult.cs" />
+    <Compile Include="Net\BinaryMessageWriter.cs" />
     <Compile Include="Net\GameClientState.cs" />
     <Compile Include="Net\NetworkAddress.cs" />
     <Compile Include="Net\GameClient.cs" />
@@ -195,7 +196,7 @@
     <Compile Include="Net\NetworkGameState.cs" />
     <Compile Include="Net\NetworkGame.cs" />
     <Compile Include="Utils\BackgroundTask.cs" />
-    <Compile Include="Net\MessageSocket.cs" />
+    <Compile Include="Net\BinaryMessageSocket.cs" />
     <Compile Include="Net\MessageReceiver.cs" />
     <Compile Include="Net\MessageSender.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -208,7 +209,7 @@
     <Compile Include="Resources\ResourceException.cs" />
     <Compile Include="Net\AuthClient.cs" />
     <Compile Include="Net\AuthException.cs" />
-    <Compile Include="Net\Message.cs" />
+    <Compile Include="Net\BinaryMessage.cs" />
     <Compile Include="Utils\WeightList.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
