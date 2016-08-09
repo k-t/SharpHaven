@@ -9,27 +9,27 @@ namespace SharpHaven.Resources.Serialization.Binary.Layers
 		{
 		}
 
-		protected override SkeletonLayer Deserialize(ByteBuffer buffer)
+		protected override SkeletonLayer Deserialize(BinaryDataReader reader)
 		{
 			var bones = new List<SkeletonBone>();
-			while (buffer.HasRemaining)
+			while (reader.HasRemaining)
 			{
 				var bone = new SkeletonBone();
-				bone.Name = buffer.ReadCString();
+				bone.Name = reader.ReadCString();
 				bone.Position = new float[3];
 				for (int i = 0; i < 3; i++)
-					bone.Position[i] = (float)buffer.ReadFloat40();
+					bone.Position[i] = (float)reader.ReadFloat40();
 				bone.RotationAxis = new float[3];
 				for (int i = 0; i < 3; i++)
-					bone.RotationAxis[i] = (float)buffer.ReadFloat40();
-				bone.RotationAngle = (float)buffer.ReadFloat40();
-				bone.Parent = buffer.ReadCString();
+					bone.RotationAxis[i] = (float)reader.ReadFloat40();
+				bone.RotationAngle = (float)reader.ReadFloat40();
+				bone.Parent = reader.ReadCString();
 				bones.Add(bone);
 			}
 			return new SkeletonLayer {Bones = bones.ToArray()};
 		}
 
-		protected override void Serialize(ByteBuffer writer, SkeletonLayer layer)
+		protected override void Serialize(BinaryDataWriter writer, SkeletonLayer layer)
 		{
 			foreach (var bone in layer.Bones)
 			{

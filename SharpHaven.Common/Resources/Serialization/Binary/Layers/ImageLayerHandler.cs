@@ -8,20 +8,20 @@ namespace SharpHaven.Resources.Serialization.Binary.Layers
 		{
 		}
 
-		protected override ImageLayer Deserialize(ByteBuffer buffer)
+		protected override ImageLayer Deserialize(BinaryDataReader reader)
 		{
 			var img = new ImageLayer();
-			img.Z = buffer.ReadInt16();
-			img.SubZ = buffer.ReadInt16();
+			img.Z = reader.ReadInt16();
+			img.SubZ = reader.ReadInt16();
 			/* Obsolete flag 1: Layered */
-			img.IsLayered = buffer.ReadBoolean();
-			img.Id = buffer.ReadInt16();
-			img.Offset = buffer.ReadInt16Coord();
-			img.Data = buffer.ReadRemaining();
+			img.IsLayered = reader.ReadBoolean();
+			img.Id = reader.ReadInt16();
+			img.Offset = reader.ReadInt16Coord();
+			img.Data = reader.ReadRemaining();
 			return img;
 		}
 
-		protected override void Serialize(ByteBuffer writer, ImageLayer img)
+		protected override void Serialize(BinaryDataWriter writer, ImageLayer img)
 		{
 			writer.Write(img.Z);
 			writer.Write(img.SubZ);

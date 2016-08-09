@@ -10,18 +10,18 @@ namespace SharpHaven.Resources.Serialization.Binary.Layers
 		{
 		}
 
-		protected override FontLayer Deserialize(ByteBuffer buffer)
+		protected override FontLayer Deserialize(BinaryDataReader reader)
 		{
-			var version = buffer.ReadByte();
+			var version = reader.ReadByte();
 			if (version != 1)
 				throw new ResourceException($"Unknown font layer version: {version}");
 
 			var data = new FontLayer();
-			data.Type = buffer.ReadByte();
+			data.Type = reader.ReadByte();
 			switch (data.Type)
 			{
 				case 0:
-					data.Bytes = buffer.ReadRemaining();
+					data.Bytes = reader.ReadRemaining();
 					break;
 				default:
 					throw new ResourceException($"Unknown font type: {data.Type}");
@@ -29,7 +29,7 @@ namespace SharpHaven.Resources.Serialization.Binary.Layers
 			return data;
 		}
 
-		protected override void Serialize(ByteBuffer writer, FontLayer data)
+		protected override void Serialize(BinaryDataWriter writer, FontLayer data)
 		{
 			writer.Write(Version);
 			writer.Write(data.Type);

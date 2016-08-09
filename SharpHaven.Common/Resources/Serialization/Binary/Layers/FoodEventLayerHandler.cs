@@ -10,20 +10,20 @@ namespace SharpHaven.Resources.Serialization.Binary.Layers
 		{
 		}
 
-		protected override FoodEventLayer Deserialize(ByteBuffer buffer)
+		protected override FoodEventLayer Deserialize(BinaryDataReader reader)
 		{
-			var version = buffer.ReadByte();
+			var version = reader.ReadByte();
 			if (version != 1)
 				throw new ResourceException($"Unknown foodev version: {version}");
 
 			var data = new FoodEventLayer();
-			data.Color = buffer.ReadColor();
-			data.Name = buffer.ReadCString();
-			data.Sort = buffer.ReadInt16();
+			data.Color = reader.ReadColor();
+			data.Name = reader.ReadCString();
+			data.Sort = reader.ReadInt16();
 			return data;
 		}
 
-		protected override void Serialize(ByteBuffer writer, FoodEventLayer data)
+		protected override void Serialize(BinaryDataWriter writer, FoodEventLayer data)
 		{
 			writer.Write(Version);
 			writer.WriteColor(data.Color);

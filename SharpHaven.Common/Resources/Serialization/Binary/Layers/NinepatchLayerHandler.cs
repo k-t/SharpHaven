@@ -8,17 +8,17 @@ namespace SharpHaven.Resources.Serialization.Binary.Layers
 		{
 		}
 
-		protected override NinepatchLayer Deserialize(ByteBuffer buffer)
+		protected override NinepatchLayer Deserialize(BinaryDataReader reader)
 		{
 			return new NinepatchLayer {
-				Top = buffer.ReadByte(),
-				Bottom = buffer.ReadByte(),
-				Left = buffer.ReadByte(),
-				Right = buffer.ReadByte()
+				Top = reader.ReadByte(),
+				Bottom = reader.ReadByte(),
+				Left = reader.ReadByte(),
+				Right = reader.ReadByte()
 			};
 		}
 
-		protected override void Serialize(ByteBuffer writer, NinepatchLayer ninepatch)
+		protected override void Serialize(BinaryDataWriter writer, NinepatchLayer ninepatch)
 		{
 			writer.Write(ninepatch.Top);
 			writer.Write(ninepatch.Bottom);

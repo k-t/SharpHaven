@@ -12,27 +12,27 @@ namespace SharpHaven.Resources.Serialization.Binary.Layers
 		{
 		}
 
-		protected override NegLayer Deserialize(ByteBuffer buffer)
+		protected override NegLayer Deserialize(BinaryDataReader reader)
 		{
 			var neg = new NegLayer();
-			neg.Center = buffer.ReadInt16Coord();
-			neg.Hitbox = Rect.FromLTRB(buffer.ReadInt16Coord(), buffer.ReadInt16Coord());
+			neg.Center = reader.ReadInt16Coord();
+			neg.Hitbox = Rect.FromLTRB(reader.ReadInt16Coord(), reader.ReadInt16Coord());
 			// not sure what that data means but preserve it anyway
-			neg.Sz = buffer.ReadInt16Coord();
-			var en = buffer.ReadByte(); /* number of E? */
+			neg.Sz = reader.ReadInt16Coord();
+			var en = reader.ReadByte(); /* number of E? */
 			neg.Ep = new Coord2D[DirectionCount][];
 			for (int i = 0; i < en; i++)
 			{
-				var epid = buffer.ReadByte();
-				var cnt = buffer.ReadUInt16();
+				var epid = reader.ReadByte();
+				var cnt = reader.ReadUInt16();
 				neg.Ep[epid] = new Coord2D[cnt];
 				for (int j = 0; j < cnt; j++)
-					neg.Ep[epid][j] = buffer.ReadInt16Coord();
+					neg.Ep[epid][j] = reader.ReadInt16Coord();
 			}
 			return neg;
 		}
 
-		protected override void Serialize(ByteBuffer writer, NegLayer neg)
+		protected override void Serialize(BinaryDataWriter writer, NegLayer neg)
 		{
 			writer.WriteInt16Coord(neg.Center);
 			writer.WriteInt16Coord(neg.Hitbox.Left, neg.Hitbox.Top);

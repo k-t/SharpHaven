@@ -12,35 +12,35 @@ namespace SharpHaven.Resources.Serialization.Binary.Layers
 		{
 		}
 
-		protected override Tileset2Layer Deserialize(ByteBuffer buffer)
+		protected override Tileset2Layer Deserialize(BinaryDataReader reader)
 		{
 			var data = new Tileset2Layer();
-			while (buffer.HasRemaining)
+			while (reader.HasRemaining)
 			{
-				var part = buffer.ReadByte();
+				var part = reader.ReadByte();
 				switch (part)
 				{
 					case Tiler:
-						data.TilerName = buffer.ReadCString();
-						data.TilerAttributes = buffer.ReadList();
+						data.TilerName = reader.ReadCString();
+						data.TilerAttributes = reader.ReadList();
 						break;
 					case Flavor:
-						var flavorCount = buffer.ReadUInt16();
-						data.FlavorDensity = buffer.ReadUInt16();
+						var flavorCount = reader.ReadUInt16();
+						data.FlavorDensity = reader.ReadUInt16();
 						data.FlavorObjects = new FlavorObjectData[flavorCount];
 						for (int i = 0; i < flavorCount; i++)
 						{
 							var fob = new FlavorObjectData();
-							fob.ResName = buffer.ReadCString();
-							fob.ResVersion = buffer.ReadUInt16();
-							fob.Weight = buffer.ReadByte();
+							fob.ResName = reader.ReadCString();
+							fob.ResVersion = reader.ReadUInt16();
+							fob.Weight = reader.ReadByte();
 							data.FlavorObjects[i] = fob;
 						}
 						break;
 					case Tags:
-						data.Tags = new string[buffer.ReadByte()];
+						data.Tags = new string[reader.ReadByte()];
 						for (int i = 0; i < data.Tags.Length; i++)
-							data.Tags[i] = buffer.ReadCString();
+							data.Tags[i] = reader.ReadCString();
 						break;
 					default:
 						throw new ResourceException($"Invalid tileset part {part}");
@@ -49,7 +49,7 @@ namespace SharpHaven.Resources.Serialization.Binary.Layers
 			return data;
 		}
 
-		protected override void Serialize(ByteBuffer writer, Tileset2Layer data)
+		protected override void Serialize(BinaryDataWriter writer, Tileset2Layer data)
 		{
 			// tiler
 			writer.Write(Tiler);

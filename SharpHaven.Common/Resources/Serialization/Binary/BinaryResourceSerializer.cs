@@ -22,9 +22,9 @@ namespace SharpHaven.Resources.Serialization.Binary
 
 		public Resource Deserialize(Stream inputStream)
 		{
-			var buffer = new ByteBuffer(inputStream);
+			var buffer = new BinaryDataReader(inputStream);
 
-			var sig = new String(buffer.ReadChars(Signature.Length));
+			var sig = new string(buffer.ReadChars(Signature.Length));
 			if (sig != Signature)
 				throw new ResourceException("Invalid signature");
 
@@ -42,7 +42,7 @@ namespace SharpHaven.Resources.Serialization.Binary
 
 		public void Serialize(Resource res, Stream outputStream)
 		{
-			var buffer = new ByteBuffer(outputStream);
+			var buffer = new BinaryDataWriter(outputStream);
 			buffer.Write(Signature.ToCharArray());
 			buffer.Write((ushort)res.Version);
 			foreach (var layer in res.GetLayers())
@@ -54,7 +54,7 @@ namespace SharpHaven.Resources.Serialization.Binary
 				// write each layer to the temporary buffer
 				// to be able to prefix layer length
 				using (var ms = new MemoryStream())
-				using (var layerBuffer = new ByteBuffer(ms))
+				using (var layerBuffer = new BinaryDataWriter(ms))
 				{
 					serializer.Serialize(layerBuffer, layer);
 					buffer.Write((int)ms.Length);
@@ -63,13 +63,13 @@ namespace SharpHaven.Resources.Serialization.Binary
 			}
 		}
 
-		private object ReadLayer(ByteBuffer buffer)
+		private object ReadLayer(BinaryDataReader buffer)
 		{
 			var layerName = buffer.ReadCString();
 			if (string.IsNullOrEmpty(layerName))
 				return null;
 			var size = buffer.ReadInt32();
-			var layerBuffer = new ByteBuffer(buffer, size);
+			var layerBuffer = new BinaryDataReader(buffer, size);
 			return handlerProvider.GetByName(layerName).Deserialize(layerBuffer);
 		}
 	}

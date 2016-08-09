@@ -8,15 +8,15 @@ namespace SharpHaven.Resources.Serialization.Binary.Layers
 		{
 		}
 
-		protected override CodeLayer Deserialize(ByteBuffer buffer)
+		protected override CodeLayer Deserialize(BinaryDataReader reader)
 		{
 			var code = new CodeLayer();
-			code.Name = buffer.ReadCString();
-			code.ByteCode = buffer.ReadRemaining();
+			code.Name = reader.ReadCString();
+			code.ByteCode = reader.ReadRemaining();
 			return code;
 		}
 
-		protected override void Serialize(ByteBuffer writer, CodeLayer code)
+		protected override void Serialize(BinaryDataWriter writer, CodeLayer code)
 		{
 			writer.WriteCString(code.Name);
 			writer.Write(code.ByteCode);

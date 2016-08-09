@@ -58,6 +58,7 @@
     <Reference Include="System.Drawing" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Utils\BinaryDataWriter.cs" />
     <Compile Include="Game\DefaultMessageHandler.cs" />
     <Compile Include="Game\Messages\MapRequestGrid.cs" />
     <Compile Include="Game\Messages\UpdateAmbientLight.cs" />
@@ -169,8 +170,8 @@
     <Compile Include="Resources\Serialization\Ini\Layers\TooltipLayerHandler.cs" />
     <Compile Include="Resources\Sources\FolderFileSource.cs" />
     <Compile Include="Resources\Sources\HttpSource.cs" />
-    <Compile Include="Utils\ByteBuffer.cs" />
-    <Compile Include="Utils\ByteBufferExtensions.cs" />
+    <Compile Include="Utils\BinaryDataReader.cs" />
+    <Compile Include="Utils\BinaryListType.cs" />
     <Compile Include="Utils\Delayed.cs" />
     <Compile Include="Utils\Float40.cs" />
     <Compile Include="Utils\FragmentBuffer.cs" />

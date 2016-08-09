@@ -14,14 +14,14 @@ namespace SharpHaven.Net
 	{
 		private static readonly Logger Log = LogManager.GetCurrentClassLogger();
 
-		public static UpdateAmbientLight ReadAmbientLightUpdateEvent(this ByteBuffer reader)
+		public static UpdateAmbientLight ReadAmbientLightUpdateEvent(this BinaryDataReader reader)
 		{
 			return new UpdateAmbientLight {
 				Color = reader.ReadColor()
 			};
 		}
 
-		public static UpdateAstronomy ReadAstronomyUpdateEvent(this ByteBuffer reader)
+		public static UpdateAstronomy ReadAstronomyUpdateEvent(this BinaryDataReader reader)
 		{
 			int dt = reader.ReadInt32();
 			int mp = reader.ReadInt32();
@@ -33,7 +33,7 @@ namespace SharpHaven.Net
 			};
 		}
 
-		public static UpdateCharAttributes ReadCharAttributesUpdateEvent(this ByteBuffer reader)
+		public static UpdateCharAttributes ReadCharAttributesUpdateEvent(this BinaryDataReader reader)
 		{
 			var attributes = new List<CharAttribute>();
 			while (reader.HasRemaining)
@@ -47,12 +47,12 @@ namespace SharpHaven.Net
 			return new UpdateCharAttributes { Attributes = attributes.ToArray() };
 		}
 
-		public static BuffRemove ReadBuffRemoveEvent(this ByteBuffer reader)
+		public static BuffRemove ReadBuffRemoveEvent(this BinaryDataReader reader)
 		{
 			return new BuffRemove { BuffId = reader.ReadInt32() };
 		}
 
-		public static BuffUpdate ReadBuffUpdateEvent(this ByteBuffer reader)
+		public static BuffUpdate ReadBuffUpdateEvent(this BinaryDataReader reader)
 		{
 			return new BuffUpdate {
 				Id = reader.ReadInt32(),
@@ -66,7 +66,7 @@ namespace SharpHaven.Net
 			};
 		}
 
-		public static UpdateActions ReadGameActionsUpdateEvent(this ByteBuffer reader)
+		public static UpdateActions ReadGameActionsUpdateEvent(this BinaryDataReader reader)
 		{
 			var added = new List<ResourceRef>();
 			var removed = new List<ResourceRef>();
@@ -87,21 +87,21 @@ namespace SharpHaven.Net
 			};
 		}
 
-		public static UpdateGameTime ReadGameTimeUpdateEvent(this ByteBuffer reader)
+		public static UpdateGameTime ReadGameTimeUpdateEvent(this BinaryDataReader reader)
 		{
 			return new UpdateGameTime {
 				Time = reader.ReadInt32()
 			};
 		}
 
-		public static MapInvalidateGrid ReadMapInvalidateGridEvent(this ByteBuffer reader)
+		public static MapInvalidateGrid ReadMapInvalidateGridEvent(this BinaryDataReader reader)
 		{
 			return new MapInvalidateGrid {
 				Coord = reader.ReadInt32Coord()
 			};
 		}
 
-		public static MapInvalidateRegion ReadMapInvalidateRegionEvent(this ByteBuffer reader)
+		public static MapInvalidateRegion ReadMapInvalidateRegionEvent(this BinaryDataReader reader)
 		{
 			var ul = reader.ReadInt32Coord();
 			var br = reader.ReadInt32Coord();
@@ -110,7 +110,7 @@ namespace SharpHaven.Net
 			};
 		}
 
-		public static MapUpdateGrid ReadMapUpdateEvent(this ByteBuffer reader)
+		public static MapUpdateGrid ReadMapUpdateEvent(this BinaryDataReader reader)
 		{
 			var msg = new MapUpdateGrid
 			{
@@ -128,7 +128,7 @@ namespace SharpHaven.Net
 				pfl[pidx] = reader.ReadByte();
 			}
 
-			reader = new ByteBuffer(Unpack(reader.ReadRemaining()));
+			reader = new BinaryDataReader(Unpack(reader.ReadRemaining()));
 			msg.Tiles = reader.ReadBytes(100 * 100);
 			while (true)
 			{
@@ -159,7 +159,7 @@ namespace SharpHaven.Net
 			return msg;
 		}
 
-		public static PartyUpdate ReadPartyUpdateEvent(this ByteBuffer reader)
+		public static PartyUpdate ReadPartyUpdateEvent(this BinaryDataReader reader)
 		{
 			var ids = new List<int>();
 			while (true)
@@ -172,14 +172,14 @@ namespace SharpHaven.Net
 			return new PartyUpdate { MemberIds = ids.ToArray() };
 		}
 
-		public static PartyChangeLeader ReadPartyLeaderChangeEvent(this ByteBuffer reader)
+		public static PartyChangeLeader ReadPartyLeaderChangeEvent(this BinaryDataReader reader)
 		{
 			return new PartyChangeLeader {
 				LeaderId = reader.ReadInt32()
 			};
 		}
 
-		public static PartyUpdateMember ReadPartyMemberUpdateEvent(this ByteBuffer reader)
+		public static PartyUpdateMember ReadPartyMemberUpdateEvent(this BinaryDataReader reader)
 		{
 			var memberId = reader.ReadInt32();
 			var hasLocation = reader.ReadByte() == 1;
@@ -192,7 +192,7 @@ namespace SharpHaven.Net
 			};
 		}
 
-		public static PlaySound ReadPlaySoundEvent(this ByteBuffer reader)
+		public static PlaySound ReadPlaySoundEvent(this BinaryDataReader reader)
 		{
 			return new PlaySound {
 				ResourceId = reader.ReadUInt16(),
@@ -201,7 +201,7 @@ namespace SharpHaven.Net
 			};
 		}
 
-		public static LoadResource ReadResourceLoadEvent(this ByteBuffer reader)
+		public static LoadResource ReadResourceLoadEvent(this BinaryDataReader reader)
 		{
 			return new LoadResource {
 				ResourceId = reader.ReadUInt16(),
@@ -210,7 +210,7 @@ namespace SharpHaven.Net
 			};
 		}
 
-		public static LoadTilesets ReadTilesetsLoadEvent(this ByteBuffer reader)
+		public static LoadTilesets ReadTilesetsLoadEvent(this BinaryDataReader reader)
 		{
 			var tilesets = new List<TilesetBinding>();
 			while (reader.HasRemaining)
@@ -224,7 +224,7 @@ namespace SharpHaven.Net
 			return new LoadTilesets { Tilesets = tilesets.ToArray() };
 		}
 
-		public static WidgetCreate ReadWidgetCreateEvent(this ByteBuffer reader)
+		public static WidgetCreate ReadWidgetCreateEvent(this BinaryDataReader reader)
 		{
 			var id = reader.ReadUInt16();
 			var type = reader.ReadCString();
@@ -241,14 +241,14 @@ namespace SharpHaven.Net
 			};
 		}
 
-		public static WidgetDestroy ReadWidgetDestroyEvent(this ByteBuffer reader)
+		public static WidgetDestroy ReadWidgetDestroyEvent(this BinaryDataReader reader)
 		{
 			return new WidgetDestroy {
 				WidgetId = reader.ReadUInt16()
 			};
 		}
 
-		public static WidgetMessage ReadWidgetMessageEvent(this ByteBuffer reader)
+		public static WidgetMessage ReadWidgetMessageEvent(this BinaryDataReader reader)
 		{
 			return new WidgetMessage {
 				WidgetId = reader.ReadUInt16(),

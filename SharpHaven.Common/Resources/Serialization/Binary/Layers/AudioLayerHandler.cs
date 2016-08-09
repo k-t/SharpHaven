@@ -8,12 +8,12 @@ namespace SharpHaven.Resources.Serialization.Binary.Layers
 		{
 		}
 
-		protected override AudioLayer Deserialize(ByteBuffer buffer)
+		protected override AudioLayer Deserialize(BinaryDataReader reader)
 		{
-			return new AudioLayer { Id = "cl", Bytes = buffer.ReadRemaining() };
+			return new AudioLayer { Id = "cl", Bytes = reader.ReadRemaining() };
 		}
 
-		protected override void Serialize(ByteBuffer writer, AudioLayer audio)
+		protected override void Serialize(BinaryDataWriter writer, AudioLayer audio)
 		{
 			writer.Write(audio.Bytes);
 		}

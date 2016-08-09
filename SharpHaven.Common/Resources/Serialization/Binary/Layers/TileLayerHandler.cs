@@ -8,17 +8,17 @@ namespace SharpHaven.Resources.Serialization.Binary.Layers
 		{
 		}
 
-		protected override TileLayer Deserialize(ByteBuffer buffer)
+		protected override TileLayer Deserialize(BinaryDataReader reader)
 		{
 			var tile = new TileLayer();
-			tile.Type = buffer.ReadChar();
-			tile.Id = buffer.ReadByte();
-			tile.Weight = buffer.ReadUInt16();
-			tile.ImageData = buffer.ReadRemaining();
+			tile.Type = reader.ReadChar();
+			tile.Id = reader.ReadByte();
+			tile.Weight = reader.ReadUInt16();
+			tile.ImageData = reader.ReadRemaining();
 			return tile;
 		}
 
-		protected override void Serialize(ByteBuffer writer, TileLayer tile)
+		protected override void Serialize(BinaryDataWriter writer, TileLayer tile)
 		{
 			writer.Write(tile.Type);
 			writer.Write(tile.Id);

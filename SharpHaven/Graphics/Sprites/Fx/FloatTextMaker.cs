@@ -12,7 +12,7 @@ namespace SharpHaven.Graphics.Sprites.Fx
 
 		public override ISprite MakeInstance(byte[] state)
 		{
-			var reader = new ByteBuffer(state);
+			var reader = new BinaryDataReader(state);
 
 			var value = reader.ReadInt32();
 			var displayPlus = reader.ReadByte() != 0;

@@ -8,19 +8,19 @@ namespace SharpHaven.Resources.Serialization.Binary.Layers
 		{
 		}
 
-		protected override AnimLayer Deserialize(ByteBuffer buffer)
+		protected override AnimLayer Deserialize(BinaryDataReader reader)
 		{
 			var anim = new AnimLayer();
-			anim.Id = buffer.ReadInt16();
-			anim.Duration = buffer.ReadUInt16();
-			var frameCount = buffer.ReadUInt16();
+			anim.Id = reader.ReadInt16();
+			anim.Duration = reader.ReadUInt16();
+			var frameCount = reader.ReadUInt16();
 			anim.Frames = new short[frameCount];
 			for (int i = 0; i < frameCount; i++)
-				anim.Frames[i] = buffer.ReadInt16();
+				anim.Frames[i] = reader.ReadInt16();
 			return anim;
 		}
 
-		protected override void Serialize(ByteBuffer writer, AnimLayer anim)
+		protected override void Serialize(BinaryDataWriter writer, AnimLayer anim)
 		{
 			writer.Write(anim.Id);
 			writer.Write(anim.Duration);

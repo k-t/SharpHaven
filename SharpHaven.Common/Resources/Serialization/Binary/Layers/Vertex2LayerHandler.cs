@@ -10,70 +10,70 @@ namespace SharpHaven.Resources.Serialization.Binary.Layers
 		{
 		}
 
-		protected override VertexLayer Deserialize(ByteBuffer buffer)
+		protected override VertexLayer Deserialize(BinaryDataReader reader)
 		{
 			var layer = new VertexLayer();
-			layer.Flags = buffer.ReadByte();
-			layer.VertexCount = buffer.ReadUInt16();
-			while (buffer.HasRemaining)
-				ReadArray(layer, buffer);
+			layer.Flags = reader.ReadByte();
+			layer.VertexCount = reader.ReadUInt16();
+			while (reader.HasRemaining)
+				ReadArray(layer, reader);
 			return layer;
 		}
 
-		protected override void Serialize(ByteBuffer buffer, VertexLayer layer)
+		protected override void Serialize(BinaryDataWriter writer, VertexLayer layer)
 		{
-			buffer.Write(layer.Flags);
-			buffer.Write(layer.VertexCount);
-			WriteArray(buffer, layer.Positions, "pos", WriteFloat);
-			WriteArray(buffer, layer.Normals, "nrm", WriteFloat);
-			WriteArray(buffer, layer.Tangents, "tan", WriteFloat);
-			WriteArray(buffer, layer.Bitangents, "bit", WriteFloat);
-			WriteArray(buffer, layer.Colors, "col", WriteFloat);
-			WriteArray(buffer, layer.TexCoords, "tex", WriteFloat);
+			writer.Write(layer.Flags);
+			writer.Write(layer.VertexCount);
+			WriteArray(writer, layer.Positions, "pos", WriteFloat);
+			WriteArray(writer, layer.Normals, "nrm", WriteFloat);
+			WriteArray(writer, layer.Tangents, "tan", WriteFloat);
+			WriteArray(writer, layer.Bitangents, "bit", WriteFloat);
+			WriteArray(writer, layer.Colors, "col", WriteFloat);
+			WriteArray(writer, layer.TexCoords, "tex", WriteFloat);
 
 			if (layer.Bones != null)
 			{
-				buffer.WriteCString("bones");
-				buffer.Write(layer.Bones.Mba);
+				writer.WriteCString("bones");
+				writer.Write(layer.Bones.Mba);
 				foreach (var bone in layer.Bones.Bones)
-					WriteBone(buffer, bone);
+					WriteBone(writer, bone);
 				// end of sequence
-				buffer.Write((ushort)0);
-				buffer.Write((ushort)0);
+				writer.Write((ushort)0);
+				writer.Write((ushort)0);
 			}
 		}
 
-		private static void ReadArray(VertexLayer layer, ByteBuffer buffer)
+		private static void ReadArray(VertexLayer layer, BinaryDataReader reader)
 		{
 			var vertexCount = layer.VertexCount;
-			var type = buffer.ReadCString();
+			var type = reader.ReadCString();
 			switch (type)
 			{
 				case "pos":
-					layer.Positions = ReadArray(ReadFloat, buffer, vertexCount * 3);
+					layer.Positions = ReadArray(ReadFloat, reader, vertexCount * 3);
 					break;
 				case "nrm":
-					layer.Normals = ReadArray(ReadFloat, buffer, vertexCount * 3);
+					layer.Normals = ReadArray(ReadFloat, reader, vertexCount * 3);
 					break;
 				case "tan":
-					layer.Tangents = ReadArray(ReadFloat, buffer, vertexCount * 3);
+					layer.Tangents = ReadArray(ReadFloat, reader, vertexCount * 3);
 					break;
 				case "bit":
-					layer.Bitangents = ReadArray(ReadFloat, buffer, vertexCount * 3);
+					layer.Bitangents = ReadArray(ReadFloat, reader, vertexCount * 3);
 					break;
 				case "col":
-					layer.Colors = ReadArray(ReadFloat, buffer, vertexCount * 4);
+					layer.Colors = ReadArray(ReadFloat, reader, vertexCount * 4);
 					break;
 				case "tex":
-					layer.TexCoords = ReadArray(ReadFloat, buffer, vertexCount * 2);
+					layer.TexCoords = ReadArray(ReadFloat, reader, vertexCount * 2);
 					break;
 				case "bones":
 					layer.Bones = new VertexLayer.BoneArray();
-					layer.Bones.Mba = buffer.ReadByte();
+					layer.Bones.Mba = reader.ReadByte();
 					var bones = new List<VertexLayer.Bone>();
 					while (true)
 					{
-						var bone = ReadBone(buffer);
+						var bone = ReadBone(reader);
 						if (bone == null)
 							break;
 						bones.Add(bone);
@@ -85,62 +85,62 @@ namespace SharpHaven.Resources.Serialization.Binary.Layers
 			}
 		}
 
-		private static T[] ReadArray<T>(Func<ByteBuffer, T> itemReader, ByteBuffer buffer, int itemCount)
+		private static T[] ReadArray<T>(Func<BinaryDataReader, T> itemReader, BinaryDataReader reader, int itemCount)
 		{
 			var array = new T[itemCount];
 			for (int i = 0; i < array.Length; i++)
-				array[i] = itemReader(buffer);
+				array[i] = itemReader(reader);
 			return array;
 		}
 
-		private static float ReadFloat(ByteBuffer buffer)
+		private static float ReadFloat(BinaryDataReader reader)
 		{
-			return buffer.ReadSingle();
+			return reader.ReadSingle();
 		}
 
-		private static VertexLayer.Bone ReadBone(ByteBuffer buffer)
+		private static VertexLayer.Bone ReadBone(BinaryDataReader reader)
 		{
-			var boneName = buffer.ReadCString();
+			var boneName = reader.ReadCString();
 			if (string.IsNullOrEmpty(boneName))
 				return null;
 			var vertices = new List<VertexLayer.BoneVertex>();
 			while (true)
 			{
-				var run = buffer.ReadUInt16();
-				var vn = buffer.ReadUInt16();
+				var run = reader.ReadUInt16();
+				var vn = reader.ReadUInt16();
 				if (run == 0)
 					break;
 				var weights = new float[run];
 				for (int i = 0; i < run; i++)
-					weights[i] = buffer.ReadSingle();
+					weights[i] = reader.ReadSingle();
 				vertices.Add(new VertexLayer.BoneVertex { Vn = vn, Weights = weights });
 			}
 			return new VertexLayer.Bone {Name = boneName, Vertices = vertices.ToArray()};
 		}
 
-		private static void WriteArray<T>(ByteBuffer buffer, T[] array, string type, Action<ByteBuffer, T> itemWriter)
+		private static void WriteArray<T>(BinaryDataWriter writer, T[] array, string type, Action<BinaryDataWriter, T> itemWriter)
 		{
 			if (array == null)
 				return;
-			buffer.WriteCString(type);
+			writer.WriteCString(type);
 			for (int i = 0; i < array.Length; i++)
-				itemWriter(buffer, array[i]);
+				itemWriter(writer, array[i]);
 		}
 
-		private static void WriteFloat(ByteBuffer buffer, float value)
+		private static void WriteFloat(BinaryDataWriter writer, float value)
 		{
-			buffer.Write(value);
+			writer.Write(value);
 		}
 
-		private static void WriteBone(ByteBuffer buffer, VertexLayer.Bone bone)
+		private static void WriteBone(BinaryDataWriter writer, VertexLayer.Bone bone)
 		{
-			buffer.WriteCString(bone.Name);
+			writer.WriteCString(bone.Name);
 			foreach (var v in bone.Vertices)
 			{
-				buffer.Write((ushort)v.Weights.Length);
-				buffer.Write(v.Vn);
+				writer.Write((ushort)v.Weights.Length);
+				writer.Write(v.Vn);
 				for (int i = 0; i < v.Weights.Length; i++)
-					buffer.Write(v.Weights[i]);
+					writer.Write(v.Weights[i]);
 			}
 		}
 	}

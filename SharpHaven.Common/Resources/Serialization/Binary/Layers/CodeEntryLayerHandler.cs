@@ -12,20 +12,20 @@ namespace SharpHaven.Resources.Serialization.Binary.Layers
 		{
 		}
 
-		protected override CodeEntryLayer Deserialize(ByteBuffer buffer)
+		protected override CodeEntryLayer Deserialize(BinaryDataReader reader)
 		{
 			var entries = new List<CodeEntry>();
 			var classpath = new List<ResourceRef>();
-			while (buffer.HasRemaining)
+			while (reader.HasRemaining)
 			{
-				var type = buffer.ReadByte();
+				var type = reader.ReadByte();
 				switch (type)
 				{
 					case EntriesPart:
 						while (true)
 						{
-							var name = buffer.ReadCString();
-							var className = buffer.ReadCString();
+							var name = reader.ReadCString();
+							var className = reader.ReadCString();
 							if (name.Length == 0)
 								break;
 							entries.Add(new CodeEntry(name, className));
@@ -34,10 +34,10 @@ namespace SharpHaven.Resources.Serialization.Binary.Layers
 					case ClasspathPart:
 						while (true)
 						{
-							var ln = buffer.ReadCString();
+							var ln = reader.ReadCString();
 							if (ln.Length == 0)
 								break;
-							var ver = buffer.ReadUInt16();
+							var ver = reader.ReadUInt16();
 							classpath.Add(new ResourceRef(ln, ver));
 						}
 						break;
@@ -49,7 +49,7 @@ namespace SharpHaven.Resources.Serialization.Binary.Layers
 			};
 		}
 
-		protected override void Serialize(ByteBuffer writer, CodeEntryLayer data)
+		protected override void Serialize(BinaryDataWriter writer, CodeEntryLayer data)
 		{
 			// entries
 			if (data.Entries != null && data.Entries.Length > 0)

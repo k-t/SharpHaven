@@ -8,13 +8,13 @@ namespace SharpHaven.Resources.Serialization.Binary.Layers
 		{
 		}
 
-		protected override MidiLayer Deserialize(ByteBuffer buffer)
+		protected override MidiLayer Deserialize(BinaryDataReader reader)
 		{
-			var bytes = buffer.ReadRemaining();
+			var bytes = reader.ReadRemaining();
 			return new MidiLayer { Bytes = bytes };
 		}
 
-		protected override void Serialize(ByteBuffer writer, MidiLayer midi)
+		protected override void Serialize(BinaryDataWriter writer, MidiLayer midi)
 		{
 			writer.Write(midi.Bytes);
 		}

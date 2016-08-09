@@ -10,20 +10,20 @@ namespace SharpHaven.Resources.Serialization.Binary.Layers
 		{
 		}
 
-		protected override AudioLayer Deserialize(ByteBuffer buffer)
+		protected override AudioLayer Deserialize(BinaryDataReader reader)
 		{
-			var version = buffer.ReadByte();
+			var version = reader.ReadByte();
 			if (version != 1 && version != 2)
 				throw new ResourceException($"Unknown audio layer version: {version}");
 
 			var data = new AudioLayer();
-			data.Id = buffer.ReadCString();
-			data.BaseVolume = (version == 2) ? buffer.ReadUInt16() / 1000.0 : 1.0;
-			data.Bytes = buffer.ReadRemaining();
+			data.Id = reader.ReadCString();
+			data.BaseVolume = (version == 2) ? reader.ReadUInt16() / 1000.0 : 1.0;
+			data.Bytes = reader.ReadRemaining();
 			return data;
 		}
 
-		protected override void Serialize(ByteBuffer writer, AudioLayer audio)
+		protected override void Serialize(BinaryDataWriter writer, AudioLayer audio)
 		{
 			writer.Write(Version);
 			writer.WriteCString(audio.Id);

@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.IO;
+using System.Text;
 using MiscUtil.Conversion;
 using SharpHaven.Graphics;
 using SharpHaven.Utils;
@@ -8,17 +9,19 @@ namespace SharpHaven.Net
 	public class BinaryMessageWriter
 	{
 		private readonly byte type;
-		private readonly ByteBuffer buffer;
+		private readonly MemoryStream stream;
+		private readonly BinaryDataWriter writer;
 
 		public BinaryMessageWriter(byte type)
 		{
 			this.type = type;
-			this.buffer = new ByteBuffer();
+			this.stream = new MemoryStream();
+			this.writer = new BinaryDataWriter(stream);
 		}
 
 		public BinaryMessageWriter Bytes(byte[] src, int off, int len)
 		{
-			buffer.Write(src, off, len);
+			writer.Write(src, off, len);
 			return this;
 		}
 
@@ -30,7 +33,7 @@ namespace SharpHaven.Net
 
 		public BinaryMessageWriter Byte(byte value)
 		{
-			buffer.Write(value);
+			writer.Write(value);
 			return this;
 		}
 
@@ -85,15 +88,13 @@ namespace SharpHaven.Net
 
 		public BinaryMessageWriter List(params object[] args)
 		{
-			buffer.WriteList(args);
+			writer.WriteList(args);
 			return this;
 		}
 
 		public BinaryMessage Complete()
 		{
-			buffer.Rewind();
-			var bytes = buffer.ReadRemaining();
-			return new BinaryMessage(type, bytes);
+			return new BinaryMessage(type, stream.ToArray());
 		}
 	}
 }

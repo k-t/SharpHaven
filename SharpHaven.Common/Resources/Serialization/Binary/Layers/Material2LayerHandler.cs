@@ -9,17 +9,17 @@ namespace SharpHaven.Resources.Serialization.Binary.Layers
 		{
 		}
 
-		protected override MaterialLayer Deserialize(ByteBuffer buffer)
+		protected override MaterialLayer Deserialize(BinaryDataReader reader)
 		{
 			var layer = new MaterialLayer();
-			layer.Id = buffer.ReadUInt16();
+			layer.Id = reader.ReadUInt16();
 			// read materials
 			var materials = new List<MaterialLayer.Material>();
-			while (buffer.HasRemaining)
+			while (reader.HasRemaining)
 			{
 				var mat = new MaterialLayer.Material();
-				mat.Name = buffer.ReadCString();
-				mat.Params = buffer.ReadList();
+				mat.Name = reader.ReadCString();
+				mat.Params = reader.ReadList();
 				materials.Add(mat);
 
 				// WTF, loftar?
@@ -37,7 +37,7 @@ namespace SharpHaven.Resources.Serialization.Binary.Layers
 			return layer;
 		}
 
-		protected override void Serialize(ByteBuffer writer, MaterialLayer layer)
+		protected override void Serialize(BinaryDataWriter writer, MaterialLayer layer)
 		{
 			writer.Write(layer.Id);
 			foreach (var mat in layer.Materials)

@@ -6,12 +6,12 @@ namespace SharpHaven.Net
 {
 	public static class MessageToGobDelta
 	{
-		public static GobDelta.Position ReadGobPosition(this ByteBuffer reader)
+		public static GobDelta.Position ReadGobPosition(this BinaryDataReader reader)
 		{
 			return new GobDelta.Position { Value = reader.ReadInt32Coord() };
 		}
 
-		public static GobDelta.Resource ReadGobResource(this ByteBuffer reader)
+		public static GobDelta.Resource ReadGobResource(this BinaryDataReader reader)
 		{
 			int resId = reader.ReadUInt16();
 
@@ -30,7 +30,7 @@ namespace SharpHaven.Net
 			return new GobDelta.Resource { Id = resId, SpriteData = spriteData };
 		}
 
-		public static GobDelta.StartMovement ReadGobStartMovement(this ByteBuffer reader)
+		public static GobDelta.StartMovement ReadGobStartMovement(this BinaryDataReader reader)
 		{
 			return new GobDelta.StartMovement {
 				Origin = reader.ReadInt32Coord(),
@@ -39,12 +39,12 @@ namespace SharpHaven.Net
 			};
 		}
 
-		public static GobDelta.AdjustMovement ReadGobAdjustMovement(this ByteBuffer reader)
+		public static GobDelta.AdjustMovement ReadGobAdjustMovement(this BinaryDataReader reader)
 		{
 			return new GobDelta.AdjustMovement { Step = reader.ReadInt32() };
 		}
 
-		public static GobDelta.Speech ReadGobSpeech(this ByteBuffer reader)
+		public static GobDelta.Speech ReadGobSpeech(this BinaryDataReader reader)
 		{
 			return new GobDelta.Speech {
 				Offset = reader.ReadInt32Coord(),
@@ -52,12 +52,12 @@ namespace SharpHaven.Net
 			};
 		}
 
-		public static GobDelta.DrawOffset ReadGobDrawOffset(this ByteBuffer reader)
+		public static GobDelta.DrawOffset ReadGobDrawOffset(this BinaryDataReader reader)
 		{
 			return new GobDelta.DrawOffset { Value = reader.ReadInt32Coord() };
 		}
 
-		public static GobDelta.Light ReadGobLight(this ByteBuffer reader)
+		public static GobDelta.Light ReadGobLight(this BinaryDataReader reader)
 		{
 			return new GobDelta.Light {
 				Offset = reader.ReadInt32Coord(),
@@ -66,7 +66,7 @@ namespace SharpHaven.Net
 			};
 		}
 
-		public static GobDelta.Follow ReadGobFollow(this ByteBuffer reader)
+		public static GobDelta.Follow ReadGobFollow(this BinaryDataReader reader)
 		{
 			int oid = reader.ReadInt32();
 			if (oid != -1)
@@ -80,7 +80,7 @@ namespace SharpHaven.Net
 			return new GobDelta.Follow { GobId = oid };
 		}
 
-		public static GobDelta.Homing ReadGobHoming(this ByteBuffer reader)
+		public static GobDelta.Homing ReadGobHoming(this BinaryDataReader reader)
 		{
 			int oid = reader.ReadInt32();
 			if (oid != -1)
@@ -94,7 +94,7 @@ namespace SharpHaven.Net
 			return new GobDelta.Homing { GobId = oid };
 		}
 
-		public static GobDelta.Overlay ReadGobOverlay(this ByteBuffer reader)
+		public static GobDelta.Overlay ReadGobOverlay(this BinaryDataReader reader)
 		{
 			int overlayId = reader.ReadInt32();
 			var prs = (overlayId & 1) != 0;
@@ -125,12 +125,12 @@ namespace SharpHaven.Net
 			};
 		}
 
-		public static GobDelta.Health ReadGobHealth(this ByteBuffer reader)
+		public static GobDelta.Health ReadGobHealth(this BinaryDataReader reader)
 		{
 			return new GobDelta.Health { Value = reader.ReadByte() };
 		}
 
-		public static GobDelta.Buddy ReadGobBuddy(this ByteBuffer reader)
+		public static GobDelta.Buddy ReadGobBuddy(this BinaryDataReader reader)
 		{
 			return new GobDelta.Buddy {
 				Name = reader.ReadCString(),
@@ -139,7 +139,7 @@ namespace SharpHaven.Net
 			};
 		}
 
-		public static GobDelta.Avatar ReadGobAvatar(this ByteBuffer reader)
+		public static GobDelta.Avatar ReadGobAvatar(this BinaryDataReader reader)
 		{
 			var layers = new List<int>();
 			while (true)
@@ -152,7 +152,7 @@ namespace SharpHaven.Net
 			return new GobDelta.Avatar { ResourceIds = layers.ToArray() };
 		}
 
-		public static GobDelta.Layers ReadGobLayers(this ByteBuffer reader)
+		public static GobDelta.Layers ReadGobLayers(this BinaryDataReader reader)
 		{
 			int baseResId = reader.ReadUInt16();
 			var layers = new List<int>();

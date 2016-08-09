@@ -381,7 +381,7 @@ namespace SharpHaven.Net
 		}
 
 		// TODO: delete lingering fragments?
-		private void HandleMapData(ByteBuffer reader)
+		private void HandleMapData(BinaryDataReader reader)
 		{
 			int packetId = reader.ReadInt32();
 			int offset = reader.ReadUInt16();
@@ -394,7 +394,7 @@ namespace SharpHaven.Net
 				if (fragbuf.IsComplete)
 				{
 					mapFrags.Remove(packetId);
-					var fragReader = new ByteBuffer(fragbuf.Content);
+					var fragReader = new BinaryDataReader(fragbuf.Content);
 					publisher.Publish(fragReader.ReadMapUpdateEvent());
 				}
 			}
@@ -410,7 +410,7 @@ namespace SharpHaven.Net
 			}
 		}
 
-		private void HandleGobData(ByteBuffer reader)
+		private void HandleGobData(BinaryDataReader reader)
 		{
 			var ev = new UpdateGameObject();
 			ev.ReplaceFlag = (reader.ReadByte() & 1) != 0;
@@ -427,7 +427,7 @@ namespace SharpHaven.Net
 			SendObjectAck(ev.GobId, ev.Frame);
 		}
 
-		private GobDelta ReadGobDelta(ByteBuffer reader)
+		private GobDelta ReadGobDelta(BinaryDataReader reader)
 		{
 			int type = reader.ReadByte();
 			switch (type)

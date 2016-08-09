@@ -10,31 +10,31 @@ namespace SharpHaven.Resources.Serialization.Binary.Layers
 		{
 		}
 
-		protected override PoseLayer Deserialize(ByteBuffer buffer)
+		protected override PoseLayer Deserialize(BinaryDataReader reader)
 		{
 			var pose = new PoseLayer();
-			pose.Id = buffer.ReadInt16();
-			pose.Flags = buffer.ReadByte();
-			pose.Mode = buffer.ReadByte();
-			pose.Length = buffer.ReadFloat40();
+			pose.Id = reader.ReadInt16();
+			pose.Flags = reader.ReadByte();
+			pose.Mode = reader.ReadByte();
+			pose.Length = reader.ReadFloat40();
 			if ((pose.Flags & 1) != 0)
-				pose.Speed = buffer.ReadFloat40();
+				pose.Speed = reader.ReadFloat40();
 			var effects = new List<PoseEffect>();
 			var tracks = new List<PoseTrack>();
-			while (buffer.HasRemaining)
+			while (reader.HasRemaining)
 			{
-				var boneName = buffer.ReadCString();
+				var boneName = reader.ReadCString();
 				if (boneName == "{ctl}")
-					effects.Add(ParseEffect(buffer));
+					effects.Add(ParseEffect(reader));
 				else
-					tracks.Add(new PoseTrack { BoneName = boneName, Frames = ParseFrames(buffer) });
+					tracks.Add(new PoseTrack { BoneName = boneName, Frames = ParseFrames(reader) });
 			}
 			pose.Effects = effects.ToArray();
 			pose.Tracks = tracks.ToArray();
 			return pose;
 		}
 
-		protected override void Serialize(ByteBuffer writer, PoseLayer pose)
+		protected override void Serialize(BinaryDataWriter writer, PoseLayer pose)
 		{
 			writer.Write(pose.Id);
 			writer.Write(pose.Flags);
@@ -80,45 +80,45 @@ namespace SharpHaven.Resources.Serialization.Binary.Layers
 			}
 		}
 
-		private PoseFrame[] ParseFrames(ByteBuffer buffer)
+		private PoseFrame[] ParseFrames(BinaryDataReader reader)
 		{
-			var count = buffer.ReadUInt16();
+			var count = reader.ReadUInt16();
 			var frames = new PoseFrame[count];
 			for (int i = 0; i < frames.Length; i++)
 			{
 				var frame = new PoseFrame();
-				frame.Time = buffer.ReadFloat40();
+				frame.Time = reader.ReadFloat40();
 				frame.Translation = new double[3];
 				for (int o = 0; o < 3; o++)
-					frame.Translation[o] = buffer.ReadFloat40();
-				frame.RotationAngle = buffer.ReadFloat40();
+					frame.Translation[o] = reader.ReadFloat40();
+				frame.RotationAngle = reader.ReadFloat40();
 				frame.RotationAxis = new double[3];
 				for (int o = 0; o < 3; o++)
-					frame.RotationAxis[o] = buffer.ReadFloat40();
+					frame.RotationAxis[o] = reader.ReadFloat40();
 				frames[i] = frame;
 			}
 			return (frames);
 		}
 
-		private PoseEffect ParseEffect(ByteBuffer buffer)
+		private PoseEffect ParseEffect(BinaryDataReader reader)
 		{
-			var count = buffer.ReadUInt16();
+			var count = reader.ReadUInt16();
 			var events = new PoseEvent[count];
 			for (int i = 0; i < events.Length; i++)
 			{
 				var ev = new PoseEvent();
-				ev.Time = buffer.ReadFloat40();
-				ev.Type = buffer.ReadByte();
+				ev.Time = reader.ReadFloat40();
+				ev.Type = reader.ReadByte();
 				switch (ev.Type)
 				{
 					case 0:
-						var resnm = buffer.ReadCString();
-						var resver = buffer.ReadUInt16();
+						var resnm = reader.ReadCString();
+						var resver = reader.ReadUInt16();
 						ev.ResRef = new ResourceRef(resnm, resver);
-						ev.Data = buffer.ReadBytes(buffer.ReadByte());
+						ev.Data = reader.ReadBytes(reader.ReadByte());
 						break;
 					case 1:
-						ev.Id = buffer.ReadCString();
+						ev.Id = reader.ReadCString();
 						break;
 					default:
 						throw new ResourceException("Illegal control event: " + ev.Type);

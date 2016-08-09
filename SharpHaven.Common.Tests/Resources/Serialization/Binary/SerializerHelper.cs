@@ -11,9 +11,9 @@ namespace SharpHaven.Resources.Serialization.Binary
 			object output;
 			using (var ms = new MemoryStream())
 			{
-				handler.Serialize(new ByteBuffer(ms), input);
+				handler.Serialize(new BinaryDataWriter(ms), input);
 				ms.Position = 0;
-				output = handler.Deserialize(new ByteBuffer(ms));
+				output = handler.Deserialize(new BinaryDataReader(ms));
 				Assert.That(ms.Position, Is.EqualTo(ms.Length), "Stream should be read till the end");
 			}
 			return output;

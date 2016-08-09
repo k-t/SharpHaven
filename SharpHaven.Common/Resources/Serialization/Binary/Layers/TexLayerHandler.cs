@@ -38,34 +38,34 @@ namespace SharpHaven.Resources.Serialization.Binary.Layers
 		{
 		}
 
-		protected override TexLayer Deserialize(ByteBuffer buffer)
+		protected override TexLayer Deserialize(BinaryDataReader reader)
 		{
 			var data = new TexLayer();
-			data.Id = buffer.ReadInt16();
-			data.Offset = new Coord2D(buffer.ReadUInt16(), buffer.ReadUInt16());
-			data.Size = new Coord2D(buffer.ReadUInt16(), buffer.ReadUInt16());
+			data.Id = reader.ReadInt16();
+			data.Offset = new Coord2D(reader.ReadUInt16(), reader.ReadUInt16());
+			data.Size = new Coord2D(reader.ReadUInt16(), reader.ReadUInt16());
 			data.Mipmap = TexMipmap.None;
 			TexMinFilter? minFilter = null;
 			TexMagFilter? magFilter = null;
-			while (buffer.HasRemaining)
+			while (reader.HasRemaining)
 			{
-				int part = buffer.ReadByte();
+				int part = reader.ReadByte();
 				switch (part)
 				{
 					case ImagePart:
-						data.Image = buffer.ReadBytes(buffer.ReadInt32());
+						data.Image = reader.ReadBytes(reader.ReadInt32());
 						break;
 					case MipmapPart:
-						data.Mipmap = Mipmaps[buffer.ReadByte()];
+						data.Mipmap = Mipmaps[reader.ReadByte()];
 						break;
 					case MagFilterPart:
-						magFilter = MagFilters[buffer.ReadByte()];
+						magFilter = MagFilters[reader.ReadByte()];
 						break;
 					case MinFilterPart:
-						minFilter = MinFilters[buffer.ReadByte()];
+						minFilter = MinFilters[reader.ReadByte()];
 						break;
 					case MaskPart:
-						data.Mask = buffer.ReadBytes(buffer.ReadInt32());
+						data.Mask = reader.ReadBytes(reader.ReadInt32());
 						break;
 					default:
 						throw new ResourceException($"Unknown texture data part: {part}");
@@ -80,7 +80,7 @@ namespace SharpHaven.Resources.Serialization.Binary.Layers
 			return data;
 		}
 
-		protected override void Serialize(ByteBuffer writer, TexLayer data)
+		protected override void Serialize(BinaryDataWriter writer, TexLayer data)
 		{
 			writer.Write(data.Id);
 			writer.Write((ushort)data.Offset.X);

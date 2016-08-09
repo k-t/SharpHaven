@@ -12,12 +12,12 @@ namespace SharpHaven.Resources.Serialization.Binary.Layers
 		{
 		}
 
-		protected override UnknownLayer Deserialize(ByteBuffer buffer)
+		protected override UnknownLayer Deserialize(BinaryDataReader reader)
 		{
-			return new UnknownLayer(LayerName, buffer.ReadRemaining());
+			return new UnknownLayer(LayerName, reader.ReadRemaining());
 		}
 
-		protected override void Serialize(ByteBuffer writer, UnknownLayer layer)
+		protected override void Serialize(BinaryDataWriter writer, UnknownLayer layer)
 		{
 			writer.Write(layer.Bytes);
 		}

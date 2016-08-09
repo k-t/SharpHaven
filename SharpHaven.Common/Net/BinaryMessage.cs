@@ -44,9 +44,9 @@ namespace SharpHaven.Net
 			return data;
 		}
 
-		public ByteBuffer GetReader()
+		public BinaryDataReader GetReader()
 		{
-			return new ByteBuffer(buffer, bufferOffset, length);
+			return new BinaryDataReader(buffer, bufferOffset, length);
 		}
 
 		public static BinaryMessageWriter Make(byte type)

@@ -47,7 +47,7 @@
     <Compile Include="BinaryMessageTests.cs" />
     <Compile Include="Resources\Serialization\Binary\BinaryLayerHandlerTests.cs" />
     <Compile Include="Resources\Serialization\Binary\BinaryResourceSerializerTests.cs" />
-    <Compile Include="Resources\Serialization\Binary\BinaryStreamExtensionsTests.cs" />
+    <Compile Include="BinaryDataReadWriteTests.cs" />
     <Compile Include="Resources\Serialization\Binary\SerializerHelper.cs" />
     <Compile Include="TreeNodeTests.cs" />
     <Compile Include="Resources\FolderSourceTests.cs" />

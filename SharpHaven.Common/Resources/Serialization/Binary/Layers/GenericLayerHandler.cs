@@ -17,18 +17,18 @@ namespace SharpHaven.Resources.Serialization.Binary.Layers
 			get { return typeof(T); }
 		}
 
-		protected abstract T Deserialize(ByteBuffer buffer);
+		protected abstract T Deserialize(BinaryDataReader reader);
 
-		protected abstract void Serialize(ByteBuffer writer, T layer);
+		protected abstract void Serialize(BinaryDataWriter writer, T layer);
 
 		#region IBinaryLayerHandler
-
-		object IBinaryLayerHandler.Deserialize(ByteBuffer buffer)
+		
+		object IBinaryLayerHandler.Deserialize(BinaryDataReader reader)
 		{
-			return Deserialize(buffer);
+			return Deserialize(reader);
 		}
 
-		void IBinaryLayerHandler.Serialize(ByteBuffer writer, object layer)
+		void IBinaryLayerHandler.Serialize(BinaryDataWriter writer, object layer)
 		{
 			Serialize(writer, (T)layer);
 		}

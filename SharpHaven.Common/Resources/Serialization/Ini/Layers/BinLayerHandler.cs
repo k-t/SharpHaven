@@ -44,7 +44,7 @@ namespace SharpHaven.Resources.Serialization.Ini.Layers
 			var fileName = keys.GetString("file");
 			layer.Files[DataFileKey] = fileName;
 			using (var ms = new MemoryStream(fileSource.Read(fileName)))
-			using (var buffer = new ByteBuffer(ms))
+			using (var buffer = new BinaryDataReader(ms))
 				layer.Data = binaryHandler.Deserialize(buffer);
 			return layer;
 		}
@@ -57,7 +57,7 @@ namespace SharpHaven.Resources.Serialization.Ini.Layers
 			var fileName = layer.Files[DataFileKey];
 			keys.Add("file", fileName);
 			using (var ms = new MemoryStream())
-			using (var buffer = new ByteBuffer(ms))
+			using (var buffer = new BinaryDataWriter(ms))
 			{
 				binaryHandler.Serialize(buffer, layer.Data);
 				ms.Position = 0;

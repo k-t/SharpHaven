@@ -9,13 +9,13 @@ namespace SharpHaven.Resources.Serialization.Binary.Layers
 		{
 		}
 
-		protected override TooltipLayer Deserialize(ByteBuffer buffer)
+		protected override TooltipLayer Deserialize(BinaryDataReader reader)
 		{
-			var text = Encoding.UTF8.GetString(buffer.ReadRemaining());
+			var text = Encoding.UTF8.GetString(reader.ReadRemaining());
 			return new TooltipLayer { Text = text };
 		}
 
-		protected override void Serialize(ByteBuffer writer, TooltipLayer tooltip)
+		protected override void Serialize(BinaryDataWriter writer, TooltipLayer tooltip)
 		{
 			writer.Write(Encoding.UTF8.GetBytes(tooltip.Text));
 		}

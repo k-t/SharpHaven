@@ -8,20 +8,20 @@ namespace SharpHaven.Resources.Serialization.Binary.Layers
 		{
 		}
 
-		protected override ActionLayer Deserialize(ByteBuffer buffer)
+		protected override ActionLayer Deserialize(BinaryDataReader reader)
 		{
 			var action = new ActionLayer();
-			action.Parent = new ResourceRef(buffer.ReadCString(), buffer.ReadUInt16());
-			action.Name = buffer.ReadCString();
-			action.Prerequisite = buffer.ReadCString();
-			action.Hotkey = (char)buffer.ReadUInt16();
-			action.Verbs = new string[buffer.ReadUInt16()];
+			action.Parent = new ResourceRef(reader.ReadCString(), reader.ReadUInt16());
+			action.Name = reader.ReadCString();
+			action.Prerequisite = reader.ReadCString();
+			action.Hotkey = (char)reader.ReadUInt16();
+			action.Verbs = new string[reader.ReadUInt16()];
 			for (int i = 0; i < action.Verbs.Length; i++)
-				action.Verbs[i] = buffer.ReadCString();
+				action.Verbs[i] = reader.ReadCString();
 			return action;
 		}
 
-		protected override void Serialize(ByteBuffer writer, ActionLayer action)
+		protected override void Serialize(BinaryDataWriter writer, ActionLayer action)
 		{
 			writer.WriteCString(action.Parent.Name ?? "");
 			writer.Write(action.Parent.Version);

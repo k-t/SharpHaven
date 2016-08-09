@@ -7,8 +7,8 @@ namespace SharpHaven.Resources.Serialization.Binary
 	{
 		string LayerName { get; }
 		Type LayerType { get; }
-		object Deserialize(ByteBuffer reader);
-		void Serialize(ByteBuffer writer, object layer);
+		object Deserialize(BinaryDataReader reader);
+		void Serialize(BinaryDataWriter writer, object layer);
 	}
 }
 

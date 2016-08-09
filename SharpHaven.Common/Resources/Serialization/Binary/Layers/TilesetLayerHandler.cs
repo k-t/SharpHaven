@@ -8,25 +8,25 @@ namespace SharpHaven.Resources.Serialization.Binary.Layers
 		{
 		}
 
-		protected override TilesetLayer Deserialize(ByteBuffer buffer)
+		protected override TilesetLayer Deserialize(BinaryDataReader reader)
 		{
 			var tileset = new TilesetLayer();
-			tileset.HasTransitions = buffer.ReadBoolean();
-			var flavorCount = buffer.ReadUInt16();
-			tileset.FlavorDensity = buffer.ReadUInt16();
+			tileset.HasTransitions = reader.ReadBoolean();
+			var flavorCount = reader.ReadUInt16();
+			tileset.FlavorDensity = reader.ReadUInt16();
 			tileset.FlavorObjects = new FlavorObjectData[flavorCount];
 			for (int i = 0; i < flavorCount; i++)
 			{
 				var fob = new FlavorObjectData();
-				fob.ResName = buffer.ReadCString();
-				fob.ResVersion = buffer.ReadUInt16();
-				fob.Weight = buffer.ReadByte();
+				fob.ResName = reader.ReadCString();
+				fob.ResVersion = reader.ReadUInt16();
+				fob.Weight = reader.ReadByte();
 				tileset.FlavorObjects[i] = fob;
 			}
 			return tileset;
 		}
 
-		protected override void Serialize(ByteBuffer writer, TilesetLayer tileset)
+		protected override void Serialize(BinaryDataWriter writer, TilesetLayer tileset)
 		{
 			writer.Write(tileset.HasTransitions);
 			writer.Write((ushort)tileset.FlavorObjects.Length);
