@@ -1,4 +1,5 @@
 ﻿using System;
+using Haven.Legacy;
 using Haven.Net;
 using SharpHaven.Client;
 using SharpHaven.Graphics;

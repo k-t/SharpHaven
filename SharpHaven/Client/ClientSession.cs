@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Threading;
 using Haven;
-using Haven.Messaging;
-using Haven.Messaging.Messages;
+using Haven.Legacy;
+using Haven.Legacy.Messages;
 using Haven.Net;
 using NLog;
 using SharpHaven.UI.Remote;

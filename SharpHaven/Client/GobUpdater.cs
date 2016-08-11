@@ -1,5 +1,5 @@
 ﻿using System.Linq;
-using Haven.Messaging.Messages;
+using Haven.Legacy.Messages;
 using Haven.Utils;
 using SharpHaven.Graphics.Sprites;
 using SharpHaven.Utils;
