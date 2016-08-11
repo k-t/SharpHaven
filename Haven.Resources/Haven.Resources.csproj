@@ -35,10 +35,6 @@
       <HintPath>..\packages\SharpZipLib.0.86.0\lib\20\ICSharpCode.SharpZipLib.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="MadMilkman.Ini, Version=1.0.6.0, Culture=neutral, PublicKeyToken=4e0b5157a7ffbb74, processorArchitecture=MSIL">
-      <HintPath>..\packages\MadMilkman.Ini.1.0.6.0\lib\net20\MadMilkman.Ini.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
   </ItemGroup>
@@ -75,57 +71,35 @@
     <Compile Include="Resource.cs" />
     <Compile Include="ResourceException.cs" />
     <Compile Include="ResourceRef.cs" />
-    <Compile Include="Serialization\Binary\BinaryLayerHandlerProvider.cs" />
-    <Compile Include="Serialization\Binary\BinaryResourceSerializer.cs" />
-    <Compile Include="Serialization\Binary\IBinaryLayerHandler.cs" />
-    <Compile Include="Serialization\Binary\IBinaryLayerHandlerProvider.cs" />
-    <Compile Include="Serialization\Binary\Layers\ActionLayerHandler.cs" />
-    <Compile Include="Serialization\Binary\Layers\AnimLayerHandler.cs" />
-    <Compile Include="Serialization\Binary\Layers\Audio2LayerHandler.cs" />
-    <Compile Include="Serialization\Binary\Layers\AudioLayerHandler.cs" />
-    <Compile Include="Serialization\Binary\Layers\CodeEntryLayerHandler.cs" />
-    <Compile Include="Serialization\Binary\Layers\CodeLayerHandler.cs" />
-    <Compile Include="Serialization\Binary\Layers\FontLayerHandler.cs" />
-    <Compile Include="Serialization\Binary\Layers\FoodEventLayerHandler.cs" />
-    <Compile Include="Serialization\Binary\Layers\GenericLayerHandler.cs" />
-    <Compile Include="Serialization\Binary\Layers\ImageLayerHandler.cs" />
-    <Compile Include="Serialization\Binary\Layers\Material2LayerHandler.cs" />
-    <Compile Include="Serialization\Binary\Layers\MeshLayerHandler.cs" />
-    <Compile Include="Serialization\Binary\Layers\MidiLayerHandler.cs" />
-    <Compile Include="Serialization\Binary\Layers\NegLayerHandler.cs" />
-    <Compile Include="Serialization\Binary\Layers\NinepatchLayerHandler.cs" />
-    <Compile Include="Serialization\Binary\Layers\PoseLayerHandler.cs" />
-    <Compile Include="Serialization\Binary\Layers\SkeletonLayerHandler.cs" />
-    <Compile Include="Serialization\Binary\Layers\TexLayerHandler.cs" />
-    <Compile Include="Serialization\Binary\Layers\TextLayerHandler.cs" />
-    <Compile Include="Serialization\Binary\Layers\TileLayerHandler.cs" />
-    <Compile Include="Serialization\Binary\Layers\Tileset2LayerHandler.cs" />
-    <Compile Include="Serialization\Binary\Layers\TilesetLayerHandler.cs" />
-    <Compile Include="Serialization\Binary\Layers\TooltipLayerHandler.cs" />
-    <Compile Include="Serialization\Binary\Layers\UnknownLayerHandler.cs" />
-    <Compile Include="Serialization\Binary\Layers\Vertex2LayerHandler.cs" />
-    <Compile Include="Serialization\Ini\IIniLayerHandler.cs" />
-    <Compile Include="Serialization\Ini\IniKeyCollectionExtensions.cs" />
-    <Compile Include="Serialization\Ini\IniLayer.cs" />
-    <Compile Include="Serialization\Ini\IniLayerHandlerProvider.cs" />
-    <Compile Include="Serialization\Ini\IniResource.cs" />
-    <Compile Include="Serialization\Ini\IniResourceGenerator.cs" />
-    <Compile Include="Serialization\Ini\IniResourceIO.cs" />
-    <Compile Include="Serialization\Ini\IniResourceSerializer.cs" />
-    <Compile Include="Serialization\Ini\Layers\ActionLayerHandler.cs" />
-    <Compile Include="Serialization\Ini\Layers\AudioLayerHandler.cs" />
-    <Compile Include="Serialization\Ini\Layers\BinLayerHandler.cs" />
-    <Compile Include="Serialization\Ini\Layers\CodeEntryHandler.cs" />
-    <Compile Include="Serialization\Ini\Layers\CodeLayerHandler.cs" />
-    <Compile Include="Serialization\Ini\Layers\FontLayerHandler.cs" />
-    <Compile Include="Serialization\Ini\Layers\GenericLayerHandler.cs" />
-    <Compile Include="Serialization\Ini\Layers\ImageLayerHandler.cs" />
-    <Compile Include="Serialization\Ini\Layers\NinepatchLayerHandler.cs" />
-    <Compile Include="Serialization\Ini\Layers\TexLayerHandler.cs" />
-    <Compile Include="Serialization\Ini\Layers\TextLayerHandler.cs" />
-    <Compile Include="Serialization\Ini\Layers\TileLayerHandler.cs" />
-    <Compile Include="Serialization\Ini\Layers\TilesetLayerHandler.cs" />
-    <Compile Include="Serialization\Ini\Layers\TooltipLayerHandler.cs" />
+    <Compile Include="Formats\Binary\BinaryLayerHandlerProvider.cs" />
+    <Compile Include="Formats\Binary\BinaryResourceSerializer.cs" />
+    <Compile Include="Formats\Binary\IBinaryLayerHandler.cs" />
+    <Compile Include="Formats\Binary\IBinaryLayerHandlerProvider.cs" />
+    <Compile Include="Formats\Binary\Layers\ActionLayerHandler.cs" />
+    <Compile Include="Formats\Binary\Layers\AnimLayerHandler.cs" />
+    <Compile Include="Formats\Binary\Layers\Audio2LayerHandler.cs" />
+    <Compile Include="Formats\Binary\Layers\AudioLayerHandler.cs" />
+    <Compile Include="Formats\Binary\Layers\CodeEntryLayerHandler.cs" />
+    <Compile Include="Formats\Binary\Layers\CodeLayerHandler.cs" />
+    <Compile Include="Formats\Binary\Layers\FontLayerHandler.cs" />
+    <Compile Include="Formats\Binary\Layers\FoodEventLayerHandler.cs" />
+    <Compile Include="Formats\Binary\Layers\GenericLayerHandler.cs" />
+    <Compile Include="Formats\Binary\Layers\ImageLayerHandler.cs" />
+    <Compile Include="Formats\Binary\Layers\Material2LayerHandler.cs" />
+    <Compile Include="Formats\Binary\Layers\MeshLayerHandler.cs" />
+    <Compile Include="Formats\Binary\Layers\MidiLayerHandler.cs" />
+    <Compile Include="Formats\Binary\Layers\NegLayerHandler.cs" />
+    <Compile Include="Formats\Binary\Layers\NinepatchLayerHandler.cs" />
+    <Compile Include="Formats\Binary\Layers\PoseLayerHandler.cs" />
+    <Compile Include="Formats\Binary\Layers\SkeletonLayerHandler.cs" />
+    <Compile Include="Formats\Binary\Layers\TexLayerHandler.cs" />
+    <Compile Include="Formats\Binary\Layers\TextLayerHandler.cs" />
+    <Compile Include="Formats\Binary\Layers\TileLayerHandler.cs" />
+    <Compile Include="Formats\Binary\Layers\Tileset2LayerHandler.cs" />
+    <Compile Include="Formats\Binary\Layers\TilesetLayerHandler.cs" />
+    <Compile Include="Formats\Binary\Layers\TooltipLayerHandler.cs" />
+    <Compile Include="Formats\Binary\Layers\UnknownLayerHandler.cs" />
+    <Compile Include="Formats\Binary\Layers\Vertex2LayerHandler.cs" />
     <Compile Include="Sources\FolderFileSource.cs" />
     <Compile Include="Sources\FolderSource.cs" />
     <Compile Include="Sources\HttpSource.cs" />

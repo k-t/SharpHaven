@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using System.IO;
-using Haven.Resources.Serialization.Binary;
+using Haven.Resources.Formats.Binary;
 using ICSharpCode.SharpZipLib.Core;
 using ICSharpCode.SharpZipLib.Zip;
 

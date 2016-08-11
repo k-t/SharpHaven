@@ -488,6 +488,10 @@
       <Project>{37671bf5-2a78-46d2-b3df-eaf21ac15850}</Project>
       <Name>Haven.Common</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Haven.Resources.Formats.Ini\Haven.Resources.Formats.Ini.csproj">
+      <Project>{dc98487b-961f-4ba7-9e6a-c30ffb7f17fe}</Project>
+      <Name>Haven.Resources.Formats.Ini</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Haven.Resources\Haven.Resources.csproj">
       <Project>{ce07d810-1550-4ef6-9381-e26969886ec2}</Project>
       <Name>Haven.Resources</Name>

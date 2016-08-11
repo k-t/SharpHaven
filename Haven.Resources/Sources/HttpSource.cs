@@ -1,6 +1,6 @@
 ﻿using System.IO;
 using System.Net;
-using Haven.Resources.Serialization.Binary;
+using Haven.Resources.Formats.Binary;
 
 namespace Haven.Resources
 {

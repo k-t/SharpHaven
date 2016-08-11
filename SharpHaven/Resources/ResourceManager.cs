@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using Haven.Resources;
+using Haven.Resources.Formats.Ini;
 using NLog;
 using OpenTK;
 using SharpFont;
@@ -37,7 +38,10 @@ namespace SharpHaven.Resources
 			RegisterType(typeof(ItemProto), new ItemProtoFactory(drawableFactory));
 			RegisterType(typeof(BuffProto), new BuffProtoFactory(drawableFactory));
 
-			AddSource(new FolderSource("Data"));
+			var folderSource = new FolderSource("Data");
+			folderSource.AddSerializer(".ini", new IniResourceSerializer(folderSource.FileSource));
+
+			AddSource(folderSource);
 			AddSource(new JarSource("haven-res.jar"));
 			AddSource(new HttpSource(App.Config.ResUrl));
 			

@@ -1,8 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using Haven.Resources.Serialization.Binary;
-using Haven.Resources.Serialization.Ini;
+using Haven.Resources.Formats.Binary;
 
 namespace Haven.Resources
 {
@@ -12,11 +11,7 @@ namespace Haven.Resources
 		private readonly FolderFileSource fileSource;
 		private readonly Dictionary<string, IResourceSerializer> serializers;
 
-		public FolderSource(string path) : this(path, ".res")
-		{
-		}
-
-		public FolderSource(string path, string resFileExt)
+		public FolderSource(string path)
 		{
 			if (!Directory.Exists(path))
 				throw new ArgumentException("Specified path doesn't refer to an existing folder");
@@ -28,13 +23,22 @@ namespace Haven.Resources
 			fileSource = new FolderFileSource();
 
 			serializers = new Dictionary<string, IResourceSerializer>();
-			serializers[resFileExt] = new BinaryResourceSerializer();
-			serializers[".ini"] = new IniResourceSerializer(fileSource);
+			AddSerializer(".res", new BinaryResourceSerializer());
 		}
 
 		public string Description
 		{
 			get { return $"[Folder]{basePath}"; }
+		}
+
+		public IFileSource FileSource
+		{
+			get { return fileSource; }
+		}
+
+		public void AddSerializer(string fileExtension, IResourceSerializer serializer)
+		{
+			serializers[fileExtension] = serializer;
 		}
 
 		public IEnumerable<string> EnumerateAll()
