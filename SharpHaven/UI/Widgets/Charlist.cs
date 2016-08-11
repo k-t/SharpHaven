@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using Haven;
+using Haven.Utils;
 using OpenTK;
 using SharpHaven.Graphics;
 using SharpHaven.Graphics.Sprites;
 using SharpHaven.Graphics.Text;
 using SharpHaven.Input;
-using SharpHaven.Utils;
 
 namespace SharpHaven.UI.Widgets
 {

@@ -1,4 +1,5 @@
 ﻿using System;
+using Haven;
 using OpenTK;
 using SharpHaven.Graphics;
 using SharpHaven.Input;
@@ -8,7 +9,7 @@ namespace SharpHaven.UI.Widgets
 	public class Speedget : Widget
 	{
 		private static readonly Drawable[,] images;
-		private static readonly Coord2D size;
+		private static readonly Point2D size;
 
 		static Speedget()
 		{
@@ -25,7 +26,7 @@ namespace SharpHaven.UI.Widgets
 				}
 				w += images[i, 0].Width;
 			}
-			size = new Coord2D(w, images[0, 0].Height);
+			size = new Point2D(w, images[0, 0].Height);
 		}
 
 		public Speedget(Widget parent) : base(parent)

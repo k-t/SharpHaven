@@ -1,12 +1,12 @@
 ﻿using System;
-using SharpHaven.Graphics;
+using Haven;
 
 namespace SharpHaven.Client
 {
 	public class PartyMember
 	{
 		private Color color;
-		private Coord2D? location;
+		private Point2D? location;
 
 		public PartyMember(int id)
 		{
@@ -27,7 +27,7 @@ namespace SharpHaven.Client
 			}
 		}
 
-		public Coord2D? Location
+		public Point2D? Location
 		{
 			get { return location; }
 			set

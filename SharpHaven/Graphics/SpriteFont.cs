@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using Haven;
 using OpenTK.Graphics.OpenGL;
 using SharpFont;
 
@@ -80,7 +81,7 @@ namespace SharpHaven.Graphics
 					}
 				return new Glyph {
 					Advance = face.Glyph.Advance.X.ToSingle(),
-					Offset = new Coord2D(face.Glyph.BitmapLeft, -face.Glyph.BitmapTop),
+					Offset = new Point2D(face.Glyph.BitmapLeft, -face.Glyph.BitmapTop),
 					Image = atlas.Add(image)
 				};
 			}

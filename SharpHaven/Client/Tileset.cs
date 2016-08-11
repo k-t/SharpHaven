@@ -1,7 +1,7 @@
-﻿using SharpHaven.Graphics;
+﻿using Haven.Resources;
+using Haven.Utils;
+using SharpHaven.Graphics;
 using SharpHaven.Graphics.Sprites;
-using SharpHaven.Resources;
-using SharpHaven.Utils;
 
 namespace SharpHaven.Client
 {

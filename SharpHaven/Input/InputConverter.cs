@@ -1,6 +1,6 @@
-﻿using OpenTK;
+﻿using Haven;
+using OpenTK;
 using OpenTK.Input;
-using SharpHaven.Graphics;
 
 namespace SharpHaven.Input
 {
@@ -18,17 +18,17 @@ namespace SharpHaven.Input
 
 		public static MouseButtonEvent Map(MouseButtonEventArgs e)
 		{
-			return new MouseButtonEvent(e.Button, new Coord2D(e.Position.X, e.Position.Y));
+			return new MouseButtonEvent(e.Button, new Point2D(e.Position.X, e.Position.Y));
 		}
 
 		public static MouseMoveEvent Map(MouseMoveEventArgs e)
 		{
-			return new MouseMoveEvent(new Coord2D(e.XDelta, e.YDelta), new Coord2D(e.Position.X, e.Position.Y));
+			return new MouseMoveEvent(new Point2D(e.XDelta, e.YDelta), new Point2D(e.Position.X, e.Position.Y));
 		}
 
 		public static MouseWheelEvent Map(MouseWheelEventArgs e)
 		{
-			return new MouseWheelEvent(e.Delta, new Coord2D(e.Position.X, e.Position.Y));
+			return new MouseWheelEvent(e.Delta, new Point2D(e.Position.X, e.Position.Y));
 		}
 	}
 }

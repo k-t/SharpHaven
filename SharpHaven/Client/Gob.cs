@@ -1,7 +1,7 @@
 ﻿using System.Linq;
-using SharpHaven.Graphics;
+using Haven;
+using Haven.Utils;
 using SharpHaven.Graphics.Sprites;
-using SharpHaven.Utils;
 
 namespace SharpHaven.Client
 {
@@ -11,9 +11,9 @@ namespace SharpHaven.Client
 		private Delayed<ISprite> sprite;
 		private Delayed<ISprite> avatar;
 		private GobSpeech speech;
-		private Coord2D position;
+		private Point2D position;
 		private GobMovement movement;
-		private Coord2D drawOffset;
+		private Point2D drawOffset;
 		
 		public Gob(int id)
 		{
@@ -23,7 +23,7 @@ namespace SharpHaven.Client
 
 		public int Id { get; }
 
-		public Coord2D Position
+		public Point2D Position
 		{
 			get
 			{
@@ -36,7 +36,7 @@ namespace SharpHaven.Client
 			set { position = value; }
 		}
 
-		public Coord2D DrawOffset
+		public Point2D DrawOffset
 		{
 			get
 			{
@@ -101,7 +101,7 @@ namespace SharpHaven.Client
 			avatar = value;
 		}
 
-		public void StartMovement(Coord2D origin, Coord2D destination, int totalSteps)
+		public void StartMovement(Point2D origin, Point2D destination, int totalSteps)
 		{
 			movement = new GobMovement(origin, destination, totalSteps);
 		}

@@ -2,6 +2,7 @@
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Linq;
+using Haven;
 using SharpHaven.Graphics;
 
 namespace SharpHaven.UI.Widgets

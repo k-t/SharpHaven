@@ -320,12 +320,6 @@
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
-    <ProjectReference Include="..\SharpHaven.Common\SharpHaven.Common.csproj">
-      <Project>{37671BF5-2A78-46D2-B3DF-EAF21AC15850}</Project>
-      <Name>SharpHaven.Common</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="App.config" />
     <None Include="Data\fonts\sans.ini">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -488,6 +482,16 @@
     <Content Include="Data\gfx\wcap.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Haven.Common\Haven.Common.csproj">
+      <Project>{37671bf5-2a78-46d2-b3df-eaf21ac15850}</Project>
+      <Name>Haven.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Haven.Resources\Haven.Resources.csproj">
+      <Project>{ce07d810-1550-4ef6-9381-e26969886ec2}</Project>
+      <Name>Haven.Resources</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <Target Name="BeforeBuild" />

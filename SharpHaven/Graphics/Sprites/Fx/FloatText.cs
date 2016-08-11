@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Haven;
 using SharpHaven.Graphics.Text;
 
 namespace SharpHaven.Graphics.Sprites.Fx
@@ -16,7 +17,7 @@ namespace SharpHaven.Graphics.Sprites.Fx
 			this.text.TextColor = color;
 			this.text.Append(text);
 			this.startY = -Fonts.LabelText.Height;
-			this.part = new SpritePart(-1, this.text, new Coord2D(this.text.TextWidth / 2, startY), 5, 0);
+			this.part = new SpritePart(-1, this.text, new Point2D(this.text.TextWidth / 2, startY), 5, 0);
 		}
 
 		public IEnumerable<SpritePart> Parts
@@ -42,7 +43,7 @@ namespace SharpHaven.Graphics.Sprites.Fx
 		private void UpdateOffset()
 		{
 			int y = startY - (int)(10.0D * a);
-			part.Offset = new Coord2D(part.Offset.X, y);
+			part.Offset = new Point2D(part.Offset.X, y);
 		}
 	}
 }

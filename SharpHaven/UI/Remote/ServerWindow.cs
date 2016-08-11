@@ -1,4 +1,4 @@
-﻿using SharpHaven.Graphics;
+﻿using Haven;
 using SharpHaven.UI.Widgets;
 
 namespace SharpHaven.UI.Remote
@@ -23,9 +23,9 @@ namespace SharpHaven.UI.Remote
 			get { return widget; }
 		}
 
-		protected override void OnInit(Coord2D position, object[] args)
+		protected override void OnInit(Point2D position, object[] args)
 		{
-			var size = (Coord2D)args[0];
+			var size = (Point2D)args[0];
 			var caption = args.Length > 1 ? (string)args[1] : "";
 
 			widget = new Window(Parent.Widget, caption);

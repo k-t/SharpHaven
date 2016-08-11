@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Haven;
+using Haven.Net;
 using NLog;
-using SharpHaven.Net;
 
 namespace SharpHaven.Login
 {

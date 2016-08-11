@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using SharpHaven.Graphics;
+using Haven;
 
 namespace SharpHaven.UI.Widgets
 {

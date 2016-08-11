@@ -1,21 +1,22 @@
-﻿using SharpHaven.Graphics;
+﻿using Haven;
+using Haven.Utils;
 
 namespace SharpHaven.Client
 {
 	public class MapGrid
 	{
-		private readonly Coord2D coord;
+		private readonly Point2D coord;
 		private readonly string minimapName;
 		private readonly MapTile[] tiles;
 
-		public MapGrid(Coord2D coord, string minimapName, MapTile[] tiles)
+		public MapGrid(Point2D coord, string minimapName, MapTile[] tiles)
 		{
 			this.coord = coord;
 			this.minimapName = minimapName;
 			this.tiles = tiles;
 		}
 
-		public Coord2D Coord
+		public Point2D Coord
 		{
 			get { return coord; }
 		}

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Haven;
 using SharpHaven.Client;
 using SharpHaven.Graphics;
 using SharpHaven.Graphics.Text;

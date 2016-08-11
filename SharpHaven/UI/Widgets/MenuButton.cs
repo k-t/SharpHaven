@@ -1,4 +1,5 @@
 ﻿using System;
+using Haven;
 using OpenTK.Input;
 using SharpHaven.Graphics;
 using SharpHaven.Input;
@@ -10,7 +11,7 @@ namespace SharpHaven.UI.Widgets
 		private static readonly Drawable background;
 
 		private bool isPressed;
-		private Coord2D dragPosition;
+		private Point2D dragPosition;
 
 		static MenuButton()
 		{

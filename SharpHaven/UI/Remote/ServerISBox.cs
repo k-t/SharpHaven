@@ -1,4 +1,5 @@
-﻿using SharpHaven.Graphics;
+﻿using Haven;
+using SharpHaven.Graphics;
 using SharpHaven.UI.Widgets;
 
 namespace SharpHaven.UI.Remote
@@ -22,7 +23,7 @@ namespace SharpHaven.UI.Remote
 			return new ServerISBox(id, parent);
 		}
 
-		protected override void OnInit(Coord2D position, object[] args)
+		protected override void OnInit(Point2D position, object[] args)
 		{
 			// TODO: get tooltip
 			var image = App.Resources.Get<Drawable>((string)args[0]);

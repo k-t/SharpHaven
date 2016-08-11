@@ -1,4 +1,5 @@
-﻿using SharpHaven.Graphics;
+﻿using Haven;
+using SharpHaven.Graphics;
 using SharpHaven.Input;
 using SharpHaven.UI.Widgets;
 
@@ -23,7 +24,7 @@ namespace SharpHaven.UI.Remote
 			return new ServerImage(id, parent);
 		}
 
-		protected override void OnInit(Coord2D position, object[] args)
+		protected override void OnInit(Point2D position, object[] args)
 		{
 			var resName = (string)args[0];
 			var handleClick = args.Length > 2 && (int)args[2] != 0;

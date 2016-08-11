@@ -1,6 +1,6 @@
 ﻿using System.Collections;
 using System.Linq;
-using SharpHaven.Resources;
+using Haven.Resources;
 using SharpHaven.Utils;
 
 namespace SharpHaven.Graphics.Sprites

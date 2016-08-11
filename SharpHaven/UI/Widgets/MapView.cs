@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Haven;
+using Haven.Utils;
 using OpenTK.Input;
 using SharpHaven.Client;
 using SharpHaven.Graphics;
@@ -15,12 +17,12 @@ namespace SharpHaven.UI.Widgets
 	{
 		private static readonly Drawable circle;
 		private static readonly Drawable overlay;
-		private static readonly List<Tuple<Coord2D, Drawable>> overlayBorders;
+		private static readonly List<Tuple<Point2D, Drawable>> overlayBorders;
 		private static readonly Color[] overlayColors;
 
 		private bool dragging;
-		private Coord2D dragPosition;
-		private Coord2D dragCameraOffset;
+		private Point2D dragPosition;
+		private Point2D dragCameraOffset;
 		private Gob placeGob;
 		private int placeRadius;
 		private bool placeOnTile;
@@ -35,11 +37,11 @@ namespace SharpHaven.UI.Widgets
 			var tileset = App.Resources.Get<Tileset>("gfx/tiles/ol/ol");
 			var tiles = tileset.GroundTiles.ToList();
 			overlay = tiles[0];
-			overlayBorders = new List<Tuple<Coord2D, Drawable>> {
-				Tuple.Create(new Coord2D(0, -1), tiles[1]),
-				Tuple.Create(new Coord2D(0, 1), tiles[2]),
-				Tuple.Create(new Coord2D(-1, 0), tiles[3]),
-				Tuple.Create(new Coord2D(1, 0), tiles[4])
+			overlayBorders = new List<Tuple<Point2D, Drawable>> {
+				Tuple.Create(new Point2D(0, -1), tiles[1]),
+				Tuple.Create(new Point2D(0, 1), tiles[2]),
+				Tuple.Create(new Point2D(-1, 0), tiles[3]),
+				Tuple.Create(new Point2D(1, 0), tiles[4])
 			};
 
 			overlayColors = new Color[31];
@@ -63,7 +65,7 @@ namespace SharpHaven.UI.Widgets
 		public event Action<KeyModifiers> ItemDrop;
 		public event Action<MapClickEvent> ItemInteract;
 		public event Action<MapPlaceEvent> Placed;
-		public event Action<Coord2D> GridRequest;
+		public event Action<Point2D> GridRequest;
 
 		public int PlayerId
 		{
@@ -77,7 +79,7 @@ namespace SharpHaven.UI.Widgets
 			set;
 		}
 
-		private Coord2D CameraOffset
+		private Point2D CameraOffset
 		{
 			get { return Geometry.MapToScreen(Session.WorldPosition); }
 			set { Session.WorldPosition = Geometry.ScreenToMap(value); }
@@ -176,7 +178,7 @@ namespace SharpHaven.UI.Widgets
 				var br = Geometry.MapToGrid(player.Position.Add(500));
 				for (int y = ul.Y; y <= br.Y; y++)
 					for (int x = ul.X; x <= br.X; x++)
-						GridRequest.Raise(new Coord2D(x, y));
+						GridRequest.Raise(new Point2D(x, y));
 			}
 		}
 
@@ -353,9 +355,9 @@ namespace SharpHaven.UI.Widgets
 		/// <summary>
 		/// Converts absolute screen coordinate to a relative to the current viewport.
 		/// </summary>
-		private Coord2D ToRelative(Coord2D abs)
+		private Point2D ToRelative(Point2D abs)
 		{
-			return new Coord2D(
+			return new Point2D(
 				abs.X + Width / 2 - CameraOffset.X,
 				abs.Y + Height / 2 - CameraOffset.Y);
 		}
@@ -363,22 +365,22 @@ namespace SharpHaven.UI.Widgets
 		/// <summary>
 		/// Converts relative screen coordinate to absolute.
 		/// </summary>
-		private Coord2D ToAbsolute(Coord2D rel)
+		private Point2D ToAbsolute(Point2D rel)
 		{
-			return new Coord2D(
+			return new Point2D(
 				rel.X - Width / 2 + CameraOffset.X,
 				rel.Y - Height / 2 + CameraOffset.Y);
 		}
 
 		#region IItemDropTarget
 
-		bool IItemDropTarget.Drop(Coord2D p, Coord2D ul, KeyModifiers mods)
+		bool IItemDropTarget.Drop(Point2D p, Point2D ul, KeyModifiers mods)
 		{
 			ItemDrop.Raise(mods);
 			return true;
 		}
 
-		bool IItemDropTarget.Interact(Coord2D p, Coord2D ul, KeyModifiers mods)
+		bool IItemDropTarget.Interact(Point2D p, Point2D ul, KeyModifiers mods)
 		{
 			if (Session == null)
 				return false;

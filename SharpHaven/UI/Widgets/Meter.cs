@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Haven;
 using SharpHaven.Client;
 using SharpHaven.Graphics;
 
@@ -7,9 +8,9 @@ namespace SharpHaven.UI.Widgets
 {
 	public class Meter : Widget
 	{
-		private static readonly Coord2D off = new Coord2D(13, 7);
-		private static readonly Coord2D fsz = new Coord2D(63, 18);
-		private static readonly Coord2D msz = new Coord2D(49, 4);
+		private static readonly Point2D off = new Point2D(13, 7);
+		private static readonly Point2D fsz = new Point2D(63, 18);
+		private static readonly Point2D msz = new Point2D(49, 4);
 
 		private List<Metric> metrics;
 

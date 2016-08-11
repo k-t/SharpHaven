@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using Haven;
+using Haven.Utils;
 using NLog;
 using OpenTK;
 using SharpHaven.Client;
-using SharpHaven.Graphics;
 using SharpHaven.UI.Widgets;
-using SharpHaven.Utils;
 
 namespace SharpHaven.UI.Remote
 {
@@ -48,7 +48,7 @@ namespace SharpHaven.UI.Remote
 			get;
 		}
 
-		public void Init(Coord2D position, object[] args)
+		public void Init(Point2D position, object[] args)
 		{
 			OnInit(position, args);
 		}
@@ -74,7 +74,7 @@ namespace SharpHaven.UI.Remote
 					message, string.Join(",", args), GetType());
 		}
 
-		protected virtual void OnInit(Coord2D position, object[] args)
+		protected virtual void OnInit(Point2D position, object[] args)
 		{
 		}
 

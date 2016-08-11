@@ -1,4 +1,4 @@
-﻿using SharpHaven.Graphics;
+﻿using Haven;
 using SharpHaven.UI.Widgets;
 
 namespace SharpHaven.UI.Remote
@@ -21,7 +21,7 @@ namespace SharpHaven.UI.Remote
 			return new ServerLabel(id, parent);
 		}
 
-		protected override void OnInit(Coord2D position, object[] args)
+		protected override void OnInit(Point2D position, object[] args)
 		{
 			var text = (string)args[0];
 			var width = args.Length > 1 ? (int?)args[1] : null;

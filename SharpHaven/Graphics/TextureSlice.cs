@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Drawing;
 using System.IO;
+using Haven;
 using OpenTK;
 
 namespace SharpHaven.Graphics

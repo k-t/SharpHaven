@@ -1,16 +1,16 @@
 ﻿using System;
-using SharpHaven.Graphics;
+using Haven;
 
 namespace SharpHaven.Client
 {
 	public class GobMovement
 	{
-		private readonly Coord2D origin;
-		private readonly Coord2D destination;
+		private readonly Point2D origin;
+		private readonly Point2D destination;
 		private readonly int totalSteps;
 		private double a;
 
-		public GobMovement(Coord2D origin, Coord2D destination, int totalSteps)
+		public GobMovement(Point2D origin, Point2D destination, int totalSteps)
 		{
 			this.origin = origin;
 			this.destination = destination;
@@ -18,13 +18,13 @@ namespace SharpHaven.Client
 			this.a = 0;
 		}
 
-		public Coord2D Position
+		public Point2D Position
 		{
 			get
 			{
 				var dx = destination.X - origin.X;
 				var dy = destination.Y - origin.Y;
-				var m = new Coord2D((int)(dx * a), (int)(dy * a));
+				var m = new Point2D((int)(dx * a), (int)(dy * a));
 				return origin.Add(m);
 			}
 		}

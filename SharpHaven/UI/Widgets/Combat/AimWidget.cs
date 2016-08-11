@@ -1,14 +1,15 @@
-﻿using SharpHaven.Graphics;
-using SharpHaven.Resources;
+﻿using Haven;
+using Haven.Resources;
+using SharpHaven.Graphics;
 
 namespace SharpHaven.UI.Widgets
 {
 	public class AimWidget : Widget
 	{
 		private static readonly Picture bg;
-		private static readonly Coord2D bgOffset;
+		private static readonly Point2D bgOffset;
 		private static readonly Picture fg;
-		private static readonly Coord2D fgOffset;
+		private static readonly Point2D fgOffset;
 
 		static AimWidget()
 		{

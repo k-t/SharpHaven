@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using Haven.Resources;
 using NLog;
 using OpenTK;
 using SharpFont;

@@ -1,4 +1,6 @@
-﻿namespace SharpHaven.Resources
+﻿using Haven.Resources;
+
+namespace SharpHaven.Resources
 {
 	public interface IObjectFactory<out T> where T : class
 	{

@@ -1,4 +1,5 @@
-﻿using SharpFont;
+﻿using Haven.Resources;
+using SharpFont;
 
 namespace SharpHaven.Resources
 {

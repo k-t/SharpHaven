@@ -1,4 +1,5 @@
 ﻿using System;
+using Haven;
 using OpenTK.Input;
 using SharpHaven.Graphics;
 using SharpHaven.Input;
@@ -102,13 +103,13 @@ namespace SharpHaven.UI.Widgets
 
 		#region IItemDropTarget
 
-		bool IItemDropTarget.Drop(Coord2D p, Coord2D ul, KeyModifiers mods)
+		bool IItemDropTarget.Drop(Point2D p, Point2D ul, KeyModifiers mods)
 		{
 			ItemDrop.Raise();
 			return true;
 		}
 
-		bool IItemDropTarget.Interact(Coord2D p, Coord2D ul, KeyModifiers mods)
+		bool IItemDropTarget.Interact(Point2D p, Point2D ul, KeyModifiers mods)
 		{
 			ItemInteract.Raise();
 			return true;

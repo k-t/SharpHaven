@@ -1,4 +1,4 @@
-﻿using SharpHaven.Graphics;
+﻿using Haven;
 using SharpHaven.UI.Widgets;
 
 namespace SharpHaven.UI.Remote
@@ -28,9 +28,9 @@ namespace SharpHaven.UI.Remote
 			return new ServerContainer(id, parent);
 		}
 
-		protected override void OnInit(Coord2D position, object[] args)
+		protected override void OnInit(Point2D position, object[] args)
 		{
-			var size = (Coord2D)args[0];
+			var size = (Point2D)args[0];
 
 			widget = Session.Screen.Container;
 			widget.Resize(size.X, size.Y);

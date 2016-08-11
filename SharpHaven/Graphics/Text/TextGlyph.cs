@@ -1,4 +1,6 @@
-﻿namespace SharpHaven.Graphics.Text
+﻿using Haven;
+
+namespace SharpHaven.Graphics.Text
 {
 	public class TextGlyph
 	{
@@ -10,7 +12,7 @@
 		{
 			glyph = font.GetGlyph(c);
 			ascent = font.Ascent;
-			box.Size = new Coord2D((int)glyph.Advance, font.Height);
+			box.Size = new Point2D((int)glyph.Advance, font.Height);
 		}
 
 		public Rect Box
@@ -42,7 +44,7 @@
 
 		public void SetPosition(int x, int y)
 		{
-			box.Location = new Coord2D(x, y);
+			box.Location = new Point2D(x, y);
 		}
 	}
 }

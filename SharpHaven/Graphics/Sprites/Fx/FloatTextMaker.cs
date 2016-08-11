@@ -1,5 +1,6 @@
-﻿using SharpHaven.Resources;
-using SharpHaven.Utils;
+﻿using Haven;
+using Haven.Resources;
+using Haven.Utils;
 
 namespace SharpHaven.Graphics.Sprites.Fx
 {

@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
-using SharpHaven.Graphics;
+using Haven;
+using Haven.Utils;
 using SharpHaven.Graphics.Sprites;
 using SharpHaven.UI.Widgets;
-using SharpHaven.Utils;
 
 namespace SharpHaven.UI.Remote
 {
@@ -25,7 +25,7 @@ namespace SharpHaven.UI.Remote
 			return new ServerCharlist(id, parent);
 		}
 
-		protected override void OnInit(Coord2D position, object[] args)
+		protected override void OnInit(Point2D position, object[] args)
 		{
 			var height = (int)args[0];
 

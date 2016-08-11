@@ -1,4 +1,5 @@
 ﻿using System;
+using Haven;
 
 namespace SharpHaven.Client
 {

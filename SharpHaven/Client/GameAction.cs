@@ -1,5 +1,5 @@
-﻿using SharpHaven.Graphics;
-using SharpHaven.Resources;
+﻿using Haven.Resources;
+using SharpHaven.Graphics;
 
 namespace SharpHaven.Client
 {

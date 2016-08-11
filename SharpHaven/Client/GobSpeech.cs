@@ -1,4 +1,5 @@
 ﻿using System;
+using Haven;
 using SharpHaven.Graphics;
 using SharpHaven.Graphics.Text;
 
@@ -16,9 +17,9 @@ namespace SharpHaven.Client
 		}
 
 		private TextLine text;
-		private Coord2D offset;
+		private Point2D offset;
 
-		public GobSpeech(string text, Coord2D offset)
+		public GobSpeech(string text, Point2D offset)
 		{
 			this.text = new TextLine(Fonts.Text);
 			this.text.TextColor = Color.Black;

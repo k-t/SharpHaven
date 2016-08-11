@@ -1,4 +1,5 @@
 ﻿using System;
+using Haven;
 using OpenTK.Input;
 using SharpHaven.Graphics;
 using SharpHaven.Graphics.Text;
@@ -75,7 +76,7 @@ namespace SharpHaven.UI.Widgets
 			int offset = isPressed ? 1 : 0;
 			if (Image != null)
 			{
-				var p = new Coord2D(
+				var p = new Point2D(
 					(Width - Image.Width) / 2 + offset,
 					(Height - Image.Height) / 2 + offset);
 				dc.Draw(Image, p);

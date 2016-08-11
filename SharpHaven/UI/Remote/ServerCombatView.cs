@@ -1,8 +1,8 @@
 ﻿using System;
+using Haven;
+using Haven.Utils;
 using SharpHaven.Client;
-using SharpHaven.Graphics;
 using SharpHaven.UI.Widgets;
-using SharpHaven.Utils;
 
 namespace SharpHaven.UI.Remote
 {
@@ -35,7 +35,7 @@ namespace SharpHaven.UI.Remote
 			return new ServerCombatView(id, parent);
 		}
 
-		protected override void OnInit(Coord2D position, object[] args)
+		protected override void OnInit(Point2D position, object[] args)
 		{
 			view = Session.Screen.CombatView;
 			view.Visible = true;

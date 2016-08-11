@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Security.Cryptography;
-using SharpHaven.Graphics;
+using Haven;
 
 namespace SharpHaven.Utils
 {
@@ -16,7 +16,7 @@ namespace SharpHaven.Utils
 			}
 		}
 
-		public static long GetSeed(Coord2D p)
+		public static long GetSeed(Point2D p)
 		{
 			return p.X ^ p.Y;
 		}

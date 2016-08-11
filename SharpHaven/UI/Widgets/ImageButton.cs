@@ -1,4 +1,5 @@
 using System;
+using Haven;
 using SharpHaven.Graphics;
 using SharpHaven.Input;
 
@@ -89,7 +90,7 @@ namespace SharpHaven.UI.Widgets
 
 		private void UpdateSize()
 		{
-			Size = Image?.Size ?? Coord2D.Empty;
+			Size = Image?.Size ?? Point2D.Empty;
 		}
 	}
 }

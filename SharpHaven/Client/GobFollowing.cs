@@ -1,10 +1,10 @@
-﻿using SharpHaven.Graphics;
+﻿using Haven;
 
 namespace SharpHaven.Client
 {
 	public class GobFollowing
 	{
-		public GobFollowing(Gob gob, Coord2D offset, byte szo)
+		public GobFollowing(Gob gob, Point2D offset, byte szo)
 		{
 			Gob = gob;
 			Offset = offset;
@@ -13,7 +13,7 @@ namespace SharpHaven.Client
 
 		public Gob Gob { get; }
 
-		public Coord2D Offset { get; }
+		public Point2D Offset { get; }
 
 		public byte Szo { get; }
 	}

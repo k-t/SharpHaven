@@ -1,7 +1,8 @@
 ﻿using System;
+using Haven;
+using Haven.Utils;
 using SharpHaven.Client;
 using SharpHaven.Graphics;
-using SharpHaven.Utils;
 
 namespace SharpHaven.UI.Widgets
 {
@@ -45,7 +46,7 @@ namespace SharpHaven.UI.Widgets
 			lblInitiative.Move(205 + iptex.Width, 30);
 
 			Margin = 5;
-			Size = new Coord2D(300, 120);
+			Size = new Point2D(300, 120);
 		}
 
 		public Delayed<GameAction> Attack
@@ -113,7 +114,7 @@ namespace SharpHaven.UI.Widgets
 
 			if (Attack.Value != null)
 			{
-				var p = hasMove ? new Coord2D(18, 23) : new Coord2D(15, 20);
+				var p = hasMove ? new Point2D(18, 23) : new Point2D(15, 20);
 				dc.Draw(Attack.Value.Image, p);
 			}
 			if (Maneuver.Value != null)

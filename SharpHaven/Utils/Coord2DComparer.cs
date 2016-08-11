@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
-using SharpHaven.Graphics;
+using Haven;
 
 namespace SharpHaven.Utils
 {
-	public class Coord2DComparer : IComparer<Coord2D>
+	public class Coord2DComparer : IComparer<Point2D>
 	{
-		public int Compare(Coord2D first, Coord2D second)
+		public int Compare(Point2D first, Point2D second)
 		{
 			return (first.X == second.X)
 				? first.Y - second.Y

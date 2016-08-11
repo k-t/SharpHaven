@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Haven.Resources;
 using NLog;
 using SharpHaven.Graphics.Sprites;
 using SharpHaven.Graphics.Sprites.Fx;

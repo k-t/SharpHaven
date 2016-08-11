@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Haven;
+using Haven.Utils;
 using SharpHaven.Graphics;
 using SharpHaven.Graphics.Sprites;
 
@@ -13,16 +15,16 @@ namespace SharpHaven.Client
 
 		private readonly ClientSession session;
 		private readonly List<ObjectPart> spriteList;
-		private readonly List<Tuple<Coord2D, GobSpeech>> speeches;
+		private readonly List<Tuple<Point2D, GobSpeech>> speeches;
 
 		public GameScene(ClientSession session)
 		{
 			this.session = session;
 			this.spriteList = new List<ObjectPart>();
-			this.speeches = new List<Tuple<Coord2D, GobSpeech>>();
+			this.speeches = new List<Tuple<Point2D, GobSpeech>>();
 		}
 
-		public Gob GetObjectAt(Coord2D sc)
+		public Gob GetObjectAt(Point2D sc)
 		{
 			for (int i = spriteList.Count - 1; i >= 0; i--)
 				if (spriteList[i].Sprite.CheckHit(sc.X - spriteList[i].X, sc.Y - spriteList[i].Y))
@@ -99,7 +101,7 @@ namespace SharpHaven.Client
 			public readonly int Z;
 			public readonly int SubZ;
 
-			public ObjectPart(Coord2D position, SpritePart sprite, Gob gob, ISpriteEffect effect, int szo)
+			public ObjectPart(Point2D position, SpritePart sprite, Gob gob, ISpriteEffect effect, int szo)
 			{
 				X = position.X;
 				Y = position.Y;

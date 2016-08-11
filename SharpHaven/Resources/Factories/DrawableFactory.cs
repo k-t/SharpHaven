@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Drawing;
 using System.IO;
+using Haven.Resources;
 using SharpHaven.Graphics;
 
 namespace SharpHaven.Resources

@@ -1,10 +1,11 @@
 ﻿using System;
+using Haven;
+using Haven.Net;
 using NLog;
 using OpenTK.Input;
 using SharpHaven.Graphics;
 using SharpHaven.Graphics.Text;
 using SharpHaven.Input;
-using SharpHaven.Net;
 using SharpHaven.UI;
 using SharpHaven.UI.Widgets;
 

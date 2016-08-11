@@ -1,21 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading;
+using Haven;
+using Haven.Messaging;
+using Haven.Messaging.Messages;
+using Haven.Net;
 using NLog;
-using SharpHaven.Game;
-using SharpHaven.Game.Messages;
-using SharpHaven.Graphics;
-using SharpHaven.Net;
 using SharpHaven.UI.Remote;
 
 namespace SharpHaven.Client
 {
-	public class ClientSession : DefaultMessageHandler
+	public class ClientSession : MessageHandlerBase
 	{
 		private static readonly Logger Log = LogManager.GetCurrentClassLogger();
 
 		private readonly GameClient client;
-		private readonly HashSet<Coord2D> gridRequests;
+		private readonly HashSet<Point2D> gridRequests;
 		private readonly ServerWidgetFactory widgetFactory;
 
 		public ClientSession(GameClient client) :
@@ -23,7 +23,7 @@ namespace SharpHaven.Client
 		{
 			this.client = client;
 
-			gridRequests = new HashSet<Coord2D>();
+			gridRequests = new HashSet<Point2D>();
 			widgetFactory = new ServerWidgetFactory();
 
 			Actions = new GameActionCollection();
@@ -62,7 +62,7 @@ namespace SharpHaven.Client
 
 		public ServerWidgetCollection Widgets { get; }
 
-		public Coord2D WorldPosition { get; set; }
+		public Point2D WorldPosition { get; set; }
 
 		public void Start()
 		{
@@ -79,7 +79,7 @@ namespace SharpHaven.Client
 			client.Send(new WidgetMessage(widgetId, name, args));
 		}
 
-		public void RequestMap(Coord2D gc)
+		public void RequestMap(Point2D gc)
 		{
 			var grid = Map.GetGrid(gc);
 			if (grid == null && !gridRequests.Contains(gc))

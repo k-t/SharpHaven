@@ -1,5 +1,5 @@
-﻿using SharpHaven.Client;
-using SharpHaven.Graphics;
+﻿using Haven;
+using SharpHaven.Client;
 using SharpHaven.UI.Widgets;
 
 namespace SharpHaven.UI.Remote
@@ -19,7 +19,7 @@ namespace SharpHaven.UI.Remote
 			get { return widget; }
 		}
 
-		protected override void OnInit(Coord2D position, object[] args)
+		protected override void OnInit(Point2D position, object[] args)
 		{
 		}
 	}

@@ -1,11 +1,11 @@
-﻿using SharpHaven.Graphics;
+﻿using Haven;
 using SharpHaven.UI.Widgets;
 
 namespace SharpHaven.UI
 {
 	public interface IWidgetHost
 	{
-		Coord2D MousePosition { get; }
+		Point2D MousePosition { get; }
 
 		void RequestKeyboardFocus(Widget widget);
 		void GrabMouse(Widget widget);

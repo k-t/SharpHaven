@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Haven;
 using SharpHaven.Client;
 using SharpHaven.Graphics;
 using SharpHaven.UI.Layouts;
@@ -10,9 +11,9 @@ namespace SharpHaven.UI.Widgets
 		private const int Spacing = 2;
 		private const int Num = 5;
 
-		private static readonly Coord2D imgoff = new Coord2D(3, 3);
-		private static readonly Coord2D ameteroff = new Coord2D(3, 36);
-		private static readonly Coord2D ametersz = new Coord2D(30, 2);
+		private static readonly Point2D imgoff = new Point2D(3, 3);
+		private static readonly Point2D ameteroff = new Point2D(3, 36);
+		private static readonly Point2D ametersz = new Point2D(30, 2);
 		private static readonly Drawable frame;
 		private static readonly Drawable cframe;
 

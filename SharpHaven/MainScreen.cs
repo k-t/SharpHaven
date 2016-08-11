@@ -1,9 +1,9 @@
 ﻿using System;
+using Haven.Net;
 using SharpHaven.Client;
 using SharpHaven.Graphics;
 using SharpHaven.Input;
 using SharpHaven.Login;
-using SharpHaven.Net;
 using SharpHaven.UI;
 
 namespace SharpHaven

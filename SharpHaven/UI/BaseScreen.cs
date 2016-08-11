@@ -1,4 +1,5 @@
 ﻿using System;
+using Haven;
 using OpenTK;
 using OpenTK.Input;
 using SharpHaven.Graphics;
@@ -10,7 +11,7 @@ namespace SharpHaven.UI
 	public abstract class BaseScreen : IDisposable, IScreen, IWidgetHost
 	{
 		private readonly RootWidget rootWidget;
-		protected Coord2D mousePosition;
+		protected Point2D mousePosition;
 		protected Widget mouseFocus;
 		protected Widget keyboardFocus;
 		private Widget hoveredWidget;
@@ -205,7 +206,7 @@ namespace SharpHaven.UI
 
 		#region IWidgetHost
 
-		public Coord2D MousePosition
+		public Point2D MousePosition
 		{
 			get { return mousePosition; }
 		}

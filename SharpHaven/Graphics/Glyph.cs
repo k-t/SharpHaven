@@ -1,4 +1,6 @@
-﻿namespace SharpHaven.Graphics
+﻿using Haven;
+
+namespace SharpHaven.Graphics
 {
 	public class Glyph
 	{
@@ -14,7 +16,7 @@
 			set;
 		}
 
-		public Coord2D Offset
+		public Point2D Offset
 		{
 			get;
 			set;

@@ -4,7 +4,8 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using SharpHaven.Resources;
+using Haven;
+using Haven.Resources;
 
 namespace SharpHaven.Graphics.Sprites
 {
@@ -13,7 +14,7 @@ namespace SharpHaven.Graphics.Sprites
 		private Texture tex;
 		private readonly List<SpritePart> parts;
 
-		public SpriteSheet(IEnumerable<ImageLayer> images, Coord2D center)
+		public SpriteSheet(IEnumerable<ImageLayer> images, Point2D center)
 		{
 			parts = new List<SpritePart>();
 			Pack(images.ToArray(), center);
@@ -35,7 +36,7 @@ namespace SharpHaven.Graphics.Sprites
 			return GetEnumerator();
 		}
 
-		private void Pack(ImageLayer[] images, Coord2D center)
+		private void Pack(ImageLayer[] images, Point2D center)
 		{
 			var bitmaps = new Bitmap[images.Length];
 			var regions = new RectF[images.Length];

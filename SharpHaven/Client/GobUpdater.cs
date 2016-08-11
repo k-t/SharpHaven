@@ -1,6 +1,6 @@
 ﻿using System.Linq;
-using SharpHaven.Game;
-using SharpHaven.Game.Messages;
+using Haven.Messaging.Messages;
+using Haven.Utils;
 using SharpHaven.Graphics.Sprites;
 using SharpHaven.Utils;
 

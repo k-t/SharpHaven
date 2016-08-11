@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using SharpHaven.Resources;
+using Haven.Resources;
+using Haven.Utils;
 using SharpHaven.Utils;
 
 namespace SharpHaven.Graphics.Sprites.Plants

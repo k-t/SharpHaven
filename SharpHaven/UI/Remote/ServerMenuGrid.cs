@@ -2,8 +2,8 @@
 using System.Collections.Specialized;
 using System.Linq;
 using C5;
+using Haven;
 using SharpHaven.Client;
-using SharpHaven.Graphics;
 using SharpHaven.UI.Widgets;
 
 namespace SharpHaven.UI.Remote
@@ -29,7 +29,7 @@ namespace SharpHaven.UI.Remote
 			return new ServerMenuGrid(id, parent);
 		}
 
-		protected override void OnInit(Coord2D position, object[] args)
+		protected override void OnInit(Point2D position, object[] args)
 		{
 			widget = Session.Screen.MenuGrid;
 			widget.Visible = true;

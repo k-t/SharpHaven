@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Threading.Tasks;
+using Haven;
+using Haven.Utils;
 using NLog;
 using SharpHaven.Client;
 using SharpHaven.Graphics;

@@ -1,6 +1,7 @@
 using System;
 using System.Drawing;
 using System.IO;
+using Haven.Resources;
 using NLog;
 using OpenTK;
 using OpenTK.Graphics;

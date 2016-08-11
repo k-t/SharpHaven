@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Threading;
+using Haven.Resources;
+using Haven.Utils;
 using NVorbis.OpenTKSupport;
 using OpenTK.Audio;
-using SharpHaven.Resources;
-using SharpHaven.Utils;
 
 namespace SharpHaven
 {

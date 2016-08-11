@@ -1,5 +1,6 @@
 ﻿using System.Drawing;
 using System.IO;
+using Haven.Resources;
 
 namespace SharpHaven.Resources
 {

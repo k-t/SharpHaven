@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using C5;
-using SharpHaven.Game.Messages;
-using SharpHaven.Graphics;
+using Haven;
+using Haven.Messaging.Messages;
+using Haven.Utils;
 using SharpHaven.Graphics.Sprites;
 using SharpHaven.Utils;
 
@@ -11,13 +12,13 @@ namespace SharpHaven.Client
 	public class Map
 	{
 		private readonly Tileset[] tilesets = new Tileset[256];
-		private readonly TreeDictionary<Coord2D, MapGrid> grids;
-		private readonly List<Tuple<Coord2D, ISprite>> flavorObjects = new List<Tuple<Coord2D, ISprite>>();
+		private readonly TreeDictionary<Point2D, MapGrid> grids;
+		private readonly List<Tuple<Point2D, ISprite>> flavorObjects = new List<Tuple<Point2D, ISprite>>();
 		private readonly List<MapOverlay> overlays;
 
 		public Map()
 		{
-			grids = new TreeDictionary<Coord2D, MapGrid>(new Coord2DComparer());
+			grids = new TreeDictionary<Point2D, MapGrid>(new Coord2DComparer());
 			overlays = new List<MapOverlay>();
 		}
 
@@ -26,17 +27,17 @@ namespace SharpHaven.Client
 			get { return overlays; }
 		}
 
-		public IEnumerable<Tuple<Coord2D, ISprite>> FlavorObjects
+		public IEnumerable<Tuple<Point2D, ISprite>> FlavorObjects
 		{
 			get { return flavorObjects; }
 		}
 		
 		public MapGrid GetGrid(int gx, int gy)
 		{
-			return GetGrid(new Coord2D(gx, gy));
+			return GetGrid(new Point2D(gx, gy));
 		}
 
-		public MapGrid GetGrid(Coord2D gc)
+		public MapGrid GetGrid(Point2D gc)
 		{
 			MapGrid grid;
 			return grids.Find(ref gc, out grid) ? grid : null;
@@ -88,7 +89,7 @@ namespace SharpHaven.Client
 						if (random.Next(set.FlavorDensity) == 0)
 						{
 							var fo = set.FlavorObjects.PickRandom(random);
-							flavorObjects.Add(Tuple.Create(new Coord2D(
+							flavorObjects.Add(Tuple.Create(new Point2D(
 								(x + ox) * Geometry.TileWidth,
 								(y + oy) * Geometry.TileHeight), fo));
 						}
@@ -113,9 +114,9 @@ namespace SharpHaven.Client
 			flavorObjects.Clear();
 		}
 
-		private static Coord2D GetAbsoluteTileCoord(Coord2D gc, int tileIndex)
+		private static Point2D GetAbsoluteTileCoord(Point2D gc, int tileIndex)
 		{
-			return new Coord2D(
+			return new Point2D(
 				gc.X * Geometry.GridWidth + tileIndex % Geometry.GridWidth,
 				gc.Y * Geometry.GridHeight + tileIndex / Geometry.GridHeight
 			);

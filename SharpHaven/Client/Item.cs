@@ -1,6 +1,7 @@
 ﻿using System;
+using Haven;
+using Haven.Utils;
 using SharpHaven.Graphics;
-using SharpHaven.Utils;
 
 namespace SharpHaven.Client
 {
