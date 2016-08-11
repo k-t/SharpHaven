@@ -7,6 +7,3 @@ install:
   - nuget install NUnit.Runners -Version 2.6.3 -OutputDirectory testrunner
 script:
   - xbuild /p:Configuration=Release SharpHaven.sln
-  - mono ./testrunner/NUnit.Runners.2.6.3/tools/nunit-console.exe -nologo \
-         ./Haven.Common.Tests/Haven.Common.Tests.csproj \
-         ./Haven.Resources.Tests/Haven.Resources.Tests.csproj
