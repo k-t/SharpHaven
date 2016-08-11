@@ -100,7 +100,6 @@ namespace SharpHaven
 			argvSource.AddSwitch("haven", "authsrv", "a");
 			return argvSource;
 		}
-		
 	}
 }
 
