@@ -92,55 +92,31 @@ namespace Haven
 
 		public static Point2D operator +(Point2D a, Point2D b)
 		{
-			if (a == null)
-				throw new ArgumentNullException(nameof(a));
-			if (b == null)
-				throw new ArgumentNullException(nameof(b));
-
 			return a.Add(b.X, b.Y);
 		}
 
 		public static Point2D operator +(Point2D a, int value)
 		{
-			if (a == null)
-				throw new ArgumentNullException(nameof(a));
-
 			return a.Add(value);
 		}
 
 		public static Point2D operator -(Point2D a, Point2D b)
 		{
-			if (a == null)
-				throw new ArgumentNullException(nameof(a));
-			if (b == null)
-				throw new ArgumentNullException(nameof(b));
-
 			return a.Sub(b.X, b.Y);
 		}
 
 		public static Point2D operator -(Point2D a, int value)
 		{
-			if (a == null)
-				throw new ArgumentNullException(nameof(a));
-
 			return a.Sub(value);
 		}
 
 		public static Point2D operator *(Point2D a, Point2D b)
 		{
-			if (a == null)
-				throw new ArgumentNullException(nameof(a));
-			if (b == null)
-				throw new ArgumentNullException(nameof(b));
-
 			return a.Mul(b.X, b.Y);
 		}
 
 		public static Point2D operator *(Point2D a, int value)
 		{
-			if (a == null)
-				throw new ArgumentNullException(nameof(a));
-
 			return a.Mul(value);
 		}
 

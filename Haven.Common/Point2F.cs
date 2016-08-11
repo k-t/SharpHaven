@@ -74,7 +74,7 @@ namespace Haven
 
 		public bool Equals(Point2F other)
 		{
-			return X == other.X && Y == other.Y;
+			return X.Equals(other.X) && Y.Equals(other.Y);
 		}
 
 		public override bool Equals(object obj)
@@ -92,55 +92,31 @@ namespace Haven
 
 		public static Point2F operator +(Point2F a, Point2F b)
 		{
-			if (a == null)
-				throw new ArgumentNullException(nameof(a));
-			if (b == null)
-				throw new ArgumentNullException(nameof(b));
-
 			return a.Add(b.X, b.Y);
 		}
 
 		public static Point2F operator +(Point2F a, float value)
 		{
-			if (a == null)
-				throw new ArgumentNullException(nameof(a));
-
 			return a.Add(value);
 		}
 
 		public static Point2F operator -(Point2F a, Point2F b)
 		{
-			if (a == null)
-				throw new ArgumentNullException(nameof(a));
-			if (b == null)
-				throw new ArgumentNullException(nameof(b));
-
 			return a.Sub(b.X, b.Y);
 		}
 
 		public static Point2F operator -(Point2F a, float value)
 		{
-			if (a == null)
-				throw new ArgumentNullException(nameof(a));
-
 			return a.Sub(value);
 		}
 
 		public static Point2F operator *(Point2F a, Point2F b)
 		{
-			if (a == null)
-				throw new ArgumentNullException(nameof(a));
-			if (b == null)
-				throw new ArgumentNullException(nameof(b));
-
 			return a.Mul(b.X, b.Y);
 		}
 
 		public static Point2F operator *(Point2F a, float value)
 		{
-			if (a == null)
-				throw new ArgumentNullException(nameof(a));
-
 			return a.Mul(value);
 		}
 
