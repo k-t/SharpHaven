@@ -75,7 +75,7 @@
     <Compile Include="Utils\BinaryDataReader.cs" />
     <Compile Include="Utils\BinaryListType.cs" />
     <Compile Include="Utils\Delayed.cs" />
-    <Compile Include="Utils\Float40.cs" />
+    <Compile Include="Float40.cs" />
     <Compile Include="Utils\FragmentBuffer.cs" />
     <Compile Include="Utils\ImageUtils.cs" />
     <Compile Include="Utils\MathUtils.cs" />

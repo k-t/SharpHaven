@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Haven.Utils
+namespace Haven
 {
 	public struct Float40
 	{
