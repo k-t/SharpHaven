@@ -9,7 +9,7 @@ using NLog;
 
 namespace Haven.Net
 {
-	public class NetworkGame
+	public class LegacyProtocolHandler : IProtocolHandler
 	{
 		#region Constants
 
@@ -68,6 +68,13 @@ namespace Haven.Net
 
 		#endregion
 
+		private enum State
+		{
+			Stopped = 0,
+			Created = 1,
+			Started = 2,
+		}
+
 		private static readonly NLog.Logger Log = LogManager.GetCurrentClassLogger();
 
 		private readonly BinaryMessageSocket socket;
@@ -78,15 +85,15 @@ namespace Haven.Net
 		private readonly TreeDictionary<int, FragmentBuffer> mapFrags;
 		private readonly IMessagePublisher publisher;
 		private ushort rseq;
-		private NetworkGameState state;
+		private State state;
 
-		public NetworkGame(NetworkAddress address, IMessagePublisher publisher)
+		public LegacyProtocolHandler(NetworkAddress address, IMessagePublisher publisher)
 		{
 			this.publisher = publisher;
 			this.waiting = new TreeDictionary<ushort, BinaryMessage>();
 			this.mapFrags = new TreeDictionary<int, FragmentBuffer>();
 
-			this.state = NetworkGameState.Created;
+			this.state = State.Created;
 			this.socket = new BinaryMessageSocket(address.Host, address.Port);
 			this.socket.SetReceiveTimeout(ReceiveTimeout);
 			this.sender = new MessageSender(socket);
@@ -95,22 +102,22 @@ namespace Haven.Net
 			this.receiver.Finished += OnTaskFinished;
 		}
 
-		public event Action Stopped;
+		public event Action Closed;
 
-		public void Start(string userName, byte[] cookie)
+		public void Connect(string userName, byte[] cookie)
 		{
 			try
 			{
 				lock (stateLock)
 				{
-					if (state != NetworkGameState.Created)
+					if (state != State.Created)
 						throw new InvalidOperationException("Can't open already opened/closed connection");
 
-					Connect(userName, cookie);
+					DoHandshake(userName, cookie);
 					receiver.Run();
 					sender.Run();
 
-					state = NetworkGameState.Started;
+					state = State.Started;
 				}
 			}
 			catch (SocketException ex)
@@ -119,11 +126,11 @@ namespace Haven.Net
 			}
 		}
 
-		public void Stop()
+		public void Close()
 		{
 			lock (stateLock)
 			{
-				if (state != NetworkGameState.Started)
+				if (state != State.Started)
 					return;
 
 				receiver.Finished -= OnTaskFinished;
@@ -137,9 +144,9 @@ namespace Haven.Net
 				Thread.Sleep(TimeSpan.FromMilliseconds(5));
 				socket.Close();
 
-				state = NetworkGameState.Stopped;
+				state = State.Stopped;
 			}
-			Stopped.Raise();
+			Closed.Raise();
 		}
 
 		public void Send<TMessage>(TMessage message)
@@ -181,7 +188,7 @@ namespace Haven.Net
 			socket.Send(message);
 		}
 
-		private void Connect(string userName, byte[] cookie)
+		private void DoHandshake(string userName, byte[] cookie)
 		{
 			socket.Connect();
 
@@ -251,7 +258,7 @@ namespace Haven.Net
 					break;
 				case MSG_CLOSE:
 					Log.Info("Server dropped connection");
-					Stop();
+					Close();
 					return;
 			}
 		}

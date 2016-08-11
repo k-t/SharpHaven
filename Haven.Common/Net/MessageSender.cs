@@ -67,7 +67,7 @@ namespace Haven.Net
 						{
 							msg.Last = now;
 							msg.RetryCount++;
-							var rmsg = BinaryMessage.Make(NetworkGame.MSG_REL)
+							var rmsg = BinaryMessage.Make(LegacyProtocolHandler.MSG_REL)
 								.UInt16(msg.Seq)
 								.Byte(msg.Type)
 								.Bytes(msg.Content)
@@ -82,7 +82,7 @@ namespace Haven.Net
 				{
 					if (ackTime.HasValue && ((now - ackTime.Value).TotalMilliseconds >= AckThreshold))
 					{
-						socket.Send(BinaryMessage.Make(NetworkGame.MSG_ACK).UInt16(ackSeq).Complete());
+						socket.Send(BinaryMessage.Make(LegacyProtocolHandler.MSG_ACK).UInt16(ackSeq).Complete());
 						ackTime = null;
 						beat = false;
 					}
@@ -92,7 +92,7 @@ namespace Haven.Net
 				{
 					if ((now - last).TotalMilliseconds > KeepAliveTimeout)
 					{
-						socket.Send(BinaryMessage.Make(NetworkGame.MSG_BEAT).Complete());
+						socket.Send(BinaryMessage.Make(LegacyProtocolHandler.MSG_BEAT).Complete());
 						last = now;
 					}
 				}

@@ -18,13 +18,10 @@ namespace SharpHaven
 
 		public MainScreen()
 		{
-			var clientConfig = new GameClientConfiguration
-			{
-				AuthServerAddress = new NetworkAddress(App.Config.AuthHost, App.Config.AuthPort),
-				GameServerAddress = new NetworkAddress(App.Config.GameHost, App.Config.GamePort)
-			};
+			client = new GameClient(
+				new LegacyAuthHandlerFactory(App.Config.AuthHost, App.Config.AuthPort),
+				new LegacyProtocolHandlerFactory(App.Config.GameHost, App.Config.GamePort));
 
-			client = new GameClient(clientConfig);
 			loginScreen = new LoginScreen(client);
 			loginScreen.LoginCompleted += OnLoginCompleted;
 			current = loginScreen;

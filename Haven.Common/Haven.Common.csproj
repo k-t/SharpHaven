@@ -54,9 +54,15 @@
     <Reference Include="System.Drawing" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Net\IAuthHandler.cs" />
+    <Compile Include="Net\IAuthHandlerFactory.cs" />
+    <Compile Include="Net\IProtocolHandler.cs" />
+    <Compile Include="Net\IProtocolHandlerFactory.cs" />
+    <Compile Include="Net\LegacyAuthHandlerFactory.cs" />
+    <Compile Include="Net\LegacyProtocolHandlerFactory.cs" />
     <Compile Include="ResourceRef.cs" />
     <Compile Include="Utils\BinaryDataWriter.cs" />
-    <Compile Include="Messaging\MessageHandlerBase.cs" />
+    <Compile Include="Messaging\LegacyMessageHandlerBase.cs" />
     <Compile Include="Messaging\Messages\MapRequestGrid.cs" />
     <Compile Include="Messaging\Messages\UpdateAmbientLight.cs" />
     <Compile Include="Messaging\Messages\BuffClearAll.cs" />
@@ -85,11 +91,10 @@
     <Compile Include="Net\GameClientState.cs" />
     <Compile Include="Net\NetworkAddress.cs" />
     <Compile Include="Net\GameClient.cs" />
-    <Compile Include="Net\GameClientConfiguration.cs" />
-    <Compile Include="Net\MessageToGobDelta.cs" />
+    <Compile Include="Net\BinaryMessageDecoder.GobDelta.cs" />
     <Compile Include="Utils\Geometry.cs" />
     <Compile Include="Messaging\Messages\PlaySound.cs" />
-    <Compile Include="Net\MessageToObject.cs" />
+    <Compile Include="Net\BinaryMessageDecoder.cs" />
     <Compile Include="Utils\BinaryDataReader.cs" />
     <Compile Include="Utils\BinaryListType.cs" />
     <Compile Include="Utils\Delayed.cs" />
@@ -112,14 +117,13 @@
     <Compile Include="Utils\EventHelper.cs" />
     <Compile Include="Net\ConnectionError.cs" />
     <Compile Include="Net\NetworkException.cs" />
-    <Compile Include="Net\NetworkGameState.cs" />
-    <Compile Include="Net\NetworkGame.cs" />
+    <Compile Include="Net\LegacyProtocolHandler.cs" />
     <Compile Include="Utils\BackgroundTask.cs" />
     <Compile Include="Net\BinaryMessageSocket.cs" />
     <Compile Include="Net\MessageReceiver.cs" />
     <Compile Include="Net\MessageSender.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Net\AuthClient.cs" />
+    <Compile Include="Net\LegacyAuthHandler.cs" />
     <Compile Include="Net\AuthException.cs" />
     <Compile Include="Net\BinaryMessage.cs" />
     <Compile Include="Utils\WeightList.cs" />

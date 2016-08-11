@@ -7,26 +7,19 @@ using System.Text;
 
 namespace Haven.Net
 {
-	public class AuthClient : IDisposable
+	public class LegacyAuthHandler : IAuthHandler
 	{
 		private const int CMD_USR = 1;
 		private const int CMD_PASSWD = 2;
 		private const int CMD_GETTOKEN = 3;
 		private const int CMD_USETOKEN = 4;
 
-		private readonly string host;
-		private readonly int port;
+		private readonly NetworkAddress address;
 		private SslStream ctx;
 
-		public AuthClient(NetworkAddress address)
-			: this(address.Host, address.Port)
+		public LegacyAuthHandler(NetworkAddress address)
 		{
-		}
-
-		public AuthClient(string host, int port)
-		{
-			this.host = host;
-			this.port = port;
+			this.address = address;
 		}
 
 		private static bool ValidateServerCertificate(
@@ -41,22 +34,14 @@ namespace Haven.Net
 
 		public void Connect()
 		{
-			var tc = new TcpClient(host, port);
+			var tc = new TcpClient(address.Host, address.Port);
 			ctx = new SslStream(tc.GetStream(), false, ValidateServerCertificate, null);
-			ctx.AuthenticateAsClient(host);
+			ctx.AuthenticateAsClient(address.Host);
 		}
 
-		public void BindUser(string userName)
+		public bool TryToken(string userName, byte[] token, out byte[] cookie)
 		{
-			var msg = BinaryMessage.Make(CMD_USR).Chars(userName).Complete();
-			Send(msg);
-			var reply = GetReply();
-			if (reply.Type != 0)
-				throw new AuthException("Unhandled reply " + reply.Type + " when binding username");
-		}
-
-		public bool TryToken(byte[] token, out byte[] cookie)
-		{
+			BindUser(userName);
 			Send(BinaryMessage.Make(CMD_USETOKEN).Bytes(token).Complete());
 			var reply = GetReply();
 			if (reply.Type != 0)
@@ -68,8 +53,9 @@ namespace Haven.Net
 			return true;
 		}
 
-		public bool TryPassword(string password, out byte[] cookie)
+		public bool TryPassword(string userName, string password, out byte[] cookie)
 		{
+			BindUser(userName);
 			byte[] phash = Digest(password);
 			Send(BinaryMessage.Make(CMD_PASSWD).Bytes(phash).Complete());
 			var reply = GetReply();
@@ -87,6 +73,15 @@ namespace Haven.Net
 			Send(BinaryMessage.Make(CMD_GETTOKEN).Complete());
 			var reply = GetReply();
 			return reply.Type == 0 ? reply.GetData() : null;
+		}
+
+		private void BindUser(string userName)
+		{
+			var msg = BinaryMessage.Make(CMD_USR).Chars(userName).Complete();
+			Send(msg);
+			var reply = GetReply();
+			if (reply.Type != 0)
+				throw new AuthException("Unhandled reply " + reply.Type + " when binding username");
 		}
 
 		private byte[] Digest(string password)

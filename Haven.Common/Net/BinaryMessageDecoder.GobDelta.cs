@@ -4,7 +4,7 @@ using Haven.Utils;
 
 namespace Haven.Net
 {
-	public static class MessageToGobDelta
+	internal static partial class BinaryMessageDecoder
 	{
 		public static GobDelta.Position ReadGobPosition(this BinaryDataReader reader)
 		{

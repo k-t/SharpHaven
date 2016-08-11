@@ -5,16 +5,20 @@ namespace Haven.Net
 {
 	public class GameClient
 	{
-		private readonly GameClientConfiguration config;
+		private readonly IAuthHandlerFactory authHandlerFactory;
+		private readonly IProtocolHandlerFactory protocolHandlerFactory;
+		private readonly MessageBus messageBus;
+		private IProtocolHandler protocolHandler;
 		private GameClientState state;
 		private string userName;
 		private byte[] cookie;
-		private NetworkGame session;
-		private readonly MessageBus messageBus;
 
-		public GameClient(GameClientConfiguration config)
+		public GameClient(
+			IAuthHandlerFactory authHandlerFactory,
+			IProtocolHandlerFactory protocolHandlerFactory)
 		{
-			this.config = config;
+			this.authHandlerFactory = authHandlerFactory;
+			this.protocolHandlerFactory = protocolHandlerFactory;
 			this.messageBus = new MessageBus();
 			this.state = GameClientState.Initial;
 		}
@@ -33,16 +37,15 @@ namespace Haven.Net
 		{
 			CheckNotConnected();
 
-			using (var authClient = new AuthClient(config.AuthServerAddress))
+			using (var authHandler = authHandlerFactory.Create())
 			{
-				authClient.Connect();
-				authClient.BindUser(userName);
-				if (!authClient.TryPassword(password, out cookie))
+				authHandler.Connect();
+				if (!authHandler.TryPassword(userName, password, out cookie))
 					return AuthResult.Fail();
 
 				this.userName = userName;
 				this.state = GameClientState.Authenticated;
-				var token = requestToken ? authClient.GetToken() : null;
+				var token = requestToken ? authHandler.GetToken() : null;
 				return AuthResult.Success(token);
 			}
 		}
@@ -51,11 +54,10 @@ namespace Haven.Net
 		{
 			CheckNotConnected();
 
-			using (var authClient = new AuthClient(config.AuthServerAddress))
+			using (var authHandler = authHandlerFactory.Create())
 			{
-				authClient.Connect();
-				authClient.BindUser(userName);
-				if (!authClient.TryToken(token, out cookie))
+				authHandler.Connect();
+				if (!authHandler.TryToken(userName, token, out cookie))
 					return AuthResult.Fail();
 
 				this.userName = userName;
@@ -69,22 +71,22 @@ namespace Haven.Net
 			CheckAuthenticated();
 			CheckNotConnected();
 
-			session = new NetworkGame(config.GameServerAddress, messageBus);
-			session.Start(userName, cookie);
+			protocolHandler = protocolHandlerFactory.Create(messageBus);
+			protocolHandler.Connect(userName, cookie);
 
 			this.state = GameClientState.Connected;
 		}
 
 		public void Close()
 		{
-			session.Stop();
+			protocolHandler.Close();
 			this.state = GameClientState.Initial;
 		}
 
 		public void Send<TMessage>(TMessage message)
 		{
 			CheckConnected();
-			session.Send(message);
+			protocolHandler.Send(message);
 		}
 
 		private void CheckAuthenticated()

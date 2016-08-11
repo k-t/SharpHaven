@@ -8,7 +8,7 @@ using NLog;
 
 namespace Haven.Net
 {
-	public static class MessageToObject
+	internal static partial class BinaryMessageDecoder
 	{
 		private static readonly Logger Log = LogManager.GetCurrentClassLogger();
 

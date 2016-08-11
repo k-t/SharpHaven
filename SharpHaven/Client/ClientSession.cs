@@ -10,7 +10,7 @@ using SharpHaven.UI.Remote;
 
 namespace SharpHaven.Client
 {
-	public class ClientSession : MessageHandlerBase
+	public class ClientSession : LegacyMessageHandlerBase
 	{
 		private static readonly Logger Log = LogManager.GetCurrentClassLogger();
 

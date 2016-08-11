@@ -5,7 +5,7 @@ using Haven.Messaging.Messages;
 
 namespace Haven.Messaging
 {
-	public class MessageHandlerBase : IDisposable
+	public class LegacyMessageHandlerBase : IDisposable
 	{
 		private static readonly Type[] SupportedMessageTypes = {
 			typeof(UpdateAmbientLight),
@@ -36,7 +36,7 @@ namespace Haven.Messaging
 		private readonly IMessageSource source;
 		private readonly Dictionary<Type, object> handlers;
 
-		public MessageHandlerBase(IMessageSource source)
+		public LegacyMessageHandlerBase(IMessageSource source)
 		{
 			if (source == null)
 				throw new ArgumentNullException(nameof(source));
