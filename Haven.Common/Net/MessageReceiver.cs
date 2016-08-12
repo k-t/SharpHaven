@@ -1,9 +1,8 @@
 ﻿using System;
-using Haven.Net;
 using Haven.Utils;
 using NLog;
 
-namespace Haven.Legacy
+namespace Haven.Net
 {
 	internal class MessageReceiver : BackgroundTask
 	{

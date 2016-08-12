@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading;
-using Haven.Net;
 using Haven.Utils;
 
-namespace Haven.Legacy
+namespace Haven.Net
 {
 	internal class MessageSender : BackgroundTask
 	{
@@ -68,7 +67,7 @@ namespace Haven.Legacy
 						{
 							msg.Last = now;
 							msg.RetryCount++;
-							var rmsg = BinaryMessage.Make(LegacyProtocolHandler.MSG_REL)
+							var rmsg = BinaryMessage.Make(ProtocolHandlerBase.MSG_REL)
 								.UInt16(msg.Seq)
 								.Byte(msg.Type)
 								.Bytes(msg.Content)
@@ -83,7 +82,7 @@ namespace Haven.Legacy
 				{
 					if (ackTime.HasValue && ((now - ackTime.Value).TotalMilliseconds >= AckThreshold))
 					{
-						socket.Send(BinaryMessage.Make(LegacyProtocolHandler.MSG_ACK).UInt16(ackSeq).Complete());
+						socket.Send(BinaryMessage.Make(ProtocolHandlerBase.MSG_ACK).UInt16(ackSeq).Complete());
 						ackTime = null;
 						beat = false;
 					}
@@ -93,14 +92,14 @@ namespace Haven.Legacy
 				{
 					if ((now - last).TotalMilliseconds > KeepAliveTimeout)
 					{
-						socket.Send(BinaryMessage.Make(LegacyProtocolHandler.MSG_BEAT).Complete());
+						socket.Send(BinaryMessage.Make(ProtocolHandlerBase.MSG_BEAT).Complete());
 						last = now;
 					}
 				}
 			}
 		}
 
-		public void SendMessage(BinaryMessage message)
+		public void SendSeqMessage(BinaryMessage message)
 		{
 			lock (pending)
 			{

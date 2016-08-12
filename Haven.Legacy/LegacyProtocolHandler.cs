@@ -1,32 +1,22 @@
 ﻿using System;
-using System.Net.Sockets;
-using System.Threading;
 using C5;
 using Haven.Legacy.Messages;
 using Haven.Legacy.Utils;
 using Haven.Messaging;
 using Haven.Net;
 using Haven.Utils;
-using NLog;
 
 namespace Haven.Legacy
 {
-	public class LegacyProtocolHandler : IProtocolHandler
+	public class LegacyProtocolHandler : ProtocolHandlerBase
 	{
 		#region Constants
 
-		private const int ReceiveTimeout = 1000; // milliseconds
 		private const int ProtocolVersion = 2;
 
-		public const int MSG_SESS = 0;
-		public const int MSG_REL = 1;
-		public const int MSG_ACK = 2;
-		public const int MSG_BEAT = 3;
-		public const int MSG_MAPREQ = 4;
-		public const int MSG_MAPDATA = 5;
-		public const int MSG_OBJDATA = 6;
-		public const int MSG_OBJACK = 7;
-		public const int MSG_CLOSE = 8;
+		internal const int MSG_SESS = 0;
+		internal const int MSG_CLOSE = 8;
+		internal const int MSG_MAPREQ = 4;
 
 		private const int RMSG_NEWWDG = 0;
 		private const int RMSG_WDGMSG = 1;
@@ -70,88 +60,15 @@ namespace Haven.Legacy
 
 		#endregion
 
-		private enum State
-		{
-			Stopped = 0,
-			Created = 1,
-			Started = 2,
-		}
-
-		private static readonly NLog.Logger Log = LogManager.GetCurrentClassLogger();
-
-		private readonly BinaryMessageSocket socket;
-		private readonly MessageReceiver receiver;
-		private readonly MessageSender sender;
-		private readonly object stateLock = new object();
-		private readonly TreeDictionary<ushort, BinaryMessage> waiting;
 		private readonly TreeDictionary<int, FragmentBuffer> mapFrags;
-		private readonly IMessagePublisher publisher;
-		private ushort rseq;
-		private State state;
 
 		public LegacyProtocolHandler(NetworkAddress address, IMessagePublisher publisher)
+			: base(address, publisher)
 		{
-			this.publisher = publisher;
-			this.waiting = new TreeDictionary<ushort, BinaryMessage>();
 			this.mapFrags = new TreeDictionary<int, FragmentBuffer>();
-
-			this.state = State.Created;
-			this.socket = new BinaryMessageSocket(address.Host, address.Port);
-			this.socket.SetReceiveTimeout(ReceiveTimeout);
-			this.sender = new MessageSender(socket);
-			this.sender.Finished += OnTaskFinished;
-			this.receiver = new MessageReceiver(socket, ReceiveMessage);
-			this.receiver.Finished += OnTaskFinished;
 		}
 
-		public event Action Closed;
-
-		public void Connect(string userName, byte[] cookie)
-		{
-			try
-			{
-				lock (stateLock)
-				{
-					if (state != State.Created)
-						throw new InvalidOperationException("Can't open already opened/closed connection");
-
-					DoHandshake(userName, cookie);
-					receiver.Run();
-					sender.Run();
-
-					state = State.Started;
-				}
-			}
-			catch (SocketException ex)
-			{
-				throw new NetworkException(ex.Message, ex);
-			}
-		}
-
-		public void Close()
-		{
-			lock (stateLock)
-			{
-				if (state != State.Started)
-					return;
-
-				receiver.Finished -= OnTaskFinished;
-				receiver.Stop();
-
-				sender.Finished -= OnTaskFinished;
-				sender.Stop();
-
-				socket.Send(BinaryMessage.Make(MSG_CLOSE).Complete());
-				// HACK: otherwise close message may not be sent
-				Thread.Sleep(TimeSpan.FromMilliseconds(5));
-				socket.Close();
-
-				state = State.Stopped;
-			}
-			Closed.Raise();
-		}
-
-		public void Send<TMessage>(TMessage message)
+		public override void Send<TMessage>(TMessage message)
 		{
 			var gridRequest = message as MapRequestGrid;
 			if (gridRequest != null)
@@ -159,7 +76,7 @@ namespace Haven.Legacy
 				var msg = BinaryMessage.Make(MSG_MAPREQ)
 					.Coord(gridRequest.Coord)
 					.Complete();
-				socket.Send(msg);
+				Send(msg);
 				return;
 			}
 
@@ -173,224 +90,132 @@ namespace Haven.Legacy
 				if (widgetMessage.Args != null)
 					msg.List(widgetMessage.Args);
 
-				sender.SendMessage(msg.Complete());
+				SendSeqMessage(msg.Complete());
 				return;
 			}
 
-			throw new ArgumentException($"Unsupported outgoing messages type '{message.GetType().Name}'");
+			throw new ArgumentException($"Unsupported outgoing message type '{message.GetType().Name}'");
 		}
 
-		private void SendObjectAck(int id, int frame)
+		protected override BinaryMessage GetHelloMessage(string userName, byte[] cookie)
 		{
-			var message = BinaryMessage.Make(MSG_OBJACK)
-				.Int32(id)
-				.Int32(frame)
-				.Complete();
-			// FIXME: make it smarter
-			socket.Send(message);
-		}
-
-		private void DoHandshake(string userName, byte[] cookie)
-		{
-			socket.Connect();
-
-			var hello = BinaryMessage.Make(MSG_SESS)
+			return BinaryMessage.Make(MSG_SESS)
 				.UInt16(1)
 				.String("Haven")
 				.UInt16(ProtocolVersion)
 				.String(userName)
 				.Bytes(cookie)
 				.Complete();
-
-			socket.Send(hello);
-
-			BinaryMessage reply;
-			ConnectionError error;
-			while (true)
-			{
-				if (!socket.Receive(out reply))
-					throw new NetworkException(ConnectionError.ConnectionError);
-
-				if (reply.Type == MSG_SESS)
-				{
-					error = (ConnectionError)reply.GetReader().ReadByte();
-					break;
-				}
-				if (reply.Type == MSG_CLOSE)
-				{
-					error = ConnectionError.ConnectionError;
-					break;
-				}
-			}
-			if (error != ConnectionError.None)
-				throw new NetworkException(error);
 		}
 
-		private void ReceiveMessage(BinaryMessage msg)
+		protected override void HandleSeqMessage(BinaryMessage message)
 		{
-			var buffer = msg.GetReader();
-			switch (msg.Type)
-			{
-				case MSG_REL:
-					var seq = buffer.ReadUInt16();
-					while (buffer.HasRemaining)
-					{
-						var type = buffer.ReadByte();
-						int len;
-						if ((type & 0x80) != 0) // is not last?
-						{
-							type &= 0x7f;
-							len = buffer.ReadUInt16();
-						}
-						else
-							len = (int)buffer.Remaining;
-						GotRel(seq, new BinaryMessage(type, buffer.ReadBytes(len)));
-						seq++;
-					}
-					break;
-				case MSG_ACK:
-					sender.ReceiveAck(buffer.ReadUInt16());
-					break;
-				case MSG_MAPDATA:
-					HandleMapData(buffer);
-					break;
-				case MSG_OBJDATA:
-					while (buffer.HasRemaining)
-						HandleGobData(buffer);
-					break;
-				case MSG_CLOSE:
-					Log.Info("Server dropped connection");
-					Close();
-					return;
-			}
-		}
-
-		private void GotRel(ushort seq, BinaryMessage msg)
-		{
-			if (seq == rseq)
-			{
-				HandleRel(msg);
-				while (true)
-				{
-					rseq++;
-					if (!waiting.Remove(rseq, out msg))
-						break;
-					HandleRel(msg);
-				}
-				sender.SendAck((ushort)(rseq - 1));
-			}
-			else if (seq > rseq)
-				waiting[seq] = msg;
-		}
-
-		private void HandleRel(BinaryMessage msg)
-		{
-			var buf = msg.GetReader();
-			switch (msg.Type)
+			var reader = message.GetReader();
+			switch (message.Type)
 			{
 				case RMSG_NEWWDG:
-					publisher.Publish(buf.ReadWidgetCreateEvent());
+					Publish(reader.ReadWidgetCreateEvent());
 					break;
 				case RMSG_WDGMSG:
-					publisher.Publish(buf.ReadWidgetMessageEvent());
+					Publish(reader.ReadWidgetMessageEvent());
 					break;
 				case RMSG_DSTWDG:
-					publisher.Publish(buf.ReadWidgetDestroyEvent());
+					Publish(reader.ReadWidgetDestroyEvent());
 					break;
 				case RMSG_MAPIV:
 				{
-					int type = buf.ReadByte();
-					switch (type)
+					int invalidationType = reader.ReadByte();
+					switch (invalidationType)
 					{
 						case 0:
-							publisher.Publish(buf.ReadMapInvalidateGridEvent());
+							Publish(reader.ReadMapInvalidateGridEvent());
 							break;
 						case 1:
-							publisher.Publish(buf.ReadMapInvalidateRegionEvent());
+							Publish(reader.ReadMapInvalidateRegionEvent());
 							break;
 						case 2:
-							publisher.Publish(new MapInvalidate());
+							Publish(new MapInvalidate());
 							break;
 					}
 					break;
 				}
 				case RMSG_GLOBLOB:
-					while (buf.HasRemaining)
+					while (reader.HasRemaining)
 					{
-						switch (buf.ReadByte())
+						switch (reader.ReadByte())
 						{
 							case GMSG_TIME:
-								publisher.Publish(buf.ReadGameTimeUpdateEvent());
+								Publish(reader.ReadGameTimeUpdateEvent());
 								break;
 							case GMSG_ASTRO:
-								publisher.Publish(buf.ReadAstronomyUpdateEvent());
+								Publish(reader.ReadAstronomyUpdateEvent());
 								break;
 							case GMSG_LIGHT:
-								publisher.Publish(buf.ReadAmbientLightUpdateEvent());
+								Publish(reader.ReadAmbientLightUpdateEvent());
 								break;
 						}
 					}
 					break;
 				case RMSG_PAGINAE:
-					publisher.Publish(buf.ReadGameActionsUpdateEvent());
+					Publish(reader.ReadGameActionsUpdateEvent());
 					break;
 				case RMSG_RESID:
-					publisher.Publish(buf.ReadResourceLoadEvent());
+					Publish(reader.ReadResourceLoadEvent());
 					break;
 				case RMSG_PARTY:
-					while (buf.HasRemaining)
+					while (reader.HasRemaining)
 					{
-						int type = buf.ReadByte();
+						int type = reader.ReadByte();
 						switch (type)
 						{
 							case PD_LIST:
-								publisher.Publish(buf.ReadPartyUpdateEvent());
+								Publish(reader.ReadPartyUpdateEvent());
 								break;
 							case PD_LEADER:
-								publisher.Publish(buf.ReadPartyLeaderChangeEvent());
+								Publish(reader.ReadPartyLeaderChangeEvent());
 								break;
 							case PD_MEMBER:
-								publisher.Publish(buf.ReadPartyMemberUpdateEvent());
+								Publish(reader.ReadPartyMemberUpdateEvent());
 								break;
 						}
 					}
 					break;
 				case RMSG_SFX:
-					publisher.Publish(buf.ReadPlaySoundEvent());
+					Publish(reader.ReadPlaySoundEvent());
 					break;
 				case RMSG_CATTR:
-					publisher.Publish(buf.ReadCharAttributesUpdateEvent());
+					Publish(reader.ReadCharAttributesUpdateEvent());
 					break;
 				case RMSG_MUSIC:
-					publisher.Publish(new PlayMusic());
+					Publish(new PlayMusic());
 					break;
 				case RMSG_TILES:
-					publisher.Publish(buf.ReadTilesetsLoadEvent());
+					Publish(reader.ReadTilesetsLoadEvent());
 					break;
 				case RMSG_BUFF:
 				{
-					var message = buf.ReadCString();
-					switch (message)
+					var type = reader.ReadCString();
+					switch (type)
 					{
 						case "clear":
-							publisher.Publish(new BuffClearAll());
+							Publish(new BuffClearAll());
 							break;
 						case "rm":
-							publisher.Publish(buf.ReadBuffRemoveEvent());
+							Publish(reader.ReadBuffRemoveEvent());
 							break;
 						case "set":
-							publisher.Publish(buf.ReadBuffUpdateEvent());
+							Publish(reader.ReadBuffUpdateEvent());
 							break;
 					}
 					break;
 				}
 				default:
-					throw new Exception("Unknown rmsg type: " + msg.Type);
+					throw new Exception("Unknown rmsg type: " + message.Type);
 			}
 		}
 
 		// TODO: delete lingering fragments?
-		private void HandleMapData(BinaryDataReader reader)
+		protected override void HandleMapData(BinaryDataReader reader)
 		{
 			int packetId = reader.ReadInt32();
 			int offset = reader.ReadUInt16();
@@ -404,7 +229,7 @@ namespace Haven.Legacy
 				{
 					mapFrags.Remove(packetId);
 					var fragReader = new BinaryDataReader(fragbuf.Content);
-					publisher.Publish(fragReader.ReadMapUpdateEvent());
+					Publish(fragReader.ReadMapUpdateEvent());
 				}
 			}
 			else if (offset != 0 || reader.Length - 8 < length)
@@ -415,28 +240,33 @@ namespace Haven.Legacy
 			}
 			else
 			{
-				publisher.Publish(reader.ReadMapUpdateEvent());
+				Publish(reader.ReadMapUpdateEvent());
 			}
 		}
 
-		private void HandleGobData(BinaryDataReader reader)
+		protected override void HandleGobData(BinaryDataReader reader)
 		{
-			var ev = new UpdateGameObject();
-			ev.ReplaceFlag = (reader.ReadByte() & 1) != 0;
-			ev.GobId = reader.ReadInt32();
-			ev.Frame = reader.ReadInt32();
-			while (true)
+			while (reader.HasRemaining)
 			{
-				var delta = ReadGobDelta(reader);
-				if (delta == null)
-					break;
-				ev.Deltas.Add(delta);
+				var ev = new UpdateGameObject();
+				ev.ReplaceFlag = (reader.ReadByte() & 1) != 0;
+				ev.GobId = reader.ReadInt32();
+				ev.Frame = reader.ReadInt32();
+
+				while (true)
+				{
+					var delta = DecodeGobDelta(reader);
+					if (delta == null)
+						break;
+					ev.Deltas.Add(delta);
+				}
+
+				Publish(ev);
+				AckGobData(ev.GobId, ev.Frame);
 			}
-			publisher.Publish(ev);
-			SendObjectAck(ev.GobId, ev.Frame);
 		}
 
-		private GobDelta ReadGobDelta(BinaryDataReader reader)
+		private GobDelta DecodeGobDelta(BinaryDataReader reader)
 		{
 			int type = reader.ReadByte();
 			switch (type)
@@ -477,12 +307,6 @@ namespace Haven.Legacy
 					// TODO: MessageException
 					throw new Exception("Unknown objdelta type: " + type);
 			}
-		}
-
-		private void OnTaskFinished(object sender, EventArgs args)
-		{
-			// it shouldn't happen normally, so let it crash
-			throw new Exception("Task finished abruptly");
 		}
 	}
 }

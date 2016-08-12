@@ -53,8 +53,6 @@
     <Compile Include="LegacyMessageHandlerBase.cs" />
     <Compile Include="LegacyProtocolHandler.cs" />
     <Compile Include="LegacyProtocolHandlerFactory.cs" />
-    <Compile Include="MessageReceiver.cs" />
-    <Compile Include="MessageSender.cs" />
     <Compile Include="Messages\BuffClearAll.cs" />
     <Compile Include="Messages\BuffRemove.cs" />
     <Compile Include="Messages\BuffUpdate.cs" />
