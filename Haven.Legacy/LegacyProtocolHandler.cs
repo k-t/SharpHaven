@@ -62,8 +62,7 @@ namespace Haven.Legacy
 
 		private readonly TreeDictionary<int, FragmentBuffer> mapFrags;
 
-		public LegacyProtocolHandler(NetworkAddress address, IMessagePublisher publisher)
-			: base(address, publisher)
+		public LegacyProtocolHandler(NetworkAddress address) : base(address)
 		{
 			this.mapFrags = new TreeDictionary<int, FragmentBuffer>();
 		}
@@ -114,13 +113,13 @@ namespace Haven.Legacy
 			switch (message.Type)
 			{
 				case RMSG_NEWWDG:
-					Publish(reader.ReadWidgetCreateEvent());
+					Receive(reader.ReadWidgetCreateEvent());
 					break;
 				case RMSG_WDGMSG:
-					Publish(reader.ReadWidgetMessageEvent());
+					Receive(reader.ReadWidgetMessageEvent());
 					break;
 				case RMSG_DSTWDG:
-					Publish(reader.ReadWidgetDestroyEvent());
+					Receive(reader.ReadWidgetDestroyEvent());
 					break;
 				case RMSG_MAPIV:
 				{
@@ -128,13 +127,13 @@ namespace Haven.Legacy
 					switch (invalidationType)
 					{
 						case 0:
-							Publish(reader.ReadMapInvalidateGridEvent());
+							Receive(reader.ReadMapInvalidateGridEvent());
 							break;
 						case 1:
-							Publish(reader.ReadMapInvalidateRegionEvent());
+							Receive(reader.ReadMapInvalidateRegionEvent());
 							break;
 						case 2:
-							Publish(new MapInvalidate());
+							Receive(new MapInvalidate());
 							break;
 					}
 					break;
@@ -145,22 +144,22 @@ namespace Haven.Legacy
 						switch (reader.ReadByte())
 						{
 							case GMSG_TIME:
-								Publish(reader.ReadGameTimeUpdateEvent());
+								Receive(reader.ReadGameTimeUpdateEvent());
 								break;
 							case GMSG_ASTRO:
-								Publish(reader.ReadAstronomyUpdateEvent());
+								Receive(reader.ReadAstronomyUpdateEvent());
 								break;
 							case GMSG_LIGHT:
-								Publish(reader.ReadAmbientLightUpdateEvent());
+								Receive(reader.ReadAmbientLightUpdateEvent());
 								break;
 						}
 					}
 					break;
 				case RMSG_PAGINAE:
-					Publish(reader.ReadGameActionsUpdateEvent());
+					Receive(reader.ReadGameActionsUpdateEvent());
 					break;
 				case RMSG_RESID:
-					Publish(reader.ReadResourceLoadEvent());
+					Receive(reader.ReadResourceLoadEvent());
 					break;
 				case RMSG_PARTY:
 					while (reader.HasRemaining)
@@ -169,28 +168,28 @@ namespace Haven.Legacy
 						switch (type)
 						{
 							case PD_LIST:
-								Publish(reader.ReadPartyUpdateEvent());
+								Receive(reader.ReadPartyUpdateEvent());
 								break;
 							case PD_LEADER:
-								Publish(reader.ReadPartyLeaderChangeEvent());
+								Receive(reader.ReadPartyLeaderChangeEvent());
 								break;
 							case PD_MEMBER:
-								Publish(reader.ReadPartyMemberUpdateEvent());
+								Receive(reader.ReadPartyMemberUpdateEvent());
 								break;
 						}
 					}
 					break;
 				case RMSG_SFX:
-					Publish(reader.ReadPlaySoundEvent());
+					Receive(reader.ReadPlaySoundEvent());
 					break;
 				case RMSG_CATTR:
-					Publish(reader.ReadCharAttributesUpdateEvent());
+					Receive(reader.ReadCharAttributesUpdateEvent());
 					break;
 				case RMSG_MUSIC:
-					Publish(new PlayMusic());
+					Receive(new PlayMusic());
 					break;
 				case RMSG_TILES:
-					Publish(reader.ReadTilesetsLoadEvent());
+					Receive(reader.ReadTilesetsLoadEvent());
 					break;
 				case RMSG_BUFF:
 				{
@@ -198,13 +197,13 @@ namespace Haven.Legacy
 					switch (type)
 					{
 						case "clear":
-							Publish(new BuffClearAll());
+							Receive(new BuffClearAll());
 							break;
 						case "rm":
-							Publish(reader.ReadBuffRemoveEvent());
+							Receive(reader.ReadBuffRemoveEvent());
 							break;
 						case "set":
-							Publish(reader.ReadBuffUpdateEvent());
+							Receive(reader.ReadBuffUpdateEvent());
 							break;
 					}
 					break;
@@ -229,7 +228,7 @@ namespace Haven.Legacy
 				{
 					mapFrags.Remove(packetId);
 					var fragReader = new BinaryDataReader(fragbuf.Content);
-					Publish(fragReader.ReadMapUpdateEvent());
+					Receive(fragReader.ReadMapUpdateEvent());
 				}
 			}
 			else if (offset != 0 || reader.Length - 8 < length)
@@ -240,7 +239,7 @@ namespace Haven.Legacy
 			}
 			else
 			{
-				Publish(reader.ReadMapUpdateEvent());
+				Receive(reader.ReadMapUpdateEvent());
 			}
 		}
 
@@ -261,7 +260,7 @@ namespace Haven.Legacy
 					ev.Deltas.Add(delta);
 				}
 
-				Publish(ev);
+				Receive(ev);
 				AckGobData(ev.GobId, ev.Frame);
 			}
 		}

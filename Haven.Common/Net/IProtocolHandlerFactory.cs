@@ -1,9 +1,7 @@
-﻿using Haven.Messaging;
-
-namespace Haven.Net
+﻿namespace Haven.Net
 {
 	public interface IProtocolHandlerFactory
 	{
-		IProtocolHandler Create(IMessagePublisher messagePublisher);
+		IProtocolHandler Create();
 	}
 }

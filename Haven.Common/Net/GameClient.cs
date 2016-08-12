@@ -7,7 +7,7 @@ namespace Haven.Net
 	{
 		private readonly IAuthHandlerFactory authHandlerFactory;
 		private readonly IProtocolHandlerFactory protocolHandlerFactory;
-		private readonly MessageBus messageBus;
+		private readonly MessageBroker messageBroker;
 		private IProtocolHandler protocolHandler;
 		private GameClientState state;
 		private string userName;
@@ -19,13 +19,13 @@ namespace Haven.Net
 		{
 			this.authHandlerFactory = authHandlerFactory;
 			this.protocolHandlerFactory = protocolHandlerFactory;
-			this.messageBus = new MessageBus();
+			this.messageBroker = new MessageBroker();
 			this.state = GameClientState.Initial;
 		}
 
 		public IMessageSource Messages
 		{
-			get { return messageBus; }
+			get { return messageBroker; }
 		}
 
 		public GameClientState State
@@ -71,7 +71,8 @@ namespace Haven.Net
 			CheckAuthenticated();
 			CheckNotConnected();
 
-			protocolHandler = protocolHandlerFactory.Create(messageBus);
+			protocolHandler = protocolHandlerFactory.Create();
+			protocolHandler.Dispatcher = messageBroker;
 			protocolHandler.Connect(userName, cookie);
 
 			this.state = GameClientState.Connected;

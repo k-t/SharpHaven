@@ -50,6 +50,7 @@
     <Reference Include="System.Drawing" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Messaging\NullMessageDispatcher.cs" />
     <Compile Include="Net\IAuthHandler.cs" />
     <Compile Include="Net\IAuthHandlerFactory.cs" />
     <Compile Include="Net\IProtocolHandler.cs" />
@@ -59,10 +60,10 @@
     <Compile Include="Net\ProtocolHandlerBase.cs" />
     <Compile Include="ResourceRef.cs" />
     <Compile Include="Utils\BinaryDataWriter.cs" />
-    <Compile Include="Messaging\IMessagePublisher.cs" />
+    <Compile Include="Messaging\IMessageDispatcher.cs" />
     <Compile Include="Messaging\IMessageSource.cs" />
     <Compile Include="Messaging\MessageHandler.cs" />
-    <Compile Include="Messaging\MessageBus.cs" />
+    <Compile Include="Messaging\MessageBroker.cs" />
     <Compile Include="Color.cs" />
     <Compile Include="Point2D.cs" />
     <Compile Include="Point2F.cs" />

@@ -3,16 +3,16 @@ using System.Collections.Generic;
 
 namespace Haven.Messaging
 {
-	public class MessageBus : IMessagePublisher, IMessageSource
+	public class MessageBroker : IMessageDispatcher, IMessageSource
 	{
 		private readonly Dictionary<Type, object> handlers;
 
-		public MessageBus()
+		public MessageBroker()
 		{
 			this.handlers = new Dictionary<Type, object>();
 		}
 
-		public void Publish<TMessage>(TMessage message)
+		public void Dispatch<TMessage>(TMessage message)
 		{
 			foreach (var handler in GetHandlersOf<TMessage>())
 				handler(message);

@@ -1,5 +1,4 @@
-﻿using Haven.Messaging;
-using Haven.Net;
+﻿using Haven.Net;
 
 namespace Haven.Legacy
 {
@@ -17,9 +16,9 @@ namespace Haven.Legacy
 		{
 		}
 
-		public IProtocolHandler Create(IMessagePublisher messagePublisher)
+		public IProtocolHandler Create()
 		{
-			return new LegacyProtocolHandler(address, messagePublisher);
+			return new LegacyProtocolHandler(address);
 		}
 	}
 }

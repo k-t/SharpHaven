@@ -34,18 +34,17 @@ namespace Haven.Net
 
 		private static readonly NLog.Logger Log = LogManager.GetCurrentClassLogger();
 
-		protected readonly BinaryMessageSocket socket;
+		private readonly BinaryMessageSocket socket;
 		private readonly MessageReceiver receiver;
 		private readonly MessageSender sender;
 		private readonly object stateLock = new object();
 		private readonly TreeDictionary<ushort, BinaryMessage> waiting;
-		private readonly IMessagePublisher publisher;
+		private IMessageDispatcher dispatcher = NullMessageDispatcher.Instance;
 		private ushort rseq;
 		private State state;
 
-		public ProtocolHandlerBase(NetworkAddress address, IMessagePublisher publisher)
+		public ProtocolHandlerBase(NetworkAddress address)
 		{
-			this.publisher = publisher;
 			this.waiting = new TreeDictionary<ushort, BinaryMessage>();
 
 			this.state = State.Created;
@@ -58,6 +57,12 @@ namespace Haven.Net
 		}
 
 		public event Action Closed;
+
+		public virtual IMessageDispatcher Dispatcher
+		{
+			get { return dispatcher; }
+			set { dispatcher = value ?? NullMessageDispatcher.Instance; }
+		}
 
 		public void Connect(string userName, byte[] cookie)
 		{
@@ -124,9 +129,9 @@ namespace Haven.Net
 			socket.Send(message);
 		}
 
-		protected void Publish<TMessage>(TMessage message)
+		protected void Receive<TMessage>(TMessage message)
 		{
-			publisher.Publish(message);
+			dispatcher.Dispatch(message);
 		}
 
 		protected void Send(BinaryMessage message)
