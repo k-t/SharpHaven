@@ -27,7 +27,12 @@ namespace SharpHaven.Client
 
 		public Delayed<ISprite> GetSprite(int id, byte[] spriteState = null)
 		{
-			return Get(id, n => App.Resources.GetSprite(n, spriteState));
+			return GetSprite(id, null, null);
+		}
+
+		public Delayed<ISprite> GetSprite(int id, Gob owner, byte[] spriteState = null)
+		{
+			return Get(id, n => App.Resources.GetSprite(n, owner, spriteState));
 		}
 
 		public void Load(ushort resId, string resName)

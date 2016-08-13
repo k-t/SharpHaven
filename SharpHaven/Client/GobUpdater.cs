@@ -2,6 +2,7 @@
 using Haven.Legacy.Messages;
 using Haven.Utils;
 using SharpHaven.Graphics.Sprites;
+using SharpHaven.Graphics.Sprites.Fx;
 using SharpHaven.Utils;
 
 namespace SharpHaven.Client
@@ -53,7 +54,7 @@ namespace SharpHaven.Client
 
 		private void Apply(GobDelta.Avatar delta)
 		{
-			var sprites = delta.ResourceIds.Select(x => session.Resources.GetSprite(x));
+			var sprites = delta.ResourceIds.Select(x => session.Resources.GetSprite(x, gob));
 			var sprite = new LayeredSprite(sprites);
 			var delayed = new Delayed<ISprite>(sprite);
 			gob.SetAvatar(delayed);
@@ -97,7 +98,7 @@ namespace SharpHaven.Client
 
 		private void Apply(GobDelta.Layers delta)
 		{
-			var sprites = delta.ResourceIds.Select(x => session.Resources.GetSprite(x));
+			var sprites = delta.ResourceIds.Select(x => session.Resources.GetSprite(x, gob));
 			var sprite = new LayeredSprite(sprites);
 			var delayed = new Delayed<ISprite>(sprite);
 			gob.SetSprite(delayed);
@@ -111,7 +112,7 @@ namespace SharpHaven.Client
 		{
 			if (delta.ResourceId != -1)
 			{
-				var sprite = session.Resources.GetSprite(delta.ResourceId, delta.SpriteData);
+				var sprite = session.Resources.GetSprite(delta.ResourceId, gob, delta.SpriteData);
 				var overlay = new GobOverlay(delta.Id, sprite, delta.IsPersistent);
 				gob.Overlays.Add(overlay);
 			}
@@ -126,7 +127,7 @@ namespace SharpHaven.Client
 
 		private void Apply(GobDelta.Resource delta)
 		{
-			var res = session.Resources.GetSprite(delta.Id, delta.SpriteData);
+			var res = session.Resources.GetSprite(delta.Id, gob, delta.SpriteData);
 			gob.SetSprite(res);
 		}
 

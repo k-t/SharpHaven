@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Linq;
 using Haven.Resources;
+using SharpHaven.Client;
 using SharpHaven.Utils;
 
 namespace SharpHaven.Graphics.Sprites
@@ -11,7 +12,7 @@ namespace SharpHaven.Graphics.Sprites
 		{
 		}
 
-		public override ISprite MakeInstance(byte[] state)
+		public override ISprite MakeInstance(Gob owner, byte[] state)
 		{
 			var flags = state != null
 				? new BitArray(state)

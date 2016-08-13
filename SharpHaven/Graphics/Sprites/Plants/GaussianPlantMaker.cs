@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Haven.Resources;
 using Haven.Utils;
+using SharpHaven.Client;
 using SharpHaven.Utils;
 
 namespace SharpHaven.Graphics.Sprites.Plants
@@ -26,9 +27,9 @@ namespace SharpHaven.Graphics.Sprites.Plants
 			return res => new GaussianPlantMaker(res, num);
 		}
 
-		public override ISprite MakeInstance(byte[] state)
+		public override ISprite MakeInstance(Gob owner, byte[] state)
 		{
-			var rnd = new Random(RandomUtils.GetSeed()); // TODO: gobId should be used as seed
+			var rnd = new Random(owner?.Id ?? RandomUtils.GetSeed());
 			var parts = new List<SpritePart>();
 			parts.AddRange(Parts.Where(x => x.Id == -1));
 			for (int i = 0; i < num; i++)

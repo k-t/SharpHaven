@@ -1,6 +1,7 @@
 ﻿using Haven;
 using Haven.Resources;
 using Haven.Utils;
+using SharpHaven.Client;
 
 namespace SharpHaven.Graphics.Sprites.Fx
 {
@@ -11,7 +12,7 @@ namespace SharpHaven.Graphics.Sprites.Fx
 		{
 		}
 
-		public override ISprite MakeInstance(byte[] state)
+		public override ISprite MakeInstance(Gob owner, byte[] state)
 		{
 			var reader = new BinaryDataReader(state);
 

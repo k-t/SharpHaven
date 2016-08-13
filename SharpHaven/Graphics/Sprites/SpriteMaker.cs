@@ -1,6 +1,7 @@
 ﻿using System;
 using Haven;
 using Haven.Resources;
+using SharpHaven.Client;
 
 namespace SharpHaven.Graphics.Sprites
 {
@@ -20,7 +21,7 @@ namespace SharpHaven.Graphics.Sprites
 			get { return parts; }
 		}
 
-		public abstract ISprite MakeInstance(byte[] state);
+		public abstract ISprite MakeInstance(Gob owner, byte[] state);
 
 		public virtual void Dispose()
 		{

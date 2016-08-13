@@ -68,8 +68,13 @@ namespace SharpHaven.Resources
 
 		public ISprite GetSprite(string resName, byte[] state = null)
 		{
+			return GetSprite(resName, null, null);
+		}
+
+		public ISprite GetSprite(string resName, Gob owner, byte[] state = null)
+		{
 			var maker = Get<SpriteMaker>(resName);
-			return maker.MakeInstance(state);
+			return maker.MakeInstance(owner, state);
 		}
 
 		public Resource Load(string resName)
