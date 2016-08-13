@@ -61,16 +61,16 @@ namespace SharpHaven.UI.Widgets
 			this.tabs = new List<Container>();
 			this.attrBindings = new List<AttributeBinding>();
 			this.beliefWidgets = new List<BeliefWidget>();
-			
+
 			skillLayout = new GridLayout();
 			skillLayout.SetColumnWidth(0, 20);
-			skillLayout.SetColumnWidth(1, 90);
+			skillLayout.SetColumnWidth(1, 100);
 			skillLayout.SetColumnWidth(2, 30);
 			skillLayout.SetColumnWidth(3, 15);
 
 			baseLayout = new GridLayout();
 			baseLayout.SetColumnWidth(0, 20);
-			baseLayout.SetColumnWidth(1, 70);
+			baseLayout.SetColumnWidth(1, 75);
 
 			beliefLayout = new GridLayout();
 
@@ -262,10 +262,10 @@ namespace SharpHaven.UI.Widgets
 
 			var image = new Image(tabAttr);
 			image.Drawable = App.Resources.Get<Drawable>("gfx/hud/charsh/" + name);
-			
+
 			var lblName = new Label(tabAttr, Fonts.LabelText);
 			lblName.Text = title + ":";
-			
+
 			var lblValue = new Label(tabAttr, Fonts.LabelText);
 			lblValue.AutoSize = true;
 			var skill = new SkillAttributeBinding(attr, lblValue);
