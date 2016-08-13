@@ -19,6 +19,7 @@ namespace SharpHaven.Graphics.Sprites.Fx
 		{
 			this.text = new TextLine(font);
 			this.text.TextColor = color;
+			this.text.OutlineColor = color.Contrast();
 			this.text.Append(text);
 			this.startY = -(font.Height + 30);
 			this.part = new SpritePart(-1, this.text, new Point2D(-this.text.TextWidth / 2, startY), 5, 0);

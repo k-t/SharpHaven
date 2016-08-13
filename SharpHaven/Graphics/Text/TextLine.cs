@@ -15,8 +15,9 @@ namespace SharpHaven.Graphics.Text
 			this.font = font;
 			this.glyphs = new List<TextGlyph>();
 			this.size.Y = font.Height;
-			
+
 			BackgroundColor = Color.Transparent;
+			OutlineColor = Color.Transparent;
 		}
 
 		public IList<TextGlyph> Glyphs
@@ -29,11 +30,7 @@ namespace SharpHaven.Graphics.Text
 			get { return font; }
 		}
 
-		public TextAlign TextAlign
-		{
-			get;
-			set;
-		}
+		public TextAlign TextAlign { get; set; }
 
 		public int TextWidth
 		{
@@ -45,17 +42,11 @@ namespace SharpHaven.Graphics.Text
 			get { return glyphs.Count; }
 		}
 
-		public Color TextColor
-		{
-			get;
-			set;
-		}
+		public Color TextColor { get; set; }
 
-		public Color BackgroundColor
-		{
-			get;
-			set;
-		}
+		public Color BackgroundColor { get; set; }
+
+		public Color OutlineColor { get; set; }
 
 		public void Append(string str)
 		{
@@ -111,6 +102,13 @@ namespace SharpHaven.Graphics.Text
 			// draw background
 			batch.SetColor(BackgroundColor);
 			batch.Draw(x, y, textWidth, font.Height);
+			// draw outline
+			if (OutlineColor != Color.Transparent)
+			{
+				batch.SetColor(OutlineColor);
+				foreach (var glyph in glyphs)
+					glyph.DrawOutline(batch, x, y);
+			}
 			// draw text
 			batch.SetColor(TextColor);
 			foreach (var glyph in glyphs)

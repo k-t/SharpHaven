@@ -9,7 +9,7 @@ namespace SharpHaven.Resources
 
 		public Face Create(string resName, Resource res)
 		{
-			var bytes =res.GetLayer<FontLayer>().Bytes;
+			var bytes = res.GetLayer<FontLayer>().Bytes;
 			return FontLibrary.NewMemoryFace(bytes, 0);
 		}
 	}
