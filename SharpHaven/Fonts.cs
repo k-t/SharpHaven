@@ -15,7 +15,7 @@ namespace SharpHaven
 		{
 			Default = Create(FontFaces.Sans, 14);
 			LabelText = Create(FontFaces.Sans, 11);
-			Text = Create(FontFaces.Serif, 12);
+			Text = Create(FontFaces.Serif, 11);
 			Heading = Create(FontFaces.Serif, 18);
 			Tooltip = LabelText;
 		}
