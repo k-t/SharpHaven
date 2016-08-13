@@ -20,9 +20,19 @@
 			return new Color { A = alpha, B = blue, R = red, G = green };
 		}
 
+		public static Color FromArgb(int alpha, int red, int green, int blue)
+		{
+			return FromArgb((byte)alpha, (byte)red, (byte)green, (byte)blue);
+		}
+
 		public static Color FromArgb(byte red, byte green, byte blue)
 		{
-			return FromArgb(255, red, green, blue);
+			return FromArgb((byte)255, red, green, blue);
+		}
+
+		public static Color FromArgb(int red, int green, int blue)
+		{
+			return FromArgb((byte)red, (byte)green, (byte)blue);
 		}
 
 		public static Color FromArgb(byte alpha, Color color)

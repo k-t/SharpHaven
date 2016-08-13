@@ -26,8 +26,8 @@ namespace SharpHaven.UI.Remote
 		{
 			var amount = (int)args[0];
 			var color = args.Length > 4
-				? Color.FromArgb((byte)args[1], (byte)args[2], (byte)args[3], (byte)args[4])
-				: Color.FromArgb((byte)args[1], (byte)args[2], (byte)args[3]);
+				? Color.FromArgb((int)args[1], (int)args[2], (int)args[3], (int)args[4])
+				: Color.FromArgb((int)args[1], (int)args[2], (int)args[3]);
 
 			widget = new VMeter(Parent.Widget);
 			widget.Move(position);
