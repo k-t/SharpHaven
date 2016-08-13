@@ -114,7 +114,7 @@ namespace SharpHaven.Client
 			{
 				var sprite = session.Resources.GetSprite(delta.ResourceId, gob, delta.SpriteData);
 				var overlay = new GobOverlay(delta.Id, sprite, delta.IsPersistent);
-				gob.Overlays.Add(overlay);
+				gob.Overlays.Replace(overlay);
 			}
 			else
 				gob.Overlays.Remove(delta.Id);

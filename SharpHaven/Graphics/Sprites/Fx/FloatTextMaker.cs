@@ -26,7 +26,7 @@ namespace SharpHaven.Graphics.Sprites.Fx
 			}
 			var color = UnpackColor(reader.ReadUInt16());
 
-			return new FloatText(str, color);
+			return new FloatText(str, Fonts.LabelText, color);
 		}
 
 		private static Color UnpackColor(ushort value)

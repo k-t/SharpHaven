@@ -12,6 +12,21 @@ namespace SharpHaven.Client
 			IsPersistent = isPersistent;
 		}
 
+		public GobOverlay(int id, ISprite sprite, bool isPersistent)
+			: this(id, new Delayed<ISprite>(sprite), isPersistent)
+		{
+		}
+
+		public GobOverlay(int id, ISprite sprite)
+			: this(id, sprite, false)
+		{
+		}
+
+		public GobOverlay(ISprite sprite)
+			: this(-1, sprite)
+		{
+		}
+
 		public int Id { get; }
 
 		public Delayed<ISprite> Sprite { get; }

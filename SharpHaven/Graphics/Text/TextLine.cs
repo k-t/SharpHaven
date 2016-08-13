@@ -14,6 +14,7 @@ namespace SharpHaven.Graphics.Text
 		{
 			this.font = font;
 			this.glyphs = new List<TextGlyph>();
+			this.size.Y = font.Height;
 			
 			BackgroundColor = Color.Transparent;
 		}

@@ -2,6 +2,7 @@
 using Haven;
 using Haven.Utils;
 using SharpHaven.Graphics.Sprites;
+using SharpHaven.Graphics.Sprites.Fx;
 
 namespace SharpHaven.Client
 {
@@ -19,6 +20,7 @@ namespace SharpHaven.Client
 		{
 			Id = id;
 			this.overlays = new GobOverlayCollection();
+			this.overlays.Add(new GobOverlay(new FloatText.Layouter(this)));
 		}
 
 		public int Id { get; }

@@ -14,8 +14,13 @@ namespace SharpHaven.Client
 
 		public void Add(GobOverlay overlay)
 		{
-			Remove(overlay.Id);
 			overlays.Add(overlay);
+		}
+
+		public void Replace(GobOverlay overlay)
+		{
+			Remove(overlay.Id);
+			Add(overlay);
 		}
 
 		public void Remove(GobOverlay overlay)
