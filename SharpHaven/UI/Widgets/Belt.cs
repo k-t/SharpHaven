@@ -26,8 +26,11 @@ namespace SharpHaven.UI.Widgets
 			var layout = new GridLayout();
 			for (int i = 0; i < SlotCount; i++)
 			{
+				int index = i;
+				int keyIndex = (i + 1) % 10;
+
 				var slot = new BeltSlot(this);
-				slot.Label = (i + 1).ToString();
+				slot.Label = keyIndex.ToString();
 				slot.Click += OnSlotClick;
 				slot.Drop += OnSlotDrop;
 				slot.ItemDrop += OnSlotItemDrop;
@@ -39,6 +42,8 @@ namespace SharpHaven.UI.Widgets
 
 				w += slot.Width - 1;
 				h = Math.Max(h, slot.Height);
+
+				Host.Hotkeys.Register(Key.Number1 + keyIndex - 1, () => Click.Raise(new BeltClickEvent(index, MouseButton.Left, 0)));
 			}
 			layout.Spacing = -1;
 			layout.UpdateGeometry(0, 0, 0, 0);
