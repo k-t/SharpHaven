@@ -16,10 +16,11 @@ namespace Haven.Net
 		/// <summary>
 		/// Connects to the game server.
 		/// </summary>
+		/// <param name="address">Server address.</param>
 		/// <param name="userName">User name.</param>
 		/// <param name="cookie">Authentication cookie.</param>
 		/// <exception cref="NetworkException">Thrown when connection attempt is unsuccessful.</exception>
-		void Connect(string userName, byte[] cookie);
+		void Connect(NetworkAddress address, string userName, byte[] cookie);
 
 		/// <summary>
 		/// Closes the connection to the server.

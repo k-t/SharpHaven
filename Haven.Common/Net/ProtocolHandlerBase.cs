@@ -43,12 +43,12 @@ namespace Haven.Net
 		private ushort rseq;
 		private State state;
 
-		public ProtocolHandlerBase(NetworkAddress address)
+		public ProtocolHandlerBase()
 		{
 			this.waiting = new TreeDictionary<ushort, BinaryMessage>();
 
 			this.state = State.Created;
-			this.socket = new BinaryMessageSocket(address.Host, address.Port);
+			this.socket = new BinaryMessageSocket();
 			this.socket.SetReceiveTimeout(ReceiveTimeout);
 			this.sender = new MessageSender(socket);
 			this.sender.Finished += OnTaskFinished;
@@ -64,7 +64,7 @@ namespace Haven.Net
 			set { dispatcher = value ?? NullMessageDispatcher.Instance; }
 		}
 
-		public void Connect(string userName, byte[] cookie)
+		public void Connect(NetworkAddress address, string userName, byte[] cookie)
 		{
 			try
 			{
@@ -73,7 +73,7 @@ namespace Haven.Net
 					if (state != State.Created)
 						throw new InvalidOperationException("Can't open already opened/closed connection");
 
-					socket.Connect();
+					socket.Connect(address);
 					DoHandshake(userName, cookie);
 					receiver.Run();
 					sender.Run();

@@ -51,6 +51,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Messaging\NullMessageDispatcher.cs" />
+    <Compile Include="Net\GameClientConfig.cs" />
     <Compile Include="Net\IAuthHandler.cs" />
     <Compile Include="Net\IAuthHandlerFactory.cs" />
     <Compile Include="Net\IProtocolHandler.cs" />

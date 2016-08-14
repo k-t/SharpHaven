@@ -2,7 +2,6 @@
 using C5;
 using Haven.Legacy.Messages;
 using Haven.Legacy.Utils;
-using Haven.Messaging;
 using Haven.Net;
 using Haven.Utils;
 
@@ -62,7 +61,7 @@ namespace Haven.Legacy
 
 		private readonly TreeDictionary<int, FragmentBuffer> mapFrags;
 
-		public LegacyProtocolHandler(NetworkAddress address) : base(address)
+		public LegacyProtocolHandler()
 		{
 			this.mapFrags = new TreeDictionary<int, FragmentBuffer>();
 		}

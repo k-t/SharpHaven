@@ -5,6 +5,7 @@ namespace Haven.Net
 {
 	public class GameClient
 	{
+		private readonly GameClientConfig config;
 		private readonly IAuthHandlerFactory authHandlerFactory;
 		private readonly IProtocolHandlerFactory protocolHandlerFactory;
 		private readonly MessageBroker messageBroker;
@@ -14,9 +15,11 @@ namespace Haven.Net
 		private byte[] cookie;
 
 		public GameClient(
+			GameClientConfig config,
 			IAuthHandlerFactory authHandlerFactory,
 			IProtocolHandlerFactory protocolHandlerFactory)
 		{
+			this.config = config;
 			this.authHandlerFactory = authHandlerFactory;
 			this.protocolHandlerFactory = protocolHandlerFactory;
 			this.messageBroker = new MessageBroker();
@@ -39,7 +42,7 @@ namespace Haven.Net
 
 			using (var authHandler = authHandlerFactory.Create())
 			{
-				authHandler.Connect();
+				authHandler.Connect(config.AuthServerAddress);
 				if (!authHandler.TryPassword(userName, password, out cookie))
 					return AuthResult.Fail();
 
@@ -56,7 +59,7 @@ namespace Haven.Net
 
 			using (var authHandler = authHandlerFactory.Create())
 			{
-				authHandler.Connect();
+				authHandler.Connect(config.AuthServerAddress);
 				if (!authHandler.TryToken(userName, token, out cookie))
 					return AuthResult.Fail();
 
@@ -73,7 +76,7 @@ namespace Haven.Net
 
 			protocolHandler = protocolHandlerFactory.Create();
 			protocolHandler.Dispatcher = messageBroker;
-			protocolHandler.Connect(userName, cookie);
+			protocolHandler.Connect(config.GameServerAddress, userName, cookie);
 
 			this.state = GameClientState.Connected;
 		}

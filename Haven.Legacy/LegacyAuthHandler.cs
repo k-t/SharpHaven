@@ -15,13 +15,7 @@ namespace Haven.Legacy
 		private const int CMD_GETTOKEN = 3;
 		private const int CMD_USETOKEN = 4;
 
-		private readonly NetworkAddress address;
 		private SslStream ctx;
-
-		public LegacyAuthHandler(NetworkAddress address)
-		{
-			this.address = address;
-		}
 
 		private static bool ValidateServerCertificate(
 			object sender,
@@ -33,7 +27,7 @@ namespace Haven.Legacy
 			return true;
 		}
 
-		public void Connect()
+		public void Connect(NetworkAddress address)
 		{
 			var tc = new TcpClient(address.Host, address.Port);
 			ctx = new SslStream(tc.GetStream(), false, ValidateServerCertificate, null);

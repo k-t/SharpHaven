@@ -12,16 +12,18 @@ namespace SharpHaven
 	public class MainScreen : IScreen
 	{
 		private readonly LoginScreen loginScreen;
+		private readonly GameClient client;
 		private GameScreen gameScreen;
 		private IScreen current;
-		private GameClient client;
 		private ClientSession session;
 
 		public MainScreen()
 		{
-			client = new GameClient(
-				new LegacyAuthHandlerFactory(App.Config.AuthHost, App.Config.AuthPort),
-				new LegacyProtocolHandlerFactory(App.Config.GameHost, App.Config.GamePort));
+			var clientConfig = new GameClientConfig {
+				AuthServerAddress = new NetworkAddress(App.Config.AuthHost, App.Config.AuthPort),
+				GameServerAddress = new NetworkAddress(App.Config.GameHost, App.Config.GamePort)
+			};
+			client = new GameClient(clientConfig, new LegacyAuthHandlerFactory(), new LegacyProtocolHandlerFactory());
 
 			loginScreen = new LoginScreen(client);
 			loginScreen.LoginCompleted += OnLoginCompleted;

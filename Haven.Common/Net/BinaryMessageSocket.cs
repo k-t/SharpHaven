@@ -6,14 +6,12 @@ namespace Haven.Net
 {
 	public class BinaryMessageSocket : IDisposable
 	{
-		private readonly EndPoint address;
 		private readonly Socket socket;
 		private readonly byte[] receiveBuffer;
 		private int receiveTimeout;
 
-		public BinaryMessageSocket(string host, int port)
+		public BinaryMessageSocket()
 		{
-			address = new IPEndPoint(Dns.GetHostEntry(host).AddressList[0], port);
 			socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
 			receiveBuffer = new byte[socket.ReceiveBufferSize];
 		}
@@ -23,9 +21,10 @@ namespace Haven.Net
 			socket.Close();
 		}
 
-		public void Connect()
+		public void Connect(NetworkAddress address)
 		{
-			socket.Connect(address);
+			var endPoint = new IPEndPoint(Dns.GetHostEntry(address.Host).AddressList[0], address.Port);
+			socket.Connect(endPoint);
 		}
 
 		public void Close()
