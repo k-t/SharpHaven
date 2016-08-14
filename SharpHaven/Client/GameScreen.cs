@@ -128,14 +128,6 @@ namespace SharpHaven.Client
 			Hotkeys.Register(Key.E, KeyModifiers.Control, () => HudMenu.Activate(HudMenu.Button.Equipment));
 			Hotkeys.Register(Key.T, KeyModifiers.Control, () => HudMenu.Activate(HudMenu.Button.Character));
 			Hotkeys.Register(Key.B, KeyModifiers.Control, () => HudMenu.Activate(HudMenu.Button.BuddyList));
-
-			// Map View
-			Hotkeys.Register(Key.Up, () => MapView.MoveCamera(0, -50));
-			Hotkeys.Register(Key.Down, () => MapView.MoveCamera(0, 50));
-			Hotkeys.Register(Key.Left, () => MapView.MoveCamera(-50, 0));
-			Hotkeys.Register(Key.Right, () => MapView.MoveCamera(50, 0));
-			Hotkeys.Register(Key.Home, MapView.CenterCamera);
-			Hotkeys.Register(Key.Keypad7, MapView.CenterCamera);
 		}
 	}
 }

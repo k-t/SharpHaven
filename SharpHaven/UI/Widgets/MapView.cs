@@ -7,7 +7,6 @@ using OpenTK.Input;
 using SharpHaven.Client;
 using SharpHaven.Graphics;
 using SharpHaven.Graphics.Sprites;
-using SharpHaven.Graphics.Sprites.Fx;
 using SharpHaven.Graphics.Text;
 using SharpHaven.Input;
 using SharpHaven.Utils;
@@ -21,9 +20,7 @@ namespace SharpHaven.UI.Widgets
 		private static readonly List<Tuple<Point2D, Drawable>> overlayBorders;
 		private static readonly Color[] overlayColors;
 
-		private bool dragging;
-		private Point2D dragPosition;
-		private Point2D dragCameraOffset;
+		private readonly Camera2D camera;
 		private Gob placeGob;
 		private int placeRadius;
 		private bool placeOnTile;
@@ -58,8 +55,11 @@ namespace SharpHaven.UI.Widgets
 		{
 			IsFocusable = true;
 
+			camera = new FreeCamera(this);
+
 			ownerNameText = new TextLine(Fonts.Create(FontFaces.Serif, 20));
 			ownerNameText.TextColor = Color.White;
+			ownerNameText.OutlineColor = Color.Black;
 		}
 
 		public event Action<MapClickEvent> MapClick;
@@ -71,12 +71,6 @@ namespace SharpHaven.UI.Widgets
 		public int PlayerId { get; set; }
 
 		public ClientSession Session { get; set; }
-
-		private Point2D CameraOffset
-		{
-			get { return Geometry.MapToScreen(Session.WorldPosition); }
-			set { Session.WorldPosition = Geometry.ScreenToMap(value); }
-		}
 
 		public void Place(ISprite sprite, bool snapToTile, int? radius)
 		{
@@ -123,24 +117,12 @@ namespace SharpHaven.UI.Widgets
 			}
 		}
 
-		public void MoveCamera(int deltaX, int deltaY)
-		{
-			CameraOffset = CameraOffset.Add(deltaX, deltaY);
-		}
-
-		public void CenterCamera()
-		{
-			if (PlayerId != -1)
-			{
-				var player = Session.Objects.Get(PlayerId);
-				Session.WorldPosition = player.Position;
-			}
-		}
-
 		protected override void OnDraw(DrawingContext dc)
 		{
 			if (Session == null)
 				return;
+
+			camera.Update();
 
 			RequestMaps();
 			DrawTiles(dc);
@@ -170,6 +152,7 @@ namespace SharpHaven.UI.Widgets
 					a = (byte)((255 * (2 - (span - 4))) / 2);
 
 				ownerNameText.TextColor = Color.FromArgb(a, Color.White);
+				ownerNameText.OutlineColor = Color.FromArgb(a, Color.Black);
 				dc.Draw(ownerNameText,
 					(Width - ownerNameText.TextWidth) / 2,
 					(Height - ownerNameText.Font.Height) / 2);
@@ -192,7 +175,7 @@ namespace SharpHaven.UI.Widgets
 		private void DrawTiles(DrawingContext g)
 		{
 			// get tile in the center
-			var center = Geometry.ScreenToTile(CameraOffset);
+			var center = Geometry.ScreenToTile(camera.Position);
 			// how much tiles fit onto screen vertically and horizontally
 			var h = Width / (GameScene.ScreenTileWidth * 2);
 			var v = Height / (GameScene.ScreenTileHeight * 2);
@@ -255,7 +238,7 @@ namespace SharpHaven.UI.Widgets
 
 		private void DrawScene(DrawingContext g)
 		{
-			Session.Scene.Draw(g, Width / 2 - CameraOffset.X, Height / 2 - CameraOffset.Y);
+			Session.Scene.Draw(g, Width / 2 - camera.Position.X, Height / 2 - camera.Position.Y);
 		}
 
 		protected override void OnMouseButtonDown(MouseButtonEvent e)
@@ -263,18 +246,15 @@ namespace SharpHaven.UI.Widgets
 			if (Session == null)
 				return;
 
+			camera.OnMouseButtonDown(e);
+			if (e.Handled)
+				return;
+
 			var sc = ToAbsolute(e.Position);
 			var mc = Geometry.ScreenToMap(sc);
 			var gob = Session.Scene.GetObjectAt(sc);
 
-			if (e.Button == MouseButton.Middle)
-			{
-				Host.GrabMouse(this);
-				dragging = true;
-				dragPosition = e.Position;
-				dragCameraOffset = CameraOffset;
-			}
-			else if (placeGob != null)
+			if (placeGob != null)
 			{
 				Placed.Raise(new MapPlaceEvent(e, placeGob.Position));
 				Session.Objects.RemoveLocal(placeGob);
@@ -292,11 +272,10 @@ namespace SharpHaven.UI.Widgets
 			if (Session == null)
 				return;
 
-			if (e.Button == MouseButton.Middle)
-			{
-				Host.ReleaseMouse();
-				dragging = false;
-			}
+			camera.OnMouseButtonUp(e);
+			if (e.Handled)
+				return;
+
 			e.Handled = true;
 		}
 
@@ -305,10 +284,10 @@ namespace SharpHaven.UI.Widgets
 			if (Session == null)
 				return;
 
-			if (dragging)
-			{
-				CameraOffset = dragCameraOffset.Add(dragPosition.Sub(e.Position));
-			}
+			camera.OnMouseMove(e);
+			if (e.Handled)
+				return;
+
 			if (placeGob != null)
 			{
 				var mc = Geometry.ScreenToMap(ToAbsolute(e.Position));
@@ -328,8 +307,8 @@ namespace SharpHaven.UI.Widgets
 		private Point2D ToRelative(Point2D abs)
 		{
 			return new Point2D(
-				abs.X + Width / 2 - CameraOffset.X,
-				abs.Y + Height / 2 - CameraOffset.Y);
+				abs.X + Width / 2 - camera.Position.X,
+				abs.Y + Height / 2 - camera.Position.Y);
 		}
 
 		/// <summary>
@@ -338,8 +317,8 @@ namespace SharpHaven.UI.Widgets
 		private Point2D ToAbsolute(Point2D rel)
 		{
 			return new Point2D(
-				rel.X - Width / 2 + CameraOffset.X,
-				rel.Y - Height / 2 + CameraOffset.Y);
+				rel.X - Width / 2 + camera.Position.X,
+				rel.Y - Height / 2 + camera.Position.Y);
 		}
 
 		#region IItemDropTarget
@@ -360,6 +339,110 @@ namespace SharpHaven.UI.Widgets
 			var gob = Session.Scene.GetObjectAt(sc);
 			ItemInteract.Raise(new MapClickEvent(0, mods, mc, p, gob));
 			return true;
+		}
+
+		#endregion
+
+		#region Cameras
+
+		public abstract class Camera2D
+		{
+			protected readonly MapView mv;
+
+			protected Camera2D(MapView mv)
+			{
+				this.mv = mv;
+			}
+
+			public Point2D Position
+			{
+				get
+				{
+					return Geometry.MapToScreen(mv.Session.WorldPosition);
+				}
+				protected set
+				{
+					mv.Session.WorldPosition = Geometry.ScreenToMap(value);
+				}
+			}
+
+			public virtual void Update()
+			{
+			}
+
+			public virtual void OnMouseButtonDown(MouseButtonEvent e)
+			{
+			}
+
+			public virtual void OnMouseButtonUp(MouseButtonEvent e)
+			{
+			}
+
+			public virtual void OnMouseMove(MouseMoveEvent e)
+			{
+			}
+		}
+
+		public class FreeCamera : Camera2D
+		{
+			private bool dragging;
+			private Point2D dragPosition;
+			private Point2D dragCameraOffset;
+
+			public FreeCamera(MapView mv) : base(mv)
+			{
+				mv.Host.Hotkeys.Register(Key.Up, () => Move(0, -50));
+				mv.Host.Hotkeys.Register(Key.Down, () => Move(0, 50));
+				mv.Host.Hotkeys.Register(Key.Left, () => Move(-50, 0));
+				mv.Host.Hotkeys.Register(Key.Right, () => Move(50, 0));
+				mv.Host.Hotkeys.Register(Key.Home, MoveToCenter);
+				mv.Host.Hotkeys.Register(Key.Keypad7, MoveToCenter);
+			}
+
+			private void Move(int deltaX, int deltaY)
+			{
+				Position = Position.Add(deltaX, deltaY);
+			}
+
+			private void MoveToCenter()
+			{
+				if (mv.PlayerId != -1)
+				{
+					var player = mv.Session.Objects.Get(mv.PlayerId);
+					mv.Session.WorldPosition = player.Position;
+				}
+			}
+
+			public override void OnMouseButtonDown(MouseButtonEvent e)
+			{
+				if (e.Button == MouseButton.Middle)
+				{
+					mv.Host.GrabMouse(mv);
+					dragging = true;
+					dragPosition = e.Position;
+					dragCameraOffset = Position;
+					e.Handled = true;
+				}
+			}
+
+			public override void OnMouseButtonUp(MouseButtonEvent e)
+			{
+				if (e.Button == MouseButton.Middle)
+				{
+					mv.Host.ReleaseMouse();
+					dragging = false;
+					e.Handled = true;
+				}
+			}
+
+			public override void OnMouseMove(MouseMoveEvent e)
+			{
+				if (dragging)
+				{
+					Position = dragCameraOffset.Add(dragPosition.Sub(e.Position));
+					e.Handled = true;
+				}
+			}
 		}
 
 		#endregion
