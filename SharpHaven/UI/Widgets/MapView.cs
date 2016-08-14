@@ -68,17 +68,9 @@ namespace SharpHaven.UI.Widgets
 		public event Action<MapPlaceEvent> Placed;
 		public event Action<Point2D> GridRequest;
 
-		public int PlayerId
-		{
-			get;
-			set;
-		}
+		public int PlayerId { get; set; }
 
-		public ClientSession Session
-		{
-			get;
-			set;
-		}
+		public ClientSession Session { get; set; }
 
 		private Point2D CameraOffset
 		{
@@ -119,7 +111,7 @@ namespace SharpHaven.UI.Widgets
 				if (string.IsNullOrEmpty(ownerName))
 					return;
 
-				ownerNameText.Append("Leaving "+ ownerName);
+				ownerNameText.Append("Leaving " + ownerName);
 				ownerShowTime = DateTime.Now;
 				ownerName = null;
 			}
@@ -264,45 +256,6 @@ namespace SharpHaven.UI.Widgets
 		private void DrawScene(DrawingContext g)
 		{
 			Session.Scene.Draw(g, Width / 2 - CameraOffset.X, Height / 2 - CameraOffset.Y);
-		}
-
-		protected override void OnKeyDown(KeyEvent e)
-		{
-			e.Handled = true;
-			switch (e.Key)
-			{
-				case Key.Up:
-					MoveCamera(0, -50);
-					break;
-				case Key.Down:
-					MoveCamera(0, 50);
-					break;
-				case Key.Left:
-					MoveCamera(-50, 0);
-					break;
-				case Key.Right:
-					MoveCamera(50, 0);
-					break;
-				case Key.Home:
-				case Key.Keypad7:
-					if (PlayerId != -1)
-					{
-						var player = Session.Objects.Get(PlayerId);
-						Session.WorldPosition = player.Position;
-					}
-					break;
-				case Key.X:
-					if (e.Modifiers.HasAlt())
-					{
-						var player = Session.Objects.Get(PlayerId);
-						player.Overlays.Add(new GobOverlay(new FloatText("213123 ! 2123 sadjalkjlkDSASD ЙЦУавав", Fonts.LabelText, Color.White)));
-					}
-					break;
-				default:
-					e.Handled = false;
-					base.OnKeyDown(e);
-					break;
-			}
 		}
 
 		protected override void OnMouseButtonDown(MouseButtonEvent e)
