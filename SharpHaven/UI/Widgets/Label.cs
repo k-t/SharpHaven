@@ -59,6 +59,12 @@ namespace SharpHaven.UI.Widgets
 			set { textLine.TextColor = value; }
 		}
 
+		public Color OutlineColor
+		{
+			get { return textLine.OutlineColor; }
+			set { textLine.OutlineColor = value; }
+		}
+
 		protected override void OnDraw(DrawingContext dc)
 		{
 			dc.Draw(textLine, 0, 0, Width, Height);

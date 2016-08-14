@@ -102,6 +102,7 @@ namespace SharpHaven.UI.Widgets
 				Size = background.Size;
 
 				label = new Label(this, Fonts.LabelText);
+				label.OutlineColor = Color.Black;
 				label.Move(4, 0);
 			}
 
