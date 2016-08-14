@@ -1,17 +1,18 @@
-﻿using C5;
+﻿using System.Collections.Generic;
+using Haven.Utils;
 using NLog;
 
 namespace SharpHaven.UI.Remote
 {
 	public class ServerWidgetCollection
 	{
-		private static readonly NLog.Logger Log = LogManager.GetCurrentClassLogger();
+		private static readonly Logger Log = LogManager.GetCurrentClassLogger();
 
-		private readonly TreeDictionary<ushort, ServerWidget> widgets;
+		private readonly Dictionary<ushort, ServerWidget> widgets;
 
 		public ServerWidgetCollection()
 		{
-			widgets = new TreeDictionary<ushort, ServerWidget>();
+			widgets = new Dictionary<ushort, ServerWidget>();
 		}
 
 		public ServerWidget this[ushort id]
@@ -19,7 +20,7 @@ namespace SharpHaven.UI.Remote
 			get
 			{
 				ServerWidget widget;
-				return widgets.Find(ref id, out widget) ? widget : null;
+				return widgets.TryGetValue(id, out widget) ? widget : null;
 			}
 		}
 

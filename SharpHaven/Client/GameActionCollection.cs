@@ -1,17 +1,17 @@
-﻿using System.Collections;
+﻿using Haven.Utils;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
-using C5;
 
 namespace SharpHaven.Client
 {
 	public class GameActionCollection : IEnumerable<GameAction>, INotifyCollectionChanged
 	{
-		private readonly TreeDictionary<string, GameAction> items;
+		private readonly Dictionary<string, GameAction> items;
 
 		public GameActionCollection()
 		{
-			items = new TreeDictionary<string, GameAction>();
+			items = new Dictionary<string, GameAction>();
 		}
 
 		public event NotifyCollectionChangedEventHandler CollectionChanged;
@@ -26,7 +26,7 @@ namespace SharpHaven.Client
 		public GameAction Get(string resName)
 		{
 			GameAction action;
-			return items.Find(ref resName, out action) ? action : null;
+			return items.TryGetValue(resName, out action) ? action : null;
 		}
 
 		public void Remove(string resName)

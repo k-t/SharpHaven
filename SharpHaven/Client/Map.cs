@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using C5;
 using Haven;
 using Haven.Legacy.Messages;
 using Haven.Utils;
@@ -12,13 +11,13 @@ namespace SharpHaven.Client
 	public class Map
 	{
 		private readonly Tileset[] tilesets = new Tileset[256];
-		private readonly TreeDictionary<Point2D, MapGrid> grids;
+		private readonly Dictionary<Point2D, MapGrid> grids;
 		private readonly List<Tuple<Point2D, ISprite>> flavorObjects = new List<Tuple<Point2D, ISprite>>();
 		private readonly List<MapOverlay> overlays;
 
 		public Map()
 		{
-			grids = new TreeDictionary<Point2D, MapGrid>(new Coord2DComparer());
+			grids = new Dictionary<Point2D, MapGrid>();
 			overlays = new List<MapOverlay>();
 		}
 
@@ -31,7 +30,7 @@ namespace SharpHaven.Client
 		{
 			get { return flavorObjects; }
 		}
-		
+
 		public MapGrid GetGrid(int gx, int gy)
 		{
 			return GetGrid(new Point2D(gx, gy));
@@ -40,7 +39,7 @@ namespace SharpHaven.Client
 		public MapGrid GetGrid(Point2D gc)
 		{
 			MapGrid grid;
-			return grids.Find(ref gc, out grid) ? grid : null;
+			return grids.TryGetValue(gc, out grid) ? grid : null;
 		}
 
 		public MapTile GetTile(int tx, int ty)
@@ -51,10 +50,10 @@ namespace SharpHaven.Client
 
 			var gtx = tx.Mod(Geometry.GridWidth);
 			var gty = ty.Mod(Geometry.GridHeight);
-			
+
 			return grid[gtx, gty];
 		}
-		
+
 		public Tileset GetTileset(byte tileType)
 		{
 			return tilesets[tileType];
@@ -62,7 +61,7 @@ namespace SharpHaven.Client
 
 		public void AddGrid(MapUpdateGrid message)
 		{
-			var random = new C5Random(RandomUtils.GetSeed(message.Coord));
+			var random = new Random(RandomUtils.GetSeed(message.Coord));
 			var gc = message.Coord;
 			var tiles = new MapTile[message.Tiles.Length];
 			for (int i = 0; i < message.Tiles.Length; i++)

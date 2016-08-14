@@ -1,24 +1,23 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using C5;
 
 namespace SharpHaven.Client
 {
 	public class GobCache : IEnumerable<Gob>
 	{
-		private readonly TreeDictionary<int, Gob> objects;
+		private readonly Dictionary<int, Gob> objects;
 		private readonly List<Gob> localObjects;
 
 		public GobCache()
 		{
-			objects = new TreeDictionary<int, Gob>();
+			objects = new Dictionary<int, Gob>();
 			localObjects = new List<Gob>();
 		}
 
 		public Gob Get(int id)
 		{
 			Gob gob;
-			if (!objects.Find(ref id, out gob))
+			if (!objects.TryGetValue(id, out gob))
 			{
 				gob = new Gob(id);
 				objects[id] = gob;

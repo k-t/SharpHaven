@@ -33,21 +33,12 @@
     <ConsolePause>false</ConsolePause>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="C5, Version=2.4.5828.26832, Culture=neutral, PublicKeyToken=282361b99ded7e8e, processorArchitecture=MSIL">
-      <HintPath>..\packages\C5.2.4.5828.26833\lib\net35\C5.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="MiscUtil, Version=1.0.0.0, Culture=neutral, PublicKeyToken=d3c42c4bfacf7596, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\JonSkeet.MiscUtil.0.1\lib\net35-Client\MiscUtil.dll</HintPath>
     </Reference>
-    <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
-      <HintPath>..\packages\NLog.4.3.6\lib\net35\NLog.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Drawing" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Messages\ExceptionMessage.cs" />
@@ -78,13 +69,13 @@
     <Compile Include="Net\GameClientState.cs" />
     <Compile Include="Net\NetworkAddress.cs" />
     <Compile Include="Net\GameClient.cs" />
+    <Compile Include="Utils\DictionaryExtensions.cs" />
     <Compile Include="Utils\Geometry.cs" />
     <Compile Include="Utils\BinaryDataReader.cs" />
     <Compile Include="Utils\BinaryListType.cs" />
     <Compile Include="Utils\Delayed.cs" />
     <Compile Include="Float40.cs" />
     <Compile Include="Utils\FragmentBuffer.cs" />
-    <Compile Include="Utils\ImageUtils.cs" />
     <Compile Include="Utils\MathUtils.cs" />
     <Compile Include="Utils\ValueTreeNode.cs" />
     <Compile Include="Utils\TreeNode.cs" />

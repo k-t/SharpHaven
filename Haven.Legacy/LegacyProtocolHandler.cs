@@ -1,5 +1,5 @@
 ﻿using System;
-using C5;
+using System.Collections.Generic;
 using Haven.Legacy.Messages;
 using Haven.Legacy.Utils;
 using Haven.Net;
@@ -59,11 +59,11 @@ namespace Haven.Legacy
 
 		#endregion
 
-		private readonly TreeDictionary<int, FragmentBuffer> mapFrags;
+		private readonly Dictionary<int, FragmentBuffer> mapFrags;
 
 		public LegacyProtocolHandler()
 		{
-			this.mapFrags = new TreeDictionary<int, FragmentBuffer>();
+			this.mapFrags = new Dictionary<int, FragmentBuffer>();
 		}
 
 		public override void Send<TMessage>(TMessage message)
@@ -220,7 +220,7 @@ namespace Haven.Legacy
 			int length = reader.ReadUInt16();
 
 			FragmentBuffer fragbuf;
-			if (mapFrags.Find(ref packetId, out fragbuf))
+			if (mapFrags.TryGetValue(packetId, out fragbuf))
 			{
 				fragbuf.Add(offset, reader.ReadRemaining());
 				if (fragbuf.IsComplete)

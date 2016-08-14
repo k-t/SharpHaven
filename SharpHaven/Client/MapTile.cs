@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
-using C5;
 using Haven;
 using SharpHaven.Graphics;
 using SharpHaven.Utils;
@@ -55,7 +55,7 @@ namespace SharpHaven.Client
 
 		private Drawable[] GenerateTransitions()
 		{
-			var rng = new C5Random(RandomUtils.GetSeed(coord));
+			var rng = new Random(RandomUtils.GetSeed(coord));
 			var tr = new int[3, 3];
 			for (int y = -1; y <= 1; y++)
 			{

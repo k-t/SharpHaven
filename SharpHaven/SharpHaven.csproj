@@ -44,10 +44,6 @@
     <StartupObject>SharpHaven.App</StartupObject>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="C5, Version=2.4.5828.26832, Culture=neutral, PublicKeyToken=282361b99ded7e8e, processorArchitecture=MSIL">
-      <HintPath>..\packages\C5.2.4.5828.26833\lib\net40\C5.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="Nini">
       <HintPath>..\packages\Trove.Nini.1.1.0.0\lib\net20\Nini.dll</HintPath>
     </Reference>
@@ -302,7 +298,6 @@
     <Compile Include="Utils\MinimapProvider.cs" />
     <Compile Include="Utils\StringUtils.cs" />
     <Compile Include="Utils\TypeMatcher.cs" />
-    <Compile Include="Utils\Coord2DComparer.cs" />
     <Compile Include="Client\GameScreen.cs" />
     <Compile Include="Resources\ResourceManager.cs" />
     <Compile Include="Login\LoginScreen.cs" />

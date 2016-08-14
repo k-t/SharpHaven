@@ -1,9 +1,9 @@
 ﻿using System.Drawing;
 using System.IO;
 
-namespace Haven.Utils
+namespace Haven.Resources.Formats.Ini.Utils
 {
-	public static class ImageUtils
+	internal static class ImageUtils
 	{
 		public static string GetImageFileExtension(byte[] imageData)
 		{

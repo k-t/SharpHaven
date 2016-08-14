@@ -1,11 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Net.Sockets;
 using System.Threading;
-using C5;
 using Haven.Messages;
 using Haven.Messaging;
 using Haven.Utils;
-using NLog;
 
 namespace Haven.Net
 {
@@ -34,20 +33,18 @@ namespace Haven.Net
 			Closing = 3,
 		}
 
-		private static readonly NLog.Logger Log = LogManager.GetCurrentClassLogger();
-
 		private readonly BinaryMessageSocket socket;
 		private readonly MessageReceiver receiver;
 		private readonly MessageSender sender;
 		private readonly object stateLock = new object();
-		private readonly TreeDictionary<ushort, BinaryMessage> waiting;
+		private readonly Dictionary<ushort, BinaryMessage> waiting;
 		private IMessageDispatcher dispatcher = NullMessageDispatcher.Instance;
 		private ushort rseq;
 		private State state;
 
 		public ProtocolHandlerBase()
 		{
-			this.waiting = new TreeDictionary<ushort, BinaryMessage>();
+			this.waiting = new Dictionary<ushort, BinaryMessage>();
 
 			this.state = State.Created;
 			this.socket = new BinaryMessageSocket();
@@ -208,7 +205,6 @@ namespace Haven.Net
 					HandleGobData(msg.GetReader());
 					break;
 				case MSG_CLOSE:
-					Log.Info("Server dropped connection");
 					Close();
 					return;
 			}

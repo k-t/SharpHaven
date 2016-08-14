@@ -1,13 +1,10 @@
 ﻿using System;
 using Haven.Utils;
-using NLog;
 
 namespace Haven.Net
 {
 	internal class MessageReceiver : BackgroundTask
 	{
-		private static readonly Logger Log = LogManager.GetCurrentClassLogger();
-
 		private readonly Action<BinaryMessage> messageHandler;
 		private readonly BinaryMessageSocket socket;
 
@@ -34,7 +31,6 @@ namespace Haven.Net
 				// to prevent this exception:
 				// a. code that stops tasks needs to be written more carefully
 				// b. socket poll method needs to support cancellation
-				Log.Info("Socket was disposed while polling");
 			}
 		}
 	}

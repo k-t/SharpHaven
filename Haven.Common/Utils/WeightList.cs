@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using C5;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Haven.Utils
 {
@@ -37,7 +37,7 @@ namespace Haven.Utils
 			return items[i];
 		}
 
-		public T PickRandom(C5Random rng)
+		public T PickRandom(Random rng)
 		{
 			return Pick(rng.Next(totalWeight));
 		}

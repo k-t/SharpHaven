@@ -4,14 +4,11 @@ using System.IO;
 using Haven.Legacy.Messages;
 using Haven.Utils;
 using ICSharpCode.SharpZipLib.Zip.Compression;
-using NLog;
 
 namespace Haven.Legacy.Utils
 {
 	internal static partial class BinaryMessageDecoder
 	{
-		private static readonly Logger Log = LogManager.GetCurrentClassLogger();
-
 		public static UpdateAmbientLight ReadAmbientLightUpdateEvent(this BinaryDataReader reader)
 		{
 			return new UpdateAmbientLight {
@@ -144,10 +141,7 @@ namespace Haven.Legacy.Utils
 				else if (type == 1)
 					ol = ((fl & 1) == 1) ? 8 : 4;
 				else
-				{
-					Log.Warn("Unknown plot type " + type);
 					continue;
-				}
 
 				for (int y = c1.Y; y <= c2.Y; y++)
 					for (int x = c1.X; x <= c2.X; x++)

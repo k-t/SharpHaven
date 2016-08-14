@@ -1,8 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
-using C5;
 using Haven;
+using Haven.Utils;
 using SharpHaven.Client;
 using SharpHaven.UI.Widgets;
 
@@ -10,12 +11,12 @@ namespace SharpHaven.UI.Remote
 {
 	public class ServerMenuGrid : ServerWidget
 	{
-		private readonly HashDictionary<GameAction, MenuNode> nodes;
+		private readonly Dictionary<GameAction, MenuNode> nodes;
 		private MenuGrid widget;
 
 		public ServerMenuGrid(ushort id, ServerWidget parent) : base(id, parent)
 		{
-			nodes = new HashDictionary<GameAction, MenuNode>();
+			nodes = new Dictionary<GameAction, MenuNode>();
 			SetHandler("goto", Goto);
 		}
 
@@ -33,7 +34,7 @@ namespace SharpHaven.UI.Remote
 		{
 			widget = Session.Screen.MenuGrid;
 			widget.Visible = true;
-			
+
 			foreach (var action in Session.Actions)
 				CreateMenuNode(action);
 
@@ -57,7 +58,7 @@ namespace SharpHaven.UI.Remote
 			{
 				var action = Session.Actions.Get(resName);
 				MenuNode node;
-				if (action != null && nodes.Find(ref action, out node))
+				if (action != null && nodes.TryGetValue(action, out node))
 					widget.Current = null;
 			}
 			else
