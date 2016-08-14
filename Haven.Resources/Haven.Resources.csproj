@@ -64,13 +64,11 @@
     <Compile Include="Layers\Tileset2Layer.cs" />
     <Compile Include="Layers\TilesetLayer.cs" />
     <Compile Include="Layers\TooltipLayer.cs" />
-    <Compile Include="Layers\UnknownDataLayer.cs" />
     <Compile Include="Layers\UnknownLayer.cs" />
     <Compile Include="Layers\VertexLayer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resource.cs" />
     <Compile Include="ResourceException.cs" />
-    <Compile Include="ResourceRef.cs" />
     <Compile Include="Formats\Binary\BinaryLayerHandlerProvider.cs" />
     <Compile Include="Formats\Binary\BinaryResourceSerializer.cs" />
     <Compile Include="Formats\Binary\IBinaryLayerHandler.cs" />
