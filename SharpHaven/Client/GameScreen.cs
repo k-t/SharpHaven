@@ -100,12 +100,12 @@ namespace SharpHaven.Client
 		protected override void OnResize(int newWidth, int newHeight)
 		{
 			MapView.Resize(newWidth, newHeight);
-			Belt.Move((newWidth - Belt.Width) / 2, newHeight - Belt.Height * 2 - 10);
+			Belt.Move((newWidth - Belt.Width) / 2, newHeight - Belt.Height - 10);
 			Calendar.Move((newWidth - Calendar.Width) / 2, Calendar.Y);
 			Container.Move((newWidth - Container.Width) / 2, (newHeight - Container.Height) / 2);
-			Chat.Move(5, newHeight - Chat.Height - 5);
+			Chat.Move(10, newHeight - Chat.Height - 10);
 			MenuGrid.Move(newWidth - MenuGrid.Width - 5, newHeight - MenuGrid.Height - 5);
-			HudMenu.Move((newWidth - HudMenu.Width) / 2, newHeight - HudMenu.Height - 5);
+			HudMenu.Move(newWidth - HudMenu.Width - 10, newHeight - HudMenu.Height - MenuGrid.Height - 10);
 			escapeWindow.Move((newWidth - 100) / 2, (newHeight - 100) / 2);
 			CombatMeter.Move((newWidth - Calendar.Width) / 2, Calendar.Y);
 			CombatView.Move((newWidth - CombatView.Width - 10), 10);

@@ -35,9 +35,9 @@ namespace SharpHaven.UI.Widgets
 
 		public HudMenu(Widget parent) : base(parent)
 		{
-			this.Resize((background.Width - 1) * buttonCount, background.Height - 1);
+			this.Resize(background.Width, (background.Height - 1) * buttonCount);
 
-			int x = 0;
+			int y = 0;
 			for (int i = 0; i < buttonCount; i++)
 			{
 				var btn = new ImageButton(this)
@@ -46,9 +46,9 @@ namespace SharpHaven.UI.Widgets
 					PressedImage = images[i * 2 + 1]
 				};
 				btn.Resize(images[i * 2].Size);
-				btn.Move(x + 1, 1);
+				btn.Move(1, y + 1);
 				btn.Tooltip = new Tooltip(tooltips[i]);
-				x += background.Width - 1;
+				y += background.Height - 1;
 
 				var button = (Button)i;
 				btn.Click += () => ButtonClick.Raise(button);
@@ -64,11 +64,11 @@ namespace SharpHaven.UI.Widgets
 
 		protected override void OnDraw(DrawingContext dc)
 		{
-			int x = 0;
+			int y = 0;
 			for (int i = 0; i < buttonCount; i++)
 			{
-				dc.Draw(background, x, 0);
-				x += background.Width - 1;
+				dc.Draw(background, 0, y);
+				y += background.Height - 1;
 			}
 		}
 
