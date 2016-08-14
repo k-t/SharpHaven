@@ -7,6 +7,7 @@ using OpenTK.Input;
 using SharpHaven.Client;
 using SharpHaven.Graphics;
 using SharpHaven.Graphics.Sprites;
+using SharpHaven.Graphics.Sprites.Fx;
 using SharpHaven.Graphics.Text;
 using SharpHaven.Input;
 using SharpHaven.Utils;
@@ -127,6 +128,20 @@ namespace SharpHaven.UI.Widgets
 				ownerName = name;
 				ownerNameText.Append("Entering " + name);
 				ownerShowTime = DateTime.Now;
+			}
+		}
+
+		public void MoveCamera(int deltaX, int deltaY)
+		{
+			CameraOffset = CameraOffset.Add(deltaX, deltaY);
+		}
+
+		public void CenterCamera()
+		{
+			if (PlayerId != -1)
+			{
+				var player = Session.Objects.Get(PlayerId);
+				Session.WorldPosition = player.Position;
 			}
 		}
 
@@ -276,6 +291,13 @@ namespace SharpHaven.UI.Widgets
 						Session.WorldPosition = player.Position;
 					}
 					break;
+				case Key.X:
+					if (e.Modifiers.HasAlt())
+					{
+						var player = Session.Objects.Get(PlayerId);
+						player.Overlays.Add(new GobOverlay(new FloatText("213123 ! 2123 sadjalkjlkDSASD ЙЦУавав", Fonts.LabelText, Color.White)));
+					}
+					break;
 				default:
 					e.Handled = false;
 					base.OnKeyDown(e);
@@ -345,11 +367,6 @@ namespace SharpHaven.UI.Widgets
 		protected override void OnDispose()
 		{
 			ownerNameText.Dispose();
-		}
-
-		private void MoveCamera(int deltaX, int deltaY)
-		{
-			CameraOffset = CameraOffset.Add(deltaX, deltaY);
 		}
 
 		/// <summary>

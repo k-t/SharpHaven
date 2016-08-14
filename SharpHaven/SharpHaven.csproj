@@ -88,6 +88,7 @@
     <Compile Include="Input\DropEvent.cs" />
     <Compile Include="Login\LoginResult.cs" />
     <Compile Include="UI\Drag.cs" />
+    <Compile Include="UI\HotkeyManager.cs" />
     <Compile Include="UI\Remote\ServerAimWidget.cs" />
     <Compile Include="UI\Remote\ServerClaimWindow.cs" />
     <Compile Include="UI\Widgets\CheckBox.cs" />

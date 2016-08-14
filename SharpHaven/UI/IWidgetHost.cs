@@ -7,6 +7,8 @@ namespace SharpHaven.UI
 	{
 		Point2D MousePosition { get; }
 
+		HotkeyManager Hotkeys { get; }
+
 		void RequestKeyboardFocus(Widget widget);
 		void GrabMouse(Widget widget);
 		void ReleaseMouse();

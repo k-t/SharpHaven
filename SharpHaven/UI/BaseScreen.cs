@@ -11,6 +11,7 @@ namespace SharpHaven.UI
 	public abstract class BaseScreen : IDisposable, IScreen, IWidgetHost
 	{
 		private readonly RootWidget rootWidget;
+		private readonly HotkeyManager hotkeys;
 		protected Point2D mousePosition;
 		protected Widget mouseFocus;
 		protected Widget keyboardFocus;
@@ -20,7 +21,8 @@ namespace SharpHaven.UI
 
 		protected BaseScreen()
 		{
-			rootWidget = new RootWidget(this);
+			this.rootWidget = new RootWidget(this);
+			this.hotkeys = new HotkeyManager();
 		}
 
 		private Tooltip Tooltip
@@ -186,6 +188,14 @@ namespace SharpHaven.UI
 
 		void IScreen.KeyDown(KeyEvent e)
 		{
+			// hotkeys have priority over widgets
+			var hotkeyAction = hotkeys.GetAction(e.Key, e.Modifiers);
+			if (hotkeyAction != null)
+			{
+				hotkeyAction();
+				return;
+			}
+
 			var widget = keyboardFocus ?? rootWidget;
 			if (widget != null) widget.HandleKeyDown(e);
 		}
@@ -205,6 +215,11 @@ namespace SharpHaven.UI
 		#endregion
 
 		#region IWidgetHost
+
+		public HotkeyManager Hotkeys
+		{
+			get { return hotkeys; }
+		}
 
 		public Point2D MousePosition
 		{

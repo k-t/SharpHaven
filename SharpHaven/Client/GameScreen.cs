@@ -1,6 +1,7 @@
 ﻿using System;
 using Haven;
 using OpenTK.Input;
+using SharpHaven.Graphics.Sprites.Fx;
 using SharpHaven.Input;
 using SharpHaven.UI;
 using SharpHaven.UI.Widgets;
@@ -56,7 +57,7 @@ namespace SharpHaven.Client
 			Aim = new AimWidget(Root);
 			Aim.Visible = false;
 
-			RootWidget.KeyDown += OnKeyDown;
+			RegisterHotkeys();
 		}
 
 		public event Action Closed;
@@ -113,18 +114,24 @@ namespace SharpHaven.Client
 			Aim.Move((newWidth - Aim.Width) / 2, (newHeight - Aim.Height) / 2);
 		}
 
-		private void OnKeyDown(KeyEvent e)
+		private void RegisterHotkeys()
 		{
-			if (e.Key == Key.Escape)
+			// General
+			Hotkeys.Register(Key.Escape, () =>
 			{
 				escapeWindow.Visible = !escapeWindow.Visible;
-
 				// bring to front
 				escapeWindow.Remove();
 				RootWidget.AddChild(escapeWindow);
+			});
 
-				e.Handled = true;
-			}
+			// Map View
+			Hotkeys.Register(Key.Up, () => MapView.MoveCamera(0, -50));
+			Hotkeys.Register(Key.Down, () => MapView.MoveCamera(0, 50));
+			Hotkeys.Register(Key.Left, () => MapView.MoveCamera(-50, 0));
+			Hotkeys.Register(Key.Right, () => MapView.MoveCamera(50, 0));
+			Hotkeys.Register(Key.Home, MapView.CenterCamera);
+			Hotkeys.Register(Key.Keypad7, MapView.CenterCamera);
 		}
 	}
 }
