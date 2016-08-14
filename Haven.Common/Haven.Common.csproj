@@ -50,6 +50,8 @@
     <Reference Include="System.Drawing" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Messages\ExceptionMessage.cs" />
+    <Compile Include="Messages\ExitMessage.cs" />
     <Compile Include="Messaging\NullMessageDispatcher.cs" />
     <Compile Include="Net\GameClientConfig.cs" />
     <Compile Include="Net\IAuthHandler.cs" />

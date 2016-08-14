@@ -1,16 +1,13 @@
 ﻿using System;
 using System.Threading;
-using NLog;
 
 namespace Haven.Utils
 {
 	public abstract class BackgroundTask
 	{
-		private static readonly Logger Log = LogManager.GetCurrentClassLogger();
-
 		private volatile bool isCancelled;
 		private readonly Thread thread;
-		
+
 		protected BackgroundTask(string name)
 		{
 			thread = new Thread(Start);
@@ -18,7 +15,8 @@ namespace Haven.Utils
 			thread.Name = name;
 		}
 
-		public event EventHandler Finished;
+		public event Action Finished;
+		public event Action<Exception> Crashed;
 
 		protected bool IsCancelled
 		{
@@ -32,7 +30,7 @@ namespace Haven.Utils
 
 		public void Stop()
 		{
-			// TODO: it's assumed that task acts nicely but what if it's not the case?
+			// TODO: what if task is a bad one and will not abort afterwards?
 			isCancelled = true;
 		}
 
@@ -40,19 +38,14 @@ namespace Haven.Utils
 
 		private void Start()
 		{
-			Log.Info("Task started");
 			try
 			{
 				OnStart();
+				Finished.Raise();
 			}
-			catch (Exception ex)
+			catch (Exception e)
 			{
-				Log.Error(ex, "Unhandled exception within task");
-			}
-			finally
-			{
-				Finished.Raise(this, EventArgs.Empty);
-				Log.Info("Task stopped");
+				Crashed.Raise(e);
 			}
 		}
 	}

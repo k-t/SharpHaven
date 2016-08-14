@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 using Haven.Legacy.Messages;
+using Haven.Messages;
 using Haven.Messaging;
 
 namespace Haven.Legacy
@@ -32,6 +33,8 @@ namespace Haven.Legacy
 			typeof(WidgetCreate),
 			typeof(WidgetDestroy),
 			typeof(WidgetMessage),
+			typeof(ExitMessage),
+			typeof(ExceptionMessage)
 		};
 
 		private readonly IMessageSource source;
@@ -180,6 +183,14 @@ namespace Haven.Legacy
 		}
 
 		protected virtual void Handle(PlayMusic message)
+		{
+		}
+
+		protected virtual void Handle(ExceptionMessage message)
+		{
+		}
+
+		protected virtual void Handle(ExitMessage message)
 		{
 		}
 	}

@@ -4,6 +4,7 @@ using System.Threading;
 using Haven;
 using Haven.Legacy;
 using Haven.Legacy.Messages;
+using Haven.Messages;
 using Haven.Net;
 using NLog;
 using SharpHaven.UI.Remote;
@@ -95,7 +96,7 @@ namespace SharpHaven.Client
 			base.Dispose();
 			client.Close();
 			App.QueueOnMainThread(() => Screen.Close());
-			
+
 		}
 
 		#region Message Handlers
@@ -252,10 +253,15 @@ namespace SharpHaven.Client
 			Log.Info("PlayMusic");
 		}
 
-		//protected override void Exit()
-		//{
-		//	App.QueueOnMainThread(Finish);
-		//}
+		protected override void Handle(ExceptionMessage message)
+		{
+			Log.Error(message.Exception);
+		}
+
+		protected override void Handle(ExitMessage message)
+		{
+			App.QueueOnMainThread(Finish);
+		}
 
 		protected override void Handle(BuffUpdate args)
 		{

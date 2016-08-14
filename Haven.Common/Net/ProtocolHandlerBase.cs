@@ -2,6 +2,7 @@
 using System.Net.Sockets;
 using System.Threading;
 using C5;
+using Haven.Messages;
 using Haven.Messaging;
 using Haven.Utils;
 using NLog;
@@ -27,9 +28,10 @@ namespace Haven.Net
 
 		private enum State
 		{
-			Stopped = 0,
+			Closed = 0,
 			Created = 1,
 			Started = 2,
+			Closing = 3,
 		}
 
 		private static readonly NLog.Logger Log = LogManager.GetCurrentClassLogger();
@@ -51,12 +53,11 @@ namespace Haven.Net
 			this.socket = new BinaryMessageSocket();
 			this.socket.SetReceiveTimeout(ReceiveTimeout);
 			this.sender = new MessageSender(socket);
-			this.sender.Finished += OnTaskFinished;
 			this.receiver = new MessageReceiver(socket, ReceiveMessage);
-			this.receiver.Finished += OnTaskFinished;
-		}
 
-		public event Action Closed;
+			MonitorTask(sender);
+			MonitorTask(receiver);
+		}
 
 		public virtual IMessageDispatcher Dispatcher
 		{
@@ -94,10 +95,12 @@ namespace Haven.Net
 				if (state != State.Started)
 					return;
 
-				receiver.Finished -= OnTaskFinished;
+				state = State.Closing;
+
+				DemonitorTask(receiver);
 				receiver.Stop();
 
-				sender.Finished -= OnTaskFinished;
+				DemonitorTask(receiver);
 				sender.Stop();
 
 				socket.Send(BinaryMessage.Make(MSG_CLOSE).Complete());
@@ -105,9 +108,9 @@ namespace Haven.Net
 				Thread.Sleep(TimeSpan.FromMilliseconds(5));
 				socket.Close();
 
-				state = State.Stopped;
+				state = State.Closed;
 			}
-			Closed.Raise();
+			Dispatcher.Dispatch(new ExitMessage());
 		}
 
 		public virtual void Send<TMessage>(TMessage message)
@@ -229,10 +232,31 @@ namespace Haven.Net
 				waiting[seq] = msg;
 		}
 
-		private void OnTaskFinished(object sender, EventArgs args)
+		private void MonitorTask(BackgroundTask task)
 		{
-			// it shouldn't happen normally, so let it crash
-			throw new Exception("Task finished abruptly");
+			task.Finished += OnTaskFinished;
+			task.Crashed += OnTaskCrashed;
+		}
+
+		private void DemonitorTask(BackgroundTask task)
+		{
+			task.Finished -= OnTaskFinished;
+			task.Crashed -= OnTaskCrashed;
+		}
+
+		private void OnTaskFinished()
+		{
+			if (state != State.Closing && state != State.Closed)
+				Close();
+		}
+
+		private void OnTaskCrashed(Exception ex)
+		{
+			if (state != State.Closing && state != State.Closed)
+			{
+				Dispatcher.Dispatch(new ExceptionMessage(ex));
+				Close();
+			}
 		}
 	}
 }
