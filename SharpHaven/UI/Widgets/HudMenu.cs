@@ -55,6 +55,13 @@ namespace SharpHaven.UI.Widgets
 			}
 		}
 
+		public event Action<Button> ButtonClick;
+
+		public void Activate(Button button)
+		{
+			ButtonClick.Raise(button);
+		}
+
 		protected override void OnDraw(DrawingContext dc)
 		{
 			int x = 0;
@@ -64,8 +71,6 @@ namespace SharpHaven.UI.Widgets
 				x += background.Width - 1;
 			}
 		}
-
-		public event Action<Button> ButtonClick;
 
 		public enum Button
 		{

@@ -1,8 +1,6 @@
 ﻿using System;
 using Haven;
 using OpenTK.Input;
-using SharpHaven.Graphics.Sprites.Fx;
-using SharpHaven.Input;
 using SharpHaven.UI;
 using SharpHaven.UI.Widgets;
 
@@ -124,6 +122,12 @@ namespace SharpHaven.Client
 				escapeWindow.Remove();
 				RootWidget.AddChild(escapeWindow);
 			});
+
+			// HUD Menu
+			Hotkeys.Register(Key.Tab, () => HudMenu.Activate(HudMenu.Button.Inventory));
+			Hotkeys.Register(Key.E, KeyModifiers.Control, () => HudMenu.Activate(HudMenu.Button.Equipment));
+			Hotkeys.Register(Key.T, KeyModifiers.Control, () => HudMenu.Activate(HudMenu.Button.Character));
+			Hotkeys.Register(Key.B, KeyModifiers.Control, () => HudMenu.Activate(HudMenu.Button.BuddyList));
 
 			// Map View
 			Hotkeys.Register(Key.Up, () => MapView.MoveCamera(0, -50));
