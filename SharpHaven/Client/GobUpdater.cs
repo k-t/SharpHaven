@@ -2,7 +2,6 @@
 using Haven.Legacy.Messages;
 using Haven.Utils;
 using SharpHaven.Graphics.Sprites;
-using SharpHaven.Graphics.Sprites.Fx;
 using SharpHaven.Utils;
 
 namespace SharpHaven.Client

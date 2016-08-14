@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using NLog;
 using OpenTK.Input;
-using SharpHaven.Utils;
 
 namespace SharpHaven.UI
 {

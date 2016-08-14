@@ -61,7 +61,7 @@ namespace SharpHaven
 		{
 			window.QueueUpdate(action);
 		}
-		
+
 		public static void Exit()
 		{
 			window.Close();

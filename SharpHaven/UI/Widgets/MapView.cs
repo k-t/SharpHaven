@@ -391,6 +391,7 @@ namespace SharpHaven.UI.Widgets
 
 			public FreeCamera(MapView mv) : base(mv)
 			{
+				// TODO: this won't work well if we'll need multiple camera instances!
 				mv.Host.Hotkeys.Register(Key.Up, () => Move(0, -50));
 				mv.Host.Hotkeys.Register(Key.Down, () => Move(0, 50));
 				mv.Host.Hotkeys.Register(Key.Left, () => Move(-50, 0));
