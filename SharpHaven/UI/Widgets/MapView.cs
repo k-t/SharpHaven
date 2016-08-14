@@ -55,7 +55,7 @@ namespace SharpHaven.UI.Widgets
 		{
 			IsFocusable = true;
 
-			camera = new FreeCamera(this);
+			camera = new FixedCamera(this);
 
 			ownerNameText = new TextLine(Fonts.Create(FontFaces.Serif, 20));
 			ownerNameText.TextColor = Color.White;
@@ -441,6 +441,22 @@ namespace SharpHaven.UI.Widgets
 				{
 					Position = dragCameraOffset.Add(dragPosition.Sub(e.Position));
 					e.Handled = true;
+				}
+			}
+		}
+
+		public class FixedCamera : Camera2D
+		{
+			public FixedCamera(MapView mv) : base(mv)
+			{
+			}
+
+			public override void Update()
+			{
+				if (mv.PlayerId != -1)
+				{
+					var player = mv.Session.Objects.Get(mv.PlayerId);
+					mv.Session.WorldPosition = player.Position;
 				}
 			}
 		}
