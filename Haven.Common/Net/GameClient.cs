@@ -12,7 +12,8 @@ namespace Haven.Net
 		private IProtocolHandler protocolHandler;
 		private GameClientState state;
 		private string userName;
-		private byte[] cookie;
+		private string sessionId;
+		private byte[] sessionCookie;
 
 		public GameClient(
 			GameClientConfig config,
@@ -36,6 +37,11 @@ namespace Haven.Net
 			get { return state; }
 		}
 
+		public string UserName
+		{
+			get { return userName; }
+		}
+
 		public AuthResult Authenticate(string userName, string password, bool requestToken)
 		{
 			CheckNotConnected();
@@ -43,13 +49,18 @@ namespace Haven.Net
 			using (var authHandler = authHandlerFactory.Create())
 			{
 				authHandler.Connect(config.AuthServerAddress);
-				if (!authHandler.TryPassword(userName, password, out cookie))
-					return AuthResult.Fail();
 
-				this.userName = userName;
-				this.state = GameClientState.Authenticated;
-				var token = requestToken ? authHandler.GetToken() : null;
-				return AuthResult.Success(token);
+				var result = authHandler.TryPassword(userName, password);
+				if (result.IsSuccessful)
+				{
+					this.userName = userName;
+					this.sessionId = result.SessionId;
+					this.sessionCookie = result.SessionCookie;
+					this.state = GameClientState.Authenticated;
+					var token = requestToken ? authHandler.GetToken() : null;
+					return new AuthResult(true, result.SessionId, result.SessionCookie, token);
+				}
+				return result;
 			}
 		}
 
@@ -60,12 +71,16 @@ namespace Haven.Net
 			using (var authHandler = authHandlerFactory.Create())
 			{
 				authHandler.Connect(config.AuthServerAddress);
-				if (!authHandler.TryToken(userName, token, out cookie))
-					return AuthResult.Fail();
 
-				this.userName = userName;
-				this.state = GameClientState.Authenticated;
-				return AuthResult.Success();
+				var result = authHandler.TryToken(userName, token);
+				if (result.IsSuccessful)
+				{
+					this.userName = userName;
+					this.sessionId = result.SessionId;
+					this.sessionCookie = result.SessionCookie;
+					this.state = GameClientState.Authenticated;
+				}
+				return result;
 			}
 		}
 
@@ -76,7 +91,7 @@ namespace Haven.Net
 
 			protocolHandler = protocolHandlerFactory.Create();
 			protocolHandler.Dispatcher = messageBroker;
-			protocolHandler.Connect(config.GameServerAddress, userName, cookie);
+			protocolHandler.Connect(config.GameServerAddress, sessionId, sessionCookie);
 
 			this.state = GameClientState.Connected;
 		}

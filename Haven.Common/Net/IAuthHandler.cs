@@ -6,7 +6,7 @@ namespace Haven.Net
 	{
 		void Connect(NetworkAddress address);
 		byte[] GetToken();
-		bool TryPassword(string userName, string password, out byte[] cookie);
-		bool TryToken(string userName, byte[] token, out byte[] cookie);
+		AuthResult TryPassword(string userName, string password);
+		AuthResult TryToken(string userName, byte[] token);
 	}
 }

@@ -34,21 +34,20 @@ namespace Haven.Legacy
 			ctx.AuthenticateAsClient(address.Host);
 		}
 
-		public bool TryToken(string userName, byte[] token, out byte[] cookie)
+		public AuthResult TryToken(string userName, byte[] token)
 		{
 			BindUser(userName);
 			Send(BinaryMessage.Make(CMD_USETOKEN).Bytes(token).Complete());
 			var reply = GetReply();
 			if (reply.Type != 0)
 			{
-				cookie = null;
-				return false;
+				return AuthResult.Fail();
 			}
-			cookie = reply.GetData();
-			return true;
+			var cookie = reply.GetData();
+			return AuthResult.Success(userName, cookie);
 		}
 
-		public bool TryPassword(string userName, string password, out byte[] cookie)
+		public AuthResult TryPassword(string userName, string password)
 		{
 			BindUser(userName);
 			byte[] phash = Digest(password);
@@ -56,11 +55,10 @@ namespace Haven.Legacy
 			var reply = GetReply();
 			if (reply.Type != 0)
 			{
-				cookie = null;
-				return false;
+				return AuthResult.Fail();
 			}
-			cookie = reply.GetData();
-			return true;
+			var cookie = reply.GetData();
+			return AuthResult.Success(userName, cookie);
 		}
 
 		public byte[] GetToken()

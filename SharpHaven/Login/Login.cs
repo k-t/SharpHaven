@@ -91,7 +91,7 @@ namespace SharpHaven.Login
 			if (result.IsSuccessful)
 			{
 				if (Remember)
-					Token = result.Token;
+					Token = result.SessionToken;
 				return;
 			}
 			throw new AuthException("Username or password incorrect");
