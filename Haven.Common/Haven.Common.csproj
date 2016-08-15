@@ -43,6 +43,7 @@
   <ItemGroup>
     <Compile Include="Messages\ExceptionMessage.cs" />
     <Compile Include="Messages\ExitMessage.cs" />
+    <Compile Include="Messaging\MessageHandlerBase.cs" />
     <Compile Include="Messaging\NullMessageDispatcher.cs" />
     <Compile Include="Net\GameClientConfig.cs" />
     <Compile Include="Net\IAuthHandler.cs" />
@@ -56,7 +57,7 @@
     <Compile Include="Utils\BinaryDataWriter.cs" />
     <Compile Include="Messaging\IMessageDispatcher.cs" />
     <Compile Include="Messaging\IMessageSource.cs" />
-    <Compile Include="Messaging\MessageHandler.cs" />
+    <Compile Include="Messaging\IMessageHandler.cs" />
     <Compile Include="Messaging\MessageBroker.cs" />
     <Compile Include="Color.cs" />
     <Compile Include="Point2D.cs" />

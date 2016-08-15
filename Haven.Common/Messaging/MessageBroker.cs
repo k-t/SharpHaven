@@ -5,38 +5,40 @@ namespace Haven.Messaging
 {
 	public class MessageBroker : IMessageDispatcher, IMessageSource
 	{
-		private readonly Dictionary<Type, object> handlers;
+		private readonly Dictionary<Type, ICollection<IMessageHandler>> handlers;
 
 		public MessageBroker()
 		{
-			this.handlers = new Dictionary<Type, object>();
+			this.handlers = new Dictionary<Type, ICollection<IMessageHandler>>();
 		}
 
 		public void Dispatch<TMessage>(TMessage message)
 		{
-			foreach (var handler in GetHandlersOf<TMessage>())
-				handler(message);
+			foreach (var handler in GetHandlersOf(typeof(TMessage)))
+				handler.Handle(message);
 		}
 
-		public void Subscribe<TMessage>(MessageHandler<TMessage> handler)
+		public void Subscribe(IMessageHandler handler)
 		{
-			GetHandlersOf<TMessage>().Add(handler);
+			foreach (var messageType in handler.SupportedMessageTypes)
+				GetHandlersOf(messageType).Add(handler);
 		}
 
-		public void Unsubscribe<TMessage>(MessageHandler<TMessage> handler)
+		public void Unsubscribe(IMessageHandler handler)
 		{
-			GetHandlersOf<TMessage>().Remove(handler);
+			foreach (var handlerList in handlers.Values)
+				handlerList.Remove(handler);
 		}
 
-		private ICollection<MessageHandler<T>> GetHandlersOf<T>()
+		private ICollection<IMessageHandler> GetHandlersOf(Type type)
 		{
-			object handlerList;
-			if (!handlers.TryGetValue(typeof(T), out handlerList))
+			ICollection<IMessageHandler> handlerList;
+			if (!handlers.TryGetValue(type, out handlerList))
 			{
-				handlerList = new List<MessageHandler<T>>();
-				handlers[typeof(T)] = handlerList;
+				handlerList = new List<IMessageHandler>();
+				handlers[type] = handlerList;
 			}
-			return (ICollection<MessageHandler<T>>)handlerList;
+			return handlerList;
 		}
 	}
 }

@@ -1,97 +1,43 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Reflection;
-using Haven.Legacy.Messages;
+﻿using Haven.Legacy.Messages;
 using Haven.Messages;
 using Haven.Messaging;
 
 namespace Haven.Legacy
 {
-	public class LegacyMessageHandlerBase : IDisposable
+	public class LegacyMessageHandlerBase : MessageHandlerBase
 	{
-		private static readonly Type[] SupportedMessageTypes = {
-			typeof(UpdateAmbientLight),
-			typeof(UpdateAstronomy),
-			typeof(BuffClearAll),
-			typeof(BuffRemove),
-			typeof(BuffUpdate),
-			typeof(UpdateCharAttributes),
-			typeof(UpdateActions),
-			typeof(UpdateGameTime),
-			typeof(UpdateGameObject),
-			typeof(MapInvalidate),
-			typeof(MapInvalidateGrid),
-			typeof(MapInvalidateRegion),
-			typeof(MapUpdateGrid),
-			typeof(PartyUpdateMember),
-			typeof(PartyChangeLeader),
-			typeof(PartyUpdate),
-			typeof(PlayMusic),
-			typeof(PlaySound),
-			typeof(LoadResource),
-			typeof(LoadTilesets),
-			typeof(WidgetCreate),
-			typeof(WidgetDestroy),
-			typeof(WidgetMessage),
-			typeof(ExitMessage),
-			typeof(ExceptionMessage)
-		};
-
-		private readonly IMessageSource source;
-		private readonly Dictionary<Type, object> handlers;
-
-		public LegacyMessageHandlerBase(IMessageSource source)
+		public LegacyMessageHandlerBase()
 		{
-			if (source == null)
-				throw new ArgumentNullException(nameof(source));
-
-			this.source = source;
-			this.handlers = new Dictionary<Type, object>();
-
 			InitializeHandlers();
-			SubscribeAll();
-		}
-
-		public virtual void Dispose()
-		{
-			UnsubscribeAll();
 		}
 
 		private void InitializeHandlers()
 		{
-			foreach (var messageType in SupportedMessageTypes)
-			{
-				var handlerMethodInfo = GetType().GetMethod(
-					nameof(Handle),
-					BindingFlags.Instance | BindingFlags.NonPublic,
-					Type.DefaultBinder,
-					new[] { messageType },
-					null);
-				var handlerType = typeof(MessageHandler<>).MakeGenericType(messageType);
-				handlers[messageType] = Delegate.CreateDelegate(handlerType, this, handlerMethodInfo);
-			}
-		}
-
-		private void SubscribeAll()
-		{
-			var methodInfo = source.GetType().GetMethod(nameof(source.Subscribe));
-			foreach (var entry in handlers)
-			{
-				var messageType = entry.Key;
-				var handler = entry.Value;
-				methodInfo.MakeGenericMethod(messageType).Invoke(source, new [] { handler });
-			}
-		}
-
-		private void UnsubscribeAll()
-		{
-			var methodInfo = source.GetType().GetMethod(nameof(source.Unsubscribe));
-			foreach (var entry in handlers)
-			{
-				var messageType = entry.Key;
-				var handler = entry.Value;
-				methodInfo.MakeGenericMethod(messageType).Invoke(source, new[] { handler });
-			}
+			AddHandler<UpdateAmbientLight>(Handle);
+			AddHandler<UpdateAstronomy>(Handle);
+			AddHandler<BuffClearAll>(Handle);
+			AddHandler<BuffRemove>(Handle);
+			AddHandler<BuffUpdate>(Handle);
+			AddHandler<UpdateCharAttributes>(Handle);
+			AddHandler<UpdateActions>(Handle);
+			AddHandler<UpdateGameTime>(Handle);
+			AddHandler<UpdateGameObject>(Handle);
+			AddHandler<MapInvalidate>(Handle);
+			AddHandler<MapInvalidateGrid>(Handle);
+			AddHandler<MapInvalidateRegion>(Handle);
+			AddHandler<MapUpdateGrid>(Handle);
+			AddHandler<PartyUpdateMember>(Handle);
+			AddHandler<PartyChangeLeader>(Handle);
+			AddHandler<PartyUpdate>(Handle);
+			AddHandler<PlayMusic>(Handle);
+			AddHandler<PlaySound>(Handle);
+			AddHandler<LoadResource>(Handle);
+			AddHandler<LoadTilesets>(Handle);
+			AddHandler<WidgetCreate>(Handle);
+			AddHandler<WidgetDestroy>(Handle);
+			AddHandler<WidgetMessage>(Handle);
+			AddHandler<ExitMessage>(Handle);
+			AddHandler<ExceptionMessage>(Handle);
 		}
 
 		protected virtual void Handle(WidgetCreate message)

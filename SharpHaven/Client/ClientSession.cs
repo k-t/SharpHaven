@@ -11,7 +11,7 @@ using SharpHaven.UI.Remote;
 
 namespace SharpHaven.Client
 {
-	public class ClientSession : LegacyMessageHandlerBase
+	public class ClientSession : LegacyMessageHandlerBase, IDisposable
 	{
 		private static readonly Logger Log = LogManager.GetCurrentClassLogger();
 
@@ -19,10 +19,10 @@ namespace SharpHaven.Client
 		private readonly HashSet<Point2D> gridRequests;
 		private readonly ServerWidgetFactory widgetFactory;
 
-		public ClientSession(GameClient client) :
-			base(client.Messages)
+		public ClientSession(GameClient client)
 		{
 			this.client = client;
+			this.client.Messages.Subscribe(this);
 
 			gridRequests = new HashSet<Point2D>();
 			widgetFactory = new ServerWidgetFactory();
@@ -91,9 +91,9 @@ namespace SharpHaven.Client
 			}
 		}
 
-		public override void Dispose()
+		public void Dispose()
 		{
-			base.Dispose();
+			client.Messages.Unsubscribe(this);
 			client.Close();
 			App.QueueOnMainThread(() => Screen.Close());
 

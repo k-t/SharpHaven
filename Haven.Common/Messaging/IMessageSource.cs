@@ -2,8 +2,8 @@
 {
 	public interface IMessageSource
 	{
-		void Subscribe<TMessage>(MessageHandler<TMessage> handler);
+		void Subscribe(IMessageHandler handler);
 
-		void Unsubscribe<TMessage>(MessageHandler<TMessage> handler);
+		void Unsubscribe(IMessageHandler handler);
 	}
 }
