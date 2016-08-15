@@ -23,7 +23,7 @@ namespace SharpHaven
 				AuthServerAddress = new NetworkAddress(App.Config.AuthHost, App.Config.AuthPort),
 				GameServerAddress = new NetworkAddress(App.Config.GameHost, App.Config.GamePort)
 			};
-			client = new GameClient(clientConfig, new LegacyAuthHandlerFactory(), new LegacyProtocolHandlerFactory());
+			client = new LegacyClient(clientConfig);
 
 			loginScreen = new LoginScreen(client);
 			loginScreen.LoginCompleted += OnLoginCompleted;

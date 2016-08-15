@@ -42,6 +42,7 @@
   <ItemGroup>
     <Compile Include="LegacyAuthHandler.cs" />
     <Compile Include="LegacyAuthHandlerFactory.cs" />
+    <Compile Include="LegacyClient.cs" />
     <Compile Include="LegacyMessageHandlerBase.cs" />
     <Compile Include="LegacyProtocolHandler.cs" />
     <Compile Include="LegacyProtocolHandlerFactory.cs" />
