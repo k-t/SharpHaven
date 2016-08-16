@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Haven;
-using Haven.Legacy.Messages;
+using Haven.Protocols.Legacy.Messages;
 using Haven.Utils;
 using SharpHaven.Graphics.Sprites;
 using SharpHaven.Utils;

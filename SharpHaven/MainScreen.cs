@@ -1,6 +1,6 @@
 ﻿using System;
-using Haven.Legacy;
 using Haven.Net;
+using Haven.Protocols.Legacy;
 using SharpHaven.Client;
 using SharpHaven.Graphics;
 using SharpHaven.Input;

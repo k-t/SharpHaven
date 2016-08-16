@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Haven.Utils;
+using Haven;
 using NLog;
 
 namespace SharpHaven.UI.Remote

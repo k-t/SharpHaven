@@ -1,5 +1,5 @@
 ﻿using System.Linq;
-using Haven.Legacy.Messages;
+using Haven.Protocols.Legacy.Messages;
 using Haven.Utils;
 using SharpHaven.Graphics.Sprites;
 using SharpHaven.Utils;
@@ -42,7 +42,7 @@ namespace SharpHaven.Client
 			var objectCache = session.Objects;
 			if (args.ReplaceFlag)
 				objectCache.Remove(args.GobId, args.Frame - 1);
-			
+
 			foreach (var delta in args.Deltas)
 			{
 				if (this.gob == null)

@@ -480,20 +480,20 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Haven.Common\Haven.Common.csproj">
-      <Project>{37671bf5-2a78-46d2-b3df-eaf21ac15850}</Project>
+    <ProjectReference Include="..\Libraries\Source\Haven.Common\Haven.Common.csproj">
+      <Project>{c1541332-956f-4faa-aa1b-3339ca4d8f5c}</Project>
       <Name>Haven.Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Haven.Legacy\Haven.Legacy.csproj">
+    <ProjectReference Include="..\Libraries\Source\Haven.Protocols.Legacy\Haven.Protocols.Legacy.csproj">
       <Project>{974fe49f-3148-4903-818b-822948fd981a}</Project>
-      <Name>Haven.Legacy</Name>
+      <Name>Haven.Protocols.Legacy</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Haven.Resources.Formats.Ini\Haven.Resources.Formats.Ini.csproj">
+    <ProjectReference Include="..\Libraries\Source\Haven.Resources.Formats.Ini\Haven.Resources.Formats.Ini.csproj">
       <Project>{dc98487b-961f-4ba7-9e6a-c30ffb7f17fe}</Project>
       <Name>Haven.Resources.Formats.Ini</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Haven.Resources\Haven.Resources.csproj">
-      <Project>{ce07d810-1550-4ef6-9381-e26969886ec2}</Project>
+    <ProjectReference Include="..\Libraries\Source\Haven.Resources\Haven.Resources.csproj">
+      <Project>{37671bf5-2a78-46d2-b3df-eaf21ac15850}</Project>
       <Name>Haven.Resources</Name>
     </ProjectReference>
   </ItemGroup>
